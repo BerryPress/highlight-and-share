@@ -1,3 +1,4 @@
+import { constrainRange } from './selection';
 ( function() {
 	'use strict';
 
@@ -200,7 +201,7 @@
 		switch ( type ) {
 			case 'selection':
 				// Position the interface.
-				setHasContainerPositionSelection( hasClone );
+				setHasContainerPositionSelection( hasClone, triggerElement );
 				break;
 			case 'inline':
 				// Position the interface.
@@ -336,8 +337,8 @@
 					el.addEventListener( 'click', ( event ) => {
 						event.preventDefault();
 						const url = event.target.closest( 'a' ).getAttribute( 'href' );
-						
-						// 
+
+						//
 						if ( 'undefined' !== typeof Fancybox ) {
 							// eslint-disable-next-line no-undef
 							hasRemoveVisibleElements();
@@ -428,18 +429,16 @@
 	/**
 	 * Set the Social Sharer container position for the current selection. This needs to run after cloned element has been appended to the dom.
 	 *
-	 * @param {element} element The cloned social sharer element.
+	 * @param {element} element        The cloned social sharer element.
+	 * @param {element} triggerElement The event initiator (null if no trigger element).
 	 */
-	const setHasContainerPositionSelection = ( element ) => {
+	const setHasContainerPositionSelection = ( element, triggerElement ) => {
 		// Get the dimensions of the window.
 		const windowWidth = window.innerWidth;
 		const windowHeight = window.innerHeight;
 
 		// Get the dimensions and location of the selection.
-		const selectionRect = window
-			.getSelection()
-			.getRangeAt( 0 )
-			.getBoundingClientRect();
+		const selectionRect = getConstrainedRange( triggerElement ).getBoundingClientRect();
 		const selectionTop = selectionRect.top; // top position relative to view port.
 		const selectionLeft = selectionRect.left; // left position relative to view port.
 		const selectionWidth = selectionRect.width;
@@ -651,6 +650,30 @@
 	};
 
 	/**
+	 * Get the constrained range.
+	 *
+	 * @param {Element} element The element to constrain the range to.
+	 * @return {Range} The constrained range.
+	 * @see https://github.com/MaxArt2501/share-this/tree/master
+	 */
+	const getConstrainedRange = ( element ) => {
+		const _window = document.defaultView;
+		const selection = _window.getSelection();
+		const range = selection.rangeCount && selection.getRangeAt( 0 );
+		if ( ! range ) {
+			return;
+		}
+
+		const constrainedRange = constrainRange( range, element );
+		if ( constrainedRange.collapsed || ! constrainedRange.getClientRects().length ) {
+			return;
+		}
+
+		// eslint-disable-next-line consistent-return
+		return constrainedRange;
+	};
+
+	/**
 	 * Set the Social Sharer container position for the inline highlighter. This needs to run after cloned element has been appended to the dom.
 	 *
 	 * @param {element} element        The cloned social sharer element.
@@ -824,7 +847,7 @@
 
 			const element = parentElement.querySelector( '.has-social-placeholder' );
 
- 			// Get the highlight and share params.
+			// Get the highlight and share params.
 			const { href, title, hashtags } = getPageParams( element );
 
 			// Display Highlight and Share.
@@ -838,8 +861,11 @@
 
 			// Check if element has class `has-content-area` and if so, it's flush with the content. Select its parent, and add the event to that.
 			if ( element.classList.contains( 'has-content-area' ) && ! isLegacyContentMode ) {
-				element.parentElement.addEventListener( 'mouseup', ( event ) => {
-					hasHandleSelectEvents( event, element.parentElement );
+				const eventTypes = [ 'selectionchange', 'mouseup', 'touchend', 'touchcancel' ];
+				eventTypes.forEach( ( eventType ) => {
+					element.parentElement.addEventListener( eventType, ( event ) => {
+						hasHandleSelectEvents( event, element.parentElement );
+					} );
 				} );
 				return;
 			}

@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: highlight, social media, click share, select text, highlight text
 Requires at least: 5.1
 Tested up to: 6.4
-Stable tag: 4.6.0
+Stable tag: 4.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -111,6 +111,11 @@ So far, the latest versions of Chrome, Firefox, Safari, Edge, and IE9+.
 
 
 == Changelog ==
+
+= 4.7.0 =
+* Released 2024-04-13
+* Huge bug fix: Highlight and Share now works great on mobile browsers including Safari.
+* Re-worked selection JS to integrate <a href="https://github.com/MaxArt2501/share-this">Share This</a> script.
 
 = 4.6.0 =
 * Released 2023-12-10
@@ -498,5 +503,5 @@ So far, the latest versions of Chrome, Firefox, Safari, Edge, and IE9+.
 
 == Upgrade Notice ==
 
-= 4.6.0 =
-Added Mastodon social network. Fixed popup in the Support tab for demo video. Fixed deprecation notices.
+= 4.7.0 =
+Text selection works great on mobile browsers now.
