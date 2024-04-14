@@ -1,4 +1,4 @@
-=== Highlight and Share – Select or Highlight Text and Share It ===
+=== Highlight and Share – Click to Share Block and Text Selection ===
 Contributors: ronalfy
 Tags: highlight, social media, click share, select text, highlight text
 Requires at least: 5.1
@@ -12,7 +12,7 @@ A lightweight and unobtrusive social sharing tool that displays social networks 
 
 == Description ==
 
-Meet your readers at your content.
+Meet your readers at your content. When users highlight text, show relevant social networks and shortcuts for the user to select.  Highlight and Share is a lightweight and unobtrusive social sharing tool that displays social networks on text selection, clicking on highlighted text, and on a Click to Share block.
 
 https://www.youtube.com/watch?v=ZZWiLZtfqcI
 
