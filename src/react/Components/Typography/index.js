@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import fontFamilies from '../../../fonts/fonts';
 import { __ } from '@wordpress/i18n';
+import { useSettings } from '@wordpress/block-editor';
 import { ButtonGroup, Button, Tooltip, SelectControl, BaseControl, TextControl, Popover } from '@wordpress/components';
 import { useForm, Controller, useWatch } from 'react-hook-form';
 import { geHierarchicalPlaceholderValue } from '../../Utils/TypographyHelper';
@@ -73,6 +74,8 @@ const Typography = ( props ) => {
 		defaultValues: getDefaultValues(),
 	} );
 
+	const [ blockLevelFontFamilies ] = useSettings( 'typography.fontFamilies' );
+
 	const formValues = useWatch( { control } );
 
 	const { label } = props;
@@ -105,8 +108,18 @@ const Typography = ( props ) => {
 		const mergedFamilies = [];
 		families.forEach( ( fontFamily ) => {
 			fonts.push( { label: fontFamily.name, value: fontFamily.slug } );
-			mergedFamilies.push( { family: fontFamily.family, slug: fontFamily.slug, fallback: fontFamily.fallback, type: fontFamily.type  } );
+			mergedFamilies.push( { family: fontFamily.family, slug: fontFamily.slug, fallback: fontFamily.fallback, type: fontFamily.type } );
 		} );
+		if ( blockLevelFontFamilies ) {
+			const { theme } = blockLevelFontFamilies;
+
+			if ( theme ) {
+				theme.forEach( ( fontFamily ) => {
+					fonts.push( { label: fontFamily.name, value: fontFamily.slug } );
+					mergedFamilies.push( { family: fontFamily.name, slug: fontFamily.slug, fallback: fontFamily.fallback, type: 'web' } );
+				} );
+			}
+		}
 		// Push adobe fonts to the front.
 		adobeFonts.forEach( ( font ) => {
 			fonts.unshift( { label: font.name, value: font.slug } );
