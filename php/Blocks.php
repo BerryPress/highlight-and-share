@@ -415,6 +415,18 @@ class Blocks {
 			/* resume here */
 		</style>
 		<?php
+		if ( ! wp_style_is( 'has-style-frontend-css', 'registered' ) ) {
+			wp_register_style(
+				'has-style-frontend-css',
+				Functions::get_plugin_url( 'dist/has-cts-style.css' ),
+				array(),
+				HIGHLIGHT_AND_SHARE_VERSION,
+				'all'
+			);
+			wp_print_styles( array( 'has-style-frontend-css' ) );
+		}
+		?>
+		<?php
 		$container_classes = array(
 			'has-click-to-share',
 			'align' . $attributes['align'],
