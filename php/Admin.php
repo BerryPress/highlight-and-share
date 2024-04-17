@@ -197,7 +197,6 @@ class Admin {
 
 		// Send the data home.
 		wp_send_json_success( $this->map_defaults_to_js( stripslashes_deep( $defaults ) ) );
-
 	}
 
 	/**
@@ -405,7 +404,6 @@ class Admin {
 
 		// Send the data home.
 		wp_send_json_success( $this->map_defaults_to_js( stripslashes_deep( $options ) ) );
-
 	}
 
 	/**
@@ -588,14 +586,6 @@ class Admin {
 				'all'
 			);
 
-			wp_enqueue_script(
-				'has-admin-js',
-				Functions::get_plugin_url( '/dist/has-admin.js' ),
-				array(),
-				HIGHLIGHT_AND_SHARE_VERSION,
-				true
-			);
-
 			// Determine if we want to enqueue the settings React script.
 			$enqueue_settings = false;
 			$current_tab      = Functions::get_admin_tab();
@@ -603,11 +593,12 @@ class Admin {
 				$enqueue_settings = true;
 			}
 			if ( $enqueue_settings ) {
+				$deps = require_once Functions::get_plugin_dir( 'dist/has-admin-settings.asset.php' );
 				wp_enqueue_script(
 					'has-settings-admin-js',
 					Functions::get_plugin_url( '/dist/has-admin-settings.js' ),
-					array(),
-					HIGHLIGHT_AND_SHARE_VERSION,
+					$deps['dependencies'],
+					$deps['version'],
 					true
 				);
 				wp_localize_script(
@@ -628,21 +619,22 @@ class Admin {
 				$enqueue_support = true;
 			}
 			if ( $enqueue_support ) {
+				$deps = require_once Functions::get_plugin_dir( 'dist/has-admin-support.asset.php' );
 				wp_enqueue_script(
 					'has-support-admin-js',
 					Functions::get_plugin_url( '/dist/has-admin-support.js' ),
-					array(),
-					HIGHLIGHT_AND_SHARE_VERSION,
+					$deps['dependencies'],
+					$deps['version'],
 					true
 				);
 				wp_localize_script(
 					'has-support-admin-js',
 					'hasSupportAdmin',
 					array(
-						'saveNonce'     => wp_create_nonce( 'has_save_support' ),
-						'retrieveNonce' => wp_create_nonce( 'has_retrieve_support' ),
-						'videoPlayImg'  => Functions::get_plugin_url( '/img/has-video-play-button.webp' ),
-						'videoPlayImgWidth' => 450,
+						'saveNonce'          => wp_create_nonce( 'has_save_support' ),
+						'retrieveNonce'      => wp_create_nonce( 'has_retrieve_support' ),
+						'videoPlayImg'       => Functions::get_plugin_url( '/img/has-video-play-button.webp' ),
+						'videoPlayImgWidth'  => 450,
 						'videoPlayImgHeight' => 243,
 					)
 				);
@@ -670,11 +662,12 @@ class Admin {
 				$enqueue_appearance = true;
 			}
 			if ( $enqueue_appearance ) {
+				$deps = require_once Functions::get_plugin_dir( 'dist/has-admin-appearance.asset.php' );
 				wp_enqueue_script(
 					'has-appearance-admin-js',
 					Functions::get_plugin_url( '/dist/has-admin-appearance.js' ),
-					array(),
-					HIGHLIGHT_AND_SHARE_VERSION,
+					$deps['dependencies'],
+					$deps['version'],
 					true
 				);
 				wp_localize_script(
@@ -699,11 +692,12 @@ class Admin {
 				$enqueue_block_editor = true;
 			}
 			if ( $enqueue_block_editor ) {
+				$deps = require_once Functions::get_plugin_dir( 'dist/has-admin-block-editor.asset.php' );
 				wp_enqueue_script(
 					'has-block-editor-admin-js',
 					Functions::get_plugin_url( '/dist/has-admin-block-editor.js' ),
-					array(),
-					HIGHLIGHT_AND_SHARE_VERSION,
+					$deps['dependencies'],
+					$deps['version'],
 					true
 				);
 				wp_localize_script(
@@ -725,11 +719,12 @@ class Admin {
 				$enqueue_emails = true;
 			}
 			if ( $enqueue_emails ) {
+				$deps = require_once Functions::get_plugin_dir( 'dist/has-admin-emails.asset.php' );
 				wp_enqueue_script(
 					'has-emails-admin-js',
 					Functions::get_plugin_url( '/dist/has-admin-emails.js' ),
-					array(),
-					HIGHLIGHT_AND_SHARE_VERSION,
+					$deps['dependencies'],
+					$deps['version'],
 					true
 				);
 				wp_localize_script(
