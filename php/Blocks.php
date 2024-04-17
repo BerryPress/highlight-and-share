@@ -71,11 +71,12 @@ class Blocks {
 	 * Enqueue inline highlighting script in the block editor.
 	 */
 	public function enqueue_inline_highlighting_script() {
+		$deps = require_once Functions::get_plugin_dir( 'build/has-inline-highlighting.asset.php' );
 		wp_enqueue_script(
 			'has-inline-highlighting-js',
 			Functions::get_plugin_url( 'build/has-inline-highlighting.js' ),
-			array(),
-			HIGHLIGHT_AND_SHARE_VERSION,
+			$deps['dependencies'],
+			$deps['version'],
 			true
 		);
 	}
@@ -95,11 +96,12 @@ class Blocks {
 			'has-style-admin-css',
 			Themes::get_inline_highlight_css()
 		);
+		$deps = require_once Functions::get_plugin_dir( 'build/has-click-to-share.asset.php' );
 		wp_register_script(
 			'has-click-to-share',
 			Functions::get_plugin_url( 'build/has-click-to-share.js' ),
-			array( 'wp-blocks', 'wp-element', 'wp-i18n' ),
-			HIGHLIGHT_AND_SHARE_VERSION,
+			$deps['dependencies'],
+			$deps['version'],
 			true
 		);
 		$color_palette = array();

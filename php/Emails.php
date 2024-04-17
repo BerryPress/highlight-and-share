@@ -42,11 +42,12 @@ class Emails {
 		$email_modal_title   = self::replace_template_tags( $options['email_modal_title'], $post_id, false, false, false, $share_type, false );
 		$email_modal_subject = self::replace_template_tags( $options['email_subject'], $post_id, false, false, false, $share_type, false );
 
+		$deps = require_once Functions::get_plugin_dir( 'dist/has-email-modal.asset.php' );
 		wp_register_script(
 			'has_email_view',
 			Functions::get_plugin_url( 'dist/has-email-modal.js' ),
-			array( 'wp-i18n' ),
-			Functions::get_plugin_version(),
+			$deps['dependencies'],
+			$deps['version'],
 			false
 		);
 		if ( $recaptcha_enabled && ! empty( $recaptcha_site_key ) ) {
