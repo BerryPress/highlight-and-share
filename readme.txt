@@ -2,8 +2,8 @@
 Contributors: ronalfy
 Tags: highlight, social media, click share, select text, highlight text
 Requires at least: 5.1
-Tested up to: 6.4
-Stable tag: 4.7.0
+Tested up to: 6.5
+Stable tag: 4.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -15,8 +15,6 @@ A lightweight and unobtrusive social sharing tool that displays social networks 
 Meet your readers at your content. When users highlight text, show relevant social networks and shortcuts for the user to select.  Highlight and Share is a lightweight and unobtrusive social sharing tool that displays social networks on text selection, clicking on highlighted text, and on a Click to Share block.
 
 https://www.youtube.com/watch?v=ZZWiLZtfqcI
-
-> <a href="https://app.instawp.io/launch?t=highlight-and-share&d=v1">View a Fully Featured Demo via InstaWP</a>
 
 Show social network options when users interact with your text (<a href="https://docs.dlxplugins.com/v/highlight-and-share/getting-started/how-highlight-and-share-works">find out how Highlight and Share works</a>).
 
@@ -90,11 +88,15 @@ You can turn off the theme and include CSS in your own theme.
 
 = Does this plugin work on mobile devices? =
 
+Yes, Highlight and Share works well for mobile devices and also supports the Web Share API, which is one of the options of social sharing networks.
+
 Most mobile devices already have their own sharing features on text selection, but Highlight and Share works especially well for <a href="https://docs.dlxplugins.com/v/highlight-and-share/inline-highlighting/what-is-inline-highlighting">inline highlighting</a> and the <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-block/the-click-to-share-block">Click to Share block</a>.
 
 = What Browsers Have You Tested This In? =
 
 So far, the latest versions of Chrome, Firefox, Safari, Edge, and IE9+.
+
+iOS Safari and Chrome work well, but the text selection is a bit different than on desktop browsers.
 
 == Screenshots ==
 
@@ -111,6 +113,11 @@ So far, the latest versions of Chrome, Firefox, Safari, Edge, and IE9+.
 
 
 == Changelog ==
+
+= 4.7.1 =
+* Released 2024-04-16
+* Making it so the Click to Share block can be outputted via Shortcode in Pattern Wrangler.
+* Refactoring script dependencies to significantly reduce the size of the admin JS and overall plugin size.
 
 = 4.7.0 =
 * Released 2024-04-13
@@ -503,5 +510,5 @@ So far, the latest versions of Chrome, Firefox, Safari, Edge, and IE9+.
 
 == Upgrade Notice ==
 
-= 4.7.0 =
-Text selection works great on mobile browsers now.
+= 4.7.1 =
+Adding Pattern Wrangler support for the Click to Share block so that it can be outputted via shortcode. Refactoring script dependencies to reduce the size of the admin JS and overall plugin size.
