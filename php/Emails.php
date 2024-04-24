@@ -29,14 +29,14 @@ class Emails {
 	 * Display the HTML for the email modal.
 	 */
 	public function ajax_display_has_email_social_modal() {
-		$permalink = urldecode( filter_input( INPUT_GET, 'permalink', FILTER_DEFAULT ) );
-		if ( ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce', FILTER_DEFAULT ), 'has_share_' . $permalink ) ) {
+		$permalink = urldecode( filter_input( INPUT_GET, 'permalink', FILTER_SANITIZE_SPECIAL_CHARS ) );
+		if ( ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce', FILTER_SANITIZE_SPECIAL_CHARS ), 'has_share_' . $permalink ) ) {
 			wp_die( 'Invalid request.' );
 		}
 
 		$options             = Options::get_email_options();
-		$post_id             = absint( filter_input( INPUT_GET, 'post_id', FILTER_DEFAULT ) );
-		$share_type          = filter_input( INPUT_GET, 'type', FILTER_DEFAULT );
+		$post_id             = absint( filter_input( INPUT_GET, 'post_id', FILTER_VALIDATE_INT ) );
+		$share_type          = filter_input( INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS );
 		$recaptcha_site_key  = $options['recaptcha_site_key'];
 		$recaptcha_enabled   = (bool) $options['recaptcha_enabled'];
 		$email_modal_title   = self::replace_template_tags( $options['email_modal_title'], $post_id, false, false, false, $share_type, false );

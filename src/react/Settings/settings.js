@@ -84,7 +84,8 @@ const Interface = ( props ) => {
 			enableHashtags: data.values.enableHashtags,
 			showFacebook: data.values.showFacebook,
 			showWhatsApp: data.values.showWhatsApp,
-			whatsAppApiEndpoint: data.values.whatsappApiEndpoint,
+			whatsappApiEndpoint: data.values.whatsappApiEndpoint,
+			whatsappCanShareUrl: data.values.whatsappCanShareUrl,
 			showReddit: data.values.showReddit,
 			showTelegram: data.values.showTelegram,
 			showLinkedin: data.values.showLinkedin,
@@ -796,7 +797,27 @@ const Interface = ( props ) => {
 							</div>
 							<div className="has-admin-component-row">
 								<Controller
-									name="whatsAppApiEndpoint"
+									name="whatsappCanShareUrl"
+									control={ control }
+									render={ ( { field: { onChange, value } } ) => (
+										<ToggleControl
+											label={ __( 'Enable WhatsApp URL Sharing', 'highlight-and-share' ) }
+											className="has-admin__toggle-control"
+											checked={ value }
+											onChange={ ( boolValue ) => {
+												onChange( boolValue );
+											} }
+											help={ __(
+												'WhatsApp allows text and URL sharing. You can disable URL sharing on WhatsApp by toggling this option off.',
+												'highlight-and-share'
+											) }
+										/>
+									) }
+								/>
+							</div>
+							<div className="has-admin-component-row">
+								<Controller
+									name="whatsappApiEndpoint"
 									control={ control }
 									render={ ( { field: { onChange, value } } ) => (
 										<RadioControl

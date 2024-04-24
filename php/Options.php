@@ -404,6 +404,7 @@ class Options {
 			'sharing_prefix'                   => '',
 			'sharing_suffix'                   => '',
 			'whatsapp_api_endpoint'            => 'app', // Can also we 'web'.
+			'whatsapp_can_share_url'           => true,
 			'twitter_label'                    => _x( 'Share This', 'X social network formerly Twitter', 'highlight-and-share' ),
 			'twitter_tooltip'                  => _x( 'Share on X', 'X social network formerly Twitter', 'highlight-and-share' ),
 			'facebook_label'                   => __( 'Facebook', 'highlight-and-share' ),
