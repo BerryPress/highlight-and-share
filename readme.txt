@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: highlight, social media, click share, select text, highlight text
 Requires at least: 5.1
 Tested up to: 6.5
-Stable tag: 4.7.1
+Stable tag: 4.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -113,6 +113,12 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 
 == Changelog ==
+
+= 4.7.2 =
+* Released 2024-04-24
+* Bug fix: Changing the WhatsApp endpoint was not saving correctly.
+* Bug fix: Mastodon lightbox was not working if Emails were set to mailto instead of a form.
+* New feature: Added option in WhatsApp for not showing the shared link (via user request).
 
 = 4.7.1 =
 * Released 2024-04-16
@@ -510,5 +516,5 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Upgrade Notice ==
 
-= 4.7.1 =
-Adding Pattern Wrangler support for the Click to Share block so that it can be outputted via shortcode. Refactoring script dependencies to reduce the size of the admin JS and overall plugin size.
+= 4.7.2 =
+Bug fix for WhatsApp and Mastodon. WhatsApp settings were not saving correctly and Mastodon lightbox was not working if Emails were set to mailto instead of a form. Added option to disable URL sharing in WhatsApp.
