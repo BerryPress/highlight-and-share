@@ -674,6 +674,23 @@ class Frontend {
 						break;
 					case 'mastodon':
 						$html .= '<div class="has_mastodon ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="mastodon" data-tooltip="' . esc_attr( apply_filters( 'has_mastodon_tooltip', $settings['mastodon_tooltip'] ) ) . '"><a href="https://mastodon.social/share?text=%prefix%%text%%suffix%: %url%" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-mastodon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_mastodon_text', $settings['mastodon_label'] ) ) . '</span></a></div>';
+						if ( ! wp_script_is( 'fancybox', 'enqueued' ) ) {
+							wp_register_script(
+								'has-fancybox-js',
+								Functions::get_plugin_url( '/js/fancybox.umd.js' ),
+								array(),
+								Functions::get_plugin_version(),
+								true
+							);
+
+							wp_register_style(
+								'has-fancybox-css',
+								Functions::get_plugin_url( '/js/fancybox.css' ),
+								array(),
+								Functions::get_plugin_version(),
+								'all'
+							);
+						}
 						break;
 					case 'email':
 						global $post;
@@ -737,7 +754,7 @@ class Frontend {
 		$this->get_footer_svgs();
 
 		// Enqueue / print fancybox styles.
-		if ( wp_script_is( 'has-fancybox-js', 'registered' ) && ! wp_script_is( 'has-fancybox-js', 'done' ) && 'form' === $email_options['email_send_type'] ) {
+		if ( wp_script_is( 'has-fancybox-js', 'registered' ) && ! wp_script_is( 'has-fancybox-js', 'done' ) ) {
 			wp_print_scripts( 'has-fancybox-js' );
 			wp_print_styles( 'has-fancybox-css' );
 		}
