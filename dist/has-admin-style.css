@@ -4293,7 +4293,7 @@ h2.has-admin-content-subheading:after {
 }
 .components-popover.has-component-color-picker .components-popover__content {
   padding: 10px;
-  width: 300px;
+  width: 250px !important;
 }
 .components-popover.has-component-color-picker .components-color-picker__inputs-fields {
   margin-right: 0;
