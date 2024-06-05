@@ -1,6 +1,6 @@
 === Highlight and Share – Click to Share Block and Text Selection ===
 Contributors: ronalfy
-Tags: highlight, social media, click share, select text, highlight text
+Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
 Tested up to: 6.5
 Stable tag: 4.7.2
@@ -8,7 +8,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
 
-A lightweight and unobtrusive social sharing tool that displays social networks on text selection, clicking on highlighted text, and on a Click to Share block.
+A lightweight and unobtrusive social media plugin for displaying social networks.
 
 == Description ==
 
@@ -65,6 +65,7 @@ Highlight and Share <a href="https://docs.dlxplugins.com/v/highlight-and-share/d
 
 * X (formerly Twitter) (allows text sharing)
 * Facebook
+* Threads (allows text sharing)
 * WhatsApp (allows text sharing)
 * Mastodon (allows text sharing)
 * Reddit
@@ -113,6 +114,13 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 
 == Changelog ==
+
+= 4.8.0 =
+* Released 2024-06-05
+* New social network: Threads
+* Bug fix: Fixed the colorful circles theme as it was barely visible.
+* Bug fix: Fixed popover width for the admin color pickers.
+* Bug fix: Fixed custom colors not displaying properly in the admin under custom appearance.
 
 = 4.7.2 =
 * Released 2024-04-24
@@ -516,5 +524,5 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Upgrade Notice ==
 
-= 4.7.2 =
-Bug fix for WhatsApp and Mastodon. WhatsApp settings were not saving correctly and Mastodon lightbox was not working if Emails were set to mailto instead of a form. Added option to disable URL sharing in WhatsApp.
+= 4.8.0 =
+Added the Threads social network. Fixed the colorful circles theme and the admin color pickers. Fixed custom colors not displaying properly in the admin under custom appearance.
