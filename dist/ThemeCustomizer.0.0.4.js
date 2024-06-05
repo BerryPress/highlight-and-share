@@ -564,7 +564,7 @@ var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
     var tabs = [];
     Object.values(socialNetworkColors).forEach(function (network, index) {
       tabs.push({
-        key: index,
+        key: network.slug,
         name: network.slug,
         title: network.label,
         className: "social-network-colors-tab-".concat(network.slug),
@@ -653,6 +653,11 @@ var TabColorPickers = function TabColorPickers(props) {
       iconColorHover: props.iconColorHover
     };
   };
+
+  // Re-render the component when the default values change.
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    reset(getDefaultValues());
+  }, [props.backgroundColor, props.backgroundColorHover, props.iconColor, props.iconColorHover]);
   var _useForm = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useForm)({
       defaultValues: getDefaultValues()
     }),

@@ -25,6 +25,11 @@ const TabColorPickers = ( props ) => {
 		};
 	};
 
+	// Re-render the component when the default values change.
+	useEffect( () => {
+		reset( getDefaultValues() );
+	}, [ props.backgroundColor, props.backgroundColorHover, props.iconColor, props.iconColorHover ] );
+
 	const {
 		register,
 		control,

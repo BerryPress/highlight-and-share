@@ -15,7 +15,7 @@ const SocialNetworkColorsTabs = () => {
 		const tabs = [];
 		Object.values( socialNetworkColors ).forEach( ( network, index ) => {
 			tabs.push( {
-				key: index,
+				key: network.slug,
 				name: network.slug,
 				title: network.label,
 				className: `social-network-colors-tab-${ network.slug }`,

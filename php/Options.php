@@ -191,8 +191,8 @@ class Options {
 			'threads'  => array(
 				'label'      => __( 'Threads', 'highlight-and-share' ),
 				'slug'       => 'threads',
-				'color'      => '#333',
-				'background' => '#e17713',
+				'color'      => '#FFF',
+				'background' => '#333',
 				'order'      => 12,
 				'custom'     => false,
 			),
@@ -373,8 +373,8 @@ class Options {
 				'threads'  => array(
 					'label'            => __( 'Threads', 'highlight-and-share' ),
 					'slug'             => 'threads',
-					'background'       => '#f58f2f',
-					'background_hover' => '#e17713',
+					'background'       => '#333',
+					'background_hover' => '#000',
 					'icon_color'       => '#fff',
 					'icon_color_hover' => '#fff',
 				),
