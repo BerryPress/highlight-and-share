@@ -191,8 +191,8 @@ class Options {
 			'threads'  => array(
 				'label'      => __( 'Threads', 'highlight-and-share' ),
 				'slug'       => 'threads',
-				'color'      => '#FFF',
-				'background' => '#333',
+				'color'      => '#333',
+				'background' => '#FFF',
 				'order'      => 12,
 				'custom'     => false,
 			),
