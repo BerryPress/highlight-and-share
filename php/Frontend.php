@@ -502,7 +502,23 @@ class Frontend {
 					.highlight-and-share-wrapper .has_webshare a:hover {
 						color: <?php echo esc_attr( $theme_options['icon_colors']['webshare']['icon_color_hover'] ); ?> !important;
 						background: <?php echo esc_attr( $theme_options['icon_colors']['webshare']['background_hover'] ); ?> !important;
-					}	
+					}
+					.highlight-and-share-wrapper .has_mastodon a {
+						color: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['background'] ); ?> !important;
+					}
+					.highlight-and-share-wrapper .has_mastodon a:hover {
+						color: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['background_hover'] ); ?> !important;
+					}
+					.highlight-and-share-wrapper .has_threads a {
+						color: <?php echo esc_attr( $theme_options['icon_colors']['threads']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $theme_options['icon_colors']['threads']['background'] ); ?> !important;
+					}
+					.highlight-and-share-wrapper .has_threads a:hover {
+						color: <?php echo esc_attr( $theme_options['icon_colors']['threads']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $theme_options['icon_colors']['threads']['background_hover'] ); ?> !important;
+					}
 				<?php
 				if ( true === (bool) $theme_options['icon_border_radius']['attrSyncUnits'] ) :
 					?>
