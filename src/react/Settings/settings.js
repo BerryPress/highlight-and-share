@@ -126,7 +126,9 @@ const Interface = ( props ) => {
 			webshareTooltip: escapeEditableHTML( data.values.webshareTooltip ),
 			enableWebshareInlineHighlight: data.values.enableWebshareInlineHighlight,
 			enableWebshareClickToShare: data.values.enableWebshareClickToShare,
-			
+			showThreads: data.values.showThreads,
+			threadsTooltip: escapeEditableHTML( data.values.threadsTooltip ),
+			threadsLabel: escapeEditableHTML( data.values.threadsLabel ),
 		};
 	};
 	const { control, handleSubmit, getValues, reset } = useForm( {
@@ -593,6 +595,101 @@ const Interface = ( props ) => {
 												aria-required="true"
 											/>
 											{ 'required' === errors.facebookTooltip?.type && (
+												<Notice
+													message={ __( 'This field is a required field.' ) }
+													status="error"
+													politeness="assertive"
+													inline={ false }
+													icon={ CircularExclamationIcon }
+												/>
+											) }
+										</>
+									) }
+								/>
+							</div>
+						</>
+					) }
+					<h3 className="has-icon-heading">
+						{ getSocialIcon( 'threads' ) } { __( 'Threads', 'highlight-and-share' ) }
+					</h3>
+					<div className="has-admin-component-row">
+						<Controller
+							name="showThreads"
+							control={ control }
+							render={ ( { field: { onChange, value } } ) => (
+								<ToggleControl
+									label={ __( 'Enable Threads', 'highlight-and-share' ) }
+									className="has-admin__toggle-control"
+									checked={ value }
+									onChange={ ( boolValue ) => {
+										onChange( boolValue );
+									} }
+									help={ __(
+										'Threads allows text sharing.',
+										'highlight-and-share'
+									) }
+								/>
+							) }
+						/>
+					</div>
+					{ getValues( 'showThreads' ) && (
+						<>
+							<div className="has-admin-component-row">
+								<Controller
+									name="threadsLabel"
+									control={ control }
+									rules={ { required: true } }
+									render={ ( { field } ) => (
+										<>
+											<TextControl
+												{ ...field }
+												type="text"
+												label={ __( 'Threads Label', 'highlight-and-share' ) }
+												className={ classNames( 'has-admin__text-control', {
+													'is-required': true,
+													'has-error': 'required' === errors.threadsLabel?.type,
+												} ) }
+												help={ __(
+													'Choose a label for the Threads button.',
+													'highlight-and-share'
+												) }
+												aria-required="true"
+											/>
+											{ 'required' === errors.threadsLabel?.type && (
+												<Notice
+													message={ __( 'This field is a required field.' ) }
+													status="error"
+													politeness="assertive"
+													inline={ false }
+													icon={ CircularExclamationIcon }
+												/>
+											) }
+										</>
+									) }
+								/>
+							</div>
+							<div className="has-admin-component-row">
+								<Controller
+									name="threadsTooltip"
+									control={ control }
+									rules={ { required: true } }
+									render={ ( { field } ) => (
+										<>
+											<TextControl
+												{ ...field }
+												type="text"
+												label={ __( 'Threads Tooltip', 'highlight-and-share' ) }
+												className={ classNames( 'has-admin__text-control', {
+													'is-required': true,
+													'has-error': 'required' === errors.threadsTooltip?.type,
+												} ) }
+												help={ __(
+													'Choose tooltip text for the Threads button.',
+													'highlight-and-share'
+												) }
+												aria-required="true"
+											/>
+											{ 'required' === errors.threadsTooltip?.type && (
 												<Notice
 													message={ __( 'This field is a required field.' ) }
 													status="error"

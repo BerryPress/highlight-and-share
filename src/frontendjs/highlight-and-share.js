@@ -20,7 +20,7 @@ import { constrainRange } from './selection';
 	}
 
 	const socialNetworks =
-		'.has_whatsapp, .has_facebook, .has_twitter, .has_copy, .has_reddit, .has_telegram, .has_linkedin, .has_xing, .has_signal, .has_vk, .has_tumblr, .has_mastodon, .has_email_mailto, .has_email_form';
+		'.has_whatsapp, .has_facebook, .has_twitter, .has_copy, .has_reddit, .has_telegram, .has_linkedin, .has_xing, .has_signal, .has_vk, .has_tumblr, .has_mastodon, .has_email_mailto, .has_email_form, .has_threads';
 
 	// Get highlight and share container dimensions.
 	const hasSharingIconsContainer = hasContainer.querySelector(
@@ -114,6 +114,7 @@ import { constrainRange } from './selection';
 				'%type%',
 				encodeURIComponent( triggerType )
 			);
+			elementUrl = elementUrl.replace( '%threadstext%', '%prefix%' + encodeURIComponent( text ) + '%suffix%' + encodeURIComponent( '\n\n' + url ) );
 			elementUrl = elementUrl.replace( '%prefix%', encodeURIComponent( prefix ) );
 			elementUrl = elementUrl.replace( '%suffix%', encodeURIComponent( suffix ) );
 			elementAnchor.setAttribute( 'href', elementUrl );

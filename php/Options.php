@@ -188,6 +188,14 @@ class Options {
 				'order'      => 11,
 				'custom'     => false,
 			),
+			'threads'  => array(
+				'label'      => __( 'Threads', 'highlight-and-share' ),
+				'slug'       => 'threads',
+				'color'      => '#333',
+				'background' => '#e17713',
+				'order'      => 12,
+				'custom'     => false,
+			),
 		);
 
 		/**
@@ -362,6 +370,14 @@ class Options {
 					'icon_color'       => '#fff',
 					'icon_color_hover' => '#fff',
 				),
+				'threads'  => array(
+					'label'            => __( 'Threads', 'highlight-and-share' ),
+					'slug'             => 'threads',
+					'background'       => '#f58f2f',
+					'background_hover' => '#e17713',
+					'icon_color'       => '#fff',
+					'icon_color_hover' => '#fff',
+				),
 			),
 		);
 		return $defaults;
@@ -393,6 +409,7 @@ class Options {
 			'show_signal'                      => false,
 			'show_webshare'                    => false,
 			'show_mastodon'                    => false,
+			'show_threads'                     => false,
 			'enable_webshare_inline_highlight' => false,
 			'enable_webshare_click_to_share'   => false,
 			'enable_content'                   => true,
@@ -417,6 +434,8 @@ class Options {
 			'vk_tooltip'                       => __( 'Share on VK', 'highlight-and-share' ),
 			'whatsapp_label'                   => __( 'WhatsApp', 'highlight-and-share' ),
 			'whatsapp_tooltip'                 => __( 'Share on WhatsApp', 'highlight-and-share' ),
+			'threads_label'                    => __( 'Threads', 'highlight-and-share' ),
+			'threads_tooltip'                  => __( 'Share on Threads', 'highlight-and-share' ),
 			'reddit_label'                     => __( 'Reddit', 'highlight-and-share' ),
 			'reddit_tooltip'                   => __( 'Share on Reddit', 'highlight-and-share' ),
 			'telegram_label'                   => __( 'Telegram', 'highlight-and-share' ),
@@ -554,6 +573,7 @@ class Options {
 		$settings['telegram']['enabled'] = (bool) apply_filters( 'has_show_telegram', ( $plugin_options['show_telegram'] ?? false ) );
 		$settings['webshare']['enabled'] = (bool) apply_filters( 'has_show_webshare', ( $plugin_options['show_webshare'] ?? false ) );
 		$settings['mastodon']['enabled'] = (bool) apply_filters( 'has_show_mastodon', ( $plugin_options['show_mastodon'] ?? false ) );
+		$settings['threads']['enabled']  = (bool) apply_filters( 'has_show_threads', ( $plugin_options['show_threads'] ?? false ) );
 
 		// Now sort the arrays based on order.
 		array_multisort( array_column( $settings, 'order' ), SORT_ASC, $settings );
