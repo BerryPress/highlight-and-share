@@ -3123,7 +3123,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // Lazy load theme customizer.
 var ThemeCustomizer = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.lazy)(function () {
-  return Promise.all(/*! import() | ThemeCustomizer.0.0.4 */[__webpack_require__.e("vendors-node_modules_hex-to-rgba_build_index_js-node_modules_react-hook-form_dist_index_esm_mjs"), __webpack_require__.e("ThemeCustomizer.0.0.4")]).then(__webpack_require__.bind(__webpack_require__, /*! ../Components/ThemeCustomizer */ "./src/react/Components/ThemeCustomizer/index.js"));
+  return Promise.all(/*! import() | ThemeCustomizer.0.0.5 */[__webpack_require__.e("vendors-node_modules_hex-to-rgba_build_index_js-node_modules_react-hook-form_dist_index_esm_mjs"), __webpack_require__.e("ThemeCustomizer.0.0.5")]).then(__webpack_require__.bind(__webpack_require__, /*! ../Components/ThemeCustomizer */ "./src/react/Components/ThemeCustomizer/index.js"));
 });
 var Appearance = function Appearance() {
   var getIcons = function getIcons() {
