@@ -29,7 +29,7 @@ class Emails {
 	 * Display the HTML for the email modal.
 	 */
 	public function ajax_display_has_email_social_modal() {
-		$permalink = urldecode( filter_input( INPUT_GET, 'permalink', FILTER_SANITIZE_SPECIAL_CHARS ) );
+		$permalink = get_permalink( absint( filter_input( INPUT_GET, 'post_id', FILTER_VALIDATE_INT ) ) );
 		if ( ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce', FILTER_SANITIZE_SPECIAL_CHARS ), 'has_share_' . $permalink ) ) {
 			wp_die( 'Invalid request.' );
 		}
