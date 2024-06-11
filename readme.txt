@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
 Tested up to: 6.5
-Stable tag: 4.8.0
+Stable tag: 4.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -12,7 +12,7 @@ A lightweight and unobtrusive social media plugin for displaying social networks
 
 == Description ==
 
-Meet your readers at your content. When users highlight text, show relevant social networks and shortcuts for the user to select.  Highlight and Share is a lightweight and unobtrusive social sharing tool that displays social networks on text selection, clicking on highlighted text, and on a Click to Share block.
+When users highlight text, show relevant social networks and shortcuts for the user to select.  Highlight and Share is a lightweight and unobtrusive social sharing tool that displays social networks on text selection, clicking on highlighted text, and on a Click to Share block.
 
 https://www.youtube.com/watch?v=ZZWiLZtfqcI
 
@@ -114,6 +114,10 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 
 == Changelog ==
+
+= 4.8.1 =
+* Released 2024-06-11
+* Bug fix: Email popover was saying "Invalid Request" because of heavy sanitization.
 
 = 4.8.0 =
 * Released 2024-06-05
@@ -524,5 +528,5 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Upgrade Notice ==
 
-= 4.8.0 =
-Added the Threads social network. Fixed the colorful circles theme and the admin color pickers. Fixed custom colors not displaying properly in the admin under custom appearance.
+= 4.8.1 =
+Resolving the email popover, where it wasn't working.
