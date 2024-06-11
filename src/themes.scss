@@ -218,6 +218,31 @@ body.has-body .highlight-and-share-wrapper.theme-green.orientation-vertical > di
 .highlight-and-share-wrapper.theme-default div.has_threads {
 	background: #333;
 }
+.highlight-and-share-wrapper.theme-default div.has_bluesky {
+	background: #F2F9FF;
+	color: #1285FE;
+
+	a {
+		svg {
+			color: #1285FE;
+		}
+		.has-icon-label,
+		.has-text {
+			color: #28323E;
+		}
+		&:hover {
+			color: #28323E;
+			.has-icon-label,
+			.has-text {
+				color: #1285FE;
+			}
+			svg {
+				color: #1285FE;
+			}
+
+		}
+	}
+}
 .highlight-and-share-wrapper.theme-default div.has_twitter:hover {
 	background: #000;
 	fill: #FFF;

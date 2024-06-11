@@ -129,6 +129,9 @@ const Interface = ( props ) => {
 			showThreads: data.values.showThreads,
 			threadsTooltip: escapeEditableHTML( data.values.threadsTooltip ),
 			threadsLabel: escapeEditableHTML( data.values.threadsLabel ),
+			showBluesky: data.values.showBluesky,
+			blueskyTooltip: escapeEditableHTML( data.values.blueskyTooltip ),
+			blueskyLabel: escapeEditableHTML( data.values.blueskyLabel ),
 		};
 	};
 	const { control, handleSubmit, getValues, reset } = useForm( {
@@ -936,6 +939,101 @@ const Interface = ( props ) => {
 											] }
 											onChange={ ( radioValue ) => onChange( radioValue ) }
 										/>
+									) }
+								/>
+							</div>
+						</>
+					) }
+					<h3 className="has-icon-heading">
+						{ getSocialIcon( 'bluesky' ) } { __( 'Bluesky', 'highlight-and-share' ) }
+					</h3>
+					<div className="has-admin-component-row">
+						<Controller
+							name="showBluesky"
+							control={ control }
+							render={ ( { field: { onChange, value } } ) => (
+								<ToggleControl
+									label={ __( 'Enable Bluesky', 'highlight-and-share' ) }
+									className="has-admin__toggle-control"
+									checked={ value }
+									onChange={ ( boolValue ) => {
+										onChange( boolValue );
+									} }
+									help={ __(
+										'Bluesky allows text sharing.',
+										'highlight-and-share'
+									) }
+								/>
+							) }
+						/>
+					</div>
+					{ getValues( 'showBluesky' ) && (
+						<>
+							<div className="has-admin-component-row">
+								<Controller
+									name="blueskyLabel"
+									control={ control }
+									rules={ { required: true } }
+									render={ ( { field } ) => (
+										<>
+											<TextControl
+												{ ...field }
+												type="text"
+												label={ __( 'Bluesky Label', 'highlight-and-share' ) }
+												className={ classNames( 'has-admin__text-control', {
+													'is-required': true,
+													'has-error': 'required' === errors.blueskyLabel?.type,
+												} ) }
+												help={ __(
+													'Choose a label for the Bluesky button.',
+													'highlight-and-share'
+												) }
+												aria-required="true"
+											/>
+											{ 'required' === errors.blueskyLabel?.type && (
+												<Notice
+													message={ __( 'This field is a required field.' ) }
+													status="error"
+													politeness="assertive"
+													inline={ false }
+													icon={ CircularExclamationIcon }
+												/>
+											) }
+										</>
+									) }
+								/>
+							</div>
+							<div className="has-admin-component-row">
+								<Controller
+									name="blueskyTooltip"
+									control={ control }
+									rules={ { required: true } }
+									render={ ( { field } ) => (
+										<>
+											<TextControl
+												{ ...field }
+												type="text"
+												label={ __( 'Bluesky Tooltip', 'highlight-and-share' ) }
+												className={ classNames( 'has-admin__text-control', {
+													'is-required': true,
+													'has-error': 'required' === errors.blueskyTooltip?.type,
+												} ) }
+												help={ __(
+													'Choose tooltip text for the Bluesky button.',
+													'highlight-and-share'
+												) }
+												aria-required="true"
+											/>
+											{ 'required' === errors.blueskyTooltip?.type && (
+												<Notice
+													message={ __( 'This field is a required field.' ) }
+													status="error"
+													politeness="assertive"
+													inline={ false }
+													icon={ CircularExclamationIcon }
+												/>
+											) }
+										</>
 									) }
 								/>
 							</div>

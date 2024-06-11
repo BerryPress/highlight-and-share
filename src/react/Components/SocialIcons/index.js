@@ -16,6 +16,7 @@ import { faTumblr as TumblrIcon } from '@fortawesome/free-brands-svg-icons/faTum
 import { faShare as ShareIcon } from '@fortawesome/free-solid-svg-icons/faShare';
 import { faMastodon as MastodonIcon } from '@fortawesome/free-brands-svg-icons/faMastodon';
 import { faThreads as ThreadsIcon } from '@fortawesome/free-brands-svg-icons/faThreads';
+import { faBluesky as BlueskyIcon } from '@fortawesome/free-brands-svg-icons/faBluesky';
 
 import SocialNetworksContext from '../../Contexts/SocialNetworksContext';
 import Twitter from '../Icons/twitter';
@@ -107,6 +108,12 @@ const SocialIcons = ( socialNetworksData = {} ) => {
 						<FontAwesomeIcon icon={ ThreadsIcon } style={ { color: '#000000' } } />
 					</>
 				);
+			case 'bluesky':
+				return (
+					<>
+						<FontAwesomeIcon icon={ BlueskyIcon } style={ { color: '#1285FE' } } />
+					</>
+				);
 			default:
 				return ( <></> );
 		}
@@ -174,6 +181,9 @@ const SocialIcons = ( socialNetworksData = {} ) => {
 					break;
 				case 'threads':
 					icon = ThreadsIcon;
+					break;
+				case 'bluesky':
+					icon = BlueskyIcon;
 					break;
 				default:
 					icon = <></>;

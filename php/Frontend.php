@@ -140,11 +140,20 @@ class Frontend {
 		 */
 		$show_threads = (bool) apply_filters( 'has_show_threads', isset( $settings['show_threads'] ) ? $settings['show_threads'] : false );
 
+		/**
+		 * Filter: has_show_bluesky
+		 *
+		 * Hide or show the Bluesky option.
+		 *
+		 * @param bool true to show Bluesky feature, false to not.
+		 */
+		$show_bluesky = (bool) apply_filters( 'has_show_bluesky', isset( $settings['show_bluesky'] ) ? $settings['show_bluesky'] : false );
+
 		// Placeholder for signal.
 		$show_signal = false;
 
 		// If no social network is active, exit.
-		if ( ! $show_facebook && ! $show_twitter && ! $show_linkedin && ! $show_ok && ! $show_email && ! $show_copy && ! $show_reddit && ! $show_telegram && ! $show_whatsapp && ! $show_tumblr && ! $show_webshare && ! $show_mastodon && ! $show_threads ) {
+		if ( ! $show_facebook && ! $show_twitter && ! $show_linkedin && ! $show_ok && ! $show_email && ! $show_copy && ! $show_reddit && ! $show_telegram && ! $show_whatsapp && ! $show_tumblr && ! $show_webshare && ! $show_mastodon && ! $show_threads && ! $show_bluesky ) {
 			return;
 		}
 
@@ -519,6 +528,14 @@ class Frontend {
 						color: <?php echo esc_attr( $theme_options['icon_colors']['threads']['icon_color_hover'] ); ?> !important;
 						background: <?php echo esc_attr( $theme_options['icon_colors']['threads']['background_hover'] ); ?> !important;
 					}
+					.highlight-and-share-wrapper .has_bluesky a {
+						color: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['background'] ); ?> !important;
+					}
+					.highlight-and-share-wrapper .has_bluesky a:hover {
+						color: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['background_hover'] ); ?> !important;
+					}
 				<?php
 				if ( true === (bool) $theme_options['icon_border_radius']['attrSyncUnits'] ) :
 					?>
@@ -771,6 +788,9 @@ class Frontend {
 					case 'threads':
 						$html .= '<div class="has_threads ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="threads" data-tooltip="' . esc_attr( apply_filters( 'has_threads_tooltip', $settings['threads_tooltip'] ) ) . '"><a href="https://www.threads.net/intent/post?text=%threadstext%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-threads"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_threads_text', $settings['threads_label'] ) ) . '</span></a></div>';
 						break;
+					case 'bluesky':
+						$html .= '<div class="has_bluesky ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="bluesky" data-tooltip="' . esc_attr( apply_filters( 'has_bluesky_tooltip', $settings['bluesky_tooltip'] ) ) . '"><a href="https://bsky.app/intent/compose?text=%blueskytext%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-bluesky"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_bluesky_text', $settings['bluesky_label'] ) ) . '</span></a></div>';
+						break;
 				}
 			}
 		}
@@ -855,6 +875,9 @@ class Frontend {
 			<symbol aria-hidden="true" data-prefix="fab" data-icon="threads" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" id="has-threads">
 				<path fill="currentColor" d="M331.5 235.7c2.2 .9 4.2 1.9 6.3 2.8c29.2 14.1 50.6 35.2 61.8 61.4c15.7 36.5 17.2 95.8-30.3 143.2c-36.2 36.2-80.3 52.5-142.6 53h-.3c-70.2-.5-124.1-24.1-160.4-70.2c-32.3-41-48.9-98.1-49.5-169.6V256v-.2C17 184.3 33.6 127.2 65.9 86.2C102.2 40.1 156.2 16.5 226.4 16h.3c70.3 .5 124.9 24 162.3 69.9c18.4 22.7 32 50 40.6 81.7l-40.4 10.8c-7.1-25.8-17.8-47.8-32.2-65.4c-29.2-35.8-73-54.2-130.5-54.6c-57 .5-100.1 18.8-128.2 54.4C72.1 146.1 58.5 194.3 58 256c.5 61.7 14.1 109.9 40.3 143.3c28 35.6 71.2 53.9 128.2 54.4c51.4-.4 85.4-12.6 113.7-40.9c32.3-32.2 31.7-71.8 21.4-95.9c-6.1-14.2-17.1-26-31.9-34.9c-3.7 26.9-11.8 48.3-24.7 64.8c-17.1 21.8-41.4 33.6-72.7 35.3c-23.6 1.3-46.3-4.4-63.9-16c-20.8-13.8-33-34.8-34.3-59.3c-2.5-48.3 35.7-83 95.2-86.4c21.1-1.2 40.9-.3 59.2 2.8c-2.4-14.8-7.3-26.6-14.6-35.2c-10-11.7-25.6-17.7-46.2-17.8H227c-16.6 0-39 4.6-53.3 26.3l-34.4-23.6c19.2-29.1 50.3-45.1 87.8-45.1h.8c62.6 .4 99.9 39.5 103.7 107.7l-.2 .2zm-156 68.8c1.3 25.1 28.4 36.8 54.6 35.3c25.6-1.4 54.6-11.4 59.5-73.2c-13.2-2.9-27.8-4.4-43.4-4.4c-4.8 0-9.6 .1-14.4 .4c-42.9 2.4-57.2 23.2-56.2 41.8l-.1 .1z"/>
 			</symbol>
+			<symbol aria-hidden="true" data-prefix="fab" data-icon="bluesky" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" id="has-bluesky">
+				<path fill="currentColor" d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z"/>
+			</symbol>
 		</svg>
 		<div id="has-mastodon-prompt" aria-hidden="true" style="display: none">
 			<h3><?php esc_html_e( 'Share on Mastodon', 'highlight-and-share' ); ?></h3>
@@ -914,6 +937,8 @@ class Frontend {
 		$json_arr['show_whatsapp'] = (bool) apply_filters( 'has_show_whatsapp', ( $settings['show_whatsapp'] ?? $settings['show_whats_app'] ) );
 		$json_arr['show_telegram'] = (bool) apply_filters( 'has_show_telegram', $settings['show_telegram'] );
 		$json_arr['show_mastodon'] = (bool) apply_filters( 'has_show_mastodon', $settings['show_mastodon'] );
+		$json_arr['show_threads']  = (bool) apply_filters( 'has_show_threads', $settings['show_threads'] );
+		$json_arr['show_bluesky']  = (bool) apply_filters( 'has_show_bluesky', $settings['show_bluesky'] );
 
 		// Twitter Username.
 		$json_arr['twitter_username'] = trim( sanitize_text_field( apply_filters( 'has_twitter_username', $settings['twitter'] ) ) );
@@ -1075,6 +1100,15 @@ class Frontend {
 		 * @param string Default: Threads
 		 */
 		$json_arr['threads_text'] = apply_filters( 'has_threads_text', _x( 'Threads', 'Threads share text', 'highlight-and-share' ) );
+
+		/**
+		 * Filter: has_bluesky_text
+		 *
+		 * Modify the social network name on the frontend.
+		 *
+		 * @param string Default: Bluesky
+		 */
+		$json_arr['bluesky_text'] = apply_filters( 'has_bluesky_text', _x( 'Bluesky', 'Bluesky share text', 'highlight-and-share' ) );
 
 		/**
 		 * Filter: has_whatsapp_text
