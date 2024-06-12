@@ -196,6 +196,14 @@ class Options {
 				'order'      => 12,
 				'custom'     => false,
 			),
+			'bluesky'  => array(
+				'label'      => __( 'BlueSky', 'highlight-and-share' ),
+				'slug'       => 'bluesky',
+				'color'      => '#1285FE',
+				'background' => '#F2F9FF',
+				'order'      => 14,
+				'custom'     => false,
+			),
 		);
 
 		/**
@@ -378,6 +386,14 @@ class Options {
 					'icon_color'       => '#fff',
 					'icon_color_hover' => '#fff',
 				),
+				'bluesky'  => array(
+					'label'            => __( 'BlueSky', 'highlight-and-share' ),
+					'slug'             => 'bluesky',
+					'background'       => '#F2F9FF',
+					'background_hover' => '#F2F9FF',
+					'icon_color'       => '#1285FE',
+					'icon_color_hover' => '#28323E',
+				),
 			),
 		);
 		return $defaults;
@@ -410,6 +426,7 @@ class Options {
 			'show_webshare'                    => false,
 			'show_mastodon'                    => false,
 			'show_threads'                     => false,
+			'show_bluesky'                     => false,
 			'enable_webshare_inline_highlight' => false,
 			'enable_webshare_click_to_share'   => false,
 			'enable_content'                   => true,
@@ -436,6 +453,8 @@ class Options {
 			'whatsapp_tooltip'                 => __( 'Share on WhatsApp', 'highlight-and-share' ),
 			'threads_label'                    => __( 'Threads', 'highlight-and-share' ),
 			'threads_tooltip'                  => __( 'Share on Threads', 'highlight-and-share' ),
+			'bluesky_label'                    => __( 'BlueSky', 'highlight-and-share' ),
+			'bluesky_tooltip'                  => __( 'Share on BlueSky', 'highlight-and-share' ),
 			'reddit_label'                     => __( 'Reddit', 'highlight-and-share' ),
 			'reddit_tooltip'                   => __( 'Share on Reddit', 'highlight-and-share' ),
 			'telegram_label'                   => __( 'Telegram', 'highlight-and-share' ),
@@ -574,6 +593,7 @@ class Options {
 		$settings['webshare']['enabled'] = (bool) apply_filters( 'has_show_webshare', ( $plugin_options['show_webshare'] ?? false ) );
 		$settings['mastodon']['enabled'] = (bool) apply_filters( 'has_show_mastodon', ( $plugin_options['show_mastodon'] ?? false ) );
 		$settings['threads']['enabled']  = (bool) apply_filters( 'has_show_threads', ( $plugin_options['show_threads'] ?? false ) );
+		$settings['bluesky']['enabled']  = (bool) apply_filters( 'has_show_bluesky', ( $plugin_options['show_bluesky'] ?? false ) );
 
 		// Now sort the arrays based on order.
 		array_multisort( array_column( $settings, 'order' ), SORT_ASC, $settings );

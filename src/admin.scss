@@ -909,6 +909,13 @@ h2.has-admin-content-subheading {
 /* Appearance Social Network Tabs */
 .has-admin-colors-tabs-panel {
 	margin-bottom: 20px;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-gap: 20px;
+
+	@include respond-to('medium') {
+		grid-template-columns: 300px 1fr;
+	}
 
 	.components-tab-panel__tabs,
 	.components-button.components-tab-panel__tabs-item {
@@ -917,16 +924,19 @@ h2.has-admin-content-subheading {
 	}
 
 	.components-tab-panel__tabs {
-		margin-bottom: 20px;
-		flex-wrap: wrap;
-		border-width: 2px 0 0 2px;
+		border-width: 0;
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-gap: 5px;
+
+		@include respond-to('medium') {
+			grid-template-columns: 1fr 1fr;
+		}
 	}
 
 	.components-tab-panel__tabs-item {
 		background: #eee;
-		border-right: 0;
-		flex: 1 0 auto;
-		border-width: 0 2px 2px 0;
+		border-width: 2px;
 		text-align: center;
 		justify-content: center;
 
@@ -942,7 +952,7 @@ h2.has-admin-content-subheading {
 }
 .has-tab-color-picker-wrapper {
 	display: grid;
-	grid-template-columns: 250px 250px;
+	grid-template-columns: 1fr;
 
 	@media (max-width: 500px) {
 		grid-template-columns: 1fr;
