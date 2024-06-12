@@ -38,8 +38,10 @@
 	position: relative;
 
 	div,
-	div:hover {
-		transition: ease-in-out 0.35s;
+	div:hover,
+	a,
+	a:hover {
+		transition: ease-in-out 0.45s;
 		z-index: 1000;
 	}
 	
@@ -412,6 +414,28 @@ body.has-body .highlight-and-share-wrapper:not(.theme-off) a:visited {
 .highlight-and-share-wrapper.theme-brand-colors div.has_webshare {
 	background: #f58f2f;
 }
+.highlight-and-share-wrapper.theme-brand-colors div.has_bluesky {
+	background: #F2F9FF;
+	color: #1285FE;
+
+	&:hover {
+		background: #1285FE;
+		color: #FFF;
+	}
+
+	a {
+		svg {
+			color: #1285FE;
+		}
+		&:hover {
+			color: #FFF;
+			svg {
+				color: #FFF;
+			}
+
+		}
+	}
+}
 .highlight-and-share-wrapper.theme-brand-colors div.has_mastodon:hover {
 	background: #4e46c8;
 }
@@ -518,9 +542,10 @@ div.highlight-and-share-wrapper.theme-white div.has_reddit,
 div.highlight-and-share-wrapper.theme-white div.has_tumblr,
 div.highlight-and-share-wrapper.theme-white div.has_telegram,
 div.highlight-and-share-wrapper.theme-white div.has_signal,
-div.highlight-and-share-wrapper.theme-white div.has_webshare
+div.highlight-and-share-wrapper.theme-white div.has_webshare,
 div.highlight-and-share-wrapper.theme-white div.has_mastodon,
-div.highlight-and-share-wrapper.theme-white div.has_threads {
+div.highlight-and-share-wrapper.theme-white div.has_threads,
+div.highlight-and-share-wrapper.theme-white div.has_bluesky {
 	background: #FFF;
 }
 
@@ -539,9 +564,10 @@ div.highlight-and-share-wrapper.theme-white div.has_reddit:hover,
 div.highlight-and-share-wrapper.theme-white div.has_tumblr:hover,
 div.highlight-and-share-wrapper.theme-white div.has_telegram:hover,
 div.highlight-and-share-wrapper.theme-white div.has_signal:hover,
-div.highlight-and-share-wrapper.theme-white div.has_webshare:hover
+div.highlight-and-share-wrapper.theme-white div.has_webshare:hover,
 div.highlight-and-share-wrapper.theme-white div.has_mastodon:hover,
-div.highlight-and-share-wrapper.theme-white div.has_threads:hover{
+div.highlight-and-share-wrapper.theme-white div.has_threads:hover,
+div.highlight-and-share-wrapper.theme-white div.has_bluesky:hover {
 	background: #EEE;
 }
 
@@ -598,7 +624,8 @@ div.highlight-and-share-wrapper.theme-purple div.has_telegram,
 div.highlight-and-share-wrapper.theme-purple div.has_signal,
 div.highlight-and-share-wrapper.theme-purple div.has_mastodon,
 div.highlight-and-share-wrapper.theme-purple div.has_webshare,
-div.highlight-and-share-wrapper.theme-purple div.has_threads {
+div.highlight-and-share-wrapper.theme-purple div.has_threads,
+div.highlight-and-share-wrapper.theme-purple div.has_bluesky {
 	background: #8364E8;
 }
 
@@ -619,7 +646,8 @@ div.highlight-and-share-wrapper.theme-purple div.has_tumblr:hover,
 div.highlight-and-share-wrapper.theme-purple div.has_telegram:hover,
 div.highlight-and-share-wrapper.theme-purple div.has_signal:hover,
 div.highlight-and-share-wrapper.theme-purple div.has_webshare:hover,
-div.highlight-and-share-wrapper.theme-purple div.has_threads:hover {
+div.highlight-and-share-wrapper.theme-purple div.has_threads:hover,
+div.highlight-and-share-wrapper.theme-purple div.has_bluesky:hover {
 	background: #714EE4;
 }
 
@@ -662,7 +690,8 @@ div.highlight-and-share-wrapper.theme-magenta div.has_tumblr,
 div.highlight-and-share-wrapper.theme-magenta div.has_telegram,
 div.highlight-and-share-wrapper.theme-magenta div.has_signal,
 div.highlight-and-share-wrapper.theme-magenta div.has_webshare,
-div.highlight-and-share-wrapper.theme-magenta div.has_threads {
+div.highlight-and-share-wrapper.theme-magenta div.has_threads,
+div.highlight-and-share-wrapper.theme-magenta div.has_bluesky {
 	background: #FF00FF;
 }
 
@@ -683,7 +712,8 @@ div.highlight-and-share-wrapper.theme-magenta div.has_tumblr:hover,
 div.highlight-and-share-wrapper.theme-magenta div.has_telegram:hover,
 div.highlight-and-share-wrapper.theme-magenta div.has_signal:hover,
 div.highlight-and-share-wrapper.theme-magenta div.has_webshare:hover,
-div.highlight-and-share-wrapper.theme-magenta div.has_threads:hover {
+div.highlight-and-share-wrapper.theme-magenta div.has_threads:hover,
+div.highlight-and-share-wrapper.theme-magenta div.has_bluesky:hover {
 	background: #c700c7;
 }
 
@@ -725,8 +755,8 @@ div.highlight-and-share-wrapper.theme-green div.has_tumblr,
 div.highlight-and-share-wrapper.theme-green div.has_telegram,
 div.highlight-and-share-wrapper.theme-green div.has_signal,
 div.highlight-and-share-wrapper.theme-green div.has_webshare,
-div.highlight-and-share-wrapper.theme-green div.has_threads
- {
+div.highlight-and-share-wrapper.theme-green div.has_threads,
+div.highlight-and-share-wrapper.theme-green div.has_bluesky {
 	background: #03ac27;
 }
 
@@ -747,7 +777,8 @@ div.highlight-and-share-wrapper.theme-green div.has_tumblr:hover,
 div.highlight-and-share-wrapper.theme-green div.has_telegram:hover,
 div.highlight-and-share-wrapper.theme-green div.has_signal:hover,
 div.highlight-and-share-wrapper.theme-green div.has_webshare:hover,
-div.highlight-and-share-wrapper.theme-green div.has_threads:hover {
+div.highlight-and-share-wrapper.theme-green div.has_threads:hover,
+div.highlight-and-share-wrapper.theme-green div.has_bluesky:hover {
 	background: #029a23;
 }
 
@@ -790,8 +821,8 @@ div.highlight-and-share-wrapper.theme-cyan div.has_tumblr,
 div.highlight-and-share-wrapper.theme-cyan div.has_telegram,
 div.highlight-and-share-wrapper.theme-cyan div.has_signal,
 div.highlight-and-share-wrapper.theme-cyan div.has_webshare,
-div.highlight-and-share-wrapper.theme-cyan div.has_threads
- {
+div.highlight-and-share-wrapper.theme-cyan div.has_threads,
+div.highlight-and-share-wrapper.theme-cyan div.has_bluesky {
 	background: #0091b0;
 }
 
@@ -812,7 +843,8 @@ div.highlight-and-share-wrapper.theme-cyan div.has_tumblr:hover,
 div.highlight-and-share-wrapper.theme-cyan div.has_telegram:hover,
 div.highlight-and-share-wrapper.theme-cyan div.has_signal:hover,
 div.highlight-and-share-wrapper.theme-cyan div.has_webshare:hover,
-div.highlight-and-share-wrapper.theme-cyan div.has_threads:hover {
+div.highlight-and-share-wrapper.theme-cyan div.has_threads:hover,
+div.highlight-and-share-wrapper.theme-cyan div.has_bluesky:hover {
 	background: #0287a3;
 }
 
@@ -890,6 +922,28 @@ div.highlight-and-share-wrapper.theme-cyan div.has_threads:hover {
 }
 .highlight-and-share-wrapper.theme-colorful-circles div.has_threads {
 	background: #333;
+}
+.highlight-and-share-wrapper.theme-colorful-circles div.has_bluesky {
+	background: #F2F9FF;
+	color: #1285FE;
+
+	&:hover {
+		background: #1285FE;
+		color: #FFF;
+	}
+
+	a {
+		svg {
+			color: #1285FE;
+		}
+		&:hover {
+			color: #28323E;
+			svg {
+				color: #FFF;
+			}
+
+		}
+	}
 }
 .highlight-and-share-wrapper.theme-colorful-circles span.has-text {
 	display: none;
@@ -1076,6 +1130,29 @@ div.highlight-and-share-wrapper.theme-colorful-circles div {
 .highlight-and-share-wrapper.theme-colorful-glass-circles div.has_threads {
 	background: #000;
 	background: rgba(0,0,0,0.75);
+}
+.highlight-and-share-wrapper.theme-colorful-glass-circles div.has_bluesky {
+	background: #F2F9FF;
+	background: rgba( 255, 255, 255, 0.75 );
+	color: #1285FE;
+
+	&:hover {
+		background: rgba( 18, 133, 254, 0.75 );
+		color: #FFF;
+	}
+
+	a {
+		svg {
+			color: #1285FE;
+		}
+		&:hover {
+			color: #FFF;
+			svg {
+				color: #FFF;
+			}
+
+		}
+	}
 }
 .highlight-and-share-wrapper.theme-colorful-glass-circles span.has-text {
 	display: none;
@@ -1350,8 +1427,8 @@ div.highlight-and-share-wrapper.theme-blue div.has_tumblr,
 div.highlight-and-share-wrapper.theme-blue div.has_telegram,
 div.highlight-and-share-wrapper.theme-blue div.has_signal,
 div.highlight-and-share-wrapper.theme-blue div.has_webshare,
-div.highlight-and-share-wrapper.theme-blue div.has_threads
- {
+div.highlight-and-share-wrapper.theme-blue div.has_threads,
+div.highlight-and-share-wrapper.theme-blue div.has_bluesky {
 	background: #0009c1;
 }
 
@@ -1372,7 +1449,8 @@ div.highlight-and-share-wrapper.theme-blue div.has_tumblr:hover,
 div.highlight-and-share-wrapper.theme-blue div.has_telegram:hover,
 div.highlight-and-share-wrapper.theme-blue div.has_signal:hover,
 div.highlight-and-share-wrapper.theme-blue div.has_webshare:hover,
-div.highlight-and-share-wrapper.theme-blue div.has_threads:hover {
+div.highlight-and-share-wrapper.theme-blue div.has_threads:hover,
+div.highlight-and-share-wrapper.theme-blue div.has_bluesky:hover {
 	background: #0008a4;
 }
 
@@ -1446,7 +1524,8 @@ div.highlight-and-share-wrapper.theme-black div.has_tumblr,
 div.highlight-and-share-wrapper.theme-black div.has_telegram,
 div.highlight-and-share-wrapper.theme-black div.has_signal,
 div.highlight-and-share-wrapper.theme-black div.has_webshare,
-div.highlight-and-share-wrapper.theme-black div.has_threads
+div.highlight-and-share-wrapper.theme-black div.has_threads,
+div.highlight-and-share-wrapper.theme-black div.has_bluesky
  {
 	background: #333;
 }
@@ -1468,7 +1547,8 @@ div.highlight-and-share-wrapper.theme-black div.has_tumblr:hover,
 div.highlight-and-share-wrapper.theme-black div.has_telegram:hover,
 div.highlight-and-share-wrapper.theme-black div.has_signal:hover,
 div.highlight-and-share-wrapper.theme-black div.has_webshare:hover,
-div.highlight-and-share-wrapper.theme-black div.has_threads:hover {
+div.highlight-and-share-wrapper.theme-black div.has_threads:hover,
+div.highlight-and-share-wrapper.theme-black div.has_bluesky:hover {
 	background: #222;
 }
 
