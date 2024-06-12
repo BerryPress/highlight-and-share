@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
 Tested up to: 6.5
-Stable tag: 4.8.1
+Stable tag: 4.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -68,6 +68,7 @@ Highlight and Share <a href="https://docs.dlxplugins.com/v/highlight-and-share/d
 * Threads (allows text sharing)
 * WhatsApp (allows text sharing)
 * Mastodon (allows text sharing)
+* Bluesky (allows text sharing)
 * Reddit
 * Telegram (allows text sharing)
 * LinkedIn
@@ -114,6 +115,13 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 
 == Changelog ==
+
+= 4.9.0 =
+* Released 2024-06-11
+* New social network: Bluesky
+* New feature: Escape key now closes the sharing popoer.
+* Bug fix: Fixing the tabbed color responsive settings when setting custom colors.
+* Bug fix: White theme was not showing the icons properly.
 
 = 4.8.1 =
 * Released 2024-06-11
@@ -528,5 +536,5 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Upgrade Notice ==
 
-= 4.8.1 =
-Resolving the email popover, where it wasn't working.
+= 4.9.0 =
+Social network Bluesky has been added.  The escape key now closes the sharing popover. Fixing admin appearance settings for the custom colors and responsiveness. White theme was not showing the icons properly.
