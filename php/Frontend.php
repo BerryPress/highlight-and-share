@@ -750,7 +750,7 @@ class Frontend {
 							);
 							$email_class = 'has_email_mailto';
 						} else {
-							$ajax_nonce = wp_create_nonce( 'has_share_' . get_permalink( $post_id ) );
+							$ajax_nonce = wp_create_nonce( 'has_share_email' . $post_id );
 							$email_url  = admin_url( 'admin-ajax.php' );
 							$email_url  = add_query_arg(
 								array(

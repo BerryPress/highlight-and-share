@@ -29,8 +29,9 @@ class Emails {
 	 * Display the HTML for the email modal.
 	 */
 	public function ajax_display_has_email_social_modal() {
-		$permalink = get_permalink( absint( filter_input( INPUT_GET, 'post_id', FILTER_VALIDATE_INT ) ) );
-		if ( ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce', FILTER_SANITIZE_SPECIAL_CHARS ), 'has_share_' . $permalink ) ) {
+		$post_id = absint( filter_input( INPUT_GET, 'post_id', FILTER_VALIDATE_INT ) );
+		$permalink = get_permalink( $post_id );
+		if ( ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce', FILTER_SANITIZE_SPECIAL_CHARS ), 'has_share_email' . $post_id ) ) {
 			wp_die( 'Invalid request.' );
 		}
 
