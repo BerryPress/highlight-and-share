@@ -746,7 +746,7 @@ class Frontend {
 									'subject' => __( '[Shared Post]', 'highlight-and-share' ) . ' %title%',
 
 								),
-								'mailto:ronalfy@gmail.com'
+								'mailto:'
 							);
 							$email_class = 'has_email_mailto';
 						} else {
