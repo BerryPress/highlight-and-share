@@ -202,6 +202,7 @@ import { constrainRange } from './selection';
 		document.body.appendChild( hasClone );
 		switch ( type ) {
 			case 'selection':
+			case 'comments':
 				// Position the interface.
 				setHasContainerPositionSelection( hasClone, triggerElement );
 				break;
@@ -1063,6 +1064,49 @@ import { constrainRange } from './selection';
 					'cta',
 					element.closest( '.has-click-to-share' )
 				);
+			} );
+		} );
+	}
+
+	// Get click to share block elements.
+	const commentElements = document.querySelectorAll( '.has-comment-placeholder' );
+	if ( null !== commentElements ) {
+		/**
+		 * Handle touch/click events for select (mouseup) events.
+		 *
+		 * @param {event}   event         The original event.
+		 * @param {element} parentElement The element to retrieve data functions for.
+		 */
+		const hasHandleCommentSelectEvents = ( event, parentElement ) => {
+			// Remove any visible elements.
+			hasRemoveVisibleElements();
+
+			// Get selection.
+			const selection = document.defaultView.getSelection();
+
+			// Get the selected text.
+			const selectedText = selection.toString().trim();
+
+			if ( '' === selectedText ) {
+				return;
+			}
+
+			const element = parentElement.querySelector( '.has-comment-placeholder' );
+
+			const href = element.getAttribute( 'data-comment-url' );
+			const title = element.getAttribute( 'data-title' );
+
+			// Display Highlight and Share.
+			hasDisplay( selectedText, title, href, '', 'comments' );
+		};
+		// Loop through elements and set up mouseup event.
+		commentElements.forEach( ( element ) => {
+			// Check if element has class `has-content-area` and if so, it's flush with the content. Select its parent, and add the event to that.
+			const eventTypes = [ 'selectionchange', 'mouseup', 'touchend', 'touchcancel' ];
+			eventTypes.forEach( ( eventType ) => {
+				element.parentElement.addEventListener( eventType, ( event ) => {
+					hasHandleCommentSelectEvents( event, element.parentElement );
+				} );
 			} );
 		} );
 	}
