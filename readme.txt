@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
 Tested up to: 6.5
-Stable tag: 4.9.1
+Stable tag: 4.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -116,10 +116,11 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Changelog ==
 
-= 4.9.1 =
+= 4.9.2 =
 * Released 2024-06-17
 * Bug fix: hardcoded email address was present in the mailto settings for email.
 * Bug fix: resolving unauthorized message for email modals.
+* Bug fix: Adding URLs to the mailto email body.
 
 = 4.9.0 =
 * Released 2024-06-11
@@ -541,5 +542,5 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Upgrade Notice ==
 
-= 4.9.1 =
-Resolving email issues and unauthorized errors. Fixing hardcoded email address present in mailto settings.
+= 4.9.2 =
+Resolving email issues and unauthorized errors. Fixing hardcoded email address present in mailto settings. Adding URL to email body for mailto setting.

@@ -742,7 +742,7 @@ class Frontend {
 						if ( 'mailto' === $email_options['email_send_type'] ) {
 							$email_url = add_query_arg(
 								array(
-									'body'    => '%prefix%%text%%suffix%',
+									'body'    => '%prefix%%text%%suffix%' . "%0A%0A" . '%url%',
 									'subject' => __( '[Shared Post]', 'highlight-and-share' ) . ' %title%',
 
 								),
