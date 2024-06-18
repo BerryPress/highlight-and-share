@@ -166,6 +166,10 @@ class Frontend {
 		// Load in comments.
 		add_filter( 'comment_text', array( $this, 'add_comment_area_html' ) );
 
+		// Add Pinterest and Web Share to image tags. WP 6.2 and up.
+		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 10, 5 );
+		
+
 		/**
 		 * Filter: has_enable_content
 		 *
@@ -187,6 +191,86 @@ class Frontend {
 		if ( apply_filters( 'has_enable_excerpt', (bool) $settings['enable_excerpt'] ) ) {
 			add_filter( 'the_excerpt', array( $this, 'excerpt_area' ) );
 		}
+	}
+
+	/**
+	 * Add Pinterest/Webshare to image tags where applicable.
+	 *
+	 * @param string $content The content HTML.
+	 */
+	public function add_image_sharing_html( $content ) {
+		// If we're not in the loop, bail.
+		if ( ! in_the_loop() || is_admin() || is_feed() || ( ! is_singular() && ! is_page() ) ) {
+			return $content;
+		}
+
+		// Load for supported post types.
+		$supported_post_types = array( 'post', 'page' );
+		$supported_post_types = apply_filters( 'has_pin_supported_post_types', $supported_post_types );
+		$can_show_on_post     = in_array( get_post_type(), $supported_post_types, true );
+
+		// If we're not on a supported post type, bail.
+		if ( ! $can_show_on_post ) {
+			return $content;
+		}
+
+		// todo - Check for image meta excluding image.
+		$can_show_pinterest = true; // todo - option.
+		$can_show_webshare  = true; // todo - option.
+		$show_on_hover_only = true; // todo - option.
+
+		// Find any images, and then return the content.
+		$new_html = \preg_replace_callback(
+			'/<img([^>]+?)\/?>/',
+			array( $this, 'add_image_sharing_html_callback' ),
+			$content
+		);
+
+		return $new_html;
+	}
+
+	public function add_image_sharing_html_callback( $matches ) {
+		$image_element = $matches[0];
+
+		// If someone has entered a CSS selector or data attribute, we'll skip if we find it in the image HTML.
+		$excluded_image_attrs = array();
+		$excluded_image_attrs = apply_filters( 'has_pin_excluded_image_attrs', $excluded_image_attrs );
+
+		$can_show_pinterest = true; // todo - option.
+		$can_show_webshare  = true; // todo - option.
+		$show_on_hover_only = true; // todo - option.
+
+		// Get wrapper CSS classes.
+		$css_classes = array( 'has-pin-image-wrapper' );
+		if ( $can_show_pinterest ) {
+			$css_classes[] = 'has-pinterest';
+		}
+		if ( $can_show_webshare ) {
+			$css_classes[] = 'has-webshare';
+		}
+		if ( $show_on_hover_only ) {
+			$css_classes[] = 'has-on-hover';
+		}
+		$css_classes[] = 'has-pin-location-top-left';
+		$css_classes = apply_filters( 'has_pin_image_css_classes', $css_classes );
+
+		$svg_html = '<span class="has-pin-sharing-icons">';
+		if ( $can_show_pinterest ) {
+			$svg_html .= '<span class="has-pin-svg-pinterest" aria-hidden="true"><svg class="has-icon"><use xlink:href="#has-pinterest"></use></svg></span>';
+		}
+		if ( $can_show_webshare ) {
+			$svg_html .= '<span class="has-pin-svg-webshare" aria-hidden="true"><svg class="has-icon"><use xlink:href="#has-webshare-icon"></use></svg></span>';
+		}
+		$svg_html .= '</span>';
+
+		$image_element = sprintf(
+			'<span class="%s">%s%s</span>',
+			esc_attr( implode( ' ', $css_classes ) ),
+			$image_element,
+			$svg_html
+		);
+
+		return $image_element;
 	}
 
 	/**
@@ -906,6 +990,9 @@ class Frontend {
 			</symbol>
 			<symbol aria-hidden="true" data-prefix="fab" data-icon="bluesky" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" id="has-bluesky">
 				<path fill="currentColor" d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z"/>
+			</symbol>
+			<symbol aria-hidden="true" data-prefix="fab" data-icon="bluesky" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" id="has-pinterest">
+				<path fill="currentColor" d="M204 6.5C101.4 6.5 0 74.9 0 185.6 0 256 39.6 296 63.6 296c9.9 0 15.6-27.6 15.6-35.4 0-9.3-23.7-29.1-23.7-67.8 0-80.4 61.2-137.4 140.4-137.4 68.1 0 118.5 38.7 118.5 109.8 0 53.1-21.3 152.7-90.3 152.7-24.9 0-46.2-18-46.2-43.8 0-37.8 26.4-74.4 26.4-113.4 0-66.2-93.9-54.2-93.9 25.8 0 16.8 2.1 35.4 9.6 50.7-13.8 59.4-42 147.9-42 209.1 0 18.9 2.7 37.5 4.5 56.4 3.4 3.8 1.7 3.4 6.9 1.5 50.4-69 48.6-82.5 71.4-172.8 12.3 23.4 44.1 36 69.3 36 106.2 0 153.9-103.5 153.9-196.8C384 71.3 298.2 6.5 204 6.5z"/>
 			</symbol>
 		</svg>
 		<div id="has-mastodon-prompt" aria-hidden="true" style="display: none">
