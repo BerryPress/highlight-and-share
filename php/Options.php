@@ -434,6 +434,7 @@ class Options {
 			'enable_hashtags'                  => true,
 			'shortlinks'                       => false,
 			'icons'                            => false,
+			'enable_comments'                  => false,
 			'theme'                            => 'default',
 			'sharing_prefix'                   => '',
 			'sharing_suffix'                   => '',

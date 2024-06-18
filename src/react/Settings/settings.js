@@ -77,6 +77,7 @@ const Interface = ( props ) => {
 			enableMobile: data.values.enableMobile,
 			enableContent: data.values.enableContent,
 			enableExcerpt: data.values.enableExcerpt,
+			enableComments: data.values.enableComments,
 			sharingPrefix: data.values.sharingPrefix,
 			sharingSuffix: data.values.sharingSuffix,
 			showTwitter: data.values.showTwitter,
@@ -281,6 +282,29 @@ const Interface = ( props ) => {
 										} }
 										help={ __(
 											'Enabling this option will show the Highlight and Share buttons when users highlight a post excerpt.',
+											'highlight-and-share'
+										) }
+									/>
+								) }
+							/>
+						</div>
+						<div className="has-admin-component-row">
+							<Controller
+								name="enableComments"
+								control={ control }
+								render={ ( { field: { onChange, value } } ) => (
+									<ToggleControl
+										label={ __(
+											'Enable for the Comments Section',
+											'highlight-and-share'
+										) }
+										className="has-admin__toggle-control"
+										checked={ value }
+										onChange={ ( boolValue ) => {
+											onChange( boolValue );
+										} }
+										help={ __(
+											'Enabling this option will show the Highlight and Share buttons when users highlight text in a comment.',
 											'highlight-and-share'
 										) }
 									/>

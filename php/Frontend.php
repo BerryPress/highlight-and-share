@@ -163,6 +163,9 @@ class Frontend {
 		// Load html.
 		add_action( 'wp_footer', array( $this, 'add_footer_html' ) );
 
+		// Load in comments.
+		add_filter( 'comment_text', array( $this, 'add_comment_area_html' ) );
+
 		/**
 		 * Filter: has_enable_content
 		 *
@@ -184,6 +187,32 @@ class Frontend {
 		if ( apply_filters( 'has_enable_excerpt', (bool) $settings['enable_excerpt'] ) ) {
 			add_filter( 'the_excerpt', array( $this, 'excerpt_area' ) );
 		}
+	}
+
+	/**
+	 * Add Highlight and Share placeholder to comments.
+	 *
+	 * @param string $comment_content Comment content.
+	 *
+	 * @return string Updated comment content.
+	 */
+	public function add_comment_area_html( $comment_content ) {
+		$options             = Options::get_plugin_options();
+		$enable_for_comments = (bool) $options['enable_comments'];
+
+		if ( ! $enable_for_comments ) {
+			return $comment_content;
+		}
+
+		// Create a div with the class and data attributes.
+		$comment_content .= sprintf(
+			'<div class="has-comment-placeholder" data-comment-url="%s" data-title="%s" style="width: 0; height: 0; display: none; overflow: hidden;" aria-hidden="true"></div>',
+			esc_url( get_comment_link() ),
+			esc_attr( get_the_title() ),
+			esc_attr( Hashtags::get_hashtags( get_the_ID() ) )
+		);
+
+		return $comment_content;
 	}
 
 	/**
@@ -702,11 +731,11 @@ class Frontend {
 							$whatsapp_endpoint_url
 						);
 						if ( $whatsapp_can_share_url ) {
-							$html                 .= '<div class="has_whatsapp ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="whatsapp" data-tooltip="' . esc_attr( apply_filters( 'has_whatsapp_tooltip', $settings['whatsapp_tooltip'] ) ) . '"><a href="' . esc_url_raw( $whatsapp_endpoint_url, array( 'whatsapp', 'http', 'https' ) ) . '?text=%prefix%%text%%suffix%: %url%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-whatsapp-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_whatsapp_text', $settings['whatsapp_label'] ) ) . '</span></a></div>';
+							$html .= '<div class="has_whatsapp ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="whatsapp" data-tooltip="' . esc_attr( apply_filters( 'has_whatsapp_tooltip', $settings['whatsapp_tooltip'] ) ) . '"><a href="' . esc_url_raw( $whatsapp_endpoint_url, array( 'whatsapp', 'http', 'https' ) ) . '?text=%prefix%%text%%suffix%: %url%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-whatsapp-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_whatsapp_text', $settings['whatsapp_label'] ) ) . '</span></a></div>';
 						} else {
-							$html                 .= '<div class="has_whatsapp ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="whatsapp" data-tooltip="' . esc_attr( apply_filters( 'has_whatsapp_tooltip', $settings['whatsapp_tooltip'] ) ) . '"><a href="' . esc_url_raw( $whatsapp_endpoint_url, array( 'whatsapp', 'http', 'https' ) ) . '?text=%prefix%%text%%suffix%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-whatsapp-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_whatsapp_text', $settings['whatsapp_label'] ) ) . '</span></a></div>';
+							$html .= '<div class="has_whatsapp ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="whatsapp" data-tooltip="' . esc_attr( apply_filters( 'has_whatsapp_tooltip', $settings['whatsapp_tooltip'] ) ) . '"><a href="' . esc_url_raw( $whatsapp_endpoint_url, array( 'whatsapp', 'http', 'https' ) ) . '?text=%prefix%%text%%suffix%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-whatsapp-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_whatsapp_text', $settings['whatsapp_label'] ) ) . '</span></a></div>';
 						}
-						
+
 						break;
 					case 'copy':
 						$html .= '<div class="has_copy ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="copy" data-tooltip="' . esc_attr( apply_filters( 'has_copy_tooltip', $settings['copy_tooltip'] ) ) . '"><a href="#"><svg class="has-icon" rel="nofollow"><use xlink:href="#has-copy-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_copy_text', $settings['copy_label'] ) ) . '</span></a></div>';
@@ -742,7 +771,7 @@ class Frontend {
 						if ( 'mailto' === $email_options['email_send_type'] ) {
 							$email_url = add_query_arg(
 								array(
-									'body'    => '%prefix%%text%%suffix%' . "%0A%0A" . '%url%',
+									'body'    => '%prefix%%text%%suffix%' . '%0A%0A' . '%url%',
 									'subject' => __( '[Shared Post]', 'highlight-and-share' ) . ' %title%',
 
 								),
