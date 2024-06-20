@@ -22,6 +22,7 @@ module.exports = ( env ) => {
 				'has-admin-settings': [ './src/react/Settings/index.js' ],
 				'has-admin-appearance': [ './src/react/Appearance/index.js' ],
 				'has-admin-block-editor': [ './src/react/BlockEditor/index.js' ],
+				'has-admin-images': [ './src/react/Images/index.js' ],
 				'has-admin-emails': [ './src/react/Emails/index.js' ],
 				'has-admin-support': [ './src/react/Support/index.js' ],
 				'has-email-modal': [ './src/react/EmailModal/index.js', './src/react/EmailModal/style.scss' ],

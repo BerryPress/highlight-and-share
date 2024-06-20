@@ -1584,3 +1584,34 @@ body.has-body .highlight-and-share-wrapper.theme-custom a:visited {
 		margin-bottom: 10px;
 	}
 }
+
+/* Pinterest and Image Sharing */
+.has-pin-image-wrapper {
+	position: relative;
+	display: inline-block;
+
+	&.has-pin-top-left .has-pin-sharing-icons {
+		top: 8px;
+		left: 8px;
+	}
+	&.has-pin-top-right  .has-pin-sharing-icons  {
+		top: 8px;
+		right: 8px;
+	}
+	&.has-pin-bottom-left  .has-pin-sharing-icons  {
+		bottom: 8px;
+		left: 8px;
+	}
+	&.has-pin-bottom-right  .has-pin-sharing-icons  {
+		bottom: 8px;
+		right: 8px;
+	}
+	&.has-pin-center-center .has-pin-sharing-icons  {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}
+.has-pin-sharing-icons {
+	position: absolute;
+}

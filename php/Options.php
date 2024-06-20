@@ -400,6 +400,66 @@ class Options {
 	}
 
 	/**
+	 * Get default options for pinterest/webshare sharing.
+	 */
+	public static function get_image_defaults() {
+		$defaults = array(
+			'enable_image_sharing'         => false,
+			'enable_pinterest_sharing'     => true,
+			'enable_webshare_sharing'      => true,
+			'supported_post_types'         => array( 'post', 'page' ),
+			'location'                     => 'top-left',
+			'show_on_hover'                => true,
+			'pinterest_button_color'       => '#E60023',
+			'pinterest_button_color_hover' => '#BD0011',
+			'pinterest_icon_color'         => '#E60023',
+			'pinterest_icon_color_hover'   => '#BD0011',
+			'pinterest_text_color'         => '#000',
+			'pinterest_text_color_hover'   => '#000',
+			'webshare_icon_color'          => '#000',
+			'webshare_icon_color_hover'    => '#000',
+			'webshare_button_color'        => '#f58f2f',
+			'webshare_button_color_hover'  => '#e17713',
+			'webshare_text_color'          => '#fff',
+			'webshare_text_color_hover'    => '#fff',
+			'button_shape'                 => 'round', /* can be round, square, circular */
+			'show_button_labels'           => true,
+			'pintest_button_label'         => __( 'Pin it', 'highlight-and-share' ),
+			'webshare_button_label'        => __( 'Share', 'highlight-and-share' ),
+			'exclusions'                   => array(),
+		);
+		return $defaults;
+	}
+
+	/**
+	 * Get the image options for Pinterest/Webshare sharing.
+	 *
+	 * @param bool $force Force a refresh of the options.
+	 *
+	 * @return array Image options.
+	 */
+	public static function get_image_options( $force = false ) {
+		if ( false === self::$options_image || $force ) {
+			$settings = get_option( 'highlight-and-share-image-options' );
+		} else {
+			$settings = self::$options_image;
+		}
+
+		$defaults = self::get_image_defaults();
+
+		if ( false === $settings || ! is_array( $settings ) ) {
+			update_option( 'highlight-and-share-image-options', $defaults );
+			return $defaults;
+		}
+
+		// Merge two multi-dimensional arrays (defaults, and from settings).
+		$settings = array_replace_recursive( $defaults, $settings );
+
+		self::$options_image = $settings;
+		return $settings;
+	}
+
+	/**
 	 * Get default options.
 	 */
 	public static function get_defaults() {

@@ -168,7 +168,6 @@ class Frontend {
 
 		// Add Pinterest and Web Share to image tags. WP 6.2 and up.
 		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 10, 5 );
-		
 
 		/**
 		 * Filter: has_enable_content
@@ -229,6 +228,13 @@ class Frontend {
 		return $new_html;
 	}
 
+	/**
+	 * Add Pinterest and Web Share to image tags.
+	 *
+	 * @param array $matches The matches from the preg_replace_callback.
+	 *
+	 * @return string The updated image HTML.
+	 */
 	public function add_image_sharing_html_callback( $matches ) {
 		$image_element = $matches[0];
 
@@ -251,12 +257,12 @@ class Frontend {
 		if ( $show_on_hover_only ) {
 			$css_classes[] = 'has-on-hover';
 		}
-		$css_classes[] = 'has-pin-location-top-left';
+		$css_classes[] = 'has-pin-center-center';
 		$css_classes = apply_filters( 'has_pin_image_css_classes', $css_classes );
 
 		$svg_html = '<span class="has-pin-sharing-icons">';
 		if ( $can_show_pinterest ) {
-			$svg_html .= '<span class="has-pin-svg-pinterest" aria-hidden="true"><svg class="has-icon"><use xlink:href="#has-pinterest"></use></svg></span>';
+			$svg_html .= '<span class="has-pin-svg-pinterest" aria-hidden="true"><a href="#"><svg class="has-icon"><use xlink:href="#has-pinterest"></use></svg></a></span>';
 		}
 		if ( $can_show_webshare ) {
 			$svg_html .= '<span class="has-pin-svg-webshare" aria-hidden="true"><svg class="has-icon"><use xlink:href="#has-webshare-icon"></use></svg></span>';
