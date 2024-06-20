@@ -429,6 +429,15 @@ h2.has-admin-content-subheading {
 			font-size: 14px;
 		}
 	}
+	label.components-checkbox-control__label {
+		display: inline-block;
+	}
+	.components-checkbox-control {
+		margin-bottom: 12px;
+	}
+	.components-input-control__container {
+		max-width: 550px !important;
+	}
 	.has-admin-component-row-button {
 		margin-top: 15px;
 		margin-bottom: 12px;
@@ -1122,4 +1131,13 @@ h3.has-icon-heading {
 		padding: 15px 10px;
 		height: auto;
 	}
+}
+
+/* Pinterest preview on images tab */
+.has-admin-pinterest-preview {
+	position: relative;
+	width: 225px;
+	height: 175px;
+	background: #f0f0f1;
+	border: 1px solid #c3c4c7;
 }

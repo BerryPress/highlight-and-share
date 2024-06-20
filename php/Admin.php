@@ -245,13 +245,13 @@ class Admin {
 	 * Retrieve images settings in the imagess tab.
 	 */
 	public function ajax_retrieve_images_options() {
-		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce', FILTER_DEFAULT ), 'has_retrieve_images_settings' ) || ! current_user_can( 'manage_options' ) ) {
+		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce', FILTER_DEFAULT ), 'has_retrieve_images' ) || ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Security check failed', 'highlight-and-share' ) ) );
 		}
 
 		// Get saved options.
 		$options = Options::get_image_options( true );
-		$return = $this->map_defaults_to_js(
+		$return  = $this->map_defaults_to_js(
 			stripslashes_deep( $options ),
 		);
 		wp_send_json_success( $return );
@@ -780,6 +780,32 @@ class Admin {
 					$deps['version'],
 					true
 				);
+
+				// Get public post types.
+				$post_types          = get_post_types(
+					array(
+						'public' => true,
+					),
+					'objects'
+				);
+				$excluded_post_types = array( 'attachment', 'revision', 'nav_menu_item' );
+				$post_types          = array_filter(
+					$post_types,
+					function ( $post_type ) use ( $excluded_post_types ) {
+						return ! in_array( $post_type->name, $excluded_post_types, true );
+					}
+				);
+
+				// Format post types into label|value pairs.
+				$post_types = array_map(
+					function ( $post_type ) {
+						return array(
+							'label' => $post_type->label,
+							'value' => $post_type->name,
+						);
+					},
+					$post_types
+				);
 				wp_localize_script(
 					'has-images-admin-js',
 					'hasImagesAdmin',
@@ -787,6 +813,8 @@ class Admin {
 						'saveNonce'     => wp_create_nonce( 'has_save_images' ),
 						'retrieveNonce' => wp_create_nonce( 'has_retrieve_images' ),
 						'resetNonce'    => wp_create_nonce( 'has_reset_images' ),
+						'postTypes'     => $post_types,
+						'defaultColors' => Themes::get_default_theme_colors(),
 					)
 				);
 			}

@@ -9,7 +9,12 @@ import {
 	TextControl,
 	Button,
 	ToggleControl,
+	CheckboxControl,
+	BaseControl,
+	SelectControl,
 } from '@wordpress/components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPinterest } from '@fortawesome/free-brands-svg-icons';
 import ErrorBoundary from '../Components/ErrorBoundary';
 import Notice from '../Components/Notice';
 import CircularInfoIcon from '../Components/Icons/CircularInfo';
@@ -19,6 +24,19 @@ import sendCommand from '../Utils/SendCommand';
 import Loader from '../Components/Loader';
 import HASColorPicker from '../Components/ColorPicker';
 
+const selectLocations = [
+	{ value: 'top-left', label: __( 'Top Left', 'highlight-and-share' ) },
+	{ value: 'top-right', label: __( 'Top Right', 'highlight-and-share' ) },
+	{ value: 'bottom-left', label: __( 'Bottom Left', 'highlight-and-share' ) },
+	{ value: 'bottom-right', label: __( 'Bottom Right', 'highlight-and-share' ) },
+	{ value: 'center-center', label: __( 'Center', 'highlight-and-share' ) },
+];
+const selectButtonAppearance = [
+	{ value: 'square', label: __( 'Square', 'highlight-and-share' ) },
+	{ value: 'round', label: __( 'Rounded', 'highlight-and-share' ) },
+	{ value: 'circle', label: __( 'Circle', 'highlight-and-share' ) },
+];
+const defaultColors = hasImagesAdmin.defaultColors;
 const retrieveDefaults = () => {
 	return sendCommand( 'has_retrieve_images_options', {
 		nonce: hasImagesAdmin.retrieveNonce,
@@ -61,6 +79,30 @@ const Images = ( props ) => {
 	);
 };
 
+const Preview = ( props ) => {
+	const {
+		formValues,
+	} = props;
+
+	return (
+		<div className="has-admin-pinterest-preview">
+			<div className="has-pin-sharing-icons">
+				<span className="has-pin-svg-pinterest">
+					<FontAwesomeIcon icon={ faPinterest } />
+					{
+						formValues.showButtonLabels && (
+							<span className="has-icon-label">
+								{ formValues.pinterestButtonLabel }
+							</span>
+						)
+					}
+				</span>
+				<span className="has-pin-svg-webshare"></span>
+			</div>
+		</div>
+	)
+};
+
 const Interface = ( props ) => {
 	// Get retrieved data.
 	const { defaults } = props;
@@ -77,7 +119,7 @@ const Interface = ( props ) => {
 		return {
 			enableImageSharing: data.enableImageSharing,
 			enablePinterestSharing: data.enablePinterestSharing,
-			enableWebShareSharing: data.enableWebShareSharing,
+			enableWebshareSharing: data.enableWebshareSharing,
 			supportedPostTypes: data.supportedPostTypes,
 			location: data.location,
 			showOnHover: data.showOnHover,
@@ -87,19 +129,20 @@ const Interface = ( props ) => {
 			pinterestIconColorHover: data.pinterestIconColorHover,
 			pinterestTextColor: data.pinterestTextColor,
 			pinterestTextColorHover: data.pinterestTextColorHover,
-			webShareIconColor: data.webShareIconColor,
-			webShareIconColorHover: data.webShareIconColorHover,
-			webShareButtonColor: data.webShareButtonColor,
-			webShareButtonColorHover: data.webShareButtonColorHover,
-			webShareTextColor: data.webShareTextColor,
-			webShareTextColorHover: data.webShareTextColorHover,
+			webshareIconColor: data.webshareIconColor,
+			webshareIconColorHover: data.webshareIconColorHover,
+			webshareButtonColor: data.webshareButtonColor,
+			webshareButtonColorHover: data.webshareButtonColorHover,
+			webshareTextColor: data.webshareTextColor,
+			webshareTextColorHover: data.webshareTextColorHover,
 			buttonShape: data.buttonShape,
 			showButtonLabels: data.showButtonLabels,
 			pinterestButtonLabel: data.pinterestButtonLabel,
-			webShareButtonLabel: data.webShareButtonLabel,
+			webshareButtonLabel: data.webshareButtonLabel,
 			exclusions: data.exclusions,
 		};
 	};
+	console.log( data );
 	const {
 		register,
 		control,
@@ -198,7 +241,7 @@ const Interface = ( props ) => {
 								<h2 className="has-admin-content-subheading">
 									{ __( 'Image Sharing', 'highlight-and-share' ) }
 								</h2>
-								<p className="description">{ __( 'Set block editor options.', 'highlight-and-share' ) }</p>
+								<p className="description">{ __( 'Set image sharing options.', 'highlight-and-share' ) }</p>
 								<div className="has-admin-component-row">
 									<Controller
 										name="enableImageSharing"
@@ -222,22 +265,299 @@ const Interface = ( props ) => {
 										) }
 									/>
 								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="enablePinterestSharing"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<ToggleControl
+												label={ __(
+													'Enable Pinterest Sharing',
+													'highlight-and-share'
+												) }
+												className="has-admin__toggle-control"
+												checked={ value }
+												onChange={ ( boolValue ) => {
+													onChange( boolValue );
+												} }
+												help={ __(
+													'Enable or disable Pinterest sharing on images.',
+													'highlight-and-share'
+												) }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="enableWebshareSharing"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<ToggleControl
+												label={ __(
+													'Enable Web Share Sharing (Mobile Only)',
+													'highlight-and-share'
+												) }
+												className="has-admin__toggle-control"
+												checked={ value }
+												onChange={ ( boolValue ) => {
+													onChange( boolValue );
+												} }
+												help={ __(
+													'Enable or disable the Web Share API sharing on mobile devices.',
+													'highlight-and-share'
+												) }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<BaseControl
+										id="supportedPostTypes"
+										label={ __( 'Supported Post Types', 'highlight-and-share' ) }
+										help={ __(
+											'Select the post types where image sharing will be enabled.',
+											'highlight-and-share'
+										) }
+									>
+										{
+											Object.values( hasImagesAdmin.postTypes ).map( ( postType ) => (
+												<Controller
+													key={ postType.value }
+													name={ `supportedPostTypes[${ postType.value }]` }
+													control={ control }
+													render={ ( { field: { onChange, value } } ) => (
+														<CheckboxControl
+															label={ postType.label }
+															checked={ value }
+															value={ postType.value }
+															onChange={ ( newValue ) => {
+																onChange( newValue );
+															} }
+														/>
+													) }
+												/>
+											) )
+										}
+									</BaseControl>
+								</div>
 							</div>
 							<div className="has-admin-content-body">
 								<h2 className="has-admin-content-subheading">
-									{ __( 'Inline Highlighting Settings', 'highlight-and-share' ) }
+									{ __( 'Sharing Appearance', 'highlight-and-share' ) }
 								</h2>
-								<p className="description">{ __( 'Set inline highlighting behavior and colors.', 'highlight-and-share' ) }</p>
-								<Notice
-									message={ __(
-										'Inline highlighting is enabled by using the formatting options in the Block Editor or by wrapping the text with the [has-inline-text] CSS class.',
-										'highlight-and-share'
-									) }
-									status="info"
-									politeness="polite"
-									inline={ false }
-									icon={ CircularInfoIcon }
-								/>
+								<p className="description">{ __( 'Adjust the appearance of the image sharing options below.', 'highlight-and-share' ) }</p>
+								<div className="has-admin-component-row">
+									<Controller
+										name="location"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<SelectControl
+												label={ __( 'Location', 'highlight-and-share' ) }
+												value={ value }
+												options={ selectLocations }
+												onChange={ ( newValue ) => {
+													onChange( newValue );
+												} }
+												help={ __(
+													'Select the location where the sharing buttons will appear on the image.',
+													'highlight-and-share'
+												) }
+												className="has-admin__theme-select"
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="showOnHover"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<ToggleControl
+												label={ __(
+													'Show on Hover',
+													'highlight-and-share'
+												) }
+												className="has-admin__toggle-control"
+												checked={ value }
+												onChange={ ( boolValue ) => {
+													onChange( boolValue );
+												} }
+												help={ __(
+													'Show the sharing buttons on hover over the image.',
+													'highlight-and-share'
+												) }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Preview
+										formValues={ formValues }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="showButtonLabels"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<ToggleControl
+												label={ __(
+													'Show Button Labels',
+													'highlight-and-share'
+												) }
+												className="has-admin__toggle-control"
+												checked={ value }
+												onChange={ ( boolValue ) => {
+													onChange( boolValue );
+												} }
+												help={ __(
+													'Show the button labels on the sharing buttons.',
+													'highlight-and-share'
+												) }
+											/>
+										) }
+									/>
+								</div>
+								{
+									formValues.showButtonLabels && (
+										<>
+											<div className="has-admin-component-row">
+												<Controller
+													name="pinterestButtonLabel"
+													control={ control }
+													render={ ( { field: { onChange, value } } ) => (
+														<TextControl
+															label={ __( 'Pinterest Button Label', 'highlight-and-share' ) }
+															value={ value }
+															onChange={ ( newValue ) => {
+																onChange( newValue );
+															} }
+															className={ classNames( 'has-admin__text-control' ) }
+															help={ __(
+																'Enter the label for the Pinterest sharing button.',
+																'highlight-and-share'
+															) }
+														/>
+													) }
+												/>
+											</div>
+											<div className="has-admin-component-row">
+												<Controller
+													name="webshareButtonLabel"
+													control={ control }
+													render={ ( { field: { onChange, value } } ) => (
+														<TextControl
+															label={ __( 'Web Share Button Label', 'highlight-and-share' ) }
+															value={ value }
+															className={ classNames( 'has-admin__text-control' ) }
+															onChange={ ( newValue ) => {
+																onChange( newValue );
+															} }
+															help={ __(
+																'Enter the label for the Web Share API sharing button.',
+																'highlight-and-share'
+															) }
+														/>
+													) }
+												/>
+											</div>
+										</>
+									)
+								}
+								<div className="has-admin-component-row">
+									<Controller
+										name="buttonShape"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<SelectControl
+												label={ __( 'Button Shape', 'highlight-and-share' ) }
+												value={ value }
+												options={ selectButtonAppearance }
+												onChange={ ( newValue ) => {
+													onChange( newValue );
+												} }
+												help={ __(
+													'Select the shape of the sharing buttons.',
+													'highlight-and-share'
+												) }
+												className="has-admin__theme-select"
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="pinterestButtonColor"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Pinterest Button Color', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#E7011D' }
+												slug={ 'pinterest_button_background_color' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="pinterestButtonColorHover"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Pinterest Button Color Hover', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#BE0319' }
+												slug={ 'pinterest_button_background_color_hover' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="pinterestIconColor"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Pinterest Icon and Text Color', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#FFFFFF' }
+												slug={ 'pinterest_icon_color' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="pinterestIconColorHover"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Pinterest Icon and Text Color Hover', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#FFFFFF' }
+												slug={ 'pinterest_icon_color_hover' }
+											/>
+										) }
+									/>
+								</div>
 							</div>
 						</div>
 						<div className="has-admin__tabs--content-actions">
