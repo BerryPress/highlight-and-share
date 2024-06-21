@@ -202,9 +202,14 @@ class Frontend {
 		if ( ! in_the_loop() || is_admin() || is_feed() || ( ! is_singular() && ! is_page() ) ) {
 			return $content;
 		}
+		$options    = Options::get_image_options();
+		
+		// If image sharing is not enabled, exit early.
+		if ( ! (bool) $options['enable_image_sharing'] ) {
+			return $content;
+		}
 
 		// Load for supported post types.
-		$options    = Options::get_image_options();
 		$post_types = $options['supported_post_types'];
 		// Get enabled post types.
 		$supported_post_types = array();

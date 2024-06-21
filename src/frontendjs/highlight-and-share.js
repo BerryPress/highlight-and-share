@@ -1155,10 +1155,20 @@ import { constrainRange } from './selection';
 
 				// Find the image element, grab the URL.
 				const image = parent.querySelector( 'img' );
-				const url = image.getAttribute( 'src' );
+				let url = image.getAttribute( 'src' );
 				const dataPinUrl = image.getAttribute( 'data-pin-url' );
-				const description = image.getAttribute( 'alt' );
+				let description = image.getAttribute( 'alt' );
 				const dataPinDescription = image.getAttribute( 'data-pin-description' );
+
+				// Try to get parent anchor and determine if it's an image URL. If so, use that.
+				const maybeParentAnchor = image.closest( 'a' );
+				if ( null !== maybeParentAnchor ) {
+					const maybeParentAnchorUrl = maybeParentAnchor.getAttribute( 'href' );
+					if ( maybeParentAnchorUrl.match( /\.(jpeg|jpg|gif|png)$/i ) ) {
+						url = maybeParentAnchorUrl;
+						description = maybeParentAnchor.getAttribute( 'title' ) ?? description;
+					}
+				}
 
 				// Set dataLayer event for GTM.
 				if ( 'undefined' !== typeof dataLayer ) {
