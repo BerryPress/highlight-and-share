@@ -169,6 +169,9 @@ class Frontend {
 		// Add Pinterest and Web Share to image tags. WP 6.2 and up.
 		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 5, 5 );
 
+		// For the Click to Share Shortcode.
+		add_shortcode( 'has_click_to_share', array( $this, 'output_shortcode' ) );
+
 		/**
 		 * Filter: has_enable_content
 		 *
@@ -193,6 +196,100 @@ class Frontend {
 	}
 
 	/**
+	 * Output the Click to Share Shortcode.
+	 *
+	 * @param array  $atts    Shortcode attributes.
+	 * @param string $content Shortcode content.
+	 *
+	 * @return string Shortcode output.
+	 */
+	public function output_shortcode( $atts, $content ) {
+		$shortcode_defaults = array(
+			'unique_id'              => 'has-' . uniqid(),
+			'theme'                  => 'default',
+			'align'                  => 'center',
+			'margin'                 => '0px',
+			'show_click_to_share'    => 'true',
+			'show_icon'              => 'true',
+			'icon_size'              => 'medium', /* can be small|medium|large */
+			'custom_share_text'      => '',
+			'background_color'       => '#FFFFFF',
+			'background_color_hover' => '#FFFFFF',
+			'icon'                   => '',
+			'icon_color'             => '#000000',
+			'icon_color_hover'       => '#000000',
+			'text_color'             => '#000000',
+			'text_color_hover'       => '#000000',
+			'share_text_color'       => '#000000',
+			'share_text_color_hover' => '#000000',
+			'font_size'              => 'medium', /* can be small|medium|large */
+			'click_share_font_size'  => 'medium', /* can be small|medium|large */
+			'click_text'             => 'Click to Share',
+			'padding'                => '20px 25px',
+			'border'                 => '0',
+			'border_hover'           => '0',
+			'border_radius'          => '10px',
+			'max_width'              => '720px',
+		);
+
+		// Parse attributes.
+		$attributes = shortcode_atts( $shortcode_defaults, $atts );
+
+		// Get click to share text.
+		$share_content        = $content;
+		$custom_share_content = $attributes['custom_share_text'];
+
+		// Let's format the share content.
+		$share_content        = wp_kses_post( $content );
+		$custom_share_content = sanitize_text_field( \wp_strip_all_tags( $custom_share_content ) );
+
+		// Let's get container classes.
+		$container_classes = array(
+			'has-click-to-share',
+			'has-click-to-share-theme-' . $attributes['theme'],
+			'has-click-to-share-align-' . $attributes['align'],
+			'has-click-to-share-icon-size-' . $attributes['icon_size'],
+			'has-click-to-share-font-size-' . $attributes['font_size'],
+			'has-click-to-share-click-share-font-size-' . $attributes['click_share_font_size'],
+		);
+		ob_start();
+		?>
+		<div class='<?php echo esc_attr( implode( ' ', $container_classes ) ); ?>' id="<?php echo esc_attr( $attributes['uniqueId'] ); ?>">
+			<div class="has-click-to-share-wrapper">
+				<div class="has-click-to-share-text" data-text-full="<?php echo esc_attr( $custom_share_content ); ?>">
+					<?php
+					echo wp_kses_post( $share_content );
+					?>
+				</div>
+				<div class='has-click-to-share-cta'>
+					<?php
+					echo '<span class="has-click-to-share-cta-text">';
+					echo wp_kses_post( $attributes['click_text'] );
+					echo '</span>';
+					if ( (bool) $attributes['show_click_to_share'] && (bool) $attributes['show_icon'] ) {
+						echo '&nbsp;';
+					}
+					$icon = $attributes['icon'];
+					if ( (bool) $attributes['show_icon'] ) {
+						?>
+						<span class="has-click-to-share-cta-svg"><?php echo wp_kses( $attributes['icon'], Functions::get_kses_allowed_html( true ) ); ?></span>
+						<?php
+					}
+					?>
+				</div>
+				<?php
+				global $post;
+				?>
+				<a class="has-click-prompt" href="#" data-title="<?php echo esc_attr( $post->post_title ); ?>" data-url="<?php echo esc_url( get_permalink( $post->ID ) ); ?>">
+				</a>
+			</div>
+		</div>
+		<?php
+		$shortcode_output = ob_get_clean();
+		return $shortcode_output;
+	}
+
+	/**
 	 * Add Pinterest/Webshare to image tags where applicable.
 	 *
 	 * @param string $content The content HTML.
@@ -202,8 +299,8 @@ class Frontend {
 		if ( ! in_the_loop() || is_admin() || is_feed() || ( ! is_singular() && ! is_page() ) ) {
 			return $content;
 		}
-		$options    = Options::get_image_options();
-		
+		$options = Options::get_image_options();
+
 		// If image sharing is not enabled, exit early.
 		if ( ! (bool) $options['enable_image_sharing'] ) {
 			return $content;
@@ -228,7 +325,7 @@ class Frontend {
 
 		$dom = new \DOMDocument( '1.0', 'UTF-8' );
 		try {
-			@ $dom->loadHTML('<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 		} catch ( \Exception $e ) {
 			return $content;
 		}
@@ -1419,9 +1516,8 @@ class Frontend {
 		}
 
 		// Get the webshare settings.
-		$image_sharing_options = Options::get_image_options();
+		$image_sharing_options                  = Options::get_image_options();
 		$json_arr['enable_webshare_image_only'] = (bool) $image_sharing_options['webshare_share_image_only'];
-
 
 		// Localize.
 		wp_localize_script( 'highlight-and-share', 'highlight_and_share', $json_arr );
