@@ -1068,7 +1068,7 @@ import { constrainRange } from './selection';
 		} );
 	}
 
-	// Get click to share block elements.
+	// Get click to share comment elements.
 	const commentElements = document.querySelectorAll( '.has-comment-placeholder' );
 	if ( null !== commentElements ) {
 		/**

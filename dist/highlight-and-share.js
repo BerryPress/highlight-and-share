@@ -1147,7 +1147,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     });
   }
 
-  // Get click to share block elements.
+  // Get click to share comment elements.
   var commentElements = document.querySelectorAll('.has-comment-placeholder');
   if (null !== commentElements) {
     /**
