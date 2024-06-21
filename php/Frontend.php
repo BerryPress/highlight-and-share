@@ -169,6 +169,9 @@ class Frontend {
 		// Add Pinterest and Web Share to image tags. WP 6.2 and up.
 		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 5, 5 );
 
+		// For the Click to Share Shortcode.
+		add_shortcode( 'has_click_to_share', array( $this, 'output_shortcode' ) );
+
 		/**
 		 * Filter: has_enable_content
 		 *
@@ -193,6 +196,269 @@ class Frontend {
 	}
 
 	/**
+	 * Output the Click to Share Shortcode.
+	 *
+	 * @param array  $atts    Shortcode attributes.
+	 * @param string $content Shortcode content.
+	 *
+	 * @return string Shortcode output.
+	 */
+	public function output_shortcode( $atts, $content ) {
+		$shortcode_defaults = array(
+			'unique_id'                => 'has-' . uniqid(),
+			'theme'                    => 'default',
+			'align'                    => 'center',
+			'margin'                   => '0px',
+			'show_click_to_share'      => 'true',
+			'show_click_to_share_text' => 'true',
+			'show_icon'                => 'true',
+			'icon_size'                => 'medium', /* can be small|medium|large */
+			'custom_share_text'        => '',
+			'background_color'         => '',
+			'background_color_hover'   => '',
+			'icon'                     => 'has-share-1',
+			'icon_color'               => '',
+			'icon_color_hover'         => '',
+			'text_color'               => '',
+			'text_color_hover'         => '',
+			'share_text_color'         => '',
+			'share_text_color_hover'   => '',
+			'font_family'              => 'Lato', /* can be: Josefin Sans, Karla, Lato, Montserrat, Open Sans,Playfair Display, Raleway, Roboto, Source Sans Pro. */
+			'font_size'                => 'medium', /* can be small|medium|large */
+			'click_share_font_size'    => 'medium', /* can be small|medium|large */
+			'click_text'               => 'Click to Share',
+			'padding'                  => '',
+			'border'                   => '',
+			'border_hover'             => '',
+			'border_radius'            => '',
+			'max_width'                => '',
+		);
+
+		// Parse attributes.
+		$attributes = shortcode_atts( $shortcode_defaults, $atts );
+
+		// Get font slug.
+		$font_slug = sanitize_title( $attributes['font_family'] );
+
+		// If font exists and isn't enqueued, print it.
+		if ( file_exists( Functions::get_plugin_dir( 'dist/has-gfont-' . $font_slug . '.css' ) ) ) {
+			if ( ! wp_style_is( 'has-google-font-' . $font_slug, 'done' ) ) {
+				wp_register_style(
+					'has-google-font-' . $font_slug,
+					esc_url( Functions::get_plugin_url( 'dist/has-gfont-' . $font_slug . '.css' ) ),
+					array(),
+					HIGHLIGHT_AND_SHARE_VERSION,
+					'all'
+				);
+				wp_print_styles( array( 'has-google-font-' . $font_slug ) );
+			}
+		}
+
+		// Get click to share text.
+		$share_content        = $content;
+		$custom_share_content = $attributes['custom_share_text'];
+
+		// Let's format the share content.
+		$share_content        = wp_kses_post( $content );
+		$custom_share_content = sanitize_text_field( \wp_strip_all_tags( $custom_share_content ) );
+
+		// Let's get container classes.
+		$container_classes = array(
+			'has-click-to-share',
+			'has-cts-shortcode',
+			'has-cts-shortcode-theme-' . $attributes['theme'],
+			'has-cts-shortcode-align-' . $attributes['align'],
+			'has-cts-shortcode-icon-size-' . $attributes['icon_size'],
+			'has-cts-shortcode-font-size-' . $attributes['font_size'],
+			'has-cts-shortcode-button-font-size-' . $attributes['click_share_font_size'],
+		);
+
+		// Add custom styling per-shortcode.
+		$css_vars = array();
+		if ( ! empty( $attributes['background_color'] ) ) {
+			$css_vars['--has-cts-background'] = $attributes['background_color'];
+		}
+		if ( ! empty( $attributes['background_color_hover'] ) ) {
+			$css_vars['--has-cts-background-hover'] = $attributes['background_color_hover'];
+		}
+		if ( ! empty( $attributes['icon_color'] ) ) {
+			$css_vars['--has-cts-icon-color'] = $attributes['icon_color'];
+		}
+		if ( ! empty( $attributes['icon_color_hover'] ) ) {
+			$css_vars['--has-cts-icon-color-hover'] = $attributes['icon_color_hover'];
+		}
+		if ( ! empty( $attributes['text_color'] ) ) {
+			$css_vars['--has-cts-text-color'] = $attributes['text_color'];
+		}
+		if ( ! empty( $attributes['text_color_hover'] ) ) {
+			$css_vars['--has-cts-text-color-hover'] = $attributes['text_color_hover'];
+		}
+		if ( ! empty( $attributes['share_text_color'] ) ) {
+			$css_vars['--has-cts-share-text-color'] = $attributes['share_text_color'];
+		}
+		if ( ! empty( $attributes['share_text_color_hover'] ) ) {
+			$css_vars['--has-cts-share-text-color-hover'] = $attributes['share_text_color_hover'];
+		}
+		if ( ! empty( $attributes['padding'] ) ) {
+			$css_vars['--has-cts-padding'] = $attributes['padding'];
+		}
+		if ( ! empty( $attributes['border'] ) ) {
+			$css_vars['--has-cts-border'] = $attributes['border'];
+		}
+		if ( ! empty( $attributes['border_hover'] ) ) {
+			$css_vars['--has-cts-border-hover'] = $attributes['border_hover'];
+		}
+		if ( ! empty( $attributes['border_radius'] ) ) {
+			$css_vars['--has-cts-border-radius'] = $attributes['border_radius'];
+		}
+		if ( ! empty( $attributes['max_width'] ) ) {
+			$css_vars['--has-cts-max-width'] = $attributes['max_width'];
+		}
+		if ( ! empty( $attributes['font_family'] ) ) {
+			$css_vars['--has-cts-font-family'] = $attributes['font_family'];
+		}
+		ob_start();
+		// Print styles if not already done.
+		if ( ! wp_style_is( 'has-shortcode-themes', 'done' ) ) {
+			wp_print_styles( array( 'has-shortcode-themes' ) );
+		}
+
+		// Print custom CSS.
+		if ( ! empty( $css_vars ) ) {
+			?>
+			<style>
+				.has-cts-shortcode#<?php echo esc_attr( $attributes['unique_id'] ); ?> {
+					<?php
+					foreach ( $css_vars as $css_var => $css_value ) {
+						echo $css_var . ': ' . $css_value . ';';
+					}
+					?>
+				}
+			</style>
+			<?php
+		}
+		// Print Footer SVGs.
+		add_action( 'wp_footer', array( $this, 'output_shortcode_footer_svgs' ) );
+		?>
+		<div class='<?php echo esc_attr( implode( ' ', $container_classes ) ); ?>' id="<?php echo esc_attr( $attributes['unique_id'] ); ?>">
+			<div class="has-cts-wrapper">
+				<div class="has-click-to-share-text" data-text-full="<?php echo esc_attr( $custom_share_content ); ?>">
+					<?php
+					echo wp_kses_post( $share_content );
+					?>
+				</div>
+				<?php
+				if ( 'true' === $attributes['show_click_to_share'] ) :
+					?>
+					<div class='has-click-to-share-cta'>
+						<?php
+						if ( 'true' === $attributes['show_click_to_share_text'] ) {
+							echo '<span class="has-click-to-share-cta-text">';
+							echo wp_kses_post( $attributes['click_text'] );
+							echo '</span>';
+							if ( 'true' === $attributes['show_click_to_share'] && 'true' === $attributes['show_icon'] ) {
+								echo '&nbsp;';
+							}
+						}
+						$icon = $attributes['icon'];
+						if ( 'true' === $attributes['show_icon'] ) {
+							?>
+							<span class="has-click-to-share-cta-svg">
+								<?php
+								// Doing switch statement here because of width/height ratio needs to respect viewbox.
+								switch ( $icon ) {
+									case 'has-share-1':
+										?>
+										<svg aria-hidden="true" width="24px" height="26.8px">
+											<use xlink:href="#has-share-1"></use>
+										</svg>
+										<?php
+										break;
+									case 'has-share-2':
+										?>
+										<svg aria-hidden="true" width="24px" height="25.1px">
+											<use xlink:href="#has-share-2"></use>
+										</svg>
+										<?php
+										break;
+									case 'has-share-3':
+										?>
+										<svg aria-hidden="true" width="24px" height="26.9px">
+											<use xlink:href="#has-share-3"></use>
+										</svg>
+										<?php
+										break;
+									case 'has-share-4':
+										?>
+										<svg aria-hidden="true" width="24px" height="13.4px">
+											<use xlink:href="#has-share-4"></use>
+										</svg>
+										<?php
+										break;
+									case 'has-share-5':
+										?>
+										<svg aria-hidden="true" width="24px" height="16.9px">
+											<use xlink:href="#has-share-5"></use>
+										</svg>
+										<?php
+										break;
+									case 'has-share-6':
+										?>
+										<svg aria-hidden="true" width="24px" height="33.4px">
+											<use xlink:href="#has-share-6"></use>
+										</svg>
+										<?php
+										break;
+									case 'has-share-7':
+										?>
+										<svg aria-hidden="true" width="24px" height="24px">
+											<use xlink:href="#has-share-7"></use>
+										</svg>
+										<?php
+										break;
+									case 'has-share-8':
+										?>
+										<svg aria-hidden="true" width="24px" height="22.9px">
+											<use xlink:href="#has-share-8"></use>
+										</svg>
+										<?php
+										break;
+									case 'has-share-9':
+										?>
+										<svg aria-hidden="true" width="24px" height="27.4px">
+											<use xlink:href="#has-share-9"></use>
+										</svg>
+										<?php
+										break;
+									default:
+										?>
+										<svg aria-hidden="true" width="24px" height="26.8px">
+											<use xlink:href="#has-share-1"></use>
+										</svg>
+										<?php
+										break;
+								}
+								?>
+							</span>
+							<?php
+						}
+						?>
+					</div>
+					<?php
+				endif;
+
+				global $post;
+				?>
+				<a class="has-click-prompt" href="#" data-title="<?php echo esc_attr( $post->post_title ); ?>" data-url="<?php echo esc_url( get_permalink( $post->ID ) ); ?>">
+				</a>
+			</div>
+		</div>
+		<?php
+		$shortcode_output = ob_get_clean();
+		return $shortcode_output;
+	}
+
+	/**
 	 * Add Pinterest/Webshare to image tags where applicable.
 	 *
 	 * @param string $content The content HTML.
@@ -202,8 +468,8 @@ class Frontend {
 		if ( ! in_the_loop() || is_admin() || is_feed() || ( ! is_singular() && ! is_page() ) ) {
 			return $content;
 		}
-		$options    = Options::get_image_options();
-		
+		$options = Options::get_image_options();
+
 		// If image sharing is not enabled, exit early.
 		if ( ! (bool) $options['enable_image_sharing'] ) {
 			return $content;
@@ -228,7 +494,7 @@ class Frontend {
 
 		$dom = new \DOMDocument( '1.0', 'UTF-8' );
 		try {
-			@ $dom->loadHTML('<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 		} catch ( \Exception $e ) {
 			return $content;
 		}
@@ -1055,6 +1321,64 @@ class Frontend {
 	}
 
 	/**
+	 * Output Footer SVGs for Highlight and Share shortcode.
+	 */
+	public function output_shortcode_footer_svgs() {
+		?>
+		<svg width="0" height="0" class="hidden" style="display: none;">
+			<symbol id="has-share-1" viewBox="0 0 1664 1857" width="24px" height="26.8px">
+				<path d="M1543.64 385.463c0 146.575-118.828 265.416-265.417 265.416-146.575 0-265.404-118.841-265.404-265.416 0-146.588 118.829-265.417 265.404-265.417 146.589 0 265.417 118.829 265.417 265.417Z" fill="currentColor"/>
+				<path d="M1543.64 385.463c0 146.575-118.828 265.416-265.417 265.416-146.575 0-265.404-118.841-265.404-265.416 0-146.588 118.829-265.417 265.404-265.417 146.589 0 265.417 118.829 265.417 265.417Z" style="fill: none; stroke: currentColor; stroke-width: 107.37px;"/>
+				<path d="M1543.64 1471.24c0 146.589-118.828 265.417-265.417 265.417-146.575 0-265.404-118.828-265.404-265.417 0-146.588 118.829-265.417 265.404-265.417 146.589 0 265.417 118.829 265.417 265.417Z" style="fill: currentColor; fill-rule: nonzero;"/>
+				<path d="M1543.64 1471.24c0 146.589-118.828 265.417-265.417 265.417-146.575 0-265.404-118.828-265.404-265.417 0-146.588 118.829-265.417 265.404-265.417 146.589 0 265.417 118.829 265.417 265.417Z" style="fill: none; stroke: currentColor; stroke-width: 107.37px;"/>
+				<path d="M650.879 988.666c0 146.589-118.828 265.416-265.403 265.416-146.589 0-265.43-118.827-265.43-265.416 0-146.576 118.841-265.416 265.43-265.416 146.575 0 265.403 118.84 265.403 265.416Z" style="fill: currentColor; fill-rule: nonzero;"/>
+				<path d="M650.879 988.666c0 146.589-118.828 265.416-265.403 265.416-146.589 0-265.43-118.827-265.43-265.416 0-146.576 118.841-265.416 265.43-265.416 146.575 0 265.403 118.84 265.403 265.416Z" style="fill: none; stroke: currentColor; stroke-width: 107.37px;"/>
+				<path d="m385.476 988.666 892.747-603.203" style="fill: none; fill-rule: nonzero;"/>
+				<path d="m415.528 1033.16-60.117-88.971 892.76-603.216 60.117 88.971-892.76 603.216Z" style="fill: currentColor; fill-rule: nonzero;"/>
+				<path d="m385.476 988.666 892.747 482.578" style="fill: none; fill-rule: nonzero;"/>
+				<path d="m1252.7 1518.47-892.76-482.578 51.055-94.454 892.76 482.579-51.055 94.453Z" style="fill: currentColor; fill-rule: nonzero;"/>
+			</symbol>
+			<symbol id="has-share-2" viewBox="0 0 1752 1836" width="24px" height="25.1px">
+				<path d="M1603.95 473.058c0 179.909-145.833 325.742-325.729 325.742S952.479 652.967 952.479 473.058c0-179.896 145.846-325.729 325.742-325.729 179.896 0 325.729 145.833 325.729 325.729Z" style="fill: currentColor; fill-rule: nonzero;"/>
+				<path d="M1603.95 473.058c0 179.909-145.833 325.742-325.729 325.742S952.479 652.967 952.479 473.058c0-179.896 145.846-325.729 325.742-325.729 179.896 0 325.729 145.833 325.729 325.729Z" style="fill: none; stroke: currentColor; stroke-width: 131.77px;"/>
+				<path d="M1468.85 1558.85c0 105.272-85.352 190.625-190.625 190.625-105.286 0-190.638-85.353-190.638-190.625 0-105.287 85.352-190.638 190.638-190.638 105.273 0 190.625 85.351 190.625 190.638Z" style="fill: currentColor; fill-rule: nonzero;"/>
+				<path d="M1468.85 1558.85c0 105.272-85.352 190.625-190.625 190.625-105.286 0-190.638-85.353-190.638-190.625 0-105.287 85.352-190.638 190.638-190.638 105.273 0 190.625 85.351 190.625 190.638Z" style="fill: none; stroke: currentColor; stroke-width: 77.12px;"/>
+				<path d="M650.879 1076.27c0 146.589-118.828 265.417-265.416 265.417-146.589 0-265.417-118.828-265.417-265.417 0-146.588 118.828-265.416 265.417-265.416 146.588 0 265.416 118.828 265.416 265.416Z" style="fill: currentColor; fill-rule: nonzero;"/>
+				<path d="M650.879 1076.27c0 146.589-118.828 265.417-265.416 265.417-146.589 0-265.417-118.828-265.417-265.417 0-146.588 118.828-265.416 265.417-265.416 146.588 0 265.416 118.828 265.416 265.416Z" style="fill: none; stroke: currentColor; stroke-width: 107.37px;"/>
+				<path d="m385.463 1076.27 892.76-603.216" style="fill: none; fill-rule: nonzero;"/>
+				<path d="m415.515 1120.77-60.118-88.971 892.761-603.216 60.117 88.972-892.76 603.215Z" style="fill: currentColor; fill-rule: nonzero;"/>
+				<path d="m385.463 1076.27 892.76 482.579" style="fill: none; fill-rule: nonzero;"/>
+				<path d="m1252.69 1606.08-892.76-482.578 51.054-94.453 892.761 482.578-51.055 94.453Z" style="fill: currentColor; fill-rule: nonzero;"/>
+			</symbol>
+			<symbol id="has-share-3" viewBox="0 0 1512 1688" width="24px" height="26.9px">
+				<path d="M1162.8 1005.12c-47.929.677-96.809 10.104-143.815 28.906-112.33 44.936-176.08-.508-273.125-52.617-116.601-62.786-9.739-206.511 61.407-256.38 185.312-129.909 340.091 23.255 512.304-63.607 116.68-58.841 192.331-181.367 192.331-312.07 0-192.617-156.693-349.323-349.297-349.349-106.497-.014-202.773 44.219-266.888 129.792C776.199 289.3 839.858 609.391 530.769 597.489c-127.526-4.908-206.497-74.973-332.864-13.359C78.334 642.425.001 765.42.001 898.818c0 192.578 156.641 349.258 349.193 349.349 100 .039 193.021-72.422 291.211-59.089 213.685 29.024 152.604 247.618 250.885 369.246 65.69 81.301 166.784 129.413 271.276 129.413 192.617 0 349.336-156.719 349.336-349.349.013-213.19-167.669-335.859-349.102-333.268Z" style="fill: currentColor; fill-rule: nonzero;"/>
+			</symbol>
+			<symbol id="has-share-4" viewBox="0 0 1727 958" width="24px" height="13.4px">
+				<path d="m1726.64 476.563-471.836 333.71-205 145.04-3.451 2.499-.95-267.135-27.93-14.14C695.377 515.794 241.731 600.247.003 893.776 136.565 549.388 514.86 328.06 878.089 299.818h.937c26.055-2.201 52.11-3.151 77.852-3.151 10.99 0 22.292.325 33.594.95l53.372 2.513-.312-147.552L1042.894 0l683.75 476.563Z" style="fill: currentColor; fill-rule: nonzero;"/>
+			</symbol>
+			<symbol id="has-share-5" viewBox="0 0 1785 1261" width="24px" height="16.9px" style="fill-rule:evenodd; clip-rule:evenodd; stroke-linejoin:round; stroke-miterlimit:2;">
+				<path d="M1254.75 881.745v68.281c0 93.854-76.445 170.3-170.286 170.3H310.727c-16.315 0-31.992-2.37-47.018-6.654-71.081-20.404-123.268-86.12-123.268-163.646V337.578c0-94.062 76.445-170.508 170.286-170.508h765.352c15.247-1.497 30.924-2.356 46.601-2.578l-.429-135.287c-12.448-1.51-24.909-2.356-37.787-2.356H310.727C139.581 26.849-.002 166.211-.002 337.578v612.448c0 148.399 104.792 272.943 244.166 303.437 7.084 1.719 14.389 3.008 21.902 4.076 14.609 2.149 29.427 3.229 44.661 3.229h773.737c171.146 0 310.729-139.375 310.729-310.742V782.539l-140.443 99.206Z" style="fill: currentColor; fill-rule: nonzero;"/>
+				<path d="m1784.74 402.005-389.544 275.3-140.443 99.206-44.023 31.145-.638-225.273-23.62-11.81C914.819 434.857 626.407 580.026 422.41 827.63c123.906-311.601 387.396-577.448 712.943-577.448 9.453 0 18.906.208 28.346.638l45.104 2.148-.221-31.783-.43-168.568L1207.944 0l576.796 402.005Z" style="fill: currentColor; fill-rule: nonzero;"/>
+			</symbol>
+			<symbol id="has-share-6" viewBox="0 0 1342 1868" width="24px" height="33.4px" style="fill-rule:evenodd; clip-rule:evenodd; stroke-linejoin:round; stroke-miterlimit:2;">
+				<path d="M812.812 633.503v98.776h421.12v1036.37H107.382V732.279H528.28v-98.776H-.001v1233.92h1341.3V633.503h-528.49Z" style="fill: currentColor; fill-rule: nonzero;"/>
+				<path d="m1064.28 423.477-70.43 65.716L718.759 193.06V1261.2H622.34V193.27L347.249 489.195l-70.443-65.716L670.647.002l393.633 423.477Z" style="fill: currentColor; fill-rule: nonzero;"/>
+			</symbol>
+			<symbol id="has-share-7" viewBox="0 0 1342 1342" width="24px" height="24px" style="fill-rule:evenodd; clip-rule:evenodd; stroke-linejoin:round; stroke-miterlimit:2;">
+				<path d="M1233.92 1233.92H107.37V107.37h574.011V0H.001v1341.29h1341.3V658.621h-107.383v575.299Z" style="fill: currentColor; fill-rule: nonzero;"/>
+				<path d="M873.373 0v107.37h284.739L625.104 640.365l75.925 75.924 532.89-532.903v283.242h107.383V0H873.373Z" style="fill: currentColor; fill-rule: nonzero;"/>
+			</symbol>
+			<symbol id="has-share-8" viewBox="0 0 1590 1517" width="24px" height="22.9px" style="fill-rule:evenodd; clip-rule:evenodd; stroke-linejoin:round; stroke-miterlimit:2;">
+				<path d="M953.968 1270.48c3.946 35.847 13.516 71.224 28.698 104.623-122.396 48.593-258.151 53.151-382.812 13.515a361.685 361.685 0 0 1-30.521-10.469c-10.169-3.802-20.039-7.903-29.909-12.604-12.917 24.141-29.466 46.758-49.805 67.11-111.77 111.758-293.828 111.914-405.742 0-111.914-111.914-111.758-293.972 0-405.729 37.2-37.214 82.304-61.954 129.987-74.414 35.221-9.415 71.966-11.836 107.955-7.136 61.498 7.448 120.873 34.622 167.8 81.55 64.232 64.231 91.562 151.393 81.836 235.208a397.793 397.793 0 0 0 30.977 13.659c10.182 4.101 20.351 7.604 30.677 10.937 104.922 32.956 219.27 27.643 320.859-16.25ZM1335.86 912.577c-1.056 10.781-2.735 21.562-4.701 32.044 63.464 6.068 125.572 33.554 174.323 82.305 111.901 111.914 111.901 293.815 0 405.729-111.758 111.758-293.828 111.914-405.743 0-25.364-25.352-44.791-54.206-58.763-84.883-15.495-34.922-23.997-72.279-24.909-109.636l.157-.143c-2.435-76.237 25.507-153.073 83.515-211.067 34.623-34.623 75.925-58.62 119.961-71.68a445.586 445.586 0 0 0 6.836-35.078c0-.3 0-.3.144-.144 1.822-11.236 3.19-22.33 3.802-33.867 11.236-130.286-33.099-264.817-132.865-364.583-12.149-12.148-24.596-23.385-37.656-33.711 21.25-30.677 37.343-64.076 47.825-98.555 23.086 16.706 44.948 35.534 65.756 56.341 119.192 119.206 174.323 278.49 165.208 434.896-.612 10.625-1.667 21.407-2.89 32.032ZM974.619 83.944c72.877 72.89 98.242 175.39 76.224 268.776-8.047 34.765-22.773 68.333-43.88 98.541a290.935 290.935 0 0 1-32.201 38.269c-111.914 111.914-293.815 111.914-405.729 0a291.012 291.012 0 0 1-32.201-38.269c-9.257 5.326-18.059 11.094-26.874 17.474-8.958 5.912-17.618 12.136-26.12 19.128-13.047 10.326-25.651 21.719-37.799 33.867-98.099 98.086-142.591 229.44-133.477 357.904-35.833-2.735-71.979.299-106.901 8.503-11.537-158.529 43.281-321.159 164.453-442.331 20.794-20.808 42.669-39.636 65.742-56.341l.156-.157c9.115-6.679 18.373-13.203 28.086-19.284 9.271-6.223 18.985-11.992 28.854-17.304-22.161-93.542 3.19-196.042 76.081-268.919 111.758-111.758 293.672-111.758 405.586.143Z" style="fill: currentColor; fill-rule: nonzero;"/>
+			</symbol>
+			<symbol id="has-share-9" viewBox="0 0 448 512" width="24px" height="27.4px">
+				<path fill="currentColor" d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"></path>
+			</symbol>
+		</svg>
+		<?php
+	}
+
+	/**
 	 * Retrieve SVGs in the footer for reference.
 	 */
 	private function get_footer_svgs() {
@@ -1168,6 +1492,22 @@ class Frontend {
 		wp_enqueue_script( 'highlight-and-share', $main_script_uri, array(), HIGHLIGHT_AND_SHARE_VERSION, true );
 		if ( function_exists( 'wp_set_script_translations' ) ) {
 			wp_set_script_translations( 'highlight-and-share', 'highlight-and-share' );
+		}
+
+		/**
+		 * Register shortcode style.
+		 */
+		wp_register_style(
+			'has-shortcode-themes',
+			Functions::get_plugin_url( 'dist/has-shortcode-themes.css' ),
+			array(),
+			HIGHLIGHT_AND_SHARE_VERSION,
+			'all'
+		);
+
+		// Enqueue style if shortcode is present.
+		if ( has_shortcode( get_the_content(), 'has_click_to_share' ) ) {
+			wp_enqueue_style( 'has-shortcode-themes' );
 		}
 
 		// Build JSON Objects.
@@ -1419,9 +1759,8 @@ class Frontend {
 		}
 
 		// Get the webshare settings.
-		$image_sharing_options = Options::get_image_options();
+		$image_sharing_options                  = Options::get_image_options();
 		$json_arr['enable_webshare_image_only'] = (bool) $image_sharing_options['webshare_share_image_only'];
-
 
 		// Localize.
 		wp_localize_script( 'highlight-and-share', 'highlight_and_share', $json_arr );

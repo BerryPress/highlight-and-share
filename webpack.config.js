@@ -36,6 +36,7 @@ module.exports = ( env ) => {
 				'has-gfont-raleway': { import: './src/scss/fonts/raleway.scss' },
 				'has-gfont-roboto': { import: './src/scss/fonts/roboto.scss' },
 				'has-gfont-source-sans-pro': { import: './src/scss/fonts/source-sans-pro.scss' },
+				'has-shortcode-themes': { import: './src/shortcode-themes.scss' },
 				'highlight-and-share': [ './src/frontendjs/highlight-and-share.js' ],
 
 			},
