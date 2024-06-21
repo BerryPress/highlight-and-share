@@ -1,6 +1,46 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@fortawesome/free-solid-svg-icons/faShare.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@fortawesome/free-solid-svg-icons/faShare.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var prefix = 'fas';
+var iconName = 'share';
+var width = 512;
+var height = 512;
+var aliases = ["arrow-turn-right","mail-forward"];
+var unicode = 'f064';
+var svgPathData = 'M307 34.8c-11.5 5.1-19 16.6-19 29.2v64H176C78.8 128 0 206.8 0 304C0 417.3 81.5 467.9 100.2 478.1c2.5 1.4 5.3 1.9 8.1 1.9c10.9 0 19.7-8.9 19.7-19.7c0-7.5-4.3-14.4-9.8-19.5C108.8 431.9 96 414.4 96 384c0-53 43-96 96-96h96v64c0 12.6 7.4 24.1 19 29.2s25 3 34.4-5.4l160-144c6.7-6.1 10.6-14.7 10.6-23.8s-3.8-17.7-10.6-23.8l-160-144c-9.4-8.5-22.9-10.6-34.4-5.4z';
+
+exports.definition = {
+  prefix: prefix,
+  iconName: iconName,
+  icon: [
+    width,
+    height,
+    aliases,
+    unicode,
+    svgPathData
+  ]};
+
+exports.faShare = exports.definition;
+exports.prefix = prefix;
+exports.iconName = iconName;
+exports.width = width;
+exports.height = height;
+exports.ligatures = aliases;
+exports.unicode = unicode;
+exports.svgPathData = svgPathData;
+exports.aliases = aliases;
+
+/***/ }),
+
 /***/ "./node_modules/@fortawesome/react-fontawesome/index.es.js":
 /*!*****************************************************************!*\
   !*** ./node_modules/@fortawesome/react-fontawesome/index.es.js ***!
@@ -3143,7 +3183,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var use_async_resource__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! use-async-resource */ "./node_modules/use-async-resource/lib/index.js");
@@ -3154,12 +3194,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
 /* harmony import */ var _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons */ "./node_modules/@fortawesome/free-brands-svg-icons/index.mjs");
+/* harmony import */ var _fortawesome_free_solid_svg_icons_faShare__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons/faShare */ "./node_modules/@fortawesome/free-solid-svg-icons/faShare.js");
 /* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
-/* harmony import */ var _Components_Notice__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Components/Notice */ "./src/react/Components/Notice/index.js");
-/* harmony import */ var _Components_Icons_Spinner__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Components/Icons/Spinner */ "./src/react/Components/Icons/Spinner.js");
+/* harmony import */ var _Components_Notice__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Components/Notice */ "./src/react/Components/Notice/index.js");
+/* harmony import */ var _Components_Icons_Spinner__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Components/Icons/Spinner */ "./src/react/Components/Icons/Spinner.js");
 /* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
 /* harmony import */ var _Components_Loader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Components/Loader */ "./src/react/Components/Loader/index.js");
-/* harmony import */ var _Components_ColorPicker__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Components/ColorPicker */ "./src/react/Components/ColorPicker/index.js");
+/* harmony import */ var _Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Components/ColorPicker */ "./src/react/Components/ColorPicker/index.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -3167,6 +3208,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -3241,19 +3283,41 @@ var Images = function Images(props) {
 };
 var Preview = function Preview(props) {
   var formValues = props.formValues;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "has-admin-pinterest-preview"
+  var classes = classnames__WEBPACK_IMPORTED_MODULE_2___default()('has-pin-sharing-icons', {
+    'has-icon-label': formValues.showButtonLabels,
+    'has-appearance-round': 'round' === formValues.buttonShape,
+    'has-appearance-circle': 'circle' === formValues.buttonShape,
+    'has-appearance-square': 'square' === formValues.buttonShape
+  });
+  var imageWrapperClasses = classnames__WEBPACK_IMPORTED_MODULE_2___default()('has-admin-pinterest-preview', 'has-pin-image-wrapper', {
+    'has-pin-top-left': 'top-left' === formValues.location,
+    'has-pin-top-right': 'top-right' === formValues.location,
+    'has-pin-bottom-left': 'bottom-left' === formValues.location,
+    'has-pin-bottom-right': 'bottom-right' === formValues.location,
+    'has-pin-center-center': 'center-center' === formValues.location,
+    'has-pin-show-on-hover': formValues.showOnHover
+  });
+  var styles = "\n\t\t.has-admin-pinterest-preview .has-pin-svg-pinterest {\n\t\t\t--has-pinterest-button-color: ".concat(formValues.pinterestButtonColor, ";\n\t\t\t--has-pinterest-button-color-hover: ").concat(formValues.pinterestButtonColorHover, ";\n\t\t\t--has-pinterest-icon-color: ").concat(formValues.pinterestIconColor, ";\n\t\t\t--has-pinterest-icon-color-hover: ").concat(formValues.pinterestIconColorHover, ";\n\t\t\t--has-pinterest-text-color: ").concat(formValues.pinterestTextColor, ";\n\t\t\t--has-pinterest-text-color-hover: ").concat(formValues.pinterestTextColorHover, ";\n\t\t}\n\t\t.has-admin-pinterest-preview .has-pin-svg-webshare {\n\t\t\t--has-webshare-icon-color: ").concat(formValues.webshareIconColor, ";\n\t\t\t--has-webshare-icon-color-hover: ").concat(formValues.webshareIconColorHover, ";\n\t\t\t--has-webshare-button-color: ").concat(formValues.webshareButtonColor, ";\n\t\t\t--has-webshare-button-color-hover: ").concat(formValues.webshareButtonColorHover, ";\n\t\t\t--has-webshare-text-color: ").concat(formValues.webshareTextColor, ";\n\t\t\t--has-webshare-text-color-hover: ").concat(formValues.webshareTextColorHover, ";\n\t\t}\n\t");
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.BaseControl, {
+    id: "preview",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Preview', 'highlight-and-share')
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, styles), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: imageWrapperClasses
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "has-pin-sharing-icons"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "has-pin-svg-pinterest"
+    className: classes
+  }, formValues.enablePinterestSharing && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "has-pin-svg-pinterest has-pin-button"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_6__.FontAwesomeIcon, {
     icon: _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_10__.faPinterest
   }), formValues.showButtonLabels && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "has-icon-label"
-  }, formValues.pinterestButtonLabel)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "has-pin-svg-webshare"
-  })));
+  }, formValues.pinterestButtonLabel)), formValues.enableWebshareSharing && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "has-pin-svg-webshare has-pin-button"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_6__.FontAwesomeIcon, {
+    icon: _fortawesome_free_solid_svg_icons_faShare__WEBPACK_IMPORTED_MODULE_11__.faShare
+  }), formValues.showButtonLabels && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "has-icon-label"
+  }, formValues.webshareButtonLabel)))));
 };
 var Interface = function Interface(props) {
   // Get retrieved data.
@@ -3310,7 +3374,7 @@ var Interface = function Interface(props) {
     };
   };
   console.log(data);
-  var _useForm = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_11__.useForm)({
+  var _useForm = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_12__.useForm)({
       defaultValues: getDefaultValues()
     }),
     register = _useForm.register,
@@ -3322,10 +3386,10 @@ var Interface = function Interface(props) {
     trigger = _useForm.trigger,
     setError = _useForm.setError,
     clearErrors = _useForm.clearErrors;
-  var formValues = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_11__.useWatch)({
+  var formValues = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_12__.useWatch)({
     control: control
   });
-  var _useFormState = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_11__.useFormState)({
+  var _useFormState = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_12__.useFormState)({
       control: control
     }),
     errors = _useFormState.errors,
@@ -3357,7 +3421,7 @@ var Interface = function Interface(props) {
   var handleReset = function handleReset(e) {
     setResetting(true);
     (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_7__["default"])('has_reset_images_options', {
-      nonce: hasBlockEditorAdmin.resetNonce
+      nonce: hasImagesAdmin.resetNonce
     }).then(function (ajaxResponse) {
       var ajaxData = ajaxResponse.data.data;
       var ajaxSuccess = ajaxResponse.data.success;
@@ -3400,7 +3464,7 @@ var Interface = function Interface(props) {
     className: "description"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Set image sharing options.', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "enableImageSharing",
     control: control,
     render: function render(_ref) {
@@ -3419,7 +3483,7 @@ var Interface = function Interface(props) {
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "enablePinterestSharing",
     control: control,
     render: function render(_ref2) {
@@ -3438,7 +3502,7 @@ var Interface = function Interface(props) {
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "enableWebshareSharing",
     control: control,
     render: function render(_ref3) {
@@ -3462,7 +3526,7 @@ var Interface = function Interface(props) {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Supported Post Types', 'highlight-and-share'),
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select the post types where image sharing will be enabled.', 'highlight-and-share')
   }, Object.values(hasImagesAdmin.postTypes).map(function (postType) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
       key: postType.value,
       name: "supportedPostTypes[".concat(postType.value, "]"),
       control: control,
@@ -3488,7 +3552,7 @@ var Interface = function Interface(props) {
     className: "description"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Adjust the appearance of the image sharing options below.', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "location",
     control: control,
     render: function render(_ref5) {
@@ -3508,7 +3572,7 @@ var Interface = function Interface(props) {
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "showOnHover",
     control: control,
     render: function render(_ref6) {
@@ -3531,7 +3595,7 @@ var Interface = function Interface(props) {
     formValues: formValues
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "showButtonLabels",
     control: control,
     render: function render(_ref7) {
@@ -3550,7 +3614,7 @@ var Interface = function Interface(props) {
     }
   })), formValues.showButtonLabels && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestButtonLabel",
     control: control,
     render: function render(_ref8) {
@@ -3569,7 +3633,7 @@ var Interface = function Interface(props) {
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "webshareButtonLabel",
     control: control,
     render: function render(_ref9) {
@@ -3588,7 +3652,7 @@ var Interface = function Interface(props) {
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "buttonShape",
     control: control,
     render: function render(_ref10) {
@@ -3608,14 +3672,14 @@ var Interface = function Interface(props) {
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestButtonColor",
     control: control,
     render: function render(_ref11) {
       var _ref11$field = _ref11.field,
         _onChange11 = _ref11$field.onChange,
         value = _ref11$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange11(newValue);
@@ -3628,14 +3692,14 @@ var Interface = function Interface(props) {
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestButtonColorHover",
     control: control,
     render: function render(_ref12) {
       var _ref12$field = _ref12.field,
         _onChange12 = _ref12$field.onChange,
         value = _ref12$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange12(newValue);
@@ -3648,19 +3712,19 @@ var Interface = function Interface(props) {
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestIconColor",
     control: control,
     render: function render(_ref13) {
       var _ref13$field = _ref13.field,
         _onChange13 = _ref13$field.onChange,
         value = _ref13$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange13(newValue);
         },
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Icon and Text Color', 'highlight-and-share'),
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Icon Color', 'highlight-and-share'),
         defaultColors: defaultColors,
         defaultColor: '#FFFFFF',
         slug: 'pinterest_icon_color'
@@ -3668,22 +3732,209 @@ var Interface = function Interface(props) {
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_11__.Controller, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestIconColorHover",
     control: control,
     render: function render(_ref14) {
       var _ref14$field = _ref14.field,
         _onChange14 = _ref14$field.onChange,
         value = _ref14$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange14(newValue);
         },
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Icon and Text Color Hover', 'highlight-and-share'),
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Icon Color Hover', 'highlight-and-share'),
         defaultColors: defaultColors,
         defaultColor: '#FFFFFF',
         slug: 'pinterest_icon_color_hover'
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
+    name: "pinterestTextColor",
+    control: control,
+    render: function render(_ref15) {
+      var _ref15$field = _ref15.field,
+        _onChange15 = _ref15$field.onChange,
+        value = _ref15$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        value: value,
+        onChange: function onChange(slug, newValue) {
+          _onChange15(newValue);
+        },
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Text Color', 'highlight-and-share'),
+        defaultColors: defaultColors,
+        defaultColor: '#FFFFFF',
+        slug: 'pinterest_text_color'
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
+    name: "pinterestTextColorHover",
+    control: control,
+    render: function render(_ref16) {
+      var _ref16$field = _ref16.field,
+        _onChange16 = _ref16$field.onChange,
+        value = _ref16$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        value: value,
+        onChange: function onChange(slug, newValue) {
+          _onChange16(newValue);
+        },
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Text Color Hover', 'highlight-and-share'),
+        defaultColors: defaultColors,
+        defaultColor: '#FFFFFF',
+        slug: 'pinterest_text_color_hover'
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Preview, {
+    formValues: formValues
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
+    name: "webshareIconColor",
+    control: control,
+    render: function render(_ref17) {
+      var _ref17$field = _ref17.field,
+        _onChange17 = _ref17$field.onChange,
+        value = _ref17$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        value: value,
+        onChange: function onChange(slug, newValue) {
+          _onChange17(newValue);
+        },
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Icon Color', 'highlight-and-share'),
+        defaultColors: defaultColors,
+        defaultColor: '#000000',
+        slug: 'webshare_icon_color'
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
+    name: "webshareIconColorHover",
+    control: control,
+    render: function render(_ref18) {
+      var _ref18$field = _ref18.field,
+        _onChange18 = _ref18$field.onChange,
+        value = _ref18$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        value: value,
+        onChange: function onChange(slug, newValue) {
+          _onChange18(newValue);
+        },
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Icon Color Hover', 'highlight-and-share'),
+        defaultColors: defaultColors,
+        defaultColor: '#000000',
+        slug: 'webshare_icon_color_hover'
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
+    name: "webshareButtonColor",
+    control: control,
+    render: function render(_ref19) {
+      var _ref19$field = _ref19.field,
+        _onChange19 = _ref19$field.onChange,
+        value = _ref19$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        value: value,
+        onChange: function onChange(slug, newValue) {
+          _onChange19(newValue);
+        },
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Button Color', 'highlight-and-share'),
+        defaultColors: defaultColors,
+        defaultColor: '#000000',
+        slug: 'webshare_button_color'
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
+    name: "webshareButtonColorHover",
+    control: control,
+    render: function render(_ref20) {
+      var _ref20$field = _ref20.field,
+        _onChange20 = _ref20$field.onChange,
+        value = _ref20$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        value: value,
+        onChange: function onChange(slug, newValue) {
+          _onChange20(newValue);
+        },
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Button Color Hover', 'highlight-and-share'),
+        defaultColors: defaultColors,
+        defaultColor: '#000000',
+        slug: 'webshare_button_color_hover'
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
+    name: "webshareTextColor",
+    control: control,
+    render: function render(_ref21) {
+      var _ref21$field = _ref21.field,
+        _onChange21 = _ref21$field.onChange,
+        value = _ref21$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        value: value,
+        onChange: function onChange(slug, newValue) {
+          _onChange21(newValue);
+        },
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Text Color', 'highlight-and-share'),
+        defaultColors: defaultColors,
+        defaultColor: '#000000',
+        slug: 'webshare_text_color'
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
+    name: "webshareTextColorHover",
+    control: control,
+    render: function render(_ref22) {
+      var _ref22$field = _ref22.field,
+        _onChange22 = _ref22$field.onChange,
+        value = _ref22$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        value: value,
+        onChange: function onChange(slug, newValue) {
+          _onChange22(newValue);
+        },
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Text Color Hover', 'highlight-and-share'),
+        defaultColors: defaultColors,
+        defaultColor: '#000000',
+        slug: 'webshare_text_color_hover'
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Preview, {
+    formValues: formValues
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
+    name: "exclusions",
+    control: control,
+    render: function render(_ref23) {
+      var _ref23$field = _ref23.field,
+        _onChange23 = _ref23$field.onChange,
+        value = _ref23$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Exclusions', 'highlight-and-share'),
+        value: value,
+        onChange: function onChange(newValue) {
+          _onChange23(newValue);
+        },
+        className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('has-admin__text-control'),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter the CSS selectors for the images you want to exclude from image sharing.', 'highlight-and-share')
       });
     }
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -3702,7 +3953,7 @@ var Interface = function Interface(props) {
     }),
     type: "submit",
     text: saving ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Saving…', 'highlight-and-share') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Save Image Sharing Options', 'highlight-and-share'),
-    icon: saving ? _Components_Icons_Spinner__WEBPACK_IMPORTED_MODULE_13__["default"] : false,
+    icon: saving ? _Components_Icons_Spinner__WEBPACK_IMPORTED_MODULE_14__["default"] : false,
     iconSize: "18",
     iconPosition: "right",
     disabled: saving || resetting
@@ -3718,7 +3969,7 @@ var Interface = function Interface(props) {
     }),
     type: "button",
     text: resetting ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Resetting…', 'highlight-and-share') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Reset Image Settings', 'highlight-and-share'),
-    icon: resetting ? _Components_Icons_Spinner__WEBPACK_IMPORTED_MODULE_13__["default"] : false,
+    icon: resetting ? _Components_Icons_Spinner__WEBPACK_IMPORTED_MODULE_14__["default"] : false,
     iconSize: "18",
     iconPosition: "right",
     disabled: saving || resetting,
@@ -3726,15 +3977,15 @@ var Interface = function Interface(props) {
       setResetting(true);
       handleReset(e);
     }
-  }))), hasErrors() && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_14__["default"], {
+  }))), hasErrors() && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_15__["default"], {
     message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('There are form validation errors. Please correct them above.', 'highlight-and-share'),
     status: "error",
     politeness: "polite"
-  }), isSaved && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_14__["default"], {
+  }), isSaved && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_15__["default"], {
     message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Your settings have been saved.', 'highlight-and-share'),
     status: "success",
     politeness: "assertive"
-  }), isReset && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_14__["default"], {
+  }), isReset && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_15__["default"], {
     message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Your settings have been reset to defaults.', 'highlight-and-share'),
     status: "success",
     politeness: "assertive"

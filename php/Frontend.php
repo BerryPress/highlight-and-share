@@ -238,34 +238,71 @@ class Frontend {
 	public function add_image_sharing_html_callback( $matches ) {
 		$image_element = $matches[0];
 
-		// If someone has entered a CSS selector or data attribute, we'll skip if we find it in the image HTML.
-		$excluded_image_attrs = array();
-		$excluded_image_attrs = apply_filters( 'has_pin_excluded_image_attrs', $excluded_image_attrs );
+		$options = Options::get_image_options();
 
-		$can_show_pinterest = true; // todo - option.
-		$can_show_webshare  = true; // todo - option.
-		$show_on_hover_only = true; // todo - option.
+		$can_show_pinterest = (bool) $options['enable_pinterest_sharing'];
+		$can_show_webshare  = (bool) $options['enable_webshare_sharing'];
+		$show_on_hover = (bool) $options['show_on_hover'];
+		$sharing_location = $options['location'];
+		$show_button_labels = (bool) $options['show_button_labels'];
+		$button_shape = $options['button_shape'];
 
-		// Get wrapper CSS classes.
+		// Get image wrapper CSS classes.
 		$css_classes = array( 'has-pin-image-wrapper' );
-		if ( $can_show_pinterest ) {
-			$css_classes[] = 'has-pinterest';
+		if ( 'top-left' === $sharing_location ) {
+			$css_classes[] = 'has-pin-top-left';
 		}
-		if ( $can_show_webshare ) {
-			$css_classes[] = 'has-webshare';
+		if ( 'top-right' === $sharing_location ) {
+			$css_classes[] = 'has-pin-top-right';
 		}
-		if ( $show_on_hover_only ) {
-			$css_classes[] = 'has-on-hover';
+		if ( 'bottom-left' === $sharing_location ) {
+			$css_classes[] = 'has-pin-bottom-left';
 		}
-		$css_classes[] = 'has-pin-center-center';
+		if ( 'bottom-right' === $sharing_location ) {
+			$css_classes[] = 'has-pin-bottom-right';
+		}
+		if ( 'center-center' === $sharing_location ) {
+			$css_classes[] = 'has-pin-center-center';
+		}
+		if ( $show_on_hover ) {
+			$css_classes[] = 'has-pin-show-on-hover';
+		}
 		$css_classes = apply_filters( 'has_pin_image_css_classes', $css_classes );
 
-		$svg_html = '<span class="has-pin-sharing-icons">';
+		// Get SVG wrapper CSS.
+		$sharing_wrapper_css = array( 'has-pin-sharing-icons' );
+		if ( $show_button_labels ) {
+			$sharing_wrapper_css[] = 'has-icon-label';
+		}
+		if ( 'round' === $button_shape ) {
+			$sharing_wrapper_css[] = 'has-appearance-round';
+		}
+		if ( 'square' === $button_shape ) {
+			$sharing_wrapper_css[] = 'has-appearance-square';
+		}
+		if ( 'circle' === $button_shape ) {
+			$sharing_wrapper_css[] = 'has-appearance-circle';
+		}
+
+		$svg_html = sprintf(
+			'<span class="%s">',
+			esc_attr( implode( ' ', $sharing_wrapper_css ) )
+		);
 		if ( $can_show_pinterest ) {
-			$svg_html .= '<span class="has-pin-svg-pinterest" aria-hidden="true"><a href="#"><svg class="has-icon"><use xlink:href="#has-pinterest"></use></svg></a></span>';
+			if ( $show_button_labels ) {
+				$pin_label = $options['pinterest_button_label'];
+				$svg_html .= '<span class="has-pin-svg-pinterest has-pin-button" aria-hidden="true"><svg class="has-icon"><use xlink:href="#has-pinterest"></use></svg><span className="has-icon-label">' . esc_html( $pin_label ) . '</span></span>';
+			} else {
+				$svg_html .= '<span class="has-pin-svg-pinterest has-pin-button" aria-hidden="true"><svg class="has-icon"><use xlink:href="#has-pinterest"></use></svg></span>';
+			}
 		}
 		if ( $can_show_webshare ) {
-			$svg_html .= '<span class="has-pin-svg-webshare" aria-hidden="true"><svg class="has-icon"><use xlink:href="#has-webshare-icon"></use></svg></span>';
+			if ( $show_button_labels ) {
+				$webshare_label = $options['webshare_button_label'];
+				$svg_html .= '<span class="has-pin-svg-webshare has-pin-button" aria-hidden="true"><svg class="has-icon"><use xlink:href="#has-webshare-icon"></use></svg><span className="has-icon-label">' . esc_html( $webshare_label ) . '</span></span>';
+			} else {
+				$svg_html .= '<span class="has-pin-svg-webshare has-pin-button" aria-hidden="true"><svg class="has-icon"><use xlink:href="#has-webshare-icon"></use></svg></span>';
+			}
 		}
 		$svg_html .= '</span>';
 

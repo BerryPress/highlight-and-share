@@ -15,6 +15,7 @@ import {
 } from '@wordpress/components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPinterest } from '@fortawesome/free-brands-svg-icons';
+import { faShare as ShareIcon } from '@fortawesome/free-solid-svg-icons/faShare';
 import ErrorBoundary from '../Components/ErrorBoundary';
 import Notice from '../Components/Notice';
 import CircularInfoIcon from '../Components/Icons/CircularInfo';
@@ -84,23 +85,86 @@ const Preview = ( props ) => {
 		formValues,
 	} = props;
 
+	const classes = classNames(
+		'has-pin-sharing-icons',
+		{
+			'has-icon-label': formValues.showButtonLabels,
+			'has-appearance-round': 'round' === formValues.buttonShape,
+			'has-appearance-circle': 'circle' === formValues.buttonShape,
+			'has-appearance-square': 'square' === formValues.buttonShape,
+		}
+	);
+
+	const imageWrapperClasses = classNames(
+		'has-admin-pinterest-preview',
+		'has-pin-image-wrapper',
+		{
+			'has-pin-top-left': 'top-left' === formValues.location,
+			'has-pin-top-right': 'top-right' === formValues.location,
+			'has-pin-bottom-left': 'bottom-left' === formValues.location,
+			'has-pin-bottom-right': 'bottom-right' === formValues.location,
+			'has-pin-center-center': 'center-center' === formValues.location,
+			'has-pin-show-on-hover': formValues.showOnHover,
+		}
+	);
+
+	const styles = `
+		.has-admin-pinterest-preview .has-pin-svg-pinterest {
+			--has-pinterest-button-color: ${ formValues.pinterestButtonColor };
+			--has-pinterest-button-color-hover: ${ formValues.pinterestButtonColorHover };
+			--has-pinterest-icon-color: ${ formValues.pinterestIconColor };
+			--has-pinterest-icon-color-hover: ${ formValues.pinterestIconColorHover };
+			--has-pinterest-text-color: ${ formValues.pinterestTextColor };
+			--has-pinterest-text-color-hover: ${ formValues.pinterestTextColorHover };
+		}
+		.has-admin-pinterest-preview .has-pin-svg-webshare {
+			--has-webshare-icon-color: ${ formValues.webshareIconColor };
+			--has-webshare-icon-color-hover: ${ formValues.webshareIconColorHover };
+			--has-webshare-button-color: ${ formValues.webshareButtonColor };
+			--has-webshare-button-color-hover: ${ formValues.webshareButtonColorHover };
+			--has-webshare-text-color: ${ formValues.webshareTextColor };
+			--has-webshare-text-color-hover: ${ formValues.webshareTextColorHover };
+		}
+	`;
+
 	return (
-		<div className="has-admin-pinterest-preview">
-			<div className="has-pin-sharing-icons">
-				<span className="has-pin-svg-pinterest">
-					<FontAwesomeIcon icon={ faPinterest } />
+		<BaseControl
+			id="preview"
+			label={ __( 'Preview', 'highlight-and-share' ) }
+		>
+			<style>{ styles }</style>
+			<div className={ imageWrapperClasses }>
+				<div className={ classes }>
+					{ formValues.enablePinterestSharing && (
+						<span className="has-pin-svg-pinterest has-pin-button">
+							<FontAwesomeIcon icon={ faPinterest } />
+							{
+								formValues.showButtonLabels && (
+									<span className="has-icon-label">
+										{ formValues.pinterestButtonLabel }
+									</span>
+								)
+							}
+						</span>
+					) }
 					{
-						formValues.showButtonLabels && (
-							<span className="has-icon-label">
-								{ formValues.pinterestButtonLabel }
+						formValues.enableWebshareSharing && (
+							<span className="has-pin-svg-webshare has-pin-button">
+								<FontAwesomeIcon icon={ ShareIcon } />
+								{
+									formValues.showButtonLabels && (
+										<span className="has-icon-label">
+											{ formValues.webshareButtonLabel }
+										</span>
+									)
+								}
 							</span>
 						)
 					}
-				</span>
-				<span className="has-pin-svg-webshare"></span>
+				</div>
 			</div>
-		</div>
-	)
+		</BaseControl>
+	);
 };
 
 const Interface = ( props ) => {
@@ -192,7 +256,7 @@ const Interface = ( props ) => {
 	const handleReset = ( e ) => {
 		setResetting( true );
 		sendCommand( 'has_reset_images_options', {
-			nonce: hasBlockEditorAdmin.resetNonce,
+			nonce: hasImagesAdmin.resetNonce,
 		} )
 			.then( ( ajaxResponse ) => {
 				const ajaxData = ajaxResponse.data.data;
@@ -532,7 +596,7 @@ const Interface = ( props ) => {
 												onChange={ ( slug, newValue ) => {
 													onChange( newValue );
 												} }
-												label={ __( 'Pinterest Icon and Text Color', 'highlight-and-share' ) }
+												label={ __( 'Pinterest Icon Color', 'highlight-and-share' ) }
 												defaultColors={ defaultColors }
 												defaultColor={ '#FFFFFF' }
 												slug={ 'pinterest_icon_color' }
@@ -550,10 +614,184 @@ const Interface = ( props ) => {
 												onChange={ ( slug, newValue ) => {
 													onChange( newValue );
 												} }
-												label={ __( 'Pinterest Icon and Text Color Hover', 'highlight-and-share' ) }
+												label={ __( 'Pinterest Icon Color Hover', 'highlight-and-share' ) }
 												defaultColors={ defaultColors }
 												defaultColor={ '#FFFFFF' }
 												slug={ 'pinterest_icon_color_hover' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="pinterestTextColor"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Pinterest Text Color', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#FFFFFF' }
+												slug={ 'pinterest_text_color' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="pinterestTextColorHover"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Pinterest Text Color Hover', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#FFFFFF' }
+												slug={ 'pinterest_text_color_hover' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Preview
+										formValues={ formValues }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="webshareIconColor"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Web Share Icon Color', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#000000' }
+												slug={ 'webshare_icon_color' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="webshareIconColorHover"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Web Share Icon Color Hover', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#000000' }
+												slug={ 'webshare_icon_color_hover' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="webshareButtonColor"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Web Share Button Color', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#000000' }
+												slug={ 'webshare_button_color' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="webshareButtonColorHover"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Web Share Button Color Hover', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#000000' }
+												slug={ 'webshare_button_color_hover' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="webshareTextColor"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Web Share Text Color', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#000000' }
+												slug={ 'webshare_text_color' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="webshareTextColorHover"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<HASColorPicker
+												value={ value }
+												onChange={ ( slug, newValue ) => {
+													onChange( newValue );
+												} }
+												label={ __( 'Web Share Text Color Hover', 'highlight-and-share' ) }
+												defaultColors={ defaultColors }
+												defaultColor={ '#000000' }
+												slug={ 'webshare_text_color_hover' }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Preview
+										formValues={ formValues }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="exclusions"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<TextControl
+												label={ __( 'Exclusions', 'highlight-and-share' ) }
+												value={ value }
+												onChange={ ( newValue ) => {
+													onChange( newValue );
+												} }
+												className={ classNames( 'has-admin__text-control' ) }
+												help={ __(
+													'Enter the CSS selectors for the images you want to exclude from image sharing.',
+													'highlight-and-share'
+												) }
 											/>
 										) }
 									/>

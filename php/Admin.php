@@ -207,26 +207,18 @@ class Admin {
 	/**
 	 * Save Highlight and Share settings options (for images).
 	 */
-	public function ajax_save_images_tab() {
-		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce', FILTER_DEFAULT ), 'has_save_email_settings' ) || ! current_user_can( 'manage_options' ) ) {
+	public function ajax_save_images_options() {
+		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce', FILTER_DEFAULT ), 'has_save_images' ) || ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Security check failed', 'highlight-and-share' ) ) );
 		}
 
 		// Existing settings.
-		$existing_settings = Options::get_email_options( true );
-		$form_data         = filter_input( INPUT_POST, 'form_data', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-
-		// Get email body as this needs to be sanitized separately as a text area with newlines.
-		$email_body = $form_data['emailBody'];
-		$email_body = wp_kses_post( $email_body );
+		$existing_settings = Options::get_image_options( true );
+		$form_data         = filter_input( INPUT_POST, 'formData', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 
 		// Sanitize the rest.
 		$form_data = Functions::sanitize_array_recursive( $form_data );
 
-		// Add email body to form data.
-		$form_data['emailBody'] = $email_body;
-
-		// Update settings.
 		$settings = array_replace_recursive( $existing_settings, $form_data );
 
 		// Get into array_key format.
@@ -236,9 +228,9 @@ class Admin {
 		}
 
 		// Update options.
-		update_option( 'highlight-and-share-email-settings', $overrides );
+		update_option( 'highlight-and-share-image-options', $overrides );
 
-		wp_send_json_success( $this->map_defaults_to_js( stripslashes_deep( $overrides ) ) );
+		wp_send_json_success( $form_data );
 	}
 
 	/**
@@ -260,14 +252,14 @@ class Admin {
 	/**
 	 * Reset the admin emails option.
 	 */
-	public function ajax_reset_images_tab() {
-		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce', FILTER_DEFAULT ), 'has_reset_email_settings' ) || ! current_user_can( 'manage_options' ) ) {
+	public function ajax_reset_images_options() {
+		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce', FILTER_DEFAULT ), 'has_reset_images' ) || ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Security check failed', 'highlight-and-share' ) ) );
 		}
 
 		// Get saved options. Then write over it with the defaults (wp_parse_args in reverse).
-		$defaults = Options::get_email_settings_defaults();
-		update_option( 'highlight-and-share-email-settings', $defaults );
+		$defaults = Options::get_image_defaults();
+		update_option( 'highlight-and-share-image-options', $defaults );
 
 		// Send the data home.
 		wp_send_json_success( $this->map_defaults_to_js( stripslashes_deep( $defaults ) ) );

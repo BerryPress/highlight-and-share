@@ -1,6 +1,7 @@
 @import 'breakpoints-mixin.scss';
 @import '../node_modules/@wordpress/components/build-style/style.css';
 @import 'common.scss';
+@import './scss/pinterest.scss';
 @keyframes has-fade-in {
 	from {
 		opacity: 0;
@@ -1136,8 +1137,8 @@ h3.has-icon-heading {
 /* Pinterest preview on images tab */
 .has-admin-pinterest-preview {
 	position: relative;
-	width: 225px;
+	width: 325px;
 	height: 175px;
-	background: #f0f0f1;
+	background: #333333;
 	border: 1px solid #c3c4c7;
 }
