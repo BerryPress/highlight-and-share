@@ -1123,7 +1123,6 @@ import { constrainRange } from './selection';
 	 */
 	if ( 'undefined' !== typeof navigator.share ) {
 		const webshare = document.querySelectorAll( '.has-pin-svg-webshare' );
-		console.log( webshare );
 		if ( null !== webshare ) {
 			webshare.forEach( ( el ) => {
 				el.style.display = 'inline-block';
@@ -1155,17 +1154,25 @@ import { constrainRange } from './selection';
 
 				// Find the image element, grab the URL.
 				const image = parent.querySelector( 'img' );
-				let url = image.getAttribute( 'src' );
+				let imageUrl = image.getAttribute( 'src' );
 				const dataPinUrl = image.getAttribute( 'data-pin-url' );
 				let description = image.getAttribute( 'alt' );
 				const dataPinDescription = image.getAttribute( 'data-pin-description' );
+
+				let pageUrl = window.location.href;
+				// Try to get page URL from has placeholder.
+				const parentElement = document.querySelector( '.has-social-placeholder' );
+				if ( null !== parentElement ) {
+					const { href } = getPageParams( parentElement );
+					pageUrl = href;
+				}
 
 				// Try to get parent anchor and determine if it's an image URL. If so, use that.
 				const maybeParentAnchor = image.closest( 'a' );
 				if ( null !== maybeParentAnchor ) {
 					const maybeParentAnchorUrl = maybeParentAnchor.getAttribute( 'href' );
 					if ( maybeParentAnchorUrl.match( /\.(jpeg|jpg|gif|png)$/i ) ) {
-						url = maybeParentAnchorUrl;
+						imageUrl = maybeParentAnchorUrl;
 						description = maybeParentAnchor.getAttribute( 'title' ) ?? description;
 					}
 				}
@@ -1175,7 +1182,7 @@ import { constrainRange } from './selection';
 					// eslint-disable-next-line no-undef
 					dataLayer.push( {
 						event: 'highlight-and-share',
-						hasSharePostUrl: url,
+						hasSharePostUrl: imageUrl,
 						hasSharePostTitle: description,
 						hasShareType: 'image',
 						hasSocialNetwork: 'pinterest',
@@ -1185,7 +1192,7 @@ import { constrainRange } from './selection';
 				// Open pinterest.
 				window.open(
 					'https://www.pinterest.com/pin/create/button/?url=' +
-						encodeURIComponent( dataPinUrl ?? url ) + '&description=' + encodeURIComponent( dataPinDescription ?? description ),
+						encodeURIComponent( pageUrl ) + '&media=' + encodeURIComponent( dataPinUrl ?? imageUrl ) + '&description=' + encodeURIComponent( dataPinDescription ?? description ),
 					'Highlight and Share',
 					'width=575,height=430,toolbar=false,menubar=false,location=false,status=false'
 				);
@@ -1199,7 +1206,7 @@ import { constrainRange } from './selection';
 	const webshareButton = document.querySelectorAll( '.has-pin-svg-webshare' );
 	if ( null !== webshareButton ) {
 		webshareButton.forEach( ( el ) => {
-			el.addEventListener( 'click', ( event ) => {
+			el.addEventListener( 'click', async( event ) => {
 				event.preventDefault();
 
 				// Get the parent.
@@ -1210,27 +1217,55 @@ import { constrainRange } from './selection';
 
 				// Find the image element, grab the URL.
 				const image = parent.querySelector( 'img' );
-				const url = image.getAttribute( 'src' );
-				const description = image.getAttribute( 'alt' );
+				let imageUrl = image.getAttribute( 'src' );
+				const dataPinUrl = image.getAttribute( 'data-pin-url' );
+				let description = image.getAttribute( 'alt' );
 				const dataPinDescription = image.getAttribute( 'data-pin-description' );
+
+				let pageUrl = window.location.href;
+				// Try to get page URL from has placeholder.
+				const parentElement = document.querySelector( '.has-social-placeholder' );
+				if ( null !== parentElement ) {
+					const { href } = getPageParams( parentElement );
+					pageUrl = href;
+				}
+
+				// Try to get parent anchor and determine if it's an image URL. If so, use that.
+				const maybeParentAnchor = image.closest( 'a' );
+				if ( null !== maybeParentAnchor ) {
+					const maybeParentAnchorUrl = maybeParentAnchor.getAttribute( 'href' );
+					if ( maybeParentAnchorUrl.match( /\.(jpeg|jpg|gif|png)$/i ) ) {
+						imageUrl = maybeParentAnchorUrl;
+						description = maybeParentAnchor.getAttribute( 'title' ) ?? description;
+					}
+				}
 
 				// Set dataLayer event for GTM.
 				if ( 'undefined' !== typeof dataLayer ) {
 					// eslint-disable-next-line no-undef
 					dataLayer.push( {
 						event: 'highlight-and-share',
-						hasSharePostUrl: url,
-						hasSharePostTitle: description,
+						hasSharePostUrl: dataPinUrl ?? pageUrl,
+						hasSharePostTitle: dataPinDescription ?? description,
 						hasShareType: 'image',
 						hasSocialNetwork: 'webshare',
 					} );
 				}
 
+				// Get image extension.
+				const imageExtension = imageUrl.split( '.' ).pop().toLowerCase().split( '?' )[ 0 ];
+
+				// Get file from image element.
+				const imageFile = await fetch( imageUrl )
+					.then( ( response ) => response.blob() )
+					.then( ( blob ) => new File( [ blob ], `image.${ imageExtension }`, { type: 'image/' + imageExtension } ) );
+
 				// Share the image.
 				navigator.share( {
-					title: description,
+					title: dataPinDescription ?? description,
 					text: dataPinDescription ?? description,
-					url,
+					files: [ imageFile ],
+					url: dataPinUrl ?? pageUrl,
 				} );
 			} );
 		} );

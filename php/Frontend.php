@@ -167,7 +167,7 @@ class Frontend {
 		add_filter( 'comment_text', array( $this, 'add_comment_area_html' ) );
 
 		// Add Pinterest and Web Share to image tags. WP 6.2 and up.
-		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 20, 5 );
+		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 5, 5 );
 
 		/**
 		 * Filter: has_enable_content
