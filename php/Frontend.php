@@ -226,9 +226,9 @@ class Frontend {
 			return $content;
 		}
 
-		$dom = new \DOMDocument();
+		$dom = new \DOMDocument( '1.0', 'UTF-8' );
 		try {
-			@ $dom->loadHTML( $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+			@ $dom->loadHTML('<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 		} catch ( \Exception $e ) {
 			return $content;
 		}
@@ -297,7 +297,7 @@ class Frontend {
 			$core_exclusions = apply_filters( 'has_pin_core_exclusions', $core_exclusions );
 			// Get image innerHTML.
 			$image_element  = $dom->saveHTML( $image );
-			$parent_element = $dom->saveHtml( $image->parentNode );
+			$parent_element = $dom->saveHTML( $image->parentNode );
 			foreach ( $core_exclusions as $core_exclusion ) {
 				if ( false !== strpos( $image_element, $core_exclusion ) ) {
 					return $content;
@@ -1417,6 +1417,11 @@ class Frontend {
 			$json_arr['inline_highlight_tooltips_enabled'] = false;
 			$json_arr['inline_highlight_tooltips_text']    = '';
 		}
+
+		// Get the webshare settings.
+		$image_sharing_options = Options::get_image_options();
+		$json_arr['enable_webshare_image_only'] = (bool) $image_sharing_options['webshare_share_image_only'];
+
 
 		// Localize.
 		wp_localize_script( 'highlight-and-share', 'highlight_and_share', $json_arr );

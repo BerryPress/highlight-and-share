@@ -1260,13 +1260,21 @@ import { constrainRange } from './selection';
 					.then( ( response ) => response.blob() )
 					.then( ( blob ) => new File( [ blob ], `image.${ imageExtension }`, { type: 'image/' + imageExtension } ) );
 
-				// Share the image.
-				navigator.share( {
-					title: dataPinDescription ?? description,
-					text: dataPinDescription ?? description,
-					files: [ imageFile ],
-					url: dataPinUrl ?? pageUrl,
-				} );
+				if ( highlight_and_share.enable_webshare_image_only ) {
+					// Share the image.
+					navigator.share( {
+						title: dataPinDescription ?? description,
+						text: dataPinDescription ?? description,
+						files: [ imageFile ],
+					} );
+				} else {
+					navigator.share( {
+						title: dataPinDescription ?? description,
+						text: dataPinDescription ?? description,
+						files: [ imageFile ],
+						url: dataPinUrl ?? pageUrl,
+					} );
+				}
 			} );
 		} );
 	}

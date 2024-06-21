@@ -432,6 +432,7 @@ class Options {
 			'webshare_button_color_hover'  => '#e17713',
 			'webshare_text_color'          => '#FFFFFF',
 			'webshare_text_color_hover'    => '#FFFFFF',
+			'webshare_share_image_only'    => false,
 			'button_shape'                 => 'round', /* can be round, square, circular */
 			'show_button_labels'           => true,
 			'pinterest_button_label'       => __( 'Pin it', 'highlight-and-share' ),

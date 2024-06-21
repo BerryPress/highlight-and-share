@@ -203,6 +203,7 @@ const Interface = ( props ) => {
 			showButtonLabels: data.showButtonLabels,
 			pinterestButtonLabel: data.pinterestButtonLabel,
 			webshareButtonLabel: data.webshareButtonLabel,
+			webshareShareImageOnly: data.webshareShareImageOnly,
 			exclusions: data.exclusions,
 		};
 	};
@@ -375,6 +376,33 @@ const Interface = ( props ) => {
 										) }
 									/>
 								</div>
+								{
+									formValues.enableWebshareSharing && (
+										<div className="has-admin-component-row">
+											<Controller
+												name="webshareShareImageOnly"
+												control={ control }
+												render={ ( { field: { onChange, value } } ) => (
+													<ToggleControl
+														label={ __(
+															'Share Image Only via Web Share',
+															'highlight-and-share'
+														) }
+														className="has-admin__toggle-control"
+														checked={ value }
+														onChange={ ( boolValue ) => {
+															onChange( boolValue );
+														} }
+														help={ __(
+															'By default, the page URL and image file are shared. Enable this to share the image only, which will allow for local copying and saving on mobile devices.',
+															'highlight-and-share'
+														) }
+													/>
+												) }
+											/>
+										</div>
+									)
+								}
 								<div className="has-admin-component-row">
 									<BaseControl
 										id="supportedPostTypes"
