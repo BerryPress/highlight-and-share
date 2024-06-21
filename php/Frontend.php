@@ -494,6 +494,7 @@ class Frontend {
 
 		$dom = new \DOMDocument( '1.0', 'UTF-8' );
 		try {
+			
 			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD ); // phpcs:ignore 
 		} catch ( \Exception $e ) {
 			return $content;
