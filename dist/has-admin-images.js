@@ -3934,7 +3934,7 @@ var Interface = function Interface(props) {
           _onChange23(newValue);
         },
         className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('has-admin__text-control'),
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter the CSS selectors for the images you want to exclude from image sharing.', 'highlight-and-share')
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter comma-separated keywords to exclude certain images.', 'highlight-and-share')
       });
     }
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {

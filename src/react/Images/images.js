@@ -789,7 +789,7 @@ const Interface = ( props ) => {
 												} }
 												className={ classNames( 'has-admin__text-control' ) }
 												help={ __(
-													'Enter the CSS selectors for the images you want to exclude from image sharing.',
+													'Enter comma-separated keywords to exclude certain images.',
 													'highlight-and-share'
 												) }
 											/>
