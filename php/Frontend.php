@@ -205,32 +205,33 @@ class Frontend {
 	 */
 	public function output_shortcode( $atts, $content ) {
 		$shortcode_defaults = array(
-			'unique_id'              => 'has-' . uniqid(),
-			'theme'                  => 'default',
-			'align'                  => 'center',
-			'margin'                 => '0px',
-			'show_click_to_share'    => 'true',
-			'show_icon'              => 'true',
-			'icon_size'              => 'medium', /* can be small|medium|large */
-			'custom_share_text'      => '',
-			'background_color'       => '',
-			'background_color_hover' => '',
-			'icon'                   => 'has-share-1',
-			'icon_color'             => '',
-			'icon_color_hover'       => '',
-			'text_color'             => '',
-			'text_color_hover'       => '',
-			'share_text_color'       => '',
-			'share_text_color_hover' => '',
-			'font_family'            => 'Lato', /* can be: Josefin Sans, Karla, Lato, Montserrat, Open Sans,Playfair Display, Raleway, Roboto, Source Sans Pro. */
-			'font_size'              => 'medium', /* can be small|medium|large */
-			'click_share_font_size'  => 'medium', /* can be small|medium|large */
-			'click_text'             => 'Click to Share',
-			'padding'                => '',
-			'border'                 => '',
-			'border_hover'           => '',
-			'border_radius'          => '',
-			'max_width'              => '',
+			'unique_id'                => 'has-' . uniqid(),
+			'theme'                    => 'default',
+			'align'                    => 'center',
+			'margin'                   => '0px',
+			'show_click_to_share'      => 'true',
+			'show_click_to_share_text' => 'true',
+			'show_icon'                => 'true',
+			'icon_size'                => 'medium', /* can be small|medium|large */
+			'custom_share_text'        => '',
+			'background_color'         => '',
+			'background_color_hover'   => '',
+			'icon'                     => 'has-share-1',
+			'icon_color'               => '',
+			'icon_color_hover'         => '',
+			'text_color'               => '',
+			'text_color_hover'         => '',
+			'share_text_color'         => '',
+			'share_text_color_hover'   => '',
+			'font_family'              => 'Lato', /* can be: Josefin Sans, Karla, Lato, Montserrat, Open Sans,Playfair Display, Raleway, Roboto, Source Sans Pro. */
+			'font_size'                => 'medium', /* can be small|medium|large */
+			'click_share_font_size'    => 'medium', /* can be small|medium|large */
+			'click_text'               => 'Click to Share',
+			'padding'                  => '',
+			'border'                   => '',
+			'border_hover'             => '',
+			'border_radius'            => '',
+			'max_width'                => '',
 		);
 
 		// Parse attributes.
@@ -351,11 +352,13 @@ class Frontend {
 					?>
 					<div class='has-click-to-share-cta'>
 						<?php
-						echo '<span class="has-click-to-share-cta-text">';
-						echo wp_kses_post( $attributes['click_text'] );
-						echo '</span>';
-						if ( 'true' === $attributes['show_click_to_share'] && 'true' === $attributes['show_icon'] ) {
-							echo '&nbsp;';
+						if ( 'true' === $attributes['show_click_to_share_text'] ) {
+							echo '<span class="has-click-to-share-cta-text">';
+							echo wp_kses_post( $attributes['click_text'] );
+							echo '</span>';
+							if ( 'true' === $attributes['show_click_to_share'] && 'true' === $attributes['show_icon'] ) {
+								echo '&nbsp;';
+							}
 						}
 						$icon = $attributes['icon'];
 						if ( 'true' === $attributes['show_icon'] ) {
