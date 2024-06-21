@@ -416,9 +416,9 @@ class Options {
 			'enable_webshare_sharing'      => true,
 			'supported_post_types'         => array(
 				'post' => true,
-				'page' => true,
 			),
 			'location'                     => 'top-left',
+			'exclude_leading_image'        => false,
 			'show_on_hover'                => true,
 			'pinterest_button_color'       => '#E7011D',
 			'pinterest_button_color_hover' => '#BE0319',

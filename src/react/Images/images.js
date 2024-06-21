@@ -184,6 +184,7 @@ const Interface = ( props ) => {
 			enableImageSharing: data.enableImageSharing,
 			enablePinterestSharing: data.enablePinterestSharing,
 			enableWebshareSharing: data.enableWebshareSharing,
+			excludeLeadingImage: data.excludeLeadingImage,
 			supportedPostTypes: data.supportedPostTypes,
 			location: data.location,
 			showOnHover: data.showOnHover,
@@ -403,6 +404,29 @@ const Interface = ( props ) => {
 										</div>
 									)
 								}
+								<div className="has-admin-component-row">
+									<Controller
+										name="excludeLeadingImage"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<ToggleControl
+												label={ __(
+													'Exclude Leading Image',
+													'highlight-and-share'
+												) }
+												className="has-admin__toggle-control"
+												checked={ value }
+												onChange={ ( boolValue ) => {
+													onChange( boolValue );
+												} }
+												help={ __(
+													'Exclude the leading image from the image sharing options.',
+													'highlight-and-share'
+												) }
+											/>
+										) }
+									/>
+								</div>
 								<div className="has-admin-component-row">
 									<BaseControl
 										id="supportedPostTypes"

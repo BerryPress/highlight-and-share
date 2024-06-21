@@ -494,7 +494,7 @@ class Frontend {
 
 		$dom = new \DOMDocument( '1.0', 'UTF-8' );
 		try {
-			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD ); // phpcs:ignore 
 		} catch ( \Exception $e ) {
 			return $content;
 		}
@@ -505,12 +505,13 @@ class Frontend {
 			'has-no-pin',
 		);
 
-		$can_show_pinterest = (bool) $options['enable_pinterest_sharing'];
-		$can_show_webshare  = (bool) $options['enable_webshare_sharing'];
-		$show_on_hover      = (bool) $options['show_on_hover'];
-		$sharing_location   = $options['location'];
-		$show_button_labels = (bool) $options['show_button_labels'];
-		$button_shape       = $options['button_shape'];
+		$can_show_pinterest    = (bool) $options['enable_pinterest_sharing'];
+		$can_show_webshare     = (bool) $options['enable_webshare_sharing'];
+		$show_on_hover         = (bool) $options['show_on_hover'];
+		$sharing_location      = $options['location'];
+		$show_button_labels    = (bool) $options['show_button_labels'];
+		$exclude_leading_image = (bool) $options['exclude_leading_image'];
+		$button_shape          = $options['button_shape'];
 
 		// Get image wrapper CSS classes.
 		$css_classes = array( 'has-pin-image-wrapper' );
@@ -550,8 +551,14 @@ class Frontend {
 		}
 
 		// Get all images.
-		$images = $dom->getElementsByTagName( 'img' );
+		$images   = $dom->getElementsByTagName( 'img' );
+		$can_skip = false;
 		foreach ( $images as $image ) {
+			// Skip leading image if enabled.
+			if ( $exclude_leading_image && ! $can_skip ) {
+				$can_skip = true;
+				continue;
+			}
 
 			/**
 			 * Filter: has_pin_core_exclusions
