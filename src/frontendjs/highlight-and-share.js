@@ -1117,4 +1117,112 @@ import { constrainRange } from './selection';
 			hasRemoveVisibleElements();
 		}
 	} );
+
+	/**
+	 * Listen for Image Sharing Events and enable webshare if available (hidden by default).
+	 */
+	if ( 'undefined' !== typeof navigator.share ) {
+		const webshare = document.querySelectorAll( '.has-pin-svg-webshare' );
+		console.log( webshare );
+		if ( null !== webshare ) {
+			webshare.forEach( ( el ) => {
+				el.style.display = 'inline-block';
+			} );
+		}
+	}
+	// Show all the Pinterest icons. Note, this is so that the Pinterest icon doesn't flash when first loading in.
+	const pinterestSvgs = document.querySelectorAll( '.has-pin-svg-pinterest' );
+	if ( null !== pinterestSvgs ) {
+		pinterestSvgs.forEach( ( el ) => {
+			el.style.display = 'inline-block';
+		} );
+	}
+
+	/**
+	 * Listen for Image Sharing Events and enable webshare if available.
+	 */
+	const imageShare = document.querySelectorAll( '.has-pin-svg-pinterest' );
+	if ( null !== imageShare ) {
+		imageShare.forEach( ( el ) => {
+			el.addEventListener( 'click', ( event ) => {
+				event.preventDefault();
+
+				// Get the parent.
+				const parent = event.target.closest( '.has-pin-image-wrapper' );
+				if ( null === parent ) {
+					return;
+				}
+
+				// Find the image element, grab the URL.
+				const image = parent.querySelector( 'img' );
+				const url = image.getAttribute( 'src' );
+				const dataPinUrl = image.getAttribute( 'data-pin-url' );
+				const description = image.getAttribute( 'alt' );
+				const dataPinDescription = image.getAttribute( 'data-pin-description' );
+
+				// Set dataLayer event for GTM.
+				if ( 'undefined' !== typeof dataLayer ) {
+					// eslint-disable-next-line no-undef
+					dataLayer.push( {
+						event: 'highlight-and-share',
+						hasSharePostUrl: url,
+						hasSharePostTitle: description,
+						hasShareType: 'image',
+						hasSocialNetwork: 'pinterest',
+					} );
+				}
+
+				// Open pinterest.
+				window.open(
+					'https://www.pinterest.com/pin/create/button/?url=' +
+						encodeURIComponent( dataPinUrl ?? url ) + '&description=' + encodeURIComponent( dataPinDescription ?? description ),
+					'Highlight and Share',
+					'width=575,height=430,toolbar=false,menubar=false,location=false,status=false'
+				);
+			} );
+		} );
+	}
+
+	/**
+	 * Webshare Button.
+	 */
+	const webshareButton = document.querySelectorAll( '.has-pin-svg-webshare' );
+	if ( null !== webshareButton ) {
+		webshareButton.forEach( ( el ) => {
+			el.addEventListener( 'click', ( event ) => {
+				event.preventDefault();
+
+				// Get the parent.
+				const parent = event.target.closest( '.has-pin-image-wrapper' );
+				if ( null === parent ) {
+					return;
+				}
+
+				// Find the image element, grab the URL.
+				const image = parent.querySelector( 'img' );
+				const url = image.getAttribute( 'src' );
+				const description = image.getAttribute( 'alt' );
+				const dataPinDescription = image.getAttribute( 'data-pin-description' );
+
+				// Set dataLayer event for GTM.
+				if ( 'undefined' !== typeof dataLayer ) {
+					// eslint-disable-next-line no-undef
+					dataLayer.push( {
+						event: 'highlight-and-share',
+						hasSharePostUrl: url,
+						hasSharePostTitle: description,
+						hasShareType: 'image',
+						hasSocialNetwork: 'webshare',
+					} );
+				}
+
+				// Share the image.
+				navigator.share( {
+					title: description,
+					text: dataPinDescription ?? description,
+					url,
+				} );
+			} );
+		} );
+	}
 }() );

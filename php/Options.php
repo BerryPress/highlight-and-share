@@ -47,6 +47,13 @@ class Options {
 	private static $options_block_editor = false;
 
 	/**
+	 * Highlight and Share Image Options.
+	 *
+	 * @var array $options_image Highlight and Share Image options.
+	 */
+	private static $options_image = false;
+
+	/**
 	 * Highlight and Share Options
 	 *
 	 * @var array $instance Highlight and Share options.
@@ -397,6 +404,69 @@ class Options {
 			),
 		);
 		return $defaults;
+	}
+
+	/**
+	 * Get default options for pinterest/webshare sharing.
+	 */
+	public static function get_image_defaults() {
+		$defaults = array(
+			'enable_image_sharing'         => false,
+			'enable_pinterest_sharing'     => true,
+			'enable_webshare_sharing'      => true,
+			'supported_post_types'         => array(
+				'post' => true,
+				'page' => true,
+			),
+			'location'                     => 'top-left',
+			'show_on_hover'                => true,
+			'pinterest_button_color'       => '#E7011D',
+			'pinterest_button_color_hover' => '#BE0319',
+			'pinterest_icon_color'         => '#FFFFFF',
+			'pinterest_icon_color_hover'   => '#FFFFFF',
+			'pinterest_text_color'         => '#FFFFFF',
+			'pinterest_text_color_hover'   => '#FFFFFF',
+			'webshare_icon_color'          => '#FFFFFF',
+			'webshare_icon_color_hover'    => '#FFFFFF',
+			'webshare_button_color'        => '#f58f2f',
+			'webshare_button_color_hover'  => '#e17713',
+			'webshare_text_color'          => '#FFFFFF',
+			'webshare_text_color_hover'    => '#FFFFFF',
+			'button_shape'                 => 'round', /* can be round, square, circular */
+			'show_button_labels'           => true,
+			'pinterest_button_label'       => __( 'Pin it', 'highlight-and-share' ),
+			'webshare_button_label'        => __( 'Share', 'highlight-and-share' ),
+			'exclusions'                   => array(),
+		);
+		return $defaults;
+	}
+
+	/**
+	 * Get the image options for Pinterest/Webshare sharing.
+	 *
+	 * @param bool $force Force a refresh of the options.
+	 *
+	 * @return array Image options.
+	 */
+	public static function get_image_options( $force = false ) {
+		if ( false === self::$options_image || $force ) {
+			$settings = get_option( 'highlight-and-share-image-options' );
+		} else {
+			$settings = self::$options_image;
+		}
+
+		$defaults = self::get_image_defaults();
+
+		if ( false === $settings || ! is_array( $settings ) ) {
+			update_option( 'highlight-and-share-image-options', $defaults );
+			return $defaults;
+		}
+
+		// Merge two multi-dimensional arrays (defaults, and from settings).
+		$settings = array_replace_recursive( $defaults, $settings );
+
+		self::$options_image = $settings;
+		return $settings;
 	}
 
 	/**

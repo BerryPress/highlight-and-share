@@ -1,6 +1,7 @@
 @import 'breakpoints-mixin.scss';
 @import '../node_modules/@wordpress/components/build-style/style.css';
 @import 'common.scss';
+@import './scss/pinterest.scss';
 @keyframes has-fade-in {
 	from {
 		opacity: 0;
@@ -428,6 +429,15 @@ h2.has-admin-content-subheading {
 			text-transform: unset;
 			font-size: 14px;
 		}
+	}
+	label.components-checkbox-control__label {
+		display: inline-block;
+	}
+	.components-checkbox-control {
+		margin-bottom: 12px;
+	}
+	.components-input-control__container {
+		max-width: 550px !important;
 	}
 	.has-admin-component-row-button {
 		margin-top: 15px;
@@ -1122,4 +1132,13 @@ h3.has-icon-heading {
 		padding: 15px 10px;
 		height: auto;
 	}
+}
+
+/* Pinterest preview on images tab */
+.has-admin-pinterest-preview {
+	position: relative;
+	width: 325px;
+	height: 175px;
+	background: #333333;
+	border: 1px solid #c3c4c7;
 }

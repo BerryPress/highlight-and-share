@@ -50,6 +50,18 @@ class Themes {
 				'color' => '#0077b5',
 				'label' => __( 'LinkedIn', 'highlight-and-share' ),
 			),
+			/* Pinterest */
+			array(
+				'slug'  => 'pinterest',
+				'color' => '#E7011D',
+				'label' => __( 'Pinterest', 'highlight-and-share' ),
+			),
+			/* Webshare */
+			array(
+				'slug'  => 'webshare',
+				'color' => '#f58f2f',
+				'label' => __( 'Webshare', 'highlight-and-share' ),
+			),
 			/* WhatsApp */
 			array(
 				'slug'  => 'whatsapp',

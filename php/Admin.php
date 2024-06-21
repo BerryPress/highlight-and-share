@@ -47,6 +47,11 @@ class Admin {
 		add_action( 'wp_ajax_has_retrieve_emails_tab', array( $this, 'ajax_retrieve_emails_tab' ) );
 		add_action( 'wp_ajax_has_reset_emails_tab', array( $this, 'ajax_reset_emails_tab' ) );
 
+		// Retrieve, save, and reset recaptcha options.
+		add_action( 'wp_ajax_has_save_images_options', array( $this, 'ajax_save_images_options' ) );
+		add_action( 'wp_ajax_has_retrieve_images_options', array( $this, 'ajax_retrieve_images_options' ) );
+		add_action( 'wp_ajax_has_reset_images_options', array( $this, 'ajax_reset_images_options' ) );
+
 		// For HAS styling in the admin.
 		add_action( 'admin_body_class', array( $this, 'add_admin_body_class' ) );
 	}
@@ -194,6 +199,67 @@ class Admin {
 		// Get saved options. Then write over it with the defaults (wp_parse_args in reverse).
 		$defaults = Options::get_email_settings_defaults();
 		update_option( 'highlight-and-share-email-settings', $defaults );
+
+		// Send the data home.
+		wp_send_json_success( $this->map_defaults_to_js( stripslashes_deep( $defaults ) ) );
+	}
+
+	/**
+	 * Save Highlight and Share settings options (for images).
+	 */
+	public function ajax_save_images_options() {
+		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce', FILTER_DEFAULT ), 'has_save_images' ) || ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Security check failed', 'highlight-and-share' ) ) );
+		}
+
+		// Existing settings.
+		$existing_settings = Options::get_image_options( true );
+		$form_data         = filter_input( INPUT_POST, 'formData', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+
+		// Sanitize the rest.
+		$form_data = Functions::sanitize_array_recursive( $form_data );
+
+		$settings = array_replace_recursive( $existing_settings, $form_data );
+
+		// Get into array_key format.
+		$overrides = array();
+		foreach ( $settings as $key => $value ) {
+			$overrides[ sanitize_key( Functions::to_underlines( $key ) ) ] = $value;
+		}
+
+		// Update options.
+		update_option( 'highlight-and-share-image-options', $overrides );
+
+		wp_send_json_success( $form_data );
+	}
+
+	/**
+	 * Retrieve images settings in the imagess tab.
+	 */
+	public function ajax_retrieve_images_options() {
+		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce', FILTER_DEFAULT ), 'has_retrieve_images' ) || ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Security check failed', 'highlight-and-share' ) ) );
+		}
+
+		// Get saved options.
+		$options = Options::get_image_options( true );
+		$return  = $this->map_defaults_to_js(
+			stripslashes_deep( $options ),
+		);
+		wp_send_json_success( $return );
+	}
+
+	/**
+	 * Reset the admin emails option.
+	 */
+	public function ajax_reset_images_options() {
+		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce', FILTER_DEFAULT ), 'has_reset_images' ) || ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Security check failed', 'highlight-and-share' ) ) );
+		}
+
+		// Get saved options. Then write over it with the defaults (wp_parse_args in reverse).
+		$defaults = Options::get_image_defaults();
+		update_option( 'highlight-and-share-image-options', $defaults );
 
 		// Send the data home.
 		wp_send_json_success( $this->map_defaults_to_js( stripslashes_deep( $defaults ) ) );
@@ -485,6 +551,10 @@ class Admin {
 			if ( 'block-editor' === $current_tab ) {
 				$block_editor_tab_class[] = 'nav-tab-active';
 			}
+			$image_tab_class = array( 'nav-tab' );
+			if ( 'images' === $current_tab ) {
+				$image_tab_class[] = 'nav-tab-active';
+			}
 			$emails_tab_class = array( 'nav-tab' );
 			if ( 'emails' === $current_tab ) {
 				$emails_tab_class[] = 'nav-tab-active';
@@ -501,6 +571,7 @@ class Admin {
 					<nav class="nav-tab-wrapper">
 						<a class="<?php echo esc_attr( implode( ' ', $settings_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'settings' ) ); ?>"><?php esc_html_e( 'Settings', 'highlight-and-share' ); ?></a>
 						<a class="<?php echo esc_attr( implode( ' ', $appearance_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'appearance' ) ); ?>"><?php esc_html_e( 'Appearance', 'highlight-and-share' ); ?></a>
+						<a class="<?php echo esc_attr( implode( ' ', $image_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'images' ) ); ?>"><?php esc_html_e( 'Images', 'highlight-and-share' ); ?></a>
 						<a class="<?php echo esc_attr( implode( ' ', $block_editor_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'block-editor' ) ); ?>"><?php esc_html_e( 'Block Editor', 'highlight-and-share' ); ?></a>
 						<a class="<?php echo esc_attr( implode( ' ', $emails_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'emails' ) ); ?>"><?php esc_html_e( 'Emails', 'highlight-and-share' ); ?></a>
 						<a class="<?php echo esc_attr( implode( ' ', $support_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'support' ) ); ?>"><?php esc_html_e( 'Support', 'highlight-and-share' ); ?></a>
@@ -519,6 +590,14 @@ class Admin {
 						// No wrapper as there are separate wrappers for each section. A wrapper is included in the loader.
 						?>
 						<div id="has-appearance-admin-settings"><div class="has-admin-container-body__content"><?php echo wp_kses( $this->get_loading_svg(), Functions::get_kses_allowed_html() ); ?></div></div>
+						<?php
+					}
+					if ( 'images' === $current_tab ) {
+						// No wrapper as there are separate wrappers for each section. A wrapper is included in the loader.
+						?>
+						<div id="has-images-admin-settings">
+							<?php echo wp_kses( $this->get_loading_svg(), Functions::get_kses_allowed_html() ); ?>
+						</div>
 						<?php
 					}
 					if ( 'block-editor' === $current_tab ) {
@@ -563,13 +642,6 @@ class Admin {
 	 */
 	public function enqueue_admin_scripts( $hook ) {
 		if ( 'settings_page_highlight-and-share' === $hook ) {
-			wp_enqueue_style(
-				'has-admin',
-				Functions::get_plugin_url( '/dist/has-admin.css' ),
-				array(),
-				HIGHLIGHT_AND_SHARE_VERSION,
-				'all'
-			);
 			wp_enqueue_style(
 				'has-admin-css',
 				Functions::get_plugin_url( '/dist/has-admin-style.css' ),
@@ -681,6 +753,60 @@ class Admin {
 						'themes'             => Themes::get_main_themes(),
 						'colors'             => Themes::get_default_theme_colors(),
 						'themeOptionsCustom' => Options::get_theme_options(),
+					)
+				);
+			}
+
+			// Determine if we're loading the appearance tab.
+			$enqueue_images = false;
+			$current_tab    = Functions::get_admin_tab();
+			if ( null !== $current_tab && 'images' === $current_tab ) {
+				$enqueue_images = true;
+			}
+			if ( $enqueue_images ) {
+				$deps = require_once Functions::get_plugin_dir( 'dist/has-admin-images.asset.php' );
+				wp_enqueue_script(
+					'has-images-admin-js',
+					Functions::get_plugin_url( '/dist/has-admin-images.js' ),
+					$deps['dependencies'],
+					$deps['version'],
+					true
+				);
+
+				// Get public post types.
+				$post_types          = get_post_types(
+					array(
+						'public' => true,
+					),
+					'objects'
+				);
+				$excluded_post_types = array( 'attachment', 'revision', 'nav_menu_item' );
+				$post_types          = array_filter(
+					$post_types,
+					function ( $post_type ) use ( $excluded_post_types ) {
+						return ! in_array( $post_type->name, $excluded_post_types, true );
+					}
+				);
+
+				// Format post types into label|value pairs.
+				$post_types = array_map(
+					function ( $post_type ) {
+						return array(
+							'label' => $post_type->label,
+							'value' => $post_type->name,
+						);
+					},
+					$post_types
+				);
+				wp_localize_script(
+					'has-images-admin-js',
+					'hasImagesAdmin',
+					array(
+						'saveNonce'     => wp_create_nonce( 'has_save_images' ),
+						'retrieveNonce' => wp_create_nonce( 'has_retrieve_images' ),
+						'resetNonce'    => wp_create_nonce( 'has_reset_images' ),
+						'postTypes'     => $post_types,
+						'defaultColors' => Themes::get_default_theme_colors(),
 					)
 				);
 			}

@@ -166,6 +166,9 @@ class Frontend {
 		// Load in comments.
 		add_filter( 'comment_text', array( $this, 'add_comment_area_html' ) );
 
+		// Add Pinterest and Web Share to image tags. WP 6.2 and up.
+		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 20, 5 );
+
 		/**
 		 * Filter: has_enable_content
 		 *
@@ -187,6 +190,215 @@ class Frontend {
 		if ( apply_filters( 'has_enable_excerpt', (bool) $settings['enable_excerpt'] ) ) {
 			add_filter( 'the_excerpt', array( $this, 'excerpt_area' ) );
 		}
+	}
+
+	/**
+	 * Add Pinterest/Webshare to image tags where applicable.
+	 *
+	 * @param string $content The content HTML.
+	 */
+	public function add_image_sharing_html( $content ) {
+		// If we're not in the loop, bail.
+		if ( ! in_the_loop() || is_admin() || is_feed() || ( ! is_singular() && ! is_page() ) ) {
+			return $content;
+		}
+
+		// Load for supported post types.
+		$options    = Options::get_image_options();
+		$post_types = $options['supported_post_types'];
+		// Get enabled post types.
+		$supported_post_types = array();
+		foreach ( $post_types as $post_type => $enabled ) {
+			if ( $enabled ) {
+				$supported_post_types[] = $post_type;
+			}
+		}
+		$supported_post_types = apply_filters( 'has_pin_supported_post_types', $supported_post_types );
+		$can_show_on_post     = in_array( get_post_type(), $supported_post_types, true );
+
+		// If we're not on a supported post type, bail.
+		if ( ! $can_show_on_post ) {
+			return $content;
+		}
+
+		$dom = new \DOMDocument();
+		try {
+			@ $dom->loadHTML( $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+		} catch ( \Exception $e ) {
+			return $content;
+		}
+		$options = Options::get_image_options();
+
+		// Get core exclusions.
+		$core_exclusions = array(
+			'has-no-pin',
+		);
+
+		$can_show_pinterest = (bool) $options['enable_pinterest_sharing'];
+		$can_show_webshare  = (bool) $options['enable_webshare_sharing'];
+		$show_on_hover      = (bool) $options['show_on_hover'];
+		$sharing_location   = $options['location'];
+		$show_button_labels = (bool) $options['show_button_labels'];
+		$button_shape       = $options['button_shape'];
+
+		// Get image wrapper CSS classes.
+		$css_classes = array( 'has-pin-image-wrapper' );
+		if ( 'top-left' === $sharing_location ) {
+			$css_classes[] = 'has-pin-top-left';
+		}
+		if ( 'top-right' === $sharing_location ) {
+			$css_classes[] = 'has-pin-top-right';
+		}
+		if ( 'bottom-left' === $sharing_location ) {
+			$css_classes[] = 'has-pin-bottom-left';
+		}
+		if ( 'bottom-right' === $sharing_location ) {
+			$css_classes[] = 'has-pin-bottom-right';
+		}
+		if ( 'center-center' === $sharing_location ) {
+			$css_classes[] = 'has-pin-center-center';
+		}
+		if ( $show_on_hover ) {
+			$css_classes[] = 'has-pin-show-on-hover';
+		}
+		$css_classes = apply_filters( 'has_pin_image_css_classes', $css_classes );
+
+		// Get SVG wrapper CSS.
+		$sharing_wrapper_css = array( 'has-pin-sharing-icons' );
+		if ( $show_button_labels ) {
+			$sharing_wrapper_css[] = 'has-icon-label';
+		}
+		if ( 'round' === $button_shape ) {
+			$sharing_wrapper_css[] = 'has-appearance-round';
+		}
+		if ( 'square' === $button_shape ) {
+			$sharing_wrapper_css[] = 'has-appearance-square';
+		}
+		if ( 'circle' === $button_shape ) {
+			$sharing_wrapper_css[] = 'has-appearance-circle';
+		}
+
+		// Get all images.
+		$images = $dom->getElementsByTagName( 'img' );
+		foreach ( $images as $image ) {
+
+			/**
+			 * Filter: has_pin_core_exclusions
+			 *
+			 * Add core exclusions to the image sharing.
+			 *
+			 * @param array $core_exclusions Array of core exclusions.
+			 */
+			$core_exclusions = apply_filters( 'has_pin_core_exclusions', $core_exclusions );
+			// Get image innerHTML.
+			$image_element  = $dom->saveHTML( $image );
+			$parent_element = $dom->saveHtml( $image->parentNode );
+			foreach ( $core_exclusions as $core_exclusion ) {
+				if ( false !== strpos( $image_element, $core_exclusion ) ) {
+					return $content;
+				}
+			}
+
+			// Check for exclusions.
+			$exclusions = $options['exclusions'];
+			if ( ! empty( $exclusions ) ) {
+				$exclusions = array_map( 'trim', explode( ',', $exclusions ) );
+				foreach ( $exclusions as $exclusion ) {
+					if ( false !== strpos( $image_element, $exclusion ) || false !== strpos( $parent_element, $exclusion ) ) {
+						return $content;
+					}
+				}
+			}
+
+			// Create wrapper span.
+			$wrapper = $dom->createElement( 'span' );
+			$wrapper->setAttribute( 'class', implode( ' ', $css_classes ) );
+
+			// Wrap around the image.
+			$image->parentNode->replaceChild( $wrapper, $image );
+			$wrapper->appendChild( $image );
+
+			// Now create child SVG to go adjacent to image tag.
+			$svg = $dom->createElement( 'span' );
+			$svg->setAttribute( 'class', implode( ' ', $sharing_wrapper_css ) );
+
+			// Set span inner html.
+			if ( $can_show_pinterest ) {
+				if ( $show_button_labels ) {
+					$pin_label     = $options['pinterest_button_label'];
+					$svg_inner_tag = $dom->createElement( 'span' );
+					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-pinterest has-pin-button' );
+					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+					$svg_use = $dom->createElement( 'use' );
+					$svg_use->setAttribute( 'xlink:href', '#has-pinterest' );
+					$svg_use_wrapper = $dom->createElement( 'svg' );
+					$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
+					$svg_use_wrapper->appendChild( $svg_use );
+					$svg_inner_tag->appendChild( $svg_use_wrapper );
+					$svg_span = $dom->createElement( 'span' );
+					$svg_span->setAttribute( 'className', 'has-icon-label' );
+					$svg_span->nodeValue = esc_html( $pin_label );
+					$svg_inner_tag->appendChild( $svg_span );
+					$svg->appendChild( $svg_inner_tag );
+				} else {
+					$svg_inner_tag = $dom->createElement( 'span' );
+					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-pinterest has-pin-button' );
+					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+					$svg_use = $dom->createElement( 'use' );
+					$svg_use->setAttribute( 'xlink:href', '#has-pinterest' );
+					$svg_use_wrapper = $dom->createElement( 'svg' );
+					$svg_use_wrapper->setAttribute(
+						'class',
+						'has-icon
+					'
+					);
+					$svg_use_wrapper->appendChild( $svg_use );
+					$svg_inner_tag->appendChild( $svg_use_wrapper );
+					$svg->appendChild( $svg_inner_tag );
+				}
+			}
+			if ( $can_show_webshare ) {
+				if ( $show_button_labels ) {
+					$webshare_label = $options['webshare_button_label'];
+					$svg_inner_tag  = $dom->createElement( 'span' );
+					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-webshare has-pin-button' );
+					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+					$svg_use = $dom->createElement( 'use' );
+					$svg_use->setAttribute( 'xlink:href', '#has-webshare-icon' );
+					$svg_use_wrapper = $dom->createElement( 'svg' );
+					$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
+					$svg_use_wrapper->appendChild( $svg_use );
+					$svg_inner_tag->appendChild( $svg_use_wrapper );
+					$svg_span = $dom->createElement( 'span' );
+					$svg_span->setAttribute( 'className', 'has-icon-label' );
+					$svg_span->nodeValue = esc_html( $webshare_label );
+					$svg_inner_tag->appendChild( $svg_span );
+					$svg->appendChild( $svg_inner_tag );
+				} else {
+					$svg_inner_tag = $dom->createElement( 'span' );
+					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-webshare has-pin-button' );
+					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+					$svg_use = $dom->createElement( 'use' );
+					$svg_use->setAttribute( 'xlink:href', '#has-webshare-icon' );
+					$svg_use_wrapper = $dom->createElement( 'svg' );
+					$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
+					$svg_use_wrapper->appendChild( $svg_use );
+					$svg_inner_tag->appendChild( $svg_use_wrapper );
+					$svg->appendChild( $svg_inner_tag );
+				}
+			}
+			// Now place SVG inside the parent span after the image.
+			$wrapper->appendChild( $svg );
+		}
+
+		$new_html = $dom->saveHTML();
+
+		return $new_html;
 	}
 
 	/**
@@ -907,6 +1119,9 @@ class Frontend {
 			<symbol aria-hidden="true" data-prefix="fab" data-icon="bluesky" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" id="has-bluesky">
 				<path fill="currentColor" d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z"/>
 			</symbol>
+			<symbol aria-hidden="true" data-prefix="fab" data-icon="bluesky" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" id="has-pinterest">
+				<path fill="currentColor" d="M204 6.5C101.4 6.5 0 74.9 0 185.6 0 256 39.6 296 63.6 296c9.9 0 15.6-27.6 15.6-35.4 0-9.3-23.7-29.1-23.7-67.8 0-80.4 61.2-137.4 140.4-137.4 68.1 0 118.5 38.7 118.5 109.8 0 53.1-21.3 152.7-90.3 152.7-24.9 0-46.2-18-46.2-43.8 0-37.8 26.4-74.4 26.4-113.4 0-66.2-93.9-54.2-93.9 25.8 0 16.8 2.1 35.4 9.6 50.7-13.8 59.4-42 147.9-42 209.1 0 18.9 2.7 37.5 4.5 56.4 3.4 3.8 1.7 3.4 6.9 1.5 50.4-69 48.6-82.5 71.4-172.8 12.3 23.4 44.1 36 69.3 36 106.2 0 153.9-103.5 153.9-196.8C384 71.3 298.2 6.5 204 6.5z"/>
+			</symbol>
 		</svg>
 		<div id="has-mastodon-prompt" aria-hidden="true" style="display: none">
 			<h3><?php esc_html_e( 'Share on Mastodon', 'highlight-and-share' ); ?></h3>
@@ -1240,6 +1455,38 @@ class Frontend {
 					$inline_styles
 				);
 				wp_enqueue_style( 'has-inline-styles' );
+			}
+
+			// Load Image Sharing CSS (if image sharing is enabled).
+			$image_sharing_options = Options::get_image_options();
+			$image_sharing_enabled = (bool) $image_sharing_options['enable_image_sharing'];
+			if ( $image_sharing_enabled ) {
+				// Get the colors.
+				$image_sharing_css = (
+					'.has-pin-image-wrapper {' .
+					'--has-pinterest-button-color: ' . esc_html( $image_sharing_options['pinterest_button_color'] ) . ';' .
+					'--has-pinterest-button-color-hover: ' . esc_html( $image_sharing_options['pinterest_button_color_hover'] ) . ';' .
+					'--has-pinterest-icon-color: ' . esc_html( $image_sharing_options['pinterest_icon_color'] ) . ';' .
+					'--has-pinterest-icon-color-hover: ' . esc_html( $image_sharing_options['pinterest_icon_color_hover'] ) . ';' .
+					'--has-pinterest-text-color: ' . esc_html( $image_sharing_options['pinterest_text_color'] ) . ';' .
+					'--has-pinterest-text-color-hover: ' . esc_html( $image_sharing_options['pinterest_text_color_hover'] ) . ';' .
+					'--has-webshare-icon-color: ' . esc_html( $image_sharing_options['webshare_icon_color'] ) . ';' .
+					'--has-webshare-icon-color-hover: ' . esc_html( $image_sharing_options['webshare_icon_color_hover'] ) . ';' .
+					'--has-webshare-button-color: ' . esc_html( $image_sharing_options['webshare_button_color'] ) . ';' .
+					'--has-webshare-button-color-hover: ' . esc_html( $image_sharing_options['webshare_button_color_hover'] ) . ';' .
+					'--has-webshare-text-color: ' . esc_html( $image_sharing_options['webshare_text_color'] ) . ';' .
+					'--has-webshare-text-color-hover: ' . esc_html( $image_sharing_options['webshare_text_color_hover'] ) . ';' .
+					'}'
+				);
+				wp_register_style(
+					'has-image-sharing',
+					false
+				);
+				wp_add_inline_style(
+					'has-image-sharing',
+					$image_sharing_css
+				);
+				wp_enqueue_style( 'has-image-sharing' );
 			}
 		}
 	}

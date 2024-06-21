@@ -1,0 +1,121 @@
+:root {
+	--has-pinterest-button-color: #E7011D;
+	--has-pinterest-button-color-hover: #BE0319;
+	--has-pinterest-icon-color: #FFFFFF;
+	--has-pinterest-icon-color-hover: #FFFFFF;
+	--has-pinterest-text-color: #FFFFFF;
+	--has-pinterest-text-color-hover: #FFFFFF;
+	--has-webshare-icon-color: #FFFFFF;
+	--has-webshare-icon-color-hover: #FFFFFF;
+	--has-webshare-button-color: #f58f2f;
+	--has-webshare-button-color-hover: #e17713;
+	--has-webshare-text-color: #FFFFFF;
+	--has-webshare-text-color-hover: #FFFFFF;
+}
+/* Pinterest and Image Sharing */
+.has-pin-image-wrapper {
+	position: relative;
+	display: inline-block;
+
+	&.has-pin-top-left .has-pin-sharing-icons {
+		top: 16px;
+		left: 16px;
+	}
+	&.has-pin-top-right  .has-pin-sharing-icons  {
+		top: 16px;
+		right: 16px;
+	}
+	&.has-pin-bottom-left  .has-pin-sharing-icons  {
+		bottom: 16px;
+		left: 16px;
+	}
+	&.has-pin-bottom-right  .has-pin-sharing-icons  {
+		bottom: 16px;
+		right: 16px;
+	}
+	&.has-pin-center-center .has-pin-sharing-icons  {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 100%;
+		justify-content: center;
+	}
+}
+.has-pin-show-on-hover .has-pin-sharing-icons {
+	opacity: 0;
+	transition: all 0.5s ease-in-out;
+}
+.has-pin-show-on-hover:hover .has-pin-sharing-icons {
+	opacity: 1;
+}
+.has-pin-sharing-icons {
+	position: absolute;
+	display: flex;
+	justify-content: flex-start;
+	column-gap: 8px;
+
+	.has-pin-button {
+		cursor: pointer;
+		transition: all 0.5s ease-in-out;
+		padding: 12px 16px;
+		display: flex;
+		align-items: center;
+	}
+	&.has-appearance-round {
+		.has-pin-button {
+			border-radius: 8px;
+		}
+	}
+	&.has-appearance-circle {
+		.has-pin-button {
+			padding: 16px;
+			border-radius: 50%;
+		}
+	}
+	svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	&.has-icon-label svg {
+		margin-right: 8px;
+	}
+}
+.has-pin-svg-pinterest {
+	background: var( --has-pinterest-button-color );
+	color: var( --has-pinterest-text-color );
+
+	&:hover {
+		background: var( --has-pinterest-button-color-hover );
+		color: var( --has-pinterest-text-color-hover );
+	}
+
+	svg {
+		color: var( --has-pinterest-icon-color );
+		fill: var( --has-pinterest-icon-color );
+	}
+
+	&:hover svg {
+		color: var( --has-pinterest-icon-color-hover );
+		fill: var( --has-pinterest-icon-color-hover );
+	}
+}
+.has-pin-svg-webshare {
+	background: var( --has-webshare-button-color );
+	color: var( --has-webshare-text-color );
+
+	&:hover {
+		background: var( --has-webshare-button-color-hover );
+		color: var( --has-webshare-text-color-hover );
+	}
+
+	svg {
+		color: var( --has-webshare-icon-color );
+		fill: var( --has-webshare-icon-color );
+	}
+
+	&:hover svg {
+		color: var( --has-webshare-icon-color-hover );
+		fill: var( --has-webshare-icon-color-hover );
+	}
+}
