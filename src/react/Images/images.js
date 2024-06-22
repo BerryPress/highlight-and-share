@@ -461,6 +461,26 @@ const Interface = ( props ) => {
 										}
 									</BaseControl>
 								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="exclusions"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<TextControl
+												label={ __( 'Exclusions', 'highlight-and-share' ) }
+												value={ value }
+												onChange={ ( newValue ) => {
+													onChange( newValue );
+												} }
+												className={ classNames( 'has-admin__text-control' ) }
+												help={ __(
+													'Enter comma-separated keywords to exclude certain images, such as a CSS classname or data parameter.',
+													'highlight-and-share'
+												) }
+											/>
+										) }
+									/>
+								</div>
 							</div>
 							<div className="has-admin-content-body">
 								<h2 className="has-admin-content-subheading">
@@ -510,26 +530,6 @@ const Interface = ( props ) => {
 												} }
 												help={ __(
 													'Show the sharing buttons on hover over the image.',
-													'highlight-and-share'
-												) }
-											/>
-										) }
-									/>
-								</div>
-								<div className="has-admin-component-row">
-									<Controller
-										name="exclusions"
-										control={ control }
-										render={ ( { field: { onChange, value } } ) => (
-											<TextControl
-												label={ __( 'Exclusions', 'highlight-and-share' ) }
-												value={ value }
-												onChange={ ( newValue ) => {
-													onChange( newValue );
-												} }
-												className={ classNames( 'has-admin__text-control' ) }
-												help={ __(
-													'Enter comma-separated keywords to exclude certain images, such as a CSS classname or data parameter.',
 													'highlight-and-share'
 												) }
 											/>
