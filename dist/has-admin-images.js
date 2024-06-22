@@ -3298,9 +3298,13 @@ var Preview = function Preview(props) {
     'has-pin-show-on-hover': formValues.showOnHover
   });
   var styles = "\n\t\t.has-admin-pinterest-preview .has-pin-svg-pinterest {\n\t\t\t--has-pinterest-button-color: ".concat(formValues.pinterestButtonColor, ";\n\t\t\t--has-pinterest-button-color-hover: ").concat(formValues.pinterestButtonColorHover, ";\n\t\t\t--has-pinterest-icon-color: ").concat(formValues.pinterestIconColor, ";\n\t\t\t--has-pinterest-icon-color-hover: ").concat(formValues.pinterestIconColorHover, ";\n\t\t\t--has-pinterest-text-color: ").concat(formValues.pinterestTextColor, ";\n\t\t\t--has-pinterest-text-color-hover: ").concat(formValues.pinterestTextColorHover, ";\n\t\t}\n\t\t.has-admin-pinterest-preview .has-pin-svg-webshare {\n\t\t\t--has-webshare-icon-color: ").concat(formValues.webshareIconColor, ";\n\t\t\t--has-webshare-icon-color-hover: ").concat(formValues.webshareIconColorHover, ";\n\t\t\t--has-webshare-button-color: ").concat(formValues.webshareButtonColor, ";\n\t\t\t--has-webshare-button-color-hover: ").concat(formValues.webshareButtonColorHover, ";\n\t\t\t--has-webshare-text-color: ").concat(formValues.webshareTextColor, ";\n\t\t\t--has-webshare-text-color-hover: ").concat(formValues.webshareTextColorHover, ";\n\t\t}\n\t");
+  var previewLabel = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Preview', 'highlight-and-share');
+  if (formValues.showOnHover) {
+    previewLabel = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Preview: Hover to Preview', 'highlight-and-share');
+  }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.BaseControl, {
     id: "preview",
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Preview', 'highlight-and-share')
+    label: previewLabel
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, styles), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: imageWrapperClasses
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -3375,7 +3379,6 @@ var Interface = function Interface(props) {
       exclusions: data.exclusions
     };
   };
-  console.log(data);
   var _useForm = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_12__.useForm)({
       defaultValues: getDefaultValues()
     }),
@@ -3592,6 +3595,10 @@ var Interface = function Interface(props) {
     className: "description"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Adjust the appearance of the image sharing options below.', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Preview, {
+    formValues: formValues
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "location",
     control: control,
@@ -3631,23 +3638,38 @@ var Interface = function Interface(props) {
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Preview, {
-    formValues: formValues
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
-    name: "showButtonLabels",
+    name: "exclusions",
     control: control,
     render: function render(_ref9) {
       var _ref9$field = _ref9.field,
         _onChange9 = _ref9$field.onChange,
         value = _ref9$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Exclusions', 'highlight-and-share'),
+        value: value,
+        onChange: function onChange(newValue) {
+          _onChange9(newValue);
+        },
+        className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('has-admin__text-control'),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter comma-separated keywords to exclude certain images, such as a CSS classname or data parameter.', 'highlight-and-share')
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
+    name: "showButtonLabels",
+    control: control,
+    render: function render(_ref10) {
+      var _ref10$field = _ref10.field,
+        _onChange10 = _ref10$field.onChange,
+        value = _ref10$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Button Labels', 'highlight-and-share'),
         className: "has-admin__toggle-control",
         checked: value,
         onChange: function onChange(boolValue) {
-          _onChange9(boolValue);
+          _onChange10(boolValue);
         },
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show the button labels on the sharing buttons.', 'highlight-and-share')
       });
@@ -3657,15 +3679,15 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestButtonLabel",
     control: control,
-    render: function render(_ref10) {
-      var _ref10$field = _ref10.field,
-        _onChange10 = _ref10$field.onChange,
-        value = _ref10$field.value;
+    render: function render(_ref11) {
+      var _ref11$field = _ref11.field,
+        _onChange11 = _ref11$field.onChange,
+        value = _ref11$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Button Label', 'highlight-and-share'),
         value: value,
         onChange: function onChange(newValue) {
-          _onChange10(newValue);
+          _onChange11(newValue);
         },
         className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('has-admin__text-control'),
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter the label for the Pinterest sharing button.', 'highlight-and-share')
@@ -3676,16 +3698,16 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "webshareButtonLabel",
     control: control,
-    render: function render(_ref11) {
-      var _ref11$field = _ref11.field,
-        _onChange11 = _ref11$field.onChange,
-        value = _ref11$field.value;
+    render: function render(_ref12) {
+      var _ref12$field = _ref12.field,
+        _onChange12 = _ref12$field.onChange,
+        value = _ref12$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Button Label', 'highlight-and-share'),
         value: value,
         className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('has-admin__text-control'),
         onChange: function onChange(newValue) {
-          _onChange11(newValue);
+          _onChange12(newValue);
         },
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter the label for the Web Share API sharing button.', 'highlight-and-share')
       });
@@ -3695,16 +3717,16 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "buttonShape",
     control: control,
-    render: function render(_ref12) {
-      var _ref12$field = _ref12.field,
-        _onChange12 = _ref12$field.onChange,
-        value = _ref12$field.value;
+    render: function render(_ref13) {
+      var _ref13$field = _ref13.field,
+        _onChange13 = _ref13$field.onChange,
+        value = _ref13$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.SelectControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Button Shape', 'highlight-and-share'),
         value: value,
         options: selectButtonAppearance,
         onChange: function onChange(newValue) {
-          _onChange12(newValue);
+          _onChange13(newValue);
         },
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select the shape of the sharing buttons.', 'highlight-and-share'),
         className: "has-admin__theme-select"
@@ -3712,17 +3734,21 @@ var Interface = function Interface(props) {
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Preview, {
+    formValues: formValues
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestButtonColor",
     control: control,
-    render: function render(_ref13) {
-      var _ref13$field = _ref13.field,
-        _onChange13 = _ref13$field.onChange,
-        value = _ref13$field.value;
+    render: function render(_ref14) {
+      var _ref14$field = _ref14.field,
+        _onChange14 = _ref14$field.onChange,
+        value = _ref14$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange13(newValue);
+          _onChange14(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Button Color', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3735,14 +3761,14 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestButtonColorHover",
     control: control,
-    render: function render(_ref14) {
-      var _ref14$field = _ref14.field,
-        _onChange14 = _ref14$field.onChange,
-        value = _ref14$field.value;
+    render: function render(_ref15) {
+      var _ref15$field = _ref15.field,
+        _onChange15 = _ref15$field.onChange,
+        value = _ref15$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange14(newValue);
+          _onChange15(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Button Color Hover', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3755,14 +3781,14 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestIconColor",
     control: control,
-    render: function render(_ref15) {
-      var _ref15$field = _ref15.field,
-        _onChange15 = _ref15$field.onChange,
-        value = _ref15$field.value;
+    render: function render(_ref16) {
+      var _ref16$field = _ref16.field,
+        _onChange16 = _ref16$field.onChange,
+        value = _ref16$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange15(newValue);
+          _onChange16(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Icon Color', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3775,14 +3801,14 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestIconColorHover",
     control: control,
-    render: function render(_ref16) {
-      var _ref16$field = _ref16.field,
-        _onChange16 = _ref16$field.onChange,
-        value = _ref16$field.value;
+    render: function render(_ref17) {
+      var _ref17$field = _ref17.field,
+        _onChange17 = _ref17$field.onChange,
+        value = _ref17$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange16(newValue);
+          _onChange17(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Icon Color Hover', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3795,14 +3821,14 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestTextColor",
     control: control,
-    render: function render(_ref17) {
-      var _ref17$field = _ref17.field,
-        _onChange17 = _ref17$field.onChange,
-        value = _ref17$field.value;
+    render: function render(_ref18) {
+      var _ref18$field = _ref18.field,
+        _onChange18 = _ref18$field.onChange,
+        value = _ref18$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange17(newValue);
+          _onChange18(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Text Color', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3815,14 +3841,14 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "pinterestTextColorHover",
     control: control,
-    render: function render(_ref18) {
-      var _ref18$field = _ref18.field,
-        _onChange18 = _ref18$field.onChange,
-        value = _ref18$field.value;
+    render: function render(_ref19) {
+      var _ref19$field = _ref19.field,
+        _onChange19 = _ref19$field.onChange,
+        value = _ref19$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange18(newValue);
+          _onChange19(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Text Color Hover', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3839,14 +3865,14 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "webshareIconColor",
     control: control,
-    render: function render(_ref19) {
-      var _ref19$field = _ref19.field,
-        _onChange19 = _ref19$field.onChange,
-        value = _ref19$field.value;
+    render: function render(_ref20) {
+      var _ref20$field = _ref20.field,
+        _onChange20 = _ref20$field.onChange,
+        value = _ref20$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange19(newValue);
+          _onChange20(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Icon Color', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3859,14 +3885,14 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "webshareIconColorHover",
     control: control,
-    render: function render(_ref20) {
-      var _ref20$field = _ref20.field,
-        _onChange20 = _ref20$field.onChange,
-        value = _ref20$field.value;
+    render: function render(_ref21) {
+      var _ref21$field = _ref21.field,
+        _onChange21 = _ref21$field.onChange,
+        value = _ref21$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange20(newValue);
+          _onChange21(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Icon Color Hover', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3879,14 +3905,14 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "webshareButtonColor",
     control: control,
-    render: function render(_ref21) {
-      var _ref21$field = _ref21.field,
-        _onChange21 = _ref21$field.onChange,
-        value = _ref21$field.value;
+    render: function render(_ref22) {
+      var _ref22$field = _ref22.field,
+        _onChange22 = _ref22$field.onChange,
+        value = _ref22$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange21(newValue);
+          _onChange22(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Button Color', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3899,14 +3925,14 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "webshareButtonColorHover",
     control: control,
-    render: function render(_ref22) {
-      var _ref22$field = _ref22.field,
-        _onChange22 = _ref22$field.onChange,
-        value = _ref22$field.value;
+    render: function render(_ref23) {
+      var _ref23$field = _ref23.field,
+        _onChange23 = _ref23$field.onChange,
+        value = _ref23$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange22(newValue);
+          _onChange23(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Button Color Hover', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3919,14 +3945,14 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "webshareTextColor",
     control: control,
-    render: function render(_ref23) {
-      var _ref23$field = _ref23.field,
-        _onChange23 = _ref23$field.onChange,
-        value = _ref23$field.value;
+    render: function render(_ref24) {
+      var _ref24$field = _ref24.field,
+        _onChange24 = _ref24$field.onChange,
+        value = _ref24$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange23(newValue);
+          _onChange24(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Text Color', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3939,14 +3965,14 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
     name: "webshareTextColorHover",
     control: control,
-    render: function render(_ref24) {
-      var _ref24$field = _ref24.field,
-        _onChange24 = _ref24$field.onChange,
-        value = _ref24$field.value;
+    render: function render(_ref25) {
+      var _ref25$field = _ref25.field,
+        _onChange25 = _ref25$field.onChange,
+        value = _ref25$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
-          _onChange24(newValue);
+          _onChange25(newValue);
         },
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Text Color Hover', 'highlight-and-share'),
         defaultColors: defaultColors,
@@ -3958,25 +3984,6 @@ var Interface = function Interface(props) {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Preview, {
     formValues: formValues
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_12__.Controller, {
-    name: "exclusions",
-    control: control,
-    render: function render(_ref25) {
-      var _ref25$field = _ref25.field,
-        _onChange25 = _ref25$field.onChange,
-        value = _ref25$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, {
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Exclusions', 'highlight-and-share'),
-        value: value,
-        onChange: function onChange(newValue) {
-          _onChange25(newValue);
-        },
-        className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('has-admin__text-control'),
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter comma-separated keywords to exclude certain images.', 'highlight-and-share')
-      });
-    }
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin__tabs--content-actions"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {

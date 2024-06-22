@@ -224,6 +224,7 @@ class Frontend {
 			'share_text_color'         => '',
 			'share_text_color_hover'   => '',
 			'font_family'              => 'Lato', /* can be: Josefin Sans, Karla, Lato, Montserrat, Open Sans,Playfair Display, Raleway, Roboto, Source Sans Pro. */
+			'button_font_family'       => 'Lato', /* can be: Josefin Sans, Karla, Lato, Montserrat, Open Sans,Playfair Display, Raleway, Roboto, Source Sans Pro. */
 			'font_size'                => 'medium', /* can be small|medium|large */
 			'click_share_font_size'    => 'medium', /* can be small|medium|large */
 			'click_text'               => 'Click to Share',
@@ -254,6 +255,21 @@ class Frontend {
 			}
 		}
 
+		// Get button font slug.
+		$button_font_slug = sanitize_title( $attributes['button_font_family'] );
+		if ( file_exists( Functions::get_plugin_dir( 'dist/has-gfont-' . $button_font_slug . '.css' ) ) ) {
+			if ( ! wp_style_is( 'has-google-font-' . $button_font_slug, 'done' ) ) {
+				wp_register_style(
+					'has-google-font-' . $button_font_slug,
+					esc_url( Functions::get_plugin_url( 'dist/has-gfont-' . $button_font_slug . '.css' ) ),
+					array(),
+					HIGHLIGHT_AND_SHARE_VERSION,
+					'all'
+				);
+				wp_print_styles( array( 'has-google-font-' . $button_font_slug ) );
+			}
+		}
+
 		// Get click to share text.
 		$share_content        = $content;
 		$custom_share_content = $attributes['custom_share_text'];
@@ -261,6 +277,9 @@ class Frontend {
 		// Let's format the share content.
 		$share_content        = wp_kses_post( $content );
 		$custom_share_content = sanitize_text_field( \wp_strip_all_tags( $custom_share_content ) );
+		if ( empty( $custom_share_content ) ) {
+			$custom_share_content = sanitize_text_field( \wp_strip_all_tags( $share_content ) );
+		}
 
 		// Let's get container classes.
 		$container_classes = array(
@@ -299,6 +318,9 @@ class Frontend {
 		if ( ! empty( $attributes['share_text_color_hover'] ) ) {
 			$css_vars['--has-cts-share-text-color-hover'] = $attributes['share_text_color_hover'];
 		}
+		if ( ! empty( $attributes['margin'] ) ) {
+			$css_vars['--has-cts-margin'] = $attributes['margin'];
+		}
 		if ( ! empty( $attributes['padding'] ) ) {
 			$css_vars['--has-cts-padding'] = $attributes['padding'];
 		}
@@ -316,6 +338,9 @@ class Frontend {
 		}
 		if ( ! empty( $attributes['font_family'] ) ) {
 			$css_vars['--has-cts-font-family'] = $attributes['font_family'];
+		}
+		if ( ! empty( $attributes['button_font_family'] ) ) {
+			$css_vars['--has-cts-button-font-family'] = $attributes['button_font_family'];
 		}
 		ob_start();
 		// Print styles if not already done.
@@ -494,8 +519,10 @@ class Frontend {
 
 		$dom = new \DOMDocument( '1.0', 'UTF-8' );
 		try {
-			
+			libxml_use_internal_errors( true );
 			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD ); // phpcs:ignore 
+			libxml_clear_errors();
+
 		} catch ( \Exception $e ) {
 			return $content;
 		}
@@ -571,22 +598,44 @@ class Frontend {
 			$core_exclusions = apply_filters( 'has_pin_core_exclusions', $core_exclusions );
 			// Get image innerHTML.
 			$image_element  = $dom->saveHTML( $image );
-			$parent_element = $dom->saveHTML( $image->parentNode );
-			foreach ( $core_exclusions as $core_exclusion ) {
-				if ( false !== strpos( $image_element, $core_exclusion ) ) {
-					return $content;
-				}
-			}
+			$parent_element = $image->parentNode; // Can possibly be an anchor or figure tag.
+			if ( 'a' === $parent_element->tagName ) {
+				$parent_element = $parent_element->parentNode; // Can possibly be a figure tag.
 
-			// Check for exclusions.
-			$exclusions = $options['exclusions'];
-			if ( ! empty( $exclusions ) ) {
-				$exclusions = array_map( 'trim', explode( ',', $exclusions ) );
-				foreach ( $exclusions as $exclusion ) {
-					if ( false !== strpos( $image_element, $exclusion ) || false !== strpos( $parent_element, $exclusion ) ) {
-						return $content;
+				// If the parent is a figure tag, try to get its parent, which can also be a figure (gallery).
+				if ( isset( $parent_element->tagName ) && 'figure' === $parent_element->tagName ) {
+					$maybe_new_parent_element = $parent_element->parentNode;
+					if ( isset( $maybe_new_parent_element->tagName ) && 'figure' === $maybe_new_parent_element->tagName ) {
+						$parent_element = $maybe_new_parent_element;
 					}
 				}
+			} elseif ( isset( $parent_element->tagName ) && 'figure' === $parent_element->tagName ) {
+				// Try to get its parent, which may possibly be a gallery.
+				$maybe_new_parent_element = $parent_element->parentNode;
+				if ( 'figure' === $maybe_new_parent_element->tagName ) {
+					$parent_element = $maybe_new_parent_element;
+				}
+			}
+			$parent_html = '';
+			if ( $parent_element ) {
+				$parent_html = $dom->saveHTML( $parent_element );
+			}
+
+			// Merge core and user exclusions.
+			$exclusions = array_merge( $core_exclusions, array_map( 'trim', explode( ',', $options['exclusions'] ) ) );
+			$exclusions = array_unique( $exclusions );
+
+			// Check for exclusions.
+			$found_exclusion = false;
+			if ( ! empty( $exclusions ) ) {
+				foreach ( $exclusions as $exclusion ) {
+					if ( false !== strpos( $image_element, $exclusion ) || false !== strpos( $parent_html, $exclusion ) ) {
+						$found_exclusion = true;
+					}
+				}
+			}
+			if ( $found_exclusion ) {
+				continue;
 			}
 
 			// Create wrapper span.

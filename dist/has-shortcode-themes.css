@@ -115,6 +115,11 @@ main .has-cts-shortcode.has-cts-shortcode-align-right {
 main .has-cts-shortcode .has-click-to-share-text {
   font-family: var(--has-cts-font-family, "Lato");
 }
+.has-cts-shortcode .has-click-to-share-cta-text,
+.entry-content .has-cts-shortcode .has-click-to-share-cta-text,
+main .has-cts-shortcode .has-click-to-share-cta-text {
+  font-family: var(--has-cts-button-font-family, "Lato");
+}
 .has-cts-shortcode.has-cts-shortcode-font-size-small .has-click-to-share-text,
 .entry-content .has-cts-shortcode.has-cts-shortcode-font-size-small .has-click-to-share-text,
 main .has-cts-shortcode.has-cts-shortcode-font-size-small .has-click-to-share-text {
@@ -225,6 +230,40 @@ main .has-cts-shortcode.has-cts-shortcode-icon-size-large .has-click-to-share-ct
   --has-cts-border: 1px solid #343a40;
   --has-cts-border-radius: 4px;
   --has-cts-border-hover: 1px solid #23272b;
+  --has-cts-icon-color: #ffffff;
+  --has-cts-icon-color-hover: #ffffff;
+  --has-cts-padding: 25px 35px;
+  --has-cts-max-width: 650px;
+  --has-cts-margin: 20px auto;
+}
+
+.has-cts-shortcode-theme-orange {
+  --has-cts-background: #f58220;
+  --has-cts-background-hover: #e76f1a;
+  --has-cts-share-text-color: #ffffff;
+  --has-cts-share-text-color-hover: #ffffff;
+  --has-cts-text-color: #ffffff;
+  --has-cts-text-color-hover: #ffffff;
+  --has-cts-border: 1px solid #f58220;
+  --has-cts-border-radius: 4px;
+  --has-cts-border-hover: 1px solid #e76f1a;
+  --has-cts-icon-color: #ffffff;
+  --has-cts-icon-color-hover: #ffffff;
+  --has-cts-padding: 25px 35px;
+  --has-cts-max-width: 650px;
+  --has-cts-margin: 20px auto;
+}
+
+.has-cts-shortcode-theme-pink {
+  --has-cts-background: #e83e8c;
+  --has-cts-background-hover: #d6336c;
+  --has-cts-share-text-color: #ffffff;
+  --has-cts-share-text-color-hover: #ffffff;
+  --has-cts-text-color: #ffffff;
+  --has-cts-text-color-hover: #ffffff;
+  --has-cts-border: 1px solid #e83e8c;
+  --has-cts-border-radius: 4px;
+  --has-cts-border-hover: 1px solid #d6336c;
   --has-cts-icon-color: #ffffff;
   --has-cts-icon-color-hover: #ffffff;
   --has-cts-padding: 25px 35px;

@@ -127,10 +127,15 @@ const Preview = ( props ) => {
 		}
 	`;
 
+	let previewLabel = __( 'Preview', 'highlight-and-share' );
+	if ( formValues.showOnHover ) {
+		previewLabel = __( 'Preview: Hover to Preview', 'highlight-and-share' );
+	}
+
 	return (
 		<BaseControl
 			id="preview"
-			label={ __( 'Preview', 'highlight-and-share' ) }
+			label={ previewLabel }
 		>
 			<style>{ styles }</style>
 			<div className={ imageWrapperClasses }>
@@ -208,7 +213,6 @@ const Interface = ( props ) => {
 			exclusions: data.exclusions,
 		};
 	};
-	console.log( data );
 	const {
 		register,
 		control,
@@ -464,6 +468,11 @@ const Interface = ( props ) => {
 								</h2>
 								<p className="description">{ __( 'Adjust the appearance of the image sharing options below.', 'highlight-and-share' ) }</p>
 								<div className="has-admin-component-row">
+									<Preview
+										formValues={ formValues }
+									/>
+								</div>
+								<div className="has-admin-component-row">
 									<Controller
 										name="location"
 										control={ control }
@@ -508,8 +517,23 @@ const Interface = ( props ) => {
 									/>
 								</div>
 								<div className="has-admin-component-row">
-									<Preview
-										formValues={ formValues }
+									<Controller
+										name="exclusions"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<TextControl
+												label={ __( 'Exclusions', 'highlight-and-share' ) }
+												value={ value }
+												onChange={ ( newValue ) => {
+													onChange( newValue );
+												} }
+												className={ classNames( 'has-admin__text-control' ) }
+												help={ __(
+													'Enter comma-separated keywords to exclude certain images, such as a CSS classname or data parameter.',
+													'highlight-and-share'
+												) }
+											/>
+										) }
 									/>
 								</div>
 								<div className="has-admin-component-row">
@@ -600,6 +624,11 @@ const Interface = ( props ) => {
 												className="has-admin__theme-select"
 											/>
 										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Preview
+										formValues={ formValues }
 									/>
 								</div>
 								<div className="has-admin-component-row">
@@ -826,26 +855,6 @@ const Interface = ( props ) => {
 								<div className="has-admin-component-row">
 									<Preview
 										formValues={ formValues }
-									/>
-								</div>
-								<div className="has-admin-component-row">
-									<Controller
-										name="exclusions"
-										control={ control }
-										render={ ( { field: { onChange, value } } ) => (
-											<TextControl
-												label={ __( 'Exclusions', 'highlight-and-share' ) }
-												value={ value }
-												onChange={ ( newValue ) => {
-													onChange( newValue );
-												} }
-												className={ classNames( 'has-admin__text-control' ) }
-												help={ __(
-													'Enter comma-separated keywords to exclude certain images.',
-													'highlight-and-share'
-												) }
-											/>
-										) }
 									/>
 								</div>
 							</div>
