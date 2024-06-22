@@ -1068,48 +1068,57 @@ import { constrainRange } from './selection';
 		} );
 	}
 
-	// Get click to share comment elements.
-	const commentElements = document.querySelectorAll( '.has-comment-placeholder' );
-	if ( null !== commentElements ) {
-		/**
-		 * Handle touch/click events for select (mouseup) events.
-		 *
-		 * @param {event}   event         The original event.
-		 * @param {element} parentElement The element to retrieve data functions for.
-		 */
-		const hasHandleCommentSelectEvents = ( event, parentElement ) => {
-			// Remove any visible elements.
-			hasRemoveVisibleElements();
+	/**
+	 * Set up comment elements.
+	 */
+	const initCommentElements = () => {
+		// Get click to share comment elements.
+		const commentElements = document.querySelectorAll( '.has-comment-placeholder' );
+		if ( null !== commentElements ) {
+			/**
+			 * Handle touch/click events for select (mouseup) events.
+			 *
+			 * @param {event}   event         The original event.
+			 * @param {element} parentElement The element to retrieve data functions for.
+			 */
+			const hasHandleCommentSelectEvents = ( event, parentElement ) => {
+				// Remove any visible elements.
+				hasRemoveVisibleElements();
 
-			// Get selection.
-			const selection = document.defaultView.getSelection();
+				// Get selection.
+				const selection = document.defaultView.getSelection();
 
-			// Get the selected text.
-			const selectedText = selection.toString().trim();
+				// Get the selected text.
+				const selectedText = selection.toString().trim();
 
-			if ( '' === selectedText ) {
-				return;
-			}
+				if ( '' === selectedText ) {
+					return;
+				}
 
-			const element = parentElement.querySelector( '.has-comment-placeholder' );
+				const element = parentElement.querySelector( '.has-comment-placeholder' );
 
-			const href = element.getAttribute( 'data-comment-url' );
-			const title = element.getAttribute( 'data-title' );
+				const href = element.getAttribute( 'data-comment-url' );
+				const title = element.getAttribute( 'data-title' );
 
-			// Display Highlight and Share.
-			hasDisplay( selectedText, title, href, '', 'comments' );
-		};
-		// Loop through elements and set up mouseup event.
-		commentElements.forEach( ( element ) => {
-			// Check if element has class `has-content-area` and if so, it's flush with the content. Select its parent, and add the event to that.
-			const eventTypes = [ 'selectionchange', 'mouseup', 'touchend', 'touchcancel' ];
-			eventTypes.forEach( ( eventType ) => {
-				element.parentElement.addEventListener( eventType, ( event ) => {
-					hasHandleCommentSelectEvents( event, element.parentElement );
+				// Display Highlight and Share.
+				hasDisplay( selectedText, title, href, '', 'comments' );
+			};
+			// Loop through elements and set up mouseup event.
+			commentElements.forEach( ( element ) => {
+				// Check if element has class `has-content-area` and if so, it's flush with the content. Select its parent, and add the event to that.
+				const eventTypes = [ 'selectionchange', 'mouseup', 'touchend', 'touchcancel' ];
+				eventTypes.forEach( ( eventType ) => {
+					element.parentElement.addEventListener( eventType, ( event ) => {
+						hasHandleCommentSelectEvents( event, element.parentElement );
+					} );
 				} );
 			} );
-		} );
-	}
+		}
+	};
+
+	// Initialize comment elements.
+	document.addEventListener( 'wpacAfterUpdateComments', initCommentElements );
+	initCommentElements();
 
 	// Listen for the escape key to remove visible elements.
 	document.addEventListener( 'keydown', ( event ) => {
