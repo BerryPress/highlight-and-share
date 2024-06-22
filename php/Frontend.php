@@ -167,7 +167,8 @@ class Frontend {
 		add_filter( 'comment_text', array( $this, 'add_comment_area_html' ) );
 
 		// Add Pinterest and Web Share to image tags. WP 6.2 and up.
-		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 5, 5 );
+		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 5 );
+		add_filter( 'et_pb_post_content_shortcode_output', array( $this, 'add_image_sharing_html' ), 11 );
 
 		// For the Click to Share Shortcode.
 		add_shortcode( 'has_click_to_share', array( $this, 'output_shortcode' ) );
@@ -490,7 +491,7 @@ class Frontend {
 	 */
 	public function add_image_sharing_html( $content ) {
 		// If we're not in the loop, bail.
-		if ( ! in_the_loop() || is_admin() || is_feed() || ( ! is_singular() && ! is_page() ) ) {
+		if ( is_admin() || is_feed() || ( ! is_singular() && ! is_page() && ! is_single() ) ) {
 			return $content;
 		}
 		$options = Options::get_image_options();
@@ -622,7 +623,8 @@ class Frontend {
 			}
 
 			// Merge core and user exclusions.
-			$exclusions = array_merge( $core_exclusions, array_map( 'trim', explode( ',', $options['exclusions'] ) ) );
+			$exclusions = array_merge( $core_exclusions, array_map( 'trim', explode( ',', sanitize_text_field( $options['exclusions'] ) ) ) ); // failing here.
+
 			$exclusions = array_unique( array_filter( $exclusions ) );
 
 			// Check for exclusions.

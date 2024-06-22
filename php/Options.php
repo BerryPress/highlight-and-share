@@ -437,7 +437,7 @@ class Options {
 			'show_button_labels'           => true,
 			'pinterest_button_label'       => __( 'Pin it', 'highlight-and-share' ),
 			'webshare_button_label'        => __( 'Share', 'highlight-and-share' ),
-			'exclusions'                   => array(),
+			'exclusions'                   => '',
 		);
 		return $defaults;
 	}
