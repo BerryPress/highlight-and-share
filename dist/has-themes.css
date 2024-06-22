@@ -72,7 +72,7 @@
 }
 .has-pin-sharing-icons.has-appearance-circle .has-pin-button {
   padding: 16px;
-  border-radius: 50%;
+  border-radius: 100%;
 }
 .has-pin-sharing-icons svg {
   width: 20px;

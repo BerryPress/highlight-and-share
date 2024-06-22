@@ -623,7 +623,7 @@ class Frontend {
 
 			// Merge core and user exclusions.
 			$exclusions = array_merge( $core_exclusions, array_map( 'trim', explode( ',', $options['exclusions'] ) ) );
-			$exclusions = array_unique( $exclusions );
+			$exclusions = array_unique( array_filter( $exclusions ) );
 
 			// Check for exclusions.
 			$found_exclusion = false;
