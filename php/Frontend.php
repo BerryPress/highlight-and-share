@@ -739,15 +739,25 @@ class Frontend {
 	public function add_comment_area_html( $comment_content ) {
 		$options             = Options::get_plugin_options();
 		$enable_for_comments = (bool) $options['enable_comments'];
+		$enable_shortlinks  = (bool) $options['shortlinks'];
 
 		if ( ! $enable_for_comments ) {
 			return $comment_content;
 		}
 
+		// Get the comment permalink.
+		$comment_permalink = get_comment_link();
+		if ( $enable_shortlinks ) {
+			$shortlink = wp_get_shortlink();
+			if ( ! empty( $shortlink ) ) {
+				$comment_permalink = $shortlink . '#comment-' . get_comment_ID();
+			}
+		}
+
 		// Create a div with the class and data attributes.
 		$comment_content .= sprintf(
 			'<div class="has-comment-placeholder" data-comment-url="%s" data-title="%s" style="width: 0; height: 0; display: none; overflow: hidden;" aria-hidden="true"></div>',
-			esc_url( get_comment_link() ),
+			esc_url( $comment_permalink ),
 			esc_attr( get_the_title() ),
 			esc_attr( Hashtags::get_hashtags( get_the_ID() ) )
 		);
