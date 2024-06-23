@@ -1,9 +1,9 @@
-=== Highlight and Share – Click to Share Block and Text Selection ===
+=== Highlight and Share – Social Text and Image Sharing ===
 Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
-Tested up to: 6.5
-Stable tag: 4.9.2
+Tested up to: 6.6
+Stable tag: 5.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -12,19 +12,18 @@ A lightweight and unobtrusive social media plugin for displaying social networks
 
 == Description ==
 
-When users highlight text, show relevant social networks and shortcuts for the user to select.  Highlight and Share is a lightweight and unobtrusive social sharing tool that displays social networks on text selection, clicking on highlighted text, and on a Click to Share block.
+Show relevant social networks when users highlight text, click an inline highlight, interact with an image, or click on a Click to Share box. <a href="https://wordpress.org/plugins/highlight-and-share/?preview=1">Check out the live demo</a>.
 
 https://www.youtube.com/watch?v=ZZWiLZtfqcI
 
-Show social network options when users interact with your text (<a href="https://docs.dlxplugins.com/v/highlight-and-share/getting-started/how-highlight-and-share-works">find out how Highlight and Share works</a>).
+Highlight and Share has the following major features (links are to docs):
 
-Highlight and Share has the following major features:
-
-1. Show social networks when users select text.
+1. Show <a href="https://docs.dlxplugins.com/v/highlight-and-share/getting-started/enabling-the-social-networks">enabled social networks</a> when users select text.
 2. Add <a href="https://docs.dlxplugins.com/v/highlight-and-share/inline-highlighting/what-is-inline-highlighting">inline highlighting</a> to split out longform text.
-3. Use the included <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-block/the-click-to-share-block">Click to Share</a> to show social networks when the user clicks on the quote.
+3. Create a Click to Share box via the <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-block/the-click-to-share-block">block editor</a> or <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-shortcode/shortcode-parameters">shortcode</a>.
+4. Add Pinterest and the Web Share API to images <a href="https://docs.dlxplugins.com/v/highlight-and-share/image-sharing/what-is-image-sharing">for image sharing</a>.
 
-> <a href="https://has.dlxplugins.com/">In-depth Documentation</a> - Please check out our thorough documentation ❤️️
+> Not sure where to start? Please check out <a href="https://youtube.com/playlist?list=PLw2fSxxzure64RVDMsBd1DzU87YY0pRTb&si=1JpVYegYj5jskn27">our video series</a> (YouTube) and our <a href="https://docs.dlxplugins.com/v/highlight-and-share">comprehensive documentation</a> ❤️️
 
 If you have a feature request, <a href="https://dlxplugins.com/support/">please leave a support request.</a>.
 
@@ -33,7 +32,12 @@ If you have a feature request, <a href="https://dlxplugins.com/support/">please 
 <ul>
 <li>Show social networks on text selection.</li>
 <li>Inline highlighting.</li>
-<li>A comprehensive Click to Share block.
+<li>A comprehensive Click to Share block.</li>
+<li>A comprehensive Click to Share shortcode.</li>
+<li>Image sharing via Pinterest and the Web Share API.</li>
+<li>Customize the appearance of the social networks.</li>
+<li>Customize the appearance of the inline highlighting.</li>
+<li>Enable social networks in the comments section when highlighting text.</li>
 <li>Enable or disable on main content and excerpts.</li>
 <li>Enable or disable each social network.</li>
 <li>Translate the labels and tooltips into your language, or just change up the text.</li>
@@ -44,20 +48,14 @@ If you have a feature request, <a href="https://dlxplugins.com/support/">please 
 <li>Customize how inline highlighting looks</li>
 </ul>
 
-Advanced customization is allowed via hooks.  See the plugin's <a href="https://has.dlxplugins.com/">documentation</a>.
-
 == Installation ==
 
 1. Search Highlight and Share in the plugin's screen.
 2. Install and activate.
 
-> <a href="https://has.dlxplugins.com/">In-depth Documentation</a> - Please check out our thorough documentation ❤️️
+> <a href="https://docs.dlxplugins.com/v/highlight-and-share">In-depth Documentation</a> - Please check out our thorough documentation ❤️️
 
 == Frequently Asked Questions ==
-
-= How does Highlight and Share work? =
-
-Highlight and Share shows social networks <a href="https://docs.dlxplugins.com/v/highlight-and-share/getting-started/how-highlight-and-share-works">as users interact with your site's text</a>. This can be via text selection, <a href="https://docs.dlxplugins.com/v/highlight-and-share/inline-highlighting/what-is-inline-highlighting">inline highlighting</a>, or using the <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-block/the-click-to-share-block">Click to Share block</a>.
 
 = What social networks does this plugin work with? =
 
@@ -75,6 +73,12 @@ Highlight and Share <a href="https://docs.dlxplugins.com/v/highlight-and-share/d
 * Xing
 * Copy (allows text sharing)
 * Email (allows text sharing)
+* Pinterest (for image sharing only)
+* Web Share API (allows text sharing)
+
+= How does Highlight and Share work? =
+
+Highlight and Share shows social networks <a href="https://docs.dlxplugins.com/v/highlight-and-share/getting-started/how-highlight-and-share-works">as users interact with your site's text</a>. This can be via text selection, <a href="https://docs.dlxplugins.com/v/highlight-and-share/inline-highlighting/what-is-inline-highlighting">inline highlighting</a>, or using the <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-block/the-click-to-share-block">Click to Share block</a>.
 
 = How can I customize the look of Highlight and Share? =
 
@@ -115,6 +119,13 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 
 == Changelog ==
+
+= 5.0.0 (Holly) =
+* Released 2024-06-22
+* Please read the announcement: <a href="https://dlxplugins.com/announcements/highlight-and-share-5-0-released-with-image-sharing-click-to-share-shortcode-and-comments-support/">Highlight and Share 5.0 Released</a>
+* New feature: Comprehensive Click to Share shortcode, which can be used to create a Click to Share box wherever shortcodes are supported.
+* New feature: Image sharing via Pinterest and the Web Share API.
+* New feature: Comment section support has been added to the text selection settings.
 
 = 4.9.2 =
 * Released 2024-06-17
@@ -542,5 +553,5 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Upgrade Notice ==
 
-= 4.9.2 =
-Resolving email issues and unauthorized errors. Fixing hardcoded email address present in mailto settings. Adding URL to email body for mailto setting.
+= 5.0.0 =
+New features: Comprehensive Click to Share shortcode, image sharing, and comment section support. Tested with WP 6.6.
