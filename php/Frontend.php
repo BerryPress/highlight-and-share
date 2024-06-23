@@ -613,7 +613,7 @@ class Frontend {
 			} elseif ( isset( $parent_element->tagName ) && 'figure' === $parent_element->tagName ) {
 				// Try to get its parent, which may possibly be a gallery.
 				$maybe_new_parent_element = $parent_element->parentNode;
-				if ( 'figure' === $maybe_new_parent_element->tagName ) {
+				if ( isset( $maybe_new_parent_element->tagName ) && 'figure' === $maybe_new_parent_element->tagName ) {
 					$parent_element = $maybe_new_parent_element;
 				}
 			}
