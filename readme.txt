@@ -122,6 +122,7 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 = 5.0.0 (Holly) =
 * Released 2024-06-22
+* Named for <a href="https://jahangiri.us/">Holly Jahangiri</a>, who helped provide critical testing feedback.
 * Please read the announcement: <a href="https://dlxplugins.com/announcements/highlight-and-share-5-0-released-with-image-sharing-click-to-share-shortcode-and-comments-support/">Highlight and Share 5.0 Released</a>
 * New feature: Comprehensive Click to Share shortcode, which can be used to create a Click to Share box wherever shortcodes are supported.
 * New feature: Image sharing via Pinterest and the Web Share API.
