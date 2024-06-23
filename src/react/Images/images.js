@@ -313,6 +313,16 @@ const Interface = ( props ) => {
 								</h2>
 								<p className="description">{ __( 'Set image sharing options.', 'highlight-and-share' ) }</p>
 								<div className="has-admin-component-row">
+									<Notice
+										status="warning"
+										icon={ CircularExclamationIcon }
+										message={ __(
+											'Image sharing is still new and may not be compatible with all themes. Please ensure your site layout is not affected after enabling image sharing.',
+											'highlight-and-share'
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
 									<Controller
 										name="enableImageSharing"
 										control={ control }
