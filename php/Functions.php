@@ -139,7 +139,10 @@ class Functions {
 		$enable_shortlinks = isset( $settings['shortlinks'] ) ? (bool) $settings['shortlinks'] : false;
 		$url               = get_permalink( $post_id );
 		if ( $enable_shortlinks ) {
-			$url = wp_get_shortlink( $post_id );
+			$maybe_url = wp_get_shortlink( $post_id );
+			if ( ! empty( $maybe_url ) ) {
+				$url = $maybe_url;
+			}
 		}
 
 		/**
