@@ -18,6 +18,33 @@
             "password": "password"
         },
 		{
+            "step": "installTheme",
+            "themeZipFile": {
+                "resource": "wordpress.org/themes",
+                "slug": "blocksy"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+		{
+            "step": "installPlugin",
+            "pluginZipFile": {
+                "resource": "wordpress.org/plugins",
+                "slug": "highlight-and-share"
+            },
+            "options": {
+                "activate": true
+            }
+        },
+		{
+            "step": "importWxr",
+            "file": {
+                "resource": "url",
+                "url": "https://raw.githubusercontent.com/DLXPlugins/highlight-and-share/development/blueprint.xml"
+            }
+        },
+		{
             "step": "setSiteOptions",
             "options": {
                 "permalink_structure": "/%postname%/"
