@@ -104,7 +104,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":24,"sizeSlug":"large","linkDestination":"none","align":"center"} -->
-<figure class="wp-block-image aligncenter size-large"><img src="https://github.com/DLXPlugins/highlight-and-share/blob/development/blueprint.jpg" alt="Lighting Strike in Phoenix, Arizona" class="wp-image-24"/><figcaption class="wp-element-caption">Lighting Strike in Phoenix, Arizona</figcaption></figure>
+<figure class="wp-block-image aligncenter size-large"><img src="https://raw.githubusercontent.com/DLXPlugins/highlight-and-share/development/blueprint.jpg" alt="Lighting Strike in Phoenix, Arizona" class="wp-image-24"/><figcaption class="wp-element-caption">Lighting Strike in Phoenix, Arizona</figcaption></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

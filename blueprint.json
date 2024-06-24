@@ -10,7 +10,7 @@
     "phpExtensionBundles": [
         "kitchen-sink"
     ],
-    "landingPage": "/highlight-and-share-demo/",
+    "landingPage": "/",
     "steps": [
         {
             "step": "login",
