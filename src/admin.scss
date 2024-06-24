@@ -66,8 +66,8 @@
 }
 
 /* hide notices (only on our screen) */
-.notice, .updated {
-	display: none;
+body .notice, body .updated {
+	display: none !important;
 }
 
 .has-admin-container-body__content {
