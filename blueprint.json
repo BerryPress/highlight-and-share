@@ -53,6 +53,7 @@
 		{
             "step": "setSiteOptions",
             "options": {
+				"blogname": "Highlight and Share Demo",
                 "show_on_front": "page",
 				"dismissed-blocksy_plugin_notice": "1"
             }
@@ -61,6 +62,10 @@
 			"step": "runPHP",
 			"code": "<?php require_once 'wordpress/wp-load.php'; $path = get_page_by_path( 'home' ); update_option( 'page_on_front', absint( $path->ID ) );"
 			
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php require_once 'wordpress/wp-load.php'; update_option( 'nav_menu_options', maybe_unserialize( 'a:2:{i:0;b:0;s:8:\"auto_add\";a:0:{}}' ) ); ?>"
 		},
 		{
 			"step": "runPHP",
