@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
 Tested up to: 6.6
-Stable tag: 5.0.0
+Stable tag: 5.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -119,6 +119,12 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 
 == Changelog ==
+
+= 5.0.1 =
+* Released 2024-06-24
+* Bug fix: shortlinks were returning empty for some custom post types.
+* Bug fix: Image sharing was causing a few warnings if a parent node didn't exist.
+* Bug fix: Other admin notices showing in HAS admin settings.
 
 = 5.0.0 (Holly) =
 * Released 2024-06-22
@@ -554,5 +560,5 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Upgrade Notice ==
 
-= 5.0.0 =
-New features: Comprehensive Click to Share shortcode, image sharing, and comment section support. Tested with WP 6.6.
+= 5.0.1 =
+A few bug fixes, fixing a PHP warning for Image Sharing, shortlinks not returning a URL for custom post types, and a few admin style tweaks.
