@@ -2,7 +2,7 @@
 Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
-Tested up to: 6.6
+Tested up to: 6.7
 Stable tag: 5.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
