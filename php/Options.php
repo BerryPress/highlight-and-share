@@ -565,7 +565,7 @@ class Options {
 	 */
 	public static function get_plugin_options( $force = false ) {
 		if ( false === self::$options ) {
-			$settings = get_option( 'highlight-and-share' );
+			$settings = get_option( 'highlight-and-share', array() );
 		} else {
 			$settings = self::$options;
 		}
