@@ -5,7 +5,7 @@
  * Plugin URI: https://dlxplugins.com/plugins/highlight-and-share/
  * Description: Select text, inline highlight, or use a Click to Share block and show social networks.
  * Author: DLX Plugins
- * Version: 5.0.1
+ * Version: 5.0.2
  * Requires at least: 5.1
  * Requires PHP: 7.2
  * Author URI: https://dlxplugins.com/plugins/highlight-and-share/
@@ -17,7 +17,7 @@
 
 namespace DLXPlugins\HAS;
 
-define( 'HIGHLIGHT_AND_SHARE_VERSION', '5.0.1' );
+define( 'HIGHLIGHT_AND_SHARE_VERSION', '5.0.2' );
 define( 'HIGHLIGHT_AND_SHARE_FILE', __FILE__ );
 
 // Support for site-level autoloading.
@@ -62,11 +62,25 @@ class Highlight_And_Share {
 	 * @access private
 	 */
 	private function __construct() {
-		// i18n initialization.
-		load_plugin_textdomain( 'highlight-and-share', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 		// For the icons on older version of HAS.
 		$this->maybe_migrate_icons();
+
+		// Set up init action to load the plugin.
+		add_action( 'init', array( $this, 'init' ) );
+	}
+
+	/**
+	 * Initialize the plugin.
+	 *
+	 * Load the plugin text domain for translation.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function init() {
+		// i18n initialization.
+		load_plugin_textdomain( 'highlight-and-share', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**

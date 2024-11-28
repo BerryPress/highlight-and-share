@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
 Tested up to: 6.7
-Stable tag: 5.0.1
+Stable tag: 5.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -119,6 +119,10 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 
 == Changelog ==
+
+= 5.0.2
+* Released 2024-11-28
+* Bug fix: translations were loading too early in the plugin.
 
 = 5.0.1 =
 * Released 2024-06-24
@@ -560,5 +564,5 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Upgrade Notice ==
 
-= 5.0.1 =
-A few bug fixes, fixing a PHP warning for Image Sharing, shortlinks not returning a URL for custom post types, and a few admin style tweaks.
+= 5.0.2 =
+Bug fix: translations were loading too early in the plugin.
