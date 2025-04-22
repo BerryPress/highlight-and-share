@@ -147,9 +147,10 @@ class Emails {
 		);
 
 		$permalink = urldecode( $ajax_data['permalink'] );
+		$post_id   = absint( $ajax_data['postId'] );
 
 		// Check the nonce.
-		if ( ! wp_verify_nonce( $ajax_data['nonce'], 'has_share_' . $permalink ) ) {
+		if ( ! wp_verify_nonce( $ajax_data['nonce'], 'has_share_email' . $post_id ) ) {
 			$return['errors']  = true;
 			$return['message'] = __( 'Nonce could not be verified.', 'highlight-and-share' );
 			wp_send_json( $return );
