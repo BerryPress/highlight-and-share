@@ -2,8 +2,8 @@
 Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
-Tested up to: 6.7
-Stable tag: 5.0.2
+Tested up to: 6.8
+Stable tag: 5.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -119,6 +119,10 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 
 == Changelog ==
+
+= 5.0.4 =
+* Released 2025-04-22
+* Fixing a bug in email sending due to an invalid nonce value.
 
 = 5.0.2
 * Released 2024-11-28
@@ -564,5 +568,5 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Upgrade Notice ==
 
-= 5.0.2 =
-Bug fix: translations were loading too early in the plugin.
+= 5.0.4 =
+Bug fix: Fixing a bug in email sending due to an invalid nonce value.
