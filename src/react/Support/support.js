@@ -65,7 +65,8 @@ const Interface = ( props ) => {
 				smallBtn: true,
 				iframe: {
 					preload: false
-				}
+				},
+				compact: true,
 			});
 		}
 	}, [] );

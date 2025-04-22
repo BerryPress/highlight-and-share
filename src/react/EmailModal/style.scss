@@ -12,48 +12,74 @@
 	font-family: sans-serif;
 	max-width: calc(100% - 20px);
 }
+
+.has-email--notice-wrap {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	font-family: sans-serif;
+	min-height: calc(100vh - 20px);
+	max-width: calc(100% - 20px);
+
+	.has-email-control-row {
+		width: 100%;
+		max-width: 400px;
+	}
+}
+
 /* Prevent recaptcha from hovering over cancel button */
 .showing-recaptcha .has-admin__tabs--content-actions {
 	padding-right: 80px;
 }
+
 h2 {
 	font-family: sans-serif;
 }
+
 .is-required label {
 	position: relative;
 }
+
 .is-required label::after {
-    position: absolute;
-    display: inline-block;
-    vertical-align: middle;
-    content: "*";
-    top: 0;
-    right: -12px;
-    color: #b53b07;
-    font-size: 1.4em;
-    line-height: 1.3;
+	position: absolute;
+	display: inline-block;
+	vertical-align: middle;
+	content: "*";
+	top: 0;
+	right: -12px;
+	color: #b53b07;
+	font-size: 1.4em;
+	line-height: 1.3;
 }
+
 .has-error {
 	input {
 		border: 1px solid var(--quotes-dlx-admin--color-notice--error-alt);
 		background-color: var(--quotes-dlx-admin--color-notice--error);
 	}
 }
+
 .has-email-control-row {
 	margin-bottom: 16px;
 }
+
 .components-base-control {
 	margin-bottom: 0;
 
 	&.has-error {
 		margin-bottom: 5px;
 	}
+
 	&:last-child {
 		margin-bottom: 0;
 	}
+
 	label {
 		font-weight: 700;
 	}
+
 	input[type='text'],
 	input[type='password'] {
 		position: relative;
@@ -61,6 +87,7 @@ h2 {
 		min-width: 100%;
 		line-height: 2;
 		font-size: 16px;
+
 		/* Change placeholder color */
 		&::placeholder {
 			color: #a0a5aa;
@@ -75,6 +102,7 @@ h2 {
 /* Error Notices */
 .has-admin__notice {
 	margin: 10px 0;
+
 	&.has-admin__notice--has-icon {
 		.components-notice__content {
 			display: grid;
@@ -90,18 +118,21 @@ h2 {
 			}
 		}
 	}
+
 	.qldx-admin__notice-message {
 		color: #000;
 		font-size: 1.1em;
 		line-height: 1.2;
 		font-weight: 500;
 	}
+
 	&.has-admin__notice-appearance--block .components-notice {
 		border-left: 4px solid transparent;
 		padding: 15px 20px;
 		padding-left: 15px;
 		margin-bottom: 15px;
 	}
+
 	&.has-admin__notice-appearance--inline .components-notice {
 		padding-left: 0;
 	}
@@ -115,17 +146,21 @@ h2 {
 
 	&.has-admin__notice-type--error:not(.has-admin__notice-appearance--inline) {
 		background-color: var(--quotes-dlx-admin--color-notice--error);
+
 		.components-notice {
 			border-left-color: var(--quotes-dlx-admin--color-notice--error-alt);
 		}
+
 		svg path {
 			fill: var(--quotes-dlx-admin--color-notice--error-alt);
 		}
 	}
+
 	&.has-admin__notice-type--error.has-admin__notice-appearance--inline {
 		.qldx-admin__notice-message {
 			color: var(--quotes-dlx-admin--color-notice--error-alt);
 		}
+
 		.qldx-admin__notice-message {
 			font-size: 0.9em;
 		}
@@ -133,34 +168,44 @@ h2 {
 		svg {
 			width: 16px;
 			height: 16px;
+
 			path {
 				fill: var(--quotes-dlx-admin--color-notice--error-alt);
 			}
 		}
 	}
+
 	&.has-admin__notice-type--success {
 		background-color: var(--quotes-dlx-admin--color-notice--success);
+
 		.components-notice {
 			border-left-color: var(--quotes-dlx-admin--color-notice--success-alt);
 		}
+
 		svg path {
 			fill: var(--quotes-dlx-admin--color-notice--success-alt);
 		}
 	}
+
 	&.has-admin__notice-type--info {
 		background-color: var(--quotes-dlx-admin--color-notice--info);
+
 		.components-notice {
 			border-left-color: var(--quotes-dlx-admin--color-notice--info-alt);
 		}
+
 		svg path {
 			fill: var(--quotes-dlx-admin--color-notice--info-alt);
 		}
 	}
+
 	&.has-admin__notice-type--warning {
 		background-color: var(--quotes-dlx-admin--color-notice--warning);
+
 		.components-notice {
 			border-left-color: var(--quotes-dlx-admin--color-notice--warning-alt);
 		}
+
 		svg path {
 			fill: var(--quotes-dlx-admin--color-notice--warning-alt);
 		}
@@ -196,6 +241,7 @@ h2 {
 
 		&.has-error {
 			border: 1px solid var(--quotes-dlx-admin--color-notice--error-alt);
+
 			&:hover {
 				cursor: not-allowed;
 			}
@@ -230,13 +276,16 @@ h2 {
 			background: var(--quotes-dlx-admin--color-white);
 			color: var(--quotes-dlx-admin--color-accent);
 			border-color: var(--quotes-dlx-admin--color-accent);
+
 			&:hover {
 				background: #f8f7fe;
 				color: var(--quotes-dlx-admin--color-accent);
-				border-color: var( --quotes-dlx-admin--color-accent );
+				border-color: var(--quotes-dlx-admin--color-accent);
 			}
+
 			&.qdlx__btn--icon-right {
 				&.is-saving {
+
 					svg,
 					path {
 						color: var(--quotes-dlx-admin--color-accent);
@@ -251,23 +300,28 @@ h2 {
 				display: flex;
 				justify-content: center;
 				align-items: center;
+
 				svg {
 					width: 24px;
 					height: 24px;
 					animation: has-rotate 1s linear infinite;
+
 					path {
 						fill: var(--quotes-dlx-admin--color-green-alt);
 					}
 				}
 			}
+
 			&.is-resetting {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
+
 				svg {
 					width: 24px;
 					height: 24px;
 					animation: has-rotate 1s linear infinite;
+
 					path {
 						fill: var(--quotes-dlx-admin--color-red-alt);
 					}

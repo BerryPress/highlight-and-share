@@ -118,6 +118,9 @@ const View = () => {
 
 			if ( ajaxSuccess ) {
 				setIsSent( true );
+				// Add slight delay to ensure DOM has updated.
+
+				// Close the modal after showing success message.
 				setTimeout(
 					() => {
 						window.parent.window.highlightShareFancy.close(); // See frontendjs/highlight-and-share.js for this variable.
@@ -152,7 +155,7 @@ const View = () => {
 	// If the email is sent, show a success message.
 	if ( isSent ) {
 		return (
-			<section className="has-email--content-wrap">
+			<section className="has-email--notice-wrap">
 				<div className="has-email-control-row">
 					<Notice
 						message={ __( 'The email has been sent.' ) }
