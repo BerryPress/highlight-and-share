@@ -319,9 +319,9 @@ const View = () => {
 								hasEmailModal.recaptcha_enabled &&
 								typeof grecaptcha !== 'undefined'
 							) {
-								grecaptcha.ready( function() {
+								grecaptcha.enterprise.ready( function() {
 									grecaptcha
-										.execute( hasEmailModal.recaptcha_site_key, {
+										.enterprise.execute( hasEmailModal.recaptcha_site_key, {
 											action: 'submit',
 										} )
 										.then( function( token ) {
