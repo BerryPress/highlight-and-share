@@ -29,7 +29,7 @@ class Emails {
 	 * Display the HTML for the email modal.
 	 */
 	public function ajax_display_has_email_social_modal() {
-		$post_id = absint( filter_input( INPUT_GET, 'post_id', FILTER_VALIDATE_INT ) );
+		$post_id   = absint( filter_input( INPUT_GET, 'post_id', FILTER_VALIDATE_INT ) );
 		$permalink = get_permalink( $post_id );
 		if ( ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce', FILTER_SANITIZE_SPECIAL_CHARS ), 'has_share_email' . $post_id ) ) {
 			wp_die( 'Invalid request.' );
@@ -71,7 +71,7 @@ class Emails {
 			);
 			wp_register_script(
 				'has-recaptcha',
-				esc_url_raw( 'https://www.google.com/recaptcha/api.js?render=' . sanitize_text_field( $recaptcha_site_key ) ),
+				esc_url_raw( 'https://www.google.com/recaptcha/enterprise.js?render=' . sanitize_text_field( $recaptcha_site_key ) ),
 				array(),
 				Functions::get_plugin_version(),
 				true
@@ -125,7 +125,6 @@ class Emails {
 		</html>
 		<?php
 		exit;
-
 	}
 
 	/**
