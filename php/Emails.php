@@ -158,13 +158,14 @@ class Emails {
 		$options = Options::get_email_options();
 
 		// Get recaptcha keys.
-		$recaptcha_site_key   = $options['recaptcha_site_key'] ?? '';
-		$recaptcha_secret_key = $options['recaptcha_secret_key'] ?? '';
+		$recaptcha_site_key   = sanitize_text_field( $options['recaptcha_site_key'] ?? '' );
 		$recaptcha_enabled    = (bool) ( $options['recaptcha_enabled'] ?? false );
+		$recaptcha_project_id = sanitize_title( $options['recaptcha_project_id'] ?? '' );
+		$recaptcha_api_key    = sanitize_text_field( $options['recaptcha_api_key'] ?? '' );
 		$score_threshold      = (float) ( $options['recaptcha_score_threshold'] ?? 0 );
 
 		if ( $recaptcha_enabled ) {
-			if ( empty( $recaptcha_site_key ) || empty( $recaptcha_secret_key ) ) {
+			if ( empty( $recaptcha_site_key ) ) {
 				wp_send_json_error(
 					array(
 						'message' => __( 'The site owner has not set reCAPTCHA 3 site keys.', 'highlight-and-share' ),
@@ -181,15 +182,21 @@ class Emails {
 			}
 
 			// Now get token back from reCAPTCHA.
-			$url      = 'https://www.google.com/recaptcha/api/siteverify';
+			$url      = 'https://recaptchaenterprise.googleapis.com/v1/projects/mediaron-llc/assessments?key=' . $recaptcha_api_key;
 			$data     = array(
-				'secret'   => $recaptcha_secret_key,
-				'response' => $token,
+				'event' => array(
+					'token'          => $token,
+					'expectedAction' => 'USER_ACTION',
+					'siteKey'        => $recaptcha_site_key,
+				),
 			);
 			$args     = array(
-				'body'      => $data,
+				'body'      => wp_json_encode( $data ),
 				'method'    => 'POST',
 				'sslverify' => true,
+				'headers'   => array(
+					'Content-Type' => 'application/json',
+				),
 			);
 			$response = wp_remote_post( esc_url( $url ), $args );
 			if ( is_wp_error( $response ) ) {
@@ -200,7 +207,7 @@ class Emails {
 				);
 			}
 			$body = json_decode( wp_remote_retrieve_body( $response ), true );
-			if ( ! $body['success'] ) {
+			if ( isset( $body['tokenProperties']['valid'] ) && ! (bool) $body['tokenProperties']['valid'] ) {
 				wp_send_json_error(
 					array(
 						'message' => __( 'reCAPTCHA 3 security challenge has failed.', 'highlight-and-share' ),
@@ -209,7 +216,7 @@ class Emails {
 			}
 
 			// Now check the score with threshold.
-			$recaptcha_score = (float) $body['score'];
+			$recaptcha_score = isset( $body['riskAnalysis']['score'] ) ? (float) $body['riskAnalysis']['score'] : 0;
 			if ( $recaptcha_score < $score_threshold ) {
 				wp_send_json_error(
 					array(

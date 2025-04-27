@@ -93,8 +93,9 @@ const Interface = ( props ) => {
 		return {
 			akismetEnabled: data.values.akismetEnabled,
 			recaptchaEnabled: data.values.recaptchaEnabled,
+			recaptchaProjectId: data.values.recaptchaProjectId,
+			recaptchaApiKey: data.values.recaptchaApiKey,
 			recaptchaSiteKey: data.values.recaptchaSiteKey,
-			recaptchaSecretKey: data.values.recaptchaSecretKey,
 			recaptchaScoreThreshold: data.values.recaptchaScoreThreshold,
 			fromName: data.values.fromName,
 			fromEmail: data.values.fromEmail,
@@ -492,6 +493,64 @@ const Interface = ( props ) => {
 								{ getValues( 'recaptchaEnabled' ) && (
 									<>
 										<Controller
+											name="recaptchaProjectId"
+											control={ control }
+											rules={ { required: true } }
+											render={ ( { field } ) => (
+												<TextControl
+													label={ __( 'Recaptcha 3 Project ID', 'highlight-and-share' ) }
+													{ ...field }
+													className={ classNames( 'has-admin__text-control', {
+														'has-error': 'required' === errors.recaptchaProjectId?.type,
+														'is-required': true,
+													} ) }
+													help={ __(
+														'Enter your Recaptcha 3 Project ID',
+														'highlight-and-share'
+													) }
+													aria-required="true"
+												/>
+											) }
+										/>
+										{ 'required' === errors.recaptchaProjectId?.type && (
+											<Notice
+												message={ __( 'This field is a required field.' ) }
+												status="error"
+												politeness="assertive"
+												inline={ false }
+												icon={ CircularExclamationIcon }
+											/>
+										) }
+										<Controller
+											name="recaptchaApiKey"
+											control={ control }
+											rules={ { required: true } }
+											render={ ( { field } ) => (
+												<TextControl
+													label={ __( 'Recaptcha 3 API Key', 'highlight-and-share' ) }
+													{ ...field }
+													className={ classNames( 'has-admin__text-control', {
+														'has-error': 'required' === errors.recaptchaApiKey?.type,
+														'is-required': true,
+													} ) }
+													help={ __(
+														'Enter your Recaptcha 3 API Key',
+														'highlight-and-share'
+													) }
+													aria-required="true"
+												/>
+											) }
+										/>
+										{ 'required' === errors.recaptchaApiKey?.type && (
+											<Notice
+												message={ __( 'This field is a required field.' ) }
+												status="error"
+												politeness="assertive"
+												inline={ false }
+												icon={ CircularExclamationIcon }
+											/>
+										) }
+										<Controller
 											name="recaptchaSiteKey"
 											control={ control }
 											rules={ { required: true } }
@@ -512,35 +571,6 @@ const Interface = ( props ) => {
 											) }
 										/>
 										{ 'required' === errors.recaptchaSiteKey?.type && (
-											<Notice
-												message={ __( 'This field is a required field.' ) }
-												status="error"
-												politeness="assertive"
-												inline={ false }
-												icon={ CircularExclamationIcon }
-											/>
-										) }
-										<Controller
-											name="recaptchaSecretKey"
-											control={ control }
-											rules={ { required: true } }
-											render={ ( { field } ) => (
-												<TextControl
-													label={ __( 'Recaptcha 3 Secret Key', 'highlight-and-share' ) }
-													{ ...field }
-													className={ classNames( 'has-admin__text-control', {
-														'has-error': 'required' === errors.recaptchaSiteKey?.type,
-														'is-required': true,
-													} ) }
-													help={ __(
-														'Enter your Recaptcha 3 Secret Key',
-														'comment-edit-pro'
-													) }
-													aria-required="true"
-												/>
-											) }
-										/>
-										{ 'required' === errors.recaptchaSecretKey?.type && (
 											<Notice
 												message={ __( 'This field is a required field.' ) }
 												status="error"

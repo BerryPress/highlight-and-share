@@ -12525,7 +12525,7 @@ var Emails = function Emails(props) {
   }, props))));
 };
 var Interface = function Interface(props) {
-  var _errors$recaptchaSite2, _errors$recaptchaSecr;
+  var _errors$recaptchaProj2, _errors$recaptchaApiK2, _errors$recaptchaSite2;
   // Get retrieved data.
   var defaults = props.defaults;
   var response = defaults();
@@ -12567,8 +12567,9 @@ var Interface = function Interface(props) {
     return {
       akismetEnabled: data.values.akismetEnabled,
       recaptchaEnabled: data.values.recaptchaEnabled,
+      recaptchaProjectId: data.values.recaptchaProjectId,
+      recaptchaApiKey: data.values.recaptchaApiKey,
       recaptchaSiteKey: data.values.recaptchaSiteKey,
-      recaptchaSecretKey: data.values.recaptchaSecretKey,
       recaptchaScoreThreshold: data.values.recaptchaScoreThreshold,
       fromName: data.values.fromName,
       fromEmail: data.values.fromEmail,
@@ -12949,14 +12950,66 @@ var Interface = function Interface(props) {
       });
     }
   })), getValues('recaptchaEnabled') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
-    name: "recaptchaSiteKey",
+    name: "recaptchaProjectId",
     control: control,
     rules: {
       required: true
     },
     render: function render(_ref9) {
-      var _errors$recaptchaSite;
+      var _errors$recaptchaProj;
       var field = _ref9.field;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, _extends({
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Recaptcha 3 Project ID', 'highlight-and-share')
+      }, field, {
+        className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control', {
+          'has-error': 'required' === ((_errors$recaptchaProj = errors.recaptchaProjectId) === null || _errors$recaptchaProj === void 0 ? void 0 : _errors$recaptchaProj.type),
+          'is-required': true
+        }),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your Recaptcha 3 Project ID', 'highlight-and-share'),
+        "aria-required": "true"
+      }));
+    }
+  }), 'required' === ((_errors$recaptchaProj2 = errors.recaptchaProjectId) === null || _errors$recaptchaProj2 === void 0 ? void 0 : _errors$recaptchaProj2.type) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('This field is a required field.'),
+    status: "error",
+    politeness: "assertive",
+    inline: false,
+    icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_12__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
+    name: "recaptchaApiKey",
+    control: control,
+    rules: {
+      required: true
+    },
+    render: function render(_ref10) {
+      var _errors$recaptchaApiK;
+      var field = _ref10.field;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, _extends({
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Recaptcha 3 API Key', 'highlight-and-share')
+      }, field, {
+        className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control', {
+          'has-error': 'required' === ((_errors$recaptchaApiK = errors.recaptchaApiKey) === null || _errors$recaptchaApiK === void 0 ? void 0 : _errors$recaptchaApiK.type),
+          'is-required': true
+        }),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your Recaptcha 3 API Key', 'highlight-and-share'),
+        "aria-required": "true"
+      }));
+    }
+  }), 'required' === ((_errors$recaptchaApiK2 = errors.recaptchaApiKey) === null || _errors$recaptchaApiK2 === void 0 ? void 0 : _errors$recaptchaApiK2.type) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('This field is a required field.'),
+    status: "error",
+    politeness: "assertive",
+    inline: false,
+    icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_12__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
+    name: "recaptchaSiteKey",
+    control: control,
+    rules: {
+      required: true
+    },
+    render: function render(_ref11) {
+      var _errors$recaptchaSite;
+      var field = _ref11.field;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, _extends({
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Recaptcha 3 Site Key', 'highlight-and-share')
       }, field, {
@@ -12975,38 +13028,12 @@ var Interface = function Interface(props) {
     inline: false,
     icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_12__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
-    name: "recaptchaSecretKey",
-    control: control,
-    rules: {
-      required: true
-    },
-    render: function render(_ref10) {
-      var _errors$recaptchaSite3;
-      var field = _ref10.field;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, _extends({
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Recaptcha 3 Secret Key', 'highlight-and-share')
-      }, field, {
-        className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control', {
-          'has-error': 'required' === ((_errors$recaptchaSite3 = errors.recaptchaSiteKey) === null || _errors$recaptchaSite3 === void 0 ? void 0 : _errors$recaptchaSite3.type),
-          'is-required': true
-        }),
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your Recaptcha 3 Secret Key', 'comment-edit-pro'),
-        "aria-required": "true"
-      }));
-    }
-  }), 'required' === ((_errors$recaptchaSecr = errors.recaptchaSecretKey) === null || _errors$recaptchaSecr === void 0 ? void 0 : _errors$recaptchaSecr.type) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('This field is a required field.'),
-    status: "error",
-    politeness: "assertive",
-    inline: false,
-    icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_12__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
     name: "recaptchaScoreThreshold",
     control: control,
-    render: function render(_ref11) {
-      var _ref11$field = _ref11.field,
-        _onChange7 = _ref11$field.onChange,
-        value = _ref11$field.value;
+    render: function render(_ref12) {
+      var _ref12$field = _ref12.field,
+        _onChange7 = _ref12$field.onChange,
+        value = _ref12$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.RangeControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Set reCAPTCHA Minimum Threshold', 'comment-edit-pro'),
         step: 0.05,
