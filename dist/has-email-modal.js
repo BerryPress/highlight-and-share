@@ -11642,8 +11642,6 @@ var View = function View() {
         formData.turnstileToken = cfResponse.value;
       }
     }
-    console.log(formData);
-
     // Save stuff here.
     (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_6__["default"])('has_email_form_submission', {
       formData: formData

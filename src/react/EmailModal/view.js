@@ -116,9 +116,6 @@ const View = () => {
 				formData.turnstileToken = cfResponse.value;
 			}
 		}
-
-		console.log( formData );
-
 		// Save stuff here.
 		sendCommand( 'has_email_form_submission', {
 			formData,
