@@ -131,7 +131,8 @@ class Emails {
 				)
 			);
 		}
-		$classes = array(
+
+		$classes          = array(
 			'showing-recaptcha' => $recaptcha_enabled && ! empty( $recaptcha_site_key ),
 			'showing-turnstile' => (bool) $options['turnstile_enabled'] && ! empty( $options['turnstile_sitekey'] ),
 		);

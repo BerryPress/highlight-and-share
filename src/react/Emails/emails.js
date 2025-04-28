@@ -174,7 +174,6 @@ const Interface = ( props ) => {
 			} )
 			.catch( ( ajaxResponse ) => {} )
 			.then( ( ajaxResponse ) => {
-			
 				setResetting( false );
 			} );
 	};
@@ -224,7 +223,7 @@ const Interface = ( props ) => {
 									/>
 								</div>
 							</div>
-							{ 'form' === getValues('emailSendType') && (
+							{ 'form' === getValues( 'emailSendType' ) && (
 								<div className="has-admin-content-body">
 									<h2 className="has-admin-content-subheading">
 										{ __( 'Email Customization', 'highlight-and-share' ) }
@@ -472,9 +471,9 @@ const Interface = ( props ) => {
 							</div>
 							<div className="has-admin-content-body">
 								<h2 className="has-admin-content-subheading">
-									{ __( 'Google reCAPTCHA 3 Settings', 'highlight-and-share' ) }
+									{ __( 'Google reCAPTCHA Enterprise Settings', 'highlight-and-share' ) }
 								</h2>
-								<p className="description">{ __( 'reCAPTCHA 3 is an invisible captcha and is the least obtrusive option for keeping bots out of your email section.', 'highlight-and-share' ) }</p>
+								<p className="description">{ __( 'reCAPTCHA is an invisible captcha and is the least obtrusive option for keeping bots out of your email section.', 'highlight-and-share' ) }</p>
 								<div className="has-admin-component-row">
 									<Controller
 										name="recaptchaEnabled"
@@ -482,7 +481,7 @@ const Interface = ( props ) => {
 										render={ ( { field: { onChange, value } } ) => (
 											<ToggleControl
 												label={ __(
-													'Enable reCAPTCHA 3',
+													'Enable reCAPTCHA Enterprise',
 													'highlight-and-share'
 												) }
 												className="has-admin__toggle-control"
@@ -491,7 +490,7 @@ const Interface = ( props ) => {
 													onChange( boolValue );
 												} }
 												help={ __(
-													'Enable reCAPTCHA 3 to silently discard spammy emails.',
+													'Enable reCAPTCHA to silently discard spammy emails.',
 													'highlight-and-share'
 												) }
 											/>
@@ -506,14 +505,14 @@ const Interface = ( props ) => {
 											rules={ { required: true } }
 											render={ ( { field } ) => (
 												<TextControl
-													label={ __( 'Recaptcha 3 Project ID', 'highlight-and-share' ) }
+													label={ __( 'reCAPTCHA Enterprise Project ID', 'highlight-and-share' ) }
 													{ ...field }
 													className={ classNames( 'has-admin__text-control', {
 														'has-error': 'required' === errors.recaptchaProjectId?.type,
 														'is-required': true,
 													} ) }
 													help={ __(
-														'Enter your Recaptcha 3 Project ID',
+														'Enter your Recaptcha Enterprise Project ID',
 														'highlight-and-share'
 													) }
 													aria-required="true"
@@ -535,14 +534,14 @@ const Interface = ( props ) => {
 											rules={ { required: true } }
 											render={ ( { field } ) => (
 												<TextControl
-													label={ __( 'Recaptcha 3 API Key', 'highlight-and-share' ) }
+													label={ __( 'reCAPTCHA Enterprise API Key', 'highlight-and-share' ) }
 													{ ...field }
 													className={ classNames( 'has-admin__text-control', {
 														'has-error': 'required' === errors.recaptchaApiKey?.type,
 														'is-required': true,
 													} ) }
 													help={ __(
-														'Enter your Recaptcha 3 API Key',
+														'Enter your reCAPTCHA Enterprise API Key',
 														'highlight-and-share'
 													) }
 													aria-required="true"
@@ -564,14 +563,14 @@ const Interface = ( props ) => {
 											rules={ { required: true } }
 											render={ ( { field } ) => (
 												<TextControl
-													label={ __( 'Recaptcha 3 Site Key', 'highlight-and-share' ) }
+													label={ __( 'reCAPTCHA Enterprise Site Key', 'highlight-and-share' ) }
 													{ ...field }
 													className={ classNames( 'has-admin__text-control', {
 														'has-error': 'required' === errors.recaptchaSiteKey?.type,
 														'is-required': true,
 													} ) }
 													help={ __(
-														'Enter your Recaptcha 3 Site Key',
+														'Enter your reCAPTCHA Enterprise Site Key',
 														'highlight-and-share'
 													) }
 													aria-required="true"
@@ -646,6 +645,26 @@ const Interface = ( props ) => {
 										) }
 									/>
 								</div>
+								{ getValues( 'turnstileEnabled' ) && (
+									<>
+										<Notice
+											status="info"
+											politeness="polite"
+											inline={ false }
+										>
+											<>
+												{ __( 'Need help getting your Turnstile credentials?', 'highlight-and-share' ) }{ ' ' }
+												<a
+													href="https://dlxplugins.com/how-tos/how-to-retrieve-your-cloudflare-turnstile-site-and-secret-keys/"
+													target="_blank"
+													rel="noopener noreferrer"
+												>
+													{ __( 'View Our How-To Guide', 'highlight-and-share' ) }
+												</a>
+											</>
+										</Notice>
+									</>
+								) }
 								{ getValues( 'turnstileEnabled' ) && (
 									<>
 										<div className="has-admin-component-row">

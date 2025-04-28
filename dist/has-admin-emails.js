@@ -12935,9 +12935,9 @@ var Interface = function Interface(props) {
     className: "has-admin-content-body"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
     className: "has-admin-content-subheading"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Google reCAPTCHA 3 Settings', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Google reCAPTCHA Enterprise Settings', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "description"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('reCAPTCHA 3 is an invisible captcha and is the least obtrusive option for keeping bots out of your email section.', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('reCAPTCHA is an invisible captcha and is the least obtrusive option for keeping bots out of your email section.', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
     name: "recaptchaEnabled",
@@ -12947,13 +12947,13 @@ var Interface = function Interface(props) {
         _onChange6 = _ref8$field.onChange,
         value = _ref8$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.ToggleControl, {
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable reCAPTCHA 3', 'highlight-and-share'),
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable reCAPTCHA Enterprise', 'highlight-and-share'),
         className: "has-admin__toggle-control",
         checked: value,
         onChange: function onChange(boolValue) {
           _onChange6(boolValue);
         },
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable reCAPTCHA 3 to silently discard spammy emails.', 'highlight-and-share')
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable reCAPTCHA to silently discard spammy emails.', 'highlight-and-share')
       });
     }
   })), getValues('recaptchaEnabled') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
@@ -12966,13 +12966,13 @@ var Interface = function Interface(props) {
       var _errors$recaptchaProj;
       var field = _ref9.field;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, _extends({
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Recaptcha 3 Project ID', 'highlight-and-share')
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('reCAPTCHA Enterprise Project ID', 'highlight-and-share')
       }, field, {
         className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control', {
           'has-error': 'required' === ((_errors$recaptchaProj = errors.recaptchaProjectId) === null || _errors$recaptchaProj === void 0 ? void 0 : _errors$recaptchaProj.type),
           'is-required': true
         }),
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your Recaptcha 3 Project ID', 'highlight-and-share'),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your Recaptcha Enterprise Project ID', 'highlight-and-share'),
         "aria-required": "true"
       }));
     }
@@ -12992,13 +12992,13 @@ var Interface = function Interface(props) {
       var _errors$recaptchaApiK;
       var field = _ref10.field;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, _extends({
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Recaptcha 3 API Key', 'highlight-and-share')
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('reCAPTCHA Enterprise API Key', 'highlight-and-share')
       }, field, {
         className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control', {
           'has-error': 'required' === ((_errors$recaptchaApiK = errors.recaptchaApiKey) === null || _errors$recaptchaApiK === void 0 ? void 0 : _errors$recaptchaApiK.type),
           'is-required': true
         }),
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your Recaptcha 3 API Key', 'highlight-and-share'),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your reCAPTCHA Enterprise API Key', 'highlight-and-share'),
         "aria-required": "true"
       }));
     }
@@ -13018,13 +13018,13 @@ var Interface = function Interface(props) {
       var _errors$recaptchaSite;
       var field = _ref11.field;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, _extends({
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Recaptcha 3 Site Key', 'highlight-and-share')
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('reCAPTCHA Enterprise Site Key', 'highlight-and-share')
       }, field, {
         className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control', {
           'has-error': 'required' === ((_errors$recaptchaSite = errors.recaptchaSiteKey) === null || _errors$recaptchaSite === void 0 ? void 0 : _errors$recaptchaSite.type),
           'is-required': true
         }),
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your Recaptcha 3 Site Key', 'highlight-and-share'),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your reCAPTCHA Enterprise Site Key', 'highlight-and-share'),
         "aria-required": "true"
       }));
     }
@@ -13084,7 +13084,15 @@ var Interface = function Interface(props) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable Turnstile to silently discard spammy emails.', 'highlight-and-share')
       });
     }
-  })), getValues('turnstileEnabled') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), getValues('turnstileEnabled') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    status: "info",
+    politeness: "polite",
+    inline: false
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Need help getting your Turnstile credentials?', 'highlight-and-share'), ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+    href: "https://dlxplugins.com/how-tos/how-to-retrieve-your-cloudflare-turnstile-site-and-secret-keys/",
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('View Our How-To Guide', 'highlight-and-share'))))), getValues('turnstileEnabled') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
     name: "turnstileSitekey",
