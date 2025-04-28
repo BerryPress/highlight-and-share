@@ -109,6 +109,16 @@ const View = () => {
 		setFormErrors( false );
 		setErrorMessage( '' );
 
+		// GEt token from Cloudflare if enabled.
+		if ( hasCfTurnstileLocal.turnstile_enabled ) {
+			const cfResponse = document.querySelector( 'input[name="cf-turnstile-response"]' );
+			if ( null !== cfResponse ) {
+				formData.turnstileToken = cfResponse.value;
+			}
+		}
+
+		console.log( formData );
+
 		// Save stuff here.
 		sendCommand( 'has_email_form_submission', {
 			formData,
@@ -299,7 +309,7 @@ const View = () => {
 					<Button
 						id="has-recaptcha-submit"
 						className={ classNames(
-							'qdlx__btn qdlx__btn-primary qdlx__btn--icon-right g-recaptcha',
+							'qdlx__btn qdlx__btn-primary qdlx__btn--icon-right g-recaptcha cf-turnstile',
 							{ 'has-error': hasErrors() },
 							{ 'has-icon': isSending },
 							{ 'is-saving': { isSending } }

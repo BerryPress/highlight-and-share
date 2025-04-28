@@ -11635,6 +11635,15 @@ var View = function View() {
     setFormErrors(false);
     setErrorMessage('');
 
+    // GEt token from Cloudflare if enabled.
+    if (hasCfTurnstileLocal.turnstile_enabled) {
+      var cfResponse = document.querySelector('input[name="cf-turnstile-response"]');
+      if (null !== cfResponse) {
+        formData.turnstileToken = cfResponse.value;
+      }
+    }
+    console.log(formData);
+
     // Save stuff here.
     (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_6__["default"])('has_email_form_submission', {
       formData: formData
@@ -11817,7 +11826,7 @@ var View = function View() {
     className: "has-admin__tabs--content-actions"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
     id: "has-recaptcha-submit",
-    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('qdlx__btn qdlx__btn-primary qdlx__btn--icon-right g-recaptcha', {
+    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('qdlx__btn qdlx__btn-primary qdlx__btn--icon-right g-recaptcha cf-turnstile', {
       'has-error': hasErrors()
     }, {
       'has-icon': isSending

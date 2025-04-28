@@ -468,4 +468,8 @@ h2 {
   fill: var(--quotes-dlx-admin--color-red-alt);
 }
 
+#has-turnstile {
+  margin-top: 20px;
+}
+
 /*# sourceMappingURL=has-email-modal.css.map*/

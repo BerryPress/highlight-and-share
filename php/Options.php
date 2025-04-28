@@ -95,9 +95,9 @@ class Options {
 			'turnstile_enabled'         => false,
 			'turnstile_sitekey'         => '',
 			'turnstile_secret'          => '',
-			'turnstile_theme'           => 'light',
+			'turnstile_theme'           => 'dark',
 			'turnstile_language'        => 'en',
-			'turnstile_widget_size'     => 'auto',
+			'turnstile_widget_size'     => 'normal',
 		);
 	}
 

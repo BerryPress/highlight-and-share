@@ -101,6 +101,49 @@ class Emails {
 			Functions::get_plugin_version(),
 			false
 		);
+		if ( (bool) $options['turnstile_enabled'] ) {
+			// Load Turnstile local JS.
+			wp_register_script(
+				'has-cf-turnstile-local',
+				Functions::get_plugin_url( '/dist/has-cf-turnstile.js' ),
+				array(),
+				Functions::get_plugin_version(),
+				true
+			);
+			wp_register_script(
+				'has-cf-turnstile',
+				esc_url_raw( 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=hasInitTurnstile' ),
+				array( 'has-cf-turnstile-local' ),
+				Functions::get_plugin_version(),
+				true
+			);
+
+			// Add localized vars.
+			wp_localize_script(
+				'has-cf-turnstile-local',
+				'hasCfTurnstileLocal',
+				array(
+					'turnstile_enabled' => (bool) $options['turnstile_enabled'],
+					'sitekey'           => sanitize_text_field( $options['turnstile_sitekey'] ),
+					'theme'             => sanitize_text_field( $options['turnstile_theme'] ),
+					'language'          => sanitize_text_field( $options['turnstile_language'] ),
+					'size'              => sanitize_text_field( $options['turnstile_widget_size'] ),
+				)
+			);
+		}
+		$classes = array(
+			'showing-recaptcha' => $recaptcha_enabled && ! empty( $recaptcha_site_key ),
+			'showing-turnstile' => (bool) $options['turnstile_enabled'] && ! empty( $options['turnstile_sitekey'] ),
+		);
+		$scripts_to_print = array(
+			'has_email_view',
+		);
+		if ( $recaptcha_enabled && ! empty( $recaptcha_site_key ) ) {
+			$scripts_to_print[] = 'has-recaptcha';
+		}
+		if ( (bool) $options['turnstile_enabled'] && ! empty( $options['turnstile_sitekey'] ) ) {
+			$scripts_to_print[] = 'has-cf-turnstile';
+		}
 		?>
 		<!DOCTYPE html>
 		<html lang="en">
@@ -111,14 +154,12 @@ class Emails {
 				);
 				?>
 			</head>
-			<body class="<?php echo ( $recaptcha_enabled && ! empty( $recaptcha_site_key ) ) ? 'showing-recaptcha' : ''; ?>">
+			<body class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 				<div id="has-email-interface"></div>
+				<div id="has-turnstile"></div>
 				<?php
 				wp_print_scripts(
-					array(
-						'has_email_view',
-						'has-recaptcha',
-					),
+					$scripts_to_print,
 				);
 				?>
 			</body>
