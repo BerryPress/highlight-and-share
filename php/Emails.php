@@ -267,6 +267,44 @@ class Emails {
 			}
 		}
 
+		if ( (bool) $options['turnstile_enabled'] ) {
+			$turnstile_token = sanitize_text_field( $ajax_data['turnstileToken'] );
+			if ( empty( $turnstile_token ) ) {
+				wp_send_json_error(
+					array(
+						'message' => __( 'Turnstile token is required.', 'highlight-and-share' ),
+					)
+				);
+			}
+
+			$secret_key = $options['turnstile_secret'];
+			$url        = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+			$data       = array(
+				'secret'   => $secret_key,
+				'response' => $turnstile_token,
+			);
+			$args       = array(
+				'body'      => $data,
+				'method'    => 'POST',
+				'sslverify' => true,
+			);
+			$response   = wp_remote_post( esc_url( $url ), $args );
+			if ( is_wp_error( $response ) ) {
+				wp_send_json_error(
+					array(
+						'message' => __( 'Error validating Turnstile token.', 'highlight-and-share' ),
+					)
+				);
+			}
+			$body = json_decode( wp_remote_retrieve_body( $response ), true );
+			if ( ! $body['success'] ) {
+				wp_send_json_error(
+					array(
+						'message' => __( 'Turnstile security challenge has failed.', 'highlight-and-share' ),
+					)
+				);
+			}
+		}
 		// Get email name and address from options.
 		$email_name = trim( sanitize_text_field( $options['from_name'] ) );
 		$email_from = trim( sanitize_text_field( $options['from_email'] ) );
