@@ -12525,7 +12525,7 @@ var Emails = function Emails(props) {
   }, props))));
 };
 var Interface = function Interface(props) {
-  var _errors$recaptchaProj2, _errors$recaptchaApiK2, _errors$recaptchaSite2;
+  var _errors$recaptchaProj2, _errors$recaptchaApiK2, _errors$recaptchaSite2, _errors$turnstileSite2, _errors$turnstileSecr2;
   // Get retrieved data.
   var defaults = props.defaults;
   var response = defaults();
@@ -12576,9 +12576,16 @@ var Interface = function Interface(props) {
       emailSendType: data.values.emailSendType,
       emailSubject: data.values.emailSubject,
       emailBody: data.values.emailBody,
-      emailModalTitle: data.values.emailModalTitle
+      emailModalTitle: data.values.emailModalTitle,
+      turnstileEnabled: data.values.turnstileEnabled,
+      turnstileSitekey: data.values.turnstileSitekey,
+      turnstileSecret: data.values.turnstileSecret,
+      turnstileTheme: data.values.turnstileTheme,
+      turnstileLanguage: data.values.turnstileLanguage,
+      turnstileWidgetSize: data.values.turnstileWidgetSize
     };
   };
+  console.log(getDefaultValues());
   var _useForm = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_9__.useForm)({
       defaultValues: getDefaultValues()
     }),
@@ -13017,7 +13024,7 @@ var Interface = function Interface(props) {
           'has-error': 'required' === ((_errors$recaptchaSite = errors.recaptchaSiteKey) === null || _errors$recaptchaSite === void 0 ? void 0 : _errors$recaptchaSite.type),
           'is-required': true
         }),
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your Recaptcha 3 Site Key', 'comment-edit-pro'),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your Recaptcha 3 Site Key', 'highlight-and-share'),
         "aria-required": "true"
       }));
     }
@@ -13035,7 +13042,7 @@ var Interface = function Interface(props) {
         _onChange7 = _ref12$field.onChange,
         value = _ref12$field.value;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.RangeControl, {
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Set reCAPTCHA Minimum Threshold', 'comment-edit-pro'),
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Set reCAPTCHA Minimum Threshold', 'highlight-and-share'),
         step: 0.05,
         value: parseFloat(value),
         max: 1,
@@ -13047,12 +13054,234 @@ var Interface = function Interface(props) {
         onChange: function onChange(recaptchaThreshold) {
           _onChange7(recaptchaThreshold);
         },
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The threshold score is between 0 and 1. The higher the score, the higher the chance of a successful reCAPTCHA challenge. The default value is 0.5. Meaning that the reCAPTCHA challenge will succeed if the score is greater than or equal to 0.5.', 'comment-edit-pro'),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The threshold score is between 0 and 1. The higher the score, the higher the chance of a successful reCAPTCHA challenge. The default value is 0.5. Meaning that the reCAPTCHA challenge will succeed if the score is greater than or equal to 0.5.', 'highlight-and-share'),
         trackColor: "#4F4F4F",
         railColor: "#CECECE"
       }));
     }
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-content-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
+    className: "has-admin-content-subheading"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Cloudflare Turnstile Settings', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "description"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Turnstile is a captcha service that is the least obtrusive option for keeping bots out of your email section.', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
+    name: "turnstileEnabled",
+    control: control,
+    render: function render(_ref13) {
+      var _ref13$field = _ref13.field,
+        _onChange8 = _ref13$field.onChange,
+        value = _ref13$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.ToggleControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable Turnstile', 'highlight-and-share'),
+        className: "has-admin__toggle-control",
+        checked: value,
+        onChange: function onChange(boolValue) {
+          _onChange8(boolValue);
+        },
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable Turnstile to silently discard spammy emails.', 'highlight-and-share')
+      });
+    }
+  })), getValues('turnstileEnabled') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
+    name: "turnstileSitekey",
+    control: control,
+    rules: {
+      required: true
+    },
+    render: function render(_ref14) {
+      var _errors$turnstileSite;
+      var field = _ref14.field;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, _extends({
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Turnstile Site Key', 'highlight-and-share')
+      }, field, {
+        className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control', {
+          'has-error': 'required' === ((_errors$turnstileSite = errors.turnstileSitekey) === null || _errors$turnstileSite === void 0 ? void 0 : _errors$turnstileSite.type),
+          'is-required': true
+        }),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your Turnstile Site Key', 'highlight-and-share'),
+        "aria-required": "true"
+      }));
+    }
+  }), 'required' === ((_errors$turnstileSite2 = errors.turnstileSitekey) === null || _errors$turnstileSite2 === void 0 ? void 0 : _errors$turnstileSite2.type) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('This field is a required field.'),
+    status: "error",
+    politeness: "assertive",
+    inline: false,
+    icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_12__["default"]
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
+    name: "turnstileSecret",
+    control: control,
+    rules: {
+      required: true
+    },
+    render: function render(_ref15) {
+      var _errors$turnstileSecr;
+      var field = _ref15.field;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, _extends({
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Turnstile Secret Key', 'highlight-and-share')
+      }, field, {
+        className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control', {
+          'has-error': 'required' === ((_errors$turnstileSecr = errors.turnstileSecret) === null || _errors$turnstileSecr === void 0 ? void 0 : _errors$turnstileSecr.type),
+          'is-required': true
+        }),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter your Turnstile Secret Key', 'highlight-and-share'),
+        "aria-required": "true"
+      }));
+    }
+  }), 'required' === ((_errors$turnstileSecr2 = errors.turnstileSecret) === null || _errors$turnstileSecr2 === void 0 ? void 0 : _errors$turnstileSecr2.type) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('This field is a required field.'),
+    status: "error",
+    politeness: "assertive",
+    inline: false,
+    icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_12__["default"]
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
+    name: "turnstileLanguage",
+    control: control,
+    rules: {
+      required: true
+    },
+    render: function render(_ref16) {
+      var _ref16$field = _ref16.field,
+        _onChange9 = _ref16$field.onChange,
+        value = _ref16$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.SelectControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Widget Language', 'highlight-and-share'),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select the language of the widget.', 'highlight-and-share'),
+        className: "has-admin__theme-select",
+        value: value,
+        options: [/* auto, ar-eg, de, en, es, fa, fr, id, it, ja, ko, nl, pl, pt-br, ru, tr, zh-cn, zh-tw */
+        {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Auto', 'highlight-and-share'),
+          value: 'auto'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Arabic', 'highlight-and-share'),
+          value: 'ar-eg'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('German', 'highlight-and-share'),
+          value: 'de'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('English', 'highlight-and-share'),
+          value: 'en'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Spanish', 'highlight-and-share'),
+          value: 'es'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Persian', 'highlight-and-share'),
+          value: 'fa'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('French', 'highlight-and-share'),
+          value: 'fr'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Indonesian', 'highlight-and-share'),
+          value: 'id'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Italian', 'highlight-and-share'),
+          value: 'it'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Japanese', 'highlight-and-share'),
+          value: 'ja'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Korean', 'highlight-and-share'),
+          value: 'ko'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Dutch', 'highlight-and-share'),
+          value: 'nl'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Polish', 'highlight-and-share'),
+          value: 'pl'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Portuguese', 'highlight-and-share'),
+          value: 'pt-br'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Russian', 'highlight-and-share'),
+          value: 'ru'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Turkish', 'highlight-and-share'),
+          value: 'tr'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Chinese (Simplified)', 'highlight-and-share'),
+          value: 'zh-cn'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Chinese (Traditional)', 'highlight-and-share'),
+          value: 'zh-tw'
+        }],
+        onChange: function onChange(widgetLanguageValue) {
+          _onChange9(widgetLanguageValue);
+        }
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
+    name: "turnstileTheme",
+    control: control,
+    rules: {
+      required: true
+    },
+    render: function render(_ref17) {
+      var _ref17$field = _ref17.field,
+        _onChange10 = _ref17$field.onChange,
+        value = _ref17$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.SelectControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Widget Appearance', 'highlight-and-share'),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select the theme for the widget.', 'highlight-and-share'),
+        className: "has-admin__theme-select",
+        value: value,
+        options: [/* light, dark, auto */
+        {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Auto', 'highlight-and-share'),
+          value: 'auto'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Light', 'highlight-and-share'),
+          value: 'light'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Dark', 'highlight-and-share'),
+          value: 'dark'
+        }],
+        onChange: function onChange(widgetThemeValue) {
+          _onChange10(widgetThemeValue);
+        }
+      });
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_9__.Controller, {
+    name: "turnstileWidgetSize",
+    control: control,
+    rules: {
+      required: true
+    },
+    render: function render(_ref18) {
+      var _ref18$field = _ref18.field,
+        _onChange11 = _ref18$field.onChange,
+        value = _ref18$field.value;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.SelectControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Widget Size', 'highlight-and-share'),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select the size for the widget.', 'highlight-and-share'),
+        className: "has-admin__theme-select",
+        value: value,
+        options: [/* normal, compact */
+        {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Normal', 'highlight-and-share'),
+          value: 'normal'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Compact', 'highlight-and-share'),
+          value: 'compact'
+        }],
+        onChange: function onChange(widgetSizeValue) {
+          _onChange11(widgetSizeValue);
+        }
+      });
+    }
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin__tabs--content-actions"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin__tabs--content-actions--left"

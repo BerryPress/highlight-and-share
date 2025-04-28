@@ -92,6 +92,12 @@ class Options {
 			'email_subject'             => sprintf( __( 'Check out this %1$s from %2$s', 'highlight-and-share' ), '{{share_type}}', '{{site_name}}' ),
 			'email_body'                => _x( "{{from_name}} ({{from_email}}) wants to share a link with you\r\n\n{{share_text}}\r\n\r\n{{post_title}}\r\n{{post_url}}", 'email body with template tags', 'highlight-and-share' ),
 			'email_modal_title'         => __( 'Share this {{share_type}}', 'highlight-and-share' ),
+			'turnstile_enabled'         => false,
+			'turnstile_sitekey'         => '',
+			'turnstile_secret'          => '',
+			'turnstile_theme'           => 'light',
+			'turnstile_language'        => 'en',
+			'turnstile_widget_size'     => 'auto',
 		);
 	}
 

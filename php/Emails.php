@@ -182,7 +182,7 @@ class Emails {
 			}
 
 			// Now get token back from reCAPTCHA.
-			$url      = 'https://recaptchaenterprise.googleapis.com/v1/projects/mediaron-llc/assessments?key=' . $recaptcha_api_key;
+			$url      = 'https://recaptchaenterprise.googleapis.com/v1/projects/' . $recaptcha_project_id . '/assessments?key=' . $recaptcha_api_key;
 			$data     = array(
 				'event' => array(
 					'token'          => $token,

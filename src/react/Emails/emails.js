@@ -10,6 +10,7 @@ import {
 	RangeControl,
 	ToggleControl,
 	RadioControl,
+	SelectControl,
 } from '@wordpress/components';
 import ErrorBoundary from '../Components/ErrorBoundary';
 import Notice from '../Components/Notice';
@@ -103,8 +104,15 @@ const Interface = ( props ) => {
 			emailSubject: data.values.emailSubject,
 			emailBody: data.values.emailBody,
 			emailModalTitle: data.values.emailModalTitle,
+			turnstileEnabled: data.values.turnstileEnabled,
+			turnstileSitekey: data.values.turnstileSitekey,
+			turnstileSecret: data.values.turnstileSecret,
+			turnstileTheme: data.values.turnstileTheme,
+			turnstileLanguage: data.values.turnstileLanguage,
+			turnstileWidgetSize: data.values.turnstileWidgetSize,
 		};
 	};
+	console.log( getDefaultValues() );
 	const { control, handleSubmit, getValues, reset, setError, clearErrors, setValue } = useForm( {
 		defaultValues: getDefaultValues(),
 	} );
@@ -564,7 +572,7 @@ const Interface = ( props ) => {
 													} ) }
 													help={ __(
 														'Enter your Recaptcha 3 Site Key',
-														'comment-edit-pro'
+														'highlight-and-share'
 													) }
 													aria-required="true"
 												/>
@@ -585,7 +593,7 @@ const Interface = ( props ) => {
 											render={ ( { field: { onChange, value } } ) => (
 												<>
 													<RangeControl
-														label={ __( 'Set reCAPTCHA Minimum Threshold', 'comment-edit-pro' ) }
+														label={ __( 'Set reCAPTCHA Minimum Threshold', 'highlight-and-share' ) }
 														step={ 0.05 }
 														value={ parseFloat( value ) }
 														max={ 1 }
@@ -599,7 +607,7 @@ const Interface = ( props ) => {
 														} }
 														help={ __(
 															'The threshold score is between 0 and 1. The higher the score, the higher the chance of a successful reCAPTCHA challenge. The default value is 0.5. Meaning that the reCAPTCHA challenge will succeed if the score is greater than or equal to 0.5.',
-															'comment-edit-pro'
+															'highlight-and-share'
 														) }
 														trackColor="#4F4F4F"
 														railColor="#CECECE"
@@ -607,6 +615,196 @@ const Interface = ( props ) => {
 												</>
 											) }
 										/>
+									</>
+								) }
+							</div>
+							<div className="has-admin-content-body">
+								<h2 className="has-admin-content-subheading">
+									{ __( 'Cloudflare Turnstile Settings', 'highlight-and-share' ) }
+								</h2>
+								<p className="description">{ __( 'Turnstile is a captcha service that is the least obtrusive option for keeping bots out of your email section.', 'highlight-and-share' ) }</p>
+								<div className="has-admin-component-row">
+									<Controller
+										name="turnstileEnabled"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<ToggleControl
+												label={ __(
+													'Enable Turnstile',
+													'highlight-and-share'
+												) }
+												className="has-admin__toggle-control"
+												checked={ value }
+												onChange={ ( boolValue ) => {
+													onChange( boolValue );
+												} }
+												help={ __(
+													'Enable Turnstile to silently discard spammy emails.',
+													'highlight-and-share'
+												) }
+											/>
+										) }
+									/>
+								</div>
+								{ getValues( 'turnstileEnabled' ) && (
+									<>
+										<div className="has-admin-component-row">
+											<Controller
+												name="turnstileSitekey"
+												control={ control }
+												rules={ { required: true } }
+												render={ ( { field } ) => (
+													<TextControl
+														label={ __( 'Turnstile Site Key', 'highlight-and-share' ) }
+														{ ...field }
+														className={ classNames( 'has-admin__text-control', {
+															'has-error': 'required' === errors.turnstileSitekey?.type,
+															'is-required': true,
+														} ) }
+														help={ __(
+															'Enter your Turnstile Site Key',
+															'highlight-and-share'
+														) }
+														aria-required="true"
+													/>
+												) }
+											/>
+											{ 'required' === errors.turnstileSitekey?.type && (
+												<Notice
+													message={ __( 'This field is a required field.' ) }
+													status="error"
+													politeness="assertive"
+													inline={ false }
+													icon={ CircularExclamationIcon }
+												/>
+											) }
+										</div>
+										<div className="has-admin-component-row">
+											<Controller
+												name="turnstileSecret"
+												control={ control }
+												rules={ { required: true } }
+												render={ ( { field } ) => (
+													<TextControl
+														label={ __( 'Turnstile Secret Key', 'highlight-and-share' ) }
+														{ ...field }
+														className={ classNames( 'has-admin__text-control', {
+															'has-error': 'required' === errors.turnstileSecret?.type,
+															'is-required': true,
+														} ) }
+														help={ __(
+															'Enter your Turnstile Secret Key',
+															'highlight-and-share'
+														) }
+														aria-required="true"
+													/>
+												) }
+											/>
+											{ 'required' === errors.turnstileSecret?.type && (
+												<Notice
+													message={ __( 'This field is a required field.' ) }
+													status="error"
+													politeness="assertive"
+													inline={ false }
+													icon={ CircularExclamationIcon }
+												/>
+											) }
+										</div>
+										<div className="has-admin-component-row">
+											<Controller
+												name="turnstileLanguage"
+												control={ control }
+												rules={ { required: true } }
+												render={ ( { field: { onChange, value } } ) => (
+													<SelectControl
+														label={ __( 'Widget Language', 'highlight-and-share' ) }
+														help={ __(
+															'Select the language of the widget.',
+															'highlight-and-share'
+														) }
+														className="has-admin__theme-select"
+														value={ value }
+														options={ [
+															/* auto, ar-eg, de, en, es, fa, fr, id, it, ja, ko, nl, pl, pt-br, ru, tr, zh-cn, zh-tw */
+															{ label: __( 'Auto', 'highlight-and-share' ), value: 'auto' },
+															{ label: __( 'Arabic', 'highlight-and-share' ), value: 'ar-eg' },
+															{ label: __( 'German', 'highlight-and-share' ), value: 'de' },
+															{ label: __( 'English', 'highlight-and-share' ), value: 'en' },
+															{ label: __( 'Spanish', 'highlight-and-share' ), value: 'es' },
+															{ label: __( 'Persian', 'highlight-and-share' ), value: 'fa' },
+															{ label: __( 'French', 'highlight-and-share' ), value: 'fr' },
+															{ label: __( 'Indonesian', 'highlight-and-share' ), value: 'id' },
+															{ label: __( 'Italian', 'highlight-and-share' ), value: 'it' },
+															{ label: __( 'Japanese', 'highlight-and-share' ), value: 'ja' },
+															{ label: __( 'Korean', 'highlight-and-share' ), value: 'ko' },
+															{ label: __( 'Dutch', 'highlight-and-share' ), value: 'nl' },
+															{ label: __( 'Polish', 'highlight-and-share' ), value: 'pl' },
+															{ label: __( 'Portuguese', 'highlight-and-share' ), value: 'pt-br' },
+															{ label: __( 'Russian', 'highlight-and-share' ), value: 'ru' },
+															{ label: __( 'Turkish', 'highlight-and-share' ), value: 'tr' },
+															{ label: __( 'Chinese (Simplified)', 'highlight-and-share' ), value: 'zh-cn' },
+															{ label: __( 'Chinese (Traditional)', 'highlight-and-share' ), value: 'zh-tw' },
+														] }
+														onChange={ ( widgetLanguageValue ) => {
+															onChange( widgetLanguageValue );
+														} }
+													/>
+												) }
+											/>
+										</div>
+										<div className="has-admin-component-row">
+											<Controller
+												name="turnstileTheme"
+												control={ control }
+												rules={ { required: true } }
+												render={ ( { field: { onChange, value } } ) => (
+													<SelectControl
+														label={ __( 'Widget Appearance', 'highlight-and-share' ) }
+														help={ __(
+															'Select the theme for the widget.',
+															'highlight-and-share'
+														) }
+														className="has-admin__theme-select"
+														value={ value }
+														options={ [
+															/* light, dark, auto */
+															{ label: __( 'Auto', 'highlight-and-share' ), value: 'auto' },
+															{ label: __( 'Light', 'highlight-and-share' ), value: 'light' },
+															{ label: __( 'Dark', 'highlight-and-share' ), value: 'dark' },
+														] }
+														onChange={ ( widgetThemeValue ) => {
+															onChange( widgetThemeValue );
+														} }
+													/>
+												) }
+											/>
+										</div>
+										<div className="has-admin-component-row">
+											<Controller
+												name="turnstileWidgetSize"
+												control={ control }
+												rules={ { required: true } }
+												render={ ( { field: { onChange, value } } ) => (
+													<SelectControl
+														label={ __( 'Widget Size', 'highlight-and-share' ) }
+														help={ __(
+															'Select the size for the widget.',
+															'highlight-and-share'
+														) }
+														className="has-admin__theme-select"
+														value={ value }
+														options={ [
+															/* normal, compact */
+															{ label: __( 'Normal', 'highlight-and-share' ), value: 'normal' },
+															{ label: __( 'Compact', 'highlight-and-share' ), value: 'compact' },
+														] }
+														onChange={ ( widgetSizeValue ) => {
+															onChange( widgetSizeValue );
+														} }
+													/>
+												) }
+											/>
+										</div>
 									</>
 								) }
 							</div>
