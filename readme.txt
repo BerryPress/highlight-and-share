@@ -577,6 +577,3 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 = 5.1.0 =
 Added reCAPTCHA Enterprise and loudflare Turnstile to emails for better spam protectioin. Added a 3D "Orb" theme.
-
-= 5.0.4 =
-Bug fix: Fixing a bug in email sending due to an invalid nonce value.
