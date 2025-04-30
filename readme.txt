@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
 Tested up to: 6.8
-Stable tag: 5.0.4
+Stable tag: 5.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -46,6 +46,7 @@ If you have a feature request, <a href="https://dlxplugins.com/support/">please 
 <li>Pre-selected and locally sourced Google Fonts and Adobe Fonts.
 <li>Email protection via Akismet and reCAPTCHA 3</li>
 <li>Customize how inline highlighting looks</li>
+<li>Works with Page Builders using advanced selectors</li>
 </ul>
 
 == Installation ==
@@ -119,6 +120,12 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 
 == Changelog ==
+
+= 5.1.0 =
+* Released 2025-04-29
+* Added reCAPTCHA Enterprise to the emails tab to support the phasing out of reCAPTCHA 3.
+* Added Cloudflare Turnstile to the emails tab for an alternate spam solution.
+* New theme: Orbs.
 
 = 5.0.4 =
 * Released 2025-04-22
@@ -567,6 +574,9 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 * Initial release on WordPress.org
 
 == Upgrade Notice ==
+
+= 5.1.0 =
+Added reCAPTCHA Enterprise and loudflare Turnstile to emails for better spam protectioin. Added a 3D "Orb" theme.
 
 = 5.0.4 =
 Bug fix: Fixing a bug in email sending due to an invalid nonce value.

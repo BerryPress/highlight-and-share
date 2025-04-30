@@ -135,7 +135,7 @@ class Themes {
 	 */
 	public static function get_inline_highlight_css() {
 		$block_editor_options = Options::get_block_editor_options();
-		$inline_styles = sprintf(
+		$inline_styles        = sprintf(
 			'.has-inline-text { background-color: %1$s; color: %2$s; }.has-inline-text:hover { background-color: %3$s; color: %4$s; }',
 			$block_editor_options['inline_highlight_background_color'] ?? '#ffefb1',
 			$block_editor_options['inline_highlight_text_color'] ?? '#000000',
@@ -155,6 +155,7 @@ class Themes {
 			'brand-colors'           => esc_html__( 'Brand Colors (Icons Only)', 'highlight-and-share' ),
 			'colorful-circles'       => esc_html__( 'Colorful Circles (Icons Only)', 'highlight-and-share' ),
 			'colorful-glass-circles' => esc_html__( 'Colorful Glass Circles (Icons Only)', 'highlight-and-share' ),
+			'orbs'                   => esc_html__( 'Orbs (Icons Only)', 'highlight-and-share' ),
 			'black'                  => esc_html__( 'Black (Icons Only)', 'highlight-and-share' ),
 			'purple'                 => esc_html__( 'Purple (Icons Only)', 'highlight-and-share' ),
 			'white'                  => esc_html__( 'White (Icons Only)', 'highlight-and-share' ),
