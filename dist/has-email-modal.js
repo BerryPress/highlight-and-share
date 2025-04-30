@@ -11636,10 +11636,12 @@ var View = function View() {
     setErrorMessage('');
 
     // GEt token from Cloudflare if enabled.
-    if (hasCfTurnstileLocal.turnstile_enabled) {
-      var cfResponse = document.querySelector('input[name="cf-turnstile-response"]');
-      if (null !== cfResponse) {
-        formData.turnstileToken = cfResponse.value;
+    if (typeof hasCfTurnstileLocal !== 'undefined') {
+      if (hasCfTurnstileLocal.turnstile_enabled) {
+        var cfResponse = document.querySelector('input[name="cf-turnstile-response"]');
+        if (null !== cfResponse) {
+          formData.turnstileToken = cfResponse.value;
+        }
       }
     }
     // Save stuff here.

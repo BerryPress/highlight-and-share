@@ -129,6 +129,7 @@ const Interface = ( props ) => {
 			form_data: formData,
 		} )
 			.then( ( ajaxResponse ) => {
+				console.log( ajaxResponse );
 				const ajaxData = ajaxResponse.data.data;
 				const ajaxSuccess = ajaxResponse.data.success;
 				if ( ajaxSuccess ) {
@@ -473,7 +474,7 @@ const Interface = ( props ) => {
 								<h2 className="has-admin-content-subheading">
 									{ __( 'Google reCAPTCHA Enterprise Settings', 'highlight-and-share' ) }
 								</h2>
-								<p className="description">{ __( 'reCAPTCHA is an invisible captcha and is the least obtrusive option for keeping bots out of your email section.', 'highlight-and-share' ) }</p>
+								<p className="description">{ __( 'reCAPTCHA is a visible captcha and is the most popular solution for keeping bots out of your email section.', 'highlight-and-share' ) }</p>
 								<div className="has-admin-component-row">
 									<Controller
 										name="recaptchaEnabled"
@@ -497,6 +498,24 @@ const Interface = ( props ) => {
 										) }
 									/>
 								</div>
+								<>
+									<Notice
+										status="info"
+										politeness="polite"
+										inline={ false }
+									>
+										<>
+											{ __( 'Need help getting your reCAPTCHA Enterprise credentials?', 'highlight-and-share' ) }{ ' ' }
+											<a
+												href="https://dlxplugins.com/how-tos/how-to-retrieve-recaptcha-enterprise-site-and-api-keys/"
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												{ __( 'View Our How-To Guide', 'highlight-and-share' ) }
+											</a>
+										</>
+									</Notice>
+								</>
 								{ getValues( 'recaptchaEnabled' ) && (
 									<>
 										<Controller
@@ -621,7 +640,7 @@ const Interface = ( props ) => {
 								<h2 className="has-admin-content-subheading">
 									{ __( 'Cloudflare Turnstile Settings', 'highlight-and-share' ) }
 								</h2>
-								<p className="description">{ __( 'Turnstile is a captcha service that is the least obtrusive option for keeping bots out of your email section.', 'highlight-and-share' ) }</p>
+								<p className="description">{ __( 'Turnstile is a captcha service that is the least obtrusive option for keeping bots out of your email section. It is free from Cloudflare, and does not require you to host with them.', 'highlight-and-share' ) }</p>
 								<div className="has-admin-component-row">
 									<Controller
 										name="turnstileEnabled"
@@ -645,26 +664,24 @@ const Interface = ( props ) => {
 										) }
 									/>
 								</div>
-								{ getValues( 'turnstileEnabled' ) && (
-									<>
-										<Notice
-											status="info"
-											politeness="polite"
-											inline={ false }
-										>
-											<>
-												{ __( 'Need help getting your Turnstile credentials?', 'highlight-and-share' ) }{ ' ' }
-												<a
-													href="https://dlxplugins.com/how-tos/how-to-retrieve-your-cloudflare-turnstile-site-and-secret-keys/"
-													target="_blank"
-													rel="noopener noreferrer"
-												>
-													{ __( 'View Our How-To Guide', 'highlight-and-share' ) }
-												</a>
-											</>
-										</Notice>
-									</>
-								) }
+								<>
+									<Notice
+										status="info"
+										politeness="polite"
+										inline={ false }
+									>
+										<>
+											{ __( 'Need help getting your Turnstile credentials?', 'highlight-and-share' ) }{ ' ' }
+											<a
+												href="https://dlxplugins.com/how-tos/how-to-retrieve-your-cloudflare-turnstile-site-and-secret-keys/"
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												{ __( 'View Our How-To Guide', 'highlight-and-share' ) }
+											</a>
+										</>
+									</Notice>
+								</>
 								{ getValues( 'turnstileEnabled' ) && (
 									<>
 										<div className="has-admin-component-row">
@@ -824,6 +841,21 @@ const Interface = ( props ) => {
 												) }
 											/>
 										</div>
+										{ ( getValues( 'recaptchaEnabled' ) && getValues( 'turnstileEnabled' ) ) && (
+											<div className="has-admin-component-row">
+												<>
+													<Notice
+														status="warning"
+														politeness="assertive"
+														inline={ false }
+													>
+														<>
+															{ __( 'You have both reCAPTCHA Enterprise and Turnstile enabled. This means that both will be used to verify the user\'s email address. If you only want one of them to be used, please disable the other one.', 'highlight-and-share' ) }
+														</>
+													</Notice>
+												</>
+											</div>
+										) }
 									</>
 								) }
 							</div>

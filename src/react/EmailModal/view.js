@@ -110,10 +110,12 @@ const View = () => {
 		setErrorMessage( '' );
 
 		// GEt token from Cloudflare if enabled.
-		if ( hasCfTurnstileLocal.turnstile_enabled ) {
-			const cfResponse = document.querySelector( 'input[name="cf-turnstile-response"]' );
-			if ( null !== cfResponse ) {
-				formData.turnstileToken = cfResponse.value;
+		if ( typeof hasCfTurnstileLocal !== 'undefined' ) {
+			if ( hasCfTurnstileLocal.turnstile_enabled ) {
+				const cfResponse = document.querySelector( 'input[name="cf-turnstile-response"]' );
+				if ( null !== cfResponse ) {
+					formData.turnstileToken = cfResponse.value;
+				}
 			}
 		}
 		// Save stuff here.

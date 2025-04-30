@@ -240,7 +240,7 @@ class Emails {
 					'Content-Type' => 'application/json',
 				),
 			);
-			$response = wp_remote_post( esc_url( $url ), $args );
+			$response = wp_remote_post( esc_url_raw( $url ), $args );
 			if ( is_wp_error( $response ) ) {
 				wp_send_json_error(
 					array(
