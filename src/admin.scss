@@ -2,10 +2,12 @@
 @import '../node_modules/@wordpress/components/build-style/style.css';
 @import 'common.scss';
 @import './scss/pinterest.scss';
+
 @keyframes has-fade-in {
 	from {
 		opacity: 0;
 	}
+
 	to {
 		opacity: 1;
 	}
@@ -16,10 +18,12 @@
 		opacity: 0;
 		height: 0;
 	}
+
 	50% {
 		opacity: 1;
 		height: auto;
 	}
+
 	100% {
 		opacity: 0;
 		height: 0;
@@ -32,6 +36,7 @@
 		opacity: 1;
 		height: auto;
 	}
+
 	to {
 		opacity: 0;
 		height: 0;
@@ -66,7 +71,11 @@
 }
 
 /* hide notices (only on our screen) */
-body .notice, body .updated {
+body .notice,
+body .updated,
+body div.updated.success,
+body div.updated.error,
+body div.updated.warning {
 	display: none !important;
 }
 
@@ -80,6 +89,7 @@ body .notice, body .updated {
 
 $link_color: #2c3a95;
 $link_color_hover: darken(#2c3a95, 15%);
+
 .has-form-wrapper {
 	position: relative;
 	padding: 0;
@@ -88,11 +98,13 @@ $link_color_hover: darken(#2c3a95, 15%);
 	header {
 		background: #4f4f4f;
 	}
+
 	.has-admin-container-body {
 		max-width: 69.5rem;
 		margin: 0 auto;
 		padding: 2.4em 20px;
 	}
+
 	.has-admin-container-wrap {
 		display: grid;
 		grid-template-columns: 1fr;
@@ -166,6 +178,7 @@ $link_color_hover: darken(#2c3a95, 15%);
 
 			&:hover {
 				color: $link_color_hover;
+
 				&:after {
 					opacity: 1;
 				}
@@ -202,15 +215,19 @@ $link_color_hover: darken(#2c3a95, 15%);
 	&.center {
 		display: flex;
 	}
+
 	&.left {
 		justify-content: flex-start;
 	}
+
 	&.center {
 		justify-content: center;
 	}
+
 	&.right {
 		justify-content: flex-end;
 	}
+
 	button,
 	.has__btn-primary {
 		width: 100%;
@@ -236,6 +253,7 @@ $link_color_hover: darken(#2c3a95, 15%);
 			transition: all 0.4s ease-in-out;
 		}
 	}
+
 	.has__btn-primary {
 		display: block;
 		width: 100%;
@@ -262,6 +280,7 @@ $link_color_hover: darken(#2c3a95, 15%);
 	vertical-align: middle;
 	font-size: 18px;
 	height: unset;
+
 	svg {
 		fill: #FFF;
 		color: #000;
@@ -273,38 +292,48 @@ $link_color_hover: darken(#2c3a95, 15%);
 			color: #000;
 		}
 	}
+
 	&:hover {
 		color: #fff;
-		background: lighten( $accent_color, 10% );
+		background: lighten($accent_color, 10%);
 	}
+
 	&.has-button-info {
 		background: $secondary_button_color;
 		color: $secondary_button_color_text;
+
 		&:hover {
-			background: lighten( $secondary_button_color, 10% );
+			background: lighten($secondary_button_color, 10%);
 		}
 	}
+
 	&.has-button-danger {
 		background: $danger_button_color;
 		color: $danger_button_color_text;
+
 		&:hover {
-			background: lighten( $danger_button_color, 10% );
+			background: lighten($danger_button_color, 10%);
 		}
 	}
+
 	&.has-button-edit {
 		background: $edit_button_color;
 		color: $edit_button_color_text;
+
 		&:hover {
-			background: lighten( $edit_button_color, 10% );
+			background: lighten($edit_button_color, 10%);
 		}
 	}
+
 	&.has-button-delete {
 		background: $delete_button_color;
 		color: $delete_button_color_text;
+
 		&:hover {
-			background: lighten( $delete_button_color, 10% );
+			background: lighten($delete_button_color, 10%);
 		}
 	}
+
 	&.has-button-lg {
 		padding: 20px 30px;
 		font-size: 2em;
@@ -314,25 +343,30 @@ $link_color_hover: darken(#2c3a95, 15%);
 			height: 2em;
 		}
 	}
+
 	&.has-button-save {
 		background: $save_button_color;
 		color: $save_button_color_text;
+
 		&:hover {
 			color: #fff;
-			background: lighten( $save_button_color, 10% );
+			background: lighten($save_button_color, 10%);
 		}
 	}
+
 	.has-icon-button {
 		text-align: middle;
 		display: inline-block;
 		width: 16px;
 		height: 16px;
 	}
+
 	svg {
 		width: 1.6em;
 		height: 1.6em;
 		vertical-align: middle;
 	}
+
 	.has-icon-yellow {
 		color: #f52a39;
 	}
@@ -359,6 +393,7 @@ $link_color_hover: darken(#2c3a95, 15%);
 		font-style: italic;
 		color: #fff;
 	}
+
 	.has__btn-primary {
 		display: block;
 		width: 100%;
@@ -394,9 +429,10 @@ h2.has-admin-content-subheading {
 	font-size: 1.65em;
 	margin-bottom: 1.3em;
 
-	& ~ .description {
+	&~.description {
 		margin-bottom: 1.3em;
 	}
+
 	&:after {
 		content: '';
 		display: block;
@@ -413,15 +449,19 @@ h2.has-admin-content-subheading {
 	.components-base-control__help {
 		font-size: 0.95em;
 	}
+
 	p.description {
 		font-size: 1.1em;
 	}
+
 	.has-admin-component-row img {
 		max-width: 100%;
 		height: auto;
 	}
+
 	.has-admin-component-row,
 	.has-admin-component-row .components-select-control {
+
 		.components-has-units-control-label__units,
 		label {
 			display: block;
@@ -430,18 +470,23 @@ h2.has-admin-content-subheading {
 			font-size: 14px;
 		}
 	}
+
 	label.components-checkbox-control__label {
 		display: inline-block;
 	}
+
 	.components-checkbox-control {
 		margin-bottom: 12px;
 	}
+
 	.components-input-control__container {
 		max-width: 550px !important;
 	}
+
 	.has-admin-component-row-button {
 		margin-top: 15px;
 		margin-bottom: 12px;
+
 		.has-button {
 			margin: 0 0 10px 0;
 			display: block;
@@ -451,9 +496,10 @@ h2.has-admin-content-subheading {
 				margin-bottom: 0;
 			}
 		}
+
 		/* media queries */
-		@include respond-to('medium')  {
-			
+		@include respond-to('medium') {
+
 			.has-button {
 				display: inline-block;
 				width: unset;
@@ -465,6 +511,7 @@ h2.has-admin-content-subheading {
 			}
 		}
 	}
+
 	.has-admin-colors-tabs h3,
 	.has-color-component-label {
 		display: block;
@@ -472,9 +519,11 @@ h2.has-admin-content-subheading {
 		text-transform: unset;
 		font-size: 14px;
 	}
+
 	.has-admin-component-row .components-select-control {
 		margin-bottom: 15px;
 	}
+
 	.has-admin-component-row.has-descriptio {
 		margin-bottom: 15px;
 	}
@@ -482,6 +531,7 @@ h2.has-admin-content-subheading {
 
 /* Admin text controls */
 .has-admin__text-control {
+
 	input[type='text'],
 	input[type='password'] {
 		max-width: 350px;
@@ -499,6 +549,7 @@ h2.has-admin-content-subheading {
 		box-sizing: border-box;
 	}
 }
+
 .has-admin__text-area-control {
 	textarea {
 		display: block;
@@ -521,11 +572,12 @@ h2.has-admin-content-subheading {
 /* Admin Radio component */
 .components-radio-control {
 	input[type='radio'] {
-		& ~ label {
+		&~label {
 			display: inline-block;
 			margin-left: 5px;
 		}
 	}
+
 	.components-radio-control__option {
 		margin-bottom: 8px;
 	}
@@ -549,11 +601,13 @@ h2.has-admin-content-subheading {
 
 		button {
 			margin-right: 10px;
+
 			&:last-child {
 				margin-right: 0;
 			}
 		}
 	}
+
 	.has-admin__tabs--content-actions--right {
 		display: flex;
 		justify-content: flex-end;
@@ -583,6 +637,7 @@ h2.has-admin-content-subheading {
 		&.has-error {
 			border: 1px solid #bc2b2c;
 			border-color: #bc2b2c !important;
+
 			&:hover {
 				cursor: not-allowed;
 			}
@@ -616,32 +671,40 @@ h2.has-admin-content-subheading {
 			svg {
 				width: 16px;
 				height: 16px;
+
 				path {
 					fill: #000;
 				}
+
 				margin-left: 8px;
 			}
+
 			&.is-saving {
 				display: flex;
 				justify-content: center;
 				align-items: center;
+
 				svg {
 					width: 24px;
 					height: 24px;
 					animation: has-spin 1s linear infinite;
+
 					path {
 						fill: #017e01;
 					}
 				}
 			}
+
 			&.is-resetting {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
+
 				svg {
 					width: 24px;
 					height: 24px;
 					animation: has-spin 1s linear infinite;
+
 					path {
 						fill: #822700;
 					}
@@ -656,6 +719,7 @@ h2.has-admin-content-subheading {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
+
 	li {
 		position: relative;
 		display: flex;
@@ -666,18 +730,22 @@ h2.has-admin-content-subheading {
 		align-items: center;
 		justify-content: center;
 		margin-right: 8px;
+
 		&:hover {
 			cursor: move;
 			background: #f4f4f4 !important;
 		}
+
 		&.is-dragging {
 			opacity: 0.2;
 		}
+
 		&.is-over {
 			transform: scale(1.2);
 			border: 1px dashed #000;
 		}
 	}
+
 	svg {
 		width: 26px;
 		height: 26px;
@@ -686,13 +754,12 @@ h2.has-admin-content-subheading {
 
 /* Color Component (forked from @GenerateBlocks) */
 .has-component-color-picker-wrapper,
-.qdlx-admin__tabs--content-inner
-	.components-base-control.has-component-color-picker-wrapper {
+.qdlx-admin__tabs--content-inner .components-base-control.has-component-color-picker-wrapper {
 	text-align: left;
 	margin-bottom: 16px;
 	margin-top: 2px;
 
-	> .components-base-control__field {
+	>.components-base-control__field {
 		position: relative;
 		display: inline-grid;
 		grid-template-columns: 175px 30px;
@@ -708,10 +775,12 @@ h2.has-admin-content-subheading {
 			margin: 0;
 		}
 	}
+
 	.has-color-component-label {
 		line-height: 1.2;
 	}
 }
+
 .components-popover.has-component-color-picker {
 	.has-component-color-picker-palette {
 		padding: 0 16px;
@@ -725,11 +794,13 @@ h2.has-admin-content-subheading {
 				display: none;
 			}
 		}
+
 		.components-circular-option-picker__swatches {
 			display: flex;
 			flex-wrap: wrap;
 			gap: 12px;
 		}
+
 		.components-circular-option-picker__option-wrapper {
 			display: inline-block;
 			height: 28px;
@@ -809,11 +880,10 @@ h2.has-admin-content-subheading {
 }
 
 /* Dimensions Component */
-.has-admin-content-wrapper
-	.has-admin-component-row
-	.components-has-dimensions-control {
+.has-admin-content-wrapper .has-admin-component-row .components-has-dimensions-control {
 	display: inline-block;
 	margin-bottom: 16px;
+
 	label {
 		display: none;
 	}
@@ -865,13 +935,14 @@ h2.has-admin-content-subheading {
 			display: inline;
 		}
 	}
+
 	input[type='number'] {
 		width: 100%;
 	}
 }
+
 /* Sync button */
-.has-admin-content-wrapper
-	.components-has-dimensions-control_sync.components-button {
+.has-admin-content-wrapper .components-has-dimensions-control_sync.components-button {
 	height: 100%;
 }
 
@@ -888,6 +959,7 @@ h2.has-admin-content-subheading {
 .components-has-dimensions-control {
 	.components-has-control__units {
 		text-align: right;
+
 		.components-has-control-buttons__units {
 			button.components-button {
 				background: transparent;
@@ -960,6 +1032,7 @@ h2.has-admin-content-subheading {
 		}
 	}
 }
+
 .has-tab-color-picker-wrapper {
 	display: grid;
 	grid-template-columns: 1fr;
@@ -995,6 +1068,7 @@ h2.has-admin-content-subheading {
 		max-width: 100% !important;
 		padding-left: 20px !important;
 	}
+
 	.components-input-control__container {
 		position: relative;
 		display: flex !important;
@@ -1019,6 +1093,7 @@ h2.has-admin-content-subheading {
 			align-items: center;
 			justify-content: center;
 		}
+
 		&:hover:after {
 			color: #fff;
 		}
@@ -1058,7 +1133,7 @@ h2.has-admin-content-subheading {
 .has-admin__range-control {
 	max-width: 450px;
 
-	span > span {
+	span>span {
 		background-color: #4f4f4f !important;
 	}
 }
@@ -1105,6 +1180,7 @@ h3.has-icon-heading {
 		width: 100%;
 		max-width: 350px;
 	}
+
 	.has-admin__text-area-control {
 		width: 100%;
 		max-width: 550px;
@@ -1112,11 +1188,13 @@ h3.has-icon-heading {
 		.components-base-control__label {
 			margin-bottom: 4px;
 		}
+
 		textarea {
 			min-height: 200px;
 		}
 	}
 }
+
 .has-email-template-tags__popover-tags {
 	display: grid;
 	grid-template-columns: 1fr 1fr;

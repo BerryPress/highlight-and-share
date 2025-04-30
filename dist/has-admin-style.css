@@ -3757,7 +3757,11 @@ div.components-toolbar > div + div.has-left-divider::before {
 }
 
 /* hide notices (only on our screen) */
-body .notice, body .updated {
+body .notice,
+body .updated,
+body div.updated.success,
+body div.updated.error,
+body div.updated.warning {
   display: none !important;
 }
 
