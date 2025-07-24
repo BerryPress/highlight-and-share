@@ -164,7 +164,7 @@ class Frontend {
 		add_action( 'wp_footer', array( $this, 'add_footer_html' ) );
 
 		// Load in comments.
-		add_filter( 'comment_text', array( $this, 'add_comment_area_html' ) );
+		add_filter( 'comment_text', array( $this, 'add_comment_area_html' ), 10, 2 );
 
 		// Add Pinterest and Web Share to image tags. WP 6.2 and up.
 		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 5 );
@@ -735,10 +735,11 @@ class Frontend {
 	 * Add Highlight and Share placeholder to comments.
 	 *
 	 * @param string $comment_content Comment content.
+	 * @param object $comment Comment object.
 	 *
 	 * @return string Updated comment content.
 	 */
-	public function add_comment_area_html( $comment_content ) {
+	public function add_comment_area_html( $comment_content, $comment ) {
 		$options             = Options::get_plugin_options();
 		$enable_for_comments = (bool) $options['enable_comments'];
 		$enable_shortlinks  = (bool) $options['shortlinks'];
@@ -748,11 +749,11 @@ class Frontend {
 		}
 
 		// Get the comment permalink.
-		$comment_permalink = get_comment_link();
+		$comment_permalink = get_comment_link( $comment );
 		if ( $enable_shortlinks ) {
 			$shortlink = wp_get_shortlink();
 			if ( ! empty( $shortlink ) ) {
-				$comment_permalink = $shortlink . '#comment-' . get_comment_ID();
+				$comment_permalink = $shortlink . '#comment-' . $comment->comment_ID;
 			}
 		}
 
@@ -760,7 +761,7 @@ class Frontend {
 		$comment_content .= sprintf(
 			'<div class="has-comment-placeholder" data-comment-url="%s" data-title="%s" style="width: 0; height: 0; display: none; overflow: hidden;" aria-hidden="true"></div>',
 			esc_url( $comment_permalink ),
-			esc_attr( get_the_title() ),
+			esc_attr( get_the_title( $comment->comment_post_ID ) ),
 			esc_attr( Hashtags::get_hashtags( get_the_ID() ) )
 		);
 
