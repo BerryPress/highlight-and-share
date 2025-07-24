@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
 Tested up to: 6.8
-Stable tag: 5.1.0
+Stable tag: 5.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -120,6 +120,11 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 
 == Changelog ==
+
+= 5.1.1 =
+* Released 2025-07-24
+* Fixing translations loading too soon error.
+* Resolving PHP warnings when enabled for comments.
 
 = 5.1.0 =
 * Released 2025-04-29
@@ -575,5 +580,5 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Upgrade Notice ==
 
-= 5.1.0 =
-Added reCAPTCHA Enterprise and loudflare Turnstile to emails for better spam protectioin. Added a 3D "Orb" theme.
+= 5.1.1 =
+Resolving translations loading too soon error. Fixing PHP warnings when enabled for comments.
