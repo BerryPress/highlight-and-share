@@ -205,6 +205,10 @@ class Frontend {
 	 * @return string Shortcode output.
 	 */
 	public function output_shortcode( $atts, $content ) {
+		if ( empty( $content ) ) {
+			return $content;
+		}
+
 		$shortcode_defaults = array(
 			'unique_id'                => 'has-' . uniqid(),
 			'theme'                    => 'default',
@@ -237,7 +241,18 @@ class Frontend {
 		);
 
 		// Parse attributes.
-		$attributes = shortcode_atts( $shortcode_defaults, $atts );
+		$attributes = Functions::sanitize_array_recursive( shortcode_atts( $shortcode_defaults, $atts ) );
+
+		// Convert boolean true or false values to string values.
+		$attributes = array_map(
+			function ( $value ) {
+				if ( is_bool( $value ) ) {
+						return $value ? 'true' : 'false';
+				}
+				return $value;
+			},
+			$attributes
+		);
 
 		// Get font slug.
 		$font_slug = sanitize_title( $attributes['font_family'] );
@@ -742,7 +757,7 @@ class Frontend {
 	public function add_comment_area_html( $comment_content, $comment ) {
 		$options             = Options::get_plugin_options();
 		$enable_for_comments = (bool) $options['enable_comments'];
-		$enable_shortlinks  = (bool) $options['shortlinks'];
+		$enable_shortlinks   = (bool) $options['shortlinks'];
 
 		if ( ! $enable_for_comments ) {
 			return $comment_content;
