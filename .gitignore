@@ -16,3 +16,7 @@ node_modules
 \.DS_Store
 
 highlight-and-share.zip
+
+.npmrc
+
+package-lock.json
