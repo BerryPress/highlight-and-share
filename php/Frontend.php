@@ -371,7 +371,7 @@ class Frontend {
 				.has-cts-shortcode#<?php echo esc_attr( $attributes['unique_id'] ); ?> {
 					<?php
 					foreach ( $css_vars as $css_var => $css_value ) {
-						echo $css_var . ': ' . $css_value . ';';
+						echo esc_html( $css_var ) . ': ' . esc_html( $css_value ) . ';';
 					}
 					?>
 				}
