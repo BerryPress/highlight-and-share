@@ -2,8 +2,8 @@
 Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
-Tested up to: 6.8
-Stable tag: 5.1.1
+Tested up to: 6.9
+Stable tag: 5.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -105,6 +105,10 @@ So far, the latest versions of Chrome, Firefox, Safari, Edge, and IE9+.
 
 iOS Safari and Chrome work well, but the text selection is a bit different than on desktop browsers.
 
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the undefined plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/61823bd9-318f-4aa3-850f-07177f548b4e). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+
 == Screenshots ==
 
 1. Social Networks are shown when selecting text.
@@ -120,6 +124,10 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 
 == Changelog ==
+
+= 5.2.0 =
+* Released 2025-11-16
+* Security fix: Resolving XSS vulnerability in the plugin as reported by Patchstack.
 
 = 5.1.1 =
 * Released 2025-07-24
@@ -580,5 +588,5 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 == Upgrade Notice ==
 
-= 5.1.1 =
-Resolving translations loading too soon error. Fixing PHP warnings when enabled for comments.
+= 5.2.0 =
+Resolving XSS vulnerability as reported by Patchstack.
