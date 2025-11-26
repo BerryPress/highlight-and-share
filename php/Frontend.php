@@ -1332,6 +1332,14 @@ class Frontend {
 						}
 						break;
 					case 'email':
+						// Get captcha enabled status.
+						$recaptcha_enabled = (bool) $email_options['recaptcha_enabled'];
+						$turnstile_enabled = (bool) $email_options['turnstile_enabled'];
+
+						// Require a captcha or turnstile to be enabled in order to send an email.
+						if ( ! $recaptcha_enabled && ! $turnstile_enabled ) {
+							break;
+						}
 						global $post;
 						$post_id     = $post->ID ?? 0;
 						$email_url   = '';

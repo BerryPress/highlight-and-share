@@ -580,6 +580,17 @@ h2.has-admin-content-subheading {
 
 	.components-radio-control__option {
 		margin-bottom: 8px;
+
+		input {
+			max-height: 24px;
+			max-width: 24px;
+			&:before {
+				display: none;
+			}
+			&:checked {
+				box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wp-admin-theme-color);
+			}
+		}
 	}
 }
 

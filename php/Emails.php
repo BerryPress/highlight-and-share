@@ -196,8 +196,41 @@ class Emails {
 			$return['message'] = __( 'Nonce could not be verified.', 'highlight-and-share' );
 			wp_send_json( $return );
 		}
+
+		// Basic anti-spam: rate limit 30 sec per IP.
+		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : null;
+		if ( null === $ip ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No IP address found.', 'highlight-and-share' ),
+				)
+			);
+		}
+		$rate_limit_key = sanitize_key( 'has_rate_' . md5( $ip ) );
+		if ( get_transient( $rate_limit_key ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'Emails cannot be sent too quickly.', 'highlight-and-share' ),
+				)
+			);
+		}
+		set_transient( $rate_limit_key, true, 1 * MINUTE_IN_SECONDS );
+
 		// Get email options.
 		$options = Options::get_email_options();
+
+		// Get captcha enabled status.
+		$recaptcha_enabled = (bool) $options['recaptcha_enabled'];
+		$turnstile_enabled = (bool) $options['turnstile_enabled'];
+
+		// Require a captcha or turnstile to be enabled in order to send an email.
+		if ( ! $recaptcha_enabled && ! $turnstile_enabled ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No captcha enabled.', 'highlight-and-share' ),
+				)
+			);
+		}
 
 		// Get recaptcha keys.
 		$recaptcha_site_key   = sanitize_text_field( $options['recaptcha_site_key'] ?? '' );

@@ -200,6 +200,16 @@ const Interface = ( props ) => {
 										'highlight-and-share'
 									) }
 								</p>
+								{
+									( ! getValues( 'recaptchaEnabled' ) && ! getValues( 'turnstileEnabled' ) ) && (
+										<Notice
+											message={ __( 'The email option will not be available for security reasons until you enable at least one captcha service.', 'highlight-and-share' ) }
+											status="error"
+											politeness="assertive"
+											inline={ false }
+										/>
+									)
+								}
 							</div>
 							<div className="has-admin-content-body">
 								<h2 className="has-admin-content-subheading">
