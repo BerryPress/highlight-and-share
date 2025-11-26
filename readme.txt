@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
 Tested up to: 6.9
-Stable tag: 5.2.0
+Stable tag: 5.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -124,6 +124,11 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 
 == Changelog ==
+
+= 5.3.0 =
+* Released 2025-11-25
+* Security fix: Resolving Broken Access Control vulnerability in regards to email sending as reported by Patchstack.
+* Bug fix: email sending now requires either reCAPTCHA Enterprise or Turnstile enabled.
 
 = 5.2.0 =
 * Released 2025-11-16
@@ -588,5 +593,5 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 == Upgrade Notice ==
 
-= 5.2.0 =
-Resolving XSS vulnerability as reported by Patchstack.
+= 5.3.0 =
+Resolving Broken Access Control with emails as reported by Patchstack. Email sending now requires a captcha solution.
