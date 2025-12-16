@@ -2,7 +2,7 @@
  * Max-width component.
  * Credit: Forked from @GenerateBlocks
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 /**
  * External dependencies
@@ -35,19 +35,49 @@ const MaxWidth = ( props ) => {
 		};
 	};
 
-	const { control, setValue, getValues } = useForm( {
+	const { control, setValue, getValues, reset } = useForm( {
 		defaultValues: getDefaultValues(),
 	} );
 
 	const formValues = useWatch( { control } );
+	const isInternalUpdate = useRef( false );
+	const prevPropsValues = useRef( props.values );
 
 	const {
 		onValuesChange,
 	} = props;
 
+	// Sync form state when props.values changes externally (not from our updates).
 	useEffect( () => {
-		onValuesChange( formValues );
-	}, [ formValues ] );
+		// Check if props.values actually changed.
+		const hasChanged = JSON.stringify( prevPropsValues.current ) !== JSON.stringify( props.values );
+		if ( hasChanged && ! isInternalUpdate.current ) {
+			reset( getDefaultValues() );
+		}
+		prevPropsValues.current = props.values;
+		isInternalUpdate.current = false;
+	}, [ props.values, reset ] );
+
+	// Ensure all screen sizes are preserved when updating parent.
+	useEffect( () => {
+		// Check if formValues has all required screen sizes.
+		if ( formValues && formValues.mobile && formValues.tablet && formValues.desktop ) {
+			isInternalUpdate.current = true;
+			onValuesChange( formValues );
+		} else {
+			// If formValues is incomplete, merge with props.values to preserve all screen sizes.
+			const mergedValues = {
+				mobile: formValues?.mobile ?? props.values.mobile,
+				tablet: formValues?.tablet ?? props.values.tablet,
+				desktop: formValues?.desktop ?? props.values.desktop,
+			};
+			// Only update if merged values are different from current props.
+			if ( JSON.stringify( mergedValues ) !== JSON.stringify( props.values ) ) {
+				isInternalUpdate.current = true;
+				onValuesChange( mergedValues );
+			}
+		}
+	}, [ formValues, onValuesChange, props.values ] );
 
 	useEffect( () => {
 		setScreenSize( props.screenSize.toLowerCase() );
@@ -55,7 +85,7 @@ const MaxWidth = ( props ) => {
 			props.screenSize.toLowerCase(),
 			getValues( props.screenSize.toLowerCase() )
 		);
-	}, [ props.screenSize ] );
+	}, [ props.screenSize, setValue, getValues ] );
 
 	return (
 		<>
