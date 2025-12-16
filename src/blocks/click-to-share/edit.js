@@ -53,9 +53,12 @@ const HAS_Click_To_Share = ( props ) => {
 	const blockProps = useBlockProps( {
 		className: classnames( `highlight-and-share`, `align${ align }` ),
 	} );
-	const [ quoteToolbarPopoverAnchor, setQuoteToolbarPopoverAnchor ] = useState( null );
-	const [ isQuoteToolbarPopoverOpen, setIsQuoteToolbarPopoverOpen ] = useState( false );
-	const quoteToolbarTogglePopover = () => setIsQuoteToolbarPopoverOpen( ! isQuoteToolbarPopoverOpen );
+	const [ quoteToolbarPopoverAnchor, setQuoteToolbarPopoverAnchor ] =
+		useState( null );
+	const [ isQuoteToolbarPopoverOpen, setIsQuoteToolbarPopoverOpen ] =
+		useState( false );
+	const quoteToolbarTogglePopover = () =>
+		setIsQuoteToolbarPopoverOpen( ! isQuoteToolbarPopoverOpen );
 
 	const { attributes, setAttributes, clientId } = props;
 
@@ -362,35 +365,30 @@ const HAS_Click_To_Share = ( props ) => {
 								setAttributes={ setAttributes }
 								attributes={ purpleAttributes }
 								uniqueId={ uniqueId }
-
 							/>
 							<PresetButton
 								label={ __( 'Dark Theme', 'highlight-and-share' ) }
 								setAttributes={ setAttributes }
 								attributes={ darkAttributes }
 								uniqueId={ uniqueId }
-
 							/>
 							<PresetButton
 								label={ __( 'Light Theme', 'highlight-and-share' ) }
 								setAttributes={ setAttributes }
 								attributes={ lightAttributes }
 								uniqueId={ uniqueId }
-
 							/>
 							<PresetButton
 								label={ __( 'Pink Theme', 'highlight-and-share' ) }
 								setAttributes={ setAttributes }
 								attributes={ pinkAttributes }
 								uniqueId={ uniqueId }
-
 							/>
 							<PresetButton
 								label={ __( 'Blue Theme', 'highlight-and-share' ) }
 								setAttributes={ setAttributes }
 								attributes={ blueAttributes }
 								uniqueId={ uniqueId }
-
 							/>
 							<PresetButton
 								label={ __( 'Red Theme', 'highlight-and-share' ) }
@@ -423,7 +421,7 @@ const HAS_Click_To_Share = ( props ) => {
 						label={ __( 'Show Click to Share Text', 'alerts-dlx' ) }
 						checked={ showClickToShareText[ deviceType.toLowerCase() ] }
 						onChange={ ( value ) => {
-							const newShowClickToShare = { ...showClickToShareText }; 
+							const newShowClickToShare = { ...showClickToShareText };
 							newShowClickToShare[ deviceType.toLowerCase() ] = value;
 							setAttributes( {
 								showClickToShareText: newShowClickToShare,
@@ -431,7 +429,7 @@ const HAS_Click_To_Share = ( props ) => {
 						} }
 					/>
 				</PanelRow>
-				{ ( showClickToShare && deviceType === 'Desktop' ) && (
+				{ showClickToShare && deviceType === 'Desktop' && (
 					<PanelRow>
 						<TextControl
 							label={ __( 'Click to Share Text', 'highlight-and-share' ) }
@@ -457,18 +455,15 @@ const HAS_Click_To_Share = ( props ) => {
 				</PanelRow>
 				{ showClickToShareIcon[ deviceType.toLowerCase() ] && (
 					<>
-						{
-							'Desktop' === deviceType &&
-							(
-								<PanelRow>
-									<IconPicker
-										defaultSvg={ icon }
-										setAttributes={ setAttributes }
-										icons={ iconSvgs }
-									/>
-								</PanelRow>
-							)
-						}
+						{ 'Desktop' === deviceType && (
+							<PanelRow>
+								<IconPicker
+									defaultSvg={ icon }
+									setAttributes={ setAttributes }
+									icons={ iconSvgs }
+								/>
+							</PanelRow>
+						) }
 						<PanelRow className="has-range-control">
 							<RangeControl
 								label={ __( 'Icon Size', 'highlight-and-share' ) }
@@ -530,7 +525,10 @@ const HAS_Click_To_Share = ( props ) => {
 						<>
 							<PanelRow className="has-color-picker">
 								<ColorPickerHover
-									syncTitle={ __( 'Sync Background Colors', 'highlight-and-share' ) }
+									syncTitle={ __(
+										'Sync Background Colors',
+										'highlight-and-share'
+									) }
 									normalColor={ backgroundColor }
 									hoverColor={ backgroundColorHover }
 									isSync={ backgroundColorSync }
@@ -711,8 +709,13 @@ const HAS_Click_To_Share = ( props ) => {
 							values={ maximumWidth }
 							screenSize={ deviceType }
 							onValuesChange={ ( newValues ) => {
+								const maxValues = { ...maximumWidth };
+								const newValue = newValues[ deviceType.toLowerCase() ];
+								if ( newValue ) {
+									maxValues[ deviceType.toLowerCase() ] = newValue;
+								}
 								setAttributes( {
-									maximumWidth: newValues,
+									maximumWidth: maxValues,
 								} );
 							} }
 						/>
@@ -730,8 +733,13 @@ const HAS_Click_To_Share = ( props ) => {
 						units={ [ 'px', 'em', 'rem' ] }
 						screenSize={ deviceType }
 						onValuesChange={ ( newValues ) => {
+							const paddingValues = { ...paddingSize };
+							const newValue = newValues[ deviceType.toLowerCase() ];
+							if ( newValue ) {
+								paddingValues[ deviceType.toLowerCase() ] = newValue;
+							}
 							setAttributes( {
-								paddingSize: newValues,
+								paddingSize: paddingValues,
 							} );
 						} }
 					/>
@@ -748,8 +756,13 @@ const HAS_Click_To_Share = ( props ) => {
 						units={ [ 'px', 'em', 'rem' ] }
 						screenSize={ deviceType }
 						onValuesChange={ ( newValues ) => {
+							const marginValues = { ...marginSize };
+							const newValue = newValues[ deviceType.toLowerCase() ];
+							if ( newValue ) {
+								marginValues[ deviceType.toLowerCase() ] = newValue;
+							}
 							setAttributes( {
-								marginSize: newValues,
+								marginSize: marginValues,
 							} );
 						} }
 					/>
@@ -766,8 +779,13 @@ const HAS_Click_To_Share = ( props ) => {
 						units={ [ 'px', 'em', 'rem' ] }
 						screenSize={ deviceType }
 						onValuesChange={ ( newValues ) => {
+							const borderWidthValues = { ...borderWidth };
+							const newValue = newValues[ deviceType.toLowerCase() ];
+							if ( newValue ) {
+								borderWidthValues[ deviceType.toLowerCase() ] = newValue;
+							}
 							setAttributes( {
-								borderWidth: newValues,
+								borderWidth: borderWidthValues,
 							} );
 						} }
 					/>
@@ -784,8 +802,13 @@ const HAS_Click_To_Share = ( props ) => {
 						units={ [ 'px', 'em', 'rem', '%' ] }
 						screenSize={ deviceType }
 						onValuesChange={ ( newValues ) => {
+							const borderRadiusValues = { ...borderRadiusSize };
+							const newValue = newValues[ deviceType.toLowerCase() ];
+							if ( newValue ) {
+								borderRadiusValues[ deviceType.toLowerCase() ] = newValue;
+							}
 							setAttributes( {
-								borderRadiusSize: newValues,
+								borderRadiusSize: borderRadiusValues,
 							} );
 						} }
 					/>
@@ -798,7 +821,13 @@ const HAS_Click_To_Share = ( props ) => {
 		<>
 			{ shareTextToolbar }
 			{ inspectorControls }
-			{ <BlockContent attributes={ attributes } setAttributes={ setAttributes } clientId={ clientId } /> }
+			{
+				<BlockContent
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					clientId={ clientId }
+				/>
+			}
 		</>
 	);
 
