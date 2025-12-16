@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
 Requires at least: 5.1
 Tested up to: 6.9
-Stable tag: 5.3.0
+Stable tag: 5.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -124,6 +124,11 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 
 == Changelog ==
+
+= 5.3.1 =
+* Released 2025-12-16
+* New: Click to Share block is now at verison 3 of the block.json API.
+* Bug fix: Click to Share block would error out when switching responsive breakpoints in the block editor.
 
 = 5.3.0 =
 * Released 2025-11-25
@@ -593,5 +598,5 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 == Upgrade Notice ==
 
-= 5.3.0 =
-Resolving Broken Access Control with emails as reported by Patchstack. Email sending now requires a captcha solution.
+= 5.3.1 =
+Block is now at version 3 of block.json API. Fixing responsive breakpoints for the Click to Share block.
