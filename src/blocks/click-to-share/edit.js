@@ -49,6 +49,8 @@ const { useInstanceId } = wp.compose;
 
 const HAS_Click_To_Share = ( props ) => {
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const deviceSize = deviceType.toLowerCase();
+
 	const generatedUniqueId = useInstanceId( HAS_Click_To_Share, 'has-cts' );
 	const blockProps = useBlockProps( {
 		className: classnames( `highlight-and-share`, `align${ align }` ),
@@ -714,6 +716,7 @@ const HAS_Click_To_Share = ( props ) => {
 								if ( newValue ) {
 									maxValues[ deviceType.toLowerCase() ] = newValue;
 								}
+								
 								setAttributes( {
 									maximumWidth: maxValues,
 								} );
@@ -733,13 +736,10 @@ const HAS_Click_To_Share = ( props ) => {
 						units={ [ 'px', 'em', 'rem' ] }
 						screenSize={ deviceType }
 						onValuesChange={ ( newValues ) => {
-							const paddingValues = { ...paddingSize };
-							const newValue = newValues[ deviceType.toLowerCase() ];
-							if ( newValue ) {
-								paddingValues[ deviceType.toLowerCase() ] = newValue;
-							}
+							const newPadding = { ...paddingSize };
+							newPadding[ deviceSize ] = newValues[ deviceSize ];
 							setAttributes( {
-								paddingSize: paddingValues,
+								paddingSize: newPadding,
 							} );
 						} }
 					/>
@@ -756,13 +756,10 @@ const HAS_Click_To_Share = ( props ) => {
 						units={ [ 'px', 'em', 'rem' ] }
 						screenSize={ deviceType }
 						onValuesChange={ ( newValues ) => {
-							const marginValues = { ...marginSize };
-							const newValue = newValues[ deviceType.toLowerCase() ];
-							if ( newValue ) {
-								marginValues[ deviceType.toLowerCase() ] = newValue;
-							}
+							const newMargin = { ...marginSize };
+							newMargin[ deviceSize ] = newValues[ deviceSize ];
 							setAttributes( {
-								marginSize: marginValues,
+								marginSize: newMargin,
 							} );
 						} }
 					/>
@@ -779,13 +776,10 @@ const HAS_Click_To_Share = ( props ) => {
 						units={ [ 'px', 'em', 'rem' ] }
 						screenSize={ deviceType }
 						onValuesChange={ ( newValues ) => {
-							const borderWidthValues = { ...borderWidth };
-							const newValue = newValues[ deviceType.toLowerCase() ];
-							if ( newValue ) {
-								borderWidthValues[ deviceType.toLowerCase() ] = newValue;
-							}
+							const newBorderWidth = { ...borderWidth };
+							newBorderWidth[ deviceSize ] = newValues[ deviceSize ];
 							setAttributes( {
-								borderWidth: borderWidthValues,
+								borderWidth: newBorderWidth,
 							} );
 						} }
 					/>
@@ -802,13 +796,10 @@ const HAS_Click_To_Share = ( props ) => {
 						units={ [ 'px', 'em', 'rem', '%' ] }
 						screenSize={ deviceType }
 						onValuesChange={ ( newValues ) => {
-							const borderRadiusValues = { ...borderRadiusSize };
-							const newValue = newValues[ deviceType.toLowerCase() ];
-							if ( newValue ) {
-								borderRadiusValues[ deviceType.toLowerCase() ] = newValue;
-							}
+							const newBorderRadius = { ...borderRadiusSize };
+							newBorderRadius[ deviceSize ] = newValues[ deviceSize ];
 							setAttributes( {
-								borderRadiusSize: borderRadiusValues,
+								borderRadiusSize: newBorderRadius,
 							} );
 						} }
 					/>

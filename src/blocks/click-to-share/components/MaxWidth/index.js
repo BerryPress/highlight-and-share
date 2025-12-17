@@ -18,7 +18,7 @@ import classNames from 'classnames';
 
 const MaxWidth = ( props ) => {
 	const [ screenSize, setScreenSize ] = useState( 'desktop' );
-	const getDefaultValues = function() {
+	const getDefaultValues = function( newProps) {
 		return {
 			mobile: {
 				width: props.values.mobile.width,
@@ -36,24 +36,36 @@ const MaxWidth = ( props ) => {
 	}
 
 	const { control, setValue, getValues, reset } = useForm( {
-		defaultValues: getDefaultValues(),
+		defaultValues: getDefaultValues( props ),
 	} );
 
 	const formValues = useWatch( { control } );
+
+	const { isDirty } = useFormState( { control } );
+
 
 	const {
 		onValuesChange,
 	} = props;
 
 	useEffect( () => {
-		onValuesChange( formValues );
+		if ( isDirty ) {
+			onValuesChange( formValues );
+			reset( formValues, {
+				keepDirty: false,
+			} );
+		}
 	}, [ formValues ] );
 
 	useEffect( () => {
 		setScreenSize( props.screenSize.toLowerCase() );
+		const newDefaultValues = getDefaultValues( props );
 		setValue(
 			props.screenSize.toLowerCase(),
-			getValues( props.screenSize.toLowerCase() )
+			newDefaultValues[ props.screenSize.toLowerCase() ],
+			{
+				shouldDirty: false,
+			}
 		);
 	}, [ props.screenSize ] );
 

@@ -23,38 +23,40 @@ import {
 const DimensionsControlBlock = ( props ) => {
 	const [ screenSize, setScreenSize ] = useState( 'desktop' );
 
-	const getDefaultValues = () => {
+	const getDefaultValues = ( newProps ) => {
 		return {
 			mobile: {
-				top: props.values.mobile.top,
-				right: props.values.mobile.right,
-				bottom: props.values.mobile.bottom,
-				left: props.values.mobile.left,
-				unit: props.values.mobile.unit,
-				unitSync: props.values.mobile.unitSync,
+				top: newProps.values.mobile.top,
+				right: newProps.values.mobile.right,
+				bottom: newProps.values.mobile.bottom,
+				left: newProps.values.mobile.left,
+				unit: newProps.values.mobile.unit,
+				unitSync: newProps.values.mobile.unitSync,
 			},
 			tablet: {
-				top: props.values.tablet.top,
-				right: props.values.tablet.right,
-				bottom: props.values.tablet.bottom,
-				left: props.values.tablet.left,
-				unit: props.values.tablet.unit,
-				unitSync: props.values.tablet.unitSync,
+				top: newProps.values.tablet.top,
+				right: newProps.values.tablet.right,
+				bottom: newProps.values.tablet.bottom,
+				left: newProps.values.tablet.left,
+				unit: newProps.values.tablet.unit,
+				unitSync: newProps.values.tablet.unitSync,
 			},
 			desktop: {
-				top: props.values.desktop.top,
-				right: props.values.desktop.right,
-				bottom: props.values.desktop.bottom,
-				left: props.values.desktop.left,
-				unit: props.values.desktop.unit,
-				unitSync: props.values.desktop.unitSync,
+				top: newProps.values.desktop.top,
+				right: newProps.values.desktop.right,
+				bottom: newProps.values.desktop.bottom,
+				left: newProps.values.desktop.left,
+				unit: newProps.values.desktop.unit,
+				unitSync: newProps.values.desktop.unitSync,
 			},
 		};
 	};
 
-	const { control, setValue, getValues } = useForm( {
-		defaultValues: getDefaultValues(),
+	const { control, setValue, getValues, reset } = useForm( {
+		defaultValues: getDefaultValues( props ),
 	} );
+
+	const { isDirty } = useFormState( { control } );
 
 	const formValues = useWatch( { control } );
 
@@ -69,14 +71,23 @@ const DimensionsControlBlock = ( props ) => {
 	} = props;
 
 	useEffect( () => {
-		onValuesChange( formValues );
+		if ( isDirty ) {
+			onValuesChange( formValues );
+			reset( formValues, {
+				keepDirty: false,
+			} );
+		}
 	}, [ formValues ] );
 
 	useEffect( () => {
 		setScreenSize( props.screenSize.toLowerCase() );
+		const newDefaultValues = getDefaultValues( props );
 		setValue(
 			props.screenSize.toLowerCase(),
-			getValues( props.screenSize.toLowerCase() )
+			newDefaultValues[ props.screenSize.toLowerCase() ],
+			{
+				shouldDirty: false,
+			}
 		);
 	}, [ props.screenSize ] );
 	/**
