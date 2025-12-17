@@ -680,8 +680,10 @@ const HAS_Click_To_Share = ( props ) => {
 						values={ typographyQuote }
 						screenSize={ deviceType }
 						onValuesChange={ ( formValues ) => {
+							const newTypographyQuote = { ...typographyQuote };
+							newTypographyQuote[ deviceType.toLowerCase() ] = formValues[ deviceType.toLowerCase() ];
 							setAttributes( {
-								typographyQuote: formValues,
+								typographyQuote: newTypographyQuote,
 							} );
 						} }
 						label={ __( 'Quote Typography', 'highlight-and-share' ) }
@@ -716,7 +718,6 @@ const HAS_Click_To_Share = ( props ) => {
 								if ( newValue ) {
 									maxValues[ deviceType.toLowerCase() ] = newValue;
 								}
-								
 								setAttributes( {
 									maximumWidth: maxValues,
 								} );

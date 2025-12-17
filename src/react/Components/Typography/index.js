@@ -3,7 +3,7 @@ import fontFamilies from '../../../fonts/fonts';
 import { __ } from '@wordpress/i18n';
 import { useSettings } from '@wordpress/block-editor';
 import { ButtonGroup, Button, Tooltip, SelectControl, BaseControl, TextControl, Popover } from '@wordpress/components';
-import { useForm, Controller, useWatch } from 'react-hook-form';
+import { useForm, Controller, useWatch, useFormState } from 'react-hook-form';
 import { geHierarchicalPlaceholderValue } from '../../Utils/TypographyHelper';
 
 const Typography = ( props ) => {
@@ -19,7 +19,7 @@ const Typography = ( props ) => {
 	const [ isVisible, setIsVisible ] = useState( false ); // for the main typography settings popup.
 	const [ isToggled, setIsToggled ] = useState( false ); // for the main typography settings popup.
 
-	const getDefaultValues = () => {
+	const getDefaultValues = ( newProps) => {
 		return {
 			mobile: {
 				fontFamily: props.values.mobile.fontFamily,
@@ -70,23 +70,38 @@ const Typography = ( props ) => {
 		control,
 		setValue,
 		getValues,
+		reset,
 	} = useForm( {
-		defaultValues: getDefaultValues(),
+		defaultValues: getDefaultValues( props ),
 	} );
 
 	const [ blockLevelFontFamilies ] = useSettings( 'typography.fontFamilies' );
 
 	const formValues = useWatch( { control } );
 
+	const { isDirty } = useFormState( { control } );
+
 	const { label } = props;
 
 	useEffect( () => {
-		props.onValuesChange( formValues );
+		if ( isDirty ) {
+			props.onValuesChange( formValues );
+			reset( formValues, {
+				keepDirty: false,
+			} );
+		}
 	}, [ formValues ] );
 
 	useEffect( () => {
 		setScreenSize( props.screenSize.toLowerCase() );
-		setValue( props.screenSize.toLowerCase(), getValues( props.screenSize.toLowerCase() ) );
+		const newDefaultValues = getDefaultValues( props );
+		setValue(
+			props.screenSize.toLowerCase(),
+			newDefaultValues[ props.screenSize.toLowerCase() ],
+			{
+				keepDirty: false,
+			}
+		);
 	}, [ props.screenSize ] );
 
 	/**
