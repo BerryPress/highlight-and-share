@@ -125,6 +125,12 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 == Changelog ==
 
+= 5.3.5 =
+* Released 2025-12-17
+* Bug fix: Responsive styles were not saving or setting correctly in the Click to Share block.
+* Bug fix: Fixed sync values when changing screen size in the block editor iframe.
+* Code improvement: Removed defaultProps from React components to clear up deprecation warnings.
+
 = 5.3.2 =
 * Released 2025-12-16
 * Bug fix: Block.json was still set to version 2. This has been updated to version 3.
@@ -603,5 +609,5 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 == Upgrade Notice ==
 
-= 5.3.2 =
-Block is now at version 3 of block.json API. Fixing responsive breakpoints for the Click to Share block. Version 5.3.1 didn't include block.json v3.
+= 5.3.5 =
+Fixing responsive previews in the block editor. Resolving deprecation notices in JavaScript.
