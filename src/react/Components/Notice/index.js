@@ -1,12 +1,21 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { speak } from '@wordpress/a11y';
 import { Notice as WPNotice } from '@wordpress/components';
 import classNames from 'classnames';
 
-const Notice = ( props ) => {
-	const { message, status, politeness, icon, className, inline, children, animate, animationType } = props;
+const Notice = ( {
+	message = '',
+	status = 'info',
+	politeness = 'polite',
+	icon = null,
+	className = '',
+	inline = false,
+	children,
+	animate = false,
+	animationType = 'fadein',
+	...props
+} ) => {
 
 	useEffect( () => {
 		speak( message, politeness );
@@ -38,28 +47,6 @@ const Notice = ( props ) => {
 			</WPNotice>
 		</div>
 	);
-};
-
-Notice.defaultProps = {
-	message: '',
-	status: 'info',
-	politeness: 'polite',
-	icon: null,
-	className: '',
-	inline: false,
-	animate: false,
-	animationType: 'fadein',
-};
-
-Notice.propTypes = {
-	message: PropTypes.string.isRequired,
-	status: PropTypes.oneOf( [ 'info', 'warning', 'success', 'error' ] ),
-	politeness: PropTypes.oneOf( [ 'assertive', 'polite' ] ),
-	icon: PropTypes.func,
-	className: PropTypes.string,
-	inline: PropTypes.bool,
-	animate: PropTypes.bool,
-	animatitionType: PropTypes.oneOf( [ 'fadein', 'fadeout' ] ),
 };
 
 export default Notice;

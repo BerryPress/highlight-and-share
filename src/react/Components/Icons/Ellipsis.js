@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types'; // ES6
-const EllipsisIcon = ( props ) => (
+
+const EllipsisIcon = ( { width = 48, height = 30, fill = '#FFFFFF', ...props } ) => (
 	<svg
 		aria-hidden="true"
 		data-prefix="fal"
@@ -8,8 +8,8 @@ const EllipsisIcon = ( props ) => (
 		className="svg-inline--fa fa-ellipsis-h fa-w-10"
 		xmlns="http://www.w3.org/2000/svg"
 		viewBox="0 0 320 512"
-		width={ props.width }
-		height={ props.height }
+		width={ width }
+		height={ height }
 		{ ...props }
 	>
 		<path
@@ -18,17 +18,5 @@ const EllipsisIcon = ( props ) => (
 		/>
 	</svg>
 );
-
-EllipsisIcon.defaultProps = {
-	width: 48,
-	height: 30,
-	fill: '#FFFFFF',
-};
-
-EllipsisIcon.propTypes = {
-	width: PropTypes.number,
-	height: PropTypes.number,
-	fill: PropTypes.string,
-};
 
 export default EllipsisIcon;

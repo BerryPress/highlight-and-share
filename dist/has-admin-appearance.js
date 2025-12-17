@@ -161,10 +161,83 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   toHtml: () => (/* binding */ toHtml$1)
 /* harmony export */ });
 /*!
- * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
- * Copyright 2024 Fonticons, Inc.
+ * Copyright 2025 Fonticons, Inc.
  */
+function _arrayLikeToArray(r, a) {
+  (null == a || a > r.length) && (a = r.length);
+  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+  return n;
+}
+function _arrayWithHoles(r) {
+  if (Array.isArray(r)) return r;
+}
+function _arrayWithoutHoles(r) {
+  if (Array.isArray(r)) return _arrayLikeToArray(r);
+}
+function _classCallCheck(a, n) {
+  if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t];
+    o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o);
+  }
+}
+function _createClass(e, r, t) {
+  return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", {
+    writable: !1
+  }), e;
+}
+function _createForOfIteratorHelper(r, e) {
+  var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+  if (!t) {
+    if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) {
+      t && (r = t);
+      var n = 0,
+        F = function () {};
+      return {
+        s: F,
+        n: function () {
+          return n >= r.length ? {
+            done: !0
+          } : {
+            done: !1,
+            value: r[n++]
+          };
+        },
+        e: function (r) {
+          throw r;
+        },
+        f: F
+      };
+    }
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  var o,
+    a = !0,
+    u = !1;
+  return {
+    s: function () {
+      t = t.call(r);
+    },
+    n: function () {
+      var r = t.next();
+      return a = r.done, r;
+    },
+    e: function (r) {
+      u = !0, o = r;
+    },
+    f: function () {
+      try {
+        a || null == t.return || t.return();
+      } finally {
+        if (u) throw o;
+      }
+    }
+  };
+}
 function _defineProperty(e, r, t) {
   return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
     value: t,
@@ -184,6 +257,42 @@ function _inherits(t, e) {
   }), Object.defineProperty(t, "prototype", {
     writable: !1
   }), e && _setPrototypeOf(t, e);
+}
+function _iterableToArray(r) {
+  if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r);
+}
+function _iterableToArrayLimit(r, l) {
+  var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+  if (null != t) {
+    var e,
+      n,
+      i,
+      u,
+      a = [],
+      f = !0,
+      o = !1;
+    try {
+      if (i = (t = t.call(r)).next, 0 === l) {
+        if (Object(t) !== t) return;
+        f = !1;
+      } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
+    } catch (r) {
+      o = !0, n = r;
+    } finally {
+      try {
+        if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;
+      } finally {
+        if (o) throw n;
+      }
+    }
+    return a;
+  }
+}
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function ownKeys(e, r) {
   var t = Object.keys(e);
@@ -211,6 +320,12 @@ function _setPrototypeOf(t, e) {
     return t.__proto__ = e, t;
   }, _setPrototypeOf(t, e);
 }
+function _slicedToArray(r, e) {
+  return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
+}
+function _toConsumableArray(r) {
+  return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread();
+}
 function _toPrimitive(t, r) {
   if ("object" != typeof t || !t) return t;
   var e = t[Symbol.toPrimitive];
@@ -224,6 +339,22 @@ function _toPrimitive(t, r) {
 function _toPropertyKey(t) {
   var i = _toPrimitive(t, "string");
   return "symbol" == typeof i ? i : i + "";
+}
+function _typeof(o) {
+  "@babel/helpers - typeof";
+
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+    return typeof o;
+  } : function (o) {
+    return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+  }, _typeof(o);
+}
+function _unsupportedIterableToArray(r, a) {
+  if (r) {
+    if ("string" == typeof r) return _arrayLikeToArray(r, a);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
+  }
 }
 function _wrapRegExp() {
   _wrapRegExp = function (e, r) {
@@ -257,9 +388,10 @@ function _wrapRegExp() {
   }, BabelRegExp.prototype[Symbol.replace] = function (t, p) {
     if ("string" == typeof p) {
       var o = r.get(this);
-      return e[Symbol.replace].call(this, t, p.replace(/\$<([^>]+)>/g, function (e, r) {
-        var t = o[r];
-        return "$" + (Array.isArray(t) ? t.join("$") : t);
+      return e[Symbol.replace].call(this, t, p.replace(/\$<([^>]+)(>|$)/g, function (e, r, t) {
+        if ("" === t) return e;
+        var p = o[r];
+        return Array.isArray(p) ? "$" + p.join("$") : "number" == typeof p ? "$" + p : "";
       }));
     }
     if ("function" == typeof p) {
@@ -273,11 +405,11 @@ function _wrapRegExp() {
   }, _wrapRegExp.apply(this, arguments);
 }
 
-const noop = () => {};
-let _WINDOW = {};
-let _DOCUMENT = {};
-let _MUTATION_OBSERVER = null;
-let _PERFORMANCE = {
+var noop = function noop() {};
+var _WINDOW = {};
+var _DOCUMENT = {};
+var _MUTATION_OBSERVER = null;
+var _PERFORMANCE = {
   mark: noop,
   measure: noop
 };
@@ -286,21 +418,23 @@ try {
   if (typeof document !== 'undefined') _DOCUMENT = document;
   if (typeof MutationObserver !== 'undefined') _MUTATION_OBSERVER = MutationObserver;
   if (typeof performance !== 'undefined') _PERFORMANCE = performance;
-} catch (e) {}
-const {
-  userAgent = ''
-} = _WINDOW.navigator || {};
-const WINDOW = _WINDOW;
-const DOCUMENT = _DOCUMENT;
-const MUTATION_OBSERVER = _MUTATION_OBSERVER;
-const PERFORMANCE = _PERFORMANCE;
-const IS_BROWSER = !!WINDOW.document;
-const IS_DOM = !!DOCUMENT.documentElement && !!DOCUMENT.head && typeof DOCUMENT.addEventListener === 'function' && typeof DOCUMENT.createElement === 'function';
-const IS_IE = ~userAgent.indexOf('MSIE') || ~userAgent.indexOf('Trident/');
+} catch (e) {} // eslint-disable-line no-empty
 
-var p = /fa(s|r|l|t|d|dr|dl|dt|b|k|kd|ss|sr|sl|st|sds|sdr|sdl|sdt)?[\-\ ]/,
-  g = /Font ?Awesome ?([56 ]*)(Solid|Regular|Light|Thin|Duotone|Brands|Free|Pro|Sharp Duotone|Sharp|Kit)?.*/i;
-var S = {
+var _ref = _WINDOW.navigator || {},
+  _ref$userAgent = _ref.userAgent,
+  userAgent = _ref$userAgent === void 0 ? '' : _ref$userAgent;
+var WINDOW = _WINDOW;
+var DOCUMENT = _DOCUMENT;
+var MUTATION_OBSERVER = _MUTATION_OBSERVER;
+var PERFORMANCE = _PERFORMANCE;
+var IS_BROWSER = !!WINDOW.document;
+var IS_DOM = !!DOCUMENT.documentElement && !!DOCUMENT.head && typeof DOCUMENT.addEventListener === 'function' && typeof DOCUMENT.createElement === 'function';
+var IS_IE = ~userAgent.indexOf('MSIE') || ~userAgent.indexOf('Trident/');
+
+var _dt;
+var E = /fa(k|kd|s|r|l|t|d|dr|dl|dt|b|slr|slpr|wsb|tl|ns|nds|es|jr|jfr|jdr|usb|ufsb|udsb|cr|ss|sr|sl|st|sds|sdr|sdl|sdt)?[\-\ ]/,
+  _ = /Font ?Awesome ?([567 ]*)(Solid|Regular|Light|Thin|Duotone|Brands|Free|Pro|Sharp Duotone|Sharp|Kit|Notdog Duo|Notdog|Chisel|Etch|Thumbprint|Jelly Fill|Jelly Duo|Jelly|Utility|Utility Fill|Utility Duo|Slab Press|Slab|Whiteboard)?.*/i;
+var q = {
     classic: {
       fa: "solid",
       fas: "solid",
@@ -347,21 +481,110 @@ var S = {
       "fa-light": "light",
       fasdt: "thin",
       "fa-thin": "thin"
+    },
+    slab: {
+      "fa-regular": "regular",
+      faslr: "regular"
+    },
+    "slab-press": {
+      "fa-regular": "regular",
+      faslpr: "regular"
+    },
+    thumbprint: {
+      "fa-light": "light",
+      fatl: "light"
+    },
+    whiteboard: {
+      "fa-semibold": "semibold",
+      fawsb: "semibold"
+    },
+    notdog: {
+      "fa-solid": "solid",
+      fans: "solid"
+    },
+    "notdog-duo": {
+      "fa-solid": "solid",
+      fands: "solid"
+    },
+    etch: {
+      "fa-solid": "solid",
+      faes: "solid"
+    },
+    jelly: {
+      "fa-regular": "regular",
+      fajr: "regular"
+    },
+    "jelly-fill": {
+      "fa-regular": "regular",
+      fajfr: "regular"
+    },
+    "jelly-duo": {
+      "fa-regular": "regular",
+      fajdr: "regular"
+    },
+    chisel: {
+      "fa-regular": "regular",
+      facr: "regular"
+    },
+    utility: {
+      "fa-semibold": "semibold",
+      fausb: "semibold"
+    },
+    "utility-duo": {
+      "fa-semibold": "semibold",
+      faudsb: "semibold"
+    },
+    "utility-fill": {
+      "fa-semibold": "semibold",
+      faufsb: "semibold"
     }
   },
-  A = {
+  H = {
     GROUP: "duotone-group",
     SWAP_OPACITY: "swap-opacity",
     PRIMARY: "primary",
     SECONDARY: "secondary"
   },
-  P = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone"];
-var s = "classic",
+  Q = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone", "fa-thumbprint", "fa-whiteboard", "fa-notdog", "fa-notdog-duo", "fa-chisel", "fa-etch", "fa-jelly", "fa-jelly-fill", "fa-jelly-duo", "fa-slab", "fa-slab-press", "fa-utility", "fa-utility-duo", "fa-utility-fill"];
+var i = "classic",
   t = "duotone",
-  r = "sharp",
-  o = "sharp-duotone",
-  L = [s, t, r, o];
-var G = {
+  d = "sharp",
+  l = "sharp-duotone",
+  f = "chisel",
+  n = "etch",
+  h = "jelly",
+  o = "jelly-duo",
+  u = "jelly-fill",
+  g = "notdog",
+  s = "notdog-duo",
+  y = "slab",
+  m = "slab-press",
+  e = "thumbprint",
+  p = "utility",
+  a = "utility-duo",
+  w = "utility-fill",
+  x = "whiteboard",
+  b = "Classic",
+  c = "Duotone",
+  I = "Sharp",
+  F = "Sharp Duotone",
+  v = "Chisel",
+  S = "Etch",
+  A = "Jelly",
+  P = "Jelly Duo",
+  j = "Jelly Fill",
+  B = "Notdog",
+  N = "Notdog Duo",
+  k = "Slab",
+  D = "Slab Press",
+  T = "Thumbprint",
+  C = "Utility",
+  W = "Utility Duo",
+  K = "Utility Fill",
+  R = "Whiteboard",
+  rt = [i, t, d, l, f, n, h, o, u, g, s, y, m, e, p, a, w, x],
+  dt = (_dt = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_dt, i, b), t, c), d, I), l, F), f, v), n, S), h, A), o, P), u, j), g, B), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_dt, s, N), y, k), m, D), e, T), p, C), a, W), w, K), x, R));
+var gt = {
     classic: {
       900: "fas",
       400: "far",
@@ -386,60 +609,158 @@ var G = {
       400: "fasdr",
       300: "fasdl",
       100: "fasdt"
+    },
+    slab: {
+      400: "faslr"
+    },
+    "slab-press": {
+      400: "faslpr"
+    },
+    whiteboard: {
+      600: "fawsb"
+    },
+    thumbprint: {
+      300: "fatl"
+    },
+    notdog: {
+      900: "fans"
+    },
+    "notdog-duo": {
+      900: "fands"
+    },
+    etch: {
+      900: "faes"
+    },
+    chisel: {
+      400: "facr"
+    },
+    jelly: {
+      400: "fajr"
+    },
+    "jelly-fill": {
+      400: "fajfr"
+    },
+    "jelly-duo": {
+      400: "fajdr"
+    },
+    utility: {
+      600: "fausb"
+    },
+    "utility-duo": {
+      600: "faudsb"
+    },
+    "utility-fill": {
+      600: "faufsb"
     }
   };
-var lt = {
-    "Font Awesome 6 Free": {
+var Ct = {
+    "Font Awesome 7 Free": {
       900: "fas",
       400: "far"
     },
-    "Font Awesome 6 Pro": {
+    "Font Awesome 7 Pro": {
       900: "fas",
       400: "far",
       normal: "far",
       300: "fal",
       100: "fat"
     },
-    "Font Awesome 6 Brands": {
+    "Font Awesome 7 Brands": {
       400: "fab",
       normal: "fab"
     },
-    "Font Awesome 6 Duotone": {
+    "Font Awesome 7 Duotone": {
       900: "fad",
       400: "fadr",
       normal: "fadr",
       300: "fadl",
       100: "fadt"
     },
-    "Font Awesome 6 Sharp": {
+    "Font Awesome 7 Sharp": {
       900: "fass",
       400: "fasr",
       normal: "fasr",
       300: "fasl",
       100: "fast"
     },
-    "Font Awesome 6 Sharp Duotone": {
+    "Font Awesome 7 Sharp Duotone": {
       900: "fasds",
       400: "fasdr",
       normal: "fasdr",
       300: "fasdl",
       100: "fasdt"
+    },
+    "Font Awesome 7 Jelly": {
+      400: "fajr",
+      normal: "fajr"
+    },
+    "Font Awesome 7 Jelly Fill": {
+      400: "fajfr",
+      normal: "fajfr"
+    },
+    "Font Awesome 7 Jelly Duo": {
+      400: "fajdr",
+      normal: "fajdr"
+    },
+    "Font Awesome 7 Slab": {
+      400: "faslr",
+      normal: "faslr"
+    },
+    "Font Awesome 7 Slab Press": {
+      400: "faslpr",
+      normal: "faslpr"
+    },
+    "Font Awesome 7 Thumbprint": {
+      300: "fatl",
+      normal: "fatl"
+    },
+    "Font Awesome 7 Notdog": {
+      900: "fans",
+      normal: "fans"
+    },
+    "Font Awesome 7 Notdog Duo": {
+      900: "fands",
+      normal: "fands"
+    },
+    "Font Awesome 7 Etch": {
+      900: "faes",
+      normal: "faes"
+    },
+    "Font Awesome 7 Chisel": {
+      400: "facr",
+      normal: "facr"
+    },
+    "Font Awesome 7 Whiteboard": {
+      600: "fawsb",
+      normal: "fawsb"
+    },
+    "Font Awesome 7 Utility": {
+      600: "fausb",
+      normal: "fausb"
+    },
+    "Font Awesome 7 Utility Duo": {
+      600: "faudsb",
+      normal: "faudsb"
+    },
+    "Font Awesome 7 Utility Fill": {
+      600: "faufsb",
+      normal: "faufsb"
     }
   };
-var pt = new Map([["classic", {
+var Ut = new Map([["classic", {
     defaultShortPrefixId: "fas",
     defaultStyleId: "solid",
     styleIds: ["solid", "regular", "light", "thin", "brands"],
     futureStyleIds: [],
     defaultFontWeight: 900
-  }], ["sharp", {
-    defaultShortPrefixId: "fass",
+  }], ["duotone", {
+    defaultShortPrefixId: "fad",
     defaultStyleId: "solid",
     styleIds: ["solid", "regular", "light", "thin"],
     futureStyleIds: [],
     defaultFontWeight: 900
-  }], ["duotone", {
-    defaultShortPrefixId: "fad",
+  }], ["sharp", {
+    defaultShortPrefixId: "fass",
     defaultStyleId: "solid",
     styleIds: ["solid", "regular", "light", "thin"],
     futureStyleIds: [],
@@ -450,36 +771,162 @@ var pt = new Map([["classic", {
     styleIds: ["solid", "regular", "light", "thin"],
     futureStyleIds: [],
     defaultFontWeight: 900
+  }], ["chisel", {
+    defaultShortPrefixId: "facr",
+    defaultStyleId: "regular",
+    styleIds: ["regular"],
+    futureStyleIds: [],
+    defaultFontWeight: 400
+  }], ["etch", {
+    defaultShortPrefixId: "faes",
+    defaultStyleId: "solid",
+    styleIds: ["solid"],
+    futureStyleIds: [],
+    defaultFontWeight: 900
+  }], ["jelly", {
+    defaultShortPrefixId: "fajr",
+    defaultStyleId: "regular",
+    styleIds: ["regular"],
+    futureStyleIds: [],
+    defaultFontWeight: 400
+  }], ["jelly-duo", {
+    defaultShortPrefixId: "fajdr",
+    defaultStyleId: "regular",
+    styleIds: ["regular"],
+    futureStyleIds: [],
+    defaultFontWeight: 400
+  }], ["jelly-fill", {
+    defaultShortPrefixId: "fajfr",
+    defaultStyleId: "regular",
+    styleIds: ["regular"],
+    futureStyleIds: [],
+    defaultFontWeight: 400
+  }], ["notdog", {
+    defaultShortPrefixId: "fans",
+    defaultStyleId: "solid",
+    styleIds: ["solid"],
+    futureStyleIds: [],
+    defaultFontWeight: 900
+  }], ["notdog-duo", {
+    defaultShortPrefixId: "fands",
+    defaultStyleId: "solid",
+    styleIds: ["solid"],
+    futureStyleIds: [],
+    defaultFontWeight: 900
+  }], ["slab", {
+    defaultShortPrefixId: "faslr",
+    defaultStyleId: "regular",
+    styleIds: ["regular"],
+    futureStyleIds: [],
+    defaultFontWeight: 400
+  }], ["slab-press", {
+    defaultShortPrefixId: "faslpr",
+    defaultStyleId: "regular",
+    styleIds: ["regular"],
+    futureStyleIds: [],
+    defaultFontWeight: 400
+  }], ["thumbprint", {
+    defaultShortPrefixId: "fatl",
+    defaultStyleId: "light",
+    styleIds: ["light"],
+    futureStyleIds: [],
+    defaultFontWeight: 300
+  }], ["utility", {
+    defaultShortPrefixId: "fausb",
+    defaultStyleId: "semibold",
+    styleIds: ["semibold"],
+    futureStyleIds: [],
+    defaultFontWeight: 600
+  }], ["utility-duo", {
+    defaultShortPrefixId: "faudsb",
+    defaultStyleId: "semibold",
+    styleIds: ["semibold"],
+    futureStyleIds: [],
+    defaultFontWeight: 600
+  }], ["utility-fill", {
+    defaultShortPrefixId: "faufsb",
+    defaultStyleId: "semibold",
+    styleIds: ["semibold"],
+    futureStyleIds: [],
+    defaultFontWeight: 600
+  }], ["whiteboard", {
+    defaultShortPrefixId: "fawsb",
+    defaultStyleId: "semibold",
+    styleIds: ["semibold"],
+    futureStyleIds: [],
+    defaultFontWeight: 600
   }]]),
-  xt = {
+  _t = {
+    chisel: {
+      regular: "facr"
+    },
     classic: {
-      solid: "fas",
-      regular: "far",
+      brands: "fab",
       light: "fal",
-      thin: "fat",
-      brands: "fab"
+      regular: "far",
+      solid: "fas",
+      thin: "fat"
     },
     duotone: {
-      solid: "fad",
-      regular: "fadr",
       light: "fadl",
+      regular: "fadr",
+      solid: "fad",
       thin: "fadt"
     },
+    etch: {
+      solid: "faes"
+    },
+    jelly: {
+      regular: "fajr"
+    },
+    "jelly-duo": {
+      regular: "fajdr"
+    },
+    "jelly-fill": {
+      regular: "fajfr"
+    },
+    notdog: {
+      solid: "fans"
+    },
+    "notdog-duo": {
+      solid: "fands"
+    },
     sharp: {
-      solid: "fass",
-      regular: "fasr",
       light: "fasl",
+      regular: "fasr",
+      solid: "fass",
       thin: "fast"
     },
     "sharp-duotone": {
-      solid: "fasds",
-      regular: "fasdr",
       light: "fasdl",
+      regular: "fasdr",
+      solid: "fasds",
       thin: "fasdt"
+    },
+    slab: {
+      regular: "faslr"
+    },
+    "slab-press": {
+      regular: "faslpr"
+    },
+    thumbprint: {
+      light: "fatl"
+    },
+    utility: {
+      semibold: "fausb"
+    },
+    "utility-duo": {
+      semibold: "faudsb"
+    },
+    "utility-fill": {
+      semibold: "faufsb"
+    },
+    whiteboard: {
+      semibold: "fawsb"
     }
   };
-var Ft = ["fak", "fa-kit", "fakd", "fa-kit-duotone"],
-  St = {
+var Yt = ["fak", "fa-kit", "fakd", "fa-kit-duotone"],
+  qt = {
     kit: {
       fak: "kit",
       "fa-kit": "kit"
@@ -489,8 +936,13 @@ var Ft = ["fak", "fa-kit", "fakd", "fa-kit-duotone"],
       "fa-kit-duotone": "kit-duotone"
     }
   },
-  At = ["kit"];
-var Ct = {
+  Ht = ["kit"];
+var L = "kit",
+  r = "kit-duotone",
+  U = "Kit",
+  J = "Kit Duotone",
+  $t = _defineProperty(_defineProperty({}, L, U), r, J);
+var ol = {
   kit: {
     "fa-kit": "fak"
   },
@@ -498,33 +950,7 @@ var Ct = {
     "fa-kit-duotone": "fakd"
   }
 };
-var Lt = ["fak", "fakd"],
-  Wt = {
-    kit: {
-      fak: "fa-kit"
-    },
-    "kit-duotone": {
-      fakd: "fa-kit-duotone"
-    }
-  };
-var Et = {
-    kit: {
-      kit: "fak"
-    },
-    "kit-duotone": {
-      "kit-duotone": "fakd"
-    }
-  };
-
-var t$1 = {
-    GROUP: "duotone-group",
-    SWAP_OPACITY: "swap-opacity",
-    PRIMARY: "primary",
-    SECONDARY: "secondary"
-  },
-  r$1 = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone"];
-var bt$1 = ["fak", "fa-kit", "fakd", "fa-kit-duotone"];
-var Yt = {
+var dl = {
     "Font Awesome Kit": {
       400: "fak",
       normal: "fak"
@@ -533,8 +959,75 @@ var Yt = {
       400: "fakd",
       normal: "fakd"
     }
+  },
+  fl = {
+    kit: {
+      fak: "fa-kit"
+    },
+    "kit-duotone": {
+      fakd: "fa-kit-duotone"
+    }
   };
-var ua = {
+var ul = {
+    kit: {
+      kit: "fak"
+    },
+    "kit-duotone": {
+      "kit-duotone": "fakd"
+    }
+  };
+
+var _ml;
+var l$1 = {
+    GROUP: "duotone-group",
+    SWAP_OPACITY: "swap-opacity",
+    PRIMARY: "primary",
+    SECONDARY: "secondary"
+  },
+  f$1 = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone", "fa-thumbprint", "fa-whiteboard", "fa-notdog", "fa-notdog-duo", "fa-chisel", "fa-etch", "fa-jelly", "fa-jelly-fill", "fa-jelly-duo", "fa-slab", "fa-slab-press", "fa-utility", "fa-utility-duo", "fa-utility-fill"];
+var n$1 = "classic",
+  o$1 = "duotone",
+  u$1 = "sharp",
+  s$1 = "sharp-duotone",
+  h$1 = "chisel",
+  g$1 = "etch",
+  y$1 = "jelly",
+  e$1 = "jelly-duo",
+  m$1 = "jelly-fill",
+  p$1 = "notdog",
+  a$1 = "notdog-duo",
+  w$1 = "slab",
+  b$1 = "slab-press",
+  r$1 = "thumbprint",
+  c$1 = "utility",
+  i$1 = "utility-duo",
+  x$1 = "utility-fill",
+  I$1 = "whiteboard",
+  F$1 = "Classic",
+  v$1 = "Duotone",
+  S$1 = "Sharp",
+  A$1 = "Sharp Duotone",
+  P$1 = "Chisel",
+  j$1 = "Etch",
+  B$1 = "Jelly",
+  N$1 = "Jelly Duo",
+  k$1 = "Jelly Fill",
+  D$1 = "Notdog",
+  C$1 = "Notdog Duo",
+  T$1 = "Slab",
+  L$1 = "Slab Press",
+  W$1 = "Thumbprint",
+  R$1 = "Utility",
+  K$1 = "Utility Duo",
+  U$1 = "Utility Fill",
+  J$1 = "Whiteboard",
+  ml$1 = (_ml = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ml, n$1, F$1), o$1, v$1), u$1, S$1), s$1, A$1), h$1, P$1), g$1, j$1), y$1, B$1), e$1, N$1), m$1, k$1), p$1, D$1), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ml, a$1, C$1), w$1, T$1), b$1, L$1), r$1, W$1), c$1, R$1), i$1, K$1), x$1, U$1), I$1, J$1));
+var E$1 = "kit",
+  d$1 = "kit-duotone",
+  _$1 = "Kit",
+  M$1 = "Kit Duotone",
+  rt$1 = _defineProperty(_defineProperty({}, E$1, _$1), d$1, M$1);
+var $t$1 = {
     classic: {
       "fa-brands": "fab",
       "fa-duotone": "fad",
@@ -559,15 +1052,71 @@ var ua = {
       "fa-regular": "fasdr",
       "fa-light": "fasdl",
       "fa-thin": "fasdt"
+    },
+    slab: {
+      "fa-regular": "faslr"
+    },
+    "slab-press": {
+      "fa-regular": "faslpr"
+    },
+    whiteboard: {
+      "fa-semibold": "fawsb"
+    },
+    thumbprint: {
+      "fa-light": "fatl"
+    },
+    notdog: {
+      "fa-solid": "fans"
+    },
+    "notdog-duo": {
+      "fa-solid": "fands"
+    },
+    etch: {
+      "fa-solid": "faes"
+    },
+    jelly: {
+      "fa-regular": "fajr"
+    },
+    "jelly-fill": {
+      "fa-regular": "fajfr"
+    },
+    "jelly-duo": {
+      "fa-regular": "fajdr"
+    },
+    chisel: {
+      "fa-regular": "facr"
+    },
+    utility: {
+      "fa-semibold": "fausb"
+    },
+    "utility-duo": {
+      "fa-semibold": "faudsb"
+    },
+    "utility-fill": {
+      "fa-semibold": "faufsb"
     }
   },
-  I$1 = {
+  z = {
     classic: ["fas", "far", "fal", "fat", "fad"],
     duotone: ["fadr", "fadl", "fadt"],
     sharp: ["fass", "fasr", "fasl", "fast"],
-    "sharp-duotone": ["fasds", "fasdr", "fasdl", "fasdt"]
+    "sharp-duotone": ["fasds", "fasdr", "fasdl", "fasdt"],
+    slab: ["faslr"],
+    "slab-press": ["faslpr"],
+    whiteboard: ["fawsb"],
+    thumbprint: ["fatl"],
+    notdog: ["fans"],
+    "notdog-duo": ["fands"],
+    etch: ["faes"],
+    jelly: ["fajr"],
+    "jelly-fill": ["fajfr"],
+    "jelly-duo": ["fajdr"],
+    chisel: ["facr"],
+    utility: ["fausb"],
+    "utility-duo": ["faudsb"],
+    "utility-fill": ["faufsb"]
   },
-  ga = {
+  Ht$1 = {
     classic: {
       fab: "fa-brands",
       fad: "fa-duotone",
@@ -592,15 +1141,62 @@ var ua = {
       fasdr: "fa-regular",
       fasdl: "fa-light",
       fasdt: "fa-thin"
+    },
+    slab: {
+      faslr: "fa-regular"
+    },
+    "slab-press": {
+      faslpr: "fa-regular"
+    },
+    whiteboard: {
+      fawsb: "fa-semibold"
+    },
+    thumbprint: {
+      fatl: "fa-light"
+    },
+    notdog: {
+      fans: "fa-solid"
+    },
+    "notdog-duo": {
+      fands: "fa-solid"
+    },
+    etch: {
+      faes: "fa-solid"
+    },
+    jelly: {
+      fajr: "fa-regular"
+    },
+    "jelly-fill": {
+      fajfr: "fa-regular"
+    },
+    "jelly-duo": {
+      fajdr: "fa-regular"
+    },
+    chisel: {
+      facr: "fa-regular"
+    },
+    utility: {
+      fausb: "fa-semibold"
+    },
+    "utility-duo": {
+      faudsb: "fa-semibold"
+    },
+    "utility-fill": {
+      faufsb: "fa-semibold"
     }
   },
-  x = ["fa-solid", "fa-regular", "fa-light", "fa-thin", "fa-duotone", "fa-brands"],
-  Ia = ["fa", "fas", "far", "fal", "fat", "fad", "fadr", "fadl", "fadt", "fab", "fass", "fasr", "fasl", "fast", "fasds", "fasdr", "fasdl", "fasdt", ...r$1, ...x],
-  m$1 = ["solid", "regular", "light", "thin", "duotone", "brands"],
-  c$1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-  F$1 = c$1.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]),
-  ma = [...Object.keys(I$1), ...m$1, "2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "fw", "inverse", "layers-counter", "layers-text", "layers", "li", "pull-left", "pull-right", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY].concat(c$1.map(a => "".concat(a, "x"))).concat(F$1.map(a => "w-".concat(a)));
-var wa = {
+  Y$1 = ["fa-solid", "fa-regular", "fa-light", "fa-thin", "fa-duotone", "fa-brands", "fa-semibold"],
+  Zt$1 = ["fa", "fas", "far", "fal", "fat", "fad", "fadr", "fadl", "fadt", "fab", "fass", "fasr", "fasl", "fast", "fasds", "fasdr", "fasdl", "fasdt", "faslr", "faslpr", "fawsb", "fatl", "fans", "fands", "faes", "fajr", "fajfr", "fajdr", "facr", "fausb", "faudsb", "faufsb"].concat(f$1, Y$1),
+  G$1 = ["solid", "regular", "light", "thin", "duotone", "brands", "semibold"],
+  O$1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  V$1 = O$1.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]),
+  $$1 = ["aw", "fw", "pull-left", "pull-right"],
+  to = [].concat(_toConsumableArray(Object.keys(z)), G$1, $$1, ["2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "inverse", "layers", "layers-bottom-left", "layers-bottom-right", "layers-counter", "layers-text", "layers-top-left", "layers-top-right", "li", "pull-end", "pull-start", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", "width-auto", "width-fixed", l$1.GROUP, l$1.SWAP_OPACITY, l$1.PRIMARY, l$1.SECONDARY]).concat(O$1.map(function (t) {
+    return "".concat(t, "x");
+  })).concat(V$1.map(function (t) {
+    return "w-".concat(t);
+  }));
+var ro = {
     "Font Awesome 5 Free": {
       900: "fas",
       400: "far"
@@ -620,67 +1216,67 @@ var wa = {
     }
   };
 
-const NAMESPACE_IDENTIFIER = '___FONT_AWESOME___';
-const UNITS_IN_GRID = 16;
-const DEFAULT_CSS_PREFIX = 'fa';
-const DEFAULT_REPLACEMENT_CLASS = 'svg-inline--fa';
-const DATA_FA_I2SVG = 'data-fa-i2svg';
-const DATA_FA_PSEUDO_ELEMENT = 'data-fa-pseudo-element';
-const DATA_FA_PSEUDO_ELEMENT_PENDING = 'data-fa-pseudo-element-pending';
-const DATA_PREFIX = 'data-prefix';
-const DATA_ICON = 'data-icon';
-const HTML_CLASS_I2SVG_BASE_CLASS = 'fontawesome-i2svg';
-const MUTATION_APPROACH_ASYNC = 'async';
-const TAGNAMES_TO_SKIP_FOR_PSEUDOELEMENTS = ['HTML', 'HEAD', 'STYLE', 'SCRIPT'];
-const PRODUCTION = (() => {
+var NAMESPACE_IDENTIFIER = '___FONT_AWESOME___';
+var UNITS_IN_GRID = 16;
+var DEFAULT_CSS_PREFIX = 'fa';
+var DEFAULT_REPLACEMENT_CLASS = 'svg-inline--fa';
+var DATA_FA_I2SVG = 'data-fa-i2svg';
+var DATA_FA_PSEUDO_ELEMENT = 'data-fa-pseudo-element';
+var DATA_FA_PSEUDO_ELEMENT_PENDING = 'data-fa-pseudo-element-pending';
+var DATA_PREFIX = 'data-prefix';
+var DATA_ICON = 'data-icon';
+var HTML_CLASS_I2SVG_BASE_CLASS = 'fontawesome-i2svg';
+var MUTATION_APPROACH_ASYNC = 'async';
+var TAGNAMES_TO_SKIP_FOR_PSEUDOELEMENTS = ['HTML', 'HEAD', 'STYLE', 'SCRIPT'];
+var PSEUDO_ELEMENTS = ['::before', '::after', ':before', ':after'];
+var PRODUCTION = function () {
   try {
     return "development" === 'production';
   } catch (e$$1) {
     return false;
   }
-})();
+}();
 function familyProxy(obj) {
   // Defaults to the classic family if family is not available
   return new Proxy(obj, {
-    get(target, prop) {
-      return prop in target ? target[prop] : target[s];
+    get: function get(target, prop) {
+      return prop in target ? target[prop] : target[i];
     }
   });
 }
-const _PREFIX_TO_STYLE = _objectSpread2({}, S);
+var _PREFIX_TO_STYLE = _objectSpread2({}, q);
 
 // We changed FACSSClassesToStyleId in the icons repo to be canonical and as such, "classic" family does not have any
 // duotone styles.  But we do still need duotone in _PREFIX_TO_STYLE below, so we are manually adding
 // {'fa-duotone': 'duotone'}
-_PREFIX_TO_STYLE[s] = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, {
+_PREFIX_TO_STYLE[i] = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, {
   'fa-duotone': 'duotone'
-}), S[s]), St['kit']), St['kit-duotone']);
-const PREFIX_TO_STYLE = familyProxy(_PREFIX_TO_STYLE);
-const _STYLE_TO_PREFIX = _objectSpread2({}, xt);
+}), q[i]), qt['kit']), qt['kit-duotone']);
+var PREFIX_TO_STYLE = familyProxy(_PREFIX_TO_STYLE);
+var _STYLE_TO_PREFIX = _objectSpread2({}, _t);
 
 // We changed FAStyleIdToShortPrefixId in the icons repo to be canonical and as such, "classic" family does not have any
 // duotone styles.  But we do still need duotone in _STYLE_TO_PREFIX below, so we are manually adding {duotone: 'fad'}
-_STYLE_TO_PREFIX[s] = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, {
+_STYLE_TO_PREFIX[i] = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, {
   duotone: 'fad'
-}), _STYLE_TO_PREFIX[s]), Et['kit']), Et['kit-duotone']);
-const STYLE_TO_PREFIX = familyProxy(_STYLE_TO_PREFIX);
-const _PREFIX_TO_LONG_STYLE = _objectSpread2({}, ga);
-_PREFIX_TO_LONG_STYLE[s] = _objectSpread2(_objectSpread2({}, _PREFIX_TO_LONG_STYLE[s]), Wt['kit']);
-const PREFIX_TO_LONG_STYLE = familyProxy(_PREFIX_TO_LONG_STYLE);
-const _LONG_STYLE_TO_PREFIX = _objectSpread2({}, ua);
-_LONG_STYLE_TO_PREFIX[s] = _objectSpread2(_objectSpread2({}, _LONG_STYLE_TO_PREFIX[s]), Ct['kit']);
-const LONG_STYLE_TO_PREFIX = familyProxy(_LONG_STYLE_TO_PREFIX);
-const ICON_SELECTION_SYNTAX_PATTERN = p; // eslint-disable-line no-useless-escape
+}), _STYLE_TO_PREFIX[i]), ul['kit']), ul['kit-duotone']);
+var STYLE_TO_PREFIX = familyProxy(_STYLE_TO_PREFIX);
+var _PREFIX_TO_LONG_STYLE = _objectSpread2({}, Ht$1);
+_PREFIX_TO_LONG_STYLE[i] = _objectSpread2(_objectSpread2({}, _PREFIX_TO_LONG_STYLE[i]), fl['kit']);
+var PREFIX_TO_LONG_STYLE = familyProxy(_PREFIX_TO_LONG_STYLE);
+var _LONG_STYLE_TO_PREFIX = _objectSpread2({}, $t$1);
+_LONG_STYLE_TO_PREFIX[i] = _objectSpread2(_objectSpread2({}, _LONG_STYLE_TO_PREFIX[i]), ol['kit']);
+var LONG_STYLE_TO_PREFIX = familyProxy(_LONG_STYLE_TO_PREFIX);
+var ICON_SELECTION_SYNTAX_PATTERN = E;
+var LAYERS_TEXT_CLASSNAME = 'fa-layers-text';
+var FONT_FAMILY_PATTERN = _;
+var _FONT_WEIGHT_TO_PREFIX = _objectSpread2({}, gt);
+var FONT_WEIGHT_TO_PREFIX = familyProxy(_FONT_WEIGHT_TO_PREFIX);
+var ATTRIBUTES_WATCHED_FOR_MUTATION = ['class', 'data-prefix', 'data-icon', 'data-fa-transform', 'data-fa-mask'];
+var DUOTONE_CLASSES = H;
+var RESERVED_CLASSES = [].concat(_toConsumableArray(Ht), _toConsumableArray(to));
 
-const LAYERS_TEXT_CLASSNAME = 'fa-layers-text';
-const FONT_FAMILY_PATTERN = g;
-const _FONT_WEIGHT_TO_PREFIX = _objectSpread2({}, G);
-const FONT_WEIGHT_TO_PREFIX = familyProxy(_FONT_WEIGHT_TO_PREFIX);
-const ATTRIBUTES_WATCHED_FOR_MUTATION = ['class', 'data-prefix', 'data-icon', 'data-fa-transform', 'data-fa-mask'];
-const DUOTONE_CLASSES = A;
-const RESERVED_CLASSES = [...At, ...ma];
-
-const initial = WINDOW.FontAwesomeConfig || {};
+var initial = WINDOW.FontAwesomeConfig || {};
 function getAttrConfig(attr) {
   var element = DOCUMENT.querySelector('script[' + attr + ']');
   if (element) {
@@ -696,24 +1292,27 @@ function coerce(val) {
   return val;
 }
 if (DOCUMENT && typeof DOCUMENT.querySelector === 'function') {
-  const attrs = [['data-family-prefix', 'familyPrefix'], ['data-css-prefix', 'cssPrefix'], ['data-family-default', 'familyDefault'], ['data-style-default', 'styleDefault'], ['data-replacement-class', 'replacementClass'], ['data-auto-replace-svg', 'autoReplaceSvg'], ['data-auto-add-css', 'autoAddCss'], ['data-auto-a11y', 'autoA11y'], ['data-search-pseudo-elements', 'searchPseudoElements'], ['data-observe-mutations', 'observeMutations'], ['data-mutate-approach', 'mutateApproach'], ['data-keep-original-source', 'keepOriginalSource'], ['data-measure-performance', 'measurePerformance'], ['data-show-missing-icons', 'showMissingIcons']];
-  attrs.forEach(_ref => {
-    let [attr, key] = _ref;
-    const val = coerce(getAttrConfig(attr));
+  var attrs = [['data-family-prefix', 'familyPrefix'], ['data-css-prefix', 'cssPrefix'], ['data-family-default', 'familyDefault'], ['data-style-default', 'styleDefault'], ['data-replacement-class', 'replacementClass'], ['data-auto-replace-svg', 'autoReplaceSvg'], ['data-auto-add-css', 'autoAddCss'], ['data-search-pseudo-elements', 'searchPseudoElements'], ['data-search-pseudo-elements-warnings', 'searchPseudoElementsWarnings'], ['data-search-pseudo-elements-full-scan', 'searchPseudoElementsFullScan'], ['data-observe-mutations', 'observeMutations'], ['data-mutate-approach', 'mutateApproach'], ['data-keep-original-source', 'keepOriginalSource'], ['data-measure-performance', 'measurePerformance'], ['data-show-missing-icons', 'showMissingIcons']];
+  attrs.forEach(function (_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+      attr = _ref2[0],
+      key = _ref2[1];
+    var val = coerce(getAttrConfig(attr));
     if (val !== undefined && val !== null) {
       initial[key] = val;
     }
   });
 }
-const _default = {
+var _default = {
   styleDefault: 'solid',
-  familyDefault: s,
+  familyDefault: i,
   cssPrefix: DEFAULT_CSS_PREFIX,
   replacementClass: DEFAULT_REPLACEMENT_CLASS,
   autoReplaceSvg: true,
   autoAddCss: true,
-  autoA11y: true,
   searchPseudoElements: false,
+  searchPseudoElementsWarnings: true,
+  searchPseudoElementsFullScan: false,
   observeMutations: true,
   mutateApproach: 'async',
   keepOriginalSource: true,
@@ -725,17 +1324,19 @@ const _default = {
 if (initial.familyPrefix) {
   initial.cssPrefix = initial.familyPrefix;
 }
-const _config = _objectSpread2(_objectSpread2({}, _default), initial);
+var _config = _objectSpread2(_objectSpread2({}, _default), initial);
 if (!_config.autoReplaceSvg) _config.observeMutations = false;
-const config = {};
-Object.keys(_default).forEach(key => {
+var config = {};
+Object.keys(_default).forEach(function (key) {
   Object.defineProperty(config, key, {
     enumerable: true,
-    set: function (val) {
+    set: function set(val) {
       _config[key] = val;
-      _onChangeCb.forEach(cb => cb(config));
+      _onChangeCb.forEach(function (cb) {
+        return cb(config);
+      });
     },
-    get: function () {
+    get: function get() {
       return _config[key];
     }
   });
@@ -744,25 +1345,27 @@ Object.keys(_default).forEach(key => {
 // familyPrefix is deprecated as of 6.2.0 and should be removed in 7.0.0
 Object.defineProperty(config, 'familyPrefix', {
   enumerable: true,
-  set: function (val) {
+  set: function set(val) {
     _config.cssPrefix = val;
-    _onChangeCb.forEach(cb => cb(config));
+    _onChangeCb.forEach(function (cb) {
+      return cb(config);
+    });
   },
-  get: function () {
+  get: function get() {
     return _config.cssPrefix;
   }
 });
 WINDOW.FontAwesomeConfig = config;
-const _onChangeCb = [];
+var _onChangeCb = [];
 function onChange(cb) {
   _onChangeCb.push(cb);
-  return () => {
+  return function () {
     _onChangeCb.splice(_onChangeCb.indexOf(cb), 1);
   };
 }
 
-const d$2 = UNITS_IN_GRID;
-const meaninglessTransform = {
+var d$2 = UNITS_IN_GRID;
+var meaninglessTransform = {
   size: 16,
   x: 0,
   y: 0,
@@ -774,14 +1377,14 @@ function insertCss(css) {
   if (!css || !IS_DOM) {
     return;
   }
-  const style = DOCUMENT.createElement('style');
+  var style = DOCUMENT.createElement('style');
   style.setAttribute('type', 'text/css');
   style.innerHTML = css;
-  const headChildren = DOCUMENT.head.childNodes;
-  let beforeChild = null;
-  for (let i = headChildren.length - 1; i > -1; i--) {
-    const child = headChildren[i];
-    const tagName = (child.tagName || '').toUpperCase();
+  var headChildren = DOCUMENT.head.childNodes;
+  var beforeChild = null;
+  for (var i = headChildren.length - 1; i > -1; i--) {
+    var child = headChildren[i];
+    var tagName = (child.tagName || '').toUpperCase();
     if (['STYLE', 'LINK'].indexOf(tagName) > -1) {
       beforeChild = child;
     }
@@ -789,18 +1392,18 @@ function insertCss(css) {
   DOCUMENT.head.insertBefore(style, beforeChild);
   return css;
 }
-const idPool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var idPool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 function nextUniqueId() {
-  let size = 12;
-  let id = '';
+  var size = 12;
+  var id = '';
   while (size-- > 0) {
     id += idPool[Math.random() * 62 | 0];
   }
   return id;
 }
 function toArray(obj) {
-  const array = [];
-  for (let i = (obj || []).length >>> 0; i--;) {
+  var array = [];
+  for (var i = (obj || []).length >>> 0; i--;) {
     array[i] = obj[i];
   }
   return array;
@@ -809,19 +1412,21 @@ function classArray(node) {
   if (node.classList) {
     return toArray(node.classList);
   } else {
-    return (node.getAttribute('class') || '').split(' ').filter(i => i);
+    return (node.getAttribute('class') || '').split(' ').filter(function (i) {
+      return i;
+    });
   }
 }
 function htmlEscape(str) {
   return "".concat(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 function joinAttributes(attributes) {
-  return Object.keys(attributes || {}).reduce((acc, attributeName) => {
+  return Object.keys(attributes || {}).reduce(function (acc, attributeName) {
     return acc + "".concat(attributeName, "=\"").concat(htmlEscape(attributes[attributeName]), "\" ");
   }, '').trim();
 }
 function joinStyles(styles) {
-  return Object.keys(styles || {}).reduce((acc, styleName) => {
+  return Object.keys(styles || {}).reduce(function (acc, styleName) {
     return acc + "".concat(styleName, ": ").concat(styles[styleName].trim(), ";");
   }, '');
 }
@@ -829,37 +1434,36 @@ function transformIsMeaningful(transform) {
   return transform.size !== meaninglessTransform.size || transform.x !== meaninglessTransform.x || transform.y !== meaninglessTransform.y || transform.rotate !== meaninglessTransform.rotate || transform.flipX || transform.flipY;
 }
 function transformForSvg(_ref) {
-  let {
-    transform,
-    containerWidth,
-    iconWidth
-  } = _ref;
-  const outer = {
+  var transform = _ref.transform,
+    containerWidth = _ref.containerWidth,
+    iconWidth = _ref.iconWidth;
+  var outer = {
     transform: "translate(".concat(containerWidth / 2, " 256)")
   };
-  const innerTranslate = "translate(".concat(transform.x * 32, ", ").concat(transform.y * 32, ") ");
-  const innerScale = "scale(".concat(transform.size / 16 * (transform.flipX ? -1 : 1), ", ").concat(transform.size / 16 * (transform.flipY ? -1 : 1), ") ");
-  const innerRotate = "rotate(".concat(transform.rotate, " 0 0)");
-  const inner = {
+  var innerTranslate = "translate(".concat(transform.x * 32, ", ").concat(transform.y * 32, ") ");
+  var innerScale = "scale(".concat(transform.size / 16 * (transform.flipX ? -1 : 1), ", ").concat(transform.size / 16 * (transform.flipY ? -1 : 1), ") ");
+  var innerRotate = "rotate(".concat(transform.rotate, " 0 0)");
+  var inner = {
     transform: "".concat(innerTranslate, " ").concat(innerScale, " ").concat(innerRotate)
   };
-  const path = {
+  var path = {
     transform: "translate(".concat(iconWidth / 2 * -1, " -256)")
   };
   return {
-    outer,
-    inner,
-    path
+    outer: outer,
+    inner: inner,
+    path: path
   };
 }
 function transformForCss(_ref2) {
-  let {
-    transform,
-    width = UNITS_IN_GRID,
-    height = UNITS_IN_GRID,
-    startCentered = false
-  } = _ref2;
-  let val = '';
+  var transform = _ref2.transform,
+    _ref2$width = _ref2.width,
+    width = _ref2$width === void 0 ? UNITS_IN_GRID : _ref2$width,
+    _ref2$height = _ref2.height,
+    height = _ref2$height === void 0 ? UNITS_IN_GRID : _ref2$height,
+    _ref2$startCentered = _ref2.startCentered,
+    startCentered = _ref2$startCentered === void 0 ? false : _ref2$startCentered;
+  var val = '';
   if (startCentered && IS_IE) {
     val += "translate(".concat(transform.x / d$2 - width / 2, "em, ").concat(transform.y / d$2 - height / 2, "em) ");
   } else if (startCentered) {
@@ -872,23 +1476,23 @@ function transformForCss(_ref2) {
   return val;
 }
 
-var baseStyles = ":root, :host {\n  --fa-font-solid: normal 900 1em/1 \"Font Awesome 6 Free\";\n  --fa-font-regular: normal 400 1em/1 \"Font Awesome 6 Free\";\n  --fa-font-light: normal 300 1em/1 \"Font Awesome 6 Pro\";\n  --fa-font-thin: normal 100 1em/1 \"Font Awesome 6 Pro\";\n  --fa-font-duotone: normal 900 1em/1 \"Font Awesome 6 Duotone\";\n  --fa-font-duotone-regular: normal 400 1em/1 \"Font Awesome 6 Duotone\";\n  --fa-font-duotone-light: normal 300 1em/1 \"Font Awesome 6 Duotone\";\n  --fa-font-duotone-thin: normal 100 1em/1 \"Font Awesome 6 Duotone\";\n  --fa-font-brands: normal 400 1em/1 \"Font Awesome 6 Brands\";\n  --fa-font-sharp-solid: normal 900 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-regular: normal 400 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-light: normal 300 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-thin: normal 100 1em/1 \"Font Awesome 6 Sharp\";\n  --fa-font-sharp-duotone-solid: normal 900 1em/1 \"Font Awesome 6 Sharp Duotone\";\n  --fa-font-sharp-duotone-regular: normal 400 1em/1 \"Font Awesome 6 Sharp Duotone\";\n  --fa-font-sharp-duotone-light: normal 300 1em/1 \"Font Awesome 6 Sharp Duotone\";\n  --fa-font-sharp-duotone-thin: normal 100 1em/1 \"Font Awesome 6 Sharp Duotone\";\n}\n\nsvg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {\n  overflow: visible;\n  box-sizing: content-box;\n}\n\n.svg-inline--fa {\n  display: var(--fa-display, inline-block);\n  height: 1em;\n  overflow: visible;\n  vertical-align: -0.125em;\n}\n.svg-inline--fa.fa-2xs {\n  vertical-align: 0.1em;\n}\n.svg-inline--fa.fa-xs {\n  vertical-align: 0em;\n}\n.svg-inline--fa.fa-sm {\n  vertical-align: -0.0714285705em;\n}\n.svg-inline--fa.fa-lg {\n  vertical-align: -0.2em;\n}\n.svg-inline--fa.fa-xl {\n  vertical-align: -0.25em;\n}\n.svg-inline--fa.fa-2xl {\n  vertical-align: -0.3125em;\n}\n.svg-inline--fa.fa-pull-left {\n  margin-right: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-pull-right {\n  margin-left: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-li {\n  width: var(--fa-li-width, 2em);\n  top: 0.25em;\n}\n.svg-inline--fa.fa-fw {\n  width: var(--fa-fw-width, 1.25em);\n}\n\n.fa-layers svg.svg-inline--fa {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n\n.fa-layers-counter, .fa-layers-text {\n  display: inline-block;\n  position: absolute;\n  text-align: center;\n}\n\n.fa-layers {\n  display: inline-block;\n  height: 1em;\n  position: relative;\n  text-align: center;\n  vertical-align: -0.125em;\n  width: 1em;\n}\n.fa-layers svg.svg-inline--fa {\n  transform-origin: center center;\n}\n\n.fa-layers-text {\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  transform-origin: center center;\n}\n\n.fa-layers-counter {\n  background-color: var(--fa-counter-background-color, #ff253a);\n  border-radius: var(--fa-counter-border-radius, 1em);\n  box-sizing: border-box;\n  color: var(--fa-inverse, #fff);\n  line-height: var(--fa-counter-line-height, 1);\n  max-width: var(--fa-counter-max-width, 5em);\n  min-width: var(--fa-counter-min-width, 1.5em);\n  overflow: hidden;\n  padding: var(--fa-counter-padding, 0.25em 0.5em);\n  right: var(--fa-right, 0);\n  text-overflow: ellipsis;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-counter-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-bottom-right {\n  bottom: var(--fa-bottom, 0);\n  right: var(--fa-right, 0);\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom right;\n}\n\n.fa-layers-bottom-left {\n  bottom: var(--fa-bottom, 0);\n  left: var(--fa-left, 0);\n  right: auto;\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom left;\n}\n\n.fa-layers-top-right {\n  top: var(--fa-top, 0);\n  right: var(--fa-right, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-top-left {\n  left: var(--fa-left, 0);\n  right: auto;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top left;\n}\n\n.fa-1x {\n  font-size: 1em;\n}\n\n.fa-2x {\n  font-size: 2em;\n}\n\n.fa-3x {\n  font-size: 3em;\n}\n\n.fa-4x {\n  font-size: 4em;\n}\n\n.fa-5x {\n  font-size: 5em;\n}\n\n.fa-6x {\n  font-size: 6em;\n}\n\n.fa-7x {\n  font-size: 7em;\n}\n\n.fa-8x {\n  font-size: 8em;\n}\n\n.fa-9x {\n  font-size: 9em;\n}\n\n.fa-10x {\n  font-size: 10em;\n}\n\n.fa-2xs {\n  font-size: 0.625em;\n  line-height: 0.1em;\n  vertical-align: 0.225em;\n}\n\n.fa-xs {\n  font-size: 0.75em;\n  line-height: 0.0833333337em;\n  vertical-align: 0.125em;\n}\n\n.fa-sm {\n  font-size: 0.875em;\n  line-height: 0.0714285718em;\n  vertical-align: 0.0535714295em;\n}\n\n.fa-lg {\n  font-size: 1.25em;\n  line-height: 0.05em;\n  vertical-align: -0.075em;\n}\n\n.fa-xl {\n  font-size: 1.5em;\n  line-height: 0.0416666682em;\n  vertical-align: -0.125em;\n}\n\n.fa-2xl {\n  font-size: 2em;\n  line-height: 0.03125em;\n  vertical-align: -0.1875em;\n}\n\n.fa-fw {\n  text-align: center;\n  width: 1.25em;\n}\n\n.fa-ul {\n  list-style-type: none;\n  margin-left: var(--fa-li-margin, 2.5em);\n  padding-left: 0;\n}\n.fa-ul > li {\n  position: relative;\n}\n\n.fa-li {\n  left: calc(-1 * var(--fa-li-width, 2em));\n  position: absolute;\n  text-align: center;\n  width: var(--fa-li-width, 2em);\n  line-height: inherit;\n}\n\n.fa-border {\n  border-color: var(--fa-border-color, #eee);\n  border-radius: var(--fa-border-radius, 0.1em);\n  border-style: var(--fa-border-style, solid);\n  border-width: var(--fa-border-width, 0.08em);\n  padding: var(--fa-border-padding, 0.2em 0.25em 0.15em);\n}\n\n.fa-pull-left {\n  float: left;\n  margin-right: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-pull-right {\n  float: right;\n  margin-left: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-beat {\n  animation-name: fa-beat;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-bounce {\n  animation-name: fa-bounce;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));\n}\n\n.fa-fade {\n  animation-name: fa-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-beat-fade {\n  animation-name: fa-beat-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-flip {\n  animation-name: fa-flip;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-shake {\n  animation-name: fa-shake;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin {\n  animation-name: fa-spin;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 2s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin-reverse {\n  --fa-animation-direction: reverse;\n}\n\n.fa-pulse,\n.fa-spin-pulse {\n  animation-name: fa-spin;\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, steps(8));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .fa-beat,\n.fa-bounce,\n.fa-fade,\n.fa-beat-fade,\n.fa-flip,\n.fa-pulse,\n.fa-shake,\n.fa-spin,\n.fa-spin-pulse {\n    animation-delay: -1ms;\n    animation-duration: 1ms;\n    animation-iteration-count: 1;\n    transition-delay: 0s;\n    transition-duration: 0s;\n  }\n}\n@keyframes fa-beat {\n  0%, 90% {\n    transform: scale(1);\n  }\n  45% {\n    transform: scale(var(--fa-beat-scale, 1.25));\n  }\n}\n@keyframes fa-bounce {\n  0% {\n    transform: scale(1, 1) translateY(0);\n  }\n  10% {\n    transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);\n  }\n  30% {\n    transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));\n  }\n  50% {\n    transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);\n  }\n  57% {\n    transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));\n  }\n  64% {\n    transform: scale(1, 1) translateY(0);\n  }\n  100% {\n    transform: scale(1, 1) translateY(0);\n  }\n}\n@keyframes fa-fade {\n  50% {\n    opacity: var(--fa-fade-opacity, 0.4);\n  }\n}\n@keyframes fa-beat-fade {\n  0%, 100% {\n    opacity: var(--fa-beat-fade-opacity, 0.4);\n    transform: scale(1);\n  }\n  50% {\n    opacity: 1;\n    transform: scale(var(--fa-beat-fade-scale, 1.125));\n  }\n}\n@keyframes fa-flip {\n  50% {\n    transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));\n  }\n}\n@keyframes fa-shake {\n  0% {\n    transform: rotate(-15deg);\n  }\n  4% {\n    transform: rotate(15deg);\n  }\n  8%, 24% {\n    transform: rotate(-18deg);\n  }\n  12%, 28% {\n    transform: rotate(18deg);\n  }\n  16% {\n    transform: rotate(-22deg);\n  }\n  20% {\n    transform: rotate(22deg);\n  }\n  32% {\n    transform: rotate(-12deg);\n  }\n  36% {\n    transform: rotate(12deg);\n  }\n  40%, 100% {\n    transform: rotate(0deg);\n  }\n}\n@keyframes fa-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.fa-rotate-90 {\n  transform: rotate(90deg);\n}\n\n.fa-rotate-180 {\n  transform: rotate(180deg);\n}\n\n.fa-rotate-270 {\n  transform: rotate(270deg);\n}\n\n.fa-flip-horizontal {\n  transform: scale(-1, 1);\n}\n\n.fa-flip-vertical {\n  transform: scale(1, -1);\n}\n\n.fa-flip-both,\n.fa-flip-horizontal.fa-flip-vertical {\n  transform: scale(-1, -1);\n}\n\n.fa-rotate-by {\n  transform: rotate(var(--fa-rotate-angle, 0));\n}\n\n.fa-stack {\n  display: inline-block;\n  vertical-align: middle;\n  height: 2em;\n  position: relative;\n  width: 2.5em;\n}\n\n.fa-stack-1x,\n.fa-stack-2x {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n  z-index: var(--fa-stack-z-index, auto);\n}\n\n.svg-inline--fa.fa-stack-1x {\n  height: 1em;\n  width: 1.25em;\n}\n.svg-inline--fa.fa-stack-2x {\n  height: 2em;\n  width: 2.5em;\n}\n\n.fa-inverse {\n  color: var(--fa-inverse, #fff);\n}\n\n.sr-only,\n.fa-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.sr-only-focusable:not(:focus),\n.fa-sr-only-focusable:not(:focus) {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.svg-inline--fa .fa-primary {\n  fill: var(--fa-primary-color, currentColor);\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa .fa-secondary {\n  fill: var(--fa-secondary-color, currentColor);\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-primary {\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-secondary {\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa mask .fa-primary,\n.svg-inline--fa mask .fa-secondary {\n  fill: black;\n}";
+var baseStyles = ":root, :host {\n  --fa-font-solid: normal 900 1em/1 \"Font Awesome 7 Free\";\n  --fa-font-regular: normal 400 1em/1 \"Font Awesome 7 Free\";\n  --fa-font-light: normal 300 1em/1 \"Font Awesome 7 Pro\";\n  --fa-font-thin: normal 100 1em/1 \"Font Awesome 7 Pro\";\n  --fa-font-duotone: normal 900 1em/1 \"Font Awesome 7 Duotone\";\n  --fa-font-duotone-regular: normal 400 1em/1 \"Font Awesome 7 Duotone\";\n  --fa-font-duotone-light: normal 300 1em/1 \"Font Awesome 7 Duotone\";\n  --fa-font-duotone-thin: normal 100 1em/1 \"Font Awesome 7 Duotone\";\n  --fa-font-brands: normal 400 1em/1 \"Font Awesome 7 Brands\";\n  --fa-font-sharp-solid: normal 900 1em/1 \"Font Awesome 7 Sharp\";\n  --fa-font-sharp-regular: normal 400 1em/1 \"Font Awesome 7 Sharp\";\n  --fa-font-sharp-light: normal 300 1em/1 \"Font Awesome 7 Sharp\";\n  --fa-font-sharp-thin: normal 100 1em/1 \"Font Awesome 7 Sharp\";\n  --fa-font-sharp-duotone-solid: normal 900 1em/1 \"Font Awesome 7 Sharp Duotone\";\n  --fa-font-sharp-duotone-regular: normal 400 1em/1 \"Font Awesome 7 Sharp Duotone\";\n  --fa-font-sharp-duotone-light: normal 300 1em/1 \"Font Awesome 7 Sharp Duotone\";\n  --fa-font-sharp-duotone-thin: normal 100 1em/1 \"Font Awesome 7 Sharp Duotone\";\n  --fa-font-slab-regular: normal 400 1em/1 \"Font Awesome 7 Slab\";\n  --fa-font-slab-press-regular: normal 400 1em/1 \"Font Awesome 7 Slab Press\";\n  --fa-font-whiteboard-semibold: normal 600 1em/1 \"Font Awesome 7 Whiteboard\";\n  --fa-font-thumbprint-light: normal 300 1em/1 \"Font Awesome 7 Thumbprint\";\n  --fa-font-notdog-solid: normal 900 1em/1 \"Font Awesome 7 Notdog\";\n  --fa-font-notdog-duo-solid: normal 900 1em/1 \"Font Awesome 7 Notdog Duo\";\n  --fa-font-etch-solid: normal 900 1em/1 \"Font Awesome 7 Etch\";\n  --fa-font-jelly-regular: normal 400 1em/1 \"Font Awesome 7 Jelly\";\n  --fa-font-jelly-fill-regular: normal 400 1em/1 \"Font Awesome 7 Jelly Fill\";\n  --fa-font-jelly-duo-regular: normal 400 1em/1 \"Font Awesome 7 Jelly Duo\";\n  --fa-font-chisel-regular: normal 400 1em/1 \"Font Awesome 7 Chisel\";\n  --fa-font-utility-semibold: normal 600 1em/1 \"Font Awesome 7 Utility\";\n  --fa-font-utility-duo-semibold: normal 600 1em/1 \"Font Awesome 7 Utility Duo\";\n  --fa-font-utility-fill-semibold: normal 600 1em/1 \"Font Awesome 7 Utility Fill\";\n}\n\n.svg-inline--fa {\n  box-sizing: content-box;\n  display: var(--fa-display, inline-block);\n  height: 1em;\n  overflow: visible;\n  vertical-align: -0.125em;\n  width: var(--fa-width, 1.25em);\n}\n.svg-inline--fa.fa-2xs {\n  vertical-align: 0.1em;\n}\n.svg-inline--fa.fa-xs {\n  vertical-align: 0em;\n}\n.svg-inline--fa.fa-sm {\n  vertical-align: -0.0714285714em;\n}\n.svg-inline--fa.fa-lg {\n  vertical-align: -0.2em;\n}\n.svg-inline--fa.fa-xl {\n  vertical-align: -0.25em;\n}\n.svg-inline--fa.fa-2xl {\n  vertical-align: -0.3125em;\n}\n.svg-inline--fa.fa-pull-left,\n.svg-inline--fa .fa-pull-start {\n  float: inline-start;\n  margin-inline-end: var(--fa-pull-margin, 0.3em);\n}\n.svg-inline--fa.fa-pull-right,\n.svg-inline--fa .fa-pull-end {\n  float: inline-end;\n  margin-inline-start: var(--fa-pull-margin, 0.3em);\n}\n.svg-inline--fa.fa-li {\n  width: var(--fa-li-width, 2em);\n  inset-inline-start: calc(-1 * var(--fa-li-width, 2em));\n  inset-block-start: 0.25em; /* syncing vertical alignment with Web Font rendering */\n}\n\n.fa-layers-counter, .fa-layers-text {\n  display: inline-block;\n  position: absolute;\n  text-align: center;\n}\n\n.fa-layers {\n  display: inline-block;\n  height: 1em;\n  position: relative;\n  text-align: center;\n  vertical-align: -0.125em;\n  width: var(--fa-width, 1.25em);\n}\n.fa-layers .svg-inline--fa {\n  inset: 0;\n  margin: auto;\n  position: absolute;\n  transform-origin: center center;\n}\n\n.fa-layers-text {\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  transform-origin: center center;\n}\n\n.fa-layers-counter {\n  background-color: var(--fa-counter-background-color, #ff253a);\n  border-radius: var(--fa-counter-border-radius, 1em);\n  box-sizing: border-box;\n  color: var(--fa-inverse, #fff);\n  line-height: var(--fa-counter-line-height, 1);\n  max-width: var(--fa-counter-max-width, 5em);\n  min-width: var(--fa-counter-min-width, 1.5em);\n  overflow: hidden;\n  padding: var(--fa-counter-padding, 0.25em 0.5em);\n  right: var(--fa-right, 0);\n  text-overflow: ellipsis;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-counter-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-bottom-right {\n  bottom: var(--fa-bottom, 0);\n  right: var(--fa-right, 0);\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom right;\n}\n\n.fa-layers-bottom-left {\n  bottom: var(--fa-bottom, 0);\n  left: var(--fa-left, 0);\n  right: auto;\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom left;\n}\n\n.fa-layers-top-right {\n  top: var(--fa-top, 0);\n  right: var(--fa-right, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-top-left {\n  left: var(--fa-left, 0);\n  right: auto;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top left;\n}\n\n.fa-1x {\n  font-size: 1em;\n}\n\n.fa-2x {\n  font-size: 2em;\n}\n\n.fa-3x {\n  font-size: 3em;\n}\n\n.fa-4x {\n  font-size: 4em;\n}\n\n.fa-5x {\n  font-size: 5em;\n}\n\n.fa-6x {\n  font-size: 6em;\n}\n\n.fa-7x {\n  font-size: 7em;\n}\n\n.fa-8x {\n  font-size: 8em;\n}\n\n.fa-9x {\n  font-size: 9em;\n}\n\n.fa-10x {\n  font-size: 10em;\n}\n\n.fa-2xs {\n  font-size: calc(10 / 16 * 1em); /* converts a 10px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 10 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 10 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-xs {\n  font-size: calc(12 / 16 * 1em); /* converts a 12px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 12 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 12 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-sm {\n  font-size: calc(14 / 16 * 1em); /* converts a 14px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 14 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 14 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-lg {\n  font-size: calc(20 / 16 * 1em); /* converts a 20px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 20 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 20 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-xl {\n  font-size: calc(24 / 16 * 1em); /* converts a 24px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 24 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 24 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-2xl {\n  font-size: calc(32 / 16 * 1em); /* converts a 32px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 32 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 32 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-width-auto {\n  --fa-width: auto;\n}\n\n.fa-fw,\n.fa-width-fixed {\n  --fa-width: 1.25em;\n}\n\n.fa-ul {\n  list-style-type: none;\n  margin-inline-start: var(--fa-li-margin, 2.5em);\n  padding-inline-start: 0;\n}\n.fa-ul > li {\n  position: relative;\n}\n\n.fa-li {\n  inset-inline-start: calc(-1 * var(--fa-li-width, 2em));\n  position: absolute;\n  text-align: center;\n  width: var(--fa-li-width, 2em);\n  line-height: inherit;\n}\n\n/* Heads Up: Bordered Icons will not be supported in the future!\n  - This feature will be deprecated in the next major release of Font Awesome (v8)!\n  - You may continue to use it in this version *v7), but it will not be supported in Font Awesome v8.\n*/\n/* Notes:\n* --@{v.$css-prefix}-border-width = 1/16 by default (to render as ~1px based on a 16px default font-size)\n* --@{v.$css-prefix}-border-padding =\n  ** 3/16 for vertical padding (to give ~2px of vertical whitespace around an icon considering it's vertical alignment)\n  ** 4/16 for horizontal padding (to give ~4px of horizontal whitespace around an icon)\n*/\n.fa-border {\n  border-color: var(--fa-border-color, #eee);\n  border-radius: var(--fa-border-radius, 0.1em);\n  border-style: var(--fa-border-style, solid);\n  border-width: var(--fa-border-width, 0.0625em);\n  box-sizing: var(--fa-border-box-sizing, content-box);\n  padding: var(--fa-border-padding, 0.1875em 0.25em);\n}\n\n.fa-pull-left,\n.fa-pull-start {\n  float: inline-start;\n  margin-inline-end: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-pull-right,\n.fa-pull-end {\n  float: inline-end;\n  margin-inline-start: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-beat {\n  animation-name: fa-beat;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-bounce {\n  animation-name: fa-bounce;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));\n}\n\n.fa-fade {\n  animation-name: fa-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-beat-fade {\n  animation-name: fa-beat-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-flip {\n  animation-name: fa-flip;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-shake {\n  animation-name: fa-shake;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin {\n  animation-name: fa-spin;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 2s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin-reverse {\n  --fa-animation-direction: reverse;\n}\n\n.fa-pulse,\n.fa-spin-pulse {\n  animation-name: fa-spin;\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, steps(8));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .fa-beat,\n  .fa-bounce,\n  .fa-fade,\n  .fa-beat-fade,\n  .fa-flip,\n  .fa-pulse,\n  .fa-shake,\n  .fa-spin,\n  .fa-spin-pulse {\n    animation: none !important;\n    transition: none !important;\n  }\n}\n@keyframes fa-beat {\n  0%, 90% {\n    transform: scale(1);\n  }\n  45% {\n    transform: scale(var(--fa-beat-scale, 1.25));\n  }\n}\n@keyframes fa-bounce {\n  0% {\n    transform: scale(1, 1) translateY(0);\n  }\n  10% {\n    transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);\n  }\n  30% {\n    transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));\n  }\n  50% {\n    transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);\n  }\n  57% {\n    transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));\n  }\n  64% {\n    transform: scale(1, 1) translateY(0);\n  }\n  100% {\n    transform: scale(1, 1) translateY(0);\n  }\n}\n@keyframes fa-fade {\n  50% {\n    opacity: var(--fa-fade-opacity, 0.4);\n  }\n}\n@keyframes fa-beat-fade {\n  0%, 100% {\n    opacity: var(--fa-beat-fade-opacity, 0.4);\n    transform: scale(1);\n  }\n  50% {\n    opacity: 1;\n    transform: scale(var(--fa-beat-fade-scale, 1.125));\n  }\n}\n@keyframes fa-flip {\n  50% {\n    transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));\n  }\n}\n@keyframes fa-shake {\n  0% {\n    transform: rotate(-15deg);\n  }\n  4% {\n    transform: rotate(15deg);\n  }\n  8%, 24% {\n    transform: rotate(-18deg);\n  }\n  12%, 28% {\n    transform: rotate(18deg);\n  }\n  16% {\n    transform: rotate(-22deg);\n  }\n  20% {\n    transform: rotate(22deg);\n  }\n  32% {\n    transform: rotate(-12deg);\n  }\n  36% {\n    transform: rotate(12deg);\n  }\n  40%, 100% {\n    transform: rotate(0deg);\n  }\n}\n@keyframes fa-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.fa-rotate-90 {\n  transform: rotate(90deg);\n}\n\n.fa-rotate-180 {\n  transform: rotate(180deg);\n}\n\n.fa-rotate-270 {\n  transform: rotate(270deg);\n}\n\n.fa-flip-horizontal {\n  transform: scale(-1, 1);\n}\n\n.fa-flip-vertical {\n  transform: scale(1, -1);\n}\n\n.fa-flip-both,\n.fa-flip-horizontal.fa-flip-vertical {\n  transform: scale(-1, -1);\n}\n\n.fa-rotate-by {\n  transform: rotate(var(--fa-rotate-angle, 0));\n}\n\n.svg-inline--fa .fa-primary {\n  fill: var(--fa-primary-color, currentColor);\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa .fa-secondary {\n  fill: var(--fa-secondary-color, currentColor);\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-primary {\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-secondary {\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa mask .fa-primary,\n.svg-inline--fa mask .fa-secondary {\n  fill: black;\n}\n\n.svg-inline--fa.fa-inverse {\n  fill: var(--fa-inverse, #fff);\n}\n\n.fa-stack {\n  display: inline-block;\n  height: 2em;\n  line-height: 2em;\n  position: relative;\n  vertical-align: middle;\n  width: 2.5em;\n}\n\n.fa-inverse {\n  color: var(--fa-inverse, #fff);\n}\n\n.svg-inline--fa.fa-stack-1x {\n  --fa-width: 1.25em;\n  height: 1em;\n  width: var(--fa-width);\n}\n.svg-inline--fa.fa-stack-2x {\n  --fa-width: 2.5em;\n  height: 2em;\n  width: var(--fa-width);\n}\n\n.fa-stack-1x,\n.fa-stack-2x {\n  inset: 0;\n  margin: auto;\n  position: absolute;\n  z-index: var(--fa-stack-z-index, auto);\n}";
 
 function css() {
-  const dcp = DEFAULT_CSS_PREFIX;
-  const drc = DEFAULT_REPLACEMENT_CLASS;
-  const fp = config.cssPrefix;
-  const rc = config.replacementClass;
-  let s = baseStyles;
+  var dcp = DEFAULT_CSS_PREFIX;
+  var drc = DEFAULT_REPLACEMENT_CLASS;
+  var fp = config.cssPrefix;
+  var rc = config.replacementClass;
+  var s = baseStyles;
   if (fp !== dcp || rc !== drc) {
-    const dPatt = new RegExp("\\.".concat(dcp, "\\-"), 'g');
-    const customPropPatt = new RegExp("\\--".concat(dcp, "\\-"), 'g');
-    const rPatt = new RegExp("\\.".concat(drc), 'g');
+    var dPatt = new RegExp("\\.".concat(dcp, "\\-"), 'g');
+    var customPropPatt = new RegExp("\\--".concat(dcp, "\\-"), 'g');
+    var rPatt = new RegExp("\\.".concat(drc), 'g');
     s = s.replace(dPatt, ".".concat(fp, "-")).replace(customPropPatt, "--".concat(fp, "-")).replace(rPatt, ".".concat(rc));
   }
   return s;
 }
-let _cssInserted = false;
+var _cssInserted = false;
 function ensureCss() {
   if (config.autoAddCss && !_cssInserted) {
     insertCss(css());
@@ -896,43 +1500,45 @@ function ensureCss() {
   }
 }
 var InjectCSS = {
-  mixout() {
+  mixout: function mixout() {
     return {
       dom: {
-        css,
+        css: css,
         insertCss: ensureCss
       }
     };
   },
-  hooks() {
+  hooks: function hooks() {
     return {
-      beforeDOMElementCreation() {
+      beforeDOMElementCreation: function beforeDOMElementCreation() {
         ensureCss();
       },
-      beforeI2svg() {
+      beforeI2svg: function beforeI2svg() {
         ensureCss();
       }
     };
   }
 };
 
-const w = WINDOW || {};
-if (!w[NAMESPACE_IDENTIFIER]) w[NAMESPACE_IDENTIFIER] = {};
-if (!w[NAMESPACE_IDENTIFIER].styles) w[NAMESPACE_IDENTIFIER].styles = {};
-if (!w[NAMESPACE_IDENTIFIER].hooks) w[NAMESPACE_IDENTIFIER].hooks = {};
-if (!w[NAMESPACE_IDENTIFIER].shims) w[NAMESPACE_IDENTIFIER].shims = [];
-var namespace = w[NAMESPACE_IDENTIFIER];
+var w$2 = WINDOW || {};
+if (!w$2[NAMESPACE_IDENTIFIER]) w$2[NAMESPACE_IDENTIFIER] = {};
+if (!w$2[NAMESPACE_IDENTIFIER].styles) w$2[NAMESPACE_IDENTIFIER].styles = {};
+if (!w$2[NAMESPACE_IDENTIFIER].hooks) w$2[NAMESPACE_IDENTIFIER].hooks = {};
+if (!w$2[NAMESPACE_IDENTIFIER].shims) w$2[NAMESPACE_IDENTIFIER].shims = [];
+var namespace = w$2[NAMESPACE_IDENTIFIER];
 
-const functions = [];
-const listener = function () {
-  DOCUMENT.removeEventListener('DOMContentLoaded', listener);
+var functions = [];
+var _listener = function listener() {
+  DOCUMENT.removeEventListener('DOMContentLoaded', _listener);
   loaded = 1;
-  functions.map(fn => fn());
+  functions.map(function (fn) {
+    return fn();
+  });
 };
-let loaded = false;
+var loaded = false;
 if (IS_DOM) {
   loaded = (DOCUMENT.documentElement.doScroll ? /^loaded|^c/ : /^loaded|^i|^c/).test(DOCUMENT.readyState);
-  if (!loaded) DOCUMENT.addEventListener('DOMContentLoaded', listener);
+  if (!loaded) DOCUMENT.addEventListener('DOMContentLoaded', _listener);
 }
 function domready (fn) {
   if (!IS_DOM) return;
@@ -940,11 +1546,11 @@ function domready (fn) {
 }
 
 function toHtml(abstractNodes) {
-  const {
-    tag,
-    attributes = {},
-    children = []
-  } = abstractNodes;
+  var tag = abstractNodes.tag,
+    _abstractNodes$attrib = abstractNodes.attributes,
+    attributes = _abstractNodes$attrib === void 0 ? {} : _abstractNodes$attrib,
+    _abstractNodes$childr = abstractNodes.children,
+    children = _abstractNodes$childr === void 0 ? [] : _abstractNodes$childr;
   if (typeof abstractNodes === 'string') {
     return htmlEscape(abstractNodes);
   } else {
@@ -955,8 +1561,8 @@ function toHtml(abstractNodes) {
 function iconFromMapping(mapping, prefix, iconName) {
   if (mapping && mapping[prefix] && mapping[prefix][iconName]) {
     return {
-      prefix,
-      iconName,
+      prefix: prefix,
+      iconName: iconName,
       icon: mapping[prefix][iconName]
     };
   }
@@ -1005,72 +1611,19 @@ var reduce = function fastReduceObject(subject, fn, initialValue, thisContext) {
 };
 
 /**
- * ucs2decode() and codePointAt() are both works of Mathias Bynens and licensed under MIT
- *
- * Copyright Mathias Bynens <https://mathiasbynens.be/>
-
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
-
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * Return hexadecimal string for a unicode character
+ * Returns `null` when more than one character (not bytes!) are passed
+ * For example: 'K' → '7B'
  */
-
-function ucs2decode(string) {
-  const output = [];
-  let counter = 0;
-  const length = string.length;
-  while (counter < length) {
-    const value = string.charCodeAt(counter++);
-    if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-      const extra = string.charCodeAt(counter++);
-      if ((extra & 0xFC00) == 0xDC00) {
-        // eslint-disable-line eqeqeq
-        output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-      } else {
-        output.push(value);
-        counter--;
-      }
-    } else {
-      output.push(value);
-    }
-  }
-  return output;
-}
 function toHex(unicode) {
-  const decoded = ucs2decode(unicode);
-  return decoded.length === 1 ? decoded[0].toString(16) : null;
-}
-function codePointAt(string, index) {
-  const size = string.length;
-  let first = string.charCodeAt(index);
-  let second;
-  if (first >= 0xD800 && first <= 0xDBFF && size > index + 1) {
-    second = string.charCodeAt(index + 1);
-    if (second >= 0xDC00 && second <= 0xDFFF) {
-      return (first - 0xD800) * 0x400 + second - 0xDC00 + 0x10000;
-    }
-  }
-  return first;
+  if (_toConsumableArray(unicode).length !== 1) return null;
+  return unicode.codePointAt(0).toString(16);
 }
 
 function normalizeIcons(icons) {
-  return Object.keys(icons).reduce((acc, iconName) => {
-    const icon = icons[iconName];
-    const expanded = !!icon.icon;
+  return Object.keys(icons).reduce(function (acc, iconName) {
+    var icon = icons[iconName];
+    var expanded = !!icon.icon;
     if (expanded) {
       acc[icon.iconName] = icon.icon;
     } else {
@@ -1080,11 +1633,10 @@ function normalizeIcons(icons) {
   }, {});
 }
 function defineIcons(prefix, icons) {
-  let params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  const {
-    skipHooks = false
-  } = params;
-  const normalized = normalizeIcons(icons);
+  var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var _params$skipHooks = params.skipHooks,
+    skipHooks = _params$skipHooks === void 0 ? false : _params$skipHooks;
+  var normalized = normalizeIcons(icons);
   if (typeof namespace.hooks.addPack === 'function' && !skipHooks) {
     namespace.hooks.addPack(prefix, normalizeIcons(icons));
   } else {
@@ -1102,84 +1654,130 @@ function defineIcons(prefix, icons) {
   }
 }
 
-const duotonePathRe = [/*#__PURE__*/_wrapRegExp(/path d="([^"]+)".*path d="([^"]+)"/, {
+var MONO = 0x1;
+var DUO = 0x2;
+
+// New v7 compatible matchers using the style attribute to determine layer membership
+var modernMatches = [[DUO, /*#__PURE__*/_wrapRegExp(/path opacity="([^"]*)".*d="([^"]*)".*path.*d="([^"]*)"/, {
+  d2: 2,
+  d1: 3
+})], [DUO, /*#__PURE__*/_wrapRegExp(/path opacity="([^"]*)".*d="([^"]*)"/, {
+  d2: 2
+})], [MONO, /*#__PURE__*/_wrapRegExp(/path fill="currentColor".*d="([^"]+)"/, {
+  d1: 1
+})]];
+
+// Old <= v6 matchers, these should rarely get used.
+//
+// Why are there so many? Over the lifecycle of version 5 and 6 we modified the
+// syntax for our source SVG files several times. These patterns match the
+// historical record and attempt to handle backwards-compatibility in rare edge
+// cases (loading version 6 SVG source files using the version 7 SVG parser)
+var legacyMatches = [[DUO, /*#__PURE__*/_wrapRegExp(/path class="([^"]*secondary[^"]*)".*d="([^"]+)".*path class="([^"]*primary[^"]*)".*d="([^"]+)"/, {
+  attr2: 1,
+  d2: 2,
+  attr1: 3,
+  d1: 4
+})], [DUO, /*#__PURE__*/_wrapRegExp(/path class="([^"]*primary[^"]*)".*d="([^"]+)".*path class="([^"]*secondary[^"]*)".*d="([^"]+)"/, {
+  attr1: 1,
+  d1: 2,
+  attr2: 3,
+  d2: 4
+})], [DUO, /*#__PURE__*/_wrapRegExp(/path class="([^"]*primary[^"]*)".*d="([^"]+)"/, {
+  attr1: 1,
+  d1: 2
+})], [DUO, /*#__PURE__*/_wrapRegExp(/path class="([^"]*secondary[^"]*)".*d="([^"]+)"/, {
+  attr2: 1,
+  d2: 2
+})], [DUO, /*#__PURE__*/_wrapRegExp(/path d="([^"]+)".*class="([^"]*secondary[^"]*)".*path d="([^"]+)".*class="([^"]*primary[^"]*)"/, {
+  d2: 1,
+  attr2: 2,
+  d1: 3,
+  attr1: 4
+})], [DUO, /*#__PURE__*/_wrapRegExp(/path d="([^"]+)".*class="([^"]*primary[^"]*)".*path d="([^"]+)".*class="([^"]*secondary[^"]*)"/, {
+  d1: 1,
+  attr1: 2,
+  d2: 3,
+  attr2: 4
+})], [DUO, /*#__PURE__*/_wrapRegExp(/path d="([^"]+)".*class="([^"]*primary[^"]*)"/, {
+  d1: 1,
+  attr1: 2
+})], [DUO, /*#__PURE__*/_wrapRegExp(/path d="([^"]+)".*class="([^"]*secondary[^"]*)"/, {
+  d2: 1,
+  attr2: 2
+})], [DUO, /*#__PURE__*/_wrapRegExp(/path d="([^"]+)".*path d="([^"]+)"/, {
   d1: 1,
   d2: 2
-}), /*#__PURE__*/_wrapRegExp(/path class="([^"]+)".*d="([^"]+)".*path class="([^"]+)".*d="([^"]+)"/, {
-  cls1: 1,
-  d1: 2,
-  cls2: 3,
-  d2: 4
-}), /*#__PURE__*/_wrapRegExp(/path class="([^"]+)".*d="([^"]+)"/, {
-  cls1: 1,
+})], [MONO, /*#__PURE__*/_wrapRegExp(/path d="([^"]+)"/, {
+  d1: 1
+})], [MONO, /*#__PURE__*/_wrapRegExp(/path style="([^"]+)".*d="([^"]+)"/, {
+  attr1: 1,
   d1: 2
-})];
+})]];
 
-const {
-  styles,
-  shims
-} = namespace;
-const FAMILY_NAMES = Object.keys(PREFIX_TO_LONG_STYLE);
-const PREFIXES_FOR_FAMILY = FAMILY_NAMES.reduce((acc, familyId) => {
+var styles = namespace.styles,
+  shims = namespace.shims;
+var FAMILY_NAMES = Object.keys(PREFIX_TO_LONG_STYLE);
+var PREFIXES_FOR_FAMILY = FAMILY_NAMES.reduce(function (acc, familyId) {
   acc[familyId] = Object.keys(PREFIX_TO_LONG_STYLE[familyId]);
   return acc;
 }, {});
-let _defaultUsablePrefix = null;
-let _byUnicode = {};
-let _byLigature = {};
-let _byOldName = {};
-let _byOldUnicode = {};
-let _byAlias = {};
+var _defaultUsablePrefix = null;
+var _byUnicode = {};
+var _byLigature = {};
+var _byOldName = {};
+var _byOldUnicode = {};
+var _byAlias = {};
 function isReserved(name) {
   return ~RESERVED_CLASSES.indexOf(name);
 }
 function getIconName(cssPrefix, cls) {
-  const parts = cls.split('-');
-  const prefix = parts[0];
-  const iconName = parts.slice(1).join('-');
+  var parts = cls.split('-');
+  var prefix = parts[0];
+  var iconName = parts.slice(1).join('-');
   if (prefix === cssPrefix && iconName !== '' && !isReserved(iconName)) {
     return iconName;
   } else {
     return null;
   }
 }
-const build = () => {
-  const lookup = reducer => {
-    return reduce(styles, (o$$1, style, prefix) => {
+var build = function build() {
+  var lookup = function lookup(reducer) {
+    return reduce(styles, function (o$$1, style, prefix) {
       o$$1[prefix] = reduce(style, reducer, {});
       return o$$1;
     }, {});
   };
-  _byUnicode = lookup((acc, icon, iconName) => {
+  _byUnicode = lookup(function (acc, icon, iconName) {
     if (icon[3]) {
       acc[icon[3]] = iconName;
     }
     if (icon[2]) {
-      const aliases = icon[2].filter(a$$1 => {
+      var aliases = icon[2].filter(function (a$$1) {
         return typeof a$$1 === 'number';
       });
-      aliases.forEach(alias => {
+      aliases.forEach(function (alias) {
         acc[alias.toString(16)] = iconName;
       });
     }
     return acc;
   });
-  _byLigature = lookup((acc, icon, iconName) => {
+  _byLigature = lookup(function (acc, icon, iconName) {
     acc[iconName] = iconName;
     if (icon[2]) {
-      const aliases = icon[2].filter(a$$1 => {
+      var aliases = icon[2].filter(function (a$$1) {
         return typeof a$$1 === 'string';
       });
-      aliases.forEach(alias => {
+      aliases.forEach(function (alias) {
         acc[alias] = iconName;
       });
     }
     return acc;
   });
-  _byAlias = lookup((acc, icon, iconName) => {
-    const aliases = icon[2];
+  _byAlias = lookup(function (acc, icon, iconName) {
+    var aliases = icon[2];
     acc[iconName] = iconName;
-    aliases.forEach(alias => {
+    aliases.forEach(function (alias) {
       acc[alias] = iconName;
     });
     return acc;
@@ -1187,24 +1785,24 @@ const build = () => {
 
   // If we have a Kit, we can't determine if regular is available since we
   // could be auto-fetching it. We'll have to assume that it is available.
-  const hasRegular = 'far' in styles || config.autoFetchSvg;
-  const shimLookups = reduce(shims, (acc, shim) => {
-    const maybeNameMaybeUnicode = shim[0];
-    let prefix = shim[1];
-    const iconName = shim[2];
+  var hasRegular = 'far' in styles || config.autoFetchSvg;
+  var shimLookups = reduce(shims, function (acc, shim) {
+    var maybeNameMaybeUnicode = shim[0];
+    var prefix = shim[1];
+    var iconName = shim[2];
     if (prefix === 'far' && !hasRegular) {
       prefix = 'fas';
     }
     if (typeof maybeNameMaybeUnicode === 'string') {
       acc.names[maybeNameMaybeUnicode] = {
-        prefix,
-        iconName
+        prefix: prefix,
+        iconName: iconName
       };
     }
     if (typeof maybeNameMaybeUnicode === 'number') {
       acc.unicodes[maybeNameMaybeUnicode.toString(16)] = {
-        prefix,
-        iconName
+        prefix: prefix,
+        iconName: iconName
       };
     }
     return acc;
@@ -1218,7 +1816,7 @@ const build = () => {
     family: config.familyDefault
   });
 };
-onChange(c$$1 => {
+onChange(function (c$$1) {
   _defaultUsablePrefix = getCanonicalPrefix(c$$1.styleDefault, {
     family: config.familyDefault
   });
@@ -1240,8 +1838,8 @@ function byOldName(name) {
   };
 }
 function byOldUnicode(unicode) {
-  const oldUnicode = _byOldUnicode[unicode];
-  const newUnicode = byUnicode('fas', unicode);
+  var oldUnicode = _byOldUnicode[unicode];
+  var newUnicode = byUnicode('fas', unicode);
   return oldUnicode || (newUnicode ? {
     prefix: 'fas',
     iconName: newUnicode
@@ -1253,7 +1851,7 @@ function byOldUnicode(unicode) {
 function getDefaultUsablePrefix() {
   return _defaultUsablePrefix;
 }
-const emptyCanonicalIcon = () => {
+var emptyCanonicalIcon = function emptyCanonicalIcon() {
   return {
     prefix: null,
     iconName: null,
@@ -1261,39 +1859,40 @@ const emptyCanonicalIcon = () => {
   };
 };
 function getFamilyId(values) {
-  let family = s;
-  const famProps = FAMILY_NAMES.reduce((acc, familyId) => {
+  var family = i;
+  var famProps = FAMILY_NAMES.reduce(function (acc, familyId) {
     acc[familyId] = "".concat(config.cssPrefix, "-").concat(familyId);
     return acc;
   }, {});
-  L.forEach(familyId => {
-    if (values.includes(famProps[familyId]) || values.some(v$$1 => PREFIXES_FOR_FAMILY[familyId].includes(v$$1))) {
+  rt.forEach(function (familyId) {
+    if (values.includes(famProps[familyId]) || values.some(function (v$$1) {
+      return PREFIXES_FOR_FAMILY[familyId].includes(v$$1);
+    })) {
       family = familyId;
     }
   });
   return family;
 }
 function getCanonicalPrefix(styleOrPrefix) {
-  let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  const {
-    family = s
-  } = params;
-  const style = PREFIX_TO_STYLE[family][styleOrPrefix];
+  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var _params$family = params.family,
+    family = _params$family === void 0 ? i : _params$family;
+  var style = PREFIX_TO_STYLE[family][styleOrPrefix];
 
   // handles the exception of passing in only a family of 'duotone' with no style
   if (family === t && !styleOrPrefix) {
     return 'fad';
   }
-  const prefix = STYLE_TO_PREFIX[family][styleOrPrefix] || STYLE_TO_PREFIX[family][style];
-  const defined = styleOrPrefix in namespace.styles ? styleOrPrefix : null;
-  const result = prefix || defined || null;
+  var prefix = STYLE_TO_PREFIX[family][styleOrPrefix] || STYLE_TO_PREFIX[family][style];
+  var defined = styleOrPrefix in namespace.styles ? styleOrPrefix : null;
+  var result = prefix || defined || null;
   return result;
 }
 function moveNonFaClassesToRest(classNames) {
-  let rest = [];
-  let iconName = null;
-  classNames.forEach(cls => {
-    const result = getIconName(config.cssPrefix, cls);
+  var rest = [];
+  var iconName = null;
+  classNames.forEach(function (cls) {
+    var result = getIconName(config.cssPrefix, cls);
     if (result) {
       iconName = result;
     } else if (cls) {
@@ -1301,57 +1900,60 @@ function moveNonFaClassesToRest(classNames) {
     }
   });
   return {
-    iconName,
-    rest
+    iconName: iconName,
+    rest: rest
   };
 }
 function sortedUniqueValues(arr) {
-  return arr.sort().filter((value, index, arr) => {
+  return arr.sort().filter(function (value, index, arr) {
     return arr.indexOf(value) === index;
   });
 }
+var _faCombinedClasses = Zt$1.concat(Yt);
 function getCanonicalIcon(values) {
-  let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  const {
-    skipLookups = false
-  } = params;
-  let givenPrefix = null;
-  const faCombinedClasses = Ia.concat(bt$1);
-  const faStyleOrFamilyClasses = sortedUniqueValues(values.filter(cls => faCombinedClasses.includes(cls)));
-  const nonStyleOrFamilyClasses = sortedUniqueValues(values.filter(cls => !Ia.includes(cls)));
-  const faStyles = faStyleOrFamilyClasses.filter(cls => {
+  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var _params$skipLookups = params.skipLookups,
+    skipLookups = _params$skipLookups === void 0 ? false : _params$skipLookups;
+  var givenPrefix = null;
+  var faStyleOrFamilyClasses = sortedUniqueValues(values.filter(function (cls) {
+    return _faCombinedClasses.includes(cls);
+  }));
+  var nonStyleOrFamilyClasses = sortedUniqueValues(values.filter(function (cls) {
+    return !_faCombinedClasses.includes(cls);
+  }));
+  var faStyles = faStyleOrFamilyClasses.filter(function (cls) {
     givenPrefix = cls;
-    return !P.includes(cls);
+    return !Q.includes(cls);
   });
-  const [styleFromValues = null] = faStyles;
-  const family = getFamilyId(faStyleOrFamilyClasses);
-  const canonical = _objectSpread2(_objectSpread2({}, moveNonFaClassesToRest(nonStyleOrFamilyClasses)), {}, {
+  var _faStyles = _slicedToArray(faStyles, 1),
+    _faStyles$ = _faStyles[0],
+    styleFromValues = _faStyles$ === void 0 ? null : _faStyles$;
+  var family = getFamilyId(faStyleOrFamilyClasses);
+  var canonical = _objectSpread2(_objectSpread2({}, moveNonFaClassesToRest(nonStyleOrFamilyClasses)), {}, {
     prefix: getCanonicalPrefix(styleFromValues, {
-      family
+      family: family
     })
   });
   return _objectSpread2(_objectSpread2(_objectSpread2({}, canonical), getDefaultCanonicalPrefix({
-    values,
-    family,
-    styles,
-    config,
-    canonical,
-    givenPrefix
+    values: values,
+    family: family,
+    styles: styles,
+    config: config,
+    canonical: canonical,
+    givenPrefix: givenPrefix
   })), applyShimAndAlias(skipLookups, givenPrefix, canonical));
 }
 function applyShimAndAlias(skipLookups, givenPrefix, canonical) {
-  let {
-    prefix,
-    iconName
-  } = canonical;
+  var prefix = canonical.prefix,
+    iconName = canonical.iconName;
   if (skipLookups || !prefix || !iconName) {
     return {
-      prefix,
-      iconName
+      prefix: prefix,
+      iconName: iconName
     };
   }
-  const shim = givenPrefix === 'fa' ? byOldName(iconName) : {};
-  const aliasIconName = byAlias(prefix, iconName);
+  var shim = givenPrefix === 'fa' ? byOldName(iconName) : {};
+  var aliasIconName = byAlias(prefix, iconName);
   iconName = shim.iconName || aliasIconName || iconName;
   prefix = shim.prefix || prefix;
   if (prefix === 'far' && !styles['far'] && styles['fas'] && !config.autoFetchSvg) {
@@ -1360,27 +1962,32 @@ function applyShimAndAlias(skipLookups, givenPrefix, canonical) {
     prefix = 'fas';
   }
   return {
-    prefix,
-    iconName
+    prefix: prefix,
+    iconName: iconName
   };
 }
-const newCanonicalFamilies = L.filter(familyId => {
-  return familyId !== s || familyId !== t;
+var newCanonicalFamilies = rt.filter(function (familyId) {
+  return familyId !== i || familyId !== t;
 });
-const newCanonicalStyles = Object.keys(ga).filter(key => key !== s).map(key => Object.keys(ga[key])).flat();
+var newCanonicalStyles = Object.keys(Ht$1).filter(function (key) {
+  return key !== i;
+}).map(function (key) {
+  return Object.keys(Ht$1[key]);
+}).flat();
 function getDefaultCanonicalPrefix(prefixOptions) {
-  const {
-    values,
-    family,
-    canonical,
-    givenPrefix = '',
-    styles = {},
-    config: config$$1 = {}
-  } = prefixOptions;
-  const isDuotoneFamily = family === t;
-  const valuesHasDuotone = values.includes('fa-duotone') || values.includes('fad');
-  const defaultFamilyIsDuotone = config$$1.familyDefault === 'duotone';
-  const canonicalPrefixIsDuotone = canonical.prefix === 'fad' || canonical.prefix === 'fa-duotone';
+  var values = prefixOptions.values,
+    family = prefixOptions.family,
+    canonical = prefixOptions.canonical,
+    _prefixOptions$givenP = prefixOptions.givenPrefix,
+    givenPrefix = _prefixOptions$givenP === void 0 ? '' : _prefixOptions$givenP,
+    _prefixOptions$styles = prefixOptions.styles,
+    styles = _prefixOptions$styles === void 0 ? {} : _prefixOptions$styles,
+    _prefixOptions$config = prefixOptions.config,
+    config$$1 = _prefixOptions$config === void 0 ? {} : _prefixOptions$config;
+  var isDuotoneFamily = family === t;
+  var valuesHasDuotone = values.includes('fa-duotone') || values.includes('fad');
+  var defaultFamilyIsDuotone = config$$1.familyDefault === 'duotone';
+  var canonicalPrefixIsDuotone = canonical.prefix === 'fad' || canonical.prefix === 'fa-duotone';
   if (!isDuotoneFamily && (valuesHasDuotone || defaultFamilyIsDuotone || canonicalPrefixIsDuotone)) {
     canonical.prefix = 'fad';
   }
@@ -1388,9 +1995,11 @@ function getDefaultCanonicalPrefix(prefixOptions) {
     canonical.prefix = 'fab';
   }
   if (!canonical.prefix && newCanonicalFamilies.includes(family)) {
-    const validPrefix = Object.keys(styles).find(key => newCanonicalStyles.includes(key));
+    var validPrefix = Object.keys(styles).find(function (key) {
+      return newCanonicalStyles.includes(key);
+    });
     if (validPrefix || config$$1.autoFetchSvg) {
-      const defaultPrefix = pt.get(family).defaultShortPrefixId;
+      var defaultPrefix = Ut.get(family).defaultShortPrefixId;
       canonical.prefix = defaultPrefix;
       canonical.iconName = byAlias(canonical.prefix, canonical.iconName) || canonical.iconName;
     }
@@ -1403,76 +2012,82 @@ function getDefaultCanonicalPrefix(prefixOptions) {
   return canonical;
 }
 
-class Library {
-  constructor() {
+var Library = /*#__PURE__*/function () {
+  function Library() {
+    _classCallCheck(this, Library);
     this.definitions = {};
   }
-  add() {
-    for (var _len = arguments.length, definitions = new Array(_len), _key = 0; _key < _len; _key++) {
-      definitions[_key] = arguments[_key];
-    }
-    const additions = definitions.reduce(this._pullDefinitions, {});
-    Object.keys(additions).forEach(key => {
-      this.definitions[key] = _objectSpread2(_objectSpread2({}, this.definitions[key] || {}), additions[key]);
-      defineIcons(key, additions[key]);
-
-      // TODO can we stop doing this? We can't get the icons by 'fa-solid' any longer so this probably needs to change
-      const longPrefix = PREFIX_TO_LONG_STYLE[s][key];
-      if (longPrefix) defineIcons(longPrefix, additions[key]);
-      build();
-    });
-  }
-  reset() {
-    this.definitions = {};
-  }
-  _pullDefinitions(additions, definition) {
-    const normalized = definition.prefix && definition.iconName && definition.icon ? {
-      0: definition
-    } : definition;
-    Object.keys(normalized).map(key => {
-      const {
-        prefix,
-        iconName,
-        icon
-      } = normalized[key];
-      const aliases = icon[2];
-      if (!additions[prefix]) additions[prefix] = {};
-      if (aliases.length > 0) {
-        aliases.forEach(alias => {
-          if (typeof alias === 'string') {
-            additions[prefix][alias] = icon;
-          }
-        });
+  return _createClass(Library, [{
+    key: "add",
+    value: function add() {
+      var _this = this;
+      for (var _len = arguments.length, definitions = new Array(_len), _key = 0; _key < _len; _key++) {
+        definitions[_key] = arguments[_key];
       }
-      additions[prefix][iconName] = icon;
-    });
-    return additions;
-  }
-}
+      var additions = definitions.reduce(this._pullDefinitions, {});
+      Object.keys(additions).forEach(function (key) {
+        _this.definitions[key] = _objectSpread2(_objectSpread2({}, _this.definitions[key] || {}), additions[key]);
+        defineIcons(key, additions[key]);
 
-let _plugins = [];
-let _hooks = {};
-const providers = {};
-const defaultProviderKeys = Object.keys(providers);
+        // To keep support for older Classic styles, also add longer prefixes
+        var longPrefix = PREFIX_TO_LONG_STYLE[i][key];
+        if (longPrefix) defineIcons(longPrefix, additions[key]);
+        build();
+      });
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      this.definitions = {};
+    }
+  }, {
+    key: "_pullDefinitions",
+    value: function _pullDefinitions(additions, definition) {
+      var normalized = definition.prefix && definition.iconName && definition.icon ? {
+        0: definition
+      } : definition;
+      Object.keys(normalized).map(function (key) {
+        var _normalized$key = normalized[key],
+          prefix = _normalized$key.prefix,
+          iconName = _normalized$key.iconName,
+          icon = _normalized$key.icon;
+        var aliases = icon[2];
+        if (!additions[prefix]) additions[prefix] = {};
+        if (aliases.length > 0) {
+          aliases.forEach(function (alias) {
+            if (typeof alias === 'string') {
+              additions[prefix][alias] = icon;
+            }
+          });
+        }
+        additions[prefix][iconName] = icon;
+      });
+      return additions;
+    }
+  }]);
+}();
+
+var _plugins = [];
+var _hooks = {};
+var providers = {};
+var defaultProviderKeys = Object.keys(providers);
 function registerPlugins(nextPlugins, _ref) {
-  let {
-    mixoutsTo: obj
-  } = _ref;
+  var obj = _ref.mixoutsTo;
   _plugins = nextPlugins;
   _hooks = {};
-  Object.keys(providers).forEach(k => {
+  Object.keys(providers).forEach(function (k) {
     if (defaultProviderKeys.indexOf(k) === -1) {
       delete providers[k];
     }
   });
-  _plugins.forEach(plugin => {
-    const mixout = plugin.mixout ? plugin.mixout() : {};
-    Object.keys(mixout).forEach(tk => {
+  _plugins.forEach(function (plugin) {
+    var mixout = plugin.mixout ? plugin.mixout() : {};
+    Object.keys(mixout).forEach(function (tk) {
       if (typeof mixout[tk] === 'function') {
         obj[tk] = mixout[tk];
       }
-      if (typeof mixout[tk] === 'object') {
-        Object.keys(mixout[tk]).forEach(sk => {
+      if (_typeof(mixout[tk]) === 'object') {
+        Object.keys(mixout[tk]).forEach(function (sk) {
           if (!obj[tk]) {
             obj[tk] = {};
           }
@@ -1481,8 +2096,8 @@ function registerPlugins(nextPlugins, _ref) {
       }
     });
     if (plugin.hooks) {
-      const hooks = plugin.hooks();
-      Object.keys(hooks).forEach(hook => {
+      var hooks = plugin.hooks();
+      Object.keys(hooks).forEach(function (hook) {
         if (!_hooks[hook]) {
           _hooks[hook] = [];
         }
@@ -1499,9 +2114,9 @@ function chainHooks(hook, accumulator) {
   for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
     args[_key - 2] = arguments[_key];
   }
-  const hookFns = _hooks[hook] || [];
-  hookFns.forEach(hookFn => {
-    accumulator = hookFn.apply(null, [accumulator, ...args]); // eslint-disable-line no-useless-call
+  var hookFns = _hooks[hook] || [];
+  hookFns.forEach(function (hookFn) {
+    accumulator = hookFn.apply(null, [accumulator].concat(args));
   });
   return accumulator;
 }
@@ -1509,15 +2124,15 @@ function callHooks(hook) {
   for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
     args[_key2 - 1] = arguments[_key2];
   }
-  const hookFns = _hooks[hook] || [];
-  hookFns.forEach(hookFn => {
+  var hookFns = _hooks[hook] || [];
+  hookFns.forEach(function (hookFn) {
     hookFn.apply(null, args);
   });
   return undefined;
 }
 function callProvided() {
-  const hook = arguments[0];
-  const args = Array.prototype.slice.call(arguments, 1);
+  var hook = arguments[0];
+  var args = Array.prototype.slice.call(arguments, 1);
   return providers[hook] ? providers[hook].apply(null, args) : undefined;
 }
 
@@ -1525,23 +2140,21 @@ function findIconDefinition(iconLookup) {
   if (iconLookup.prefix === 'fa') {
     iconLookup.prefix = 'fas';
   }
-  let {
-    iconName
-  } = iconLookup;
-  const prefix = iconLookup.prefix || getDefaultUsablePrefix();
+  var iconName = iconLookup.iconName;
+  var prefix = iconLookup.prefix || getDefaultUsablePrefix();
   if (!iconName) return;
   iconName = byAlias(prefix, iconName) || iconName;
   return iconFromMapping(library.definitions, prefix, iconName) || iconFromMapping(namespace.styles, prefix, iconName);
 }
-const library = new Library();
-const noAuto = () => {
+var library = new Library();
+var noAuto = function noAuto() {
   config.autoReplaceSvg = false;
   config.observeMutations = false;
   callHooks('noAuto');
 };
-const dom = {
-  i2svg: function () {
-    let params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+var dom = {
+  i2svg: function i2svg() {
+    var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     if (IS_DOM) {
       callHooks('beforeI2svg', params);
       callProvided('pseudoElements2svg', params);
@@ -1550,44 +2163,42 @@ const dom = {
       return Promise.reject(new Error('Operation requires a DOM of some kind.'));
     }
   },
-  watch: function () {
-    let params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    const {
-      autoReplaceSvgRoot
-    } = params;
+  watch: function watch() {
+    var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var autoReplaceSvgRoot = params.autoReplaceSvgRoot;
     if (config.autoReplaceSvg === false) {
       config.autoReplaceSvg = true;
     }
     config.observeMutations = true;
-    domready(() => {
+    domready(function () {
       autoReplace({
-        autoReplaceSvgRoot
+        autoReplaceSvgRoot: autoReplaceSvgRoot
       });
       callHooks('watch', params);
     });
   }
 };
-const parse = {
-  icon: icon => {
-    if (icon === null) {
+var parse = {
+  icon: function icon(_icon) {
+    if (_icon === null) {
       return null;
     }
-    if (typeof icon === 'object' && icon.prefix && icon.iconName) {
+    if (_typeof(_icon) === 'object' && _icon.prefix && _icon.iconName) {
       return {
-        prefix: icon.prefix,
-        iconName: byAlias(icon.prefix, icon.iconName) || icon.iconName
+        prefix: _icon.prefix,
+        iconName: byAlias(_icon.prefix, _icon.iconName) || _icon.iconName
       };
     }
-    if (Array.isArray(icon) && icon.length === 2) {
-      const iconName = icon[1].indexOf('fa-') === 0 ? icon[1].slice(3) : icon[1];
-      const prefix = getCanonicalPrefix(icon[0]);
+    if (Array.isArray(_icon) && _icon.length === 2) {
+      var iconName = _icon[1].indexOf('fa-') === 0 ? _icon[1].slice(3) : _icon[1];
+      var prefix = getCanonicalPrefix(_icon[0]);
       return {
-        prefix,
+        prefix: prefix,
         iconName: byAlias(prefix, iconName) || iconName
       };
     }
-    if (typeof icon === 'string' && (icon.indexOf("".concat(config.cssPrefix, "-")) > -1 || icon.match(ICON_SELECTION_SYNTAX_PATTERN))) {
-      const canonicalIcon = getCanonicalIcon(icon.split(' '), {
+    if (typeof _icon === 'string' && (_icon.indexOf("".concat(config.cssPrefix, "-")) > -1 || _icon.match(ICON_SELECTION_SYNTAX_PATTERN))) {
+      var canonicalIcon = getCanonicalIcon(_icon.split(' '), {
         skipLookups: true
       });
       return {
@@ -1595,29 +2206,28 @@ const parse = {
         iconName: byAlias(canonicalIcon.prefix, canonicalIcon.iconName) || canonicalIcon.iconName
       };
     }
-    if (typeof icon === 'string') {
-      const prefix = getDefaultUsablePrefix();
+    if (typeof _icon === 'string') {
+      var _prefix = getDefaultUsablePrefix();
       return {
-        prefix,
-        iconName: byAlias(prefix, icon) || icon
+        prefix: _prefix,
+        iconName: byAlias(_prefix, _icon) || _icon
       };
     }
   }
 };
-const api = {
-  noAuto,
-  config,
-  dom,
-  parse,
-  library,
-  findIconDefinition,
-  toHtml
+var api = {
+  noAuto: noAuto,
+  config: config,
+  dom: dom,
+  parse: parse,
+  library: library,
+  findIconDefinition: findIconDefinition,
+  toHtml: toHtml
 };
-const autoReplace = function () {
-  let params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  const {
-    autoReplaceSvgRoot = DOCUMENT
-  } = params;
+var autoReplace = function autoReplace() {
+  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var _params$autoReplaceSv = params.autoReplaceSvgRoot,
+    autoReplaceSvgRoot = _params$autoReplaceSv === void 0 ? DOCUMENT : _params$autoReplaceSv;
   if ((Object.keys(namespace.styles).length > 0 || config.autoFetchSvg) && IS_DOM && config.autoReplaceSvg) api.dom.i2svg({
     node: autoReplaceSvgRoot
   });
@@ -1628,14 +2238,16 @@ function domVariants(val, abstractCreator) {
     get: abstractCreator
   });
   Object.defineProperty(val, 'html', {
-    get: function () {
-      return val.abstract.map(a => toHtml(a));
+    get: function get() {
+      return val.abstract.map(function (a) {
+        return toHtml(a);
+      });
     }
   });
   Object.defineProperty(val, 'node', {
-    get: function () {
-      if (!IS_DOM) return;
-      const container = DOCUMENT.createElement('div');
+    get: function get() {
+      if (!IS_DOM) return undefined;
+      var container = DOCUMENT.createElement('div');
       container.innerHTML = val.html;
       return container.children;
     }
@@ -1644,20 +2256,16 @@ function domVariants(val, abstractCreator) {
 }
 
 function asIcon (_ref) {
-  let {
-    children,
-    main,
-    mask,
-    attributes,
-    styles,
-    transform
-  } = _ref;
+  var children = _ref.children,
+    main = _ref.main,
+    mask = _ref.mask,
+    attributes = _ref.attributes,
+    styles = _ref.styles,
+    transform = _ref.transform;
   if (transformIsMeaningful(transform) && main.found && !mask.found) {
-    const {
-      width,
-      height
-    } = main;
-    const offset = {
+    var width = main.width,
+      height = main.height;
+    var offset = {
       x: width / height / 2,
       y: 0.5
     };
@@ -1667,20 +2275,18 @@ function asIcon (_ref) {
   }
   return [{
     tag: 'svg',
-    attributes,
-    children
+    attributes: attributes,
+    children: children
   }];
 }
 
 function asSymbol (_ref) {
-  let {
-    prefix,
-    iconName,
-    children,
-    attributes,
-    symbol
-  } = _ref;
-  const id = symbol === true ? "".concat(prefix, "-").concat(config.cssPrefix, "-").concat(iconName) : symbol;
+  var prefix = _ref.prefix,
+    iconName = _ref.iconName,
+    children = _ref.children,
+    attributes = _ref.attributes,
+    symbol = _ref.symbol;
+  var id = symbol === true ? "".concat(prefix, "-").concat(config.cssPrefix, "-").concat(iconName) : symbol;
   return [{
     tag: 'svg',
     attributes: {
@@ -1689,82 +2295,75 @@ function asSymbol (_ref) {
     children: [{
       tag: 'symbol',
       attributes: _objectSpread2(_objectSpread2({}, attributes), {}, {
-        id
+        id: id
       }),
-      children
+      children: children
     }]
   }];
 }
 
+// If any of these attributes are present, don't assume the icon is decorative
+function isLabeled(attributes) {
+  var labels = ['aria-label', 'aria-labelledby', 'title', 'role'];
+  return labels.some(function (label) {
+    return label in attributes;
+  });
+}
 function makeInlineSvgAbstract(params) {
-  const {
-    icons: {
-      main,
-      mask
-    },
-    prefix,
-    iconName,
-    transform,
-    symbol,
-    title,
-    maskId,
-    titleId,
-    extra,
-    watchable = false
-  } = params;
-  const {
-    width,
-    height
-  } = mask.found ? mask : main;
-  const isUploadedIcon = Lt.includes(prefix);
-  const attrClass = [config.replacementClass, iconName ? "".concat(config.cssPrefix, "-").concat(iconName) : ''].filter(c$$1 => extra.classes.indexOf(c$$1) === -1).filter(c$$1 => c$$1 !== '' || !!c$$1).concat(extra.classes).join(' ');
-  let content = {
+  var _params$icons = params.icons,
+    main = _params$icons.main,
+    mask = _params$icons.mask,
+    prefix = params.prefix,
+    iconName = params.iconName,
+    transform = params.transform,
+    symbol = params.symbol,
+    maskId = params.maskId,
+    extra = params.extra,
+    _params$watchable = params.watchable,
+    watchable = _params$watchable === void 0 ? false : _params$watchable;
+  var _ref = mask.found ? mask : main,
+    width = _ref.width,
+    height = _ref.height;
+  var attrClass = [config.replacementClass, iconName ? "".concat(config.cssPrefix, "-").concat(iconName) : ''].filter(function (c) {
+    return extra.classes.indexOf(c) === -1;
+  }).filter(function (c) {
+    return c !== '' || !!c;
+  }).concat(extra.classes).join(' ');
+  var content = {
     children: [],
     attributes: _objectSpread2(_objectSpread2({}, extra.attributes), {}, {
       'data-prefix': prefix,
       'data-icon': iconName,
       'class': attrClass,
       'role': extra.attributes.role || 'img',
-      'xmlns': 'http://www.w3.org/2000/svg',
       'viewBox': "0 0 ".concat(width, " ").concat(height)
     })
   };
-  const uploadedIconWidthStyle = isUploadedIcon && !~extra.classes.indexOf('fa-fw') ? {
-    width: "".concat(width / height * 16 * 0.0625, "em")
-  } : {};
+  if (!isLabeled(extra.attributes) && !extra.attributes['aria-hidden']) {
+    content.attributes['aria-hidden'] = 'true';
+  }
   if (watchable) {
     content.attributes[DATA_FA_I2SVG] = '';
   }
-  if (title) {
-    content.children.push({
-      tag: 'title',
-      attributes: {
-        id: content.attributes['aria-labelledby'] || "title-".concat(titleId || nextUniqueId())
-      },
-      children: [title]
-    });
-    delete content.attributes.title;
-  }
-  const args = _objectSpread2(_objectSpread2({}, content), {}, {
-    prefix,
-    iconName,
-    main,
-    mask,
-    maskId,
-    transform,
-    symbol,
-    styles: _objectSpread2(_objectSpread2({}, uploadedIconWidthStyle), extra.styles)
+  var args = _objectSpread2(_objectSpread2({}, content), {}, {
+    prefix: prefix,
+    iconName: iconName,
+    main: main,
+    mask: mask,
+    maskId: maskId,
+    transform: transform,
+    symbol: symbol,
+    styles: _objectSpread2({}, extra.styles)
   });
-  const {
-    children,
-    attributes
-  } = mask.found && main.found ? callProvided('generateAbstractMask', args) || {
-    children: [],
-    attributes: {}
-  } : callProvided('generateAbstractIcon', args) || {
-    children: [],
-    attributes: {}
-  };
+  var _ref2 = mask.found && main.found ? callProvided('generateAbstractMask', args) || {
+      children: [],
+      attributes: {}
+    } : callProvided('generateAbstractIcon', args) || {
+      children: [],
+      attributes: {}
+    },
+    children = _ref2.children,
+    attributes = _ref2.attributes;
   args.children = children;
   args.attributes = attributes;
   if (symbol) {
@@ -1774,95 +2373,68 @@ function makeInlineSvgAbstract(params) {
   }
 }
 function makeLayersTextAbstract(params) {
-  const {
-    content,
-    width,
-    height,
-    transform,
-    title,
-    extra,
-    watchable = false
-  } = params;
-  const attributes = _objectSpread2(_objectSpread2(_objectSpread2({}, extra.attributes), title ? {
-    'title': title
-  } : {}), {}, {
-    'class': extra.classes.join(' ')
+  var content = params.content,
+    width = params.width,
+    height = params.height,
+    transform = params.transform,
+    extra = params.extra,
+    _params$watchable2 = params.watchable,
+    watchable = _params$watchable2 === void 0 ? false : _params$watchable2;
+  var attributes = _objectSpread2(_objectSpread2({}, extra.attributes), {}, {
+    class: extra.classes.join(' ')
   });
   if (watchable) {
     attributes[DATA_FA_I2SVG] = '';
   }
-  const styles = _objectSpread2({}, extra.styles);
+  var styles = _objectSpread2({}, extra.styles);
   if (transformIsMeaningful(transform)) {
     styles['transform'] = transformForCss({
-      transform,
+      transform: transform,
       startCentered: true,
-      width,
-      height
+      width: width,
+      height: height
     });
     styles['-webkit-transform'] = styles['transform'];
   }
-  const styleString = joinStyles(styles);
+  var styleString = joinStyles(styles);
   if (styleString.length > 0) {
     attributes['style'] = styleString;
   }
-  const val = [];
+  var val = [];
   val.push({
     tag: 'span',
-    attributes,
+    attributes: attributes,
     children: [content]
   });
-  if (title) {
-    val.push({
-      tag: 'span',
-      attributes: {
-        class: 'sr-only'
-      },
-      children: [title]
-    });
-  }
   return val;
 }
 function makeLayersCounterAbstract(params) {
-  const {
-    content,
-    title,
-    extra
-  } = params;
-  const attributes = _objectSpread2(_objectSpread2(_objectSpread2({}, extra.attributes), title ? {
-    'title': title
-  } : {}), {}, {
-    'class': extra.classes.join(' ')
+  var content = params.content,
+    extra = params.extra;
+  var attributes = _objectSpread2(_objectSpread2({}, extra.attributes), {}, {
+    class: extra.classes.join(' ')
   });
-  const styleString = joinStyles(extra.styles);
+  var styleString = joinStyles(extra.styles);
   if (styleString.length > 0) {
     attributes['style'] = styleString;
   }
-  const val = [];
+  var val = [];
   val.push({
     tag: 'span',
-    attributes,
+    attributes: attributes,
     children: [content]
   });
-  if (title) {
-    val.push({
-      tag: 'span',
-      attributes: {
-        class: 'sr-only'
-      },
-      children: [title]
-    });
-  }
   return val;
 }
 
-const {
-  styles: styles$1
-} = namespace;
+var styles$1 = namespace.styles;
 function asFoundIcon(icon) {
-  const width = icon[0];
-  const height = icon[1];
-  const [vectorData] = icon.slice(4);
-  let element = null;
+  var width = icon[0];
+  var height = icon[1];
+  var _icon$slice = icon.slice(4),
+    _icon$slice2 = _slicedToArray(_icon$slice, 1),
+    vectorData = _icon$slice2[0];
+  var element = null;
   if (Array.isArray(vectorData)) {
     element = {
       tag: 'g',
@@ -1896,12 +2468,12 @@ function asFoundIcon(icon) {
   }
   return {
     found: true,
-    width,
-    height,
+    width: width,
+    height: height,
     icon: element
   };
 }
-const missingIconResolutionMixin = {
+var missingIconResolutionMixin = {
   found: false,
   width: 512,
   height: 512
@@ -1912,18 +2484,18 @@ function maybeNotifyMissing(iconName, prefix) {
   }
 }
 function findIcon(iconName, prefix) {
-  let givenPrefix = prefix;
+  var givenPrefix = prefix;
   if (prefix === 'fa' && config.styleDefault !== null) {
     prefix = getDefaultUsablePrefix();
   }
-  return new Promise((resolve, reject) => {
+  return new Promise(function (resolve, reject) {
     if (givenPrefix === 'fa') {
-      const shim = byOldName(iconName) || {};
+      var shim = byOldName(iconName) || {};
       iconName = shim.iconName || iconName;
       prefix = shim.prefix || prefix;
     }
     if (iconName && prefix && styles$1[prefix] && styles$1[prefix][iconName]) {
-      const icon = styles$1[prefix][iconName];
+      var icon = styles$1[prefix][iconName];
       return resolve(asFoundIcon(icon));
     }
     maybeNotifyMissing(iconName, prefix);
@@ -1933,33 +2505,35 @@ function findIcon(iconName, prefix) {
   });
 }
 
-const noop$1 = () => {};
-const p$2 = config.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERFORMANCE.measure ? PERFORMANCE : {
+var noop$1 = function noop() {};
+var p$2 = config.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERFORMANCE.measure ? PERFORMANCE : {
   mark: noop$1,
   measure: noop$1
 };
-const preamble = "FA \"6.7.2\"";
-const begin = name => {
+var preamble = "FA \"7.1.0\"";
+var begin = function begin(name) {
   p$2.mark("".concat(preamble, " ").concat(name, " begins"));
-  return () => end(name);
+  return function () {
+    return end(name);
+  };
 };
-const end = name => {
+var end = function end(name) {
   p$2.mark("".concat(preamble, " ").concat(name, " ends"));
   p$2.measure("".concat(preamble, " ").concat(name), "".concat(preamble, " ").concat(name, " begins"), "".concat(preamble, " ").concat(name, " ends"));
 };
 var perf = {
-  begin,
-  end
+  begin: begin,
+  end: end
 };
 
-const noop$2 = () => {};
+var noop$2 = function noop() {};
 function isWatched(node) {
-  const i2svg = node.getAttribute ? node.getAttribute(DATA_FA_I2SVG) : null;
+  var i2svg = node.getAttribute ? node.getAttribute(DATA_FA_I2SVG) : null;
   return typeof i2svg === 'string';
 }
 function hasPrefixAndIcon(node) {
-  const prefix = node.getAttribute ? node.getAttribute(DATA_PREFIX) : null;
-  const icon = node.getAttribute ? node.getAttribute(DATA_ICON) : null;
+  var prefix = node.getAttribute ? node.getAttribute(DATA_PREFIX) : null;
+  var icon = node.getAttribute ? node.getAttribute(DATA_ICON) : null;
   return prefix && icon;
 }
 function hasBeenReplaced(node) {
@@ -1969,7 +2543,7 @@ function getMutator() {
   if (config.autoReplaceSvg === true) {
     return mutators.replace;
   }
-  const mutator = mutators[config.autoReplaceSvg];
+  var mutator = mutators[config.autoReplaceSvg];
   return mutator || mutators.replace;
 }
 function createElementNS(tag) {
@@ -1979,60 +2553,59 @@ function createElement(tag) {
   return DOCUMENT.createElement(tag);
 }
 function convertSVG(abstractObj) {
-  let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  const {
-    ceFn = abstractObj.tag === 'svg' ? createElementNS : createElement
-  } = params;
+  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var _params$ceFn = params.ceFn,
+    ceFn = _params$ceFn === void 0 ? abstractObj.tag === 'svg' ? createElementNS : createElement : _params$ceFn;
   if (typeof abstractObj === 'string') {
     return DOCUMENT.createTextNode(abstractObj);
   }
-  const tag = ceFn(abstractObj.tag);
+  var tag = ceFn(abstractObj.tag);
   Object.keys(abstractObj.attributes || []).forEach(function (key) {
     tag.setAttribute(key, abstractObj.attributes[key]);
   });
-  const children = abstractObj.children || [];
+  var children = abstractObj.children || [];
   children.forEach(function (child) {
     tag.appendChild(convertSVG(child, {
-      ceFn
+      ceFn: ceFn
     }));
   });
   return tag;
 }
 function nodeAsComment(node) {
-  let comment = " ".concat(node.outerHTML, " ");
+  var comment = " ".concat(node.outerHTML, " ");
   /* BEGIN.ATTRIBUTION */
   comment = "".concat(comment, "Font Awesome fontawesome.com ");
   /* END.ATTRIBUTION */
   return comment;
 }
-const mutators = {
-  replace: function (mutation) {
-    const node = mutation[0];
+var mutators = {
+  replace: function replace(mutation) {
+    var node = mutation[0];
     if (node.parentNode) {
-      mutation[1].forEach(abstract => {
+      mutation[1].forEach(function (abstract) {
         node.parentNode.insertBefore(convertSVG(abstract), node);
       });
       if (node.getAttribute(DATA_FA_I2SVG) === null && config.keepOriginalSource) {
-        let comment = DOCUMENT.createComment(nodeAsComment(node));
+        var comment = DOCUMENT.createComment(nodeAsComment(node));
         node.parentNode.replaceChild(comment, node);
       } else {
         node.remove();
       }
     }
   },
-  nest: function (mutation) {
-    const node = mutation[0];
-    const abstract = mutation[1];
+  nest: function nest(mutation) {
+    var node = mutation[0];
+    var abstract = mutation[1];
 
     // If we already have a replaced node we do not want to continue nesting within it.
     // Short-circuit to the standard replacement
     if (~classArray(node).indexOf(config.replacementClass)) {
       return mutators.replace(mutation);
     }
-    const forSvg = new RegExp("".concat(config.cssPrefix, "-.*"));
+    var forSvg = new RegExp("".concat(config.cssPrefix, "-.*"));
     delete abstract[0].attributes.id;
     if (abstract[0].attributes.class) {
-      const splitClasses = abstract[0].attributes.class.split(' ').reduce((acc, cls) => {
+      var splitClasses = abstract[0].attributes.class.split(' ').reduce(function (acc, cls) {
         if (cls === config.replacementClass || cls.match(forSvg)) {
           acc.toSvg.push(cls);
         } else {
@@ -2050,7 +2623,9 @@ const mutators = {
         node.setAttribute('class', splitClasses.toNode.join(' '));
       }
     }
-    const newInnerHTML = abstract.map(a => toHtml(a)).join('\n');
+    var newInnerHTML = abstract.map(function (a) {
+      return toHtml(a);
+    }).join('\n');
     node.setAttribute(DATA_FA_I2SVG, '');
     node.innerHTML = newInnerHTML;
   }
@@ -2059,31 +2634,31 @@ function performOperationSync(op) {
   op();
 }
 function perform(mutations, callback) {
-  const callbackFunction = typeof callback === 'function' ? callback : noop$2;
+  var callbackFunction = typeof callback === 'function' ? callback : noop$2;
   if (mutations.length === 0) {
     callbackFunction();
   } else {
-    let frame = performOperationSync;
+    var frame = performOperationSync;
     if (config.mutateApproach === MUTATION_APPROACH_ASYNC) {
       frame = WINDOW.requestAnimationFrame || performOperationSync;
     }
-    frame(() => {
-      const mutator = getMutator();
-      const mark = perf.begin('mutate');
+    frame(function () {
+      var mutator = getMutator();
+      var mark = perf.begin('mutate');
       mutations.map(mutator);
       mark();
       callbackFunction();
     });
   }
 }
-let disabled = false;
+var disabled = false;
 function disableObservation() {
   disabled = true;
 }
 function enableObservation() {
   disabled = false;
 }
-let mo = null;
+var mo = null;
 function observe(options) {
   if (!MUTATION_OBSERVER) {
     return;
@@ -2091,16 +2666,18 @@ function observe(options) {
   if (!config.observeMutations) {
     return;
   }
-  const {
-    treeCallback = noop$2,
-    nodeCallback = noop$2,
-    pseudoElementsCallback = noop$2,
-    observeMutationsRoot = DOCUMENT
-  } = options;
-  mo = new MUTATION_OBSERVER(objects => {
+  var _options$treeCallback = options.treeCallback,
+    treeCallback = _options$treeCallback === void 0 ? noop$2 : _options$treeCallback,
+    _options$nodeCallback = options.nodeCallback,
+    nodeCallback = _options$nodeCallback === void 0 ? noop$2 : _options$nodeCallback,
+    _options$pseudoElemen = options.pseudoElementsCallback,
+    pseudoElementsCallback = _options$pseudoElemen === void 0 ? noop$2 : _options$pseudoElemen,
+    _options$observeMutat = options.observeMutationsRoot,
+    observeMutationsRoot = _options$observeMutat === void 0 ? DOCUMENT : _options$observeMutat;
+  mo = new MUTATION_OBSERVER(function (objects) {
     if (disabled) return;
-    const defaultPrefix = getDefaultUsablePrefix();
-    toArray(objects).forEach(mutationRecord => {
+    var defaultPrefix = getDefaultUsablePrefix();
+    toArray(objects).forEach(function (mutationRecord) {
       if (mutationRecord.type === 'childList' && mutationRecord.addedNodes.length > 0 && !isWatched(mutationRecord.addedNodes[0])) {
         if (config.searchPseudoElements) {
           pseudoElementsCallback(mutationRecord.target);
@@ -2108,14 +2685,13 @@ function observe(options) {
         treeCallback(mutationRecord.target);
       }
       if (mutationRecord.type === 'attributes' && mutationRecord.target.parentNode && config.searchPseudoElements) {
-        pseudoElementsCallback(mutationRecord.target.parentNode);
+        pseudoElementsCallback([mutationRecord.target], true);
       }
       if (mutationRecord.type === 'attributes' && isWatched(mutationRecord.target) && ~ATTRIBUTES_WATCHED_FOR_MUTATION.indexOf(mutationRecord.attributeName)) {
         if (mutationRecord.attributeName === 'class' && hasPrefixAndIcon(mutationRecord.target)) {
-          const {
-            prefix,
-            iconName
-          } = getCanonicalIcon(classArray(mutationRecord.target));
+          var _getCanonicalIcon = getCanonicalIcon(classArray(mutationRecord.target)),
+            prefix = _getCanonicalIcon.prefix,
+            iconName = _getCanonicalIcon.iconName;
           mutationRecord.target.setAttribute(DATA_PREFIX, prefix || defaultPrefix);
           if (iconName) mutationRecord.target.setAttribute(DATA_ICON, iconName);
         } else if (hasBeenReplaced(mutationRecord.target)) {
@@ -2138,13 +2714,13 @@ function disconnect() {
 }
 
 function styleParser (node) {
-  const style = node.getAttribute('style');
-  let val = [];
+  var style = node.getAttribute('style');
+  var val = [];
   if (style) {
-    val = style.split(';').reduce((acc, style) => {
-      const styles = style.split(':');
-      const prop = styles[0];
-      const value = styles.slice(1);
+    val = style.split(';').reduce(function (acc, style) {
+      var styles = style.split(':');
+      var prop = styles[0];
+      var value = styles.slice(1);
       if (prop && value.length > 0) {
         acc[prop] = value.join(':').trim();
       }
@@ -2155,10 +2731,10 @@ function styleParser (node) {
 }
 
 function classParser (node) {
-  const existingPrefix = node.getAttribute('data-prefix');
-  const existingIconName = node.getAttribute('data-icon');
-  const innerText = node.innerText !== undefined ? node.innerText.trim() : '';
-  let val = getCanonicalIcon(classArray(node));
+  var existingPrefix = node.getAttribute('data-prefix');
+  var existingIconName = node.getAttribute('data-icon');
+  var innerText = node.innerText !== undefined ? node.innerText.trim() : '';
+  var val = getCanonicalIcon(classArray(node));
   if (!val.prefix) {
     val.prefix = getDefaultUsablePrefix();
   }
@@ -2179,30 +2755,18 @@ function classParser (node) {
 }
 
 function attributesParser (node) {
-  const extraAttributes = toArray(node.attributes).reduce((acc, attr) => {
+  var extraAttributes = toArray(node.attributes).reduce(function (acc, attr) {
     if (acc.name !== 'class' && acc.name !== 'style') {
       acc[attr.name] = attr.value;
     }
     return acc;
   }, {});
-  const title = node.getAttribute('title');
-  const titleId = node.getAttribute('data-fa-title-id');
-  if (config.autoA11y) {
-    if (title) {
-      extraAttributes['aria-labelledby'] = "".concat(config.replacementClass, "-title-").concat(titleId || nextUniqueId());
-    } else {
-      extraAttributes['aria-hidden'] = 'true';
-      extraAttributes['focusable'] = 'false';
-    }
-  }
   return extraAttributes;
 }
 
 function blankMeta() {
   return {
     iconName: null,
-    title: null,
-    titleId: null,
     prefix: null,
     transform: meaninglessTransform,
     symbol: false,
@@ -2220,22 +2784,19 @@ function blankMeta() {
   };
 }
 function parseMeta(node) {
-  let parser = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+  var parser = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
     styleParser: true
   };
-  const {
-    iconName,
-    prefix,
-    rest: extraClasses
-  } = classParser(node);
-  const extraAttributes = attributesParser(node);
-  const pluginMeta = chainHooks('parseNodeAttributes', {}, node);
-  let extraStyles = parser.styleParser ? styleParser(node) : [];
+  var _classParser = classParser(node),
+    iconName = _classParser.iconName,
+    prefix = _classParser.prefix,
+    extraClasses = _classParser.rest;
+  var extraAttributes = attributesParser(node);
+  var pluginMeta = chainHooks('parseNodeAttributes', {}, node);
+  var extraStyles = parser.styleParser ? styleParser(node) : [];
   return _objectSpread2({
-    iconName,
-    title: node.getAttribute('title'),
-    titleId: node.getAttribute('data-fa-title-id'),
-    prefix,
+    iconName: iconName,
+    prefix: prefix,
     transform: meaninglessTransform,
     mask: {
       iconName: null,
@@ -2252,11 +2813,9 @@ function parseMeta(node) {
   }, pluginMeta);
 }
 
-const {
-  styles: styles$2
-} = namespace;
+var styles$2 = namespace.styles;
 function generateMutation(node) {
-  const nodeMeta = config.autoReplaceSvg === 'nest' ? parseMeta(node, {
+  var nodeMeta = config.autoReplaceSvg === 'nest' ? parseMeta(node, {
     styleParser: false
   }) : parseMeta(node);
   if (~nodeMeta.extra.classes.indexOf(LAYERS_TEXT_CLASSNAME)) {
@@ -2266,23 +2825,29 @@ function generateMutation(node) {
   }
 }
 function getKnownPrefixes() {
-  return [...Ft, ...Ia];
+  return [].concat(_toConsumableArray(Yt), _toConsumableArray(Zt$1));
 }
 function onTree(root) {
-  let callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   if (!IS_DOM) return Promise.resolve();
-  const htmlClassList = DOCUMENT.documentElement.classList;
-  const hclAdd = suffix => htmlClassList.add("".concat(HTML_CLASS_I2SVG_BASE_CLASS, "-").concat(suffix));
-  const hclRemove = suffix => htmlClassList.remove("".concat(HTML_CLASS_I2SVG_BASE_CLASS, "-").concat(suffix));
-  const prefixes = config.autoFetchSvg ? getKnownPrefixes() : P.concat(Object.keys(styles$2));
+  var htmlClassList = DOCUMENT.documentElement.classList;
+  var hclAdd = function hclAdd(suffix) {
+    return htmlClassList.add("".concat(HTML_CLASS_I2SVG_BASE_CLASS, "-").concat(suffix));
+  };
+  var hclRemove = function hclRemove(suffix) {
+    return htmlClassList.remove("".concat(HTML_CLASS_I2SVG_BASE_CLASS, "-").concat(suffix));
+  };
+  var prefixes = config.autoFetchSvg ? getKnownPrefixes() : Q.concat(Object.keys(styles$2));
   if (!prefixes.includes('fa')) {
     prefixes.push('fa');
   }
-  const prefixesDomQuery = [".".concat(LAYERS_TEXT_CLASSNAME, ":not([").concat(DATA_FA_I2SVG, "])")].concat(prefixes.map(p$$1 => ".".concat(p$$1, ":not([").concat(DATA_FA_I2SVG, "])"))).join(', ');
+  var prefixesDomQuery = [".".concat(LAYERS_TEXT_CLASSNAME, ":not([").concat(DATA_FA_I2SVG, "])")].concat(prefixes.map(function (p$$1) {
+    return ".".concat(p$$1, ":not([").concat(DATA_FA_I2SVG, "])");
+  })).join(', ');
   if (prefixesDomQuery.length === 0) {
     return Promise.resolve();
   }
-  let candidates = [];
+  var candidates = [];
   try {
     candidates = toArray(root.querySelectorAll(prefixesDomQuery));
   } catch (e$$1) {
@@ -2294,10 +2859,10 @@ function onTree(root) {
   } else {
     return Promise.resolve();
   }
-  const mark = perf.begin('onTree');
-  const mutations = candidates.reduce((acc, node) => {
+  var mark = perf.begin('onTree');
+  var mutations = candidates.reduce(function (acc, node) {
     try {
-      const mutation = generateMutation(node);
+      var mutation = generateMutation(node);
       if (mutation) {
         acc.push(mutation);
       }
@@ -2310,9 +2875,9 @@ function onTree(root) {
     }
     return acc;
   }, []);
-  return new Promise((resolve, reject) => {
-    Promise.all(mutations).then(resolvedMutations => {
-      perform(resolvedMutations, () => {
+  return new Promise(function (resolve, reject) {
+    Promise.all(mutations).then(function (resolvedMutations) {
+      perform(resolvedMutations, function () {
         hclAdd('active');
         hclAdd('complete');
         hclRemove('pending');
@@ -2320,15 +2885,15 @@ function onTree(root) {
         mark();
         resolve();
       });
-    }).catch(e$$1 => {
+    }).catch(function (e$$1) {
       mark();
       reject(e$$1);
     });
   });
 }
 function onNode(node) {
-  let callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  generateMutation(node).then(mutation => {
+  var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  generateMutation(node).then(function (mutation) {
     if (mutation) {
       perform([mutation], callback);
     }
@@ -2336,53 +2901,44 @@ function onNode(node) {
 }
 function resolveIcons(next) {
   return function (maybeIconDefinition) {
-    let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    const iconDefinition = (maybeIconDefinition || {}).icon ? maybeIconDefinition : findIconDefinition(maybeIconDefinition || {});
-    let {
-      mask
-    } = params;
+    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var iconDefinition = (maybeIconDefinition || {}).icon ? maybeIconDefinition : findIconDefinition(maybeIconDefinition || {});
+    var mask = params.mask;
     if (mask) {
       mask = (mask || {}).icon ? mask : findIconDefinition(mask || {});
     }
     return next(iconDefinition, _objectSpread2(_objectSpread2({}, params), {}, {
-      mask
+      mask: mask
     }));
   };
 }
-const render = function (iconDefinition) {
-  let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  const {
-    transform = meaninglessTransform,
-    symbol = false,
-    mask = null,
-    maskId = null,
-    title = null,
-    titleId = null,
-    classes = [],
-    attributes = {},
-    styles = {}
-  } = params;
+var render = function render(iconDefinition) {
+  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var _params$transform = params.transform,
+    transform = _params$transform === void 0 ? meaninglessTransform : _params$transform,
+    _params$symbol = params.symbol,
+    symbol = _params$symbol === void 0 ? false : _params$symbol,
+    _params$mask = params.mask,
+    mask = _params$mask === void 0 ? null : _params$mask,
+    _params$maskId = params.maskId,
+    maskId = _params$maskId === void 0 ? null : _params$maskId,
+    _params$classes = params.classes,
+    classes = _params$classes === void 0 ? [] : _params$classes,
+    _params$attributes = params.attributes,
+    attributes = _params$attributes === void 0 ? {} : _params$attributes,
+    _params$styles = params.styles,
+    styles = _params$styles === void 0 ? {} : _params$styles;
   if (!iconDefinition) return;
-  const {
-    prefix,
-    iconName,
-    icon
-  } = iconDefinition;
+  var prefix = iconDefinition.prefix,
+    iconName = iconDefinition.iconName,
+    icon = iconDefinition.icon;
   return domVariants(_objectSpread2({
     type: 'icon'
-  }, iconDefinition), () => {
+  }, iconDefinition), function () {
     callHooks('beforeDOMElementCreation', {
-      iconDefinition,
-      params
+      iconDefinition: iconDefinition,
+      params: params
     });
-    if (config.autoA11y) {
-      if (title) {
-        attributes['aria-labelledby'] = "".concat(config.replacementClass, "-title-").concat(titleId || nextUniqueId());
-      } else {
-        attributes['aria-hidden'] = 'true';
-        attributes['focusable'] = 'false';
-      }
-    }
     return makeInlineSvgAbstract({
       icons: {
         main: asFoundIcon(icon),
@@ -2393,139 +2949,130 @@ const render = function (iconDefinition) {
           icon: {}
         }
       },
-      prefix,
-      iconName,
+      prefix: prefix,
+      iconName: iconName,
       transform: _objectSpread2(_objectSpread2({}, meaninglessTransform), transform),
-      symbol,
-      title,
-      maskId,
-      titleId,
+      symbol: symbol,
+      maskId: maskId,
       extra: {
-        attributes,
-        styles,
-        classes
+        attributes: attributes,
+        styles: styles,
+        classes: classes
       }
     });
   });
 };
 var ReplaceElements = {
-  mixout() {
+  mixout: function mixout() {
     return {
       icon: resolveIcons(render)
     };
   },
-  hooks() {
+  hooks: function hooks() {
     return {
-      mutationObserverCallbacks(accumulator) {
+      mutationObserverCallbacks: function mutationObserverCallbacks(accumulator) {
         accumulator.treeCallback = onTree;
         accumulator.nodeCallback = onNode;
         return accumulator;
       }
     };
   },
-  provides(providers$$1) {
+  provides: function provides(providers$$1) {
     providers$$1.i2svg = function (params) {
-      const {
-        node = DOCUMENT,
-        callback = () => {}
-      } = params;
+      var _params$node = params.node,
+        node = _params$node === void 0 ? DOCUMENT : _params$node,
+        _params$callback = params.callback,
+        callback = _params$callback === void 0 ? function () {} : _params$callback;
       return onTree(node, callback);
     };
     providers$$1.generateSvgReplacementMutation = function (node, nodeMeta) {
-      const {
-        iconName,
-        title,
-        titleId,
-        prefix,
-        transform,
-        symbol,
-        mask,
-        maskId,
-        extra
-      } = nodeMeta;
-      return new Promise((resolve, reject) => {
+      var iconName = nodeMeta.iconName,
+        prefix = nodeMeta.prefix,
+        transform = nodeMeta.transform,
+        symbol = nodeMeta.symbol,
+        mask = nodeMeta.mask,
+        maskId = nodeMeta.maskId,
+        extra = nodeMeta.extra;
+      return new Promise(function (resolve, reject) {
         Promise.all([findIcon(iconName, prefix), mask.iconName ? findIcon(mask.iconName, mask.prefix) : Promise.resolve({
           found: false,
           width: 512,
           height: 512,
           icon: {}
-        })]).then(_ref => {
-          let [main, mask] = _ref;
+        })]).then(function (_ref) {
+          var _ref2 = _slicedToArray(_ref, 2),
+            main = _ref2[0],
+            mask = _ref2[1];
           resolve([node, makeInlineSvgAbstract({
             icons: {
-              main,
-              mask
+              main: main,
+              mask: mask
             },
-            prefix,
-            iconName,
-            transform,
-            symbol,
-            maskId,
-            title,
-            titleId,
-            extra,
+            prefix: prefix,
+            iconName: iconName,
+            transform: transform,
+            symbol: symbol,
+            maskId: maskId,
+            extra: extra,
             watchable: true
           })]);
         }).catch(reject);
       });
     };
-    providers$$1.generateAbstractIcon = function (_ref2) {
-      let {
-        children,
-        attributes,
-        main,
-        transform,
-        styles
-      } = _ref2;
-      const styleString = joinStyles(styles);
+    providers$$1.generateAbstractIcon = function (_ref3) {
+      var children = _ref3.children,
+        attributes = _ref3.attributes,
+        main = _ref3.main,
+        transform = _ref3.transform,
+        styles = _ref3.styles;
+      var styleString = joinStyles(styles);
       if (styleString.length > 0) {
         attributes['style'] = styleString;
       }
-      let nextChild;
+      var nextChild;
       if (transformIsMeaningful(transform)) {
         nextChild = callProvided('generateAbstractTransformGrouping', {
-          main,
-          transform,
+          main: main,
+          transform: transform,
           containerWidth: main.width,
           iconWidth: main.width
         });
       }
       children.push(nextChild || main.icon);
       return {
-        children,
-        attributes
+        children: children,
+        attributes: attributes
       };
     };
   }
 };
 
 var Layers = {
-  mixout() {
+  mixout: function mixout() {
     return {
-      layer(assembler) {
-        let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-        const {
-          classes = []
-        } = params;
+      layer: function layer(assembler) {
+        var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var _params$classes = params.classes,
+          classes = _params$classes === void 0 ? [] : _params$classes;
         return domVariants({
           type: 'layer'
-        }, () => {
+        }, function () {
           callHooks('beforeDOMElementCreation', {
-            assembler,
-            params
+            assembler: assembler,
+            params: params
           });
-          let children = [];
-          assembler(args => {
-            Array.isArray(args) ? args.map(a => {
+          var children = [];
+          assembler(function (args) {
+            Array.isArray(args) ? args.map(function (a) {
               children = children.concat(a.abstract);
             }) : children = children.concat(args.abstract);
           });
           return [{
             tag: 'span',
             attributes: {
-              class: ["".concat(config.cssPrefix, "-layers"), ...classes].join(' ')
+              class: ["".concat(config.cssPrefix, "-layers")].concat(_toConsumableArray(classes)).join(' ')
             },
-            children
+            children: children
           }];
         });
       }
@@ -2534,31 +3081,33 @@ var Layers = {
 };
 
 var LayersCounter = {
-  mixout() {
+  mixout: function mixout() {
     return {
-      counter(content) {
-        let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-        const {
-          title = null,
-          classes = [],
-          attributes = {},
-          styles = {}
-        } = params;
+      counter: function counter(content) {
+        var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var _params$title = params.title,
+          title = _params$title === void 0 ? null : _params$title,
+          _params$classes = params.classes,
+          classes = _params$classes === void 0 ? [] : _params$classes,
+          _params$attributes = params.attributes,
+          attributes = _params$attributes === void 0 ? {} : _params$attributes,
+          _params$styles = params.styles,
+          styles = _params$styles === void 0 ? {} : _params$styles;
         return domVariants({
           type: 'counter',
-          content
-        }, () => {
+          content: content
+        }, function () {
           callHooks('beforeDOMElementCreation', {
-            content,
-            params
+            content: content,
+            params: params
           });
           return makeLayersCounterAbstract({
             content: content.toString(),
-            title,
+            title: title,
             extra: {
-              attributes,
-              styles,
-              classes: ["".concat(config.cssPrefix, "-layers-counter"), ...classes]
+              attributes: attributes,
+              styles: styles,
+              classes: ["".concat(config.cssPrefix, "-layers-counter")].concat(_toConsumableArray(classes))
             }
           });
         });
@@ -2568,117 +3117,122 @@ var LayersCounter = {
 };
 
 var LayersText = {
-  mixout() {
+  mixout: function mixout() {
     return {
-      text(content) {
-        let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-        const {
-          transform = meaninglessTransform,
-          title = null,
-          classes = [],
-          attributes = {},
-          styles = {}
-        } = params;
+      text: function text(content) {
+        var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var _params$transform = params.transform,
+          transform = _params$transform === void 0 ? meaninglessTransform : _params$transform,
+          _params$classes = params.classes,
+          classes = _params$classes === void 0 ? [] : _params$classes,
+          _params$attributes = params.attributes,
+          attributes = _params$attributes === void 0 ? {} : _params$attributes,
+          _params$styles = params.styles,
+          styles = _params$styles === void 0 ? {} : _params$styles;
         return domVariants({
           type: 'text',
-          content
-        }, () => {
+          content: content
+        }, function () {
           callHooks('beforeDOMElementCreation', {
-            content,
-            params
+            content: content,
+            params: params
           });
           return makeLayersTextAbstract({
-            content,
+            content: content,
             transform: _objectSpread2(_objectSpread2({}, meaninglessTransform), transform),
-            title,
             extra: {
-              attributes,
-              styles,
-              classes: ["".concat(config.cssPrefix, "-layers-text"), ...classes]
+              attributes: attributes,
+              styles: styles,
+              classes: ["".concat(config.cssPrefix, "-layers-text")].concat(_toConsumableArray(classes))
             }
           });
         });
       }
     };
   },
-  provides(providers$$1) {
+  provides: function provides(providers$$1) {
     providers$$1.generateLayersText = function (node, nodeMeta) {
-      const {
-        title,
-        transform,
-        extra
-      } = nodeMeta;
-      let width = null;
-      let height = null;
+      var transform = nodeMeta.transform,
+        extra = nodeMeta.extra;
+      var width = null;
+      var height = null;
       if (IS_IE) {
-        const computedFontSize = parseInt(getComputedStyle(node).fontSize, 10);
-        const boundingClientRect = node.getBoundingClientRect();
+        var computedFontSize = parseInt(getComputedStyle(node).fontSize, 10);
+        var boundingClientRect = node.getBoundingClientRect();
         width = boundingClientRect.width / computedFontSize;
         height = boundingClientRect.height / computedFontSize;
       }
-      if (config.autoA11y && !title) {
-        extra.attributes['aria-hidden'] = 'true';
-      }
       return Promise.resolve([node, makeLayersTextAbstract({
         content: node.innerHTML,
-        width,
-        height,
-        transform,
-        title,
-        extra,
+        width: width,
+        height: height,
+        transform: transform,
+        extra: extra,
         watchable: true
       })]);
     };
   }
 };
 
-const CLEAN_CONTENT_PATTERN = new RegExp('\u{22}', 'ug');
-const SECONDARY_UNICODE_RANGE = [1105920, 1112319];
-const _FONT_FAMILY_WEIGHT_TO_PREFIX = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, {
+var CLEAN_CONTENT_PATTERN = new RegExp("\"", 'ug');
+var SECONDARY_UNICODE_RANGE = [1105920, 1112319];
+var _FONT_FAMILY_WEIGHT_TO_PREFIX = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, {
   FontAwesome: {
     normal: 'fas',
     400: 'fas'
   }
-}), lt), wa), Yt);
-const FONT_FAMILY_WEIGHT_TO_PREFIX = Object.keys(_FONT_FAMILY_WEIGHT_TO_PREFIX).reduce((acc, key) => {
+}), Ct), ro), dl);
+var FONT_FAMILY_WEIGHT_TO_PREFIX = Object.keys(_FONT_FAMILY_WEIGHT_TO_PREFIX).reduce(function (acc, key) {
   acc[key.toLowerCase()] = _FONT_FAMILY_WEIGHT_TO_PREFIX[key];
   return acc;
 }, {});
-const FONT_FAMILY_WEIGHT_FALLBACK = Object.keys(FONT_FAMILY_WEIGHT_TO_PREFIX).reduce((acc, fontFamily) => {
-  const weights = FONT_FAMILY_WEIGHT_TO_PREFIX[fontFamily];
-  acc[fontFamily] = weights[900] || [...Object.entries(weights)][0][1];
+var FONT_FAMILY_WEIGHT_FALLBACK = Object.keys(FONT_FAMILY_WEIGHT_TO_PREFIX).reduce(function (acc, fontFamily) {
+  var weights = FONT_FAMILY_WEIGHT_TO_PREFIX[fontFamily];
+  acc[fontFamily] = weights[900] || _toConsumableArray(Object.entries(weights))[0][1];
   return acc;
 }, {});
+
+// Return hex value of *first* character in `content`
 function hexValueFromContent(content) {
-  const cleaned = content.replace(CLEAN_CONTENT_PATTERN, '');
-  const codePoint = codePointAt(cleaned, 0);
-  const isPrependTen = codePoint >= SECONDARY_UNICODE_RANGE[0] && codePoint <= SECONDARY_UNICODE_RANGE[1];
-  const isDoubled = cleaned.length === 2 ? cleaned[0] === cleaned[1] : false;
-  return {
-    value: isDoubled ? toHex(cleaned[0]) : toHex(cleaned),
-    isSecondary: isPrependTen || isDoubled
-  };
+  var cleaned = content.replace(CLEAN_CONTENT_PATTERN, '');
+  return toHex(_toConsumableArray(cleaned)[0] || '');
+}
+
+// Check if it's a secondary Duotone layer, by checking if:
+// - Unicode value in `content` is repeated
+// - Unicode value in `content` is above 0x10000
+// - The "ss01" font feature is enabled on the `content`
+function isSecondaryLayer(styles) {
+  var hasStylisticSet = styles.getPropertyValue('font-feature-settings').includes('ss01');
+  var content = styles.getPropertyValue('content');
+  var cleaned = content.replace(CLEAN_CONTENT_PATTERN, '');
+  var codePoint = cleaned.codePointAt(0);
+  var isPrependTen = codePoint >= SECONDARY_UNICODE_RANGE[0] && codePoint <= SECONDARY_UNICODE_RANGE[1];
+  var isDoubled = cleaned.length === 2 ? cleaned[0] === cleaned[1] : false;
+  return isPrependTen || isDoubled || hasStylisticSet;
 }
 function getPrefix(fontFamily, fontWeight) {
-  const fontFamilySanitized = fontFamily.replace(/^['"]|['"]$/g, '').toLowerCase();
-  const fontWeightInteger = parseInt(fontWeight);
-  const fontWeightSanitized = isNaN(fontWeightInteger) ? 'normal' : fontWeightInteger;
+  var fontFamilySanitized = fontFamily.replace(/^['"]|['"]$/g, '').toLowerCase();
+  var fontWeightInteger = parseInt(fontWeight);
+  var fontWeightSanitized = isNaN(fontWeightInteger) ? 'normal' : fontWeightInteger;
   return (FONT_FAMILY_WEIGHT_TO_PREFIX[fontFamilySanitized] || {})[fontWeightSanitized] || FONT_FAMILY_WEIGHT_FALLBACK[fontFamilySanitized];
 }
 function replaceForPosition(node, position) {
-  const pendingAttribute = "".concat(DATA_FA_PSEUDO_ELEMENT_PENDING).concat(position.replace(':', '-'));
-  return new Promise((resolve, reject) => {
+  var pendingAttribute = "".concat(DATA_FA_PSEUDO_ELEMENT_PENDING).concat(position.replace(':', '-'));
+  return new Promise(function (resolve, reject) {
     if (node.getAttribute(pendingAttribute) !== null) {
       // This node is already being processed
       return resolve();
     }
-    const children = toArray(node.children);
-    const alreadyProcessedPseudoElement = children.filter(c$$1 => c$$1.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position)[0];
-    const styles = WINDOW.getComputedStyle(node, position);
-    const fontFamily = styles.getPropertyValue('font-family');
-    const fontFamilyMatch = fontFamily.match(FONT_FAMILY_PATTERN);
-    const fontWeight = styles.getPropertyValue('font-weight');
-    const content = styles.getPropertyValue('content');
+    var children = toArray(node.children);
+    var alreadyProcessedPseudoElement = children.filter(function (c$$1) {
+      return c$$1.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position;
+    })[0];
+    var styles = WINDOW.getComputedStyle(node, position);
+    var fontFamily = styles.getPropertyValue('font-family');
+    var fontFamilyMatch = fontFamily.match(FONT_FAMILY_PATTERN);
+    var fontWeight = styles.getPropertyValue('font-weight');
+    var content = styles.getPropertyValue('content');
     if (alreadyProcessedPseudoElement && !fontFamilyMatch) {
       // If we've already processed it but the current computed style does not result in a font-family,
       // that probably means that a class name that was previously present to make the icon has been
@@ -2686,17 +3240,15 @@ function replaceForPosition(node, position) {
       node.removeChild(alreadyProcessedPseudoElement);
       return resolve();
     } else if (fontFamilyMatch && content !== 'none' && content !== '') {
-      const content = styles.getPropertyValue('content');
-      let prefix = getPrefix(fontFamily, fontWeight);
-      const {
-        value: hexValue,
-        isSecondary
-      } = hexValueFromContent(content);
-      const isV4 = fontFamilyMatch[0].startsWith('FontAwesome');
-      let iconName = byUnicode(prefix, hexValue);
-      let iconIdentifier = iconName;
+      var _content = styles.getPropertyValue('content');
+      var prefix = getPrefix(fontFamily, fontWeight);
+      var hexValue = hexValueFromContent(_content);
+      var isV4 = fontFamilyMatch[0].startsWith('FontAwesome');
+      var isSecondary = isSecondaryLayer(styles);
+      var iconName = byUnicode(prefix, hexValue);
+      var iconIdentifier = iconName;
       if (isV4) {
-        const iconName4 = byOldUnicode(hexValue);
+        var iconName4 = byOldUnicode(hexValue);
         if (iconName4.iconName && iconName4.prefix) {
           iconName = iconName4.iconName;
           prefix = iconName4.prefix;
@@ -2711,29 +3263,29 @@ function replaceForPosition(node, position) {
           // Delete the old one, since we're replacing it with a new one
           node.removeChild(alreadyProcessedPseudoElement);
         }
-        const meta = blankMeta();
-        const {
-          extra
-        } = meta;
+        var meta = blankMeta();
+        var extra = meta.extra;
         extra.attributes[DATA_FA_PSEUDO_ELEMENT] = position;
-        findIcon(iconName, prefix).then(main => {
-          const abstract = makeInlineSvgAbstract(_objectSpread2(_objectSpread2({}, meta), {}, {
+        findIcon(iconName, prefix).then(function (main) {
+          var abstract = makeInlineSvgAbstract(_objectSpread2(_objectSpread2({}, meta), {}, {
             icons: {
-              main,
+              main: main,
               mask: emptyCanonicalIcon()
             },
-            prefix,
+            prefix: prefix,
             iconName: iconIdentifier,
-            extra,
+            extra: extra,
             watchable: true
           }));
-          const element = DOCUMENT.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          var element = DOCUMENT.createElementNS('http://www.w3.org/2000/svg', 'svg');
           if (position === '::before') {
             node.insertBefore(element, node.firstChild);
           } else {
             node.appendChild(element);
           }
-          element.outerHTML = abstract.map(a$$1 => toHtml(a$$1)).join('\n');
+          element.outerHTML = abstract.map(function (a$$1) {
+            return toHtml(a$$1);
+          }).join('\n');
           node.removeAttribute(pendingAttribute);
           resolve();
         }).catch(reject);
@@ -2751,17 +3303,114 @@ function replace(node) {
 function processable(node) {
   return node.parentNode !== document.head && !~TAGNAMES_TO_SKIP_FOR_PSEUDOELEMENTS.indexOf(node.tagName.toUpperCase()) && !node.getAttribute(DATA_FA_PSEUDO_ELEMENT) && (!node.parentNode || node.parentNode.tagName !== 'svg');
 }
+var hasPseudoElement = function hasPseudoElement(selector) {
+  return !!selector && PSEUDO_ELEMENTS.some(function (pseudoSelector) {
+    return selector.includes(pseudoSelector);
+  });
+};
+
+// Return selectors from all available stylesheets that have
+// pseudo-elements defined.
+var parseCSSRuleForPseudos = function parseCSSRuleForPseudos(selectorText) {
+  if (!selectorText) return [];
+  var selectorSet = new Set();
+  var selectors = selectorText.split(/,(?![^()]*\))/).map(function (s$$1) {
+    return s$$1.trim();
+  });
+  selectors = selectors.flatMap(function (selector) {
+    return selector.includes('(') ? selector : selector.split(',').map(function (s$$1) {
+      return s$$1.trim();
+    });
+  });
+  var _iterator = _createForOfIteratorHelper(selectors),
+    _step;
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var selector = _step.value;
+      if (hasPseudoElement(selector)) {
+        // Remove pseudo-elements from the selector
+        var selectorWithoutPseudo = PSEUDO_ELEMENTS.reduce(function (acc, pseudoSelector) {
+          return acc.replace(pseudoSelector, '');
+        }, selector);
+        if (selectorWithoutPseudo !== '' && selectorWithoutPseudo !== '*') {
+          selectorSet.add(selectorWithoutPseudo);
+        }
+      }
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+  return selectorSet;
+};
 function searchPseudoElements(root) {
+  var useAsNodeList = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   if (!IS_DOM) return;
-  return new Promise((resolve, reject) => {
-    const operations = toArray(root.querySelectorAll('*')).filter(processable).map(replace);
-    const end = perf.begin('searchPseudoElements');
+  var nodeList;
+  if (useAsNodeList) {
+    nodeList = root;
+  } else if (config.searchPseudoElementsFullScan) {
+    nodeList = root.querySelectorAll('*');
+  } else {
+    // Get elements that have pseudo elements defined in the CSS
+    var selectorSet = new Set();
+    var _iterator2 = _createForOfIteratorHelper(document.styleSheets),
+      _step2;
+    try {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var stylesheet = _step2.value;
+        try {
+          var _iterator3 = _createForOfIteratorHelper(stylesheet.cssRules),
+            _step3;
+          try {
+            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+              var rule = _step3.value;
+              var parsedSelectors = parseCSSRuleForPseudos(rule.selectorText);
+              var _iterator4 = _createForOfIteratorHelper(parsedSelectors),
+                _step4;
+              try {
+                for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                  var selector = _step4.value;
+                  selectorSet.add(selector);
+                }
+              } catch (err) {
+                _iterator4.e(err);
+              } finally {
+                _iterator4.f();
+              }
+            }
+          } catch (err) {
+            _iterator3.e(err);
+          } finally {
+            _iterator3.f();
+          }
+        } catch (e$$1) {
+          if (config.searchPseudoElementsWarnings) {
+            console.warn("Font Awesome: cannot parse stylesheet: ".concat(stylesheet.href, " (").concat(e$$1.message, ")\nIf it declares any Font Awesome CSS pseudo-elements, they will not be rendered as SVG icons. Add crossorigin=\"anonymous\" to the <link>, enable searchPseudoElementsFullScan for slower but more thorough DOM parsing, or suppress this warning by setting searchPseudoElementsWarnings to false."));
+          }
+        }
+      }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
+    }
+    if (!selectorSet.size) return;
+    var cleanSelectors = Array.from(selectorSet).join(', ');
+    try {
+      nodeList = root.querySelectorAll(cleanSelectors);
+    } catch (_unused) {} // eslint-disable-line no-empty
+  }
+  return new Promise(function (resolve, reject) {
+    var operations = toArray(nodeList).filter(processable).map(replace);
+    var end = perf.begin('searchPseudoElements');
     disableObservation();
-    Promise.all(operations).then(() => {
+    Promise.all(operations).then(function () {
       end();
       enableObservation();
       resolve();
-    }).catch(() => {
+    }).catch(function () {
       end();
       enableObservation();
       reject();
@@ -2769,19 +3418,18 @@ function searchPseudoElements(root) {
   });
 }
 var PseudoElements = {
-  hooks() {
+  hooks: function hooks() {
     return {
-      mutationObserverCallbacks(accumulator) {
+      mutationObserverCallbacks: function mutationObserverCallbacks(accumulator) {
         accumulator.pseudoElementsCallback = searchPseudoElements;
         return accumulator;
       }
     };
   },
-  provides(providers) {
+  provides: function provides(providers) {
     providers.pseudoElements2svg = function (params) {
-      const {
-        node = DOCUMENT
-      } = params;
+      var _params$node = params.node,
+        node = _params$node === void 0 ? DOCUMENT : _params$node;
       if (config.searchPseudoElements) {
         searchPseudoElements(node);
       }
@@ -2789,35 +3437,33 @@ var PseudoElements = {
   }
 };
 
-let _unwatched = false;
+var _unwatched = false;
 var MutationObserver$1 = {
-  mixout() {
+  mixout: function mixout() {
     return {
       dom: {
-        unwatch() {
+        unwatch: function unwatch() {
           disableObservation();
           _unwatched = true;
         }
       }
     };
   },
-  hooks() {
+  hooks: function hooks() {
     return {
-      bootstrap() {
+      bootstrap: function bootstrap() {
         observe(chainHooks('mutationObserverCallbacks', {}));
       },
-      noAuto() {
+      noAuto: function noAuto() {
         disconnect();
       },
-      watch(params) {
-        const {
-          observeMutationsRoot
-        } = params;
+      watch: function watch(params) {
+        var observeMutationsRoot = params.observeMutationsRoot;
         if (_unwatched) {
           enableObservation();
         } else {
           observe(chainHooks('mutationObserverCallbacks', {
-            observeMutationsRoot
+            observeMutationsRoot: observeMutationsRoot
           }));
         }
       }
@@ -2825,8 +3471,8 @@ var MutationObserver$1 = {
   }
 };
 
-const parseTransformString = transformString => {
-  let transform = {
+var parseTransformString = function parseTransformString(transformString) {
+  var transform = {
     size: 16,
     x: 0,
     y: 0,
@@ -2834,10 +3480,10 @@ const parseTransformString = transformString => {
     flipY: false,
     rotate: 0
   };
-  return transformString.toLowerCase().split(' ').reduce((acc, n) => {
-    const parts = n.toLowerCase().split('-');
-    const first = parts[0];
-    let rest = parts.slice(1).join('-');
+  return transformString.toLowerCase().split(' ').reduce(function (acc, n) {
+    var parts = n.toLowerCase().split('-');
+    var first = parts[0];
+    var rest = parts.slice(1).join('-');
     if (first && rest === 'h') {
       acc.flipX = true;
       return acc;
@@ -2877,19 +3523,19 @@ const parseTransformString = transformString => {
   }, transform);
 };
 var PowerTransforms = {
-  mixout() {
+  mixout: function mixout() {
     return {
       parse: {
-        transform: transformString => {
+        transform: function transform(transformString) {
           return parseTransformString(transformString);
         }
       }
     };
   },
-  hooks() {
+  hooks: function hooks() {
     return {
-      parseNodeAttributes(accumulator, node) {
-        const transformString = node.getAttribute('data-fa-transform');
+      parseNodeAttributes: function parseNodeAttributes(accumulator, node) {
+        var transformString = node.getAttribute('data-fa-transform');
         if (transformString) {
           accumulator.transform = parseTransformString(transformString);
         }
@@ -2897,30 +3543,28 @@ var PowerTransforms = {
       }
     };
   },
-  provides(providers) {
+  provides: function provides(providers) {
     providers.generateAbstractTransformGrouping = function (_ref) {
-      let {
-        main,
-        transform,
-        containerWidth,
-        iconWidth
-      } = _ref;
-      const outer = {
+      var main = _ref.main,
+        transform = _ref.transform,
+        containerWidth = _ref.containerWidth,
+        iconWidth = _ref.iconWidth;
+      var outer = {
         transform: "translate(".concat(containerWidth / 2, " 256)")
       };
-      const innerTranslate = "translate(".concat(transform.x * 32, ", ").concat(transform.y * 32, ") ");
-      const innerScale = "scale(".concat(transform.size / 16 * (transform.flipX ? -1 : 1), ", ").concat(transform.size / 16 * (transform.flipY ? -1 : 1), ") ");
-      const innerRotate = "rotate(".concat(transform.rotate, " 0 0)");
-      const inner = {
+      var innerTranslate = "translate(".concat(transform.x * 32, ", ").concat(transform.y * 32, ") ");
+      var innerScale = "scale(".concat(transform.size / 16 * (transform.flipX ? -1 : 1), ", ").concat(transform.size / 16 * (transform.flipY ? -1 : 1), ") ");
+      var innerRotate = "rotate(".concat(transform.rotate, " 0 0)");
+      var inner = {
         transform: "".concat(innerTranslate, " ").concat(innerScale, " ").concat(innerRotate)
       };
-      const path = {
+      var path = {
         transform: "translate(".concat(iconWidth / 2 * -1, " -256)")
       };
-      const operations = {
-        outer,
-        inner,
-        path
+      var operations = {
+        outer: outer,
+        inner: inner,
+        path: path
       };
       return {
         tag: 'g',
@@ -2939,14 +3583,14 @@ var PowerTransforms = {
   }
 };
 
-const ALL_SPACE = {
+var ALL_SPACE = {
   x: 0,
   y: 0,
   width: '100%',
   height: '100%'
 };
 function fillBlack(abstract) {
-  let force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
   if (abstract.attributes && (abstract.attributes.fill || force)) {
     abstract.attributes.fill = 'black';
   }
@@ -2960,11 +3604,13 @@ function deGroup(abstract) {
   }
 }
 var Masks = {
-  hooks() {
+  hooks: function hooks() {
     return {
-      parseNodeAttributes(accumulator, node) {
-        const maskData = node.getAttribute('data-fa-mask');
-        const mask = !maskData ? emptyCanonicalIcon() : getCanonicalIcon(maskData.split(' ').map(i => i.trim()));
+      parseNodeAttributes: function parseNodeAttributes(accumulator, node) {
+        var maskData = node.getAttribute('data-fa-mask');
+        var mask = !maskData ? emptyCanonicalIcon() : getCanonicalIcon(maskData.split(' ').map(function (i) {
+          return i.trim();
+        }));
         if (!mask.prefix) {
           mask.prefix = getDefaultUsablePrefix();
         }
@@ -2974,39 +3620,33 @@ var Masks = {
       }
     };
   },
-  provides(providers) {
+  provides: function provides(providers) {
     providers.generateAbstractMask = function (_ref) {
-      let {
-        children,
-        attributes,
-        main,
-        mask,
-        maskId: explicitMaskId,
-        transform
-      } = _ref;
-      const {
-        width: mainWidth,
-        icon: mainPath
-      } = main;
-      const {
-        width: maskWidth,
-        icon: maskPath
-      } = mask;
-      const trans = transformForSvg({
-        transform,
+      var children = _ref.children,
+        attributes = _ref.attributes,
+        main = _ref.main,
+        mask = _ref.mask,
+        explicitMaskId = _ref.maskId,
+        transform = _ref.transform;
+      var mainWidth = main.width,
+        mainPath = main.icon;
+      var maskWidth = mask.width,
+        maskPath = mask.icon;
+      var trans = transformForSvg({
+        transform: transform,
         containerWidth: maskWidth,
         iconWidth: mainWidth
       });
-      const maskRect = {
+      var maskRect = {
         tag: 'rect',
         attributes: _objectSpread2(_objectSpread2({}, ALL_SPACE), {}, {
           fill: 'white'
         })
       };
-      const maskInnerGroupChildrenMixin = mainPath.children ? {
+      var maskInnerGroupChildrenMixin = mainPath.children ? {
         children: mainPath.children.map(fillBlack)
       } : {};
-      const maskInnerGroup = {
+      var maskInnerGroup = {
         tag: 'g',
         attributes: _objectSpread2({}, trans.inner),
         children: [fillBlack(_objectSpread2({
@@ -3014,14 +3654,14 @@ var Masks = {
           attributes: _objectSpread2(_objectSpread2({}, mainPath.attributes), trans.path)
         }, maskInnerGroupChildrenMixin))]
       };
-      const maskOuterGroup = {
+      var maskOuterGroup = {
         tag: 'g',
         attributes: _objectSpread2({}, trans.outer),
         children: [maskInnerGroup]
       };
-      const maskId = "mask-".concat(explicitMaskId || nextUniqueId());
-      const clipId = "clip-".concat(explicitMaskId || nextUniqueId());
-      const maskTag = {
+      var maskId = "mask-".concat(explicitMaskId || nextUniqueId());
+      var clipId = "clip-".concat(explicitMaskId || nextUniqueId());
+      var maskTag = {
         tag: 'mask',
         attributes: _objectSpread2(_objectSpread2({}, ALL_SPACE), {}, {
           id: maskId,
@@ -3030,7 +3670,7 @@ var Masks = {
         }),
         children: [maskRect, maskOuterGroup]
       };
-      const defs = {
+      var defs = {
         tag: 'defs',
         children: [{
           tag: 'clipPath',
@@ -3043,31 +3683,31 @@ var Masks = {
       children.push(defs, {
         tag: 'rect',
         attributes: _objectSpread2({
-          fill: 'currentColor',
+          'fill': 'currentColor',
           'clip-path': "url(#".concat(clipId, ")"),
-          mask: "url(#".concat(maskId, ")")
+          'mask': "url(#".concat(maskId, ")")
         }, ALL_SPACE)
       });
       return {
-        children,
-        attributes
+        children: children,
+        attributes: attributes
       };
     };
   }
 };
 
 var MissingIconIndicator = {
-  provides(providers) {
-    let reduceMotion = false;
+  provides: function provides(providers) {
+    var reduceMotion = false;
     if (WINDOW.matchMedia) {
       reduceMotion = WINDOW.matchMedia('(prefers-reduced-motion: reduce)').matches;
     }
     providers.missingIconAbstract = function () {
-      const gChildren = [];
-      const FILL = {
+      var gChildren = [];
+      var FILL = {
         fill: 'currentColor'
       };
-      const ANIMATION_BASE = {
+      var ANIMATION_BASE = {
         attributeType: 'XML',
         repeatCount: 'indefinite',
         dur: '2s'
@@ -3080,10 +3720,10 @@ var MissingIconIndicator = {
           d: 'M156.5,447.7l-12.6,29.5c-18.7-9.5-35.9-21.2-51.5-34.9l22.7-22.7C127.6,430.5,141.5,440,156.5,447.7z M40.6,272H8.5 c1.4,21.2,5.4,41.7,11.7,61.1L50,321.2C45.1,305.5,41.8,289,40.6,272z M40.6,240c1.4-18.8,5.2-37,11.1-54.1l-29.5-12.6 C14.7,194.3,10,216.7,8.5,240H40.6z M64.3,156.5c7.8-14.9,17.2-28.8,28.1-41.5L69.7,92.3c-13.7,15.6-25.5,32.8-34.9,51.5 L64.3,156.5z M397,419.6c-13.9,12-29.4,22.3-46.1,30.4l11.9,29.8c20.7-9.9,39.8-22.6,56.9-37.6L397,419.6z M115,92.4 c13.9-12,29.4-22.3,46.1-30.4l-11.9-29.8c-20.7,9.9-39.8,22.6-56.8,37.6L115,92.4z M447.7,355.5c-7.8,14.9-17.2,28.8-28.1,41.5 l22.7,22.7c13.7-15.6,25.5-32.9,34.9-51.5L447.7,355.5z M471.4,272c-1.4,18.8-5.2,37-11.1,54.1l29.5,12.6 c7.5-21.1,12.2-43.5,13.6-66.8H471.4z M321.2,462c-15.7,5-32.2,8.2-49.2,9.4v32.1c21.2-1.4,41.7-5.4,61.1-11.7L321.2,462z M240,471.4c-18.8-1.4-37-5.2-54.1-11.1l-12.6,29.5c21.1,7.5,43.5,12.2,66.8,13.6V471.4z M462,190.8c5,15.7,8.2,32.2,9.4,49.2h32.1 c-1.4-21.2-5.4-41.7-11.7-61.1L462,190.8z M92.4,397c-12-13.9-22.3-29.4-30.4-46.1l-29.8,11.9c9.9,20.7,22.6,39.8,37.6,56.9 L92.4,397z M272,40.6c18.8,1.4,36.9,5.2,54.1,11.1l12.6-29.5C317.7,14.7,295.3,10,272,8.5V40.6z M190.8,50 c15.7-5,32.2-8.2,49.2-9.4V8.5c-21.2,1.4-41.7,5.4-61.1,11.7L190.8,50z M442.3,92.3L419.6,115c12,13.9,22.3,29.4,30.5,46.1 l29.8-11.9C470,128.5,457.3,109.4,442.3,92.3z M397,92.4l22.7-22.7c-15.6-13.7-32.8-25.5-51.5-34.9l-12.6,29.5 C370.4,72.1,384.4,81.5,397,92.4z'
         })
       });
-      const OPACITY_ANIMATE = _objectSpread2(_objectSpread2({}, ANIMATION_BASE), {}, {
+      var OPACITY_ANIMATE = _objectSpread2(_objectSpread2({}, ANIMATION_BASE), {}, {
         attributeName: 'opacity'
       });
-      const dot = {
+      var dot = {
         tag: 'circle',
         attributes: _objectSpread2(_objectSpread2({}, FILL), {}, {
           cx: '256',
@@ -3139,7 +3779,7 @@ var MissingIconIndicator = {
       return {
         tag: 'g',
         attributes: {
-          'class': 'missing'
+          class: 'missing'
         },
         children: gChildren
       };
@@ -3148,11 +3788,11 @@ var MissingIconIndicator = {
 };
 
 var SvgSymbols = {
-  hooks() {
+  hooks: function hooks() {
     return {
-      parseNodeAttributes(accumulator, node) {
-        const symbolData = node.getAttribute('data-fa-symbol');
-        const symbol = symbolData === null ? false : symbolData === '' ? true : symbolData;
+      parseNodeAttributes: function parseNodeAttributes(accumulator, node) {
+        var symbolData = node.getAttribute('data-fa-symbol');
+        var symbol = symbolData === null ? false : symbolData === '' ? true : symbolData;
         accumulator['symbol'] = symbol;
         return accumulator;
       }
@@ -3165,17 +3805,17 @@ var plugins = [InjectCSS, ReplaceElements, Layers, LayersCounter, LayersText, Ps
 registerPlugins(plugins, {
   mixoutsTo: api
 });
-const noAuto$1 = api.noAuto;
-const config$1 = api.config;
-const library$1 = api.library;
-const dom$1 = api.dom;
-const parse$1 = api.parse;
-const findIconDefinition$1 = api.findIconDefinition;
-const toHtml$1 = api.toHtml;
-const icon = api.icon;
-const layer = api.layer;
-const text = api.text;
-const counter = api.counter;
+var noAuto$1 = api.noAuto;
+var config$1 = api.config;
+var library$1 = api.library;
+var dom$1 = api.dom;
+var parse$1 = api.parse;
+var findIconDefinition$1 = api.findIconDefinition;
+var toHtml$1 = api.toHtml;
+var icon = api.icon;
+var layer = api.layer;
+var text = api.text;
+var counter = api.counter;
 
 
 
@@ -3193,11 +3833,11 @@ const counter = api.counter;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var prefix = 'fab';
 var iconName = 'bluesky';
-var width = 512;
+var width = 576;
 var height = 512;
 var aliases = [];
 var unicode = 'e671';
-var svgPathData = 'M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z';
+var svgPathData = 'M407.8 294.7c-3.3-.4-6.7-.8-10-1.3 3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3 61.6-9.4 37.5-1.7 21.6 5.5 3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7 3.3-.5 6.6-.9 10-1.4-3.3 .5-6.6 1-10 1.4-93.9 14-177.3 48.2-67.9 169.9 120.3 124.6 164.8-26.7 187.7-103.4 22.9 76.7 49.2 222.5 185.6 103.4 102.4-103.4 28.1-156-65.8-169.9-3.3-.4-6.7-.8-10-1.3 3.4 .4 6.7 .9 10 1.3 64.1 7.1 133.6-15.1 153.2-80.7 5.9-19.9 15-138.9 15-155.5s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8-66.1 46.6-137.1 141.1-163.2 191.8z';
 
 exports.definition = {
   prefix: prefix,
@@ -3237,7 +3877,7 @@ var width = 512;
 var height = 512;
 var aliases = [62000];
 var unicode = 'f09a';
-var svgPathData = 'M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z';
+var svgPathData = 'M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5l0-170.3-52.8 0 0-78.2 52.8 0 0-33.7c0-87.1 39.4-127.5 125-127.5 16.2 0 44.2 3.2 55.7 6.4l0 70.8c-6-.6-16.5-1-29.6-1-42 0-58.2 15.9-58.2 57.2l0 27.8 83.6 0-14.4 78.2-69.3 0 0 175.9C413.8 494.8 512 386.9 512 256z';
 
 exports.definition = {
   prefix: prefix,
@@ -3277,7 +3917,7 @@ var width = 448;
 var height = 512;
 var aliases = [];
 var unicode = 'f0e1';
-var svgPathData = 'M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z';
+var svgPathData = 'M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z';
 
 exports.definition = {
   prefix: prefix,
@@ -3317,7 +3957,7 @@ var width = 448;
 var height = 512;
 var aliases = [];
 var unicode = 'f4f6';
-var svgPathData = 'M433 179.11c0-97.2-63.71-125.7-63.71-125.7-62.52-28.7-228.56-28.4-290.48 0 0 0-63.72 28.5-63.72 125.7 0 115.7-6.6 259.4 105.63 289.1 40.51 10.7 75.32 13 103.33 11.4 50.81-2.8 79.32-18.1 79.32-18.1l-1.7-36.9s-36.31 11.4-77.12 10.1c-40.41-1.4-83-4.4-89.63-54a102.54 102.54 0 0 1-.9-13.9c85.63 20.9 158.65 9.1 178.75 6.7 56.12-6.7 105-41.3 111.23-72.9 9.8-49.8 9-121.5 9-121.5zm-75.12 125.2h-46.63v-114.2c0-49.7-64-51.6-64 6.9v62.5h-46.33V197c0-58.5-64-56.6-64-6.9v114.2H90.19c0-122.1-5.2-147.9 18.41-175 25.9-28.9 79.82-30.8 103.83 6.1l11.6 19.5 11.6-19.5c24.11-37.1 78.12-34.8 103.83-6.1 23.71 27.3 18.4 53 18.4 175z';
+var svgPathData = 'M433 179.1c0-97.2-63.7-125.7-63.7-125.7-62.5-28.7-228.6-28.4-290.5 0 0 0-63.7 28.5-63.7 125.7 0 115.7-6.6 259.4 105.6 289.1 40.5 10.7 75.3 13 103.3 11.4 50.8-2.8 79.3-18.1 79.3-18.1l-1.7-36.9s-36.3 11.4-77.1 10.1c-40.4-1.4-83-4.4-89.6-54-.6-4.6-.9-9.3-.9-13.9 85.6 20.9 158.7 9.1 178.7 6.7 56.1-6.7 105-41.3 111.2-72.9 9.8-49.8 9-121.5 9-121.5zM357.9 304.3l-46.6 0 0-114.2c0-49.7-64-51.6-64 6.9l0 62.5-46.3 0 0-62.5c0-58.5-64-56.6-64-6.9l0 114.2-46.7 0c0-122.1-5.2-147.9 18.4-175 25.9-28.9 79.8-30.8 103.8 6.1l11.6 19.5 11.6-19.5c24.1-37.1 78.1-34.8 103.8-6.1 23.7 27.3 18.4 53 18.4 175l0 0z';
 
 exports.definition = {
   prefix: prefix,
@@ -3357,7 +3997,7 @@ var width = 512;
 var height = 512;
 var aliases = [];
 var unicode = 'f1a1';
-var svgPathData = 'M0 256C0 114.6 114.6 0 256 0S512 114.6 512 256s-114.6 256-256 256L37.1 512c-13.7 0-20.5-16.5-10.9-26.2L75 437C28.7 390.7 0 326.7 0 256zM349.6 153.6c23.6 0 42.7-19.1 42.7-42.7s-19.1-42.7-42.7-42.7c-20.6 0-37.8 14.6-41.8 34c-34.5 3.7-61.4 33-61.4 68.4l0 .2c-37.5 1.6-71.8 12.3-99 29.1c-10.1-7.8-22.8-12.5-36.5-12.5c-33 0-59.8 26.8-59.8 59.8c0 24 14.1 44.6 34.4 54.1c2 69.4 77.6 125.2 170.6 125.2s168.7-55.9 170.6-125.3c20.2-9.6 34.1-30.2 34.1-54c0-33-26.8-59.8-59.8-59.8c-13.7 0-26.3 4.6-36.4 12.4c-27.4-17-62.1-27.7-100-29.1l0-.2c0-25.4 18.9-46.5 43.4-49.9l0 0c4.4 18.8 21.3 32.8 41.5 32.8zM177.1 246.9c16.7 0 29.5 17.6 28.5 39.3s-13.5 29.6-30.3 29.6s-31.4-8.8-30.4-30.5s15.4-38.3 32.1-38.3zm190.1 38.3c1 21.7-13.7 30.5-30.4 30.5s-29.3-7.9-30.3-29.6c-1-21.7 11.8-39.3 28.5-39.3s31.2 16.6 32.1 38.3zm-48.1 56.7c-10.3 24.6-34.6 41.9-63 41.9s-52.7-17.3-63-41.9c-1.2-2.9 .8-6.2 3.9-6.5c18.4-1.9 38.3-2.9 59.1-2.9s40.7 1 59.1 2.9c3.1 .3 5.1 3.6 3.9 6.5z';
+var svgPathData = 'M0 256C0 114.6 114.6 0 256 0S512 114.6 512 256 397.4 512 256 512L37.1 512c-13.7 0-20.5-16.5-10.9-26.2L75 437C28.7 390.7 0 326.7 0 256zM349.6 153.6c23.6 0 42.7-19.1 42.7-42.7s-19.1-42.7-42.7-42.7c-20.6 0-37.8 14.6-41.8 34-34.5 3.7-61.4 33-61.4 68.4l0 .2c-37.5 1.6-71.8 12.3-99 29.1-10.1-7.8-22.8-12.5-36.5-12.5-33 0-59.8 26.8-59.8 59.8 0 24 14.1 44.6 34.4 54.1 2 69.4 77.6 125.2 170.6 125.2s168.7-55.9 170.6-125.3c20.2-9.6 34.1-30.2 34.1-54 0-33-26.8-59.8-59.8-59.8-13.7 0-26.3 4.6-36.4 12.4-27.4-17-62.1-27.7-100-29.1l0-.2c0-25.4 18.9-46.5 43.4-49.9 4.4 18.8 21.3 32.8 41.5 32.8l.1 .2zM177.1 246.9c16.7 0 29.5 17.6 28.5 39.3s-13.5 29.6-30.3 29.6-31.4-8.8-30.4-30.5 15.4-38.3 32.1-38.3l.1-.1zm190.1 38.3c1 21.7-13.7 30.5-30.4 30.5s-29.3-7.9-30.3-29.6 11.8-39.3 28.5-39.3 31.2 16.6 32.1 38.3l.1 .1zm-48.1 56.7c-10.3 24.6-34.6 41.9-63 41.9s-52.7-17.3-63-41.9c-1.2-2.9 .8-6.2 3.9-6.5 18.4-1.9 38.3-2.9 59.1-2.9s40.7 1 59.1 2.9c3.1 .3 5.1 3.6 3.9 6.5z';
 
 exports.definition = {
   prefix: prefix,
@@ -3393,11 +4033,11 @@ exports.aliases = aliases;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var prefix = 'fab';
 var iconName = 'telegram';
-var width = 496;
+var width = 512;
 var height = 512;
 var aliases = [62462,"telegram-plane"];
 var unicode = 'f2c6';
-var svgPathData = 'M248,8C111.033,8,0,119.033,0,256S111.033,504,248,504,496,392.967,496,256,384.967,8,248,8ZM362.952,176.66c-3.732,39.215-19.881,134.378-28.1,178.3-3.476,18.584-10.322,24.816-16.948,25.425-14.4,1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25,5.342-39.5,3.652-3.793,67.107-61.51,68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608,69.142-14.845,10.194-26.894,9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7,18.45-13.7,108.446-47.248,144.628-62.3c68.872-28.647,83.183-33.623,92.511-33.789,2.052-.034,6.639.474,9.61,2.885a10.452,10.452,0,0,1,3.53,6.716A43.765,43.765,0,0,1,362.952,176.66Z';
+var svgPathData = 'M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z';
 
 exports.definition = {
   prefix: prefix,
@@ -3437,7 +4077,7 @@ var width = 448;
 var height = 512;
 var aliases = [];
 var unicode = 'e618';
-var svgPathData = 'M331.5 235.7c2.2 .9 4.2 1.9 6.3 2.8c29.2 14.1 50.6 35.2 61.8 61.4c15.7 36.5 17.2 95.8-30.3 143.2c-36.2 36.2-80.3 52.5-142.6 53h-.3c-70.2-.5-124.1-24.1-160.4-70.2c-32.3-41-48.9-98.1-49.5-169.6V256v-.2C17 184.3 33.6 127.2 65.9 86.2C102.2 40.1 156.2 16.5 226.4 16h.3c70.3 .5 124.9 24 162.3 69.9c18.4 22.7 32 50 40.6 81.7l-40.4 10.8c-7.1-25.8-17.8-47.8-32.2-65.4c-29.2-35.8-73-54.2-130.5-54.6c-57 .5-100.1 18.8-128.2 54.4C72.1 146.1 58.5 194.3 58 256c.5 61.7 14.1 109.9 40.3 143.3c28 35.6 71.2 53.9 128.2 54.4c51.4-.4 85.4-12.6 113.7-40.9c32.3-32.2 31.7-71.8 21.4-95.9c-6.1-14.2-17.1-26-31.9-34.9c-3.7 26.9-11.8 48.3-24.7 64.8c-17.1 21.8-41.4 33.6-72.7 35.3c-23.6 1.3-46.3-4.4-63.9-16c-20.8-13.8-33-34.8-34.3-59.3c-2.5-48.3 35.7-83 95.2-86.4c21.1-1.2 40.9-.3 59.2 2.8c-2.4-14.8-7.3-26.6-14.6-35.2c-10-11.7-25.6-17.7-46.2-17.8H227c-16.6 0-39 4.6-53.3 26.3l-34.4-23.6c19.2-29.1 50.3-45.1 87.8-45.1h.8c62.6 .4 99.9 39.5 103.7 107.7l-.2 .2zm-156 68.8c1.3 25.1 28.4 36.8 54.6 35.3c25.6-1.4 54.6-11.4 59.5-73.2c-13.2-2.9-27.8-4.4-43.4-4.4c-4.8 0-9.6 .1-14.4 .4c-42.9 2.4-57.2 23.2-56.2 41.8l-.1 .1z';
+var svgPathData = 'M331.5 235.7c2.2 .9 4.2 1.9 6.3 2.8 29.2 14.1 50.6 35.2 61.8 61.4 15.7 36.5 17.2 95.8-30.3 143.2-36.2 36.2-80.3 52.5-142.6 53l-.3 0c-70.2-.5-124.1-24.1-160.4-70.2-32.3-41-48.9-98.1-49.5-169.6l0-.5C17 184.3 33.6 127.2 65.9 86.2 102.2 40.1 156.2 16.5 226.4 16l.3 0c70.3 .5 124.9 24 162.3 69.9 18.4 22.7 32 50 40.6 81.7l-40.4 10.8c-7.1-25.8-17.8-47.8-32.2-65.4-29.2-35.8-73-54.2-130.5-54.6-57 .5-100.1 18.8-128.2 54.4-26.2 33.3-39.8 81.5-40.3 143.2 .5 61.7 14.1 109.9 40.3 143.3 28 35.6 71.2 53.9 128.2 54.4 51.4-.4 85.4-12.6 113.7-40.9 32.3-32.2 31.7-71.8 21.4-95.9-6.1-14.2-17.1-26-31.9-34.9-3.7 26.9-11.8 48.3-24.7 64.8-17.1 21.8-41.4 33.6-72.7 35.3-23.6 1.3-46.3-4.4-63.9-16-20.8-13.8-33-34.8-34.3-59.3-2.5-48.3 35.7-83 95.2-86.4 21.1-1.2 40.9-.3 59.2 2.8-2.4-14.8-7.3-26.6-14.6-35.2-10-11.7-25.6-17.7-46.2-17.8l-.7 0c-16.6 0-39 4.6-53.3 26.3l-34.4-23.6c19.2-29.1 50.3-45.1 87.8-45.1l.8 0c62.6 .4 99.9 39.5 103.7 107.7l-.2 .2 .1 0zm-156 68.8c1.3 25.1 28.4 36.8 54.6 35.3 25.6-1.4 54.6-11.4 59.5-73.2-13.2-2.9-27.8-4.4-43.4-4.4-4.8 0-9.6 .1-14.4 .4-42.9 2.4-57.2 23.2-56.2 41.8l-.1 .1z';
 
 exports.definition = {
   prefix: prefix,
@@ -3477,7 +4117,7 @@ var width = 320;
 var height = 512;
 var aliases = [];
 var unicode = 'f173';
-var svgPathData = 'M309.8 480.3c-13.6 14.5-50 31.7-97.4 31.7-120.8 0-147-88.8-147-140.6v-144H17.9c-5.5 0-10-4.5-10-10v-68c0-7.2 4.5-13.6 11.3-16 62-21.8 81.5-76 84.3-117.1.8-11 6.5-16.3 16.1-16.3h70.9c5.5 0 10 4.5 10 10v115.2h83c5.5 0 10 4.4 10 9.9v81.7c0 5.5-4.5 10-10 10h-83.4V360c0 34.2 23.7 53.6 68 35.8 4.8-1.9 9-3.2 12.7-2.2 3.5.9 5.8 3.4 7.4 7.9l22 64.3c1.8 5 3.3 10.6-.4 14.5z';
+var svgPathData = 'M309.9 480.3c-13.6 14.5-50 31.7-97.4 31.7-120.8 0-147-88.8-147-140.6l0-144-47.5 0c-5.5 0-10-4.5-10-10l0-68c0-7.2 4.5-13.6 11.3-16 62-21.8 81.5-76 84.3-117.1 .8-11 6.5-16.3 16.1-16.3l70.9 0c5.5 0 10 4.5 10 10l0 115.2 83 0c5.5 0 10 4.4 10 9.9l0 81.7c0 5.5-4.5 10-10 10l-83.4 0 0 133.2c0 34.2 23.7 53.6 68 35.8 4.8-1.9 9-3.2 12.7-2.2 3.5 .9 5.8 3.4 7.4 7.9l22 64.3c1.8 5 3.3 10.6-.4 14.5z';
 
 exports.definition = {
   prefix: prefix,
@@ -3517,7 +4157,7 @@ var width = 448;
 var height = 512;
 var aliases = [];
 var unicode = 'f232';
-var svgPathData = 'M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z';
+var svgPathData = 'M380.9 97.1c-41.9-42-97.7-65.1-157-65.1-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480 117.7 449.1c32.4 17.7 68.9 27 106.1 27l.1 0c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6zM325.1 300.5c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6z';
 
 exports.definition = {
   prefix: prefix,
@@ -3557,7 +4197,7 @@ var width = 384;
 var height = 512;
 var aliases = [];
 var unicode = 'f168';
-var svgPathData = 'M162.7 210c-1.8 3.3-25.2 44.4-70.1 123.5-4.9 8.3-10.8 12.5-17.7 12.5H9.8c-7.7 0-12.1-7.5-8.5-14.4l69-121.3c.2 0 .2-.1 0-.3l-43.9-75.6c-4.3-7.8.3-14.1 8.5-14.1H100c7.3 0 13.3 4.1 18 12.2l44.7 77.5zM382.6 46.1l-144 253v.3L330.2 466c3.9 7.1.2 14.1-8.5 14.1h-65.2c-7.6 0-13.6-4-18-12.2l-92.4-168.5c3.3-5.8 51.5-90.8 144.8-255.2 4.6-8.1 10.4-12.2 17.5-12.2h65.7c8 0 12.3 6.7 8.5 14.1z';
+var svgPathData = 'M162.7 210c-1.8 3.3-25.2 44.4-70.1 123.5-4.9 8.3-10.8 12.5-17.7 12.5L9.8 346c-7.7 0-12.1-7.5-8.5-14.4l69-121.3c.2 0 .2-.1 0-.3L26.4 134.4c-4.3-7.8 .3-14.1 8.5-14.1l65.1 0c7.3 0 13.3 4.1 18 12.2L162.7 210zM382.6 46.1l-144 253 0 .3 91.6 166.6c3.9 7.1 .2 14.1-8.5 14.1l-65.2 0c-7.6 0-13.6-4-18-12.2L146.1 299.4c3.3-5.8 51.5-90.8 144.8-255.2 4.6-8.1 10.4-12.2 17.5-12.2l65.7 0c8 0 12.3 6.7 8.5 14.1z';
 
 exports.definition = {
   prefix: prefix,
@@ -3597,7 +4237,7 @@ var width = 512;
 var height = 512;
 var aliases = [61946];
 var unicode = '40';
-var svgPathData = 'M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256l0 32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32l0 80 0 32c0 17.7 14.3 32 32 32s32-14.3 32-32l0-32c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z';
+var svgPathData = 'M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0 512 114.6 512 256l0 32c0 53-43 96-96 96-29.3 0-55.6-13.2-73.2-33.9-22.8 21-53.3 33.9-86.8 33.9-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1 5.7-5 13.1-8.1 21.3-8.1 17.7 0 32 14.3 32 32l0 112c0 17.7 14.3 32 32 32s32-14.3 32-32l0-32c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z';
 
 exports.definition = {
   prefix: prefix,
@@ -3637,7 +4277,7 @@ var width = 448;
 var height = 512;
 var aliases = [];
 var unicode = 'f0c5';
-var svgPathData = 'M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z';
+var svgPathData = 'M192 0c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64l192 0c35.3 0 64-28.7 64-64l0-200.6c0-17.4-7.1-34.1-19.7-46.2L370.6 17.8C358.7 6.4 342.8 0 326.3 0L192 0zM64 128c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l192 0c35.3 0 64-28.7 64-64l0-16-64 0 0 16-192 0 0-256 16 0 0-64-16 0z';
 
 exports.definition = {
   prefix: prefix,
@@ -3677,7 +4317,7 @@ var width = 512;
 var height = 512;
 var aliases = ["mail-forward"];
 var unicode = 'f064';
-var svgPathData = 'M307 34.8c-11.5 5.1-19 16.6-19 29.2l0 64-112 0C78.8 128 0 206.8 0 304C0 417.3 81.5 467.9 100.2 478.1c2.5 1.4 5.3 1.9 8.1 1.9c10.9 0 19.7-8.9 19.7-19.7c0-7.5-4.3-14.4-9.8-19.5C108.8 431.9 96 414.4 96 384c0-53 43-96 96-96l96 0 0 64c0 12.6 7.4 24.1 19 29.2s25 3 34.4-5.4l160-144c6.7-6.1 10.6-14.7 10.6-23.8s-3.8-17.7-10.6-23.8l-160-144c-9.4-8.5-22.9-10.6-34.4-5.4z';
+var svgPathData = 'M307.8 18.4c-12 5-19.8 16.6-19.8 29.6l0 80-112 0c-97.2 0-176 78.8-176 176 0 113.3 81.5 163.9 100.2 174.1 2.5 1.4 5.3 1.9 8.1 1.9 10.9 0 19.7-8.9 19.7-19.7 0-7.5-4.3-14.4-9.8-19.5-9.4-8.8-22.2-26.4-22.2-56.7 0-53 43-96 96-96l96 0 0 80c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-9.2-9.2-22.9-11.9-34.9-6.9z';
 
 exports.definition = {
   prefix: prefix,
@@ -3702,437 +4342,337 @@ exports.aliases = aliases;
 
 /***/ }),
 
-/***/ "./node_modules/@fortawesome/react-fontawesome/index.es.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@fortawesome/react-fontawesome/index.es.js ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./node_modules/@fortawesome/react-fontawesome/dist/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@fortawesome/react-fontawesome/dist/index.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   FontAwesomeIcon: () => (/* binding */ FontAwesomeIcon)
+/* harmony export */   FontAwesomeIcon: () => (/* binding */ FontAwesomeIcon),
+/* harmony export */   FontAwesomeLayers: () => (/* binding */ FontAwesomeLayers),
+/* harmony export */   LayersCounter: () => (/* binding */ LayersCounter),
+/* harmony export */   LayersText: () => (/* binding */ LayersText)
 /* harmony export */ });
-/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.mjs");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.mjs");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
 
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
+// src/components/FontAwesomeIcon.tsx
 
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    enumerableOnly && (symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    })), keys.push.apply(keys, symbols);
-  }
-
-  return keys;
+// src/utils/camelize.ts
+function _isNumerical(object) {
+  object = object - 0;
+  return object === object;
 }
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {};
-    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
-      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-    });
-  }
-
-  return target;
-}
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
-    return typeof obj;
-  } : function (obj) {
-    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-  }, _typeof(obj);
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-
-  var target = _objectWithoutPropertiesLoose(source, excluded);
-
-  var key, i;
-
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
-  }
-
-  return target;
-}
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-  return arr2;
-}
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-// Get CSS class list from a props object
-function classList(props) {
-  var _classes;
-
-  var beat = props.beat,
-      fade = props.fade,
-      beatFade = props.beatFade,
-      bounce = props.bounce,
-      shake = props.shake,
-      flash = props.flash,
-      spin = props.spin,
-      spinPulse = props.spinPulse,
-      spinReverse = props.spinReverse,
-      pulse = props.pulse,
-      fixedWidth = props.fixedWidth,
-      inverse = props.inverse,
-      border = props.border,
-      listItem = props.listItem,
-      flip = props.flip,
-      size = props.size,
-      rotation = props.rotation,
-      pull = props.pull; // map of CSS class names to properties
-
-  var classes = (_classes = {
-    'fa-beat': beat,
-    'fa-fade': fade,
-    'fa-beat-fade': beatFade,
-    'fa-bounce': bounce,
-    'fa-shake': shake,
-    'fa-flash': flash,
-    'fa-spin': spin,
-    'fa-spin-reverse': spinReverse,
-    'fa-spin-pulse': spinPulse,
-    'fa-pulse': pulse,
-    'fa-fw': fixedWidth,
-    'fa-inverse': inverse,
-    'fa-border': border,
-    'fa-li': listItem,
-    'fa-flip': flip === true,
-    'fa-flip-horizontal': flip === 'horizontal' || flip === 'both',
-    'fa-flip-vertical': flip === 'vertical' || flip === 'both'
-  }, _defineProperty(_classes, "fa-".concat(size), typeof size !== 'undefined' && size !== null), _defineProperty(_classes, "fa-rotate-".concat(rotation), typeof rotation !== 'undefined' && rotation !== null && rotation !== 0), _defineProperty(_classes, "fa-pull-".concat(pull), typeof pull !== 'undefined' && pull !== null), _defineProperty(_classes, 'fa-swap-opacity', props.swapOpacity), _classes); // map over all the keys in the classes object
-  // return an array of the keys where the value for the key is not null
-
-  return Object.keys(classes).map(function (key) {
-    return classes[key] ? key : null;
-  }).filter(function (key) {
-    return key;
-  });
-}
-
-// Camelize taken from humps
-// humps is copyright © 2012+ Dom Christie
-// Released under the MIT license.
-// Performant way to determine if object coerces to a number
-function _isNumerical(obj) {
-  obj = obj - 0; // eslint-disable-next-line no-self-compare
-
-  return obj === obj;
-}
-
 function camelize(string) {
   if (_isNumerical(string)) {
     return string;
-  } // eslint-disable-next-line no-useless-escape
-
-
-  string = string.replace(/[\-_\s]+(.)?/g, function (match, chr) {
-    return chr ? chr.toUpperCase() : '';
-  }); // Ensure 1st char is always lowercase
-
-  return string.substr(0, 1).toLowerCase() + string.substr(1);
+  }
+  string = string.replace(/[_-]+(.)?/g, (_, chr) => {
+    return chr ? chr.toUpperCase() : "";
+  });
+  return string.charAt(0).toLowerCase() + string.slice(1);
 }
 
-var _excluded$1 = ["style"];
-
+// src/converter.ts
 function capitalize(val) {
   return val.charAt(0).toUpperCase() + val.slice(1);
 }
-
+var styleCache = /* @__PURE__ */ new Map();
+var STYLE_CACHE_LIMIT = 1e3;
 function styleToObject(style) {
-  return style.split(';').map(function (s) {
-    return s.trim();
-  }).filter(function (s) {
-    return s;
-  }).reduce(function (acc, pair) {
-    var i = pair.indexOf(':');
-    var prop = camelize(pair.slice(0, i));
-    var value = pair.slice(i + 1).trim();
-    prop.startsWith('webkit') ? acc[capitalize(prop)] = value : acc[prop] = value;
-    return acc;
-  }, {});
+  if (styleCache.has(style)) {
+    return styleCache.get(style);
+  }
+  const result = {};
+  let start = 0;
+  const len = style.length;
+  while (start < len) {
+    const semicolonIndex = style.indexOf(";", start);
+    const end = semicolonIndex === -1 ? len : semicolonIndex;
+    const pair = style.slice(start, end).trim();
+    if (pair) {
+      const colonIndex = pair.indexOf(":");
+      if (colonIndex > 0) {
+        const rawProp = pair.slice(0, colonIndex).trim();
+        const value = pair.slice(colonIndex + 1).trim();
+        if (rawProp && value) {
+          const prop = camelize(rawProp);
+          result[prop.startsWith("webkit") ? capitalize(prop) : prop] = value;
+        }
+      }
+    }
+    start = end + 1;
+  }
+  if (styleCache.size === STYLE_CACHE_LIMIT) {
+    const oldestKey = styleCache.keys().next().value;
+    if (oldestKey) {
+      styleCache.delete(oldestKey);
+    }
+  }
+  styleCache.set(style, result);
+  return result;
 }
-
-function convert(createElement, element) {
-  var extraProps = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-  if (typeof element === 'string') {
+function convert(createElement, element, extraProps = {}) {
+  if (typeof element === "string") {
     return element;
   }
-
-  var children = (element.children || []).map(function (child) {
+  const children = (element.children || []).map((child) => {
     return convert(createElement, child);
   });
-  /* eslint-disable dot-notation */
-
-  var mixins = Object.keys(element.attributes || {}).reduce(function (acc, key) {
-    var val = element.attributes[key];
-
-    switch (key) {
-      case 'class':
-        acc.attrs['className'] = val;
-        delete element.attributes['class'];
+  const elementAttributes = element.attributes || {};
+  const attrs = {};
+  for (const [key, val] of Object.entries(elementAttributes)) {
+    switch (true) {
+      case key === "class": {
+        attrs.className = val;
         break;
-
-      case 'style':
-        acc.attrs['style'] = styleToObject(val);
+      }
+      case key === "style": {
+        attrs.style = styleToObject(String(val));
         break;
-
-      default:
-        if (key.indexOf('aria-') === 0 || key.indexOf('data-') === 0) {
-          acc.attrs[key.toLowerCase()] = val;
-        } else {
-          acc.attrs[camelize(key)] = val;
-        }
-
+      }
+      case key.startsWith("aria-"):
+      case key.startsWith("data-"): {
+        attrs[key.toLowerCase()] = val;
+        break;
+      }
+      default: {
+        attrs[camelize(key)] = val;
+      }
     }
-
-    return acc;
-  }, {
-    attrs: {}
-  });
-
-  var _extraProps$style = extraProps.style,
-      existingStyle = _extraProps$style === void 0 ? {} : _extraProps$style,
-      remaining = _objectWithoutProperties(extraProps, _excluded$1);
-
-  mixins.attrs['style'] = _objectSpread2(_objectSpread2({}, mixins.attrs['style']), existingStyle);
-  /* eslint-enable */
-
-  return createElement.apply(void 0, [element.tag, _objectSpread2(_objectSpread2({}, mixins.attrs), remaining)].concat(_toConsumableArray(children)));
-}
-
-var PRODUCTION = false;
-
-try {
-  PRODUCTION = "development" === 'production';
-} catch (e) {}
-
-function log () {
-  if (!PRODUCTION && console && typeof console.error === 'function') {
-    var _console;
-
-    (_console = console).error.apply(_console, arguments);
   }
-}
-
-function normalizeIconArgs(icon) {
-  // this has everything that it needs to be rendered which means it was probably imported
-  // directly from an icon svg package
-  if (icon && _typeof(icon) === 'object' && icon.prefix && icon.iconName && icon.icon) {
-    return icon;
+  const {
+    style: existingStyle,
+    role: existingRole,
+    "aria-label": ariaLabel,
+    ...remaining
+  } = extraProps;
+  if (existingStyle) {
+    attrs.style = attrs.style ? { ...attrs.style, ...existingStyle } : existingStyle;
   }
-
-  if (_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_0__.parse.icon) {
-    return _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_0__.parse.icon(icon);
-  } // if the icon is null, there's nothing to do
-
-
-  if (icon === null) {
-    return null;
-  } // if the icon is an object and has a prefix and an icon name, return it
-
-
-  if (icon && _typeof(icon) === 'object' && icon.prefix && icon.iconName) {
-    return icon;
-  } // if it's an array with length of two
-
-
-  if (Array.isArray(icon) && icon.length === 2) {
-    // use the first item as prefix, second as icon name
-    return {
-      prefix: icon[0],
-      iconName: icon[1]
-    };
-  } // if it's a string, use it as the icon name
-
-
-  if (typeof icon === 'string') {
-    return {
-      prefix: 'fas',
-      iconName: icon
-    };
+  if (existingRole) {
+    attrs.role = existingRole;
   }
-}
-
-// creates an object with a key of key
-// and a value of value
-// if certain conditions are met
-function objectWithKey(key, value) {
-  // if the value is a non-empty array
-  // or it's not an array but it is truthy
-  // then create the object with the key and the value
-  // if not, return an empty array
-  return Array.isArray(value) && value.length > 0 || !Array.isArray(value) && value ? _defineProperty({}, key, value) : {};
-}
-
-var _excluded = ["forwardedRef"];
-function FontAwesomeIcon(_ref) {
-  var forwardedRef = _ref.forwardedRef,
-      props = _objectWithoutProperties(_ref, _excluded);
-
-  var iconArgs = props.icon,
-      maskArgs = props.mask,
-      symbol = props.symbol,
-      className = props.className,
-      title = props.title,
-      titleId = props.titleId,
-      maskId = props.maskId;
-  var iconLookup = normalizeIconArgs(iconArgs);
-  var classes = objectWithKey('classes', [].concat(_toConsumableArray(classList(props)), _toConsumableArray(className.split(' '))));
-  var transform = objectWithKey('transform', typeof props.transform === 'string' ? _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_0__.parse.transform(props.transform) : props.transform);
-  var mask = objectWithKey('mask', normalizeIconArgs(maskArgs));
-  var renderedIcon = (0,_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_0__.icon)(iconLookup, _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, classes), transform), mask), {}, {
-    symbol: symbol,
-    title: title,
-    titleId: titleId,
-    maskId: maskId
-  }));
-
-  if (!renderedIcon) {
-    log('Could not find icon', iconLookup);
-    return null;
+  if (ariaLabel) {
+    attrs["aria-label"] = ariaLabel;
+    attrs["aria-hidden"] = "false";
   }
-
-  var abstract = renderedIcon.abstract;
-  var extraProps = {
-    ref: forwardedRef
-  };
-  Object.keys(props).forEach(function (key) {
-    // eslint-disable-next-line no-prototype-builtins
-    if (!FontAwesomeIcon.defaultProps.hasOwnProperty(key)) {
-      extraProps[key] = props[key];
-    }
-  });
-  return convertCurry(abstract[0], extraProps);
+  return createElement(element.tag, { ...remaining, ...attrs }, ...children);
 }
-FontAwesomeIcon.displayName = 'FontAwesomeIcon';
-FontAwesomeIcon.propTypes = {
-  beat: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  border: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  beatFade: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  bounce: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  className: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
-  fade: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  flash: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  mask: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_1___default().object), (prop_types__WEBPACK_IMPORTED_MODULE_1___default().array), (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string)]),
-  maskId: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
-  fixedWidth: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  inverse: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  flip: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOf([true, false, 'horizontal', 'vertical', 'both']),
-  icon: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_1___default().object), (prop_types__WEBPACK_IMPORTED_MODULE_1___default().array), (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string)]),
-  listItem: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  pull: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOf(['right', 'left']),
-  pulse: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  rotation: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOf([0, 90, 180, 270]),
-  shake: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  size: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOf(['2xs', 'xs', 'sm', 'lg', 'xl', '2xl', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x']),
-  spin: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  spinPulse: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  spinReverse: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  symbol: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool), (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string)]),
-  title: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
-  titleId: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
-  transform: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_1___default().string), (prop_types__WEBPACK_IMPORTED_MODULE_1___default().object)]),
-  swapOpacity: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool)
+var makeReactConverter = convert.bind(null, react__WEBPACK_IMPORTED_MODULE_0__.createElement);
+var useAccessibilityId = (id, hasAccessibleProps) => {
+  const generatedId = (0,react__WEBPACK_IMPORTED_MODULE_0__.useId)();
+  return id || (hasAccessibleProps ? generatedId : void 0);
 };
-FontAwesomeIcon.defaultProps = {
+
+// src/logger.ts
+var Logger = class {
+  constructor(scope = "react-fontawesome") {
+    this.enabled = false;
+    let IS_DEV = false;
+    try {
+      IS_DEV = typeof process !== "undefined" && "development" === "development";
+    } catch {
+    }
+    this.scope = scope;
+    this.enabled = IS_DEV;
+  }
+  /**
+   * Logs messages to the console if not in production.
+   * @param args - The message and/or data to log.
+   */
+  log(...args) {
+    if (!this.enabled) return;
+    console.log(`[${this.scope}]`, ...args);
+  }
+  /**
+   * Logs warnings to the console if not in production.
+   * @param args - The warning message and/or data to log.
+   */
+  warn(...args) {
+    if (!this.enabled) return;
+    console.warn(`[${this.scope}]`, ...args);
+  }
+  /**
+   * Logs errors to the console if not in production.
+   * @param args - The error message and/or data to log.
+   */
+  error(...args) {
+    if (!this.enabled) return;
+    console.error(`[${this.scope}]`, ...args);
+  }
+};
+typeof process !== "undefined" && process.env.FA_VERSION || "7.0.0";
+var SVG_CORE_VERSION = (
+  // @ts-expect-error TS2872 - Expression is always truthy - This is true when v7 of SVGCore is used, but not when v6 is used.
+  // This is the point of this check - if the property exists on config, we have v7, otherwise we have v6.
+  // TS is checking this against the dev dependencies which uses v7, so it reports a false error here.
+  ("searchPseudoElementsFullScan" in _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__.config ? "7.0.0" : "6.0.0")
+);
+var IS_VERSION_7_OR_LATER = Number.parseInt(SVG_CORE_VERSION) >= 7;
+var DEFAULT_CLASSNAME_PREFIX = "fa";
+var ANIMATION_CLASSES = {
+  beat: "fa-beat",
+  fade: "fa-fade",
+  beatFade: "fa-beat-fade",
+  bounce: "fa-bounce",
+  shake: "fa-shake",
+  spin: "fa-spin",
+  spinPulse: "fa-spin-pulse",
+  spinReverse: "fa-spin-reverse",
+  pulse: "fa-pulse"
+};
+var PULL_CLASSES = {
+  left: "fa-pull-left",
+  right: "fa-pull-right"
+};
+var ROTATE_CLASSES = {
+  "90": "fa-rotate-90",
+  "180": "fa-rotate-180",
+  "270": "fa-rotate-270"
+};
+var SIZE_CLASSES = {
+  "2xs": "fa-2xs",
+  xs: "fa-xs",
+  sm: "fa-sm",
+  lg: "fa-lg",
+  xl: "fa-xl",
+  "2xl": "fa-2xl",
+  "1x": "fa-1x",
+  "2x": "fa-2x",
+  "3x": "fa-3x",
+  "4x": "fa-4x",
+  "5x": "fa-5x",
+  "6x": "fa-6x",
+  "7x": "fa-7x",
+  "8x": "fa-8x",
+  "9x": "fa-9x",
+  "10x": "fa-10x"
+};
+var STYLE_CLASSES = {
+  border: "fa-border",
+  /** @deprecated */
+  fixedWidth: "fa-fw",
+  flip: "fa-flip",
+  flipHorizontal: "fa-flip-horizontal",
+  flipVertical: "fa-flip-vertical",
+  inverse: "fa-inverse",
+  rotateBy: "fa-rotate-by",
+  swapOpacity: "fa-swap-opacity",
+  widthAuto: "fa-width-auto"
+};
+var LAYER_CLASSES = {
+  default: "fa-layers"
+};
+
+// src/utils/get-class-list-from-props.ts
+function withPrefix(cls) {
+  const prefix = _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__.config.cssPrefix || _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__.config.familyPrefix || DEFAULT_CLASSNAME_PREFIX;
+  return prefix === DEFAULT_CLASSNAME_PREFIX ? cls : cls.replace(
+    new RegExp(String.raw`(?<=^|\s)${DEFAULT_CLASSNAME_PREFIX}-`, "g"),
+    `${prefix}-`
+  );
+}
+function getClassListFromProps(props) {
+  const {
+    beat,
+    fade,
+    beatFade,
+    bounce,
+    shake,
+    spin,
+    spinPulse,
+    spinReverse,
+    pulse,
+    fixedWidth,
+    inverse,
+    border,
+    flip,
+    size,
+    rotation,
+    pull,
+    swapOpacity,
+    rotateBy,
+    widthAuto,
+    className
+  } = props;
+  const result = [];
+  if (className) result.push(...className.split(" "));
+  if (beat) result.push(ANIMATION_CLASSES.beat);
+  if (fade) result.push(ANIMATION_CLASSES.fade);
+  if (beatFade) result.push(ANIMATION_CLASSES.beatFade);
+  if (bounce) result.push(ANIMATION_CLASSES.bounce);
+  if (shake) result.push(ANIMATION_CLASSES.shake);
+  if (spin) result.push(ANIMATION_CLASSES.spin);
+  if (spinReverse) result.push(ANIMATION_CLASSES.spinReverse);
+  if (spinPulse) result.push(ANIMATION_CLASSES.spinPulse);
+  if (pulse) result.push(ANIMATION_CLASSES.pulse);
+  if (fixedWidth) result.push(STYLE_CLASSES.fixedWidth);
+  if (inverse) result.push(STYLE_CLASSES.inverse);
+  if (border) result.push(STYLE_CLASSES.border);
+  if (flip === true) result.push(STYLE_CLASSES.flip);
+  if (flip === "horizontal" || flip === "both") {
+    result.push(STYLE_CLASSES.flipHorizontal);
+  }
+  if (flip === "vertical" || flip === "both") {
+    result.push(STYLE_CLASSES.flipVertical);
+  }
+  if (size !== void 0 && size !== null) result.push(SIZE_CLASSES[size]);
+  if (rotation !== void 0 && rotation !== null && rotation !== 0) {
+    result.push(ROTATE_CLASSES[rotation]);
+  }
+  if (pull !== void 0 && pull !== null) result.push(PULL_CLASSES[pull]);
+  if (swapOpacity) result.push(STYLE_CLASSES.swapOpacity);
+  if (!IS_VERSION_7_OR_LATER) return result;
+  if (rotateBy) result.push(STYLE_CLASSES.rotateBy);
+  if (widthAuto) result.push(STYLE_CLASSES.widthAuto);
+  const prefix = _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__.config.cssPrefix || _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__.config.familyPrefix || DEFAULT_CLASSNAME_PREFIX;
+  return prefix === DEFAULT_CLASSNAME_PREFIX ? result : (
+    // TODO: see if we can achieve custom prefix support without iterating
+    // eslint-disable-next-line unicorn/no-array-callback-reference
+    result.map(withPrefix)
+  );
+}
+var isIconDefinition = (icon) => typeof icon === "object" && "icon" in icon && !!icon.icon;
+function normalizeIconArgs(icon) {
+  if (!icon) {
+    return void 0;
+  }
+  if (isIconDefinition(icon)) {
+    return icon;
+  }
+  return _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__.parse.icon(icon);
+}
+
+// src/utils/typed-object-keys.ts
+function typedObjectKeys(obj) {
+  return Object.keys(obj);
+}
+
+// src/components/FontAwesomeIcon.tsx
+var logger = new Logger("FontAwesomeIcon");
+var DEFAULT_PROPS = {
   border: false,
-  className: '',
-  mask: null,
-  maskId: null,
+  className: "",
+  mask: void 0,
+  maskId: void 0,
   fixedWidth: false,
   inverse: false,
   flip: false,
-  icon: null,
+  icon: void 0,
   listItem: false,
-  pull: null,
+  pull: void 0,
   pulse: false,
-  rotation: null,
-  size: null,
+  rotation: void 0,
+  rotateBy: false,
+  size: void 0,
   spin: false,
   spinPulse: false,
   spinReverse: false,
@@ -4142,12 +4682,107 @@ FontAwesomeIcon.defaultProps = {
   bounce: false,
   shake: false,
   symbol: false,
-  title: '',
-  titleId: null,
-  transform: null,
-  swapOpacity: false
+  title: "",
+  titleId: void 0,
+  transform: void 0,
+  swapOpacity: false,
+  widthAuto: false
 };
-var convertCurry = convert.bind(null, (react__WEBPACK_IMPORTED_MODULE_2___default().createElement));
+var DEFAULT_PROP_KEYS = new Set(Object.keys(DEFAULT_PROPS));
+var FontAwesomeIcon = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef((props, ref) => {
+  const allProps = { ...DEFAULT_PROPS, ...props };
+  const {
+    icon: iconArgs,
+    mask: maskArgs,
+    symbol,
+    title,
+    titleId: titleIdFromProps,
+    maskId: maskIdFromProps,
+    transform
+  } = allProps;
+  const maskId = useAccessibilityId(maskIdFromProps, Boolean(maskArgs));
+  const titleId = useAccessibilityId(titleIdFromProps, Boolean(title));
+  const iconLookup = normalizeIconArgs(iconArgs);
+  if (!iconLookup) {
+    logger.error("Icon lookup is undefined", iconArgs);
+    return null;
+  }
+  const classList = getClassListFromProps(allProps);
+  const transformProps = typeof transform === "string" ? _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__.parse.transform(transform) : transform;
+  const normalizedMaskArgs = normalizeIconArgs(maskArgs);
+  const renderedIcon = (0,_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__.icon)(iconLookup, {
+    ...classList.length > 0 && { classes: classList },
+    ...transformProps && { transform: transformProps },
+    ...normalizedMaskArgs && { mask: normalizedMaskArgs },
+    symbol,
+    title,
+    titleId,
+    maskId
+  });
+  if (!renderedIcon) {
+    logger.error("Could not find icon", iconLookup);
+    return null;
+  }
+  const { abstract } = renderedIcon;
+  const extraProps = { ref };
+  for (const key of typedObjectKeys(allProps)) {
+    if (DEFAULT_PROP_KEYS.has(key)) {
+      continue;
+    }
+    extraProps[key] = allProps[key];
+  }
+  return makeReactConverter(abstract[0], extraProps);
+});
+FontAwesomeIcon.displayName = "FontAwesomeIcon";
+var DEFAULT_CLASSNAMES = `${LAYER_CLASSES.default} ${STYLE_CLASSES.fixedWidth}`;
+var FontAwesomeLayers = ({
+  children,
+  className,
+  size,
+  ...attributes
+}) => {
+  const prefixedDefaultClasses = withPrefix(DEFAULT_CLASSNAMES);
+  const classes = className ? `${prefixedDefaultClasses} ${className}` : prefixedDefaultClasses;
+  const element = /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", { ...attributes, className: classes, children });
+  if (size) {
+    return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", { className: withPrefix(`fa-${size}`), children: element });
+  }
+  return element;
+};
+var LayersText = ({
+  text: text$1,
+  className,
+  inverse,
+  transform,
+  style,
+  ...attributes
+}) => {
+  const textAbstractElement = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
+    const textObject = (0,_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__.text)(text$1, {
+      classes: [
+        ...className?.split(" ") || [],
+        ...inverse ? [STYLE_CLASSES.inverse] : []
+      ],
+      transform: typeof transform === "string" ? _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__.parse.transform(transform) : transform
+    });
+    return textObject.abstract[0];
+  }, [text$1, transform, className, inverse]);
+  return makeReactConverter(textAbstractElement, { ...attributes, style });
+};
+var LayersCounter = ({
+  count,
+  className,
+  style,
+  ...attributes
+}) => {
+  const counterAbstractElement = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(
+    () => (0,_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__.counter)(count, {
+      classes: className?.split(" ")
+    }).abstract[0],
+    [count, className]
+  );
+  return makeReactConverter(counterAbstractElement, { ...attributes, style });
+};
 
 
 
@@ -12488,107 +13123,6 @@ module.exports = function sign(number) {
 
 /***/ }),
 
-/***/ "./node_modules/object-assign/index.js":
-/*!*********************************************!*\
-  !*** ./node_modules/object-assign/index.js ***!
-  \*********************************************/
-/***/ ((module) => {
-
-"use strict";
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
-
-/* eslint-disable no-unused-vars */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-
-/***/ }),
-
 /***/ "./node_modules/object-hash/dist/object_hash.js":
 /*!******************************************************!*\
   !*** ./node_modules/object-hash/dist/object_hash.js ***!
@@ -13149,1010 +13683,6 @@ function arrObjKeys(obj, inspect) {
         }
     }
     return xs;
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/prop-types/checkPropTypes.js":
-/*!***************************************************!*\
-  !*** ./node_modules/prop-types/checkPropTypes.js ***!
-  \***************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-var printWarning = function() {};
-
-if (true) {
-  var ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "./node_modules/prop-types/lib/ReactPropTypesSecret.js");
-  var loggedTypeFailures = {};
-  var has = __webpack_require__(/*! ./lib/has */ "./node_modules/prop-types/lib/has.js");
-
-  printWarning = function(text) {
-    var message = 'Warning: ' + text;
-    if (typeof console !== 'undefined') {
-      console.error(message);
-    }
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      throw new Error(message);
-    } catch (x) { /**/ }
-  };
-}
-
-/**
- * Assert that the values match with the type specs.
- * Error messages are memorized and will only be shown once.
- *
- * @param {object} typeSpecs Map of name to a ReactPropType
- * @param {object} values Runtime values that need to be type-checked
- * @param {string} location e.g. "prop", "context", "child context"
- * @param {string} componentName Name of the component for error messages.
- * @param {?Function} getStack Returns the component stack.
- * @private
- */
-function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
-  if (true) {
-    for (var typeSpecName in typeSpecs) {
-      if (has(typeSpecs, typeSpecName)) {
-        var error;
-        // Prop type validation may throw. In case they do, we don't want to
-        // fail the render phase where it didn't fail before. So we log it.
-        // After these have been cleaned up, we'll let them throw.
-        try {
-          // This is intentionally an invariant that gets caught. It's the same
-          // behavior as without this statement except with a better message.
-          if (typeof typeSpecs[typeSpecName] !== 'function') {
-            var err = Error(
-              (componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + '` is invalid; ' +
-              'it must be a function, usually from the `prop-types` package, but received `' + typeof typeSpecs[typeSpecName] + '`.' +
-              'This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.'
-            );
-            err.name = 'Invariant Violation';
-            throw err;
-          }
-          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
-        } catch (ex) {
-          error = ex;
-        }
-        if (error && !(error instanceof Error)) {
-          printWarning(
-            (componentName || 'React class') + ': type specification of ' +
-            location + ' `' + typeSpecName + '` is invalid; the type checker ' +
-            'function must return `null` or an `Error` but returned a ' + typeof error + '. ' +
-            'You may have forgotten to pass an argument to the type checker ' +
-            'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' +
-            'shape all require an argument).'
-          );
-        }
-        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-          // Only monitor this failure once because there tends to be a lot of the
-          // same error.
-          loggedTypeFailures[error.message] = true;
-
-          var stack = getStack ? getStack() : '';
-
-          printWarning(
-            'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')
-          );
-        }
-      }
-    }
-  }
-}
-
-/**
- * Resets warning cache when testing.
- *
- * @private
- */
-checkPropTypes.resetWarningCache = function() {
-  if (true) {
-    loggedTypeFailures = {};
-  }
-}
-
-module.exports = checkPropTypes;
-
-
-/***/ }),
-
-/***/ "./node_modules/prop-types/factoryWithTypeCheckers.js":
-/*!************************************************************!*\
-  !*** ./node_modules/prop-types/factoryWithTypeCheckers.js ***!
-  \************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/prop-types/node_modules/react-is/index.js");
-var assign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
-
-var ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "./node_modules/prop-types/lib/ReactPropTypesSecret.js");
-var has = __webpack_require__(/*! ./lib/has */ "./node_modules/prop-types/lib/has.js");
-var checkPropTypes = __webpack_require__(/*! ./checkPropTypes */ "./node_modules/prop-types/checkPropTypes.js");
-
-var printWarning = function() {};
-
-if (true) {
-  printWarning = function(text) {
-    var message = 'Warning: ' + text;
-    if (typeof console !== 'undefined') {
-      console.error(message);
-    }
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      throw new Error(message);
-    } catch (x) {}
-  };
-}
-
-function emptyFunctionThatReturnsNull() {
-  return null;
-}
-
-module.exports = function(isValidElement, throwOnDirectAccess) {
-  /* global Symbol */
-  var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
-  var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
-
-  /**
-   * Returns the iterator method function contained on the iterable object.
-   *
-   * Be sure to invoke the function with the iterable as context:
-   *
-   *     var iteratorFn = getIteratorFn(myIterable);
-   *     if (iteratorFn) {
-   *       var iterator = iteratorFn.call(myIterable);
-   *       ...
-   *     }
-   *
-   * @param {?object} maybeIterable
-   * @return {?function}
-   */
-  function getIteratorFn(maybeIterable) {
-    var iteratorFn = maybeIterable && (ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]);
-    if (typeof iteratorFn === 'function') {
-      return iteratorFn;
-    }
-  }
-
-  /**
-   * Collection of methods that allow declaration and validation of props that are
-   * supplied to React components. Example usage:
-   *
-   *   var Props = require('ReactPropTypes');
-   *   var MyArticle = React.createClass({
-   *     propTypes: {
-   *       // An optional string prop named "description".
-   *       description: Props.string,
-   *
-   *       // A required enum prop named "category".
-   *       category: Props.oneOf(['News','Photos']).isRequired,
-   *
-   *       // A prop named "dialog" that requires an instance of Dialog.
-   *       dialog: Props.instanceOf(Dialog).isRequired
-   *     },
-   *     render: function() { ... }
-   *   });
-   *
-   * A more formal specification of how these methods are used:
-   *
-   *   type := array|bool|func|object|number|string|oneOf([...])|instanceOf(...)
-   *   decl := ReactPropTypes.{type}(.isRequired)?
-   *
-   * Each and every declaration produces a function with the same signature. This
-   * allows the creation of custom validation functions. For example:
-   *
-   *  var MyLink = React.createClass({
-   *    propTypes: {
-   *      // An optional string or URI prop named "href".
-   *      href: function(props, propName, componentName) {
-   *        var propValue = props[propName];
-   *        if (propValue != null && typeof propValue !== 'string' &&
-   *            !(propValue instanceof URI)) {
-   *          return new Error(
-   *            'Expected a string or an URI for ' + propName + ' in ' +
-   *            componentName
-   *          );
-   *        }
-   *      }
-   *    },
-   *    render: function() {...}
-   *  });
-   *
-   * @internal
-   */
-
-  var ANONYMOUS = '<<anonymous>>';
-
-  // Important!
-  // Keep this list in sync with production version in `./factoryWithThrowingShims.js`.
-  var ReactPropTypes = {
-    array: createPrimitiveTypeChecker('array'),
-    bigint: createPrimitiveTypeChecker('bigint'),
-    bool: createPrimitiveTypeChecker('boolean'),
-    func: createPrimitiveTypeChecker('function'),
-    number: createPrimitiveTypeChecker('number'),
-    object: createPrimitiveTypeChecker('object'),
-    string: createPrimitiveTypeChecker('string'),
-    symbol: createPrimitiveTypeChecker('symbol'),
-
-    any: createAnyTypeChecker(),
-    arrayOf: createArrayOfTypeChecker,
-    element: createElementTypeChecker(),
-    elementType: createElementTypeTypeChecker(),
-    instanceOf: createInstanceTypeChecker,
-    node: createNodeChecker(),
-    objectOf: createObjectOfTypeChecker,
-    oneOf: createEnumTypeChecker,
-    oneOfType: createUnionTypeChecker,
-    shape: createShapeTypeChecker,
-    exact: createStrictShapeTypeChecker,
-  };
-
-  /**
-   * inlined Object.is polyfill to avoid requiring consumers ship their own
-   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
-   */
-  /*eslint-disable no-self-compare*/
-  function is(x, y) {
-    // SameValue algorithm
-    if (x === y) {
-      // Steps 1-5, 7-10
-      // Steps 6.b-6.e: +0 != -0
-      return x !== 0 || 1 / x === 1 / y;
-    } else {
-      // Step 6.a: NaN == NaN
-      return x !== x && y !== y;
-    }
-  }
-  /*eslint-enable no-self-compare*/
-
-  /**
-   * We use an Error-like object for backward compatibility as people may call
-   * PropTypes directly and inspect their output. However, we don't use real
-   * Errors anymore. We don't inspect their stack anyway, and creating them
-   * is prohibitively expensive if they are created too often, such as what
-   * happens in oneOfType() for any type before the one that matched.
-   */
-  function PropTypeError(message, data) {
-    this.message = message;
-    this.data = data && typeof data === 'object' ? data: {};
-    this.stack = '';
-  }
-  // Make `instanceof Error` still work for returned errors.
-  PropTypeError.prototype = Error.prototype;
-
-  function createChainableTypeChecker(validate) {
-    if (true) {
-      var manualPropTypeCallCache = {};
-      var manualPropTypeWarningCount = 0;
-    }
-    function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
-      componentName = componentName || ANONYMOUS;
-      propFullName = propFullName || propName;
-
-      if (secret !== ReactPropTypesSecret) {
-        if (throwOnDirectAccess) {
-          // New behavior only for users of `prop-types` package
-          var err = new Error(
-            'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-            'Use `PropTypes.checkPropTypes()` to call them. ' +
-            'Read more at http://fb.me/use-check-prop-types'
-          );
-          err.name = 'Invariant Violation';
-          throw err;
-        } else if ( true && typeof console !== 'undefined') {
-          // Old behavior for people using React.PropTypes
-          var cacheKey = componentName + ':' + propName;
-          if (
-            !manualPropTypeCallCache[cacheKey] &&
-            // Avoid spamming the console because they are often not actionable except for lib authors
-            manualPropTypeWarningCount < 3
-          ) {
-            printWarning(
-              'You are manually calling a React.PropTypes validation ' +
-              'function for the `' + propFullName + '` prop on `' + componentName + '`. This is deprecated ' +
-              'and will throw in the standalone `prop-types` package. ' +
-              'You may be seeing this warning due to a third-party PropTypes ' +
-              'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.'
-            );
-            manualPropTypeCallCache[cacheKey] = true;
-            manualPropTypeWarningCount++;
-          }
-        }
-      }
-      if (props[propName] == null) {
-        if (isRequired) {
-          if (props[propName] === null) {
-            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
-          }
-          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
-        }
-        return null;
-      } else {
-        return validate(props, propName, componentName, location, propFullName);
-      }
-    }
-
-    var chainedCheckType = checkType.bind(null, false);
-    chainedCheckType.isRequired = checkType.bind(null, true);
-
-    return chainedCheckType;
-  }
-
-  function createPrimitiveTypeChecker(expectedType) {
-    function validate(props, propName, componentName, location, propFullName, secret) {
-      var propValue = props[propName];
-      var propType = getPropType(propValue);
-      if (propType !== expectedType) {
-        // `propValue` being instance of, say, date/regexp, pass the 'object'
-        // check, but we can offer a more precise error message here rather than
-        // 'of type `object`'.
-        var preciseType = getPreciseType(propValue);
-
-        return new PropTypeError(
-          'Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'),
-          {expectedType: expectedType}
-        );
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createAnyTypeChecker() {
-    return createChainableTypeChecker(emptyFunctionThatReturnsNull);
-  }
-
-  function createArrayOfTypeChecker(typeChecker) {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (typeof typeChecker !== 'function') {
-        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
-      }
-      var propValue = props[propName];
-      if (!Array.isArray(propValue)) {
-        var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
-      }
-      for (var i = 0; i < propValue.length; i++) {
-        var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
-        if (error instanceof Error) {
-          return error;
-        }
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createElementTypeChecker() {
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName];
-      if (!isValidElement(propValue)) {
-        var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createElementTypeTypeChecker() {
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName];
-      if (!ReactIs.isValidElementType(propValue)) {
-        var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement type.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createInstanceTypeChecker(expectedClass) {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (!(props[propName] instanceof expectedClass)) {
-        var expectedClassName = expectedClass.name || ANONYMOUS;
-        var actualClassName = getClassName(props[propName]);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createEnumTypeChecker(expectedValues) {
-    if (!Array.isArray(expectedValues)) {
-      if (true) {
-        if (arguments.length > 1) {
-          printWarning(
-            'Invalid arguments supplied to oneOf, expected an array, got ' + arguments.length + ' arguments. ' +
-            'A common mistake is to write oneOf(x, y, z) instead of oneOf([x, y, z]).'
-          );
-        } else {
-          printWarning('Invalid argument supplied to oneOf, expected an array.');
-        }
-      }
-      return emptyFunctionThatReturnsNull;
-    }
-
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName];
-      for (var i = 0; i < expectedValues.length; i++) {
-        if (is(propValue, expectedValues[i])) {
-          return null;
-        }
-      }
-
-      var valuesString = JSON.stringify(expectedValues, function replacer(key, value) {
-        var type = getPreciseType(value);
-        if (type === 'symbol') {
-          return String(value);
-        }
-        return value;
-      });
-      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + String(propValue) + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createObjectOfTypeChecker(typeChecker) {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (typeof typeChecker !== 'function') {
-        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
-      }
-      var propValue = props[propName];
-      var propType = getPropType(propValue);
-      if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
-      }
-      for (var key in propValue) {
-        if (has(propValue, key)) {
-          var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
-          if (error instanceof Error) {
-            return error;
-          }
-        }
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createUnionTypeChecker(arrayOfTypeCheckers) {
-    if (!Array.isArray(arrayOfTypeCheckers)) {
-       true ? printWarning('Invalid argument supplied to oneOfType, expected an instance of array.') : 0;
-      return emptyFunctionThatReturnsNull;
-    }
-
-    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
-      var checker = arrayOfTypeCheckers[i];
-      if (typeof checker !== 'function') {
-        printWarning(
-          'Invalid argument supplied to oneOfType. Expected an array of check functions, but ' +
-          'received ' + getPostfixForTypeWarning(checker) + ' at index ' + i + '.'
-        );
-        return emptyFunctionThatReturnsNull;
-      }
-    }
-
-    function validate(props, propName, componentName, location, propFullName) {
-      var expectedTypes = [];
-      for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
-        var checker = arrayOfTypeCheckers[i];
-        var checkerResult = checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret);
-        if (checkerResult == null) {
-          return null;
-        }
-        if (checkerResult.data && has(checkerResult.data, 'expectedType')) {
-          expectedTypes.push(checkerResult.data.expectedType);
-        }
-      }
-      var expectedTypesMessage = (expectedTypes.length > 0) ? ', expected one of type [' + expectedTypes.join(', ') + ']': '';
-      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`' + expectedTypesMessage + '.'));
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createNodeChecker() {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (!isNode(props[propName])) {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function invalidValidatorError(componentName, location, propFullName, key, type) {
-    return new PropTypeError(
-      (componentName || 'React class') + ': ' + location + ' type `' + propFullName + '.' + key + '` is invalid; ' +
-      'it must be a function, usually from the `prop-types` package, but received `' + type + '`.'
-    );
-  }
-
-  function createShapeTypeChecker(shapeTypes) {
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName];
-      var propType = getPropType(propValue);
-      if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
-      }
-      for (var key in shapeTypes) {
-        var checker = shapeTypes[key];
-        if (typeof checker !== 'function') {
-          return invalidValidatorError(componentName, location, propFullName, key, getPreciseType(checker));
-        }
-        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
-        if (error) {
-          return error;
-        }
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createStrictShapeTypeChecker(shapeTypes) {
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName];
-      var propType = getPropType(propValue);
-      if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
-      }
-      // We need to check all keys in case some are required but missing from props.
-      var allKeys = assign({}, props[propName], shapeTypes);
-      for (var key in allKeys) {
-        var checker = shapeTypes[key];
-        if (has(shapeTypes, key) && typeof checker !== 'function') {
-          return invalidValidatorError(componentName, location, propFullName, key, getPreciseType(checker));
-        }
-        if (!checker) {
-          return new PropTypeError(
-            'Invalid ' + location + ' `' + propFullName + '` key `' + key + '` supplied to `' + componentName + '`.' +
-            '\nBad object: ' + JSON.stringify(props[propName], null, '  ') +
-            '\nValid keys: ' + JSON.stringify(Object.keys(shapeTypes), null, '  ')
-          );
-        }
-        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
-        if (error) {
-          return error;
-        }
-      }
-      return null;
-    }
-
-    return createChainableTypeChecker(validate);
-  }
-
-  function isNode(propValue) {
-    switch (typeof propValue) {
-      case 'number':
-      case 'string':
-      case 'undefined':
-        return true;
-      case 'boolean':
-        return !propValue;
-      case 'object':
-        if (Array.isArray(propValue)) {
-          return propValue.every(isNode);
-        }
-        if (propValue === null || isValidElement(propValue)) {
-          return true;
-        }
-
-        var iteratorFn = getIteratorFn(propValue);
-        if (iteratorFn) {
-          var iterator = iteratorFn.call(propValue);
-          var step;
-          if (iteratorFn !== propValue.entries) {
-            while (!(step = iterator.next()).done) {
-              if (!isNode(step.value)) {
-                return false;
-              }
-            }
-          } else {
-            // Iterator will provide entry [k,v] tuples rather than values.
-            while (!(step = iterator.next()).done) {
-              var entry = step.value;
-              if (entry) {
-                if (!isNode(entry[1])) {
-                  return false;
-                }
-              }
-            }
-          }
-        } else {
-          return false;
-        }
-
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  function isSymbol(propType, propValue) {
-    // Native Symbol.
-    if (propType === 'symbol') {
-      return true;
-    }
-
-    // falsy value can't be a Symbol
-    if (!propValue) {
-      return false;
-    }
-
-    // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
-    if (propValue['@@toStringTag'] === 'Symbol') {
-      return true;
-    }
-
-    // Fallback for non-spec compliant Symbols which are polyfilled.
-    if (typeof Symbol === 'function' && propValue instanceof Symbol) {
-      return true;
-    }
-
-    return false;
-  }
-
-  // Equivalent of `typeof` but with special handling for array and regexp.
-  function getPropType(propValue) {
-    var propType = typeof propValue;
-    if (Array.isArray(propValue)) {
-      return 'array';
-    }
-    if (propValue instanceof RegExp) {
-      // Old webkits (at least until Android 4.0) return 'function' rather than
-      // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
-      // passes PropTypes.object.
-      return 'object';
-    }
-    if (isSymbol(propType, propValue)) {
-      return 'symbol';
-    }
-    return propType;
-  }
-
-  // This handles more types than `getPropType`. Only used for error messages.
-  // See `createPrimitiveTypeChecker`.
-  function getPreciseType(propValue) {
-    if (typeof propValue === 'undefined' || propValue === null) {
-      return '' + propValue;
-    }
-    var propType = getPropType(propValue);
-    if (propType === 'object') {
-      if (propValue instanceof Date) {
-        return 'date';
-      } else if (propValue instanceof RegExp) {
-        return 'regexp';
-      }
-    }
-    return propType;
-  }
-
-  // Returns a string that is postfixed to a warning about an invalid type.
-  // For example, "undefined" or "of type array"
-  function getPostfixForTypeWarning(value) {
-    var type = getPreciseType(value);
-    switch (type) {
-      case 'array':
-      case 'object':
-        return 'an ' + type;
-      case 'boolean':
-      case 'date':
-      case 'regexp':
-        return 'a ' + type;
-      default:
-        return type;
-    }
-  }
-
-  // Returns class name of the object, if any.
-  function getClassName(propValue) {
-    if (!propValue.constructor || !propValue.constructor.name) {
-      return ANONYMOUS;
-    }
-    return propValue.constructor.name;
-  }
-
-  ReactPropTypes.checkPropTypes = checkPropTypes;
-  ReactPropTypes.resetWarningCache = checkPropTypes.resetWarningCache;
-  ReactPropTypes.PropTypes = ReactPropTypes;
-
-  return ReactPropTypes;
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/prop-types/index.js":
-/*!******************************************!*\
-  !*** ./node_modules/prop-types/index.js ***!
-  \******************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (true) {
-  var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/prop-types/node_modules/react-is/index.js");
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(/*! ./factoryWithTypeCheckers */ "./node_modules/prop-types/factoryWithTypeCheckers.js")(ReactIs.isElement, throwOnDirectAccess);
-} else // removed by dead control flow
-{}
-
-
-/***/ }),
-
-/***/ "./node_modules/prop-types/lib/ReactPropTypesSecret.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/prop-types/lib/ReactPropTypesSecret.js ***!
-  \*************************************************************/
-/***/ ((module) => {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-module.exports = ReactPropTypesSecret;
-
-
-/***/ }),
-
-/***/ "./node_modules/prop-types/lib/has.js":
-/*!********************************************!*\
-  !*** ./node_modules/prop-types/lib/has.js ***!
-  \********************************************/
-/***/ ((module) => {
-
-module.exports = Function.call.bind(Object.prototype.hasOwnProperty);
-
-
-/***/ }),
-
-/***/ "./node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js":
-/*!***********************************************************************************!*\
-  !*** ./node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js ***!
-  \***********************************************************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-/** @license React v16.13.1
- * react-is.development.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-
-
-if (true) {
-  (function() {
-'use strict';
-
-// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
-// nor polyfill, then a plain number is used for performance.
-var hasSymbol = typeof Symbol === 'function' && Symbol.for;
-var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
-var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
-var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
-var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
-var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
-var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
-var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace; // TODO: We don't use AsyncMode or ConcurrentMode anymore. They were temporary
-// (unstable) APIs that have been removed. Can we remove the symbols?
-
-var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
-var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf;
-var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
-var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1;
-var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8;
-var REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3;
-var REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4;
-var REACT_BLOCK_TYPE = hasSymbol ? Symbol.for('react.block') : 0xead9;
-var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5;
-var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6;
-var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;
-
-function isValidElementType(type) {
-  return typeof type === 'string' || typeof type === 'function' || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-  type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
-}
-
-function typeOf(object) {
-  if (typeof object === 'object' && object !== null) {
-    var $$typeof = object.$$typeof;
-
-    switch ($$typeof) {
-      case REACT_ELEMENT_TYPE:
-        var type = object.type;
-
-        switch (type) {
-          case REACT_ASYNC_MODE_TYPE:
-          case REACT_CONCURRENT_MODE_TYPE:
-          case REACT_FRAGMENT_TYPE:
-          case REACT_PROFILER_TYPE:
-          case REACT_STRICT_MODE_TYPE:
-          case REACT_SUSPENSE_TYPE:
-            return type;
-
-          default:
-            var $$typeofType = type && type.$$typeof;
-
-            switch ($$typeofType) {
-              case REACT_CONTEXT_TYPE:
-              case REACT_FORWARD_REF_TYPE:
-              case REACT_LAZY_TYPE:
-              case REACT_MEMO_TYPE:
-              case REACT_PROVIDER_TYPE:
-                return $$typeofType;
-
-              default:
-                return $$typeof;
-            }
-
-        }
-
-      case REACT_PORTAL_TYPE:
-        return $$typeof;
-    }
-  }
-
-  return undefined;
-} // AsyncMode is deprecated along with isAsyncMode
-
-var AsyncMode = REACT_ASYNC_MODE_TYPE;
-var ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
-var ContextConsumer = REACT_CONTEXT_TYPE;
-var ContextProvider = REACT_PROVIDER_TYPE;
-var Element = REACT_ELEMENT_TYPE;
-var ForwardRef = REACT_FORWARD_REF_TYPE;
-var Fragment = REACT_FRAGMENT_TYPE;
-var Lazy = REACT_LAZY_TYPE;
-var Memo = REACT_MEMO_TYPE;
-var Portal = REACT_PORTAL_TYPE;
-var Profiler = REACT_PROFILER_TYPE;
-var StrictMode = REACT_STRICT_MODE_TYPE;
-var Suspense = REACT_SUSPENSE_TYPE;
-var hasWarnedAboutDeprecatedIsAsyncMode = false; // AsyncMode should be deprecated
-
-function isAsyncMode(object) {
-  {
-    if (!hasWarnedAboutDeprecatedIsAsyncMode) {
-      hasWarnedAboutDeprecatedIsAsyncMode = true; // Using console['warn'] to evade Babel and ESLint
-
-      console['warn']('The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 17+. Update your code to use ' + 'ReactIs.isConcurrentMode() instead. It has the exact same API.');
-    }
-  }
-
-  return isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
-}
-function isConcurrentMode(object) {
-  return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
-}
-function isContextConsumer(object) {
-  return typeOf(object) === REACT_CONTEXT_TYPE;
-}
-function isContextProvider(object) {
-  return typeOf(object) === REACT_PROVIDER_TYPE;
-}
-function isElement(object) {
-  return typeof object === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
-}
-function isForwardRef(object) {
-  return typeOf(object) === REACT_FORWARD_REF_TYPE;
-}
-function isFragment(object) {
-  return typeOf(object) === REACT_FRAGMENT_TYPE;
-}
-function isLazy(object) {
-  return typeOf(object) === REACT_LAZY_TYPE;
-}
-function isMemo(object) {
-  return typeOf(object) === REACT_MEMO_TYPE;
-}
-function isPortal(object) {
-  return typeOf(object) === REACT_PORTAL_TYPE;
-}
-function isProfiler(object) {
-  return typeOf(object) === REACT_PROFILER_TYPE;
-}
-function isStrictMode(object) {
-  return typeOf(object) === REACT_STRICT_MODE_TYPE;
-}
-function isSuspense(object) {
-  return typeOf(object) === REACT_SUSPENSE_TYPE;
-}
-
-exports.AsyncMode = AsyncMode;
-exports.ConcurrentMode = ConcurrentMode;
-exports.ContextConsumer = ContextConsumer;
-exports.ContextProvider = ContextProvider;
-exports.Element = Element;
-exports.ForwardRef = ForwardRef;
-exports.Fragment = Fragment;
-exports.Lazy = Lazy;
-exports.Memo = Memo;
-exports.Portal = Portal;
-exports.Profiler = Profiler;
-exports.StrictMode = StrictMode;
-exports.Suspense = Suspense;
-exports.isAsyncMode = isAsyncMode;
-exports.isConcurrentMode = isConcurrentMode;
-exports.isContextConsumer = isContextConsumer;
-exports.isContextProvider = isContextProvider;
-exports.isElement = isElement;
-exports.isForwardRef = isForwardRef;
-exports.isFragment = isFragment;
-exports.isLazy = isLazy;
-exports.isMemo = isMemo;
-exports.isPortal = isPortal;
-exports.isProfiler = isProfiler;
-exports.isStrictMode = isStrictMode;
-exports.isSuspense = isSuspense;
-exports.isValidElementType = isValidElementType;
-exports.typeOf = typeOf;
-  })();
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/prop-types/node_modules/react-is/index.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/prop-types/node_modules/react-is/index.js ***!
-  \****************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-
-if (false) // removed by dead control flow
-{} else {
-  module.exports = __webpack_require__(/*! ./cjs/react-is.development.js */ "./node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js");
 }
 
 
@@ -21176,40 +20706,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+var _excluded = ["width", "height", "primaryColor", "secondaryColor"];
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 
- // ES6
-
-var Spinner = function Spinner(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", {
+var Spinner = function Spinner(_ref) {
+  var _ref$width = _ref.width,
+    width = _ref$width === void 0 ? 24 : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? 24 : _ref$height,
+    _ref$primaryColor = _ref.primaryColor,
+    primaryColor = _ref$primaryColor === void 0 ? 'currentColor' : _ref$primaryColor,
+    _ref$secondaryColor = _ref.secondaryColor,
+    secondaryColor = _ref$secondaryColor === void 0 ? 'currentColor' : _ref$secondaryColor,
+    props = _objectWithoutProperties(_ref, _excluded);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", _extends({
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 576 512",
-    width: props.width,
-    height: props.height
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
+    width: width,
+    height: height
+  }, props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
     className: "fa-primary",
-    fill: props.primaryColor,
+    fill: primaryColor,
     d: "M256 32c0-17.67 14.3-32 32-32 141.4 0 256 114.6 256 256 0 46.6-12.5 90.4-34.3 128-8.8 15.3-28.4 20.6-44.6 11.7-14.4-8.8-19.6-28.4-10.8-44.6 16.3-27.3 25.7-60.1 25.7-96 0-106-86-192-192-192-17.7 0-32-13.43-32-32v.9z"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
     d: "M287.1 64c-106 0-192 85.1-192 192 0 106 86 192 192 192 71 0 132.2-37.5 165.8-93.6l.1.1c-6.9 14.9-1.5 32.8 12.1 41.2 16.2 8.9 35.8 3.6 44.6-11.7.2-.3.4-.6.5-.9C466.1 460.1 383.1 512 288 512 146.6 512 32 397.4 32 256S146.6 0 288 0c-17.7 0-32 14.33-32 32s14.3 32 32 32h-.9z",
-    fill: props.secondaryColor,
+    fill: secondaryColor,
     style: {
       opacity: 0.4
     }
   }));
-};
-Spinner.defaultProps = {
-  width: 24,
-  height: 24,
-  primaryColor: 'currentColor',
-  secondaryColor: 'currentColor'
-};
-Spinner.propTypes = {
-  width: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().number),
-  height: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().number),
-  primaryColor: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
-  secondaryColor: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string)
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Spinner);
 
@@ -21228,32 +20755,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+var _excluded = ["width", "height", "fill"];
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 
-
-var TwitterIcon = function TwitterIcon(props) {
+var TwitterIcon = function TwitterIcon(_ref) {
+  var _ref$width = _ref.width,
+    width = _ref$width === void 0 ? 24 : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? 24 : _ref$height,
+    _ref$fill = _ref.fill,
+    fill = _ref$fill === void 0 ? '#000000' : _ref$fill,
+    props = _objectWithoutProperties(_ref, _excluded);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", _extends({
     "aria-hidden": "true",
     viewBox: "0 0 24 24",
-    width: props.width,
-    height: props.height,
+    width: width,
+    height: height,
     className: "has-icon svg-inline--fa"
   }, props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
     fill: "currentColor",
     d: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
   }));
-};
-TwitterIcon.defaultProps = {
-  width: 24,
-  height: 24,
-  fill: '#000000'
-};
-TwitterIcon.propTypes = {
-  width: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().number),
-  height: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().number),
-  fill: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string)
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TwitterIcon);
 
@@ -21272,38 +20796,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_spinners_BeatLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-spinners/BeatLoader */ "./node_modules/react-spinners/BeatLoader.js");
-/* harmony import */ var react_spinners_BeatLoader__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_spinners_BeatLoader__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_spinners_BeatLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-spinners/BeatLoader */ "./node_modules/react-spinners/BeatLoader.js");
+/* harmony import */ var react_spinners_BeatLoader__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_spinners_BeatLoader__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+var _excluded = ["title", "description", "label", "hasWrapper", "size", "color"];
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 
 
 
 var override = {
   display: 'block'
 };
-var Loader = function Loader(props) {
+var Loader = function Loader(_ref) {
+  var _ref$title = _ref.title,
+    title = _ref$title === void 0 ? '' : _ref$title,
+    _ref$description = _ref.description,
+    description = _ref$description === void 0 ? '' : _ref$description,
+    _ref$label = _ref.label,
+    label = _ref$label === void 0 ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Loading…', 'highlight-and-share') : _ref$label,
+    _ref$hasWrapper = _ref.hasWrapper,
+    hasWrapper = _ref$hasWrapper === void 0 ? false : _ref$hasWrapper,
+    _ref$size = _ref.size,
+    size = _ref$size === void 0 ? 60 : _ref$size,
+    color = _ref.color,
+    props = _objectWithoutProperties(_ref, _excluded);
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
     _useState2 = _slicedToArray(_useState, 2),
     loading = _useState2[0],
     setLoading = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(props.color),
-    _useState4 = _slicedToArray(_useState3, 2),
-    color = _useState4[0],
-    setColor = _useState4[1];
-  var title = props.title,
-    description = props.description,
-    label = props.label,
-    size = props.size;
 
   /**
    * Get the desired loader.
@@ -21311,7 +20839,7 @@ var Loader = function Loader(props) {
    * @return {Object} The loader.
    */
   var getLoader = function getLoader() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react_spinners_BeatLoader__WEBPACK_IMPORTED_MODULE_2___default()), {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react_spinners_BeatLoader__WEBPACK_IMPORTED_MODULE_1___default()), {
       color: color,
       loading: loading,
       cssOverride: override,
@@ -21333,20 +20861,6 @@ var Loader = function Loader(props) {
     className: "has-admin-component-row"
   }, getLoader())))));
 };
-Loader.defaultProps = {
-  title: '',
-  description: '',
-  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Loading…', 'highlight-and-share'),
-  hasWrapper: false,
-  size: 60
-};
-Loader.propTypes = {
-  title: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string).isRequired,
-  description: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string).isRequired,
-  hasWrapper: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  label: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string).isRequired,
-  size: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().number).isRequired
-};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Loader);
 
 /***/ }),
@@ -21364,37 +20878,46 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_a11y__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/a11y */ "@wordpress/a11y");
-/* harmony import */ var _wordpress_a11y__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_a11y__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_a11y__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/a11y */ "@wordpress/a11y");
+/* harmony import */ var _wordpress_a11y__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_a11y__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+var _excluded = ["message", "status", "politeness", "icon", "className", "inline", "children", "animate", "animationType"];
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 // eslint-disable-next-line no-unused-vars
 
 
 
 
-
-var Notice = function Notice(props) {
-  var message = props.message,
-    status = props.status,
-    politeness = props.politeness,
-    icon = props.icon,
-    className = props.className,
-    inline = props.inline,
-    children = props.children,
-    animate = props.animate,
-    animationType = props.animationType;
+var Notice = function Notice(_ref) {
+  var _ref$message = _ref.message,
+    message = _ref$message === void 0 ? '' : _ref$message,
+    _ref$status = _ref.status,
+    status = _ref$status === void 0 ? 'info' : _ref$status,
+    _ref$politeness = _ref.politeness,
+    politeness = _ref$politeness === void 0 ? 'polite' : _ref$politeness,
+    _ref$icon = _ref.icon,
+    icon = _ref$icon === void 0 ? null : _ref$icon,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? '' : _ref$className,
+    _ref$inline = _ref.inline,
+    inline = _ref$inline === void 0 ? false : _ref$inline,
+    children = _ref.children,
+    _ref$animate = _ref.animate,
+    animate = _ref$animate === void 0 ? false : _ref$animate,
+    _ref$animationType = _ref.animationType,
+    animationType = _ref$animationType === void 0 ? 'fadein' : _ref$animationType,
+    props = _objectWithoutProperties(_ref, _excluded);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    (0,_wordpress_a11y__WEBPACK_IMPORTED_MODULE_2__.speak)(message, politeness);
+    (0,_wordpress_a11y__WEBPACK_IMPORTED_MODULE_1__.speak)(message, politeness);
   }, [message, status, politeness]);
   var hasIcon = function hasIcon() {
     return icon !== null;
@@ -21406,12 +20929,12 @@ var Notice = function Notice(props) {
       fill: "#6c757d"
     });
   };
-  var containerClasses = classnames__WEBPACK_IMPORTED_MODULE_4___default()(className, 'has-admin__notice', _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+  var containerClasses = classnames__WEBPACK_IMPORTED_MODULE_3___default()(className, 'has-admin__notice', _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
     'has-admin__notice--has-icon': hasIcon()
   }, "has-admin__notice-type--".concat(status), true), "has-admin__notice-appearance--inline", inline), "has-admin__notice-appearance--block", !inline), "has-admin__notice-animate", animate), "has-admin__notice-animate--".concat(animationType), animate));
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: containerClasses
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Notice, _extends({
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Notice, _extends({
     isDismissible: false,
     spokenMessage: message,
     actions: []
@@ -21420,26 +20943,6 @@ var Notice = function Notice(props) {
   }, getIcon(icon)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin__notice-message"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, message, " ", children, " "))));
-};
-Notice.defaultProps = {
-  message: '',
-  status: 'info',
-  politeness: 'polite',
-  icon: null,
-  className: '',
-  inline: false,
-  animate: false,
-  animationType: 'fadein'
-};
-Notice.propTypes = {
-  message: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string).isRequired,
-  status: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOf(['info', 'warning', 'success', 'error']),
-  politeness: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOf(['assertive', 'polite']),
-  icon: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func),
-  className: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
-  inline: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  animate: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
-  animatitionType: prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOf(['fadein', 'fadeout'])
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Notice);
 
@@ -21977,7 +21480,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
+/* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/dist/index.js");
 /* harmony import */ var _fortawesome_free_brands_svg_icons_faFacebook__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faFacebook */ "./node_modules/@fortawesome/free-brands-svg-icons/faFacebook.js");
 /* harmony import */ var _fortawesome_free_brands_svg_icons_faWhatsapp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faWhatsapp */ "./node_modules/@fortawesome/free-brands-svg-icons/faWhatsapp.js");
 /* harmony import */ var _fortawesome_free_brands_svg_icons_faLinkedinIn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faLinkedinIn */ "./node_modules/@fortawesome/free-brands-svg-icons/faLinkedinIn.js");

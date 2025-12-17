@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { __ } from '@wordpress/i18n';
 
@@ -7,18 +6,23 @@ const override = {
 	display: 'block',
 };
 
-const Loader = ( props ) => {
+const Loader = ( {
+	title = '',
+	description = '',
+	label = __( 'Loading…', 'highlight-and-share' ),
+	hasWrapper = false,
+	size = 60,
+	color,
+	...props
+} ) => {
 	const [ loading, setLoading ] = useState( true );
-	const [ color, setColor ] = useState( props.color );
-
-	const { title, description, label, size } = props;
 
 	/**
 	 * Get the desired loader.
 	 *
 	 * @return {Object} The loader.
 	 */
-	const getLoader = () => {
+		const getLoader = () => {
 		return (
 			<BeatLoader
 				color={ color }
@@ -46,22 +50,6 @@ const Loader = ( props ) => {
 			</div>
 		</>
 	);
-};
-
-Loader.defaultProps = {
-	title: '',
-	description: '',
-	label: __( 'Loading…', 'highlight-and-share' ),
-	hasWrapper: false,
-	size: 60,
-};
-
-Loader.propTypes = {
-	title: PropTypes.string.isRequired,
-	description: PropTypes.string.isRequired,
-	hasWrapper: PropTypes.bool,
-	label: PropTypes.string.isRequired,
-	size: PropTypes.number.isRequired,
 };
 
 export default Loader;

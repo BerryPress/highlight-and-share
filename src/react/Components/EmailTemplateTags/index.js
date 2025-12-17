@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { __ } from '@wordpress/i18n';
-import PropTypes from 'prop-types';
 import { Button, Popover } from '@wordpress/components';
 import TextInsertIcon from '../Icons/TextInsert';
 
@@ -14,10 +13,9 @@ const TEMPLATE_TAGS = [
 	{ name: __( 'Date', 'highlight-and-share' ), tag: '{{date}}' },
 ];
 
-const EmailTemplateTags = ( props ) => {
-	const { onSelect } = props;
+const EmailTemplateTags = ( { onSelect = () => {}, additionalTags = [] } ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
-	const [ tags ] = useState( TEMPLATE_TAGS.concat( props.additionalTags ) );
+	const [ tags ] = useState( TEMPLATE_TAGS.concat( additionalTags ) );
 	const [ popoverAnchor, setPopoverAnchor ] = useState( null );
 	const togglePopover = () => setIsOpen( ! isOpen );
 
@@ -58,16 +56,6 @@ const EmailTemplateTags = ( props ) => {
 			) }
 		</>
 	);
-};
-
-EmailTemplateTags.propTypes = {
-	onSelect: PropTypes.func.isRequired,
-	additionalTags: PropTypes.array,
-};
-
-EmailTemplateTags.defaultProps = {
-	onSelect: () => {},
-	additionalTags: [],
 };
 
 export default EmailTemplateTags;

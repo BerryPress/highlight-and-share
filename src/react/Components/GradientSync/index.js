@@ -5,7 +5,6 @@
  */
 
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { __ } from '@wordpress/i18n';
 
 import {
@@ -13,12 +12,12 @@ import {
 	Button,
 } from '@wordpress/components';
 
-const HASGradientSync = ( props ) => {
-	const {
-		label,
-		attributes,
-		setAttributes,
-	} = props;
+const HASGradientSync = ( {
+	label = __( 'Gradient Color', 'highlight-and-share' ),
+	attributes = {},
+	setAttributes = () => {},
+	...props
+} ) => {
 
 	const { backgroundGradient, backgroundGradientSync } = attributes;
 
@@ -46,18 +45,6 @@ const HASGradientSync = ( props ) => {
 			/>
 		</BaseControl>
 	);
-};
-
-HASGradientSync.defaultProps = {
-	label: __( 'Gradient Color', 'highlight-and-share' ),
-	attributes: {},
-	setAttributes: () => {},
-};
-
-HASGradientSync.propTypes = {
-	label: PropTypes.string.isRequired,
-	attributes: PropTypes.object.isRequired,
-	setAttributes: PropTypes.func.isRequired,
 };
 
 export default HASGradientSync;

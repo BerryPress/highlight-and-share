@@ -5,7 +5,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { __ } from '@wordpress/i18n';
 
 import {
@@ -15,17 +14,16 @@ import {
 	GradientPicker,
 } from '@wordpress/components';
 
-const HASGradientPicker = ( props ) => {
+const HASGradientPicker = ( {
+	label = __( 'Gradient Color', 'highlight-and-share' ),
+	clearable = false,
+	value = '',
+	onChange = () => {},
+	...props
+} ) => {
 	const [ isVisible, setIsVisible ] = useState( false );
 	const [ isToggled, setIsToggled ] = useState( false );
 	const [ gradientPickerButtonAnchor, setGradientPickerButtonAnchor ] = useState( null );
-
-	const {
-		label,
-		onChange,
-		value,
-		clearable,
-	} = props;
 
 	/**
 	 * Get a gradient style object.
@@ -97,20 +95,6 @@ const HASGradientPicker = ( props ) => {
 
 		</BaseControl>
 	);
-};
-
-HASGradientPicker.defaultProps = {
-	label: __( 'Gradient Color', 'highlight-and-share' ),
-	clearable: false,
-	value: '',
-	onChange: () => {},
-};
-
-HASGradientPicker.propTypes = {
-	clearable: PropTypes.bool,
-	value: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
 };
 
 export default HASGradientPicker;
