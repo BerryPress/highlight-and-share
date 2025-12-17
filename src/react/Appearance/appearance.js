@@ -8,7 +8,7 @@ import ErrorBoundary from '../Components/ErrorBoundary';
 
 // Lazy load theme customizer.
 const ThemeCustomizer = lazy( () =>
-	import( /* webpackChunkName: "ThemeCustomizer.0.0.6" */ '../Components/ThemeCustomizer' )
+	import( /* webpackChunkName: "ThemeCustomizer.0.0.7" */ '../Components/ThemeCustomizer' )
 );
 
 const Appearance = () => {
