@@ -383,8 +383,6 @@ import { constrainRange } from './selection';
 													fancyUrl = fancyUrl.replace( /mastodon\.social/i, fancyboxInputValue );
 												}
 
-												console.log( fancyUrl );
-
 												// Now go to URL.
 												window.open(
 													fancyUrl,

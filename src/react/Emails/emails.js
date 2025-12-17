@@ -112,7 +112,6 @@ const Interface = ( props ) => {
 			turnstileWidgetSize: data.values.turnstileWidgetSize,
 		};
 	};
-	console.log( getDefaultValues() );
 	const { control, handleSubmit, getValues, reset, setError, clearErrors, setValue } = useForm( {
 		defaultValues: getDefaultValues(),
 	} );
@@ -129,7 +128,6 @@ const Interface = ( props ) => {
 			form_data: formData,
 		} )
 			.then( ( ajaxResponse ) => {
-				console.log( ajaxResponse );
 				const ajaxData = ajaxResponse.data.data;
 				const ajaxSuccess = ajaxResponse.data.success;
 				if ( ajaxSuccess ) {

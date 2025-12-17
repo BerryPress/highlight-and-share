@@ -13399,7 +13399,6 @@ var Interface = function Interface(props) {
       turnstileWidgetSize: data.values.turnstileWidgetSize
     };
   };
-  console.log(getDefaultValues());
   var _useForm = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useForm)({
       defaultValues: getDefaultValues()
     }),
@@ -13424,7 +13423,6 @@ var Interface = function Interface(props) {
       nonce: hasEmailsAdmin.saveNonce,
       form_data: formData
     }).then(function (ajaxResponse) {
-      console.log(ajaxResponse);
       var ajaxData = ajaxResponse.data.data;
       var ajaxSuccess = ajaxResponse.data.success;
       if (ajaxSuccess) {

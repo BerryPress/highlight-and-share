@@ -538,7 +538,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
                       if ('' !== fancyboxInputValue) {
                         fancyUrl = fancyUrl.replace(/mastodon\.social/i, fancyboxInputValue);
                       }
-                      console.log(fancyUrl);
 
                       // Now go to URL.
                       window.open(fancyUrl, 'Highlight and Share', 'width=575,height=430,toolbar=false,menubar=false,location=false,status=false');
