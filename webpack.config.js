@@ -19,6 +19,7 @@ module.exports = ( env ) => {
 				'has-cts-editor': './src/blocks/editor.scss',
 				'has-cts-style': './src/blocks/style.scss',
 				'has-admin-style': './src/admin.scss',
+				'has-admin-sharing': [ './src/react/Sharing/index.js' ],
 				'has-admin-settings': [ './src/react/Settings/index.js' ],
 				'has-admin-appearance': [ './src/react/Appearance/index.js' ],
 				'has-admin-block-editor': [ './src/react/BlockEditor/index.js' ],

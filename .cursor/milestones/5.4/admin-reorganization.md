@@ -503,6 +503,7 @@ Each field will be mapped to its corresponding option key in the form state. Col
   - Unsaved changes tracking (using React Hook Form's `isDirty`)
   - Form validation state (using React Hook Form's `errors`)
 - [ ] **Note:** Store naming should be specific to avoid conflicts with future features (e.g., Headlines will need its own store)
+- [ ] Add Hello World to admin panel, create Sharing as its own tab, and set it to be default.
 
 ### Phase 3: Shared Components
 

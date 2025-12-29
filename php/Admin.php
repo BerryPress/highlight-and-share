@@ -47,6 +47,10 @@ class Admin {
 		add_action( 'wp_ajax_has_retrieve_emails_tab', array( $this, 'ajax_retrieve_emails_tab' ) );
 		add_action( 'wp_ajax_has_reset_emails_tab', array( $this, 'ajax_reset_emails_tab' ) );
 
+		// User meta handlers for admin user meta (panel states, first_installed, etc.).
+		add_action( 'wp_ajax_has_get_admin_user_meta', array( $this, 'ajax_get_admin_user_meta' ) );
+		add_action( 'wp_ajax_has_set_admin_user_meta', array( $this, 'ajax_set_admin_user_meta' ) );
+
 		// Retrieve, save, and reset recaptcha options.
 		add_action( 'wp_ajax_has_save_images_options', array( $this, 'ajax_save_images_options' ) );
 		add_action( 'wp_ajax_has_retrieve_images_options', array( $this, 'ajax_retrieve_images_options' ) );
@@ -538,9 +542,13 @@ class Admin {
 				</div>
 			</header>
 			<?php
-			$current_tab        = Functions::get_admin_tab();
+			$current_tab       = Functions::get_admin_tab();
+			$sharing_tab_class = array( 'nav-tab' );
+			if ( null === $current_tab || 'sharing' === $current_tab ) {
+				$sharing_tab_class[] = 'nav-tab-active';
+			}
 			$settings_tab_class = array( 'nav-tab' );
-			if ( null === $current_tab || 'settings' === $current_tab ) {
+			if ( 'settings' === $current_tab ) {
 				$settings_tab_class[] = 'nav-tab-active';
 			}
 			$appearance_tab_class = array( 'nav-tab' );
@@ -569,6 +577,7 @@ class Admin {
 			<div class="has-admin-container-body-wrapper">
 				<div class="has-admin-container-body">
 					<nav class="nav-tab-wrapper">
+						<a class="<?php echo esc_attr( implode( ' ', $sharing_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'sharing' ) ); ?>"><?php esc_html_e( 'Sharing', 'highlight-and-share' ); ?></a>
 						<a class="<?php echo esc_attr( implode( ' ', $settings_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'settings' ) ); ?>"><?php esc_html_e( 'Settings', 'highlight-and-share' ); ?></a>
 						<a class="<?php echo esc_attr( implode( ' ', $appearance_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'appearance' ) ); ?>"><?php esc_html_e( 'Appearance', 'highlight-and-share' ); ?></a>
 						<a class="<?php echo esc_attr( implode( ' ', $image_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'images' ) ); ?>"><?php esc_html_e( 'Images', 'highlight-and-share' ); ?></a>
@@ -577,7 +586,16 @@ class Admin {
 						<a class="<?php echo esc_attr( implode( ' ', $support_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'support' ) ); ?>"><?php esc_html_e( 'Support', 'highlight-and-share' ); ?></a>
 					</nav>
 					<?php
-					if ( null === $current_tab || 'settings' === $current_tab ) {
+					if ( null === $current_tab || 'sharing' === $current_tab ) {
+						?>
+						<div class="has-admin-container-body__content">
+							<div id="has-sharing-admin">
+								<?php echo wp_kses( $this->get_loading_svg(), Functions::get_kses_allowed_html() ); ?>
+							</div>
+						</div>
+						<?php
+					}
+					if ( 'settings' === $current_tab ) {
 						?>
 						<div class="has-admin-container-body__content">
 							<div id="has-settings-admin">
@@ -658,10 +676,34 @@ class Admin {
 				'all'
 			);
 
+			// Determine if we want to enqueue the sharing React script.
+			$enqueue_sharing = false;
+			$current_tab     = Functions::get_admin_tab();
+			if ( null === $current_tab || 'sharing' === $current_tab ) {
+				$enqueue_sharing = true;
+			}
+			if ( $enqueue_sharing ) {
+				$deps = require_once Functions::get_plugin_dir( 'dist/has-admin-sharing.asset.php' );
+				wp_enqueue_script(
+					'has-sharing-admin-js',
+					Functions::get_plugin_url( '/dist/has-admin-sharing.js' ),
+					$deps['dependencies'],
+					$deps['version'],
+					true
+				);
+				wp_localize_script(
+					'has-sharing-admin-js',
+					'hasSharingAdmin',
+					array(
+						'userMetaNonce' => wp_create_nonce( 'has_admin_user_meta' ),
+					)
+				);
+			}
+
 			// Determine if we want to enqueue the settings React script.
 			$enqueue_settings = false;
 			$current_tab      = Functions::get_admin_tab();
-			if ( null === $current_tab || 'settings' === $current_tab ) {
+			if ( 'settings' === $current_tab ) {
 				$enqueue_settings = true;
 			}
 			if ( $enqueue_settings ) {
@@ -971,5 +1013,188 @@ class Admin {
 	 */
 	private function clear_frontend_cache() {
 		wp_cache_delete( 'has_frontend_html', 'highlight-and-share' );
+	}
+
+	/**
+	 * Get admin user meta value via AJAX.
+	 *
+	 * Returns admin user meta with defaults merged.
+	 *
+	 * @return void
+	 */
+	public function ajax_get_admin_user_meta() {
+		check_ajax_referer( 'has_admin_user_meta', 'nonce' );
+
+		// Check caps.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to access this resource.', 'highlight-and-share' ) ) );
+			return;
+		}
+
+		$user_id = get_current_user_id();
+		if ( ! $user_id ) {
+			wp_send_json_error( array( 'message' => __( 'User not authenticated.', 'highlight-and-share' ) ) );
+			return;
+		}
+
+		$user_meta_key = 'has_admin_user_meta';
+		$stored_value  = get_user_meta( $user_id, $user_meta_key, true );
+
+		// Get defaults and merge with stored value.
+		$defaults = $this->get_admin_user_meta_defaults();
+		if ( empty( $stored_value ) || ! is_array( $stored_value ) ) {
+			$stored_value = array();
+		}
+
+		// Merge defaults with stored values.
+		$merged_value = array_replace_recursive( $defaults, $stored_value );
+
+		// Sanitize the merged value.
+		$sanitized_value = $this->sanitize_admin_user_meta( $merged_value );
+
+		wp_send_json_success( $sanitized_value );
+	}
+
+	/**
+	 * Set admin user meta value via AJAX.
+	 *
+	 * @return void
+	 */
+	public function ajax_set_admin_user_meta() {
+		check_ajax_referer( 'has_admin_user_meta', 'nonce' );
+
+		// Check caps.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to access this resource.', 'highlight-and-share' ) ) );
+			return;
+		}
+
+		$user_id = get_current_user_id();
+		if ( ! $user_id ) {
+			wp_send_json_error( array( 'message' => __( 'User not authenticated.', 'highlight-and-share' ) ) );
+			return;
+		}
+
+		$value = filter_input( INPUT_POST, 'value', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if ( false === $value || ! is_array( $value ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid value.', 'highlight-and-share' ) ) );
+			return;
+		}
+
+		// Get defaults and merge with incoming value.
+		$defaults     = $this->get_admin_user_meta_defaults();
+		$merged_value = array_replace_recursive( $defaults, $value );
+
+		// Sanitize the merged value before storing.
+		$sanitized_value = $this->sanitize_admin_user_meta( $merged_value );
+
+		$user_meta_key = 'has_admin_user_meta';
+		$updated       = update_user_meta( $user_id, $user_meta_key, $sanitized_value );
+		if ( false === $updated ) {
+			wp_send_json_error( array( 'message' => __( 'Failed to update user meta.', 'highlight-and-share' ) ) );
+			return;
+		}
+
+		wp_send_json_success( $sanitized_value );
+	}
+
+	/**
+	 * Get default admin user meta values.
+	 *
+	 * @return array Default admin user meta values.
+	 */
+	private function get_admin_user_meta_defaults() {
+		$user_id       = get_current_user_id();
+		$user_meta_key = 'has_admin_user_meta';
+		$stored        = get_user_meta( $user_id, $user_meta_key, true );
+
+		// Check if first_installed already exists.
+		$first_installed = '';
+		if ( ! empty( $stored ) && is_array( $stored ) && isset( $stored['first_installed'] ) ) {
+			$first_installed = $stored['first_installed'];
+		} else {
+			// Set first_installed to current date if not set.
+			$first_installed = current_time( 'mysql' );
+		}
+
+		$defaults = array(
+			'first_installed' => $first_installed,
+			'panel_states'    => array(
+				'socialNetworks'     => true, // Default expanded.
+				'displayRules'       => false,
+				'appearance'         => false,
+				'preview'            => true, // Default expanded.
+				'blockEditor'        => false,
+				'inlineHighlighting' => false,
+				'advanced'           => false,
+			),
+		);
+
+		return $defaults;
+	}
+
+	/**
+	 * Sanitize admin user meta data structure.
+	 *
+	 * Heavily sanitizes all values according to their expected types.
+	 *
+	 * @param mixed $value Raw value to sanitize.
+	 * @return array Sanitized admin user meta array.
+	 */
+	private function sanitize_admin_user_meta( $value ) {
+		if ( ! is_array( $value ) ) {
+			return $this->get_admin_user_meta_defaults();
+		}
+
+		$sanitized = array();
+
+		// Sanitize first_installed (date string).
+		if ( isset( $value['first_installed'] ) ) {
+			$first_installed = sanitize_text_field( $value['first_installed'] );
+			// Validate it's a valid date format.
+			if ( ! empty( $first_installed ) && strtotime( $first_installed ) !== false ) {
+				$sanitized['first_installed'] = $first_installed;
+			} else {
+				// Use current date if invalid.
+				$sanitized['first_installed'] = current_time( 'mysql' );
+			}
+		} else {
+			// Use current date if not set.
+			$sanitized['first_installed'] = current_time( 'mysql' );
+		}
+
+		// Sanitize panel_states.
+		if ( isset( $value['panel_states'] ) && is_array( $value['panel_states'] ) ) {
+			// Whitelist of allowed panel IDs.
+			$allowed_panels = array(
+				'socialNetworks',
+				'displayRules',
+				'appearance',
+				'preview',
+				'blockEditor',
+				'inlineHighlighting',
+				'advanced',
+			);
+
+			$sanitized['panel_states'] = array();
+
+			// Only process whitelisted panel IDs.
+			foreach ( $allowed_panels as $panel_id ) {
+				if ( isset( $value['panel_states'][ $panel_id ] ) ) {
+					// Only allow boolean values.
+					$sanitized['panel_states'][ $panel_id ] = (bool) $value['panel_states'][ $panel_id ];
+				} else {
+					// Use default if not set.
+					$defaults                               = $this->get_admin_user_meta_defaults();
+					$sanitized['panel_states'][ $panel_id ] = $defaults['panel_states'][ $panel_id ] ?? false;
+				}
+			}
+		} else {
+			// Use defaults if panel_states is not set or invalid.
+			$defaults                  = $this->get_admin_user_meta_defaults();
+			$sanitized['panel_states'] = $defaults['panel_states'];
+		}
+
+		return $sanitized;
 	}
 }
