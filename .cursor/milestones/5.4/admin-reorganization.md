@@ -304,15 +304,188 @@ The new "Sharing" tab will contain the following collapsible panels:
 
 - [x] Review wireframe and gather requirements
 - [x] Audit existing options and identify consolidation opportunities (see Options Audit section below)
-- [ ] Review all admin tabs for duplicated functionality
-- [ ] Identify common UI patterns:
+- [x] Review all admin tabs for duplicated functionality
+- [x] Identify common UI patterns:
   - Icon selection
   - Network selection
   - Color pickers
   - Post type selectors
-- [ ] Document current tab structure and dependencies
-- [ ] List all duplicated code patterns
-- [ ] Map all settings from current tabs to new panels
+- [x] Document current tab structure and dependencies
+- [x] List all duplicated code patterns
+- [x] Map all settings from current tabs to new panels
+
+#### Phase 1 Findings
+
+**Duplicated Functionality Across Tabs:**
+
+1. **Form Save/Reset Pattern** (duplicated in 5+ tabs):
+   - Settings, Block Editor, Emails, Images, Appearance (ThemeCustomizer) all use identical patterns:
+     - `useForm` hook with `handleSubmit`, `reset`, `getValues`
+     - `onSubmit` handler that calls `sendCommand` with tab-specific action
+     - `handleReset` handler that calls `sendCommand` with tab-specific reset action
+     - `hasErrors()` helper function
+     - Success/error notices with 3-second timeout
+     - Saving/resetting state management
+   - **Consolidation Opportunity:** Create shared `useFormSave` and `useFormReset` hooks
+
+2. **Error Boundary Pattern** (duplicated in Appearance tab):
+   - Multiple `ErrorBoundary` components with identical fallback UI
+   - **Consolidation Opportunity:** Standardize error boundary fallback component
+
+3. **Content Area Structure** (duplicated across all tabs):
+   - All tabs use identical structure: `has-admin-container-body__content` → `has-admin-content-wrapper` → `has-admin-content-panel`
+   - Heading structure: `has-admin-content-heading` → `h1` → `description` paragraph
+   - Body structure: `has-admin-content-body` → `has-admin-content-subheading` → `description` → component rows
+   - **Consolidation Opportunity:** Create shared layout components
+
+4. **Save/Reset Button Pattern** (duplicated in 5+ tabs):
+   - Identical button structure with loading states, icons, disabled states
+   - Same class names and styling patterns
+   - **Consolidation Opportunity:** Create shared `FormActions` component
+
+**Common UI Patterns Identified:**
+
+1. **Icon Selection:**
+   - Used in: Appearance tab (SocialIconList), Settings tab (network toggles)
+   - Pattern: FontAwesome icon mapping via `SocialIcons` component
+   - Location: `src/react/Components/SocialIcons/index.js`
+
+2. **Network Selection:**
+   - Used in: Settings tab (14+ network toggles)
+   - Pattern: Individual `ToggleControl` components for each network
+   - Consolidation: Will be replaced with `NetworkSelector` component (checkbox grid)
+
+3. **Color Pickers:**
+   - Used in: Appearance tab (ThemeCustomizer), Settings tab (TabColorPickers)
+   - Pattern: Custom `ColorPicker` component with WordPress color picker integration
+   - Location: `src/react/Components/ColorPicker/index.js`, `src/react/Components/TabColorPickers/index.js`
+
+4. **Post Type Selectors:**
+   - Used in: Settings tab (Display Rules section)
+   - Pattern: Checkbox list of post types
+   - Consolidation: Will be replaced with `PostTypeSelector` component
+
+5. **Typography Controls:**
+   - Used in: Appearance tab (ThemeCustomizer)
+   - Pattern: Complex typography component with font family, size, weight, line height, letter spacing
+   - Location: `src/react/Components/Typography/index.js`
+
+6. **Dimensions Controls:**
+   - Used in: Appearance tab (ThemeCustomizer)
+   - Pattern: Padding/margin controls with responsive breakpoints
+   - Location: `src/react/Components/Dimensions/index.js`, `src/react/Components/DimensionsBlock/index.js`
+
+7. **Background Selector:**
+   - Used in: Appearance tab (ThemeCustomizer)
+   - Pattern: Image upload, background color, size, position, repeat, opacity controls
+   - Location: `src/react/Components/BackgroundSelector/index.js`
+
+**Current Tab Structure and Dependencies:**
+
+1. **Settings Tab** (`src/react/Settings/settings.js`):
+   - Dependencies: React Hook Form, WordPress components (ToggleControl, TextControl, SelectControl)
+   - Structure: Multiple sections (Social Networks, Display Rules, Text Settings, Advanced)
+   - Save action: `has_save_settings_tab`
+   - Reset action: `has_reset_settings_tab`
+   - Nonce: `hasSettingsAdmin.saveNonce`, `hasSettingsAdmin.resetNonce`
+
+2. **Appearance Tab** (`src/react/Appearance/appearance.js`):
+   - Dependencies: react-dnd (drag and drop), lazy-loaded ThemeCustomizer
+   - Structure: Three sections (Reorder Networks, Theme Customizer, Preview)
+   - Components: `SocialIconList`, `ThemeCustomizer`, `PreviewSocialIconList`
+   - Save action: `has_save_appearance_settings` (in ThemeCustomizer)
+   - Reset action: `has_reset_appearance_settings` (in ThemeCustomizer)
+   - Network reorder action: `has_save_social_icon_order` (in SocialIconList)
+
+3. **Block Editor Tab** (`src/react/BlockEditor/block-editor.js`):
+   - Dependencies: React Hook Form, WordPress components, use-async-resource
+   - Structure: Three sections (Block Settings, Adobe Fonts, Inline Highlighting)
+   - Save action: `has_save_block_editor_options`
+   - Reset action: `has_reset_block_editor_options`
+   - Nonce: `hasBlockEditorAdmin.saveNonce`, `hasBlockEditorAdmin.resetNonce`
+
+**Duplicated Code Patterns:**
+
+1. **Form Initialization Pattern** (5+ instances):
+```javascript
+const { control, handleSubmit, getValues, reset } = useForm( {
+  defaultValues: getDefaultValues(),
+} );
+const formValues = useWatch( { control } );
+const { errors } = useFormState( { control } );
+```
+
+2. **Save Handler Pattern** (5+ instances):
+```javascript
+const onSubmit = ( formData ) => {
+  setSaving( true );
+  sendCommand( 'has_save_{tab}_tab', {
+    nonce: {tab}Admin.saveNonce,
+    form_data: formData,
+  } )
+    .then( ( ajaxResponse ) => {
+      const ajaxData = ajaxResponse.data.data;
+      const ajaxSuccess = ajaxResponse.data.success;
+      if ( ajaxSuccess ) {
+        reset( ajaxData );
+        setIsSaved( true );
+        setTimeout( () => setIsSaved( false ), 3000 );
+      }
+    } )
+    .finally( () => setSaving( false ) );
+};
+```
+
+3. **Reset Handler Pattern** (5+ instances):
+```javascript
+const handleReset = ( e ) => {
+  setResetting( true );
+  sendCommand( 'has_reset_{tab}_tab', {
+    nonce: {tab}Admin.resetNonce,
+  } )
+    .then( ( ajaxResponse ) => {
+      const ajaxData = ajaxResponse.data.data;
+      const ajaxSuccess = ajaxResponse.data.success;
+      if ( ajaxSuccess ) {
+        reset( ajaxData );
+        setIsReset( true );
+        setTimeout( () => setIsReset( false ), 3000 );
+      }
+    } )
+    .finally( () => setResetting( false ) );
+};
+```
+
+4. **Error Check Pattern** (5+ instances):
+```javascript
+const hasErrors = () => {
+  return Object.keys( errors ).length > 0;
+};
+```
+
+5. **Save/Reset Button JSX Pattern** (5+ instances):
+```javascript
+<Button
+  className={ classNames( 'has__btn has__btn-primary', { 'has-error': hasErrors() }, { 'is-saving': saving } ) }
+  type="submit"
+  text={ saving ? __( 'Saving…' ) : __( 'Save Settings' ) }
+  icon={ saving ? Spinner : false }
+  disabled={ saving || resetting }
+/>
+```
+
+**Network Settings Popover Content:**
+
+The popover will contain the following for each social network:
+- **Label Text** (`{network}Label` option) - TextControl input
+- **Tooltip Text** (`{network}Tooltip` option) - TextControl input
+- **Network-Specific Settings** (when applicable):
+  - Twitter: `twitter` (username), `enableHashtags` (toggle)
+  - WhatsApp: `whatsappApiEndpoint` (select), `whatsappCanShareUrl` (toggle)
+  - Mastodon: `mastodonLabel`, `mastodonTooltip` (already covered above)
+  - Email: All email-specific settings (handled separately in Emails tab)
+
+Each field will be mapped to its corresponding option key in the form state. Color customizations are **not** included in the popover (moved to Appearance panel).
 
 ### Phase 2: State Management Setup
 
