@@ -926,6 +926,261 @@ class Frontend {
 	}
 
 	/**
+	 * Get URL template for a network.
+	 *
+	 * @param array $network_def   Network definition.
+	 * @param array $settings      Main plugin settings.
+	 * @param array $email_options Email options (if email network).
+	 * @return string URL template.
+	 */
+	private function get_network_url_template( $network_def, $settings, $email_options = array() ) {
+		$slug = $network_def['slug'];
+
+		// Handle special networks.
+		if ( 'copy' === $slug || 'webshare' === $slug ) {
+			return '#';
+		}
+
+		if ( 'email' === $slug ) {
+			return $this->get_email_url_template( $email_options );
+		}
+
+		if ( 'whatsapp' === $slug ) {
+			return $this->get_whatsapp_url_template( $network_def, $settings );
+		}
+
+		// Use template from registry.
+		return $network_def['share_url_template'] ?? '#';
+	}
+
+	/**
+	 * Get email URL template.
+	 *
+	 * @param array $email_options Email options.
+	 * @return string Email URL template.
+	 */
+	private function get_email_url_template( $email_options ) {
+		global $post;
+		$post_id   = $post->ID ?? 0;
+		$email_url = '';
+
+		if ( 'mailto' === $email_options['email_send_type'] ) {
+			$email_url = add_query_arg(
+				array(
+					'body'    => '%prefix%%text%%suffix%' . '%0A%0A' . '%url%',
+					'subject' => __( '[Shared Post]', 'highlight-and-share' ) . ' %title%',
+				),
+				'mailto:'
+			);
+		} else {
+			$ajax_nonce = wp_create_nonce( 'has_share_email' . $post_id );
+			$email_url  = admin_url( 'admin-ajax.php' );
+			$email_url  = add_query_arg(
+				array(
+					'action'    => 'has_email_social_modal',
+					'permalink' => '%url%',
+					'nonce'     => $ajax_nonce,
+					'text'      => '%prefix%%text%%suffix%',
+					'post_id'   => $post_id,
+					'type'      => '%type%',
+				),
+				$email_url
+			);
+		}
+
+		return esc_url_raw( $email_url );
+	}
+
+	/**
+	 * Get WhatsApp URL template.
+	 *
+	 * @param array $network_def Network definition.
+	 * @param array $settings    Main plugin settings.
+	 * @return string WhatsApp URL template.
+	 */
+	private function get_whatsapp_url_template( $network_def, $settings ) {
+		$whatsapp_endpoint_url      = 'whatsapp://send';
+		$whatsapp_endpoint_settings = $settings['whatsapp_api_endpoint'] ?? 'app';
+		$whatsapp_can_share_url     = $settings['whatsapp_can_share_url'] ?? true;
+
+		if ( 'web' === $whatsapp_endpoint_settings ) {
+			$whatsapp_endpoint_url = 'https://api.whatsapp.com/send';
+		}
+
+		/**
+		 * Filter: has_whatsapp_endpoint_url
+		 *
+		 * Filter the endpoint URL used for WhatsApp.
+		 *
+		 * @param string The endpoint URL.
+		 *
+		 * @since 3.6.5.
+		 */
+		$whatsapp_endpoint_url = apply_filters(
+			'has_whatsapp_endpoint_url',
+			$whatsapp_endpoint_url
+		);
+
+		if ( $whatsapp_can_share_url ) {
+			return esc_url_raw( $whatsapp_endpoint_url, array( 'whatsapp', 'http', 'https' ) ) . '?text=%prefix%%text%%suffix%: %url%';
+		} else {
+			return esc_url_raw( $whatsapp_endpoint_url, array( 'whatsapp', 'http', 'https' ) ) . '?text=%prefix%%text%%suffix%';
+		}
+	}
+
+	/**
+	 * Render HTML for a single social network.
+	 *
+	 * @param array $network_def   Network definition from registry.
+	 * @param array $theme_options Theme options.
+	 * @param array $settings      Main plugin settings.
+	 * @param array $email_options Email options (if email network).
+	 * @return string HTML for network.
+	 */
+	private function render_network_html( $network_def, $theme_options, $settings, $email_options = array() ) {
+		$slug         = $network_def['slug'];
+		$css_class    = $network_def['css_class'];
+		$icon_id      = $network_def['icon_id'];
+		$label        = apply_filters( "has_{$slug}_text", $network_def['label_text'] );
+		$tooltip      = apply_filters( "has_{$slug}_tooltip", $network_def['tooltip_text'] );
+		$tooltip_attr = $theme_options['show_tooltips'] ? 'has-tooltip' : '';
+
+		// Build URL template.
+		$url_template = $this->get_network_url_template( $network_def, $settings, $email_options );
+
+		// Determine link attributes.
+		$link_attrs = '';
+		if ( $network_def['requires_popup'] ) {
+			$link_attrs = 'target="_blank" rel="nofollow"';
+		} else {
+			$link_attrs = 'rel="nofollow"';
+		}
+
+		// Special handling for webshare (display: none !important).
+		$display_style = 'display: none;';
+		if ( 'webshare' === $slug ) {
+			$display_style = 'display: none !important;';
+		}
+
+		// Build HTML.
+		$html = sprintf(
+			'<div class="%s %s" style="%s" data-type="%s" data-tooltip="%s">',
+			esc_attr( $css_class ),
+			esc_attr( $tooltip_attr ),
+			esc_attr( $display_style ),
+			esc_attr( $slug ),
+			esc_attr( $tooltip )
+		);
+
+		$html .= sprintf(
+			'<a href="%s" %s><svg class="has-icon"><use xlink:href="#%s"></use></svg><span class="has-text">&nbsp;%s</span></a>',
+			esc_url( $url_template ),
+			$link_attrs,
+			esc_attr( $icon_id ),
+			esc_html( $label )
+		);
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Render email network HTML.
+	 *
+	 * @param array $network_def   Network definition.
+	 * @param array $theme_options Theme options.
+	 * @param array $settings      Main plugin settings.
+	 * @param array $email_options Email options.
+	 * @return string HTML for email network.
+	 */
+	private function render_email_network( $network_def, $theme_options, $settings, $email_options ) {
+		// Get captcha enabled status.
+		$recaptcha_enabled = (bool) $email_options['recaptcha_enabled'];
+		$turnstile_enabled = (bool) $email_options['turnstile_enabled'];
+
+		// Require a captcha or turnstile to be enabled in order to send an email.
+		if ( ! $recaptcha_enabled && ! $turnstile_enabled ) {
+			return '';
+		}
+
+		global $post;
+		$post_id     = $post->ID ?? 0;
+		$email_url   = $this->get_email_url_template( $email_options );
+		$email_class = 'has_email_form';
+
+		if ( 'mailto' === $email_options['email_send_type'] ) {
+			$email_class = 'has_email_mailto';
+		}
+
+		$slug         = $network_def['slug'];
+		$css_class    = $network_def['css_class'];
+		$icon_id      = $network_def['icon_id'];
+		$label        = apply_filters( "has_{$slug}_text", $network_def['label_text'] );
+		$tooltip      = apply_filters( "has_{$slug}_tooltip", $network_def['tooltip_text'] );
+		$tooltip_attr = $theme_options['show_tooltips'] ? 'has-tooltip' : '';
+
+		$html = sprintf(
+			'<div class="has_email %s %s" style="display: none;" data-type="email" data-title="%%title%%" data-url="%%url%%" data-tooltip="%s">',
+			esc_attr( $email_class ),
+			esc_attr( $tooltip_attr ),
+			esc_attr( $tooltip )
+		);
+
+		$html .= sprintf(
+			'<a href="%s" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#%s"></use></svg><span class="has-text">&nbsp;%s</span></a>',
+			esc_url( $email_url ),
+			esc_attr( $icon_id ),
+			esc_html( $label )
+		);
+
+		$html .= '</div>';
+
+		// Enqueue the modal script if needed.
+		if ( 'form' === $email_options['email_send_type'] ) {
+			$this->maybe_enqueue_fancybox();
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Render WhatsApp network HTML.
+	 *
+	 * @param array $network_def   Network definition.
+	 * @param array $theme_options Theme options.
+	 * @param array $settings      Main plugin settings.
+	 * @return string HTML for WhatsApp network.
+	 */
+	private function render_whatsapp_network( $network_def, $theme_options, $settings ) {
+		// WhatsApp uses the same rendering as other networks, but with special URL handling.
+		return $this->render_network_html( $network_def, $theme_options, $settings );
+	}
+
+	/**
+	 * Maybe enqueue fancybox scripts and styles.
+	 */
+	private function maybe_enqueue_fancybox() {
+		if ( ! wp_script_is( 'fancybox', 'enqueued' ) ) {
+			wp_register_script(
+				'has-fancybox-js',
+				Functions::get_plugin_url( '/js/fancybox.umd.js' ),
+				array(),
+				Functions::get_plugin_version(),
+				true
+			);
+
+			wp_register_style(
+				'has-fancybox-css',
+				Functions::get_plugin_url( '/js/fancybox.css' ),
+				array(),
+				Functions::get_plugin_version(),
+				'all'
+			);
+		}
+	}
+
+	/**
 	 * Add general interface and SVG sprites.
 	 */
 	public function add_footer_html() {
@@ -1250,153 +1505,21 @@ class Frontend {
 			$html .= $tooltip_styles;
 		}
 
-		// Loop through order and outout social network HTML.
+		// Loop through ordered networks and output HTML.
 		foreach ( $social_networks_ordered as $social_network ) {
-			$is_enabled = (bool) $social_network['enabled'];
-			if ( $is_enabled ) {
-				switch ( $social_network['slug'] ) {
-					case 'twitter':
-						// If "via" is blank, no username will show in Twitter.
-						$html .= '<div class="has_twitter ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="twitter" data-tooltip="' . esc_attr( apply_filters( 'has_twitter_tooltip', $settings['twitter_tooltip'] ) ) . '"><a href="https://x.com/intent/tweet?via=%username%&url=%url%&text=%prefix%%text%%suffix%&hashtags=%hashtags%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-twitter-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_twitter_text', $settings['twitter_label'] ) ) . '</span></a></div>';
-						break;
-					case 'facebook':
-						$html .= '<div class="has_facebook ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="facebook" data-tooltip="' . esc_attr( apply_filters( 'has_facebook_tooltip', $settings['facebook_tooltip'] ) ) . '"><a href="https://www.facebook.com/sharer/sharer.php?u=%url%&t=%title%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-facebook-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_facebook_text', $settings['facebook_label'] ) ) . '</span></a></div>';
-						break;
-					case 'linkedin':
-						$html .= '<div class="has_linkedin ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="linkedin" data-tooltip="' . esc_attr( apply_filters( 'has_linkedin_tooltip', $settings['linkedin_tooltip'] ) ) . '"><a href="https://www.linkedin.com/sharing/share-offsite/?mini=true&url=%url%&title=%title%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-linkedin-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_linkedin_text', $settings['linkedin_label'] ) ) . '</span></a></div>';
-						break;
-					case 'xing':
-						$html .= '<div class="has_xing ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="xing" data-tooltip="' . esc_attr( apply_filters( 'has_xing_tooltip', $settings['xing_tooltip'] ) ) . '"><a href="https://www.xing.com/spi/shares/new?url=%url%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-xing-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_xing_text', $settings['xing_label'] ) ) . '</span></a></div>';
-						break;
-					case 'reddit':
-						$html .= '<div class="has_reddit ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="reddit" data-tooltip="' . esc_attr( apply_filters( 'has_reddit_tooltip', $settings['reddit_tooltip'] ) ) . '"><a href="https://www.reddit.com/submit?resubmit=true&url=%url%&title=%title%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-reddit-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_reddit_text', $settings['reddit_label'] ) ) . '</span></a></div>';
-						break;
-					case 'tumblr':
-						// If "via" is blank, no username will show in Twitter.
-						$html .= '<div class="has_tumblr ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="tumblr" data-tooltip="' . esc_attr( apply_filters( 'has_tumblr_tooltip', $settings['tumblr_tooltip'] ) ) . '"><a href="https://tumblr.com/widgets/share/tool?canonicalUrl=%url%&content=%prefix%%text%%suffix%&title=%title%&posttype=quote" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-tumblr"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_tumblr_text', $settings['tumblr_label'] ) ) . '</span></a></div>';
-						break;
-					case 'telegram':
-						$html .= '<div class="has_telegram ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="telegram" data-tooltip="' . esc_attr( apply_filters( 'has_telegram_tooltip', $settings['telegram_tooltip'] ) ) . '"><a href="https://t.me/share/url?url=%url%&text=%prefix%%text%%suffix%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-telegram-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_telegram_text', $settings['telegram_label'] ) ) . '</span></a></div>';
-						break;
-					case 'whatsapp':
-						$whatsapp_endpoint_url      = 'whatsapp://send';
-						$whatsapp_endpoint_settings = $settings['whatsapp_api_endpoint'] ?? 'app';
-						$whatsapp_can_share_url     = $settings['whatsapp_can_share_url'] ?? true;
-						if ( 'web' === $whatsapp_endpoint_settings ) {
-							$whatsapp_endpoint_url = 'https://api.whatsapp.com/send';
-						}
-						/**
-						 * Filter: has_whatsapp_endpoint_url
-						 *
-						 * Filter the endpoint URL used for WhatsApp.
-						 *
-						 * @param string The endpoint URL.
-						 *
-						 * @since 3.6.5.
-						 */
-						$whatsapp_endpoint_url = apply_filters(
-							'has_whatsapp_endpoint_url',
-							$whatsapp_endpoint_url
-						);
-						if ( $whatsapp_can_share_url ) {
-							$html .= '<div class="has_whatsapp ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="whatsapp" data-tooltip="' . esc_attr( apply_filters( 'has_whatsapp_tooltip', $settings['whatsapp_tooltip'] ) ) . '"><a href="' . esc_url_raw( $whatsapp_endpoint_url, array( 'whatsapp', 'http', 'https' ) ) . '?text=%prefix%%text%%suffix%: %url%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-whatsapp-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_whatsapp_text', $settings['whatsapp_label'] ) ) . '</span></a></div>';
-						} else {
-							$html .= '<div class="has_whatsapp ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="whatsapp" data-tooltip="' . esc_attr( apply_filters( 'has_whatsapp_tooltip', $settings['whatsapp_tooltip'] ) ) . '"><a href="' . esc_url_raw( $whatsapp_endpoint_url, array( 'whatsapp', 'http', 'https' ) ) . '?text=%prefix%%text%%suffix%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-whatsapp-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_whatsapp_text', $settings['whatsapp_label'] ) ) . '</span></a></div>';
-						}
-
-						break;
-					case 'copy':
-						$html .= '<div class="has_copy ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="copy" data-tooltip="' . esc_attr( apply_filters( 'has_copy_tooltip', $settings['copy_tooltip'] ) ) . '"><a href="#"><svg class="has-icon" rel="nofollow"><use xlink:href="#has-copy-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_copy_text', $settings['copy_label'] ) ) . '</span></a></div>';
-						break;
-					case 'webshare':
-						$html .= '<div class="has_webshare ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none !important;" data-type="webshare" data-tooltip="' . esc_attr( apply_filters( 'has_webshare_tooltip', $settings['webshare_tooltip'] ) ) . '"><a href="#"><svg class="has-icon" rel="nofollow"><use xlink:href="#has-webshare-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_webshare_text', $settings['webshare_label'] ) ) . '</span></a></div>';
-						break;
-					case 'mastodon':
-						$html .= '<div class="has_mastodon ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="mastodon" data-tooltip="' . esc_attr( apply_filters( 'has_mastodon_tooltip', $settings['mastodon_tooltip'] ) ) . '"><a href="https://mastodon.social/share?text=%prefix%%text%%suffix%: %url%" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-mastodon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_mastodon_text', $settings['mastodon_label'] ) ) . '</span></a></div>';
-						if ( ! wp_script_is( 'fancybox', 'enqueued' ) ) {
-							wp_register_script(
-								'has-fancybox-js',
-								Functions::get_plugin_url( '/js/fancybox.umd.js' ),
-								array(),
-								Functions::get_plugin_version(),
-								true
-							);
-
-							wp_register_style(
-								'has-fancybox-css',
-								Functions::get_plugin_url( '/js/fancybox.css' ),
-								array(),
-								Functions::get_plugin_version(),
-								'all'
-							);
-						}
-						break;
-					case 'email':
-						// Get captcha enabled status.
-						$recaptcha_enabled = (bool) $email_options['recaptcha_enabled'];
-						$turnstile_enabled = (bool) $email_options['turnstile_enabled'];
-
-						// Require a captcha or turnstile to be enabled in order to send an email.
-						if ( ! $recaptcha_enabled && ! $turnstile_enabled ) {
-							break;
-						}
-						global $post;
-						$post_id     = $post->ID ?? 0;
-						$email_url   = '';
-						$email_class = 'has_email_form';
-						if ( 'mailto' === $email_options['email_send_type'] ) {
-							$email_url = add_query_arg(
-								array(
-									'body'    => '%prefix%%text%%suffix%' . '%0A%0A' . '%url%',
-									'subject' => __( '[Shared Post]', 'highlight-and-share' ) . ' %title%',
-
-								),
-								'mailto:'
-							);
-							$email_class = 'has_email_mailto';
-						} else {
-							$ajax_nonce = wp_create_nonce( 'has_share_email' . $post_id );
-							$email_url  = admin_url( 'admin-ajax.php' );
-							$email_url  = add_query_arg(
-								array(
-									'action'    => 'has_email_social_modal',
-									'permalink' => '%url%',
-									'nonce'     => $ajax_nonce,
-									'text'      => '%prefix%%text%%suffix%',
-									'post_id'   => $post_id,
-									'type'      => '%type%',
-								),
-								$email_url
-							);
-						}
-						$html .= '<div class="has_email ' . esc_attr( $email_class ) . ' ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="email" data-title="%title%" data-url="%url%" data-tooltip="' . esc_attr( apply_filters( 'has_email_tooltip', $settings['email_tooltip'] ) ) . '"><a href="' . esc_url( $email_url ) . '" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-email-icon"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_email_text', $settings['email_label'] ) ) . '</span></a></div>';
-
-						// Enqueue the modal script.
-						if ( ! wp_script_is( 'fancybox', 'enqueued' ) && 'form' === $email_options['email_send_type'] ) {
-							wp_register_script(
-								'has-fancybox-js',
-								Functions::get_plugin_url( '/js/fancybox.umd.js' ),
-								array(),
-								Functions::get_plugin_version(),
-								true
-							);
-
-							wp_register_style(
-								'has-fancybox-css',
-								Functions::get_plugin_url( '/js/fancybox.css' ),
-								array(),
-								Functions::get_plugin_version(),
-								'all'
-							);
-						}
-						break;
-					case 'threads':
-						$html .= '<div class="has_threads ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="threads" data-tooltip="' . esc_attr( apply_filters( 'has_threads_tooltip', $settings['threads_tooltip'] ) ) . '"><a href="https://www.threads.net/intent/post?text=%threadstext%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-threads"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_threads_text', $settings['threads_label'] ) ) . '</span></a></div>';
-						break;
-					case 'bluesky':
-						$html .= '<div class="has_bluesky ' . ( $theme_options['show_tooltips'] ? 'has-tooltip' : '' ) . '" style="display: none;" data-type="bluesky" data-tooltip="' . esc_attr( apply_filters( 'has_bluesky_tooltip', $settings['bluesky_tooltip'] ) ) . '"><a href="https://bsky.app/intent/compose?text=%blueskytext%" target="_blank" rel="nofollow"><svg class="has-icon"><use xlink:href="#has-bluesky"></use></svg><span class="has-text">&nbsp;' . esc_html( apply_filters( 'has_bluesky_text', $settings['bluesky_label'] ) ) . '</span></a></div>';
-						break;
-				}
+			if ( ! $social_network['enabled'] ) {
+				continue;
+			}
+			// Handle special cases that need additional logic.
+			if ( 'email' === $social_network['slug'] ) {
+				$html .= $this->render_email_network( $social_network, $theme_options, $settings, $email_options );
+			} elseif ( 'whatsapp' === $social_network['slug'] ) {
+				$html .= $this->render_whatsapp_network( $social_network, $theme_options, $settings );
+			} elseif ( 'mastodon' === $social_network['slug'] ) {
+				$html .= $this->render_network_html( $social_network, $theme_options, $settings );
+				$this->maybe_enqueue_fancybox();
+			} else {
+				$html .= $this->render_network_html( $social_network, $theme_options, $settings );
 			}
 		}
 		$html .= '</div><!-- #highlight-and-share-wrapper --></div><!-- #has-highlight-and-share -->';
@@ -1854,6 +1977,21 @@ class Frontend {
 		// Get the webshare settings.
 		$image_sharing_options                  = Options::get_image_options();
 		$json_arr['enable_webshare_image_only'] = (bool) $image_sharing_options['webshare_share_image_only'];
+
+		// Generate class selector string from network registry.
+		$social_networks = Options::get_plugin_options_social_networks();
+		$class_selectors = array();
+		foreach ( $social_networks as $network ) {
+			if ( $network['enabled'] ) {
+				$class_selectors[] = '.' . $network['css_class'];
+			}
+		}
+		// Add email variants.
+		if ( isset( $social_networks['email'] ) && $social_networks['email']['enabled'] ) {
+			$class_selectors[] = '.has_email_mailto';
+			$class_selectors[] = '.has_email_form';
+		}
+		$json_arr['social_network_classes'] = implode( ', ', $class_selectors );
 
 		// Localize.
 		wp_localize_script( 'highlight-and-share', 'highlight_and_share', $json_arr );
