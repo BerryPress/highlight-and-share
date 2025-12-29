@@ -696,6 +696,7 @@ class Admin {
 					'hasSharingAdmin',
 					array(
 						'userMetaNonce' => wp_create_nonce( 'has_admin_user_meta' ),
+						'retrieveNonce'  => wp_create_nonce( 'has_retrieve_settings' ),
 					)
 				);
 			}

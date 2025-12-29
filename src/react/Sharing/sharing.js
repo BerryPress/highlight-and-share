@@ -3,6 +3,8 @@
  */
 
 import { __ } from '@wordpress/i18n';
+import './Store'; // Register the store before using components that depend on it.
+import SocialNetworksPanel from './Panels/SocialNetworksPanel';
 
 /**
  * Sharing tab interface component.
@@ -27,7 +29,7 @@ const Sharing = () => {
 					</p>
 				</div>
 				<div className="has-admin-content-body">
-					<p>Hello World</p>
+					<SocialNetworksPanel />
 				</div>
 			</div>
 		</div>

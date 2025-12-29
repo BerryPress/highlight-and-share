@@ -18,21 +18,38 @@ const STORE_NAME = 'has/sharing';
 export default function usePanelState( panelId, defaultOpen = false ) {
 	const isOpen = useSelect(
 		( select ) => {
-			const store = select( STORE_NAME );
-			return store.getPanelState( panelId );
+			try {
+				const store = select( STORE_NAME );
+				if ( ! store || ! store.getPanelState ) {
+					return defaultOpen;
+				}
+				return store.getPanelState( panelId );
+			} catch ( error ) {
+				// Store not registered yet, return default.
+				return defaultOpen;
+			}
 		},
-		[ panelId ]
+		[ panelId, defaultOpen ]
 	);
 
 	const allPanelStates = useSelect(
 		( select ) => {
-			const store = select( STORE_NAME );
-			return store.getAllPanelStates();
+			try {
+				const store = select( STORE_NAME );
+				if ( ! store || ! store.getAllPanelStates ) {
+					return {};
+				}
+				return store.getAllPanelStates();
+			} catch ( error ) {
+				// Store not registered yet, return empty object.
+				return {};
+			}
 		},
 		[]
 	);
 
-	const { setPanelState: setStorePanelState } = useDispatch( STORE_NAME );
+	const dispatch = useDispatch( STORE_NAME );
+	const setStorePanelState = dispatch?.setPanelState || ( () => {} );
 
 	// Load panel states from user meta on mount (only once).
 	useEffect( () => {
