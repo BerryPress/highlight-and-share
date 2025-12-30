@@ -18141,6 +18141,102 @@ var NetworkSettingsPopover = function NetworkSettingsPopover(_ref) {
 
 /***/ }),
 
+/***/ "./src/react/Components/Shared/PanelBodyWithIndicator/index.js":
+/*!*********************************************************************!*\
+  !*** ./src/react/Components/Shared/PanelBodyWithIndicator/index.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Hooks_usePanelState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Hooks/usePanelState */ "./src/react/Hooks/usePanelState.js");
+/* harmony import */ var _Hooks_useUnsavedChanges__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Hooks/useUnsavedChanges */ "./src/react/Hooks/useUnsavedChanges.js");
+var _excluded = ["panelId", "control", "title", "defaultOpen", "className", "onToggle"];
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+/**
+ * PanelBody wrapper component with panel indicators for unsaved changes and errors.
+ */
+
+
+
+
+
+/**
+ * PanelBody wrapper with automatic panel indicators.
+ *
+ * @param {Object}   props             Component props.
+ * @param {string}   props.panelId     Unique panel ID for state management.
+ * @param {Object}   props.control     React Hook Form control object (optional).
+ * @param {Element}  props.title       Panel title (will have indicators added).
+ * @param {boolean}  props.defaultOpen Default open state (default: false).
+ * @param {string}   props.className   Additional CSS classes.
+ * @param {Function} props.onToggle    Custom toggle handler (optional).
+ * @param {*}        props.rest        All other PanelBody props.
+ * @return {JSX.Element} PanelBody component with indicators.
+ */
+var PanelBodyWithIndicator = function PanelBodyWithIndicator(_ref) {
+  var panelId = _ref.panelId,
+    control = _ref.control,
+    title = _ref.title,
+    _ref$defaultOpen = _ref.defaultOpen,
+    defaultOpen = _ref$defaultOpen === void 0 ? false : _ref$defaultOpen,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? '' : _ref$className,
+    onToggle = _ref.onToggle,
+    rest = _objectWithoutProperties(_ref, _excluded);
+  // Panel state management.
+  var _usePanelState = (0,_Hooks_usePanelState__WEBPACK_IMPORTED_MODULE_1__["default"])(panelId, defaultOpen),
+    _usePanelState2 = _slicedToArray(_usePanelState, 2),
+    isOpen = _usePanelState2[0],
+    setIsOpen = _usePanelState2[1];
+
+  // Track unsaved changes if control is provided.
+  var _useUnsavedChanges = (0,_Hooks_useUnsavedChanges__WEBPACK_IMPORTED_MODULE_2__["default"])(control || {}),
+    isDirty = _useUnsavedChanges.isDirty,
+    hasErrors = _useUnsavedChanges.hasErrors;
+
+  /**
+   * Handle panel toggle.
+   *
+   * @param {boolean} newState New open state.
+   */
+  var handleToggle = function handleToggle(newState) {
+    setIsOpen(newState);
+    if (onToggle) {
+      onToggle(newState);
+    }
+  };
+
+  // Build panel title with indicator.
+  var panelTitle = /*#__PURE__*/React.createElement(React.Fragment, null, title, control && isDirty && !hasErrors && /*#__PURE__*/React.createElement("span", {
+    className: "has-panel-indicator has-panel-indicator-dirty"
+  }), control && hasErrors && /*#__PURE__*/React.createElement("span", {
+    className: "has-panel-indicator has-panel-indicator-error"
+  }));
+  return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.PanelBody, _extends({
+    title: panelTitle,
+    initialOpen: isOpen,
+    onToggle: handleToggle,
+    className: className
+  }, rest));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PanelBodyWithIndicator);
+
+/***/ }),
+
 /***/ "./src/react/Components/SocialIcons/index.js":
 /*!***************************************************!*\
   !*** ./src/react/Components/SocialIcons/index.js ***!
@@ -18632,12 +18728,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var use_async_resource__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! use-async-resource */ "./node_modules/use-async-resource/lib/index.js");
 /* harmony import */ var use_async_resource__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(use_async_resource__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _Hooks_usePanelState__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../Hooks/usePanelState */ "./src/react/Hooks/usePanelState.js");
-/* harmony import */ var _Hooks_useUnsavedChanges__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../Hooks/useUnsavedChanges */ "./src/react/Hooks/useUnsavedChanges.js");
-/* harmony import */ var _Components_Shared_NetworkSelector__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../Components/Shared/NetworkSelector */ "./src/react/Components/Shared/NetworkSelector/index.js");
-/* harmony import */ var _Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../Components/Shared/NetworkSettingsPopover */ "./src/react/Components/Shared/NetworkSettingsPopover/index.js");
-/* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
-/* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
+/* harmony import */ var _Components_Shared_NetworkSelector__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../Components/Shared/NetworkSelector */ "./src/react/Components/Shared/NetworkSelector/index.js");
+/* harmony import */ var _Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../Components/Shared/NetworkSettingsPopover */ "./src/react/Components/Shared/NetworkSettingsPopover/index.js");
+/* harmony import */ var _Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../Components/Shared/PanelBodyWithIndicator */ "./src/react/Components/Shared/PanelBodyWithIndicator/index.js");
+/* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
+/* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -18661,7 +18756,6 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
-
 /**
  * Retrieve settings data from PHP.
  *
@@ -18669,7 +18763,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
  */
 var retrieveDefaults = function retrieveDefaults() {
   var _window$hasSharingAdm, _window$hasSettingsAd;
-  return (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__["default"])('has_retrieve_settings_tab', {
+  return (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_9__["default"])('has_retrieve_settings_tab', {
     nonce: ((_window$hasSharingAdm = window.hasSharingAdmin) === null || _window$hasSharingAdm === void 0 ? void 0 : _window$hasSharingAdm.retrieveNonce) || ((_window$hasSettingsAd = window.hasSettingsAdmin) === null || _window$hasSettingsAd === void 0 ? void 0 : _window$hasSettingsAd.retrieveNonce) || ''
   });
 };
@@ -18684,7 +18778,7 @@ var SocialNetworksPanel = function SocialNetworksPanel(props) {
   var _useAsyncResource = (0,use_async_resource__WEBPACK_IMPORTED_MODULE_5__.useAsyncResource)(retrieveDefaults, []),
     _useAsyncResource2 = _slicedToArray(_useAsyncResource, 1),
     defaults = _useAsyncResource2[0];
-  return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_11__["default"], {
+  return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_10__["default"], {
     fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Could not load Social Networks panel.', 'highlight-and-share'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
       href: "https://dlxplugins.com/support/",
       target: "_blank",
@@ -18713,12 +18807,6 @@ var Interface = function Interface(props) {
   var defaults = props.defaults;
   var response = defaults();
   var data = response.data.data;
-
-  // Panel state management.
-  var _usePanelState = (0,_Hooks_usePanelState__WEBPACK_IMPORTED_MODULE_6__["default"])('socialNetworks', true),
-    _usePanelState2 = _slicedToArray(_usePanelState, 2),
-    isOpen = _usePanelState2[0],
-    setIsOpen = _usePanelState2[1];
 
   // Popover state management.
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
@@ -18807,11 +18895,6 @@ var Interface = function Interface(props) {
     }),
     errors = _useFormState.errors;
 
-  // Track unsaved changes.
-  var _useUnsavedChanges = (0,_Hooks_useUnsavedChanges__WEBPACK_IMPORTED_MODULE_7__["default"])(control),
-    isDirty = _useUnsavedChanges.isDirty,
-    hasErrors = _useUnsavedChanges.hasErrors;
-
   /**
    * Handle settings button click.
    *
@@ -18854,17 +18937,11 @@ var Interface = function Interface(props) {
     }
     return data.socialNetworks[networkSlug] || null;
   };
-
-  // Build panel title with indicator.
-  var panelTitle = /*#__PURE__*/React.createElement(React.Fragment, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Social Networks', 'highlight-and-share'), isDirty && !hasErrors && /*#__PURE__*/React.createElement("span", {
-    className: "has-panel-indicator has-panel-indicator-dirty"
-  }), hasErrors && /*#__PURE__*/React.createElement("span", {
-    className: "has-panel-indicator has-panel-indicator-error"
-  }));
-  return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
-    title: panelTitle,
-    initialOpen: isOpen,
-    onToggle: setIsOpen,
+  return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    panelId: "socialNetworks",
+    control: control,
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Social Networks', 'highlight-and-share'),
+    defaultOpen: true,
     className: "has-sharing-panel"
   }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
@@ -18872,11 +18949,11 @@ var Interface = function Interface(props) {
     className: "description"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select which social networks to enable and configure their settings.', 'highlight-and-share'))), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/React.createElement(_Components_Shared_NetworkSelector__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, /*#__PURE__*/React.createElement(_Components_Shared_NetworkSelector__WEBPACK_IMPORTED_MODULE_6__["default"], {
     control: control,
     networks: (data === null || data === void 0 ? void 0 : data.socialNetworks) || {},
     onSettingsClick: handleSettingsClick
-  })), popoverNetwork && popoverAnchor && /*#__PURE__*/React.createElement(_Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  })), popoverNetwork && popoverAnchor && /*#__PURE__*/React.createElement(_Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_7__["default"], {
     networkSlug: popoverNetwork,
     network: getNetworkData(popoverNetwork),
     control: control,

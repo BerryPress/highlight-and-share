@@ -8,10 +8,9 @@ import { PanelBody } from '@wordpress/components';
 import { useForm, useFormState } from 'react-hook-form';
 import { escapeEditableHTML } from '@wordpress/escape-html';
 import { useAsyncResource } from 'use-async-resource';
-import usePanelState from '../../../Hooks/usePanelState';
-import useUnsavedChanges from '../../../Hooks/useUnsavedChanges';
 import NetworkSelector from '../../../Components/Shared/NetworkSelector';
 import NetworkSettingsPopover from '../../../Components/Shared/NetworkSettingsPopover';
+import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndicator';
 import sendCommand from '../../../Utils/SendCommand';
 import ErrorBoundary from '../../../Components/ErrorBoundary';
 
@@ -80,9 +79,6 @@ const Interface = ( props ) => {
 	const { defaults } = props;
 	const response = defaults();
 	const { data } = response.data;
-
-	// Panel state management.
-	const [ isOpen, setIsOpen ] = usePanelState( 'socialNetworks', true );
 
 	// Popover state management.
 	const [ popoverNetwork, setPopoverNetwork ] = useState( null );
@@ -167,9 +163,6 @@ const Interface = ( props ) => {
 		control,
 	} );
 
-	// Track unsaved changes.
-	const { isDirty, hasErrors } = useUnsavedChanges( control );
-
 	/**
 	 * Handle settings button click.
 	 *
@@ -213,24 +206,12 @@ const Interface = ( props ) => {
 		return data.socialNetworks[ networkSlug ] || null;
 	};
 
-	// Build panel title with indicator.
-	const panelTitle = (
-		<>
-			{ __( 'Social Networks', 'highlight-and-share' ) }
-			{ isDirty && ! hasErrors && (
-				<span className="has-panel-indicator has-panel-indicator-dirty" />
-			) }
-			{ hasErrors && (
-				<span className="has-panel-indicator has-panel-indicator-error" />
-			) }
-		</>
-	);
-
 	return (
-		<PanelBody
-			title={ panelTitle }
-			initialOpen={ isOpen }
-			onToggle={ setIsOpen }
+		<PanelBodyWithIndicator
+			panelId="socialNetworks"
+			control={ control }
+			title={ __( 'Social Networks', 'highlight-and-share' ) }
+			defaultOpen={ true }
 			className="has-sharing-panel"
 		>
 			<div className="has-admin-component-row">
@@ -260,7 +241,7 @@ const Interface = ( props ) => {
 					anchor={ popoverAnchor }
 				/>
 			) }
-		</PanelBody>
+		</PanelBodyWithIndicator>
 	);
 };
 
