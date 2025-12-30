@@ -4829,7 +4829,7 @@ h3.has-icon-heading svg {
   border-bottom: 0;
 }
 .has-sharing-panel {
-  /* Panel title with indicator */
+  /* Panel title */
 }
 .has-sharing-panel .components-panel__body-title {
   position: relative;
@@ -4840,16 +4840,7 @@ h3.has-icon-heading svg {
   font-weight: 600;
   line-height: 1.4;
   color: #1d2327;
-  padding: 16px 24px;
   margin: 0;
-  background: #f6f7f7;
-  border-bottom: 1px solid #c3c4c7;
-  transition: background-color 0.2s ease;
-}
-.has-sharing-panel .components-panel__body-title:hover {
-  background: #f0f0f1;
-}
-.has-sharing-panel .components-panel__body-title {
   /* Panel indicator dots */
 }
 .has-sharing-panel .components-panel__body-title .has-panel-indicator {
@@ -4858,6 +4849,7 @@ h3.has-icon-heading svg {
   height: 8px;
   border-radius: 50%;
   margin-left: auto;
+  margin-right: 20px;
   flex-shrink: 0;
 }
 .has-sharing-panel .components-panel__body-title .has-panel-indicator.has-panel-indicator-dirty {
@@ -4871,18 +4863,18 @@ h3.has-icon-heading svg {
 .has-sharing-panel {
   /* Panel content */
 }
-.has-sharing-panel .components-panel__body {
+.has-sharing-panel.components-panel__body {
   padding: 24px;
   background: #fff;
 }
-.has-sharing-panel .components-panel__body .has-admin-component-row {
+.has-sharing-panel.components-panel__body .has-admin-component-row {
   margin-bottom: 20px;
 }
-.has-sharing-panel .components-panel__body .has-admin-component-row:last-child {
+.has-sharing-panel.components-panel__body .has-admin-component-row:last-child {
   margin-bottom: 0;
 }
-.has-sharing-panel .components-panel__body .has-admin-component-row p.description {
-  margin: 0 0 16px 0;
+.has-sharing-panel.components-panel__body .has-admin-component-row p.description {
+  margin: 20px 0 20px 0;
   color: #646970;
   font-size: 13px;
   line-height: 1.5;
@@ -4893,10 +4885,16 @@ h3.has-icon-heading svg {
 .has-sharing-panel .components-panel__body-toggle {
   width: 100%;
   text-align: left;
-  padding: 0;
+  padding: 16px 24px;
   border: 0;
-  background: transparent;
+  border-bottom: 1px solid #c3c4c7;
+  background: #f6f7f7;
   cursor: pointer;
+  display: flex;
+  transition: background-color 0.2s ease;
+}
+.has-sharing-panel .components-panel__body-toggle:hover {
+  background: #f0f0f1;
 }
 .has-sharing-panel .components-panel__body-toggle:focus {
   outline: 1px solid #2271b1;

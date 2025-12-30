@@ -1247,7 +1247,7 @@ h3.has-icon-heading {
 		border-bottom: 0;
 	}
 
-	/* Panel title with indicator */
+	/* Panel title */
 	.components-panel__body-title {
 		position: relative;
 		display: flex;
@@ -1257,15 +1257,7 @@ h3.has-icon-heading {
 		font-weight: 600;
 		line-height: 1.4;
 		color: #1d2327;
-		padding: 16px 24px;
 		margin: 0;
-		background: #f6f7f7;
-		border-bottom: 1px solid #c3c4c7;
-		transition: background-color 0.2s ease;
-
-		&:hover {
-			background: #f0f0f1;
-		}
 
 		/* Panel indicator dots */
 		.has-panel-indicator {
@@ -1274,6 +1266,7 @@ h3.has-icon-heading {
 			height: 8px;
 			border-radius: 50%;
 			margin-left: auto;
+			margin-right: 20px; // Space between indicator and arrow
 			flex-shrink: 0;
 
 			&.has-panel-indicator-dirty {
@@ -1289,7 +1282,7 @@ h3.has-icon-heading {
 	}
 
 	/* Panel content */
-	.components-panel__body {
+	&.components-panel__body  {
 		padding: 24px;
 		background: #fff;
 
@@ -1301,7 +1294,7 @@ h3.has-icon-heading {
 			}
 
 			p.description {
-				margin: 0 0 16px 0;
+				margin: 20px 0 20px 0;
 				color: #646970;
 				font-size: 13px;
 				line-height: 1.5;
@@ -1313,10 +1306,17 @@ h3.has-icon-heading {
 	.components-panel__body-toggle {
 		width: 100%;
 		text-align: left;
-		padding: 0;
+		padding: 16px 24px;
 		border: 0;
-		background: transparent;
+		border-bottom: 1px solid #c3c4c7;
+		background: #f6f7f7;
 		cursor: pointer;
+		display: flex;
+		transition: background-color 0.2s ease;
+
+		&:hover {
+			background: #f0f0f1;
+		}
 
 		&:focus {
 			outline: 1px solid #2271b1;
