@@ -5112,6 +5112,9 @@ h3.has-icon-heading svg {
   max-width: 400px;
   padding: 0;
 }
+.has-network-settings-popover h3 {
+  margin: 0;
+}
 .has-network-settings-popover .has-network-settings-popover-header {
   display: flex;
   align-items: center;

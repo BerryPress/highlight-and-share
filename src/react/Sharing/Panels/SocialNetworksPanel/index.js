@@ -159,7 +159,7 @@ const Interface = ( props ) => {
 	};
 
 	// Set up React Hook Form.
-	const { control, getValues } = useForm( {
+	const { control } = useForm( {
 		defaultValues: getDefaultValues(),
 	} );
 
@@ -178,11 +178,6 @@ const Interface = ( props ) => {
 	 * @param {HTMLElement} anchor      Anchor element (button).
 	 */
 	const handleSettingsClick = ( networkSlug, isEnabled, anchor ) => {
-		// Only allow opening popover if network is enabled.
-		if ( ! isEnabled ) {
-			return;
-		}
-
 		if ( ! anchor ) {
 			return;
 		}

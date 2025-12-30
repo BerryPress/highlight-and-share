@@ -17802,13 +17802,15 @@ var NetworkSelector = function NetworkSelector(_ref) {
     }
   };
 
-  // Get sorted network list.
+  // Get sorted network list (alphabetically by label).
   var networkList = Object.keys(networks).map(function (slug) {
     return _objectSpread({
       slug: slug
     }, networks[slug]);
   }).sort(function (a, b) {
-    return (a.order || 0) - (b.order || 0);
+    var labelA = (a.label || a.label_text || a.slug || '').toLowerCase();
+    var labelB = (b.label || b.label_text || b.slug || '').toLowerCase();
+    return labelA.localeCompare(labelB);
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "has-network-selector"
@@ -18799,8 +18801,7 @@ var Interface = function Interface(props) {
   var _useForm = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useForm)({
       defaultValues: getDefaultValues()
     }),
-    control = _useForm.control,
-    getValues = _useForm.getValues;
+    control = _useForm.control;
   var _useFormState = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useFormState)({
       control: control
     }),
@@ -18819,10 +18820,6 @@ var Interface = function Interface(props) {
    * @param {HTMLElement} anchor      Anchor element (button).
    */
   var handleSettingsClick = function handleSettingsClick(networkSlug, isEnabled, anchor) {
-    // Only allow opening popover if network is enabled.
-    if (!isEnabled) {
-      return;
-    }
     if (!anchor) {
       return;
     }

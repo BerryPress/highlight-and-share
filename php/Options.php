@@ -338,7 +338,7 @@ class Options {
 				),
 			),
 			'webshare' => array(
-				'label'              => __( 'Share', 'highlight-and-share' ),
+				'label'              => __( 'Web Share', 'highlight-and-share' ),
 				'slug'               => 'webshare',
 				'color'              => '#000',
 				'background'         => '#e17713',

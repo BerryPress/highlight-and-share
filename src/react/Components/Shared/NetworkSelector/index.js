@@ -89,13 +89,17 @@ const NetworkSelector = ( { control, networks = {}, onSettingsClick } ) => {
 		}
 	};
 
-	// Get sorted network list.
+	// Get sorted network list (alphabetically by label).
 	const networkList = Object.keys( networks )
 		.map( ( slug ) => ( {
 			slug,
 			...networks[ slug ],
 		} ) )
-		.sort( ( a, b ) => ( a.order || 0 ) - ( b.order || 0 ) );
+		.sort( ( a, b ) => {
+			const labelA = ( a.label || a.label_text || a.slug || '' ).toLowerCase();
+			const labelB = ( b.label || b.label_text || b.slug || '' ).toLowerCase();
+			return labelA.localeCompare( labelB );
+		} );
 
 	return (
 		<div className="has-network-selector">
