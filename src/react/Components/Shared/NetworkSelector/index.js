@@ -22,17 +22,32 @@ const NetworkSelector = ( { control, networks = {}, onSettingsClick } ) => {
 	const { getSocialIcon } = SocialIcons( networks );
 
 	/**
+	 * Convert underscore_case to camelCase.
+	 *
+	 * @param {string} str String in underscore_case.
+	 * @return {string} String in camelCase.
+	 */
+	const toCamelCase = ( str ) => {
+		if ( ! str ) {
+			return str;
+		}
+		return str.replace( /_([a-z])/g, ( _, letter ) => letter.toUpperCase() );
+	};
+
+	/**
 	 * Get the enabled option key for a network.
 	 *
 	 * @param {string} networkSlug Network slug.
-	 * @return {string} Option key for enabled state.
+	 * @return {string} Option key for enabled state in camelCase.
 	 */
 	const getEnabledKey = ( networkSlug ) => {
 		const network = networks[ networkSlug ];
 		if ( ! network ) {
 			return '';
 		}
-		return network.enabled_option_key || `show_${ networkSlug }`;
+		const optionKey = network.enabled_option_key || `show_${ networkSlug }`;
+		// Convert underscore_case to camelCase to match form field names.
+		return toCamelCase( optionKey );
 	};
 
 	/**

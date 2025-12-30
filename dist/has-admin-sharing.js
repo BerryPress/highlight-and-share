@@ -17733,17 +17733,34 @@ var NetworkSelector = function NetworkSelector(_ref) {
     getSocialIcon = _SocialIcons.getSocialIcon;
 
   /**
+   * Convert underscore_case to camelCase.
+   *
+   * @param {string} str String in underscore_case.
+   * @return {string} String in camelCase.
+   */
+  var toCamelCase = function toCamelCase(str) {
+    if (!str) {
+      return str;
+    }
+    return str.replace(/_([a-z])/g, function (_, letter) {
+      return letter.toUpperCase();
+    });
+  };
+
+  /**
    * Get the enabled option key for a network.
    *
    * @param {string} networkSlug Network slug.
-   * @return {string} Option key for enabled state.
+   * @return {string} Option key for enabled state in camelCase.
    */
   var getEnabledKey = function getEnabledKey(networkSlug) {
     var network = networks[networkSlug];
     if (!network) {
       return '';
     }
-    return network.enabled_option_key || "show_".concat(networkSlug);
+    var optionKey = network.enabled_option_key || "show_".concat(networkSlug);
+    // Convert underscore_case to camelCase to match form field names.
+    return toCamelCase(optionKey);
   };
 
   /**
@@ -18782,7 +18799,8 @@ var Interface = function Interface(props) {
   var _useForm = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useForm)({
       defaultValues: getDefaultValues()
     }),
-    control = _useForm.control;
+    control = _useForm.control,
+    getValues = _useForm.getValues;
   var _useFormState = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useFormState)({
       control: control
     }),
@@ -18798,7 +18816,7 @@ var Interface = function Interface(props) {
    *
    * @param {string}      networkSlug Network slug.
    * @param {boolean}     isEnabled   Whether network is enabled.
-   * @param {HTMLElement} anchor     Anchor element (button).
+   * @param {HTMLElement} anchor      Anchor element (button).
    */
   var handleSettingsClick = function handleSettingsClick(networkSlug, isEnabled, anchor) {
     // Only allow opening popover if network is enabled.

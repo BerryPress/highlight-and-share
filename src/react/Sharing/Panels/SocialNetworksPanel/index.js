@@ -159,7 +159,7 @@ const Interface = ( props ) => {
 	};
 
 	// Set up React Hook Form.
-	const { control } = useForm( {
+	const { control, getValues } = useForm( {
 		defaultValues: getDefaultValues(),
 	} );
 
@@ -175,7 +175,7 @@ const Interface = ( props ) => {
 	 *
 	 * @param {string}      networkSlug Network slug.
 	 * @param {boolean}     isEnabled   Whether network is enabled.
-	 * @param {HTMLElement} anchor     Anchor element (button).
+	 * @param {HTMLElement} anchor      Anchor element (button).
 	 */
 	const handleSettingsClick = ( networkSlug, isEnabled, anchor ) => {
 		// Only allow opening popover if network is enabled.
