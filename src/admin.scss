@@ -1232,6 +1232,10 @@ h3.has-icon-heading {
 	border: 1px solid #c3c4c7;
 }
 
+.has-admin-content-heading p.description {
+	margin: 20px 0;
+}
+
 /* ============================================
    Sharing Tab Base Styling
    ============================================ */
@@ -1283,7 +1287,6 @@ h3.has-icon-heading {
 
 	/* Panel content */
 	&.components-panel__body  {
-		padding: 24px;
 		background: #fff;
 
 		.has-admin-component-row {
@@ -1332,6 +1335,7 @@ h3.has-icon-heading {
 
 	.has-sharing-panel {
 		width: 100%;
+		box-sizing: border-box;
 	}
 }
 

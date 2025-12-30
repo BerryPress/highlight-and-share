@@ -107,7 +107,7 @@ class Options {
 	public static function get_social_network_defaults() {
 		$social_networks = array(
 			'twitter'  => array(
-				'label'              => __( 'Twitter', 'highlight-and-share' ),
+				'label'              => __( 'X', 'highlight-and-share' ),
 				'slug'               => 'twitter',
 				'color'              => '#000000',
 				'background'         => '#fff',
@@ -170,7 +170,7 @@ class Options {
 				),
 			),
 			'reddit'   => array(
-				'label'              => __( 'reddit', 'highlight-and-share' ),
+				'label'              => __( 'Reddit', 'highlight-and-share' ),
 				'slug'               => 'reddit',
 				'color'              => '#ff4500',
 				'background'         => '#fff',
@@ -762,6 +762,11 @@ class Options {
 
 		// Merge two multi-dimensional arrays (defaults, and from settings).
 		$settings = array_replace_recursive( $defaults, $settings );
+
+		// Ensure labels remain the same as the defaults.
+		foreach ( $defaults as $network_slug => $network_def ) {
+			$settings[ $network_slug ]['label'] = $network_def['label'];
+		}
 
 		// Loop through networks and set enabled state.
 		foreach ( $settings as $network_slug => &$network_def ) {

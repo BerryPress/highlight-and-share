@@ -4815,6 +4815,10 @@ h3.has-icon-heading svg {
   border: 1px solid #c3c4c7;
 }
 
+.has-admin-content-heading p.description {
+  margin: 20px 0;
+}
+
 /* ============================================
    Sharing Tab Base Styling
    ============================================ */
@@ -4864,7 +4868,6 @@ h3.has-icon-heading svg {
   /* Panel content */
 }
 .has-sharing-panel.components-panel__body {
-  padding: 24px;
   background: #fff;
 }
 .has-sharing-panel.components-panel__body .has-admin-component-row {
@@ -4908,6 +4911,7 @@ h3.has-icon-heading svg {
 }
 .has-admin-content-body .has-sharing-panel {
   width: 100%;
+  box-sizing: border-box;
 }
 
 /* Network selector styles */
