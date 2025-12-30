@@ -4917,7 +4917,7 @@ h3.has-icon-heading svg {
 /* Network selector styles */
 .has-network-selector {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-top: 16px;
 }
@@ -4929,6 +4929,11 @@ h3.has-icon-heading svg {
 @media (min-width: 48em) {
   .has-network-selector {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 64em) {
+  .has-network-selector {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
