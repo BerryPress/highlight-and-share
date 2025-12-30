@@ -17718,17 +17718,19 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 /**
  * NetworkSelector component.
  *
- * @param {Object}   props                 Component props.
- * @param {Object}   props.control         React Hook Form control object.
- * @param {Object}   props.networks        Networks data from PHP.
- * @param {Function} props.onSettingsClick Callback when settings gear icon is clicked.
+ * @param {Object}   props                     Component props.
+ * @param {Object}   props.control             React Hook Form control object.
+ * @param {Object}   props.networks            Networks data from PHP.
+ * @param {Function} props.onSettingsClick     Callback when settings gear icon is clicked.
+ * @param {Function} props.onSettingsMouseDown Callback when settings gear icon is mouse down.
  * @return {JSX.Element} NetworkSelector component.
  */
 var NetworkSelector = function NetworkSelector(_ref) {
   var control = _ref.control,
     _ref$networks = _ref.networks,
     networks = _ref$networks === void 0 ? {} : _ref$networks,
-    onSettingsClick = _ref.onSettingsClick;
+    onSettingsClick = _ref.onSettingsClick,
+    onSettingsMouseDown = _ref.onSettingsMouseDown;
   var _SocialIcons = (0,_SocialIcons__WEBPACK_IMPORTED_MODULE_4__["default"])(networks),
     getSocialIcon = _SocialIcons.getSocialIcon;
 
@@ -17789,7 +17791,7 @@ var NetworkSelector = function NetworkSelector(_ref) {
   };
 
   /**
-   * Handle settings button click.
+   * Handle settings button click. Used to close the popover.
    *
    * @param {Event}   e           Click event.
    * @param {string}  networkSlug Network slug.
@@ -17797,8 +17799,22 @@ var NetworkSelector = function NetworkSelector(_ref) {
    */
   var handleSettingsClick = function handleSettingsClick(e, networkSlug, isEnabled) {
     e.stopPropagation();
-    if (onSettingsClick) {
-      onSettingsClick(networkSlug, isEnabled, e.currentTarget);
+  };
+
+  /**
+   * Handle settings button mouse down.
+   *
+   * This is used to open the popover when the settings button is clicked
+   * when the mouse is held down.
+   *
+   * @param {Event}   e           Mouse down event.
+   * @param {string}  networkSlug Network slug.
+   * @param {boolean} isEnabled   Whether network is enabled.
+   */
+  var handleSettingsMouseDown = function handleSettingsMouseDown(e, networkSlug, isEnabled) {
+    e.stopPropagation();
+    if (onSettingsMouseDown) {
+      onSettingsMouseDown(e, networkSlug, isEnabled);
     }
   };
 
@@ -17866,6 +17882,9 @@ var NetworkSelector = function NetworkSelector(_ref) {
           onClick: function onClick(e) {
             return handleSettingsClick(e, network.slug, isEnabled);
           },
+          onMouseDown: function onMouseDown(e) {
+            return handleSettingsMouseDown(e, network.slug, isEnabled);
+          },
           "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Configure network settings', 'highlight-and-share')
         }, /*#__PURE__*/React.createElement(_Icons_Gear__WEBPACK_IMPORTED_MODULE_5__["default"], {
           width: 16,
@@ -17916,13 +17935,13 @@ function _extends() { return _extends = Object.assign ? Object.assign.bind() : f
 /**
  * NetworkSettingsPopover component.
  *
- * @param {Object}   props                Component props.
- * @param {string}   props.networkSlug    Network slug.
- * @param {Object}   props.network        Network data.
- * @param {Object}   props.control        React Hook Form control object.
- * @param {Object}   props.errors         React Hook Form errors object.
- * @param {Function} props.onClose         Callback when popover should close.
- * @param {Object}   props.anchor         Anchor element for popover positioning.
+ * @param {Object}   props             Component props.
+ * @param {string}   props.networkSlug Network slug.
+ * @param {Object}   props.network     Network data.
+ * @param {Object}   props.control     React Hook Form control object.
+ * @param {Object}   props.errors      React Hook Form errors object.
+ * @param {Function} props.onClose     Callback when popover should close.
+ * @param {Object}   props.anchor      Anchor element for popover positioning.
  * @return {JSX.Element} NetworkSettingsPopover component.
  */
 var NetworkSettingsPopover = function NetworkSettingsPopover(_ref) {
@@ -18896,25 +18915,18 @@ var Interface = function Interface(props) {
     errors = _useFormState.errors;
 
   /**
-   * Handle settings button click.
+   * Handle settings button mouse down.
    *
-   * @param {string}      networkSlug Network slug.
-   * @param {boolean}     isEnabled   Whether network is enabled.
-   * @param {HTMLElement} anchor      Anchor element (button).
+   * @param {MouseEvent} e           Mouse down event.
+   * @param {string}     networkSlug Network slug.
+   * @param {boolean}    isEnabled   Whether network is enabled.
    */
-  var handleSettingsClick = function handleSettingsClick(networkSlug, isEnabled, anchor) {
-    if (!anchor) {
-      return;
-    }
+  var handleSettingsMouseDown = function handleSettingsMouseDown(e, networkSlug, isEnabled) {
+    e.stopPropagation();
 
-    // Toggle popover.
-    if (popoverNetwork === networkSlug) {
-      setPopoverNetwork(null);
-      setPopoverAnchor(null);
-    } else {
-      setPopoverNetwork(networkSlug);
-      setPopoverAnchor(anchor);
-    }
+    // Enable popover.
+    setPopoverNetwork(networkSlug);
+    setPopoverAnchor(e.currentTarget);
   };
 
   /**
@@ -18952,7 +18964,10 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/React.createElement(_Components_Shared_NetworkSelector__WEBPACK_IMPORTED_MODULE_6__["default"], {
     control: control,
     networks: (data === null || data === void 0 ? void 0 : data.socialNetworks) || {},
-    onSettingsClick: handleSettingsClick
+    onSettingsClick: function onSettingsClick() {
+      // todo - nothing to do here.
+    },
+    onSettingsMouseDown: handleSettingsMouseDown
   })), popoverNetwork && popoverAnchor && /*#__PURE__*/React.createElement(_Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_7__["default"], {
     networkSlug: popoverNetwork,
     network: getNetworkData(popoverNetwork),

@@ -164,25 +164,18 @@ const Interface = ( props ) => {
 	} );
 
 	/**
-	 * Handle settings button click.
+	 * Handle settings button mouse down.
 	 *
-	 * @param {string}      networkSlug Network slug.
-	 * @param {boolean}     isEnabled   Whether network is enabled.
-	 * @param {HTMLElement} anchor      Anchor element (button).
+	 * @param {MouseEvent} e           Mouse down event.
+	 * @param {string}     networkSlug Network slug.
+	 * @param {boolean}    isEnabled   Whether network is enabled.
 	 */
-	const handleSettingsClick = ( networkSlug, isEnabled, anchor ) => {
-		if ( ! anchor ) {
-			return;
-		}
+	const handleSettingsMouseDown = ( e, networkSlug, isEnabled ) => {
+		e.stopPropagation();
 
-		// Toggle popover.
-		if ( popoverNetwork === networkSlug ) {
-			setPopoverNetwork( null );
-			setPopoverAnchor( null );
-		} else {
-			setPopoverNetwork( networkSlug );
-			setPopoverAnchor( anchor );
-		}
+		// Enable popover.
+		setPopoverNetwork( networkSlug );
+		setPopoverAnchor( e.currentTarget );
 	};
 
 	/**
@@ -226,7 +219,10 @@ const Interface = ( props ) => {
 				<NetworkSelector
 					control={ control }
 					networks={ data?.socialNetworks || {} }
-					onSettingsClick={ handleSettingsClick }
+					onSettingsClick={ () => {
+						// todo - nothing to do here.
+					} }
+					onSettingsMouseDown={ handleSettingsMouseDown }
 				/>
 			</div>
 

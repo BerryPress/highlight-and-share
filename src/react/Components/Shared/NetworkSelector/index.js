@@ -12,13 +12,14 @@ import GearIcon from '../../Icons/Gear';
 /**
  * NetworkSelector component.
  *
- * @param {Object}   props                 Component props.
- * @param {Object}   props.control         React Hook Form control object.
- * @param {Object}   props.networks        Networks data from PHP.
- * @param {Function} props.onSettingsClick Callback when settings gear icon is clicked.
+ * @param {Object}   props                     Component props.
+ * @param {Object}   props.control             React Hook Form control object.
+ * @param {Object}   props.networks            Networks data from PHP.
+ * @param {Function} props.onSettingsClick     Callback when settings gear icon is clicked.
+ * @param {Function} props.onSettingsMouseDown Callback when settings gear icon is mouse down.
  * @return {JSX.Element} NetworkSelector component.
  */
-const NetworkSelector = ( { control, networks = {}, onSettingsClick } ) => {
+const NetworkSelector = ( { control, networks = {}, onSettingsClick, onSettingsMouseDown } ) => {
 	const { getSocialIcon } = SocialIcons( networks );
 
 	/**
@@ -76,7 +77,7 @@ const NetworkSelector = ( { control, networks = {}, onSettingsClick } ) => {
 	};
 
 	/**
-	 * Handle settings button click.
+	 * Handle settings button click. Used to close the popover.
 	 *
 	 * @param {Event}   e           Click event.
 	 * @param {string}  networkSlug Network slug.
@@ -84,8 +85,22 @@ const NetworkSelector = ( { control, networks = {}, onSettingsClick } ) => {
 	 */
 	const handleSettingsClick = ( e, networkSlug, isEnabled ) => {
 		e.stopPropagation();
-		if ( onSettingsClick ) {
-			onSettingsClick( networkSlug, isEnabled, e.currentTarget );
+	};
+
+	/**
+	 * Handle settings button mouse down.
+	 *
+	 * This is used to open the popover when the settings button is clicked
+	 * when the mouse is held down.
+	 *
+	 * @param {Event}   e           Mouse down event.
+	 * @param {string}  networkSlug Network slug.
+	 * @param {boolean} isEnabled   Whether network is enabled.
+	 */
+	const handleSettingsMouseDown = ( e, networkSlug, isEnabled ) => {
+		e.stopPropagation();
+		if ( onSettingsMouseDown ) {
+			onSettingsMouseDown( e, networkSlug, isEnabled );
 		}
 	};
 
@@ -156,6 +171,9 @@ const NetworkSelector = ( { control, networks = {}, onSettingsClick } ) => {
 											className="has-network-selector-settings-button"
 											onClick={ ( e ) =>
 												handleSettingsClick( e, network.slug, isEnabled )
+											}
+											onMouseDown={ ( e ) =>
+												handleSettingsMouseDown( e, network.slug, isEnabled )
 											}
 											aria-label={ __(
 												'Configure network settings',

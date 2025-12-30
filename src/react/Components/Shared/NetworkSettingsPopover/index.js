@@ -13,13 +13,13 @@ import twttr from '../../../Validation/twitter';
 /**
  * NetworkSettingsPopover component.
  *
- * @param {Object}   props                Component props.
- * @param {string}   props.networkSlug    Network slug.
- * @param {Object}   props.network        Network data.
- * @param {Object}   props.control        React Hook Form control object.
- * @param {Object}   props.errors         React Hook Form errors object.
- * @param {Function} props.onClose         Callback when popover should close.
- * @param {Object}   props.anchor         Anchor element for popover positioning.
+ * @param {Object}   props             Component props.
+ * @param {string}   props.networkSlug Network slug.
+ * @param {Object}   props.network     Network data.
+ * @param {Object}   props.control     React Hook Form control object.
+ * @param {Object}   props.errors      React Hook Form errors object.
+ * @param {Function} props.onClose     Callback when popover should close.
+ * @param {Object}   props.anchor      Anchor element for popover positioning.
  * @return {JSX.Element} NetworkSettingsPopover component.
  */
 const NetworkSettingsPopover = ( {
