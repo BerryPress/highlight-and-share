@@ -445,7 +445,18 @@ class Admin {
 
 				$converted_options[ $key ] = absint( $value );
 			} elseif ( is_array( $value ) ) {
-				$converted_options[ $key ] = array_map( 'sanitize_text_field', $value );
+				// Check if this is a nested object/array with boolean values (e.g., excludedPostTypes).
+				if ( 'excluded_post_types' === $key ) {
+					// Preserve boolean values in nested object.
+					$sanitized_array = array();
+					foreach ( $value as $nested_key => $nested_value ) {
+						$sanitized_key                     = sanitize_key( $nested_key );
+						$sanitized_array[ $sanitized_key ] = (bool) filter_var( $nested_value, FILTER_VALIDATE_BOOLEAN );
+					}
+					$converted_options[ $key ] = $sanitized_array;
+				} else {
+					$converted_options[ $key ] = array_map( 'sanitize_text_field', $value );
+				}
 			} else {
 				$converted_options[ $key ] = $value;
 			}
@@ -691,12 +702,40 @@ class Admin {
 					$deps['version'],
 					true
 				);
+
+				// Get public post types for post type selector.
+				$post_types          = get_post_types(
+					array(
+						'public' => true,
+					),
+					'objects'
+				);
+				$excluded_post_types = array( 'attachment', 'revision', 'nav_menu_item' );
+				$post_types          = array_filter(
+					$post_types,
+					function ( $post_type ) use ( $excluded_post_types ) {
+						return ! in_array( $post_type->name, $excluded_post_types, true );
+					}
+				);
+
+				// Format post types into label|value pairs.
+				$post_types = array_map(
+					function ( $post_type ) {
+						return array(
+							'label' => $post_type->label,
+							'value' => $post_type->name,
+						);
+					},
+					$post_types
+				);
+
 				wp_localize_script(
 					'has-sharing-admin-js',
 					'hasSharingAdmin',
 					array(
 						'userMetaNonce' => wp_create_nonce( 'has_admin_user_meta' ),
-						'retrieveNonce'  => wp_create_nonce( 'has_retrieve_settings' ),
+						'retrieveNonce' => wp_create_nonce( 'has_retrieve_settings' ),
+						'postTypes'     => $post_types,
 					)
 				);
 			}

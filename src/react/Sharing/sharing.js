@@ -7,6 +7,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { Suspense } from 'react';
 import './Store'; // Register the store before using components that depend on it.
 import SocialNetworksPanel from './Panels/SocialNetworksPanel';
+import DisplayRulesPanel from './Panels/DisplayRulesPanel';
 import { useAsyncResource } from 'use-async-resource';
 import sendCommand from '../Utils/SendCommand';
 import { escapeEditableHTML } from '@wordpress/escape-html';
@@ -28,7 +29,7 @@ const retrieveDefaults = () => {
  * @param {Object} values Values from PHP.
  * @return {Object} Default form values.
  */
-const getDefaultValues = ( values = {} ) => {
+export const getDefaultValues = ( values = {} ) => {
 	// Build default values object with all network toggles and labels/tooltips.
 	const defaultValues = {
 		// Network toggles.
@@ -82,6 +83,17 @@ const getDefaultValues = ( values = {} ) => {
 		enableHashtags: values.enableHashtags ?? false,
 		whatsappApiEndpoint: values.whatsappApiEndpoint || 'app',
 		whatsappCanShareUrl: values.whatsappCanShareUrl ?? true,
+
+		// Display Rules options.
+		enableMobile: values.enableMobile ?? true,
+		enableContent: values.enableContent ?? true,
+		enableExcerpt: values.enableExcerpt ?? true,
+		enableComments: values.enableComments ?? false,
+		sharingPrefix: escapeEditableHTML( values.sharingPrefix || '' ),
+		sharingSuffix: escapeEditableHTML( values.sharingSuffix || '' ),
+
+		// Post Types Exclusion (new feature).
+		excludedPostTypes: values.excludedPostTypes || {}, // Object: { 'attachment': true, ... } - only excluded ones.
 	};
 
 	return defaultValues;
@@ -96,7 +108,7 @@ const Sharing = () => {
 	const [ defaults ] = useAsyncResource( retrieveDefaults, [] );
 
 	// Set up global React Hook Form instance for all panels.
-	// Default values will be reset when async data loads.
+	// Default values will be reset when async data loads (in SocialNetworksPanel).
 	const methods = useForm( {
 		defaultValues: getDefaultValues( {} ), // Start with empty defaults, will be reset when data loads.
 		mode: 'onBlur', // Validate on blur for better UX in popovers.
@@ -124,6 +136,7 @@ const Sharing = () => {
 					<Suspense fallback={ <div>{ __( 'Loading…', 'highlight-and-share' ) }</div> }>
 						<FormProvider { ...methods }>
 							<SocialNetworksPanel defaults={ defaults } />
+							<DisplayRulesPanel defaults={ defaults } />
 						</FormProvider>
 					</Suspense>
 				</div>

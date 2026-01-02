@@ -599,6 +599,7 @@ class Options {
 			'theme'                            => 'default',
 			'sharing_prefix'                   => '',
 			'sharing_suffix'                   => '',
+			'excluded_post_types'              => array(),
 			'whatsapp_api_endpoint'            => 'app', // Can also we 'web'.
 			'whatsapp_can_share_url'           => true,
 			'twitter_label'                    => _x( 'Share This', 'X social network formerly Twitter', 'highlight-and-share' ),
