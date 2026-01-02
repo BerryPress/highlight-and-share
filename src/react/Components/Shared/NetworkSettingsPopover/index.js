@@ -17,6 +17,8 @@ import twttr from '../../../Validation/twitter';
  * @param {string}   props.networkSlug Network slug.
  * @param {Object}   props.network     Network data.
  * @param {Object}   props.control     React Hook Form control object.
+ * @param {Function} props.clearErrors React Hook Form clearErrors function to clear validation errors.
+ * @param {Function} props.trigger     React Hook Form trigger function to manually trigger validation.
  * @param {Object}   props.errors      React Hook Form errors object.
  * @param {Function} props.onClose     Callback when popover should close.
  * @param {Object}   props.anchor      Anchor element for popover positioning.
@@ -26,6 +28,8 @@ const NetworkSettingsPopover = ( {
 	networkSlug,
 	network,
 	control,
+	clearErrors,
+	trigger, // eslint-disable-line no-unused-vars -- Kept for future use if needed.
 	errors,
 	onClose,
 	anchor,
@@ -88,10 +92,21 @@ const NetworkSettingsPopover = ( {
 					name={ labelFieldName }
 					control={ control }
 					rules={ { required: true } }
-					render={ ( { field } ) => (
+					shouldUnregister={ false }
+					render={ ( { field: { onChange, onBlur, value, name, ref } } ) => (
 						<>
 							<TextControl
-								{ ...field }
+								name={ name }
+								value={ value }
+								onChange={ ( newValue ) => {
+									onChange( newValue );
+									// Clear validation errors when user starts typing.
+									if ( clearErrors && errors[ name ] ) {
+										clearErrors( name );
+									}
+								} }
+								onBlur={ onBlur }
+								ref={ ref }
 								type="text"
 								label={ __( 'Label', 'highlight-and-share' ) }
 								className={ classNames( 'has-admin__text-control', {
@@ -122,10 +137,21 @@ const NetworkSettingsPopover = ( {
 					name={ tooltipFieldName }
 					control={ control }
 					rules={ { required: true } }
-					render={ ( { field } ) => (
+					shouldUnregister={ false }
+					render={ ( { field: { onChange, onBlur, value, name, ref } } ) => (
 						<>
 							<TextControl
-								{ ...field }
+								name={ name }
+								value={ value }
+								onChange={ ( newValue ) => {
+									onChange( newValue );
+									// Clear validation errors when user starts typing.
+									if ( clearErrors && errors[ name ] ) {
+										clearErrors( name );
+									}
+								} }
+								onBlur={ onBlur }
+								ref={ ref }
 								type="text"
 								label={ __( 'Tooltip', 'highlight-and-share' ) }
 								className={ classNames( 'has-admin__text-control', {
@@ -165,10 +191,13 @@ const NetworkSettingsPopover = ( {
 									return twttr.txt.isValidUsername( '@' + value );
 								},
 							} }
-							render={ ( { field: { onChange, value } } ) => (
+							shouldUnregister={ false }
+							render={ ( { field: { onChange, onBlur, value, name, ref } } ) => (
 								<>
 									<TextControl
+										name={ name }
 										value={ value }
+										ref={ ref }
 										type="text"
 										label={ __( 'X Username', 'highlight-and-share' ) }
 										className={ classNames( 'has-admin__text-control', {
@@ -194,7 +223,12 @@ const NetworkSettingsPopover = ( {
 												}
 											}
 											onChange( twitterUsername );
+											// Clear validation errors when user starts typing.
+											if ( clearErrors && errors[ name ] ) {
+												clearErrors( name );
+											}
 										} }
+										onBlur={ onBlur }
 									/>
 									{ 'validate' === errors.twitter?.type && (
 										<Notice

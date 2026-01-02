@@ -17721,7 +17721,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
  * @param {Object}   props                     Component props.
  * @param {Object}   props.control             React Hook Form control object.
  * @param {Object}   props.networks            Networks data from PHP.
- * @param {Function} props.onSettingsClick     Callback when settings gear icon is clicked.
+ * @param {Object}   props.networkErrors       Object mapping network slugs to boolean error state.
  * @param {Function} props.onSettingsMouseDown Callback when settings gear icon is mouse down.
  * @return {JSX.Element} NetworkSelector component.
  */
@@ -17729,7 +17729,8 @@ var NetworkSelector = function NetworkSelector(_ref) {
   var control = _ref.control,
     _ref$networks = _ref.networks,
     networks = _ref$networks === void 0 ? {} : _ref$networks,
-    onSettingsClick = _ref.onSettingsClick,
+    _ref$networkErrors = _ref.networkErrors,
+    networkErrors = _ref$networkErrors === void 0 ? {} : _ref$networkErrors,
     onSettingsMouseDown = _ref.onSettingsMouseDown;
   var _SocialIcons = (0,_SocialIcons__WEBPACK_IMPORTED_MODULE_4__["default"])(networks),
     getSocialIcon = _SocialIcons.getSocialIcon;
@@ -17793,11 +17794,9 @@ var NetworkSelector = function NetworkSelector(_ref) {
   /**
    * Handle settings button click. Used to close the popover.
    *
-   * @param {Event}   e           Click event.
-   * @param {string}  networkSlug Network slug.
-   * @param {boolean} isEnabled   Whether network is enabled.
+   * @param {Event} e Click event.
    */
-  var handleSettingsClick = function handleSettingsClick(e, networkSlug, isEnabled) {
+  var handleSettingsClick = function handleSettingsClick(e) {
     e.stopPropagation();
   };
 
@@ -17807,14 +17806,13 @@ var NetworkSelector = function NetworkSelector(_ref) {
    * This is used to open the popover when the settings button is clicked
    * when the mouse is held down.
    *
-   * @param {Event}   e           Mouse down event.
-   * @param {string}  networkSlug Network slug.
-   * @param {boolean} isEnabled   Whether network is enabled.
+   * @param {Event}  e           Mouse down event.
+   * @param {string} networkSlug Network slug.
    */
-  var handleSettingsMouseDown = function handleSettingsMouseDown(e, networkSlug, isEnabled) {
+  var handleSettingsMouseDown = function handleSettingsMouseDown(e, networkSlug) {
     e.stopPropagation();
     if (onSettingsMouseDown) {
-      onSettingsMouseDown(e, networkSlug, isEnabled);
+      onSettingsMouseDown(e, networkSlug);
     }
   };
 
@@ -17845,9 +17843,11 @@ var NetworkSelector = function NetworkSelector(_ref) {
           value = _ref2$field.value;
         var isEnabled = !!value;
         var networkLabel = getNetworkLabel(network.slug);
+        var hasError = networkErrors[network.slug] || false;
         return /*#__PURE__*/React.createElement("div", {
           className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('has-network-selector-item', {
-            'is-enabled': isEnabled
+            'is-enabled': isEnabled,
+            'has-error-indicator': hasError
           }),
           onClick: function onClick() {
             return handleItemClick(network.slug, isEnabled, onChange);
@@ -17874,16 +17874,17 @@ var NetworkSelector = function NetworkSelector(_ref) {
           className: "has-network-selector-icon"
         }, getSocialIcon(network.slug)), /*#__PURE__*/React.createElement("div", {
           className: "has-network-selector-label"
-        }, networkLabel)), /*#__PURE__*/React.createElement("div", {
+        }, networkLabel, hasError && /*#__PURE__*/React.createElement("span", {
+          className: "has-error-indicator-asterisk",
+          "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Validation error', 'highlight-and-share')
+        }, "*"))), /*#__PURE__*/React.createElement("div", {
           className: "has-network-selector-actions"
         }, /*#__PURE__*/React.createElement("button", {
           type: "button",
           className: "has-network-selector-settings-button",
-          onClick: function onClick(e) {
-            return handleSettingsClick(e, network.slug, isEnabled);
-          },
+          onClick: handleSettingsClick,
           onMouseDown: function onMouseDown(e) {
-            return handleSettingsMouseDown(e, network.slug, isEnabled);
+            return handleSettingsMouseDown(e, network.slug);
           },
           "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Configure network settings', 'highlight-and-share')
         }, /*#__PURE__*/React.createElement(_Icons_Gear__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -17919,7 +17920,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Notice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Notice */ "./src/react/Components/Notice/index.js");
 /* harmony import */ var _Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Icons/CircularExplanation */ "./src/react/Components/Icons/CircularExplanation.js");
 /* harmony import */ var _Validation_twitter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../Validation/twitter */ "./src/react/Validation/twitter.js");
-function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 /**
  * NetworkSettingsPopover component - Popover for network-specific settings.
  */
@@ -17939,6 +17939,8 @@ function _extends() { return _extends = Object.assign ? Object.assign.bind() : f
  * @param {string}   props.networkSlug Network slug.
  * @param {Object}   props.network     Network data.
  * @param {Object}   props.control     React Hook Form control object.
+ * @param {Function} props.clearErrors React Hook Form clearErrors function to clear validation errors.
+ * @param {Function} props.trigger     React Hook Form trigger function to manually trigger validation.
  * @param {Object}   props.errors      React Hook Form errors object.
  * @param {Function} props.onClose     Callback when popover should close.
  * @param {Object}   props.anchor      Anchor element for popover positioning.
@@ -17948,6 +17950,8 @@ var NetworkSettingsPopover = function NetworkSettingsPopover(_ref) {
   var networkSlug = _ref.networkSlug,
     network = _ref.network,
     control = _ref.control,
+    clearErrors = _ref.clearErrors,
+    trigger = _ref.trigger,
     errors = _ref.errors,
     onClose = _ref.onClose,
     anchor = _ref.anchor;
@@ -18006,10 +18010,27 @@ var NetworkSettingsPopover = function NetworkSettingsPopover(_ref) {
     rules: {
       required: true
     },
+    shouldUnregister: false,
     render: function render(_ref2) {
       var _errors$labelFieldNam, _errors$labelFieldNam2;
-      var field = _ref2.field;
-      return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, _extends({}, field, {
+      var _ref2$field = _ref2.field,
+        _onChange = _ref2$field.onChange,
+        onBlur = _ref2$field.onBlur,
+        value = _ref2$field.value,
+        name = _ref2$field.name,
+        ref = _ref2$field.ref;
+      return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+        name: name,
+        value: value,
+        onChange: function onChange(newValue) {
+          _onChange(newValue);
+          // Clear validation errors when user starts typing.
+          if (clearErrors && errors[name]) {
+            clearErrors(name);
+          }
+        },
+        onBlur: onBlur,
+        ref: ref,
         type: "text",
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Label', 'highlight-and-share'),
         className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control', {
@@ -18018,7 +18039,7 @@ var NetworkSettingsPopover = function NetworkSettingsPopover(_ref) {
         }),
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Choose a label for this network button.', 'highlight-and-share'),
         "aria-required": "true"
-      })), 'required' === ((_errors$labelFieldNam2 = errors[labelFieldName]) === null || _errors$labelFieldNam2 === void 0 ? void 0 : _errors$labelFieldNam2.type) && /*#__PURE__*/React.createElement(_Notice__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }), 'required' === ((_errors$labelFieldNam2 = errors[labelFieldName]) === null || _errors$labelFieldNam2 === void 0 ? void 0 : _errors$labelFieldNam2.type) && /*#__PURE__*/React.createElement(_Notice__WEBPACK_IMPORTED_MODULE_4__["default"], {
         message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('This field is required.', 'highlight-and-share'),
         status: "error",
         politeness: "assertive",
@@ -18032,10 +18053,27 @@ var NetworkSettingsPopover = function NetworkSettingsPopover(_ref) {
     rules: {
       required: true
     },
+    shouldUnregister: false,
     render: function render(_ref3) {
       var _errors$tooltipFieldN, _errors$tooltipFieldN2;
-      var field = _ref3.field;
-      return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, _extends({}, field, {
+      var _ref3$field = _ref3.field,
+        _onChange2 = _ref3$field.onChange,
+        onBlur = _ref3$field.onBlur,
+        value = _ref3$field.value,
+        name = _ref3$field.name,
+        ref = _ref3$field.ref;
+      return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+        name: name,
+        value: value,
+        onChange: function onChange(newValue) {
+          _onChange2(newValue);
+          // Clear validation errors when user starts typing.
+          if (clearErrors && errors[name]) {
+            clearErrors(name);
+          }
+        },
+        onBlur: onBlur,
+        ref: ref,
         type: "text",
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Tooltip', 'highlight-and-share'),
         className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control', {
@@ -18044,7 +18082,7 @@ var NetworkSettingsPopover = function NetworkSettingsPopover(_ref) {
         }),
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Choose tooltip text for this network button.', 'highlight-and-share'),
         "aria-required": "true"
-      })), 'required' === ((_errors$tooltipFieldN2 = errors[tooltipFieldName]) === null || _errors$tooltipFieldN2 === void 0 ? void 0 : _errors$tooltipFieldN2.type) && /*#__PURE__*/React.createElement(_Notice__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }), 'required' === ((_errors$tooltipFieldN2 = errors[tooltipFieldName]) === null || _errors$tooltipFieldN2 === void 0 ? void 0 : _errors$tooltipFieldN2.type) && /*#__PURE__*/React.createElement(_Notice__WEBPACK_IMPORTED_MODULE_4__["default"], {
         message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('This field is required.', 'highlight-and-share'),
         status: "error",
         politeness: "assertive",
@@ -18063,13 +18101,19 @@ var NetworkSettingsPopover = function NetworkSettingsPopover(_ref) {
         return _Validation_twitter__WEBPACK_IMPORTED_MODULE_6__["default"].txt.isValidUsername('@' + value);
       }
     },
+    shouldUnregister: false,
     render: function render(_ref4) {
       var _errors$twitter;
       var _ref4$field = _ref4.field,
-        _onChange = _ref4$field.onChange,
-        value = _ref4$field.value;
+        _onChange3 = _ref4$field.onChange,
+        onBlur = _ref4$field.onBlur,
+        value = _ref4$field.value,
+        name = _ref4$field.name,
+        ref = _ref4$field.ref;
       return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+        name: name,
         value: value,
+        ref: ref,
         type: "text",
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('X Username', 'highlight-and-share'),
         className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control', {
@@ -18089,8 +18133,13 @@ var NetworkSettingsPopover = function NetworkSettingsPopover(_ref) {
               }
             }
           }
-          _onChange(twitterUsername);
-        }
+          _onChange3(twitterUsername);
+          // Clear validation errors when user starts typing.
+          if (clearErrors && errors[name]) {
+            clearErrors(name);
+          }
+        },
+        onBlur: onBlur
       }), 'validate' === ((_errors$twitter = errors.twitter) === null || _errors$twitter === void 0 ? void 0 : _errors$twitter.type) && /*#__PURE__*/React.createElement(_Notice__WEBPACK_IMPORTED_MODULE_4__["default"], {
         message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('The X Username is Invalid.', 'highlight-and-share'),
         status: "error",
@@ -18104,14 +18153,14 @@ var NetworkSettingsPopover = function NetworkSettingsPopover(_ref) {
     control: control,
     render: function render(_ref5) {
       var _ref5$field = _ref5.field,
-        _onChange2 = _ref5$field.onChange,
+        _onChange4 = _ref5$field.onChange,
         value = _ref5$field.value;
       return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable X Hashtags', 'highlight-and-share'),
         className: "has-admin__toggle-control",
         checked: value,
         onChange: function onChange(boolValue) {
-          _onChange2(boolValue);
+          _onChange4(boolValue);
         },
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hashtags can be set on a post or page in the sidebar.', 'highlight-and-share')
       });
@@ -18142,14 +18191,14 @@ var NetworkSettingsPopover = function NetworkSettingsPopover(_ref) {
     control: control,
     render: function render(_ref7) {
       var _ref7$field = _ref7.field,
-        _onChange3 = _ref7$field.onChange,
+        _onChange5 = _ref7$field.onChange,
         value = _ref7$field.value;
       return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Can Share URL', 'highlight-and-share'),
         className: "has-admin__toggle-control",
         checked: value,
         onChange: function onChange(boolValue) {
-          _onChange3(boolValue);
+          _onChange5(boolValue);
         },
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Allow sharing URLs via WhatsApp.', 'highlight-and-share')
       });
@@ -18750,8 +18799,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_Shared_NetworkSelector__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../Components/Shared/NetworkSelector */ "./src/react/Components/Shared/NetworkSelector/index.js");
 /* harmony import */ var _Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../Components/Shared/NetworkSettingsPopover */ "./src/react/Components/Shared/NetworkSettingsPopover/index.js");
 /* harmony import */ var _Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../Components/Shared/PanelBodyWithIndicator */ "./src/react/Components/Shared/PanelBodyWithIndicator/index.js");
-/* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
-/* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
+/* harmony import */ var _Utils_hasNetworkErrors__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../Utils/hasNetworkErrors */ "./src/react/Utils/hasNetworkErrors.js");
+/* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
+/* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -18775,6 +18825,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
+
 /**
  * Retrieve settings data from PHP.
  *
@@ -18782,7 +18833,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
  */
 var retrieveDefaults = function retrieveDefaults() {
   var _window$hasSharingAdm, _window$hasSettingsAd;
-  return (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_9__["default"])('has_retrieve_settings_tab', {
+  return (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__["default"])('has_retrieve_settings_tab', {
     nonce: ((_window$hasSharingAdm = window.hasSharingAdmin) === null || _window$hasSharingAdm === void 0 ? void 0 : _window$hasSharingAdm.retrieveNonce) || ((_window$hasSettingsAd = window.hasSettingsAdmin) === null || _window$hasSettingsAd === void 0 ? void 0 : _window$hasSettingsAd.retrieveNonce) || ''
   });
 };
@@ -18797,7 +18848,7 @@ var SocialNetworksPanel = function SocialNetworksPanel(props) {
   var _useAsyncResource = (0,use_async_resource__WEBPACK_IMPORTED_MODULE_5__.useAsyncResource)(retrieveDefaults, []),
     _useAsyncResource2 = _slicedToArray(_useAsyncResource, 1),
     defaults = _useAsyncResource2[0];
-  return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_10__["default"], {
+  return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_11__["default"], {
     fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Could not load Social Networks panel.', 'highlight-and-share'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
       href: "https://dlxplugins.com/support/",
       target: "_blank",
@@ -18904,24 +18955,27 @@ var Interface = function Interface(props) {
     return defaultValues;
   };
 
-  // Set up React Hook Form.
+  // Set up React Hook Form with validation configuration.
   var _useForm = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useForm)({
-      defaultValues: getDefaultValues()
+      defaultValues: getDefaultValues(),
+      mode: 'onBlur',
+      // Validate on blur for better UX in popovers.
+      reValidateMode: 'onChange',
+      // Re-validate and clear errors immediately when user starts typing.
+      shouldUnregister: false // Keep fields registered even when not rendered.
     }),
-    control = _useForm.control;
-  var _useFormState = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useFormState)({
-      control: control
-    }),
-    errors = _useFormState.errors;
+    control = _useForm.control,
+    clearErrors = _useForm.clearErrors,
+    trigger = _useForm.trigger,
+    errors = _useForm.formState.errors;
 
   /**
    * Handle settings button mouse down.
    *
    * @param {MouseEvent} e           Mouse down event.
    * @param {string}     networkSlug Network slug.
-   * @param {boolean}    isEnabled   Whether network is enabled.
    */
-  var handleSettingsMouseDown = function handleSettingsMouseDown(e, networkSlug, isEnabled) {
+  var handleSettingsMouseDown = function handleSettingsMouseDown(e, networkSlug) {
     e.stopPropagation();
 
     // Enable popover.
@@ -18949,7 +19003,58 @@ var Interface = function Interface(props) {
     }
     return data.socialNetworks[networkSlug] || null;
   };
-  return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_8__["default"], {
+
+  /**
+   * Compute which networks have errors.
+   *
+   * @return {Object} Object mapping network slugs to boolean error state.
+   */
+  var networkErrors = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    if (!(data !== null && data !== void 0 && data.socialNetworks) || !errors) {
+      return {};
+    }
+    var errorMap = {};
+    Object.keys(data.socialNetworks).forEach(function (slug) {
+      errorMap[slug] = (0,_Utils_hasNetworkErrors__WEBPACK_IMPORTED_MODULE_9__["default"])(slug, errors);
+    });
+    return errorMap;
+  }, [data === null || data === void 0 ? void 0 : data.socialNetworks, errors]);
+
+  /**
+   * Get list of networks with errors for error message.
+   *
+   * @return {Array} Array of network labels with errors.
+   */
+  var networksWithErrors = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    if (!(data !== null && data !== void 0 && data.socialNetworks)) {
+      return [];
+    }
+    return Object.keys(networkErrors).filter(function (slug) {
+      return networkErrors[slug];
+    }).map(function (slug) {
+      var network = data.socialNetworks[slug];
+      return (network === null || network === void 0 ? void 0 : network.label) || (network === null || network === void 0 ? void 0 : network.label_text) || slug;
+    });
+  }, [networkErrors, data === null || data === void 0 ? void 0 : data.socialNetworks]);
+
+  /**
+   * Render global error message.
+   *
+   * @return {JSX.Element|null} Error notice or null.
+   */
+  var renderErrorNotice = function renderErrorNotice() {
+    if (networksWithErrors.length === 0) {
+      return null;
+    }
+    var networkList = networksWithErrors.join(', ');
+    var message = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)(/* translators: %s: Comma-separated list of network names */
+    (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The following networks have validation errors: %s', 'highlight-and-share'), networkList);
+    return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Notice, {
+      status: "error",
+      isDismissible: false
+    }, message);
+  };
+  return /*#__PURE__*/React.createElement(React.Fragment, null, renderErrorNotice(), /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_8__["default"], {
     panelId: "socialNetworks",
     control: control,
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Social Networks', 'highlight-and-share'),
@@ -18964,18 +19069,18 @@ var Interface = function Interface(props) {
   }, /*#__PURE__*/React.createElement(_Components_Shared_NetworkSelector__WEBPACK_IMPORTED_MODULE_6__["default"], {
     control: control,
     networks: (data === null || data === void 0 ? void 0 : data.socialNetworks) || {},
-    onSettingsClick: function onSettingsClick() {
-      // todo - nothing to do here.
-    },
+    networkErrors: networkErrors,
     onSettingsMouseDown: handleSettingsMouseDown
   })), popoverNetwork && popoverAnchor && /*#__PURE__*/React.createElement(_Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_7__["default"], {
     networkSlug: popoverNetwork,
     network: getNetworkData(popoverNetwork),
     control: control,
+    clearErrors: clearErrors,
+    trigger: trigger,
     errors: errors,
     onClose: handlePopoverClose,
     anchor: popoverAnchor
-  }));
+  })), renderErrorNotice());
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SocialNetworksPanel);
 
@@ -19073,6 +19178,91 @@ function sendCommand(action, data, maybeAjaxUrl) {
     data: qs__WEBPACK_IMPORTED_MODULE_1___default().stringify(data)
   };
   return (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])(options);
+}
+
+/***/ }),
+
+/***/ "./src/react/Utils/hasNetworkErrors.js":
+/*!*********************************************!*\
+  !*** ./src/react/Utils/hasNetworkErrors.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ hasNetworkErrors)
+/* harmony export */ });
+/**
+ * Utility function to check if a network has validation errors.
+ *
+ * This matches the field naming pattern used in NetworkSettingsPopover.
+ *
+ * @param {string} networkSlug Network slug (e.g., 'twitter', 'facebook', 'bluesky').
+ * @param {Object} errors      React Hook Form errors object.
+ * @return {boolean} True if network has any errors.
+ */
+function hasNetworkErrors(networkSlug, errors) {
+  if (!errors || !networkSlug) {
+    return false;
+  }
+
+  /**
+   * Get label field name for network (matches NetworkSettingsPopover logic).
+   *
+   * @return {string} Field name.
+   */
+  var getLabelFieldName = function getLabelFieldName() {
+    // Special cases.
+    if (networkSlug === 'twitter') {
+      return 'twitterLabel';
+    }
+    if (networkSlug === 'mastodon') {
+      return 'mastodonLabel';
+    }
+    // Default pattern - use slug directly (e.g., 'bluesky' -> 'blueskyLabel').
+    return "".concat(networkSlug, "Label");
+  };
+
+  /**
+   * Get tooltip field name for network (matches NetworkSettingsPopover logic).
+   *
+   * @return {string} Field name.
+   */
+  var getTooltipFieldName = function getTooltipFieldName() {
+    // Special cases.
+    if (networkSlug === 'twitter') {
+      return 'twitterTooltip';
+    }
+    if (networkSlug === 'mastodon') {
+      return 'mastodonTooltip';
+    }
+    // Default pattern - use slug directly (e.g., 'bluesky' -> 'blueskyTooltip').
+    return "".concat(networkSlug, "Tooltip");
+  };
+
+  // Get base field names.
+  var labelFieldName = getLabelFieldName();
+  var tooltipFieldName = getTooltipFieldName();
+
+  // List of possible field names for each network.
+  var fieldsToCheck = [labelFieldName, tooltipFieldName];
+
+  // Add network-specific fields.
+  if (networkSlug === 'twitter') {
+    fieldsToCheck.push('twitter', 'enableHashtags');
+  } else if (networkSlug === 'whatsapp') {
+    fieldsToCheck.push('whatsappApiEndpoint', 'whatsappCanShareUrl');
+  }
+
+  // Check if any of the network's fields have errors.
+  // React Hook Form errors are objects like: { fieldName: { type: 'required', message: '...' } }
+  var hasError = fieldsToCheck.some(function (fieldName) {
+    var fieldError = errors[fieldName];
+    // Error exists if it's defined and is an object (React Hook Form error structure).
+    return fieldError !== undefined && fieldError !== null;
+  });
+  return hasError;
 }
 
 /***/ }),

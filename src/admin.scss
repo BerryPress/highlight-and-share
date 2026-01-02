@@ -1359,7 +1359,7 @@ h3.has-icon-heading {
 	}
 }
 
-.has-network-selector-item {
+	.has-network-selector-item {
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -1382,6 +1382,25 @@ h3.has-icon-heading {
 
 		&:hover {
 			background: #e8e8e9;
+		}
+	}
+
+	/* Error indicator - red border (takes precedence over is-enabled) */
+	&.has-error-indicator {
+		border-color: #d63638 !important;
+		border-width: 2px;
+
+		&:hover {
+			border-color: #b32d2e !important;
+		}
+
+		/* Override enabled state when there's an error */
+		&.is-enabled {
+			border-color: #d63638 !important;
+
+			&:hover {
+				border-color: #b32d2e !important;
+			}
 		}
 	}
 
@@ -1415,6 +1434,9 @@ h3.has-icon-heading {
 	}
 
 	.has-network-selector-label {
+		display: flex;
+		align-items: center;
+		gap: 6px;
 		font-size: 14px;
 		font-weight: 500;
 		color: #1d2327;
@@ -1422,6 +1444,14 @@ h3.has-icon-heading {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+
+		.has-error-indicator-asterisk {
+			color: #d63638;
+			font-size: 1.2em;
+			font-weight: bold;
+			line-height: 1;
+			flex-shrink: 0;
+		}
 	}
 
 	.has-network-selector-actions {
@@ -1528,6 +1558,7 @@ h3.has-icon-heading {
 		color: #646970;
 		cursor: pointer;
 		transition: all 0.2s ease;
+		position: relative;
 
 		&:hover {
 			border-color: #8c8f94;

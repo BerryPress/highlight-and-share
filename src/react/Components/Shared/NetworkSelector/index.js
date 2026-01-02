@@ -15,11 +15,11 @@ import GearIcon from '../../Icons/Gear';
  * @param {Object}   props                     Component props.
  * @param {Object}   props.control             React Hook Form control object.
  * @param {Object}   props.networks            Networks data from PHP.
- * @param {Function} props.onSettingsClick     Callback when settings gear icon is clicked.
+ * @param {Object}   props.networkErrors       Object mapping network slugs to boolean error state.
  * @param {Function} props.onSettingsMouseDown Callback when settings gear icon is mouse down.
  * @return {JSX.Element} NetworkSelector component.
  */
-const NetworkSelector = ( { control, networks = {}, onSettingsClick, onSettingsMouseDown } ) => {
+const NetworkSelector = ( { control, networks = {}, networkErrors = {}, onSettingsMouseDown } ) => {
 	const { getSocialIcon } = SocialIcons( networks );
 
 	/**
@@ -79,11 +79,9 @@ const NetworkSelector = ( { control, networks = {}, onSettingsClick, onSettingsM
 	/**
 	 * Handle settings button click. Used to close the popover.
 	 *
-	 * @param {Event}   e           Click event.
-	 * @param {string}  networkSlug Network slug.
-	 * @param {boolean} isEnabled   Whether network is enabled.
+	 * @param {Event} e Click event.
 	 */
-	const handleSettingsClick = ( e, networkSlug, isEnabled ) => {
+	const handleSettingsClick = ( e ) => {
 		e.stopPropagation();
 	};
 
@@ -93,14 +91,13 @@ const NetworkSelector = ( { control, networks = {}, onSettingsClick, onSettingsM
 	 * This is used to open the popover when the settings button is clicked
 	 * when the mouse is held down.
 	 *
-	 * @param {Event}   e           Mouse down event.
-	 * @param {string}  networkSlug Network slug.
-	 * @param {boolean} isEnabled   Whether network is enabled.
+	 * @param {Event}  e           Mouse down event.
+	 * @param {string} networkSlug Network slug.
 	 */
-	const handleSettingsMouseDown = ( e, networkSlug, isEnabled ) => {
+	const handleSettingsMouseDown = ( e, networkSlug ) => {
 		e.stopPropagation();
 		if ( onSettingsMouseDown ) {
-			onSettingsMouseDown( e, networkSlug, isEnabled );
+			onSettingsMouseDown( e, networkSlug );
 		}
 	};
 
@@ -132,11 +129,13 @@ const NetworkSelector = ( { control, networks = {}, onSettingsClick, onSettingsM
 						render={ ( { field: { onChange, value } } ) => {
 							const isEnabled = !! value;
 							const networkLabel = getNetworkLabel( network.slug );
+							const hasError = networkErrors[ network.slug ] || false;
 
 							return (
 								<div
 									className={ classNames( 'has-network-selector-item', {
 										'is-enabled': isEnabled,
+										'has-error-indicator': hasError,
 									} ) }
 									onClick={ () => handleItemClick( network.slug, isEnabled, onChange ) }
 									role="button"
@@ -163,22 +162,22 @@ const NetworkSelector = ( { control, networks = {}, onSettingsClick, onSettingsM
 										</div>
 										<div className="has-network-selector-label">
 											{ networkLabel }
+											{ hasError && (
+												<span className="has-error-indicator-asterisk" aria-label={ __( 'Validation error', 'highlight-and-share' ) }>
+													*
+												</span>
+											) }
 										</div>
 									</div>
 									<div className="has-network-selector-actions">
 										<button
 											type="button"
 											className="has-network-selector-settings-button"
-											onClick={ ( e ) =>
-												handleSettingsClick( e, network.slug, isEnabled )
-											}
+											onClick={ handleSettingsClick }
 											onMouseDown={ ( e ) =>
-												handleSettingsMouseDown( e, network.slug, isEnabled )
+												handleSettingsMouseDown( e, network.slug )
 											}
-											aria-label={ __(
-												'Configure network settings',
-												'highlight-and-share'
-											) }
+											aria-label={ __( 'Configure network settings', 'highlight-and-share' ) }
 										>
 											<GearIcon width={ 16 } height={ 16 } />
 										</button>
