@@ -18969,6 +18969,23 @@ var Interface = function Interface(props) {
     trigger = _useForm.trigger,
     errors = _useForm.formState.errors;
 
+  // Watch all network label and tooltip fields to trigger recomputation when they change.
+  // This ensures networkErrors useMemo recomputes when clearErrors is called.
+  var watchedFields = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useWatch)({
+    control: control,
+    // Watch all network label and tooltip fields.
+    name: data !== null && data !== void 0 && data.socialNetworks ? Object.keys(data.socialNetworks).flatMap(function (slug) {
+      var fields = ["".concat(slug, "Label"), "".concat(slug, "Tooltip")];
+      // Add network-specific fields.
+      if (slug === 'twitter') {
+        fields.push('twitter', 'enableHashtags');
+      } else if (slug === 'whatsapp') {
+        fields.push('whatsappApiEndpoint', 'whatsappCanShareUrl');
+      }
+      return fields;
+    }) : []
+  });
+
   /**
    * Handle settings button mouse down.
    *
@@ -19018,7 +19035,7 @@ var Interface = function Interface(props) {
       errorMap[slug] = (0,_Utils_hasNetworkErrors__WEBPACK_IMPORTED_MODULE_9__["default"])(slug, errors);
     });
     return errorMap;
-  }, [data === null || data === void 0 ? void 0 : data.socialNetworks, errors]);
+  }, [data === null || data === void 0 ? void 0 : data.socialNetworks, errors, watchedFields]);
 
   /**
    * Get list of networks with errors for error message.

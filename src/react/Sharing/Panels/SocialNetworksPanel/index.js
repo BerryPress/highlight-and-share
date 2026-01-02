@@ -5,7 +5,7 @@
 import { useState, Suspense, useMemo } from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 import { PanelBody, Notice } from '@wordpress/components';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { escapeEditableHTML } from '@wordpress/escape-html';
 import { useAsyncResource } from 'use-async-resource';
 import NetworkSelector from '../../../Components/Shared/NetworkSelector';
@@ -163,6 +163,25 @@ const Interface = ( props ) => {
 		shouldUnregister: false, // Keep fields registered even when not rendered.
 	} );
 
+	// Watch all network label and tooltip fields to trigger recomputation when they change.
+	// This ensures networkErrors useMemo recomputes when clearErrors is called.
+	const watchedFields = useWatch( {
+		control,
+		// Watch all network label and tooltip fields.
+		name: data?.socialNetworks
+			? Object.keys( data.socialNetworks ).flatMap( ( slug ) => {
+				const fields = [ `${ slug }Label`, `${ slug }Tooltip` ];
+				// Add network-specific fields.
+				if ( slug === 'twitter' ) {
+					fields.push( 'twitter', 'enableHashtags' );
+				} else if ( slug === 'whatsapp' ) {
+					fields.push( 'whatsappApiEndpoint', 'whatsappCanShareUrl' );
+				}
+				return fields;
+			} )
+			: [],
+	} );
+
 	/**
 	 * Handle settings button mouse down.
 	 *
@@ -214,7 +233,7 @@ const Interface = ( props ) => {
 		} );
 
 		return errorMap;
-	}, [ data?.socialNetworks, errors ] );
+	}, [ data?.socialNetworks, errors, watchedFields ] );
 
 	/**
 	 * Get list of networks with errors for error message.
