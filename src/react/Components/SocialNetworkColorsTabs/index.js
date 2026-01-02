@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import classNames from 'classnames';
 import {
 	TabPanel,
@@ -19,7 +19,7 @@ const SocialNetworkColorsTabs = () => {
 
 	const getTabs = () => {
 		const tabs = [];
-		Object.values( socialNetworkColors ).forEach( ( network, index ) => {
+		Object.values( socialNetworkColors ).forEach( ( network ) => {
 			tabs.push( {
 				key: network.slug,
 				name: network.slug,

@@ -2,15 +2,13 @@
  * Dimensions Component.
  * Credit: Forked from @GenerateBlocks
  */
-import { useEffect } from 'react';
 
 /**
  * External dependencies
  */
 
 import { __ } from '@wordpress/i18n';
-import { useState } from 'react';
-import { Controller, useForm, useFormState } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import HASColorPicker from '../ColorPicker';
 
 const defaultColors = hasSharingAdmin.colors;
