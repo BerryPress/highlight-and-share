@@ -31,7 +31,7 @@ const Interface = () => {
 	return (
 		<PanelBodyWithIndicator
 			title={ __( 'Display Rules', 'highlight-and-share' ) }
-			initialOpen={ false } // Default collapsed.
+			initialOpen={ true } // Default expanded.
 			panelId="display-rules"
 			control={ control }
 			className="has-sharing-panel"

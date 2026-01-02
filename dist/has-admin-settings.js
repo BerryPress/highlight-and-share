@@ -18020,21 +18020,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/dist/index.js");
-/* harmony import */ var _fortawesome_free_brands_svg_icons_faFacebook__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faFacebook */ "./node_modules/@fortawesome/free-brands-svg-icons/faFacebook.js");
-/* harmony import */ var _fortawesome_free_brands_svg_icons_faWhatsapp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faWhatsapp */ "./node_modules/@fortawesome/free-brands-svg-icons/faWhatsapp.js");
-/* harmony import */ var _fortawesome_free_brands_svg_icons_faLinkedinIn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faLinkedinIn */ "./node_modules/@fortawesome/free-brands-svg-icons/faLinkedinIn.js");
-/* harmony import */ var _fortawesome_free_brands_svg_icons_faReddit__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faReddit */ "./node_modules/@fortawesome/free-brands-svg-icons/faReddit.js");
-/* harmony import */ var _fortawesome_free_brands_svg_icons_faXing__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faXing */ "./node_modules/@fortawesome/free-brands-svg-icons/faXing.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons_faCopy__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons/faCopy */ "./node_modules/@fortawesome/free-solid-svg-icons/faCopy.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons_faAt__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons/faAt */ "./node_modules/@fortawesome/free-solid-svg-icons/faAt.js");
-/* harmony import */ var _fortawesome_free_brands_svg_icons_faTelegram__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faTelegram */ "./node_modules/@fortawesome/free-brands-svg-icons/faTelegram.js");
-/* harmony import */ var _fortawesome_free_brands_svg_icons_faTumblr__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faTumblr */ "./node_modules/@fortawesome/free-brands-svg-icons/faTumblr.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons_faShare__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons/faShare */ "./node_modules/@fortawesome/free-solid-svg-icons/faShare.js");
-/* harmony import */ var _fortawesome_free_brands_svg_icons_faMastodon__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faMastodon */ "./node_modules/@fortawesome/free-brands-svg-icons/faMastodon.js");
-/* harmony import */ var _fortawesome_free_brands_svg_icons_faThreads__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faThreads */ "./node_modules/@fortawesome/free-brands-svg-icons/faThreads.js");
-/* harmony import */ var _fortawesome_free_brands_svg_icons_faBluesky__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faBluesky */ "./node_modules/@fortawesome/free-brands-svg-icons/faBluesky.js");
-/* harmony import */ var _Contexts_SocialNetworksContext__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../Contexts/SocialNetworksContext */ "./src/react/Contexts/SocialNetworksContext.js");
-/* harmony import */ var _Icons_twitter__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Icons/twitter */ "./src/react/Components/Icons/twitter.js");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _fortawesome_free_brands_svg_icons_faFacebook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faFacebook */ "./node_modules/@fortawesome/free-brands-svg-icons/faFacebook.js");
+/* harmony import */ var _fortawesome_free_brands_svg_icons_faWhatsapp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faWhatsapp */ "./node_modules/@fortawesome/free-brands-svg-icons/faWhatsapp.js");
+/* harmony import */ var _fortawesome_free_brands_svg_icons_faLinkedinIn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faLinkedinIn */ "./node_modules/@fortawesome/free-brands-svg-icons/faLinkedinIn.js");
+/* harmony import */ var _fortawesome_free_brands_svg_icons_faReddit__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faReddit */ "./node_modules/@fortawesome/free-brands-svg-icons/faReddit.js");
+/* harmony import */ var _fortawesome_free_brands_svg_icons_faXing__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faXing */ "./node_modules/@fortawesome/free-brands-svg-icons/faXing.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons_faCopy__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons/faCopy */ "./node_modules/@fortawesome/free-solid-svg-icons/faCopy.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons_faAt__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons/faAt */ "./node_modules/@fortawesome/free-solid-svg-icons/faAt.js");
+/* harmony import */ var _fortawesome_free_brands_svg_icons_faTelegram__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faTelegram */ "./node_modules/@fortawesome/free-brands-svg-icons/faTelegram.js");
+/* harmony import */ var _fortawesome_free_brands_svg_icons_faTumblr__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faTumblr */ "./node_modules/@fortawesome/free-brands-svg-icons/faTumblr.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons_faShare__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons/faShare */ "./node_modules/@fortawesome/free-solid-svg-icons/faShare.js");
+/* harmony import */ var _fortawesome_free_brands_svg_icons_faMastodon__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faMastodon */ "./node_modules/@fortawesome/free-brands-svg-icons/faMastodon.js");
+/* harmony import */ var _fortawesome_free_brands_svg_icons_faThreads__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faThreads */ "./node_modules/@fortawesome/free-brands-svg-icons/faThreads.js");
+/* harmony import */ var _fortawesome_free_brands_svg_icons_faBluesky__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons/faBluesky */ "./node_modules/@fortawesome/free-brands-svg-icons/faBluesky.js");
+/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
+/* harmony import */ var _Icons_twitter__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../Icons/twitter */ "./src/react/Components/Icons/twitter.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -18064,106 +18066,102 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 var SocialIcons = function SocialIcons() {
   var socialNetworksData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var socialNetworks = {};
-  var socialNetworksContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Contexts_SocialNetworksContext__WEBPACK_IMPORTED_MODULE_16__["default"]);
-  if (undefined !== socialNetworksContext) {
-    socialNetworks = socialNetworksContext.socialNetworks;
-  } else {
-    socialNetworks = socialNetworksData;
-  }
+  var socialNetworks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(function (select) {
+    return select(_Sharing_Store__WEBPACK_IMPORTED_MODULE_17__["default"]).getNetworks();
+  });
   var getSocialIcon = function getSocialIcon(socialNetwork) {
     switch (socialNetwork) {
       case 'twitter':
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Icons_twitter__WEBPACK_IMPORTED_MODULE_17__["default"], {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Icons_twitter__WEBPACK_IMPORTED_MODULE_18__["default"], {
           fill: "#000000"
         }));
       case 'facebook':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_brands_svg_icons_faFacebook__WEBPACK_IMPORTED_MODULE_3__.faFacebook,
+          icon: _fortawesome_free_brands_svg_icons_faFacebook__WEBPACK_IMPORTED_MODULE_4__.faFacebook,
           style: {
             color: '#3b5998'
           }
         }));
       case 'whatsapp':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_brands_svg_icons_faWhatsapp__WEBPACK_IMPORTED_MODULE_4__.faWhatsapp,
+          icon: _fortawesome_free_brands_svg_icons_faWhatsapp__WEBPACK_IMPORTED_MODULE_5__.faWhatsapp,
           style: {
             color: '#25d366'
           }
         }));
       case 'linkedin':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_brands_svg_icons_faLinkedinIn__WEBPACK_IMPORTED_MODULE_5__.faLinkedinIn,
+          icon: _fortawesome_free_brands_svg_icons_faLinkedinIn__WEBPACK_IMPORTED_MODULE_6__.faLinkedinIn,
           style: {
             color: '#0077b5'
           }
         }));
       case 'reddit':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_brands_svg_icons_faReddit__WEBPACK_IMPORTED_MODULE_6__.faReddit,
+          icon: _fortawesome_free_brands_svg_icons_faReddit__WEBPACK_IMPORTED_MODULE_7__.faReddit,
           style: {
             color: '#ff4500'
           }
         }));
       case 'xing':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_brands_svg_icons_faXing__WEBPACK_IMPORTED_MODULE_7__.faXing,
+          icon: _fortawesome_free_brands_svg_icons_faXing__WEBPACK_IMPORTED_MODULE_8__.faXing,
           style: {
             color: '#1a7576'
           }
         }));
       case 'copy':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_solid_svg_icons_faCopy__WEBPACK_IMPORTED_MODULE_8__.faCopy,
+          icon: _fortawesome_free_solid_svg_icons_faCopy__WEBPACK_IMPORTED_MODULE_9__.faCopy,
           style: {
             color: '#000000'
           }
         }));
       case 'email':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_solid_svg_icons_faAt__WEBPACK_IMPORTED_MODULE_9__.faAt,
+          icon: _fortawesome_free_solid_svg_icons_faAt__WEBPACK_IMPORTED_MODULE_10__.faAt,
           style: {
             color: '#000000'
           }
         }));
       case 'telegram':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_brands_svg_icons_faTelegram__WEBPACK_IMPORTED_MODULE_10__.faTelegram,
+          icon: _fortawesome_free_brands_svg_icons_faTelegram__WEBPACK_IMPORTED_MODULE_11__.faTelegram,
           style: {
             color: '#0088cc'
           }
         }));
       case 'tumblr':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_brands_svg_icons_faTumblr__WEBPACK_IMPORTED_MODULE_11__.faTumblr,
+          icon: _fortawesome_free_brands_svg_icons_faTumblr__WEBPACK_IMPORTED_MODULE_12__.faTumblr,
           style: {
             color: '#000000'
           }
         }));
       case 'webshare':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_solid_svg_icons_faShare__WEBPACK_IMPORTED_MODULE_12__.faShare,
+          icon: _fortawesome_free_solid_svg_icons_faShare__WEBPACK_IMPORTED_MODULE_13__.faShare,
           style: {
             color: '#e17713'
           }
         }));
       case 'mastodon':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_brands_svg_icons_faMastodon__WEBPACK_IMPORTED_MODULE_13__.faMastodon,
+          icon: _fortawesome_free_brands_svg_icons_faMastodon__WEBPACK_IMPORTED_MODULE_14__.faMastodon,
           style: {
             color: '#615EF8'
           }
         }));
       case 'threads':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_brands_svg_icons_faThreads__WEBPACK_IMPORTED_MODULE_14__.faThreads,
+          icon: _fortawesome_free_brands_svg_icons_faThreads__WEBPACK_IMPORTED_MODULE_15__.faThreads,
           style: {
             color: '#000000'
           }
         }));
       case 'bluesky':
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
-          icon: _fortawesome_free_brands_svg_icons_faBluesky__WEBPACK_IMPORTED_MODULE_15__.faBluesky,
+          icon: _fortawesome_free_brands_svg_icons_faBluesky__WEBPACK_IMPORTED_MODULE_16__.faBluesky,
           style: {
             color: '#1285FE'
           }
@@ -18205,43 +18203,43 @@ var SocialIcons = function SocialIcons() {
           icon = null;
           break;
         case 'facebook':
-          icon = _fortawesome_free_brands_svg_icons_faFacebook__WEBPACK_IMPORTED_MODULE_3__.faFacebook;
+          icon = _fortawesome_free_brands_svg_icons_faFacebook__WEBPACK_IMPORTED_MODULE_4__.faFacebook;
           break;
         case 'whatsapp':
-          icon = _fortawesome_free_brands_svg_icons_faWhatsapp__WEBPACK_IMPORTED_MODULE_4__.faWhatsapp;
+          icon = _fortawesome_free_brands_svg_icons_faWhatsapp__WEBPACK_IMPORTED_MODULE_5__.faWhatsapp;
           break;
         case 'reddit':
-          icon = _fortawesome_free_brands_svg_icons_faReddit__WEBPACK_IMPORTED_MODULE_6__.faReddit;
+          icon = _fortawesome_free_brands_svg_icons_faReddit__WEBPACK_IMPORTED_MODULE_7__.faReddit;
           break;
         case 'telegram':
-          icon = _fortawesome_free_brands_svg_icons_faTelegram__WEBPACK_IMPORTED_MODULE_10__.faTelegram;
+          icon = _fortawesome_free_brands_svg_icons_faTelegram__WEBPACK_IMPORTED_MODULE_11__.faTelegram;
           break;
         case 'linkedin':
-          icon = _fortawesome_free_brands_svg_icons_faLinkedinIn__WEBPACK_IMPORTED_MODULE_5__.faLinkedinIn;
+          icon = _fortawesome_free_brands_svg_icons_faLinkedinIn__WEBPACK_IMPORTED_MODULE_6__.faLinkedinIn;
           break;
         case 'xing':
-          icon = _fortawesome_free_brands_svg_icons_faXing__WEBPACK_IMPORTED_MODULE_7__.faXing;
+          icon = _fortawesome_free_brands_svg_icons_faXing__WEBPACK_IMPORTED_MODULE_8__.faXing;
           break;
         case 'copy':
-          icon = _fortawesome_free_solid_svg_icons_faCopy__WEBPACK_IMPORTED_MODULE_8__.faCopy;
+          icon = _fortawesome_free_solid_svg_icons_faCopy__WEBPACK_IMPORTED_MODULE_9__.faCopy;
           break;
         case 'tumblr':
-          icon = _fortawesome_free_brands_svg_icons_faTumblr__WEBPACK_IMPORTED_MODULE_11__.faTumblr;
+          icon = _fortawesome_free_brands_svg_icons_faTumblr__WEBPACK_IMPORTED_MODULE_12__.faTumblr;
           break;
         case 'email':
-          icon = _fortawesome_free_solid_svg_icons_faAt__WEBPACK_IMPORTED_MODULE_9__.faAt;
+          icon = _fortawesome_free_solid_svg_icons_faAt__WEBPACK_IMPORTED_MODULE_10__.faAt;
           break;
         case 'webshare':
-          icon = _fortawesome_free_solid_svg_icons_faShare__WEBPACK_IMPORTED_MODULE_12__.faShare;
+          icon = _fortawesome_free_solid_svg_icons_faShare__WEBPACK_IMPORTED_MODULE_13__.faShare;
           break;
         case 'mastodon':
-          icon = _fortawesome_free_brands_svg_icons_faMastodon__WEBPACK_IMPORTED_MODULE_13__.faMastodon;
+          icon = _fortawesome_free_brands_svg_icons_faMastodon__WEBPACK_IMPORTED_MODULE_14__.faMastodon;
           break;
         case 'threads':
-          icon = _fortawesome_free_brands_svg_icons_faThreads__WEBPACK_IMPORTED_MODULE_14__.faThreads;
+          icon = _fortawesome_free_brands_svg_icons_faThreads__WEBPACK_IMPORTED_MODULE_15__.faThreads;
           break;
         case 'bluesky':
-          icon = _fortawesome_free_brands_svg_icons_faBluesky__WEBPACK_IMPORTED_MODULE_15__.faBluesky;
+          icon = _fortawesome_free_brands_svg_icons_faBluesky__WEBPACK_IMPORTED_MODULE_16__.faBluesky;
           break;
         default:
           icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
@@ -18254,7 +18252,7 @@ var SocialIcons = function SocialIcons() {
         });
       }
       if ('twitter' === keyValue) {
-        fontAwesomeIcon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Icons_twitter__WEBPACK_IMPORTED_MODULE_17__["default"], {
+        fontAwesomeIcon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Icons_twitter__WEBPACK_IMPORTED_MODULE_18__["default"], {
           fill: "#000000"
         });
       }
@@ -18279,25 +18277,6 @@ var SocialIcons = function SocialIcons() {
   };
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SocialIcons);
-
-/***/ }),
-
-/***/ "./src/react/Contexts/SocialNetworksContext.js":
-/*!*****************************************************!*\
-  !*** ./src/react/Contexts/SocialNetworksContext.js ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var SocialNetworksContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createContext();
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SocialNetworksContext);
 
 /***/ }),
 
@@ -20070,6 +20049,293 @@ var Interface = function Interface(props) {
 
 /***/ }),
 
+/***/ "./src/react/Sharing/Store/actions.js":
+/*!********************************************!*\
+  !*** ./src/react/Sharing/Store/actions.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   setNetworks: () => (/* binding */ setNetworks),
+/* harmony export */   setPanelState: () => (/* binding */ setPanelState),
+/* harmony export */   setPreviewVisibility: () => (/* binding */ setPreviewVisibility),
+/* harmony export */   setSettings: () => (/* binding */ setSettings),
+/* harmony export */   togglePanel: () => (/* binding */ togglePanel)
+/* harmony export */ });
+/**
+ * Actions for Sharing tab store.
+ */
+
+/**
+ * Toggle panel open/closed state.
+ *
+ * @param {string} panelId Panel ID.
+ * @return {Object} Action object.
+ */
+function togglePanel(panelId) {
+  return {
+    type: 'TOGGLE_PANEL',
+    panelId: panelId
+  };
+}
+
+/**
+ * Set panel open/closed state.
+ *
+ * @param {string}  panelId Panel ID.
+ * @param {boolean} isOpen  Whether panel should be open.
+ * @return {Object} Action object.
+ */
+function setPanelState(panelId, isOpen) {
+  return {
+    type: 'SET_PANEL_STATE',
+    panelId: panelId,
+    isOpen: isOpen
+  };
+}
+
+/**
+ * Set networks data.
+ *
+ * @param {Object} networks Networks data.
+ * @return {Object} Action object.
+ */
+function setNetworks(networks) {
+  return {
+    type: 'SET_NETWORKS',
+    networks: networks
+  };
+}
+
+/**
+ * Set preview visibility.
+ *
+ * @param {boolean} isVisible Whether preview should be visible.
+ * @return {Object} Action object.
+ */
+function setPreviewVisibility(isVisible) {
+  return {
+    type: 'SET_PREVIEW_VISIBILITY',
+    isVisible: isVisible
+  };
+}
+
+/**
+ * Set settings.
+ *
+ * @param {Object} settings Settings object.
+ * @return {Object} Action object.
+ */
+function setSettings(settings) {
+  return {
+    type: 'SET_SETTINGS',
+    settings: settings
+  };
+}
+
+/***/ }),
+
+/***/ "./src/react/Sharing/Store/index.js":
+/*!******************************************!*\
+  !*** ./src/react/Sharing/Store/index.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer */ "./src/react/Sharing/Store/reducer.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selectors */ "./src/react/Sharing/Store/selectors.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions */ "./src/react/Sharing/Store/actions.js");
+/**
+ * WordPress data store for Sharing tab state.
+ */
+
+
+
+
+
+var STORE_NAME = 'has/sharing';
+
+/**
+ * Store definition.
+ */
+var store = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createReduxStore)(STORE_NAME, {
+  reducer: _reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  selectors: _selectors__WEBPACK_IMPORTED_MODULE_2__,
+  actions: _actions__WEBPACK_IMPORTED_MODULE_3__
+});
+(0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.register)(store);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
+
+/***/ }),
+
+/***/ "./src/react/Sharing/Store/reducer.js":
+/*!********************************************!*\
+  !*** ./src/react/Sharing/Store/reducer.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+/**
+ * Reducer for Sharing tab store.
+ */
+
+/**
+ * Initial state.
+ */
+var initialState = {
+  // Panel visibility state (keyed by panel ID).
+  panels: {
+    socialNetworks: true,
+    // Default expanded.
+    displayRules: false,
+    appearance: false,
+    preview: true,
+    // Default expanded.
+    blockEditor: false,
+    inlineHighlighting: false,
+    advanced: false
+  },
+  // Network data (loaded from PHP).
+  networks: {},
+  // Preview state.
+  preview: {
+    isVisible: true
+  },
+  // Sharing-specific settings.
+  settings: {}
+};
+
+/**
+ * Reducer function.
+ *
+ * @param {Object} state  Current state.
+ * @param {Object} action Action object.
+ * @return {Object} New state.
+ */
+function reducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  switch (action.type) {
+    case 'TOGGLE_PANEL':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        panels: _objectSpread(_objectSpread({}, state.panels), {}, _defineProperty({}, action.panelId, !state.panels[action.panelId]))
+      });
+    case 'SET_PANEL_STATE':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        panels: _objectSpread(_objectSpread({}, state.panels), {}, _defineProperty({}, action.panelId, action.isOpen))
+      });
+    case 'SET_NETWORKS':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        networks: action.networks
+      });
+    case 'SET_PREVIEW_VISIBILITY':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        preview: _objectSpread(_objectSpread({}, state.preview), {}, {
+          isVisible: action.isVisible
+        })
+      });
+    case 'SET_SETTINGS':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        settings: action.settings
+      });
+    default:
+      return state;
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (reducer);
+
+/***/ }),
+
+/***/ "./src/react/Sharing/Store/selectors.js":
+/*!**********************************************!*\
+  !*** ./src/react/Sharing/Store/selectors.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getAllPanelStates: () => (/* binding */ getAllPanelStates),
+/* harmony export */   getNetworks: () => (/* binding */ getNetworks),
+/* harmony export */   getPanelState: () => (/* binding */ getPanelState),
+/* harmony export */   getPreviewVisibility: () => (/* binding */ getPreviewVisibility),
+/* harmony export */   getSettings: () => (/* binding */ getSettings)
+/* harmony export */ });
+/**
+ * Selectors for Sharing tab store.
+ */
+
+/**
+ * Get panel open state.
+ *
+ * @param {Object} state   Store state.
+ * @param {string} panelId Panel ID.
+ * @return {boolean} Whether panel is open.
+ */
+function getPanelState(state, panelId) {
+  return state.panels[panelId] || false;
+}
+
+/**
+ * Get all panel states.
+ *
+ * @param {Object} state Store state.
+ * @return {Object} All panel states.
+ */
+function getAllPanelStates(state) {
+  return state.panels;
+}
+
+/**
+ * Get networks data.
+ *
+ * @param {Object} state Store state.
+ * @return {Object} Networks data.
+ */
+function getNetworks(state) {
+  return state.networks;
+}
+
+/**
+ * Get preview visibility.
+ *
+ * @param {Object} state Store state.
+ * @return {boolean} Whether preview is visible.
+ */
+function getPreviewVisibility(state) {
+  return state.preview.isVisible;
+}
+
+/**
+ * Get settings.
+ *
+ * @param {Object} state Store state.
+ * @return {Object} Settings.
+ */
+function getSettings(state) {
+  return state.settings;
+}
+
+/***/ }),
+
 /***/ "./src/react/Utils/SendCommand.js":
 /*!****************************************!*\
   !*** ./src/react/Utils/SendCommand.js ***!
@@ -21327,6 +21593,17 @@ module.exports = window["wp"]["a11y"];
 
 "use strict";
 module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["data"];
 
 /***/ }),
 

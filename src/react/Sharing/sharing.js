@@ -3,9 +3,10 @@
  */
 
 import { __ } from '@wordpress/i18n';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { Suspense, useEffect } from 'react';
-import './Store'; // Register the store before using components that depend on it.
+import { dispatch } from '@wordpress/data';
+import store from './Store'; // Register the store before using components that depend on it.
 import SocialNetworksPanel from './Panels/SocialNetworksPanel';
 import DisplayRulesPanel from './Panels/DisplayRulesPanel';
 import { useAsyncResource } from 'use-async-resource';
@@ -13,6 +14,7 @@ import sendCommand from '../Utils/SendCommand';
 import { escapeEditableHTML } from '@wordpress/escape-html';
 import ErrorBoundary from '../Components/ErrorBoundary';
 import Loader from '../Components/Loader';
+import AppearancesPanel from './Panels/AppearancesPanel';
 
 /**
  * Retrieve settings data from PHP.
@@ -104,8 +106,6 @@ export const getDefaultValues = ( values = {} ) => {
 /**
  * Sharing Component.
  *
- * @param {Object} props          Component props.
- * @param {Object} props.defaults Async resource for defaults data.
  * @return {Element} Display Rules Panel with error boundary and suspense.
  */
 const Sharing = () => {
@@ -149,12 +149,74 @@ const SharingInterface = ( { defaults } ) => {
 		},
 	} );
 
+	const formValues = useWatch( {
+		control: methods.control,
+	} );
+
 	// Set the initial form state when data loads.
 	useEffect( () => {
 		if ( data ) {
+			dispatch( store ).setNetworks( data.socialNetworks );
 			methods.reset( getDefaultValues( data.values ) );
 		}
 	}, [ data, methods ] );
+
+	/**
+	 * Convert underscore_case to camelCase.
+	 *
+	 * @param {string} str String in underscore_case.
+	 * @return {string} String in camelCase.
+	 */
+	const toCamelCase = ( str ) => {
+		if ( ! str ) {
+			return str;
+		}
+		return str.replace( /_([a-z])/g, ( _, letter ) => letter.toUpperCase() );
+	};
+
+	/**
+	 * Update networks object with enabled states from form values.
+	 *
+	 * @param {Object} networks Original networks object from data.
+	 * @return {Object} Updated networks object with enabled properties.
+	 */
+	const updateNetworksFromFormValues = ( networks ) => {
+		if ( ! networks || ! formValues ) {
+			return networks || {};
+		}
+
+		const updatedNetworks = { ...networks };
+
+		// Iterate through each network and update its enabled state.
+		Object.keys( updatedNetworks ).forEach( ( networkSlug ) => {
+			const network = updatedNetworks[ networkSlug ];
+			if ( ! network ) {
+				return;
+			}
+
+			// Get the enabled option key for this network.
+			const enabledOptionKey = network.enabled_option_key || `show_${ networkSlug }`;
+			// Convert to camelCase to match form field names.
+			const formFieldName = toCamelCase( enabledOptionKey );
+
+			// Update the enabled property from form values.
+			// Default to false if form value is not found.
+			updatedNetworks[ networkSlug ] = {
+				...network,
+				enabled: formValues[ formFieldName ] ?? false,
+			};
+		} );
+
+		return updatedNetworks;
+	};
+
+	// Set Networks when form values change.
+	useEffect( () => {
+		if ( data?.socialNetworks && formValues ) {
+			const updatedNetworks = updateNetworksFromFormValues( data.socialNetworks );
+			dispatch( store ).setNetworks( updatedNetworks );
+		}
+	}, [ data?.socialNetworks, formValues ] );
 
 	if ( ! data ) {
 		return <div>{ __( 'Loading…', 'highlight-and-share' ) }</div>;
@@ -181,6 +243,7 @@ const SharingInterface = ( { defaults } ) => {
 						<FormProvider { ...methods }>
 							<SocialNetworksPanel { ...data } />
 							<DisplayRulesPanel />
+							<AppearancesPanel { ...data } />
 						</FormProvider>
 					</Suspense>
 				</div>

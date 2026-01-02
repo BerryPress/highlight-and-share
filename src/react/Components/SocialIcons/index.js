@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { useSelect } from '@wordpress/data';
 // Return fontawesome icons for the social networks.
 import { faTwitter as TwitterIcon } from '@fortawesome/free-brands-svg-icons/faTwitter';
 import { faFacebook as FacebookIcon } from '@fortawesome/free-brands-svg-icons/faFacebook';
@@ -18,16 +18,10 @@ import { faMastodon as MastodonIcon } from '@fortawesome/free-brands-svg-icons/f
 import { faThreads as ThreadsIcon } from '@fortawesome/free-brands-svg-icons/faThreads';
 import { faBluesky as BlueskyIcon } from '@fortawesome/free-brands-svg-icons/faBluesky';
 
-import SocialNetworksContext from '../../Contexts/SocialNetworksContext';
+import store from '../../Sharing/Store';
 import Twitter from '../Icons/twitter';
 const SocialIcons = ( socialNetworksData = {} ) => {
-	let socialNetworks = {};
-	const socialNetworksContext = useContext( SocialNetworksContext );
-	if ( undefined !== socialNetworksContext ) {
-		socialNetworks = socialNetworksContext.socialNetworks;
-	} else {
-		socialNetworks = socialNetworksData;
-	}
+	const socialNetworks = useSelect( ( select ) => select( store ).getNetworks() );
 	const getSocialIcon = ( socialNetwork ) => {
 		switch ( socialNetwork ) {
 			case 'twitter':

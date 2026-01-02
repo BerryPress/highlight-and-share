@@ -11,7 +11,6 @@ import NetworkSettingsPopover from '../../../Components/Shared/NetworkSettingsPo
 import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndicator';
 import hasNetworkErrors from '../../../Utils/hasNetworkErrors';
 import ErrorBoundary from '../../../Components/ErrorBoundary';
-import { getDefaultValues } from '../../sharing';
 
 /**
  * SocialNetworksPanel component.

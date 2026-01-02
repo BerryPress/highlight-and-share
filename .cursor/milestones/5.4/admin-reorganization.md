@@ -714,31 +714,100 @@ Each field will be mapped to its corresponding option key in the form state. Col
 
 ### Phase 5: Display Rules Panel Components
 
-- [ ] Build `PostTypeSelector` component
+- [x] Build `PostTypeSelector` component
   - Checkbox list of post types
   - Uses React Hook Form's `Controller` component
-- [ ] **Note:** Use `ToggleControl` from `@wordpress/components` for content areas (is single, is excerpt)
+  - All post types enabled by default; checking excludes them
+  - Stored as `excludedPostTypes` object in form state
+- [x] Build `DisplayRulesPanel` component
+  - Uses `PanelBodyWithIndicator` wrapper
+  - Defaults to collapsed (`initialOpen={ false }`)
+  - Includes `PostTypeSelector` for post type exclusion
+  - Uses `ToggleControl` for content areas (`enableContent`, `enableExcerpt`, `enableComments`)
+  - Uses `ToggleControl` for mobile settings (`enableMobile`)
+  - Uses `TextControl` for text prefix/suffix (`sharingPrefix`, `sharingSuffix`)
+  - Integrated with global React Hook Form instance via `FormProvider`
+  - All fields properly initialized with default values from PHP
 
-### Phase 6: New Sharing Tab Structure (Remaining Panels)
+**Implementation Details:**
+- ✅ `PostTypeSelector` component created in `src/react/Components/Shared/PostTypeSelector/index.js`
+- ✅ `DisplayRulesPanel` component created in `src/react/Sharing/Panels/DisplayRulesPanel/index.js`
+- ✅ Post type exclusion feature implemented (empty array by default = all enabled)
+- ✅ PHP backend updated to handle `excluded_post_types` in `Admin.php` and `Options.php`
+- ✅ Post types localized via `hasSharingAdmin.postTypes` in `Admin.php`
+- ✅ All Display Rules fields added to `getDefaultValues()` in `sharing.js`
+- ✅ Form reset logic ensures proper initialization of all fields
 
-- [ ] Create new `src/react/Sharing/` directory structure
-- [ ] Build main `Sharing` tab component with React Hook Form setup
-- [ ] Connect Sharing tab to `@wordpress/data` store
-- [ ] Implement `DisplayRulesPanel` component using `PanelBody` with `ToggleControl` for content areas
-- [ ] Implement `AppearancePanel` component using `PanelBody` (migrate from Appearance tab)
+### Phase 6: Appearance Menu Items (Reorder, Theme Customizer, Preview)
+
+- [ ] Create `ReorderNetworksPanel` component
+  - Migrate `SocialIconList` component functionality
+  - Uses drag-and-drop for reordering (react-dnd)
+  - Uses `PanelBodyWithIndicator` wrapper
+  - Default state: collapsed or expanded (TBD)
+  - Integrates with `SocialNetworksContext` for state management
+- [ ] Create `ThemeCustomizerPanel` component
+  - Migrate `ThemeCustomizer` component functionality
+  - Uses `PanelBodyWithIndicator` wrapper
+  - Default state: collapsed or expanded (TBD)
+  - Lazy loaded component (already lazy in Appearance tab)
+  - Integrates with `SocialNetworksContext` for theme state
+- [ ] Create `PreviewPanel` component
+  - Migrate `PreviewSocialIconList` component functionality
+  - Uses `PanelBodyWithIndicator` wrapper
+  - Default state: expanded (`initialOpen={ true }`)
+  - Real-time updates via `SocialNetworksContext`
+  - Shows enabled networks with current theme/appearance settings
+- [ ] Integrate all three panels into Sharing tab
+  - Add panels to `FormProvider` in `sharing.js`
+  - Ensure `SocialNetworksContext` is available (may need to wrap or refactor)
+  - Maintain existing Appearance tab functionality during migration
+
+**Implementation Notes:**
+- All three components currently exist in `src/react/Appearance/appearance.js`
+- `SocialIconList` component: `src/react/Components/SocialIconList/index.js`
+- `ThemeCustomizer` component: `src/react/Components/ThemeCustomizer/index.js` (lazy loaded)
+- `PreviewSocialIconList` component: `src/react/Components/PreviewSocialIconList/index.js`
+- `SocialNetworksContext` provides state for all three components
+- May need to refactor context usage if moving to Sharing tab with React Hook Form
+
+### Phase 7: New Sharing Tab Structure (Remaining Panels)
+
 - [ ] Implement `BlockEditorPanel` component using `PanelBody` (split from Block Editor tab)
 - [ ] Implement `InlineHighlightingPanel` component using `PanelBody` (split from Block Editor tab)
-- [ ] Implement `PreviewPanel` component using `PanelBody` with real-time updates (watch form state)
 - [ ] Implement `AdvancedPanel` component using `PanelBody`
 - [ ] Integrate panel state persistence with `PanelBody`'s `initialOpen` prop using store + user meta
-- [ ] Implement unsaved changes indicator (green/red dots) - use React Hook Form's `isDirty` and `errors` state
+- [ ] Implement floating save bar component
+  - Appears when form is dirty (React Hook Form's `isDirty` state)
+  - Fixed position at bottom of viewport
+  - Shows save button (primary action)
+  - Shows reset button (secondary action, optional)
+  - Displays error state if validation errors exist
+  - Shows saving state during form submission
+  - Includes success/error notices
+  - Smooth slide-up animation when appearing
+  - Uses `useUnsavedChanges` hook to track dirty state
+  - Integrates with React Hook Form's `handleSubmit` for form submission
+  - Handles AJAX save via `sendCommand` utility
+
+**Implementation Details:**
+- Create `FloatingSaveBar` component in `src/react/Components/Shared/FloatingSaveBar/index.js`
+- Use React Hook Form's `useFormState` or `useFormContext` to access `isDirty`, `errors`, and `formState`
+- CSS: Fixed positioning with `position: fixed; bottom: 0; left: 0; right: 0;`
+- Add z-index to ensure it appears above other content
+- Include shadow/elevation for visual separation
+- Responsive: Full width on mobile, centered container on desktop
+- Animation: Use CSS transitions for slide-up/slide-down effect
+- Accessibility: Proper ARIA labels and keyboard navigation
 
 ### Phase 7: Migration & Refactoring
 
 - [ ] Migrate Settings tab → Social Networks section to new panel
 - [ ] Migrate Settings tab → Display Rules to new panel
 - [ ] Migrate Settings tab → Advanced to new panel
-- [ ] Migrate entire Appearance tab to Appearance panel
+- [ ] Migrate Appearance tab → Reorder Networks to `ReorderNetworksPanel`
+- [ ] Migrate Appearance tab → Theme Customizer to `ThemeCustomizerPanel`
+- [ ] Migrate Appearance tab → Preview to `PreviewPanel`
 - [ ] Split Block Editor tab into Block Editor and Inline Highlighting panels
 - [ ] Update all tabs to use shared components
 - [ ] Ensure backward compatibility with existing options
@@ -776,7 +845,10 @@ Each field will be mapped to its corresponding option key in the form state. Col
 - `src/react/Sharing/sharing.js` - Sharing tab interface
 - `src/react/Sharing/Panels/SocialNetworksPanel/index.js` - Uses `PanelBody`
 - `src/react/Sharing/Panels/DisplayRulesPanel/index.js` - Uses `PanelBody` with `ToggleControl`
-- `src/react/Sharing/Panels/AppearancePanel/index.js` - Uses `PanelBody`
+- `src/react/Sharing/Panels/ReorderNetworksPanel/index.js` - Uses `PanelBody` (Phase 6)
+- `src/react/Sharing/Panels/ThemeCustomizerPanel/index.js` - Uses `PanelBody` (Phase 6)
+- `src/react/Sharing/Panels/PreviewPanel/index.js` - Uses `PanelBody` (Phase 6)
+- `src/react/Components/Shared/FloatingSaveBar/index.js` - Floating save bar component (Phase 7)
 - `src/react/Sharing/Panels/BlockEditorPanel/index.js` - Uses `PanelBody`
 - `src/react/Sharing/Panels/InlineHighlightingPanel/index.js` - Uses `PanelBody`
 - `src/react/Sharing/Panels/PreviewPanel/index.js` - Uses `PanelBody`
