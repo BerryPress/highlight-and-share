@@ -16,11 +16,10 @@ import { getDefaultValues } from '../../sharing';
 /**
  * SocialNetworksPanel component.
  *
- * @param {Object} props          Component props.
- * @param {Object} props.defaults Async resource for defaults data.
+ * @param {Object} data Ajax Data object.
  * @return {JSX.Element} SocialNetworksPanel component.
  */
-const SocialNetworksPanel = ( { defaults } ) => {
+const SocialNetworksPanel = ( data ) => {
 	return (
 		<ErrorBoundary
 			fallback={
@@ -50,7 +49,7 @@ const SocialNetworksPanel = ( { defaults } ) => {
 					</PanelBody>
 				}
 			>
-				<Interface defaults={ defaults } />
+				<Interface data={ data } />
 			</Suspense>
 		</ErrorBoundary>
 	);
@@ -59,25 +58,12 @@ const SocialNetworksPanel = ( { defaults } ) => {
 /**
  * Panel interface component.
  *
- * @param {Object} props          Component props.
- * @param {Object} props.defaults Async resource for defaults data.
+ * @param {Object} props      Component props.
+ * @param {Object} props.data Ajax Data object.
  * @return {JSX.Element} Panel interface.
  */
-const Interface = ( { defaults } ) => {
-	const response = defaults();
-	const { data } = response.data;
-
-	// Get form methods from FormProvider context.
-	const { control, clearErrors, trigger, formState: { errors }, reset } = useFormContext();
-
-	// Reset form with actual data when it loads.
-	useEffect( () => {
-		if ( data?.values ) {
-			const formDefaults = getDefaultValues( data.values );
-			reset( formDefaults );
-		}
-	}, [ data, reset ] );
-
+const Interface = ( { data } ) => {
+	const { control, clearErrors, trigger, formState: { errors } } = useFormContext();
 	// Popover state management.
 	const [ popoverNetwork, setPopoverNetwork ] = useState( null );
 	const [ popoverAnchor, setPopoverAnchor ] = useState( null );

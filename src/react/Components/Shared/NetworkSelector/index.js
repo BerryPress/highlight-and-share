@@ -112,7 +112,6 @@ const NetworkSelector = ( { control, networks = {}, networkErrors = {}, onSettin
 			const labelB = ( b.label || b.label_text || b.slug || '' ).toLowerCase();
 			return labelA.localeCompare( labelB );
 		} );
-
 	return (
 		<div className="has-network-selector">
 			{ networkList.map( ( network ) => {
@@ -120,7 +119,6 @@ const NetworkSelector = ( { control, networks = {}, networkErrors = {}, onSettin
 				if ( ! enabledKey ) {
 					return null;
 				}
-
 				return (
 					<Controller
 						key={ network.slug }

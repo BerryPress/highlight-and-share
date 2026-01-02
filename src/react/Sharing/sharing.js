@@ -4,13 +4,15 @@
 
 import { __ } from '@wordpress/i18n';
 import { useForm, FormProvider } from 'react-hook-form';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import './Store'; // Register the store before using components that depend on it.
 import SocialNetworksPanel from './Panels/SocialNetworksPanel';
 import DisplayRulesPanel from './Panels/DisplayRulesPanel';
 import { useAsyncResource } from 'use-async-resource';
 import sendCommand from '../Utils/SendCommand';
 import { escapeEditableHTML } from '@wordpress/escape-html';
+import ErrorBoundary from '../Components/ErrorBoundary';
+import Loader from '../Components/Loader';
 
 /**
  * Retrieve settings data from PHP.
@@ -100,12 +102,39 @@ export const getDefaultValues = ( values = {} ) => {
 };
 
 /**
- * Sharing tab interface component.
+ * Sharing Component.
  *
- * @return {JSX.Element} Sharing tab component.
+ * @param {Object} props          Component props.
+ * @param {Object} props.defaults Async resource for defaults data.
+ * @return {Element} Display Rules Panel with error boundary and suspense.
  */
 const Sharing = () => {
 	const [ defaults ] = useAsyncResource( retrieveDefaults, [] );
+	return (
+		<ErrorBoundary
+			fallback={
+				<p>
+					{ __( 'Could not load Sharing panel.', 'highlight-and-share' ) }
+				</p>
+			}
+		>
+			<Suspense fallback={ <Loader /> }>
+				<SharingInterface defaults={ defaults } />
+			</Suspense>
+		</ErrorBoundary>
+	);
+};
+
+/**
+ * Sharing tab interface component.
+ *
+ * @param {Object} props          Component props.
+ * @param {Object} props.defaults Async resource for defaults data.
+ * @return {JSX.Element} Sharing tab component.
+ */
+const SharingInterface = ( { defaults } ) => {
+	const response = defaults();
+	const { data } = response.data;
 
 	// Set up global React Hook Form instance for all panels.
 	// Default values will be reset when async data loads (in SocialNetworksPanel).
@@ -114,7 +143,22 @@ const Sharing = () => {
 		mode: 'onBlur', // Validate on blur for better UX in popovers.
 		reValidateMode: 'onChange', // Re-validate and clear errors immediately when user starts typing.
 		shouldUnregister: false, // Keep fields registered even when not rendered.
+		resetOptions: {
+			keepDirtyValues: false,
+			keepErrors: false,
+		},
 	} );
+
+	// Set the initial form state when data loads.
+	useEffect( () => {
+		if ( data ) {
+			methods.reset( getDefaultValues( data.values ) );
+		}
+	}, [ data, methods ] );
+
+	if ( ! data ) {
+		return <div>{ __( 'Loading…', 'highlight-and-share' ) }</div>;
+	}
 
 	return (
 		<div className="has-admin-content-wrapper">
@@ -135,8 +179,8 @@ const Sharing = () => {
 				<div className="has-admin-content-body">
 					<Suspense fallback={ <div>{ __( 'Loading…', 'highlight-and-share' ) }</div> }>
 						<FormProvider { ...methods }>
-							<SocialNetworksPanel defaults={ defaults } />
-							<DisplayRulesPanel defaults={ defaults } />
+							<SocialNetworksPanel { ...data } />
+							<DisplayRulesPanel />
 						</FormProvider>
 					</Suspense>
 				</div>
@@ -146,4 +190,3 @@ const Sharing = () => {
 };
 
 export default Sharing;
-

@@ -19,14 +19,9 @@ import Loader from '../../../Components/Loader';
 /**
  * Display Rules Panel Interface Component.
  *
- * @param {Object}   props          Component props.
- * @param {Function} props.defaults Async resource function for defaults.
  * @return {Element} Display Rules Panel component.
  */
-const Interface = ( { defaults } ) => {
-	// Call defaults() to ensure Suspense boundary waits for data to load.
-	defaults();
-
+const Interface = () => {
 	// Get form methods from FormProvider context.
 	const { control } = useFormContext();
 
@@ -185,11 +180,10 @@ const Interface = ( { defaults } ) => {
 /**
  * Display Rules Panel Component.
  *
- * @param {Object} props          Component props.
- * @param {Object} props.defaults Async resource for defaults data.
+ * @param {Object} data Ajax Data object.
  * @return {Element} Display Rules Panel with error boundary and suspense.
  */
-const DisplayRulesPanel = ( { defaults } ) => {
+const DisplayRulesPanel = ( data ) => {
 	return (
 		<ErrorBoundary
 			fallback={
@@ -199,7 +193,7 @@ const DisplayRulesPanel = ( { defaults } ) => {
 			}
 		>
 			<Suspense fallback={ <Loader /> }>
-				<Interface defaults={ defaults } />
+				<Interface data={ data } />
 			</Suspense>
 		</ErrorBoundary>
 	);

@@ -19168,16 +19168,10 @@ function _extends() { return _extends = Object.assign ? Object.assign.bind() : f
 /**
  * Display Rules Panel Interface Component.
  *
- * @param {Object}   props          Component props.
- * @param {Function} props.defaults Async resource function for defaults.
  * @return {Element} Display Rules Panel component.
  */
-var Interface = function Interface(_ref) {
+var Interface = function Interface() {
   var _window$hasSharingAdm;
-  var defaults = _ref.defaults;
-  // Call defaults() to ensure Suspense boundary waits for data to load.
-  defaults();
-
   // Get form methods from FormProvider context.
   var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_2__.useFormContext)(),
     control = _useFormContext.control;
@@ -19203,10 +19197,10 @@ var Interface = function Interface(_ref) {
   }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "enableContent",
     control: control,
-    render: function render(_ref2) {
-      var _ref2$field = _ref2.field,
-        _onChange = _ref2$field.onChange,
-        value = _ref2$field.value;
+    render: function render(_ref) {
+      var _ref$field = _ref.field,
+        _onChange = _ref$field.onChange,
+        value = _ref$field.value;
       return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable on the Post Content', 'highlight-and-share'),
         className: "has-admin__toggle-control",
@@ -19222,10 +19216,10 @@ var Interface = function Interface(_ref) {
   }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "enableExcerpt",
     control: control,
-    render: function render(_ref3) {
-      var _ref3$field = _ref3.field,
-        _onChange2 = _ref3$field.onChange,
-        value = _ref3$field.value;
+    render: function render(_ref2) {
+      var _ref2$field = _ref2.field,
+        _onChange2 = _ref2$field.onChange,
+        value = _ref2$field.value;
       return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable on the Post Excerpt', 'highlight-and-share'),
         className: "has-admin__toggle-control",
@@ -19241,10 +19235,10 @@ var Interface = function Interface(_ref) {
   }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "enableComments",
     control: control,
-    render: function render(_ref4) {
-      var _ref4$field = _ref4.field,
-        _onChange3 = _ref4$field.onChange,
-        value = _ref4$field.value;
+    render: function render(_ref3) {
+      var _ref3$field = _ref3.field,
+        _onChange3 = _ref3$field.onChange,
+        value = _ref3$field.value;
       return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable for the Comments Section', 'highlight-and-share'),
         className: "has-admin__toggle-control",
@@ -19262,10 +19256,10 @@ var Interface = function Interface(_ref) {
   }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "enableMobile",
     control: control,
-    render: function render(_ref5) {
-      var _ref5$field = _ref5.field,
-        _onChange4 = _ref5$field.onChange,
-        value = _ref5$field.value;
+    render: function render(_ref4) {
+      var _ref4$field = _ref4.field,
+        _onChange4 = _ref4$field.onChange,
+        value = _ref4$field.value;
       return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable on Mobile Devices', 'highlight-and-share'),
         className: "has-admin__toggle-control",
@@ -19283,8 +19277,8 @@ var Interface = function Interface(_ref) {
   }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "sharingPrefix",
     control: control,
-    render: function render(_ref6) {
-      var field = _ref6.field;
+    render: function render(_ref5) {
+      var field = _ref5.field;
       return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, _extends({}, field, {
         type: "text",
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Sharing Text Before', 'highlight-and-share'),
@@ -19297,8 +19291,8 @@ var Interface = function Interface(_ref) {
   }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "sharingSuffix",
     control: control,
-    render: function render(_ref7) {
-      var field = _ref7.field;
+    render: function render(_ref6) {
+      var field = _ref6.field;
       return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, _extends({}, field, {
         type: "text",
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Sharing Text After', 'highlight-and-share'),
@@ -19312,18 +19306,16 @@ var Interface = function Interface(_ref) {
 /**
  * Display Rules Panel Component.
  *
- * @param {Object} props          Component props.
- * @param {Object} props.defaults Async resource for defaults data.
+ * @param {Object} data Ajax Data object.
  * @return {Element} Display Rules Panel with error boundary and suspense.
  */
-var DisplayRulesPanel = function DisplayRulesPanel(_ref8) {
-  var defaults = _ref8.defaults;
+var DisplayRulesPanel = function DisplayRulesPanel(data) {
   return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_6__["default"], {
     fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Could not load Display Rules panel.', 'highlight-and-share'))
   }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Suspense, {
     fallback: /*#__PURE__*/React.createElement(_Components_Loader__WEBPACK_IMPORTED_MODULE_7__["default"], null)
   }, /*#__PURE__*/React.createElement(Interface, {
-    defaults: defaults
+    data: data
   })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DisplayRulesPanel);
@@ -19353,7 +19345,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../Components/Shared/PanelBodyWithIndicator */ "./src/react/Components/Shared/PanelBodyWithIndicator/index.js");
 /* harmony import */ var _Utils_hasNetworkErrors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../Utils/hasNetworkErrors */ "./src/react/Utils/hasNetworkErrors.js");
 /* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
-/* harmony import */ var _sharing__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../sharing */ "./src/react/Sharing/sharing.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -19378,12 +19369,10 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 /**
  * SocialNetworksPanel component.
  *
- * @param {Object} props          Component props.
- * @param {Object} props.defaults Async resource for defaults data.
+ * @param {Object} data Ajax Data object.
  * @return {JSX.Element} SocialNetworksPanel component.
  */
-var SocialNetworksPanel = function SocialNetworksPanel(_ref) {
-  var defaults = _ref.defaults;
+var SocialNetworksPanel = function SocialNetworksPanel(data) {
   return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_8__["default"], {
     fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Could not load Social Networks panel.', 'highlight-and-share'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
       href: "https://dlxplugins.com/support/",
@@ -19399,38 +19388,24 @@ var SocialNetworksPanel = function SocialNetworksPanel(_ref) {
       className: "has-admin-component-row"
     }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading…', 'highlight-and-share'))))
   }, /*#__PURE__*/React.createElement(Interface, {
-    defaults: defaults
+    data: data
   })));
 };
 
 /**
  * Panel interface component.
  *
- * @param {Object} props          Component props.
- * @param {Object} props.defaults Async resource for defaults data.
+ * @param {Object} props      Component props.
+ * @param {Object} props.data Ajax Data object.
  * @return {JSX.Element} Panel interface.
  */
-var Interface = function Interface(_ref2) {
-  var defaults = _ref2.defaults;
-  var response = defaults();
-  var data = response.data.data;
-
-  // Get form methods from FormProvider context.
+var Interface = function Interface(_ref) {
+  var data = _ref.data;
   var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useFormContext)(),
     control = _useFormContext.control,
     clearErrors = _useFormContext.clearErrors,
     trigger = _useFormContext.trigger,
-    errors = _useFormContext.formState.errors,
-    reset = _useFormContext.reset;
-
-  // Reset form with actual data when it loads.
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (data !== null && data !== void 0 && data.values) {
-      var formDefaults = (0,_sharing__WEBPACK_IMPORTED_MODULE_9__.getDefaultValues)(data.values);
-      reset(formDefaults);
-    }
-  }, [data, reset]);
-
+    errors = _useFormContext.formState.errors;
   // Popover state management.
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
     _useState2 = _slicedToArray(_useState, 2),
@@ -19599,6 +19574,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
 /* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/escape-html */ "@wordpress/escape-html");
 /* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
+/* harmony import */ var _Components_Loader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Components/Loader */ "./src/react/Components/Loader/index.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -19613,6 +19590,8 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
  // Register the store before using components that depend on it.
+
+
 
 
 
@@ -19705,14 +19684,36 @@ var getDefaultValues = function getDefaultValues() {
 };
 
 /**
- * Sharing tab interface component.
+ * Sharing Component.
  *
- * @return {JSX.Element} Sharing tab component.
+ * @param {Object} props          Component props.
+ * @param {Object} props.defaults Async resource for defaults data.
+ * @return {Element} Display Rules Panel with error boundary and suspense.
  */
 var Sharing = function Sharing() {
   var _useAsyncResource = (0,use_async_resource__WEBPACK_IMPORTED_MODULE_5__.useAsyncResource)(retrieveDefaults, []),
     _useAsyncResource2 = _slicedToArray(_useAsyncResource, 1),
     defaults = _useAsyncResource2[0];
+  return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Could not load Sharing panel.', 'highlight-and-share'))
+  }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_2__.Suspense, {
+    fallback: /*#__PURE__*/React.createElement(_Components_Loader__WEBPACK_IMPORTED_MODULE_9__["default"], null)
+  }, /*#__PURE__*/React.createElement(SharingInterface, {
+    defaults: defaults
+  })));
+};
+
+/**
+ * Sharing tab interface component.
+ *
+ * @param {Object} props          Component props.
+ * @param {Object} props.defaults Async resource for defaults data.
+ * @return {JSX.Element} Sharing tab component.
+ */
+var SharingInterface = function SharingInterface(_ref) {
+  var defaults = _ref.defaults;
+  var response = defaults();
+  var data = response.data.data;
 
   // Set up global React Hook Form instance for all panels.
   // Default values will be reset when async data loads (in SocialNetworksPanel).
@@ -19723,8 +19724,23 @@ var Sharing = function Sharing() {
     // Validate on blur for better UX in popovers.
     reValidateMode: 'onChange',
     // Re-validate and clear errors immediately when user starts typing.
-    shouldUnregister: false // Keep fields registered even when not rendered.
+    shouldUnregister: false,
+    // Keep fields registered even when not rendered.
+    resetOptions: {
+      keepDirtyValues: false,
+      keepErrors: false
+    }
   });
+
+  // Set the initial form state when data loads.
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    if (data) {
+      methods.reset(getDefaultValues(data.values));
+    }
+  }, [data, methods]);
+  if (!data) {
+    return /*#__PURE__*/React.createElement("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Loading…', 'highlight-and-share'));
+  }
   return /*#__PURE__*/React.createElement("div", {
     className: "has-admin-content-wrapper"
   }, /*#__PURE__*/React.createElement("div", {
@@ -19739,11 +19755,7 @@ var Sharing = function Sharing() {
     className: "has-admin-content-body"
   }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_2__.Suspense, {
     fallback: /*#__PURE__*/React.createElement("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Loading…', 'highlight-and-share'))
-  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_1__.FormProvider, methods, /*#__PURE__*/React.createElement(_Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    defaults: defaults
-  }), /*#__PURE__*/React.createElement(_Panels_DisplayRulesPanel__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    defaults: defaults
-  }))))));
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_1__.FormProvider, methods, /*#__PURE__*/React.createElement(_Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_3__["default"], data), /*#__PURE__*/React.createElement(_Panels_DisplayRulesPanel__WEBPACK_IMPORTED_MODULE_4__["default"], null))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sharing);
 
