@@ -69,3 +69,29 @@ export function setSettings( settings ) {
 	};
 }
 
+export function setTheme( theme ) {
+	return {
+		type: 'SET_THEME',
+		theme,
+	};
+}
+
+export function setHasIconsOnly( hasIconsOnly ) {
+	return {
+		type: 'SET_HAS_ICONS_ONLY',
+		hasIconsOnly,
+	};
+}
+
+export function setSocialNetworkColors( socialNetworkColors ) {
+	return {
+		type: 'SET_SOCIAL_NETWORK_COLORS',
+		socialNetworkColors,
+	};
+}
+export function setThemeData( themeData ) {
+	return {
+		type: 'SET_THEME_DATA',
+		themeData,
+	};
+}

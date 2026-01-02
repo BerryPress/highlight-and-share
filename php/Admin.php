@@ -412,11 +412,15 @@ class Admin {
 			wp_send_json_error( array() );
 		}
 
-		$options = Options::get_plugin_options( true );
-		$return  = array(
+		$options       = Options::get_plugin_options( true );
+		$theme_options = Options::get_theme_options( true );
+		$return        = array(
 			'socialNetworks' => Options::get_plugin_options_social_networks(),
 			'values'         => $this->map_defaults_to_js(
 				stripslashes_deep( $options ),
+			),
+			'themeOptions'   => $this->map_defaults_to_js(
+				stripslashes_deep( $theme_options ),
 			),
 		);
 		wp_send_json_success( $return );
@@ -733,9 +737,12 @@ class Admin {
 					'has-sharing-admin-js',
 					'hasSharingAdmin',
 					array(
-						'userMetaNonce' => wp_create_nonce( 'has_admin_user_meta' ),
-						'retrieveNonce' => wp_create_nonce( 'has_retrieve_settings' ),
-						'postTypes'     => $post_types,
+						'userMetaNonce'      => wp_create_nonce( 'has_admin_user_meta' ),
+						'retrieveNonce'      => wp_create_nonce( 'has_retrieve_settings' ),
+						'postTypes'          => $post_types,
+						'themes'             => Themes::get_main_themes(),
+						'colors'             => Themes::get_default_theme_colors(),
+						'themeOptionsCustom' => Options::get_theme_options(),
 					)
 				);
 			}
@@ -759,9 +766,12 @@ class Admin {
 					'has-settings-admin-js',
 					'hasSettingsAdmin',
 					array(
-						'saveNonce'     => wp_create_nonce( 'has_save_settings' ),
-						'retrieveNonce' => wp_create_nonce( 'has_retrieve_settings' ),
-						'resetNonce'    => wp_create_nonce( 'has_reset_settings' ),
+						'saveNonce'          => wp_create_nonce( 'has_save_settings' ),
+						'retrieveNonce'      => wp_create_nonce( 'has_retrieve_settings' ),
+						'resetNonce'         => wp_create_nonce( 'has_reset_settings' ),
+						'themes'             => Themes::get_main_themes(),
+						'colors'             => Themes::get_default_theme_colors(),
+						'themeOptionsCustom' => Options::get_theme_options(),
 					)
 				);
 			}
@@ -806,36 +816,6 @@ class Admin {
 					array(),
 					Functions::get_plugin_version(),
 					'all'
-				);
-			}
-
-			// Determine if we're loading the appearance tab.
-			$enqueue_appearance = false;
-			$current_tab        = Functions::get_admin_tab();
-			if ( null !== $current_tab && 'appearance' === $current_tab ) {
-				$enqueue_appearance = true;
-			}
-			if ( $enqueue_appearance ) {
-				$deps = require_once Functions::get_plugin_dir( 'dist/has-admin-appearance.asset.php' );
-				wp_enqueue_script(
-					'has-appearance-admin-js',
-					Functions::get_plugin_url( '/dist/has-admin-appearance.js' ),
-					$deps['dependencies'],
-					$deps['version'],
-					true
-				);
-				wp_localize_script(
-					'has-appearance-admin-js',
-					'hasAppearanceAdmin',
-					array(
-						'saveNonce'          => wp_create_nonce( 'has_save_appearance' ),
-						'retrieveNonce'      => wp_create_nonce( 'has_retrieve_appearance' ),
-						'resetNonce'         => wp_create_nonce( 'has_reset_appearance' ),
-						'socialNetworks'     => Options::get_plugin_options_social_networks(),
-						'themes'             => Themes::get_main_themes(),
-						'colors'             => Themes::get_default_theme_colors(),
-						'themeOptionsCustom' => Options::get_theme_options(),
-					)
 				);
 			}
 

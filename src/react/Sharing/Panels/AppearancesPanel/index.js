@@ -15,6 +15,7 @@ import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndi
 import ErrorBoundary from '../../../Components/ErrorBoundary';
 import Loader from '../../../Components/Loader';
 import SocialIconList from '../../../Components/SocialIconList';
+import ThemeCustomizer from '../../../Components/ThemeCustomizer';
 
 /**
  * Appearances Panel Interface Component.
@@ -40,9 +41,7 @@ const Interface = () => {
 				<SocialIconList />
 			</div>
 
-			<h3 className="has-admin-content-subheading">
-				{ __( 'Content Areas', 'highlight-and-share' ) }
-			</h3>
+			<ThemeCustomizer />
 		</PanelBodyWithIndicator>
 	);
 };

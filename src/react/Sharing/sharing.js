@@ -23,17 +23,18 @@ import AppearancesPanel from './Panels/AppearancesPanel';
  */
 const retrieveDefaults = () => {
 	return sendCommand( 'has_retrieve_settings_tab', {
-		nonce: window.hasSharingAdmin?.retrieveNonce || window.hasSettingsAdmin?.retrieveNonce || '',
+		nonce: window.hasSharingAdmin?.retrieveNonce,
 	} );
 };
 
 /**
  * Get default form values for all panels.
  *
- * @param {Object} values Values from PHP.
+ * @param {Object} values    Values from PHP.
+ * @param {Object} themeData Theme data from PHP.
  * @return {Object} Default form values.
  */
-export const getDefaultValues = ( values = {} ) => {
+export const getDefaultValues = ( values = {}, themeData = {} ) => {
 	// Build default values object with all network toggles and labels/tooltips.
 	const defaultValues = {
 		// Network toggles.
@@ -96,8 +97,44 @@ export const getDefaultValues = ( values = {} ) => {
 		sharingPrefix: escapeEditableHTML( values.sharingPrefix || '' ),
 		sharingSuffix: escapeEditableHTML( values.sharingSuffix || '' ),
 
-		// Post Types Exclusion (new feature).
-		excludedPostTypes: values.excludedPostTypes || {}, // Object: { 'attachment': true, ... } - only excluded ones.
+		// Appearance options.
+		theme: themeData.theme ?? 'default',
+		iconOnly: themeData.iconOnly ?? true,
+		orientation: themeData.orientation ?? 'horizontal',
+		showTooltips: themeData.showTooltips ?? true,
+		tooltipsTextColor: themeData.tooltipsTextColor ?? '#FFFFFF',
+		tooltipsBackgroundColor: themeData.tooltipsBackgroundColor ?? '#000000',
+		groupIcons: themeData.groupIcons ?? true,
+		backgroundColor: themeData.backgroundColor ?? '#000000',
+		backgroundColorHover: themeData.backgroundColorHover ?? '#333333',
+		iconColorsGroup: themeData.iconColorsGroup ?? '#FFFFFF',
+		iconColorsGroupHover: themeData.iconColorsGroupHover ?? '#FFFFFF',
+		borderRadiusGroup: themeData.borderRadiusGroup ?? {
+			attrTop: 0,
+			attrRight: 0,
+			attrBottom: 0,
+			attrLeft: 0,
+		},
+		iconBorderRadius: themeData.iconBorderRadius ?? {
+			attrTop: 0,
+			attrRight: 0,
+			attrBottom: 0,
+			attrLeft: 0,
+		},
+		fontSize: themeData.fontSize ?? 14,
+		iconPadding: themeData.iconPadding ?? {
+			attrTop: 12,
+			attrRight: 20,
+			attrBottom: 12,
+			attrLeft: 20,
+			attrUnit: 'px',
+			attrSyncUnits: false,
+		},
+		iconSize: themeData.iconSize ?? 25,
+		iconGap: themeData.iconGap ?? 0,
+
+		// Post Types Exclusion.
+		excludedPostTypes: themeData.excludedPostTypes || {},
 	};
 
 	return defaultValues;
@@ -139,7 +176,7 @@ const SharingInterface = ( { defaults } ) => {
 	// Set up global React Hook Form instance for all panels.
 	// Default values will be reset when async data loads (in SocialNetworksPanel).
 	const methods = useForm( {
-		defaultValues: getDefaultValues( {} ), // Start with empty defaults, will be reset when data loads.
+		defaultValues: getDefaultValues( {}, {} ), // Start with empty defaults, will be reset when data loads.
 		mode: 'onBlur', // Validate on blur for better UX in popovers.
 		reValidateMode: 'onChange', // Re-validate and clear errors immediately when user starts typing.
 		shouldUnregister: false, // Keep fields registered even when not rendered.
@@ -157,7 +194,10 @@ const SharingInterface = ( { defaults } ) => {
 	useEffect( () => {
 		if ( data ) {
 			dispatch( store ).setNetworks( data.socialNetworks );
-			methods.reset( getDefaultValues( data.values ) );
+			dispatch( store ).setTheme( data.themeOptions.theme );
+			dispatch( store ).setThemeData( data.themeOptions );
+			dispatch( store ).setSocialNetworkColors( data.themeOptions.iconColors );
+			methods.reset( getDefaultValues( data.values, data.themeOptions ) );
 		}
 	}, [ data, methods ] );
 

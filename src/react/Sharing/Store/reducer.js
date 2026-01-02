@@ -73,7 +73,26 @@ function reducer( state = initialState, action ) {
 				...state,
 				settings: action.settings,
 			};
-
+		case 'SET_THEME':
+			return {
+				...state,
+				theme: action.theme,
+			};
+		case 'SET_HAS_ICONS_ONLY':
+			return {
+				...state,
+				hasIconsOnly: action.hasIconsOnly,
+			};
+		case 'SET_SOCIAL_NETWORK_COLORS':
+			return {
+				...state,
+				socialNetworkColors: action.socialNetworkColors,
+			};
+		case 'SET_THEME_DATA':
+			return {
+				...state,
+				themeData: action.themeData,
+			};
 		default:
 			return state;
 	}

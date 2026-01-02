@@ -53,3 +53,18 @@ export function getSettings( state ) {
 	return state.settings;
 }
 
+export function getTheme( state ) {
+	return state.theme;
+}
+
+export function getThemeData( state ) {
+	return state.themeData;
+}
+
+export function getHasIconsOnly( state ) {
+	return state.hasIconsOnly;
+}
+
+export function getSocialNetworkColors( state ) {
+	return state.socialNetworkColors;
+}

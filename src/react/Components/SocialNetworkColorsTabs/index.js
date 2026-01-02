@@ -3,12 +3,18 @@ import classNames from 'classnames';
 import {
 	TabPanel,
 } from '@wordpress/components';
-import SocialNetworksContext from '../../Contexts/SocialNetworksContext';
 import TabColorPickers from '../TabColorPickers';
+import { useSelect, useDispatch } from '@wordpress/data';
+import store from '../../Sharing/Store';
 import { __ } from '@wordpress/i18n';
 
 const SocialNetworkColorsTabs = () => {
-	const { socialNetworkColors, setSocialNetworkColors } = useContext( SocialNetworksContext );
+	const { socialNetworkColors } = useSelect( ( select ) => {
+		return {
+			socialNetworkColors: select( store ).getSocialNetworkColors(),
+		};
+	}, [] );
+	const { setSocialNetworkColors } = useDispatch( store );
 	const [ selectedTab, setSelectedTab ] = useState( 'twitter' );
 
 	const getTabs = () => {
@@ -61,6 +67,7 @@ const SocialNetworkColorsTabs = () => {
 					{ ( tab ) => {
 						return (
 							<TabColorPickers
+								key={ tab.key }
 								backgroundColor={ tab.background }
 								backgroundColorHover={ tab.background_hover }
 								iconColor={ tab.icon_color }

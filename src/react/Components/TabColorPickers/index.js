@@ -2,131 +2,122 @@
  * Dimensions Component.
  * Credit: Forked from @GenerateBlocks
  */
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 /**
  * External dependencies
  */
 
-import { __, sprintf, _x } from '@wordpress/i18n';
-import { useForm, Controller, useWatch, useFormState } from 'react-hook-form';
-import classNames from 'classnames';
+import { __ } from '@wordpress/i18n';
+import { useState } from 'react';
+import { Controller, useForm, useFormState } from 'react-hook-form';
 import HASColorPicker from '../ColorPicker';
 
-const defaultColors = hasAppearanceAdmin.colors;
+const defaultColors = hasSharingAdmin.colors;
 
+/**
+ * Tab Color Pickers component.
+ *
+ * @param {Object}   props                      Props.
+ * @param {Object}   props.backgroundColor      Background color.
+ * @param {Object}   props.backgroundColorHover Background color hover.
+ * @param {Object}   props.iconColor            Icon color.
+ * @param {Object}   props.iconColorHover       Icon color hover.
+ * @param {Function} props.onValueChange        On value change.
+ * @return {JSX.Element} The Tab Color Pickers component.
+ */
 const TabColorPickers = ( props ) => {
-	const getDefaultValues = () => {
-		return {
+	// Use another instance of useForm to avoid conflicts with the parent form.
+	const { control, getValues } = useForm( {
+		defaultValues: {
 			backgroundColor: props.backgroundColor,
 			backgroundColorHover: props.backgroundColorHover,
 			iconColor: props.iconColor,
 			iconColorHover: props.iconColorHover,
-		};
-	};
-
-	// Re-render the component when the default values change.
-	useEffect( () => {
-		reset( getDefaultValues() );
-	}, [ props.backgroundColor, props.backgroundColorHover, props.iconColor, props.iconColorHover ] );
-
-	const {
-		register,
-		control,
-		handleSubmit,
-		setValue,
-		getValues,
-		reset,
-		trigger,
-	} = useForm( {
-		defaultValues: getDefaultValues(),
+		},
 	} );
-
-	const formValues = useWatch( { control } );
-
-	const { errors, isDirty, dirtyFields, touchedFields } = useFormState( {
-		control,
-	} );
-
-	useEffect( () => {
-		props.onValueChange( formValues );
-	}, [ formValues ] );
 
 	return (
-		<div className="has-tab-color-picker-wrapper">
-			<div className="has-admin-component-row">
-				<Controller
-					name="backgroundColor"
-					control={ control }
-					render={ ( { field: { onChange, value } } ) => (
-						<HASColorPicker
-							value={ value }
-							onChange={ ( slug, newValue ) => {
-								onChange( newValue );
-							} }
-							label={ __( 'Background Color', 'highlight-and-share' ) }
-							defaultColors={ defaultColors }
-							defaultColor={ getValues( 'backgroundColor' ) }
-							slug={ 'backgroundColor' }
-						/>
-					) }
-				/>
+		<form>
+			<div className="has-tab-color-picker-wrapper">
+				<div className="has-admin-component-row">
+					<Controller
+						name="backgroundColor"
+						control={ control }
+						render={ ( { field: { onChange, value } } ) => (
+							<HASColorPicker
+								value={ value }
+								onChange={ ( slug, newValue ) => {
+									onChange( newValue );
+									props.onValueChange( getValues() );
+								} }
+								label={ __( 'Background Color', 'highlight-and-share' ) }
+								defaultColors={ defaultColors }
+								defaultColor={ getValues( 'backgroundColor' ) }
+								slug={ 'backgroundColor' }
+							/>
+						) }
+					/>
+				</div>
+				<div className="has-admin-component-row">
+					<Controller
+						name="backgroundColorHover"
+						control={ control }
+						render={ ( { field: { onChange, value } } ) => (
+							<HASColorPicker
+								value={ value }
+								onChange={ ( slug, newValue ) => {
+									onChange( newValue );
+									props.onValueChange( getValues() );
+								} }
+								label={ __( 'Background Color Hover', 'highlight-and-share' ) }
+								defaultColors={ defaultColors }
+								defaultColor={ getValues( 'backgroundColorHover' ) }
+								slug={ 'backgroundColorHover' }
+							/>
+						) }
+					/>
+				</div>
+				<div className="has-admin-component-row">
+					<Controller
+						name="iconColor"
+						control={ control }
+						render={ ( { field: { onChange, value } } ) => (
+							<HASColorPicker
+								value={ value }
+								onChange={ ( slug, newValue ) => {
+									onChange( newValue );
+									props.onValueChange( getValues() );
+								} }
+								label={ __( 'Icon Color', 'highlight-and-share' ) }
+								defaultColors={ defaultColors }
+								defaultColor={ getValues( 'iconColor' ) }
+								slug={ 'iconColor' }
+							/>
+						) }
+					/>
+				</div>
+				<div className="has-admin-component-row">
+					<Controller
+						name="iconColorHover"
+						control={ control }
+						render={ ( { field: { onChange, value } } ) => (
+							<HASColorPicker
+								value={ value }
+								onChange={ ( slug, newValue ) => {
+									onChange( newValue );
+									props.onValueChange( getValues() );
+								} }
+								label={ __( 'Icon Color Hover', 'highlight-and-share' ) }
+								defaultColors={ defaultColors }
+								defaultColor={ getValues( 'iconColorHover' ) }
+								slug={ 'iconColorHover' }
+							/>
+						) }
+					/>
+				</div>
 			</div>
-			<div className="has-admin-component-row">
-				<Controller
-					name="backgroundColorHover"
-					control={ control }
-					render={ ( { field: { onChange, value } } ) => (
-						<HASColorPicker
-							value={ value }
-							onChange={ ( slug, newValue ) => {
-								onChange( newValue );
-							} }
-							label={ __( 'Background Color Hover', 'highlight-and-share' ) }
-							defaultColors={ defaultColors }
-							defaultColor={ getValues( 'backgroundColorHover' ) }
-							slug={ 'backgroundColorHover' }
-						/>
-					) }
-				/>
-			</div>
-			<div className="has-admin-component-row">
-				<Controller
-					name="iconColor"
-					control={ control }
-					render={ ( { field: { onChange, value } } ) => (
-						<HASColorPicker
-							value={ value }
-							onChange={ ( slug, newValue ) => {
-								onChange( newValue );
-							} }
-							label={ __( 'Icon Color', 'highlight-and-share' ) }
-							defaultColors={ defaultColors }
-							defaultColor={ getValues( 'iconColor' ) }
-							slug={ 'iconColor' }
-						/>
-					) }
-				/>
-			</div>
-			<div className="has-admin-component-row">
-				<Controller
-					name="iconColorHover"
-					control={ control }
-					render={ ( { field: { onChange, value } } ) => (
-						<HASColorPicker
-							value={ value }
-							onChange={ ( slug, newValue ) => {
-								onChange( newValue );
-							} }
-							label={ __( 'Icon Color Hover', 'highlight-and-share' ) }
-							defaultColors={ defaultColors }
-							defaultColor={ getValues( 'iconColorHover' ) }
-							slug={ 'iconColorHover' }
-						/>
-					) }
-				/>
-			</div>
-		</div>
+		</form>
 	);
 };
 
