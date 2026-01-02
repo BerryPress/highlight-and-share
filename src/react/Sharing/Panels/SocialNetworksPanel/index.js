@@ -2,39 +2,25 @@
  * SocialNetworksPanel component.
  */
 
-import { useState, Suspense, useMemo } from 'react';
+import { useState, Suspense, useMemo, useEffect } from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 import { PanelBody, Notice } from '@wordpress/components';
-import { useForm, useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { escapeEditableHTML } from '@wordpress/escape-html';
-import { useAsyncResource } from 'use-async-resource';
 import NetworkSelector from '../../../Components/Shared/NetworkSelector';
 import NetworkSettingsPopover from '../../../Components/Shared/NetworkSettingsPopover';
 import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndicator';
 import hasNetworkErrors from '../../../Utils/hasNetworkErrors';
-import sendCommand from '../../../Utils/SendCommand';
 import ErrorBoundary from '../../../Components/ErrorBoundary';
-
-/**
- * Retrieve settings data from PHP.
- *
- * @return {Promise} Promise resolving to settings data.
- */
-const retrieveDefaults = () => {
-	return sendCommand( 'has_retrieve_settings_tab', {
-		nonce: window.hasSharingAdmin?.retrieveNonce || window.hasSettingsAdmin?.retrieveNonce || '',
-	} );
-};
 
 /**
  * SocialNetworksPanel component.
  *
- * @param {Object} props Component props.
+ * @param {Object} props          Component props.
+ * @param {Object} props.defaults Async resource for defaults data.
  * @return {JSX.Element} SocialNetworksPanel component.
  */
-const SocialNetworksPanel = ( props ) => {
-	const [ defaults ] = useAsyncResource( retrieveDefaults, [] );
-
+const SocialNetworksPanel = ( { defaults } ) => {
 	return (
 		<ErrorBoundary
 			fallback={
@@ -64,7 +50,7 @@ const SocialNetworksPanel = ( props ) => {
 					</PanelBody>
 				}
 			>
-				<Interface defaults={ defaults } { ...props } />
+				<Interface defaults={ defaults } />
 			</Suspense>
 		</ErrorBoundary>
 	);
@@ -73,95 +59,83 @@ const SocialNetworksPanel = ( props ) => {
 /**
  * Panel interface component.
  *
- * @param {Object} props Component props.
+ * @param {Object} props          Component props.
+ * @param {Object} props.defaults Async resource for defaults data.
  * @return {JSX.Element} Panel interface.
  */
-const Interface = ( props ) => {
-	const { defaults } = props;
+const Interface = ( { defaults } ) => {
 	const response = defaults();
 	const { data } = response.data;
+
+	// Get form methods from FormProvider context.
+	const { control, clearErrors, trigger, formState: { errors }, reset } = useFormContext();
+
+	// Reset form with actual data when it loads.
+	useEffect( () => {
+		if ( data?.values ) {
+			const values = data.values;
+
+			const formDefaults = {
+				// Network toggles.
+				showTwitter: values.showTwitter ?? false,
+				showFacebook: values.showFacebook ?? false,
+				showWhatsApp: values.showWhatsApp ?? false,
+				showReddit: values.showReddit ?? false,
+				showTelegram: values.showTelegram ?? false,
+				showLinkedin: values.showLinkedin ?? false,
+				showXing: values.showXing ?? false,
+				showCopy: values.showCopy ?? false,
+				showMastodon: values.showMastodon ?? false,
+				showTumblr: values.showTumblr ?? false,
+				showWebshare: values.showWebshare ?? false,
+				showThreads: values.showThreads ?? false,
+				showBluesky: values.showBluesky ?? false,
+				enableEmails: values.enableEmails ?? false,
+
+				// Network labels and tooltips.
+				twitterLabel: escapeEditableHTML( values.twitterLabel || '' ),
+				twitterTooltip: escapeEditableHTML( values.twitterTooltip || '' ),
+				facebookLabel: escapeEditableHTML( values.facebookLabel || '' ),
+				facebookTooltip: escapeEditableHTML( values.facebookTooltip || '' ),
+				whatsappLabel: escapeEditableHTML( values.whatsappLabel || '' ),
+				whatsappTooltip: escapeEditableHTML( values.whatsappTooltip || '' ),
+				redditLabel: escapeEditableHTML( values.redditLabel || '' ),
+				redditTooltip: escapeEditableHTML( values.redditTooltip || '' ),
+				telegramLabel: escapeEditableHTML( values.telegramLabel || '' ),
+				telegramTooltip: escapeEditableHTML( values.telegramTooltip || '' ),
+				linkedinLabel: escapeEditableHTML( values.linkedinLabel || '' ),
+				linkedinTooltip: escapeEditableHTML( values.linkedinTooltip || '' ),
+				xingLabel: escapeEditableHTML( values.xingLabel || '' ),
+				xingTooltip: escapeEditableHTML( values.xingTooltip || '' ),
+				copyLabel: escapeEditableHTML( values.copyLabel || '' ),
+				copyTooltip: escapeEditableHTML( values.copyTooltip || '' ),
+				emailLabel: escapeEditableHTML( values.emailLabel || '' ),
+				emailTooltip: escapeEditableHTML( values.emailTooltip || '' ),
+				tumblrLabel: escapeEditableHTML( values.tumblrLabel || '' ),
+				tumblrTooltip: escapeEditableHTML( values.tumblrTooltip || '' ),
+				webshareLabel: escapeEditableHTML( values.webshareLabel || '' ),
+				webshareTooltip: escapeEditableHTML( values.webshareTooltip || '' ),
+				mastodonLabel: escapeEditableHTML( values.mastodonLabel || '' ),
+				mastodonTooltip: escapeEditableHTML( values.mastodonTooltip || '' ),
+				threadsLabel: escapeEditableHTML( values.threadsLabel || '' ),
+				threadsTooltip: escapeEditableHTML( values.threadsTooltip || '' ),
+				blueskyLabel: escapeEditableHTML( values.blueskyLabel || '' ),
+				blueskyTooltip: escapeEditableHTML( values.blueskyTooltip || '' ),
+
+				// Network-specific settings.
+				twitter: escapeEditableHTML( values.twitter || '' ),
+				enableHashtags: values.enableHashtags ?? false,
+				whatsappApiEndpoint: values.whatsappApiEndpoint || 'app',
+				whatsappCanShareUrl: values.whatsappCanShareUrl ?? true,
+			};
+
+			reset( formDefaults );
+		}
+	}, [ data, reset ] );
 
 	// Popover state management.
 	const [ popoverNetwork, setPopoverNetwork ] = useState( null );
 	const [ popoverAnchor, setPopoverAnchor ] = useState( null );
-
-	/**
-	 * Get default form values.
-	 *
-	 * @return {Object} Default form values.
-	 */
-	const getDefaultValues = () => {
-		if ( ! data || ! data.values ) {
-			return {};
-		}
-
-		const values = data.values;
-
-		// Build default values object with all network toggles and labels/tooltips.
-		const defaultValues = {
-			// Network toggles.
-			showTwitter: values.showTwitter ?? false,
-			showFacebook: values.showFacebook ?? false,
-			showWhatsApp: values.showWhatsApp ?? false,
-			showReddit: values.showReddit ?? false,
-			showTelegram: values.showTelegram ?? false,
-			showLinkedin: values.showLinkedin ?? false,
-			showXing: values.showXing ?? false,
-			showCopy: values.showCopy ?? false,
-			showMastodon: values.showMastodon ?? false,
-			showTumblr: values.showTumblr ?? false,
-			showWebshare: values.showWebshare ?? false,
-			showThreads: values.showThreads ?? false,
-			showBluesky: values.showBluesky ?? false,
-			enableEmails: values.enableEmails ?? false,
-
-			// Network labels and tooltips.
-			twitterLabel: escapeEditableHTML( values.twitterLabel || '' ),
-			twitterTooltip: escapeEditableHTML( values.twitterTooltip || '' ),
-			facebookLabel: escapeEditableHTML( values.facebookLabel || '' ),
-			facebookTooltip: escapeEditableHTML( values.facebookTooltip || '' ),
-			whatsappLabel: escapeEditableHTML( values.whatsappLabel || '' ),
-			whatsappTooltip: escapeEditableHTML( values.whatsappTooltip || '' ),
-			redditLabel: escapeEditableHTML( values.redditLabel || '' ),
-			redditTooltip: escapeEditableHTML( values.redditTooltip || '' ),
-			telegramLabel: escapeEditableHTML( values.telegramLabel || '' ),
-			telegramTooltip: escapeEditableHTML( values.telegramTooltip || '' ),
-			linkedinLabel: escapeEditableHTML( values.linkedinLabel || '' ),
-			linkedinTooltip: escapeEditableHTML( values.linkedinTooltip || '' ),
-			xingLabel: escapeEditableHTML( values.xingLabel || '' ),
-			xingTooltip: escapeEditableHTML( values.xingTooltip || '' ),
-			copyLabel: escapeEditableHTML( values.copyLabel || '' ),
-			copyTooltip: escapeEditableHTML( values.copyTooltip || '' ),
-			emailLabel: escapeEditableHTML( values.emailLabel || '' ),
-			emailTooltip: escapeEditableHTML( values.emailTooltip || '' ),
-			tumblrLabel: escapeEditableHTML( values.tumblrLabel || '' ),
-			tumblrTooltip: escapeEditableHTML( values.tumblrTooltip || '' ),
-			webshareLabel: escapeEditableHTML( values.webshareLabel || '' ),
-			webshareTooltip: escapeEditableHTML( values.webshareTooltip || '' ),
-			mastodonLabel: escapeEditableHTML( values.mastodonLabel || '' ),
-			mastodonTooltip: escapeEditableHTML( values.mastodonTooltip || '' ),
-			threadsLabel: escapeEditableHTML( values.threadsLabel || '' ),
-			threadsTooltip: escapeEditableHTML( values.threadsTooltip || '' ),
-			blueskyLabel: escapeEditableHTML( values.blueskyLabel || '' ),
-			blueskyTooltip: escapeEditableHTML( values.blueskyTooltip || '' ),
-
-			// Network-specific settings.
-			twitter: escapeEditableHTML( values.twitter || '' ),
-			enableHashtags: values.enableHashtags ?? false,
-			whatsappApiEndpoint: values.whatsappApiEndpoint || 'app',
-			whatsappCanShareUrl: values.whatsappCanShareUrl ?? true,
-		};
-
-		return defaultValues;
-	};
-
-	// Set up React Hook Form with validation configuration.
-	const { control, clearErrors, trigger, formState: { errors } } = useForm( {
-		defaultValues: getDefaultValues(),
-		mode: 'onBlur', // Validate on blur for better UX in popovers.
-		reValidateMode: 'onChange', // Re-validate and clear errors immediately when user starts typing.
-		shouldUnregister: false, // Keep fields registered even when not rendered.
-	} );
 
 	// Watch all network label and tooltip fields to trigger recomputation when they change.
 	// This ensures networkErrors useMemo recomputes when clearErrors is called.

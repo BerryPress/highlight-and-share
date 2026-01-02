@@ -18794,15 +18794,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
 /* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/escape-html */ "@wordpress/escape-html");
 /* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var use_async_resource__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! use-async-resource */ "./node_modules/use-async-resource/lib/index.js");
-/* harmony import */ var use_async_resource__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(use_async_resource__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _Components_Shared_NetworkSelector__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../Components/Shared/NetworkSelector */ "./src/react/Components/Shared/NetworkSelector/index.js");
-/* harmony import */ var _Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../Components/Shared/NetworkSettingsPopover */ "./src/react/Components/Shared/NetworkSettingsPopover/index.js");
-/* harmony import */ var _Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../Components/Shared/PanelBodyWithIndicator */ "./src/react/Components/Shared/PanelBodyWithIndicator/index.js");
-/* harmony import */ var _Utils_hasNetworkErrors__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../Utils/hasNetworkErrors */ "./src/react/Utils/hasNetworkErrors.js");
-/* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
-/* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
-function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+/* harmony import */ var _Components_Shared_NetworkSelector__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Components/Shared/NetworkSelector */ "./src/react/Components/Shared/NetworkSelector/index.js");
+/* harmony import */ var _Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../Components/Shared/NetworkSettingsPopover */ "./src/react/Components/Shared/NetworkSettingsPopover/index.js");
+/* harmony import */ var _Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../Components/Shared/PanelBodyWithIndicator */ "./src/react/Components/Shared/PanelBodyWithIndicator/index.js");
+/* harmony import */ var _Utils_hasNetworkErrors__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../Utils/hasNetworkErrors */ "./src/react/Utils/hasNetworkErrors.js");
+/* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -18824,31 +18820,16 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
-
-
-/**
- * Retrieve settings data from PHP.
- *
- * @return {Promise} Promise resolving to settings data.
- */
-var retrieveDefaults = function retrieveDefaults() {
-  var _window$hasSharingAdm, _window$hasSettingsAd;
-  return (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__["default"])('has_retrieve_settings_tab', {
-    nonce: ((_window$hasSharingAdm = window.hasSharingAdmin) === null || _window$hasSharingAdm === void 0 ? void 0 : _window$hasSharingAdm.retrieveNonce) || ((_window$hasSettingsAd = window.hasSettingsAdmin) === null || _window$hasSettingsAd === void 0 ? void 0 : _window$hasSettingsAd.retrieveNonce) || ''
-  });
-};
-
 /**
  * SocialNetworksPanel component.
  *
- * @param {Object} props Component props.
+ * @param {Object} props          Component props.
+ * @param {Object} props.defaults Async resource for defaults data.
  * @return {JSX.Element} SocialNetworksPanel component.
  */
-var SocialNetworksPanel = function SocialNetworksPanel(props) {
-  var _useAsyncResource = (0,use_async_resource__WEBPACK_IMPORTED_MODULE_5__.useAsyncResource)(retrieveDefaults, []),
-    _useAsyncResource2 = _slicedToArray(_useAsyncResource, 1),
-    defaults = _useAsyncResource2[0];
-  return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_11__["default"], {
+var SocialNetworksPanel = function SocialNetworksPanel(_ref) {
+  var defaults = _ref.defaults;
+  return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_9__["default"], {
     fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Could not load Social Networks panel.', 'highlight-and-share'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
       href: "https://dlxplugins.com/support/",
       target: "_blank",
@@ -18862,21 +18843,90 @@ var SocialNetworksPanel = function SocialNetworksPanel(props) {
     }, /*#__PURE__*/React.createElement("div", {
       className: "has-admin-component-row"
     }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading…', 'highlight-and-share'))))
-  }, /*#__PURE__*/React.createElement(Interface, _extends({
+  }, /*#__PURE__*/React.createElement(Interface, {
     defaults: defaults
-  }, props))));
+  })));
 };
 
 /**
  * Panel interface component.
  *
- * @param {Object} props Component props.
+ * @param {Object} props          Component props.
+ * @param {Object} props.defaults Async resource for defaults data.
  * @return {JSX.Element} Panel interface.
  */
-var Interface = function Interface(props) {
-  var defaults = props.defaults;
+var Interface = function Interface(_ref2) {
+  var defaults = _ref2.defaults;
   var response = defaults();
   var data = response.data.data;
+
+  // Get form methods from FormProvider context.
+  var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useFormContext)(),
+    control = _useFormContext.control,
+    clearErrors = _useFormContext.clearErrors,
+    trigger = _useFormContext.trigger,
+    errors = _useFormContext.formState.errors,
+    reset = _useFormContext.reset;
+
+  // Reset form with actual data when it loads.
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (data !== null && data !== void 0 && data.values) {
+      var _values$showTwitter, _values$showFacebook, _values$showWhatsApp, _values$showReddit, _values$showTelegram, _values$showLinkedin, _values$showXing, _values$showCopy, _values$showMastodon, _values$showTumblr, _values$showWebshare, _values$showThreads, _values$showBluesky, _values$enableEmails, _values$enableHashtag, _values$whatsappCanSh;
+      var values = data.values;
+      var formDefaults = {
+        // Network toggles.
+        showTwitter: (_values$showTwitter = values.showTwitter) !== null && _values$showTwitter !== void 0 ? _values$showTwitter : false,
+        showFacebook: (_values$showFacebook = values.showFacebook) !== null && _values$showFacebook !== void 0 ? _values$showFacebook : false,
+        showWhatsApp: (_values$showWhatsApp = values.showWhatsApp) !== null && _values$showWhatsApp !== void 0 ? _values$showWhatsApp : false,
+        showReddit: (_values$showReddit = values.showReddit) !== null && _values$showReddit !== void 0 ? _values$showReddit : false,
+        showTelegram: (_values$showTelegram = values.showTelegram) !== null && _values$showTelegram !== void 0 ? _values$showTelegram : false,
+        showLinkedin: (_values$showLinkedin = values.showLinkedin) !== null && _values$showLinkedin !== void 0 ? _values$showLinkedin : false,
+        showXing: (_values$showXing = values.showXing) !== null && _values$showXing !== void 0 ? _values$showXing : false,
+        showCopy: (_values$showCopy = values.showCopy) !== null && _values$showCopy !== void 0 ? _values$showCopy : false,
+        showMastodon: (_values$showMastodon = values.showMastodon) !== null && _values$showMastodon !== void 0 ? _values$showMastodon : false,
+        showTumblr: (_values$showTumblr = values.showTumblr) !== null && _values$showTumblr !== void 0 ? _values$showTumblr : false,
+        showWebshare: (_values$showWebshare = values.showWebshare) !== null && _values$showWebshare !== void 0 ? _values$showWebshare : false,
+        showThreads: (_values$showThreads = values.showThreads) !== null && _values$showThreads !== void 0 ? _values$showThreads : false,
+        showBluesky: (_values$showBluesky = values.showBluesky) !== null && _values$showBluesky !== void 0 ? _values$showBluesky : false,
+        enableEmails: (_values$enableEmails = values.enableEmails) !== null && _values$enableEmails !== void 0 ? _values$enableEmails : false,
+        // Network labels and tooltips.
+        twitterLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.twitterLabel || ''),
+        twitterTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.twitterTooltip || ''),
+        facebookLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.facebookLabel || ''),
+        facebookTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.facebookTooltip || ''),
+        whatsappLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.whatsappLabel || ''),
+        whatsappTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.whatsappTooltip || ''),
+        redditLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.redditLabel || ''),
+        redditTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.redditTooltip || ''),
+        telegramLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.telegramLabel || ''),
+        telegramTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.telegramTooltip || ''),
+        linkedinLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.linkedinLabel || ''),
+        linkedinTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.linkedinTooltip || ''),
+        xingLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.xingLabel || ''),
+        xingTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.xingTooltip || ''),
+        copyLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.copyLabel || ''),
+        copyTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.copyTooltip || ''),
+        emailLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.emailLabel || ''),
+        emailTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.emailTooltip || ''),
+        tumblrLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.tumblrLabel || ''),
+        tumblrTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.tumblrTooltip || ''),
+        webshareLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.webshareLabel || ''),
+        webshareTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.webshareTooltip || ''),
+        mastodonLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.mastodonLabel || ''),
+        mastodonTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.mastodonTooltip || ''),
+        threadsLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.threadsLabel || ''),
+        threadsTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.threadsTooltip || ''),
+        blueskyLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.blueskyLabel || ''),
+        blueskyTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.blueskyTooltip || ''),
+        // Network-specific settings.
+        twitter: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.twitter || ''),
+        enableHashtags: (_values$enableHashtag = values.enableHashtags) !== null && _values$enableHashtag !== void 0 ? _values$enableHashtag : false,
+        whatsappApiEndpoint: values.whatsappApiEndpoint || 'app',
+        whatsappCanShareUrl: (_values$whatsappCanSh = values.whatsappCanShareUrl) !== null && _values$whatsappCanSh !== void 0 ? _values$whatsappCanSh : true
+      };
+      reset(formDefaults);
+    }
+  }, [data, reset]);
 
   // Popover state management.
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
@@ -18887,87 +18937,6 @@ var Interface = function Interface(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     popoverAnchor = _useState4[0],
     setPopoverAnchor = _useState4[1];
-
-  /**
-   * Get default form values.
-   *
-   * @return {Object} Default form values.
-   */
-  var getDefaultValues = function getDefaultValues() {
-    var _values$showTwitter, _values$showFacebook, _values$showWhatsApp, _values$showReddit, _values$showTelegram, _values$showLinkedin, _values$showXing, _values$showCopy, _values$showMastodon, _values$showTumblr, _values$showWebshare, _values$showThreads, _values$showBluesky, _values$enableEmails, _values$enableHashtag, _values$whatsappCanSh;
-    if (!data || !data.values) {
-      return {};
-    }
-    var values = data.values;
-
-    // Build default values object with all network toggles and labels/tooltips.
-    var defaultValues = {
-      // Network toggles.
-      showTwitter: (_values$showTwitter = values.showTwitter) !== null && _values$showTwitter !== void 0 ? _values$showTwitter : false,
-      showFacebook: (_values$showFacebook = values.showFacebook) !== null && _values$showFacebook !== void 0 ? _values$showFacebook : false,
-      showWhatsApp: (_values$showWhatsApp = values.showWhatsApp) !== null && _values$showWhatsApp !== void 0 ? _values$showWhatsApp : false,
-      showReddit: (_values$showReddit = values.showReddit) !== null && _values$showReddit !== void 0 ? _values$showReddit : false,
-      showTelegram: (_values$showTelegram = values.showTelegram) !== null && _values$showTelegram !== void 0 ? _values$showTelegram : false,
-      showLinkedin: (_values$showLinkedin = values.showLinkedin) !== null && _values$showLinkedin !== void 0 ? _values$showLinkedin : false,
-      showXing: (_values$showXing = values.showXing) !== null && _values$showXing !== void 0 ? _values$showXing : false,
-      showCopy: (_values$showCopy = values.showCopy) !== null && _values$showCopy !== void 0 ? _values$showCopy : false,
-      showMastodon: (_values$showMastodon = values.showMastodon) !== null && _values$showMastodon !== void 0 ? _values$showMastodon : false,
-      showTumblr: (_values$showTumblr = values.showTumblr) !== null && _values$showTumblr !== void 0 ? _values$showTumblr : false,
-      showWebshare: (_values$showWebshare = values.showWebshare) !== null && _values$showWebshare !== void 0 ? _values$showWebshare : false,
-      showThreads: (_values$showThreads = values.showThreads) !== null && _values$showThreads !== void 0 ? _values$showThreads : false,
-      showBluesky: (_values$showBluesky = values.showBluesky) !== null && _values$showBluesky !== void 0 ? _values$showBluesky : false,
-      enableEmails: (_values$enableEmails = values.enableEmails) !== null && _values$enableEmails !== void 0 ? _values$enableEmails : false,
-      // Network labels and tooltips.
-      twitterLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.twitterLabel || ''),
-      twitterTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.twitterTooltip || ''),
-      facebookLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.facebookLabel || ''),
-      facebookTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.facebookTooltip || ''),
-      whatsappLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.whatsappLabel || ''),
-      whatsappTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.whatsappTooltip || ''),
-      redditLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.redditLabel || ''),
-      redditTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.redditTooltip || ''),
-      telegramLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.telegramLabel || ''),
-      telegramTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.telegramTooltip || ''),
-      linkedinLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.linkedinLabel || ''),
-      linkedinTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.linkedinTooltip || ''),
-      xingLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.xingLabel || ''),
-      xingTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.xingTooltip || ''),
-      copyLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.copyLabel || ''),
-      copyTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.copyTooltip || ''),
-      emailLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.emailLabel || ''),
-      emailTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.emailTooltip || ''),
-      tumblrLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.tumblrLabel || ''),
-      tumblrTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.tumblrTooltip || ''),
-      webshareLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.webshareLabel || ''),
-      webshareTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.webshareTooltip || ''),
-      mastodonLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.mastodonLabel || ''),
-      mastodonTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.mastodonTooltip || ''),
-      threadsLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.threadsLabel || ''),
-      threadsTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.threadsTooltip || ''),
-      blueskyLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.blueskyLabel || ''),
-      blueskyTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.blueskyTooltip || ''),
-      // Network-specific settings.
-      twitter: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__.escapeEditableHTML)(values.twitter || ''),
-      enableHashtags: (_values$enableHashtag = values.enableHashtags) !== null && _values$enableHashtag !== void 0 ? _values$enableHashtag : false,
-      whatsappApiEndpoint: values.whatsappApiEndpoint || 'app',
-      whatsappCanShareUrl: (_values$whatsappCanSh = values.whatsappCanShareUrl) !== null && _values$whatsappCanSh !== void 0 ? _values$whatsappCanSh : true
-    };
-    return defaultValues;
-  };
-
-  // Set up React Hook Form with validation configuration.
-  var _useForm = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useForm)({
-      defaultValues: getDefaultValues(),
-      mode: 'onBlur',
-      // Validate on blur for better UX in popovers.
-      reValidateMode: 'onChange',
-      // Re-validate and clear errors immediately when user starts typing.
-      shouldUnregister: false // Keep fields registered even when not rendered.
-    }),
-    control = _useForm.control,
-    clearErrors = _useForm.clearErrors,
-    trigger = _useForm.trigger,
-    errors = _useForm.formState.errors;
 
   // Watch all network label and tooltip fields to trigger recomputation when they change.
   // This ensures networkErrors useMemo recomputes when clearErrors is called.
@@ -19032,7 +19001,7 @@ var Interface = function Interface(props) {
     }
     var errorMap = {};
     Object.keys(data.socialNetworks).forEach(function (slug) {
-      errorMap[slug] = (0,_Utils_hasNetworkErrors__WEBPACK_IMPORTED_MODULE_9__["default"])(slug, errors);
+      errorMap[slug] = (0,_Utils_hasNetworkErrors__WEBPACK_IMPORTED_MODULE_8__["default"])(slug, errors);
     });
     return errorMap;
   }, [data === null || data === void 0 ? void 0 : data.socialNetworks, errors, watchedFields]);
@@ -19071,7 +19040,7 @@ var Interface = function Interface(props) {
       isDismissible: false
     }, message);
   };
-  return /*#__PURE__*/React.createElement(React.Fragment, null, renderErrorNotice(), /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, renderErrorNotice(), /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_7__["default"], {
     panelId: "socialNetworks",
     control: control,
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Social Networks', 'highlight-and-share'),
@@ -19083,12 +19052,12 @@ var Interface = function Interface(props) {
     className: "description"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select which social networks to enable and configure their settings.', 'highlight-and-share'))), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/React.createElement(_Components_Shared_NetworkSelector__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, /*#__PURE__*/React.createElement(_Components_Shared_NetworkSelector__WEBPACK_IMPORTED_MODULE_5__["default"], {
     control: control,
     networks: (data === null || data === void 0 ? void 0 : data.socialNetworks) || {},
     networkErrors: networkErrors,
     onSettingsMouseDown: handleSettingsMouseDown
-  })), popoverNetwork && popoverAnchor && /*#__PURE__*/React.createElement(_Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  })), popoverNetwork && popoverAnchor && /*#__PURE__*/React.createElement(_Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_6__["default"], {
     networkSlug: popoverNetwork,
     network: getNetworkData(popoverNetwork),
     control: control,
@@ -19116,14 +19085,109 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Panels/SocialNetworksPanel */ "./src/react/Sharing/Panels/SocialNetworksPanel/index.js");
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Panels/SocialNetworksPanel */ "./src/react/Sharing/Panels/SocialNetworksPanel/index.js");
+/* harmony import */ var use_async_resource__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! use-async-resource */ "./node_modules/use-async-resource/lib/index.js");
+/* harmony import */ var use_async_resource__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(use_async_resource__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
+/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/escape-html */ "@wordpress/escape-html");
+/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__);
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 /**
  * Sharing tab component.
  */
 
 
+
+
  // Register the store before using components that depend on it.
 
+
+
+
+
+/**
+ * Retrieve settings data from PHP.
+ *
+ * @return {Promise} Promise resolving to settings data.
+ */
+var retrieveDefaults = function retrieveDefaults() {
+  var _window$hasSharingAdm, _window$hasSettingsAd;
+  return (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_5__["default"])('has_retrieve_settings_tab', {
+    nonce: ((_window$hasSharingAdm = window.hasSharingAdmin) === null || _window$hasSharingAdm === void 0 ? void 0 : _window$hasSharingAdm.retrieveNonce) || ((_window$hasSettingsAd = window.hasSettingsAdmin) === null || _window$hasSettingsAd === void 0 ? void 0 : _window$hasSettingsAd.retrieveNonce) || ''
+  });
+};
+
+/**
+ * Get default form values for all panels.
+ *
+ * @param {Object} values Values from PHP.
+ * @return {Object} Default form values.
+ */
+var getDefaultValues = function getDefaultValues() {
+  var _values$showTwitter, _values$showFacebook, _values$showWhatsApp, _values$showReddit, _values$showTelegram, _values$showLinkedin, _values$showXing, _values$showCopy, _values$showMastodon, _values$showTumblr, _values$showWebshare, _values$showThreads, _values$showBluesky, _values$enableEmails, _values$enableHashtag, _values$whatsappCanSh;
+  var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  // Build default values object with all network toggles and labels/tooltips.
+  var defaultValues = {
+    // Network toggles.
+    showTwitter: (_values$showTwitter = values.showTwitter) !== null && _values$showTwitter !== void 0 ? _values$showTwitter : false,
+    showFacebook: (_values$showFacebook = values.showFacebook) !== null && _values$showFacebook !== void 0 ? _values$showFacebook : false,
+    showWhatsApp: (_values$showWhatsApp = values.showWhatsApp) !== null && _values$showWhatsApp !== void 0 ? _values$showWhatsApp : false,
+    showReddit: (_values$showReddit = values.showReddit) !== null && _values$showReddit !== void 0 ? _values$showReddit : false,
+    showTelegram: (_values$showTelegram = values.showTelegram) !== null && _values$showTelegram !== void 0 ? _values$showTelegram : false,
+    showLinkedin: (_values$showLinkedin = values.showLinkedin) !== null && _values$showLinkedin !== void 0 ? _values$showLinkedin : false,
+    showXing: (_values$showXing = values.showXing) !== null && _values$showXing !== void 0 ? _values$showXing : false,
+    showCopy: (_values$showCopy = values.showCopy) !== null && _values$showCopy !== void 0 ? _values$showCopy : false,
+    showMastodon: (_values$showMastodon = values.showMastodon) !== null && _values$showMastodon !== void 0 ? _values$showMastodon : false,
+    showTumblr: (_values$showTumblr = values.showTumblr) !== null && _values$showTumblr !== void 0 ? _values$showTumblr : false,
+    showWebshare: (_values$showWebshare = values.showWebshare) !== null && _values$showWebshare !== void 0 ? _values$showWebshare : false,
+    showThreads: (_values$showThreads = values.showThreads) !== null && _values$showThreads !== void 0 ? _values$showThreads : false,
+    showBluesky: (_values$showBluesky = values.showBluesky) !== null && _values$showBluesky !== void 0 ? _values$showBluesky : false,
+    enableEmails: (_values$enableEmails = values.enableEmails) !== null && _values$enableEmails !== void 0 ? _values$enableEmails : false,
+    // Network labels and tooltips.
+    twitterLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.twitterLabel || ''),
+    twitterTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.twitterTooltip || ''),
+    facebookLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.facebookLabel || ''),
+    facebookTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.facebookTooltip || ''),
+    whatsappLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.whatsappLabel || ''),
+    whatsappTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.whatsappTooltip || ''),
+    redditLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.redditLabel || ''),
+    redditTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.redditTooltip || ''),
+    telegramLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.telegramLabel || ''),
+    telegramTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.telegramTooltip || ''),
+    linkedinLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.linkedinLabel || ''),
+    linkedinTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.linkedinTooltip || ''),
+    xingLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.xingLabel || ''),
+    xingTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.xingTooltip || ''),
+    copyLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.copyLabel || ''),
+    copyTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.copyTooltip || ''),
+    emailLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.emailLabel || ''),
+    emailTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.emailTooltip || ''),
+    tumblrLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.tumblrLabel || ''),
+    tumblrTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.tumblrTooltip || ''),
+    webshareLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.webshareLabel || ''),
+    webshareTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.webshareTooltip || ''),
+    mastodonLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.mastodonLabel || ''),
+    mastodonTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.mastodonTooltip || ''),
+    threadsLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.threadsLabel || ''),
+    threadsTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.threadsTooltip || ''),
+    blueskyLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.blueskyLabel || ''),
+    blueskyTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.blueskyTooltip || ''),
+    // Network-specific settings.
+    twitter: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_6__.escapeEditableHTML)(values.twitter || ''),
+    enableHashtags: (_values$enableHashtag = values.enableHashtags) !== null && _values$enableHashtag !== void 0 ? _values$enableHashtag : false,
+    whatsappApiEndpoint: values.whatsappApiEndpoint || 'app',
+    whatsappCanShareUrl: (_values$whatsappCanSh = values.whatsappCanShareUrl) !== null && _values$whatsappCanSh !== void 0 ? _values$whatsappCanSh : true
+  };
+  return defaultValues;
+};
 
 /**
  * Sharing tab interface component.
@@ -19131,6 +19195,21 @@ __webpack_require__.r(__webpack_exports__);
  * @return {JSX.Element} Sharing tab component.
  */
 var Sharing = function Sharing() {
+  var _useAsyncResource = (0,use_async_resource__WEBPACK_IMPORTED_MODULE_4__.useAsyncResource)(retrieveDefaults, []),
+    _useAsyncResource2 = _slicedToArray(_useAsyncResource, 1),
+    defaults = _useAsyncResource2[0];
+
+  // Set up global React Hook Form instance for all panels.
+  // Default values will be reset when async data loads.
+  var methods = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_1__.useForm)({
+    defaultValues: getDefaultValues({}),
+    // Start with empty defaults, will be reset when data loads.
+    mode: 'onBlur',
+    // Validate on blur for better UX in popovers.
+    reValidateMode: 'onChange',
+    // Re-validate and clear errors immediately when user starts typing.
+    shouldUnregister: false // Keep fields registered even when not rendered.
+  });
   return /*#__PURE__*/React.createElement("div", {
     className: "has-admin-content-wrapper"
   }, /*#__PURE__*/React.createElement("div", {
@@ -19143,7 +19222,11 @@ var Sharing = function Sharing() {
     className: "description"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Configure how and where content can be shared across your site.', 'highlight-and-share'))), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-content-body"
-  }, /*#__PURE__*/React.createElement(_Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_1__["default"], null))));
+  }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_2__.Suspense, {
+    fallback: /*#__PURE__*/React.createElement("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Loading…', 'highlight-and-share'))
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_1__.FormProvider, methods, /*#__PURE__*/React.createElement(_Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    defaults: defaults
+  }))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sharing);
 
