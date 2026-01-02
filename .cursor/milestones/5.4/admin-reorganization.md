@@ -565,7 +565,7 @@ Each field will be mapped to its corresponding option key in the form state. Col
   - All fields use React Hook Form's `Controller` component
   - Error handling with validation messages
 
-### Phase 4: Social Networks Panel Implementation
+### Phase 4: Social Networks Panel Implementation ✅ COMPLETED
 
 - [x] Create `src/react/Sharing/Panels/SocialNetworksPanel/index.js`
 - [x] Implement panel using `PanelBody` component
@@ -577,29 +577,29 @@ Each field will be mapped to its corresponding option key in the form state. Col
 - [x] Test network enable/disable functionality
 - [x] Test popover opening/closing
 - [x] Test form state management
-- [ ] Implement comprehensive form validation:
-  - [ ] **Design validation pattern to be reusable across all panels** (not just Social Networks Panel)
-  - [ ] Configure React Hook Form validation mode:
-    - [ ] Set `mode: 'onBlur'` for text inputs in popovers (validate on blur)
-    - [ ] Set `reValidateMode: 'onChange'` to clear validation errors on any changes
-  - [ ] Implement error propagation:
-    - [ ] Network card visual indicators:
-      - [ ] Red border around network card when popover has validation errors
-      - [ ] Red asterisk (*) next to gear settings icon when popover has errors
-    - [ ] Panel-level error indicator:
-      - [ ] Global error message displayed outside panel when any network has errors
-      - [ ] Message should indicate which network(s) have errors (e.g., "The following networks have validation errors: Bluesky, Twitter")
-      - [ ] **Note:** Message only needs to indicate which networks, not which specific fields (field-level detail would be nice but is not necessary)
-  - [ ] Error state management:
-    - [ ] Track which networks have errors in form state
-    - [ ] Pass error state from `NetworkSettingsPopover` to `NetworkSelector`
-    - [ ] Update `NetworkSelector` to show visual indicators based on error state
-    - [ ] Update `SocialNetworksPanel` to show global error message when errors exist
-  - [ ] Test validation behavior:
-    - [ ] Test validation triggers on blur for text inputs
-    - [ ] Test validation clears on input change
-    - [ ] Test error indicators appear/disappear correctly
-    - [ ] Test global error message updates dynamically
+- [x] Implement comprehensive form validation:
+  - [x] **Design validation pattern to be reusable across all panels** (not just Social Networks Panel)
+  - [x] Configure React Hook Form validation mode:
+    - [x] Set `mode: 'onBlur'` for text inputs in popovers (validate on blur)
+    - [x] Set `reValidateMode: 'onChange'` to clear validation errors on any changes
+  - [x] Implement error propagation:
+    - [x] Network card visual indicators:
+      - [x] Red border around network card when popover has validation errors
+      - [x] Red asterisk (*) next to label (after network name) when popover has errors
+    - [x] Panel-level error indicator:
+      - [x] Global error message displayed outside panel when any network has errors
+      - [x] Message indicates which network(s) have errors (e.g., "The following networks have validation errors: Bluesky, Twitter")
+      - [x] **Note:** Message only indicates which networks, not which specific fields (field-level detail would be nice but is not necessary)
+  - [x] Error state management:
+    - [x] Track which networks have errors in form state using `hasNetworkErrors` utility
+    - [x] Pass error state from form to `NetworkSelector` via `networkErrors` prop
+    - [x] Update `NetworkSelector` to show visual indicators based on error state
+    - [x] Update `SocialNetworksPanel` to show global error message when errors exist
+  - [x] Test validation behavior:
+    - [x] Validation triggers on blur for text inputs
+    - [x] Validation clears on input change (using `clearErrors` with `useWatch` workaround)
+    - [x] Error indicators appear/disappear correctly
+    - [x] Global error message updates dynamically
 
 #### Phase 4 Completed Items
 
@@ -615,19 +615,23 @@ Each field will be mapped to its corresponding option key in the form state. Col
 - React Hook Form setup with all network toggles and settings
 - Default values loaded from PHP via `has_retrieve_settings_tab` endpoint
 - All network labels, tooltips, and network-specific settings included
-- Form validation ready (required fields, Twitter username validation)
-- **Validation Configuration (TODO):**
-  - Configure `mode: 'onBlur'` for popover text inputs
-  - Configure `reValidateMode: 'onChange'` to clear errors on input changes
-  - Implement error propagation from popover → network card → panel
-  - Add visual error indicators (red border, red asterisk, global error message)
+- Form validation configured (required fields, Twitter username validation)
+- **Validation Configuration (COMPLETED):**
+  - ✅ Configured `mode: 'onBlur'` for popover text inputs
+  - ✅ Configured `reValidateMode: 'onChange'` to clear errors on input changes
+  - ✅ Implemented error propagation from popover → network card → panel
+  - ✅ Added visual error indicators (red border, red asterisk, global error message)
+  - ✅ Global form instance using `FormProvider` for sharing across all panels
+  - ✅ Error clearing on change using `clearErrors` with `useWatch` workaround
 
 **Component Integration:**
 - `NetworkSelector` fully integrated with form control
 - `NetworkSettingsPopover` integrated with state management
 - Popover opens/closes based on gear icon clicks
-- Popover only opens for enabled networks
+- Popover opens for all networks (enabled or disabled) - allows editing disabled networks
 - Anchor element passed from settings button for proper positioning
+- Error indicators: red border on network cards, red asterisk after network label
+- Global error messages displayed at top and bottom of panel
 
 **Data Retrieval:**
 - Uses existing `has_retrieve_settings_tab` AJAX endpoint
@@ -638,8 +642,20 @@ Each field will be mapped to its corresponding option key in the form state. Col
 **Panel Integration:**
 - Panel integrated into Sharing tab component
 - Replaces "Hello World" placeholder
+- Global React Hook Form instance created in `Sharing` component using `FormProvider`
+- Panel uses `useFormContext()` to access global form state
+- Form defaults reset when async data loads
 
-#### Phase 4 Validation Requirements (TODO)
+**Validation Implementation:**
+- `hasNetworkErrors` utility function created for reusable error detection
+- `useWatch` used to trigger recomputation when fields change (workaround for `clearErrors` reactivity)
+- `clearErrors` called in `onChange` handlers to clear errors immediately
+- Error state computed using `useMemo` with dependencies on `errors` and `watchedFields`
+- Network cards show red border and red asterisk when errors exist
+- Panel shows global error message listing networks with errors
+- `PanelBodyWithIndicator` shows red dot when panel has errors
+
+#### Phase 4 Validation Requirements (COMPLETED)
 
 **General Requirement:**
 - This validation pattern (error propagation, visual indicators, global error messages) should be designed to work across **all panels**, not just the Social Networks Panel
@@ -647,11 +663,12 @@ Each field will be mapped to its corresponding option key in the form state. Col
 - Consider creating shared utilities/components for error state management that can be reused across panels
 
 **Validation Configuration:**
-- React Hook Form should be configured with:
-  - `mode: 'onBlur'` - Validate text inputs when they lose focus (better UX for popovers)
-  - `reValidateMode: 'onChange'` - Clear validation errors immediately when user starts typing
-  - This ensures errors don't persist unnecessarily while user is fixing them
-- **Single Form Instance:** Use one React Hook Form instance for the entire Sharing tab (all panels share the same form)
+- ✅ React Hook Form configured with:
+  - ✅ `mode: 'onBlur'` - Validates text inputs when they lose focus (better UX for popovers)
+  - ✅ `reValidateMode: 'onChange'` - Re-validates fields on change after initial validation
+  - ✅ `clearErrors` called in `onChange` handlers to immediately clear errors when user types
+  - ✅ `useWatch` used to trigger recomputation when field values change (ensures `useMemo` updates)
+- ✅ **Single Form Instance:** One React Hook Form instance in `Sharing` component using `FormProvider` (all panels share the same form)
 
 **Error Propagation Chain:**
 1. **Popover Level** (`NetworkSettingsPopover`):
@@ -659,39 +676,41 @@ Each field will be mapped to its corresponding option key in the form state. Col
    - Errors displayed inline with each field
    
 2. **Network Card Level** (`NetworkSelector`):
-   - Detect if network's popover has any errors (real-time, updates on blur before popover closes)
-   - Apply visual indicators:
-     - Red border around entire network card (use `.has-error-indicator` class for reuse)
-     - Red text asterisk (*) next to gear icon with `aria-label="Validation error"` (use `.has-error-indicator` class)
-     - Error indicators update in real-time as user fixes errors
-     - If popover closes, error should still be visible via asterisk indicator next to gear icon
-   - Pass error state from form to component via props
+   - ✅ Detects if network's popover has any errors (real-time, updates on blur before popover closes)
+   - ✅ Visual indicators implemented:
+     - ✅ Red border around entire network card (using `.has-error-indicator` class for reuse)
+     - ✅ Red text asterisk (*) after network label with `aria-label="Validation error"` (using `.has-error-indicator` class)
+     - ✅ Error indicators update in real-time as user fixes errors
+     - ✅ If popover closes, error is visible via asterisk indicator after network label
+   - ✅ Error state passed from form to component via `networkErrors` prop
 
 3. **Panel Level** (`SocialNetworksPanel`):
-   - Aggregate all network errors
-   - Display global error message in two locations:
-     - At the top of all panels (before first panel)
-     - At the very bottom of all panels (before save placeholder/buttons)
-   - Message format: "The following networks have validation errors: [Network1], [Network2]"
-   - **Note:** Global message only needs to indicate which networks have errors, not which specific fields (field-level detail would be nice but is not necessary)
-   - Use WordPress `Notice` component with `status="error"`
-   - **Panel Indicator:** Red dot on `PanelBodyWithIndicator` should appear when there are validation errors within that panel
+   - ✅ Aggregates all network errors using `hasNetworkErrors` utility
+   - ✅ Displays global error message in two locations:
+     - ✅ At the top of the panel (before panel content)
+     - ✅ At the very bottom of the panel (after panel content)
+   - ✅ Message format: "The following networks have validation errors: [Network1], [Network2]"
+   - ✅ **Note:** Global message only indicates which networks have errors, not which specific fields
+   - ✅ Uses WordPress `Notice` component with `status="error"`
+   - ✅ **Panel Indicator:** Red dot on `PanelBodyWithIndicator` appears when there are validation errors within that panel
 
 **Implementation Details:**
-- Use React Hook Form's `useFormState` hook to access `errors` object
-- Check for errors specific to each network's field namespace (e.g., `errors.twitterLabel`, `errors.blueskyLabel`)
-- Create helper function to check if a network has errors: `hasNetworkErrors(networkSlug, errors)`
-- Update `NetworkSelector` to accept `networkErrors` prop (object mapping network slugs to boolean)
-- Update `SocialNetworksPanel` to compute error state and pass to `NetworkSelector`
-- Add CSS classes for error states in `admin.scss`
-- **Reusability:** Design error state utilities and components to be panel-agnostic so they can be reused when implementing other panels (Display Rules, Appearance, Block Editor, etc.)
+- ✅ Uses React Hook Form's `formState: { errors }` from `useFormContext()` to access `errors` object
+- ✅ Checks for errors specific to each network's field namespace (e.g., `errors.twitterLabel`, `errors.blueskyLabel`)
+- ✅ Helper function created: `hasNetworkErrors(networkSlug, errors)` in `src/react/Utils/hasNetworkErrors.js`
+- ✅ `NetworkSelector` accepts `networkErrors` prop (object mapping network slugs to boolean)
+- ✅ `SocialNetworksPanel` computes error state using `useMemo` and passes to `NetworkSelector`
+- ✅ CSS classes for error states added in `admin.scss` (`.has-error-indicator`)
+- ✅ **Reusability:** Error state utilities and components are panel-agnostic and can be reused for other panels (Display Rules, Appearance, Block Editor, etc.)
+- ✅ `useWatch` used to watch all network fields and trigger recomputation when values change
+- ✅ `clearErrors` called in `onChange` handlers to immediately clear errors when user types
 
 **Error State CSS Classes:**
-- `.has-error-indicator` - Reusable class for error indicators (red border, red asterisk, etc.)
-  - Applied to network cards with errors
-  - Applied to gear icon button with errors (asterisk via `::after` pseudo-element to avoid layout shifts)
-  - Can be reused across all panels for consistent error styling
-- Consider using `::after` pseudo-element for asterisk to avoid layout shifts
+- ✅ `.has-error-indicator` - Reusable class for error indicators (red border, red asterisk, etc.)
+  - ✅ Applied to network cards with errors (red border)
+  - ✅ Applied to network label container (asterisk displayed after label text)
+  - ✅ Can be reused across all panels for consistent error styling
+- ✅ Asterisk displayed as inline span element after label (no pseudo-element needed)
 
 ### Phase 5: Display Rules Panel Components
 
