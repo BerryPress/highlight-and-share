@@ -738,27 +738,27 @@ Each field will be mapped to its corresponding option key in the form state. Col
 - ✅ All Display Rules fields added to `getDefaultValues()` in `sharing.js`
 - ✅ Form reset logic ensures proper initialization of all fields
 
-### Phase 6: Appearance Menu Items (Reorder, Theme Customizer, Preview)
+### Phase 6: Appearance Menu Items (Reorder, Theme Customizer, Preview) ✅ COMPLETED
 
-- [ ] Create `ReorderNetworksPanel` component
+- [x] Create `ReorderNetworksPanel` component
   - Migrate `SocialIconList` component functionality
   - Uses drag-and-drop for reordering (react-dnd)
   - Uses `PanelBodyWithIndicator` wrapper
   - Default state: collapsed or expanded (TBD)
   - Integrates with `SocialNetworksContext` for state management
-- [ ] Create `ThemeCustomizerPanel` component
+- [x] Create `ThemeCustomizerPanel` component
   - Migrate `ThemeCustomizer` component functionality
   - Uses `PanelBodyWithIndicator` wrapper
   - Default state: collapsed or expanded (TBD)
   - Lazy loaded component (already lazy in Appearance tab)
   - Integrates with `SocialNetworksContext` for theme state
-- [ ] Create `PreviewPanel` component
+- [x] Create `PreviewPanel` component
   - Migrate `PreviewSocialIconList` component functionality
   - Uses `PanelBodyWithIndicator` wrapper
   - Default state: expanded (`initialOpen={ true }`)
   - Real-time updates via `SocialNetworksContext`
   - Shows enabled networks with current theme/appearance settings
-- [ ] Integrate all three panels into Sharing tab
+- [x] Integrate all three panels into Sharing tab
   - Add panels to `FormProvider` in `sharing.js`
   - Ensure `SocialNetworksContext` is available (may need to wrap or refactor)
   - Maintain existing Appearance tab functionality during migration
@@ -773,22 +773,35 @@ Each field will be mapped to its corresponding option key in the form state. Col
 
 ### Phase 7: New Sharing Tab Structure (Remaining Panels)
 
+**Follow Existing Panel Structure:**
+- Use the same patterns established in `SocialNetworksPanel` and `DisplayRulesPanel` as reference
+- All panels should:
+  - Use `PanelBodyWithIndicator` wrapper component (from previous phases)
+  - Integrate with global React Hook Form instance via `FormProvider`/`useFormContext()`
+  - Use `usePanelState` hook for expand/collapse state persistence
+  - Use `useUnsavedChanges` hook for dirty state and error tracking
+  - Follow the same validation pattern (error propagation, visual indicators, global error messages)
+  - Initialize with default values from PHP backend
+  - Use React Hook Form's `Controller` component for all form inputs
+
 - [ ] Implement `BlockEditorPanel` component using `PanelBody` (split from Block Editor tab)
+  - Follow structure from `DisplayRulesPanel` as reference
+  - Migrate block settings (`enableBlocks`) and Adobe Fonts settings
+  - Use `ToggleControl` for toggles, appropriate controls for other settings
+  - Default state: collapsed (`initialOpen={ false }`)
 - [ ] Implement `InlineHighlightingPanel` component using `PanelBody` (split from Block Editor tab)
+  - Follow structure from `DisplayRulesPanel` as reference
+  - Migrate all inline highlighting options (background colors, text colors, tooltips, etc.)
+  - Use appropriate form controls for each setting type
+  - Default state: collapsed (`initialOpen={ false }`)
 - [ ] Implement `AdvancedPanel` component using `PanelBody`
+  - Follow structure from `DisplayRulesPanel` as reference
+  - Migrate advanced settings (`jsContent`, `elementContent`, `idContent`, `wrapperClasses`, `shortlinks`)
+  - Use `TextControl` for text inputs, `ToggleControl` for toggles
+  - Default state: collapsed (`initialOpen={ false }`)
 - [ ] Integrate panel state persistence with `PanelBody`'s `initialOpen` prop using store + user meta
-- [ ] Implement floating save bar component
-  - Appears when form is dirty (React Hook Form's `isDirty` state)
-  - Fixed position at bottom of viewport
-  - Shows save button (primary action)
-  - Shows reset button (secondary action, optional)
-  - Displays error state if validation errors exist
-  - Shows saving state during form submission
-  - Includes success/error notices
-  - Smooth slide-up animation when appearing
-  - Uses `useUnsavedChanges` hook to track dirty state
-  - Integrates with React Hook Form's `handleSubmit` for form submission
-  - Handles AJAX save via `sendCommand` utility
+  - Use existing `usePanelState` hook pattern from previous phases
+
 
 **Implementation Details:**
 - Create `FloatingSaveBar` component in `src/react/Components/Shared/FloatingSaveBar/index.js`
@@ -799,6 +812,7 @@ Each field will be mapped to its corresponding option key in the form state. Col
 - Responsive: Full width on mobile, centered container on desktop
 - Animation: Use CSS transitions for slide-up/slide-down effect
 - Accessibility: Proper ARIA labels and keyboard navigation
+- **Reference existing panels:** Use `SocialNetworksPanel` and `DisplayRulesPanel` as templates for structure, form integration, and state management
 
 ### Phase 7: Migration & Refactoring
 

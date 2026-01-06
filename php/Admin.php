@@ -412,15 +412,19 @@ class Admin {
 			wp_send_json_error( array() );
 		}
 
-		$options       = Options::get_plugin_options( true );
-		$theme_options = Options::get_theme_options( true );
-		$return        = array(
-			'socialNetworks' => Options::get_plugin_options_social_networks(),
-			'values'         => $this->map_defaults_to_js(
+		$options              = Options::get_plugin_options( true );
+		$theme_options        = Options::get_theme_options( true );
+		$block_editor_options = Options::get_block_editor_options( true );
+		$return               = array(
+			'socialNetworks'     => Options::get_plugin_options_social_networks(),
+			'values'             => $this->map_defaults_to_js(
 				stripslashes_deep( $options ),
 			),
-			'themeOptions'   => $this->map_defaults_to_js(
+			'themeOptions'       => $this->map_defaults_to_js(
 				stripslashes_deep( $theme_options ),
+			),
+			'blockEditorOptions' => $this->map_defaults_to_js(
+				stripslashes_deep( $block_editor_options ),
 			),
 		);
 		wp_send_json_success( $return );

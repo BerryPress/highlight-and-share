@@ -16,6 +16,9 @@ import ErrorBoundary from '../Components/ErrorBoundary';
 import Loader from '../Components/Loader';
 import AppearancesPanel from './Panels/AppearancesPanel';
 import PreviewPanel from './Panels/PreviewPanel';
+import BlockEditorPanel from './Panels/BlockEditorPanel';
+import InlineHighlightingPanel from './Panels/InlineHighlightingPanel';
+import AdvancedPanel from './Panels/AdvancedPanel';
 
 /**
  * Retrieve settings data from PHP.
@@ -108,14 +111,42 @@ const appearancePanelWatchValues = [
 	'iconSize',
 	'iconGap',
 ];
+
+const blockEditorPanelWatchValues = [
+	'enableBlocks',
+	'enableAdobeFonts',
+	'adobeProjectId',
+	'adobeFonts',
+];
+
+const inlineHighlightingPanelWatchValues = [
+	'enableInlineHighlighting',
+	'inlineHighlightBackgroundColor',
+	'inlineHighlightBackgroundColorHover',
+	'inlineHighlightTextColor',
+	'inlineHighlightTextColorHover',
+	'inlineHighlightTooltipsText',
+	'inlineHighlightShowTooltips',
+	'inlineHighlightTooltipsBackgroundColor',
+	'inlineHighlightTooltipsTextColor',
+];
+
+const advancedPanelWatchValues = [
+	'jsContent',
+	'elementContent',
+	'idContent',
+	'wrapperClasses',
+	'shortlinks',
+];
 /**
  * Get default form values for all panels.
  *
- * @param {Object} values    Values from PHP.
- * @param {Object} themeData Theme data from PHP.
+ * @param {Object} values            Values from PHP.
+ * @param {Object} themeData         Theme data from PHP.
+ * @param {Object} blockEditorValues Block editor values from PHP.
  * @return {Object} Default form values.
  */
-export const getDefaultValues = ( values = {}, themeData = {} ) => {
+export const getDefaultValues = ( values = {}, themeData = {}, blockEditorValues = {} ) => {
 	// Build default values object with all network toggles and labels/tooltips.
 	const defaultValues = {
 		// Network toggles.
@@ -178,6 +209,30 @@ export const getDefaultValues = ( values = {}, themeData = {} ) => {
 		sharingPrefix: escapeEditableHTML( values.sharingPrefix || '' ),
 		sharingSuffix: escapeEditableHTML( values.sharingSuffix || '' ),
 
+		// Advanced options.
+		jsContent: escapeEditableHTML( values.jsContent || '' ),
+		elementContent: escapeEditableHTML( values.elementContent || '' ),
+		idContent: escapeEditableHTML( values.idContent || '' ),
+		wrapperClasses: escapeEditableHTML( values.wrapperClasses || '' ),
+		shortlinks: values.shortlinks ?? false,
+
+		// Block Editor options.
+		enableBlocks: blockEditorValues?.enableBlocks ?? true,
+		enableAdobeFonts: blockEditorValues?.enableAdobeFonts ?? false,
+		adobeProjectId: escapeEditableHTML( blockEditorValues?.adobeProjectId || '' ),
+		adobeFonts: blockEditorValues?.adobeFonts || [],
+
+		// Inline Highlighting options.
+		enableInlineHighlighting: blockEditorValues?.enableInlineHighlighting ?? false,
+		inlineHighlightBackgroundColor: blockEditorValues?.inlineHighlightBackgroundColor || '#ffefb1',
+		inlineHighlightBackgroundColorHover: blockEditorValues?.inlineHighlightBackgroundColorHover || '#fcd63c',
+		inlineHighlightTextColor: blockEditorValues?.inlineHighlightTextColor || '#000000',
+		inlineHighlightTextColorHover: blockEditorValues?.inlineHighlightTextColorHover || '#000000',
+		inlineHighlightTooltipsText: escapeEditableHTML( blockEditorValues?.inlineHighlightTooltipsText || '' ),
+		inlineHighlightShowTooltips: blockEditorValues?.inlineHighlightShowTooltips ?? false,
+		inlineHighlightTooltipsBackgroundColor: blockEditorValues?.inlineHighlightTooltipsBackgroundColor || '#000000',
+		inlineHighlightTooltipsTextColor: blockEditorValues?.inlineHighlightTooltipsTextColor || '#FFFFFF',
+
 		// Appearance options.
 		theme: themeData.theme ?? 'default',
 		networkOrder: [],
@@ -223,6 +278,7 @@ export const getDefaultValues = ( values = {}, themeData = {} ) => {
 	return defaultValues;
 };
 
+
 /**
  * Sharing Component.
  *
@@ -259,7 +315,7 @@ const SharingInterface = ( { defaults } ) => {
 	// Set up global React Hook Form instance for all panels.
 	// Default values will be reset when async data loads (in SocialNetworksPanel).
 	const methods = useForm( {
-		defaultValues: getDefaultValues( {}, {} ), // Start with empty defaults, will be reset when data loads.
+		defaultValues: getDefaultValues( {}, {}, {} ), // Start with empty defaults, will be reset when data loads.
 		mode: 'onBlur', // Validate on blur for better UX in popovers.
 		reValidateMode: 'onChange', // Re-validate and clear errors immediately when user starts typing.
 		shouldUnregister: false, // Keep fields registered even when not rendered.
@@ -277,7 +333,7 @@ const SharingInterface = ( { defaults } ) => {
 			dispatch( store ).setTheme( data.themeOptions.theme );
 			dispatch( store ).setThemeData( data.themeOptions );
 			dispatch( store ).setSocialNetworkColors( data.themeOptions.iconColors );
-			methods.reset( getDefaultValues( data.values, data.themeOptions ) );
+			methods.reset( getDefaultValues( data.values, data.themeOptions, data.blockEditorOptions ) );
 		}
 	}, [ data, methods ] );
 
@@ -312,6 +368,9 @@ const SharingInterface = ( { defaults } ) => {
 							<DisplayRulesPanel watchFields={ displayRulesPanelWatchValues } />
 							<AppearancesPanel { ...data } watchFields={ appearancePanelWatchValues } />
 							<PreviewPanel { ...data } />
+							<BlockEditorPanel watchFields={ blockEditorPanelWatchValues } />
+							<InlineHighlightingPanel watchFields={ inlineHighlightingPanelWatchValues } />
+							<AdvancedPanel watchFields={ advancedPanelWatchValues } />
 						</FormProvider>
 					</Suspense>
 				</div>
