@@ -18,24 +18,28 @@ import ThemeCustomizer from '../../../Components/Shared/ThemeCustomizer';
 /**
  * Appearances Panel Interface Component.
  *
+ * @param {Object} data Ajax Data object.
  * @return {Element} Appearances Panel component.
  */
-const Interface = () => {
+const Interface = ( data ) => {
 	return (
 		<PanelBodyWithIndicator
 			title={ __( 'Appearance', 'highlight-and-share' ) }
 			initialOpen={ true } // Default expanded.
 			panelId="appearance"
 			className="has-sharing-panel"
+			watchFields={ data.watchFields }
 		>
-			<h3 className="has-admin-content-subheading">
-				{ __( 'Reorder Sharing Networks', 'highlight-and-share' ) }
-			</h3>
-			<div className="has-admin-component-row">
-				<SocialIconList />
-			</div>
+			<div className="has-admin-component-wrapper">
+				<h3 className="has-admin-content-subheading">
+					{ __( 'Reorder Sharing Networks', 'highlight-and-share' ) }
+				</h3>
+				<div className="has-admin-component-row">
+					<SocialIconList />
+				</div>
 
-			<ThemeCustomizer />
+				<ThemeCustomizer />
+			</div>
 		</PanelBodyWithIndicator>
 	);
 };
@@ -56,7 +60,7 @@ const AppearancesPanel = ( data ) => {
 			}
 		>
 			<Suspense fallback={ <Loader /> }>
-				<Interface data={ data } />
+				<Interface { ...data } />
 			</Suspense>
 		</ErrorBoundary>
 	);

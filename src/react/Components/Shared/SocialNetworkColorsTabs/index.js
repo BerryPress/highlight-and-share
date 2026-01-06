@@ -7,8 +7,10 @@ import TabColorPickers from '../TabColorPickers';
 import { useSelect, useDispatch } from '@wordpress/data';
 import store from '../../../Sharing/Store';
 import { __ } from '@wordpress/i18n';
+import { useFormContext } from 'react-hook-form';
 
 const SocialNetworkColorsTabs = () => {
+	const { setValue } = useFormContext();
 	const { socialNetworkColors } = useSelect( ( select ) => {
 		return {
 			socialNetworkColors: select( store ).getSocialNetworkColors(),
@@ -44,6 +46,7 @@ const SocialNetworkColorsTabs = () => {
 			icon_color_hover: formValues.iconColorHover,
 		};
 		setSocialNetworkColors( newSocialNetworkColors );
+		setValue( 'iconColors', newSocialNetworkColors, { shouldDirty: true } );
 	};
 
 	return (

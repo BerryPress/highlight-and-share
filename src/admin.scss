@@ -1297,6 +1297,10 @@ h3.has-icon-heading {
 	&.components-panel__body  {
 		background: #fff;
 
+		.has-admin-component-wrapper {
+			padding: 16px 8px 8px 8px;
+		}
+
 		.has-admin-component-row {
 			margin-bottom: 20px;
 
@@ -1305,7 +1309,7 @@ h3.has-icon-heading {
 			}
 
 			p.description {
-				margin: 20px 0 20px 0;
+				margin: 0 0 20px 0;
 				color: #646970;
 				font-size: 13px;
 				line-height: 1.5;

@@ -192,21 +192,23 @@ const Interface = ( { data } ) => {
 				className="has-sharing-panel"
 				watchFields={ data.watchFields }
 			>
-				<div className="has-admin-component-row">
-					<p className="description">
-						{ __(
-							'Select which social networks to enable and configure their settings.',
-							'highlight-and-share'
-						) }
-					</p>
-				</div>
-				<div className="has-admin-component-row">
-					<NetworkSelector
-						control={ control }
-						networks={ data?.socialNetworks || {} }
-						networkErrors={ networkErrors }
-						onSettingsMouseDown={ handleSettingsMouseDown }
-					/>
+				<div className="has-admin-component-wrapper">
+					<div className="has-admin-component-row">
+						<p className="description">
+							{ __(
+								'Select which social networks to enable and configure their settings.',
+								'highlight-and-share'
+							) }
+						</p>
+					</div>
+					<div className="has-admin-component-row">
+						<NetworkSelector
+							control={ control }
+							networks={ data?.socialNetworks || {} }
+							networkErrors={ networkErrors }
+							onSettingsMouseDown={ handleSettingsMouseDown }
+						/>
+					</div>
 				</div>
 
 				{ /* Network Settings Popover */ }

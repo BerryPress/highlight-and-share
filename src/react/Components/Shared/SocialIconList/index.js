@@ -5,10 +5,13 @@ import SocialIcons from '../../SocialIcons';
 import store from '../../../Sharing/Store';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useFormContext } from 'react-hook-form';
 
 const SocialIconList = () => {
 	// Subscribe to store changes to trigger re-renders when networks update.
 	const storeNetworks = useSelect( ( select ) => select( store ).getNetworks(), [] );
+
+	const { setValue } = useFormContext();
 
 	// Get social icons function - this will re-run when storeNetworks changes.
 	const { getSocialIcons } = SocialIcons();
@@ -39,6 +42,7 @@ const SocialIconList = () => {
 					}
 				}
 			} );
+			setValue( 'networkOrder', newNetworks.map( ( network ) => network.slug ), { shouldDirty: true } );
 			dispatch( store ).setNetworks( newNetworks );
 		},
 		[ networks ],

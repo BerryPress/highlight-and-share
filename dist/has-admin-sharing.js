@@ -25097,6 +25097,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
 /* harmony import */ var react_dnd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-dnd */ "./node_modules/react-dnd/dist/core/DndProvider.js");
 /* harmony import */ var react_dnd_html5_backend__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-dnd-html5-backend */ "./node_modules/react-dnd-html5-backend/dist/index.js");
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
+
 
 
 
@@ -25109,6 +25111,8 @@ var SocialIconList = function SocialIconList() {
   var storeNetworks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(function (select) {
     return select(_Sharing_Store__WEBPACK_IMPORTED_MODULE_4__["default"]).getNetworks();
   }, []);
+  var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_7__.useFormContext)(),
+    setValue = _useFormContext.setValue;
 
   // Get social icons function - this will re-run when storeNetworks changes.
   var _SocialIcons = (0,_SocialIcons__WEBPACK_IMPORTED_MODULE_3__["default"])(),
@@ -25137,6 +25141,11 @@ var SocialIconList = function SocialIconList() {
           newNetworks.push(hoverItem);
         }
       }
+    });
+    setValue('networkOrder', newNetworks.map(function (network) {
+      return network.slug;
+    }), {
+      shouldDirty: true
     });
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_Sharing_Store__WEBPACK_IMPORTED_MODULE_4__["default"]).setNetworks(newNetworks);
   }, [networks]);
@@ -25312,6 +25321,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -25331,7 +25341,10 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
+
 var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
+  var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_7__.useFormContext)(),
+    setValue = _useFormContext.setValue;
   var _useSelect = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(function (select) {
       return {
         socialNetworkColors: select(_Sharing_Store__WEBPACK_IMPORTED_MODULE_5__["default"]).getSocialNetworkColors()
@@ -25369,6 +25382,9 @@ var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
       icon_color_hover: formValues.iconColorHover
     });
     setSocialNetworkColors(newSocialNetworkColors);
+    setValue('iconColors', newSocialNetworkColors, {
+      shouldDirty: true
+    });
   };
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('has-admin-colors-tabs')
@@ -26653,20 +26669,24 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Appearances Panel Interface Component.
  *
+ * @param {Object} data Ajax Data object.
  * @return {Element} Appearances Panel component.
  */
-var Interface = function Interface() {
+var Interface = function Interface(data) {
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_2__["default"], {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Appearance', 'highlight-and-share'),
     initialOpen: true // Default expanded.
     ,
     panelId: "appearance",
-    className: "has-sharing-panel"
+    className: "has-sharing-panel",
+    watchFields: data.watchFields
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-admin-component-wrapper"
   }, /*#__PURE__*/React.createElement("h3", {
     className: "has-admin-content-subheading"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Reorder Sharing Networks', 'highlight-and-share')), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/React.createElement(_Components_Shared_SocialIconList__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/React.createElement(_Components_Shared_ThemeCustomizer__WEBPACK_IMPORTED_MODULE_6__["default"], null));
+  }, /*#__PURE__*/React.createElement(_Components_Shared_SocialIconList__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/React.createElement(_Components_Shared_ThemeCustomizer__WEBPACK_IMPORTED_MODULE_6__["default"], null)));
 };
 
 /**
@@ -26680,9 +26700,7 @@ var AppearancesPanel = function AppearancesPanel(data) {
     fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Could not load Appearances panel.', 'highlight-and-share'))
   }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Suspense, {
     fallback: /*#__PURE__*/React.createElement(_Components_Loader__WEBPACK_IMPORTED_MODULE_4__["default"], null)
-  }, /*#__PURE__*/React.createElement(Interface, {
-    data: data
-  })));
+  }, /*#__PURE__*/React.createElement(Interface, data)));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppearancesPanel);
 
@@ -26753,6 +26771,8 @@ var Interface = function Interface(_ref) {
     control: control,
     className: "has-sharing-panel",
     watchFields: watchFields
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-admin-component-wrapper"
   }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/React.createElement(_Components_Shared_PostTypeSelector__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -26868,7 +26888,7 @@ var Interface = function Interface(_ref) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Choose a suffix to go after the sharing text such as a quote.', 'highlight-and-share')
       }));
     }
-  })));
+  }))));
 };
 
 /**
@@ -27094,6 +27114,8 @@ var Interface = function Interface(_ref) {
     className: "has-sharing-panel",
     watchFields: data.watchFields
   }, /*#__PURE__*/React.createElement("div", {
+    className: "has-admin-component-wrapper"
+  }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/React.createElement("p", {
     className: "description"
@@ -27104,7 +27126,7 @@ var Interface = function Interface(_ref) {
     networks: (data === null || data === void 0 ? void 0 : data.socialNetworks) || {},
     networkErrors: networkErrors,
     onSettingsMouseDown: handleSettingsMouseDown
-  })), popoverNetwork && popoverAnchor && /*#__PURE__*/React.createElement(_Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }))), popoverNetwork && popoverAnchor && /*#__PURE__*/React.createElement(_Components_Shared_NetworkSettingsPopover__WEBPACK_IMPORTED_MODULE_5__["default"], {
     networkSlug: popoverNetwork,
     network: getNetworkData(popoverNetwork),
     control: control,
@@ -27535,6 +27557,7 @@ var retrieveDefaults = function retrieveDefaults() {
 };
 var socialNetworksPanelWatchValues = ['showTwitter', 'showFacebook', 'showWhatsApp', 'showReddit', 'showTelegram', 'showLinkedin', 'showXing', 'showCopy', 'showMastodon', 'showTumblr', 'showWebshare', 'showThreads', 'showBluesky', 'enableEmails', 'twitterLabel', 'twitterTooltip', 'facebookLabel', 'facebookTooltip', 'whatsappLabel', 'whatsappTooltip', 'redditLabel', 'redditTooltip', 'telegramLabel', 'telegramTooltip', 'linkedinLabel', 'linkedinTooltip', 'xingLabel', 'xingTooltip', 'copyLabel', 'copyTooltip', 'emailLabel', 'emailTooltip', 'tumblrLabel', 'tumblrTooltip', 'webshareLabel', 'webshareTooltip', 'mastodonLabel', 'mastodonTooltip', 'threadsLabel', 'threadsTooltip', 'blueskyLabel', 'blueskyTooltip', 'twitter', 'enableHashtags', 'whatsappApiEndpoint', 'whatsappCanShareUrl'];
 var displayRulesPanelWatchValues = ['enableMobile', 'enableContent', 'enableExcerpt', 'enableComments', 'sharingPrefix', 'sharingSuffix', 'excludedPostTypes'];
+var appearancePanelWatchValues = ['theme', 'iconOnly', 'orientation', 'showTooltips', 'tooltipsTextColor', 'tooltipsBackgroundColor', 'groupIcons', 'backgroundColor', 'backgroundColorHover', 'networkOrder', 'iconColors', 'iconColorsGroup', 'iconColorsGroupHover', 'borderRadiusGroup', 'iconBorderRadius', 'fontSize', 'iconPadding', 'iconSize', 'iconGap'];
 /**
  * Get default form values for all panels.
  *
@@ -27606,6 +27629,7 @@ var getDefaultValues = function getDefaultValues() {
     sharingSuffix: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_9__.escapeEditableHTML)(values.sharingSuffix || ''),
     // Appearance options.
     theme: (_themeData$theme = themeData.theme) !== null && _themeData$theme !== void 0 ? _themeData$theme : 'default',
+    networkOrder: [],
     iconOnly: (_themeData$iconOnly = themeData.iconOnly) !== null && _themeData$iconOnly !== void 0 ? _themeData$iconOnly : true,
     orientation: (_themeData$orientatio = themeData.orientation) !== null && _themeData$orientatio !== void 0 ? _themeData$orientatio : 'horizontal',
     showTooltips: (_themeData$showToolti = themeData.showTooltips) !== null && _themeData$showToolti !== void 0 ? _themeData$showToolti : true,
@@ -27614,6 +27638,7 @@ var getDefaultValues = function getDefaultValues() {
     groupIcons: (_themeData$groupIcons = themeData.groupIcons) !== null && _themeData$groupIcons !== void 0 ? _themeData$groupIcons : true,
     backgroundColor: (_themeData$background = themeData.backgroundColor) !== null && _themeData$background !== void 0 ? _themeData$background : '#000000',
     backgroundColorHover: (_themeData$background2 = themeData.backgroundColorHover) !== null && _themeData$background2 !== void 0 ? _themeData$background2 : '#333333',
+    iconColors: [],
     iconColorsGroup: (_themeData$iconColors = themeData.iconColorsGroup) !== null && _themeData$iconColors !== void 0 ? _themeData$iconColors : '#FFFFFF',
     iconColorsGroupHover: (_themeData$iconColors2 = themeData.iconColorsGroupHover) !== null && _themeData$iconColors2 !== void 0 ? _themeData$iconColors2 : '#FFFFFF',
     borderRadiusGroup: (_themeData$borderRadi = themeData.borderRadiusGroup) !== null && _themeData$borderRadi !== void 0 ? _themeData$borderRadi : {
@@ -27727,7 +27752,7 @@ var SharingInterface = function SharingInterface(_ref) {
   })), /*#__PURE__*/React.createElement(_Panels_DisplayRulesPanel__WEBPACK_IMPORTED_MODULE_6__["default"], {
     watchFields: displayRulesPanelWatchValues
   }), /*#__PURE__*/React.createElement(_Panels_AppearancesPanel__WEBPACK_IMPORTED_MODULE_12__["default"], _extends({}, data, {
-    formValues: formValues
+    watchFields: appearancePanelWatchValues
   })))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sharing);

@@ -86,6 +86,28 @@ const displayRulesPanelWatchValues = [
 	'sharingSuffix',
 	'excludedPostTypes',
 ];
+
+const appearancePanelWatchValues = [
+	'theme',
+	'iconOnly',
+	'orientation',
+	'showTooltips',
+	'tooltipsTextColor',
+	'tooltipsBackgroundColor',
+	'groupIcons',
+	'backgroundColor',
+	'backgroundColorHover',
+	'networkOrder',
+	'iconColors',
+	'iconColorsGroup',
+	'iconColorsGroupHover',
+	'borderRadiusGroup',
+	'iconBorderRadius',
+	'fontSize',
+	'iconPadding',
+	'iconSize',
+	'iconGap',
+];
 /**
  * Get default form values for all panels.
  *
@@ -158,6 +180,7 @@ export const getDefaultValues = ( values = {}, themeData = {} ) => {
 
 		// Appearance options.
 		theme: themeData.theme ?? 'default',
+		networkOrder: [],
 		iconOnly: themeData.iconOnly ?? true,
 		orientation: themeData.orientation ?? 'horizontal',
 		showTooltips: themeData.showTooltips ?? true,
@@ -166,6 +189,7 @@ export const getDefaultValues = ( values = {}, themeData = {} ) => {
 		groupIcons: themeData.groupIcons ?? true,
 		backgroundColor: themeData.backgroundColor ?? '#000000',
 		backgroundColorHover: themeData.backgroundColorHover ?? '#333333',
+		iconColors: [],
 		iconColorsGroup: themeData.iconColorsGroup ?? '#FFFFFF',
 		iconColorsGroupHover: themeData.iconColorsGroupHover ?? '#FFFFFF',
 		borderRadiusGroup: themeData.borderRadiusGroup ?? {
@@ -255,7 +279,7 @@ const SharingInterface = ( { defaults } ) => {
 			methods.reset( getDefaultValues( data.values, data.themeOptions ) );
 		}
 	}, [ data, methods ] );
-	
+
 	const formValues = useWatch( {
 		control: methods.control,
 	} );
@@ -285,7 +309,7 @@ const SharingInterface = ( { defaults } ) => {
 						<FormProvider { ...methods }>
 							<SocialNetworksPanel { ...data } watchFields={ socialNetworksPanelWatchValues } />
 							<DisplayRulesPanel watchFields={ displayRulesPanelWatchValues } />
-							<AppearancesPanel { ...data } formValues={ formValues } />
+							<AppearancesPanel { ...data } watchFields={ appearancePanelWatchValues } />
 							{ /*<PreviewPanel { ...data } /> */}
 						</FormProvider>
 					</Suspense>
