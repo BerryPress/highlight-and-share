@@ -3,9 +3,11 @@
  */
 
 import { __ } from '@wordpress/i18n';
-import { useForm, FormProvider, useWatch } from 'react-hook-form';
-import { Suspense, useEffect } from 'react';
+import { useForm, FormProvider, useWatch, useFormState } from 'react-hook-form';
+import { Suspense, useEffect, useState } from 'react';
 import { dispatch, useSelect } from '@wordpress/data';
+import classnames from 'classnames';
+import { Button, Spinner } from '@wordpress/components';
 import store from './Store'; // Register the store before using components that depend on it.
 import SocialNetworksPanel from './Panels/SocialNetworksPanel';
 import DisplayRulesPanel from './Panels/DisplayRulesPanel';
@@ -278,7 +280,6 @@ export const getDefaultValues = ( values = {}, themeData = {}, blockEditorValues
 	return defaultValues;
 };
 
-
 /**
  * Sharing Component.
  *
@@ -312,6 +313,9 @@ const SharingInterface = ( { defaults } ) => {
 	const response = defaults();
 	const { data } = response.data;
 
+	const [ saving, setSaving ] = useState( false );
+	const [ resetting, setResetting ] = useState( false );
+
 	// Set up global React Hook Form instance for all panels.
 	// Default values will be reset when async data loads (in SocialNetworksPanel).
 	const methods = useForm( {
@@ -324,6 +328,14 @@ const SharingInterface = ( { defaults } ) => {
 			keepErrors: false,
 		},
 	} );
+
+	const isDirtyFields = useFormState( {
+		control: methods.control,
+	} ).isDirty;
+
+	const hasErrors = useFormState( {
+		control: methods.control,
+	} ).errors.length > 0 ? true : false;
 
 	// Set the initial form state when data loads.
 	useEffect( () => {
@@ -346,36 +358,88 @@ const SharingInterface = ( { defaults } ) => {
 	}
 
 	return (
-		<div className="has-admin-content-wrapper">
-			<div className="has-admin-content-panel">
-				<div className="has-admin-content-heading">
-					<h1>
-						<span className="has-admin-content-heading-text">
-							{ __( 'Sharing', 'highlight-and-share' ) }
-						</span>
-					</h1>
-					<p className="description">
-						{ __(
-							'Configure how and where content can be shared across your site, whether through text selection, a Click to Share block, or inline highlighting.',
-							'highlight-and-share'
-						) }
-					</p>
+		<>
+			<FormProvider { ...methods }>
+				<div className="has-admin-content-wrapper">
+
+					<div className="has-admin-content-panel">
+						<div className="has-admin-content-heading">
+							<h1>
+								<span className="has-admin-content-heading-text">
+									{ __( 'Sharing', 'highlight-and-share' ) }
+								</span>
+							</h1>
+							<p className="description">
+								{ __(
+									'Configure how and where content can be shared across your site, whether through text selection, a Click to Share block, or inline highlighting.',
+									'highlight-and-share'
+								) }
+							</p>
+						</div>
+						<div className="has-admin-content-body">
+							<Suspense fallback={ <div>{ __( 'Loading…', 'highlight-and-share' ) }</div> }>
+								<SocialNetworksPanel { ...data } watchFields={ socialNetworksPanelWatchValues } />
+								<DisplayRulesPanel watchFields={ displayRulesPanelWatchValues } />
+								<AppearancesPanel { ...data } watchFields={ appearancePanelWatchValues } />
+								<PreviewPanel { ...data } />
+								<BlockEditorPanel watchFields={ blockEditorPanelWatchValues } />
+								<InlineHighlightingPanel watchFields={ inlineHighlightingPanelWatchValues } />
+								<AdvancedPanel watchFields={ advancedPanelWatchValues } />
+							</Suspense>
+						</div>
+					</div>
 				</div>
-				<div className="has-admin-content-body">
-					<Suspense fallback={ <div>{ __( 'Loading…', 'highlight-and-share' ) }</div> }>
-						<FormProvider { ...methods }>
-							<SocialNetworksPanel { ...data } watchFields={ socialNetworksPanelWatchValues } />
-							<DisplayRulesPanel watchFields={ displayRulesPanelWatchValues } />
-							<AppearancesPanel { ...data } watchFields={ appearancePanelWatchValues } />
-							<PreviewPanel { ...data } />
-							<BlockEditorPanel watchFields={ blockEditorPanelWatchValues } />
-							<InlineHighlightingPanel watchFields={ inlineHighlightingPanelWatchValues } />
-							<AdvancedPanel watchFields={ advancedPanelWatchValues } />
-						</FormProvider>
-					</Suspense>
-				</div>
-			</div>
-		</div>
+				{ ( isDirtyFields && ! hasErrors ) && (
+					<>
+						<div className="has-admin-save-bar">
+							<div className="has-admin__tabs--content-actions">
+								<div className="has-admin__tabs--content-actions--left">
+									<Button
+										className={ classnames(
+											'has__btn has__btn-primary has__btn--icon-right',
+											{ 'has-icon': saving },
+											{ 'is-saving': { saving } }
+										) }
+										type="submit"
+										text={
+											saving
+												? __( 'Saving…', 'highlight-and-share' )
+												: __( 'Save Settings', 'highlight-and-share' )
+										}
+										icon={ saving ? Spinner : false }
+										iconSize="18"
+										iconPosition="right"
+										disabled={ saving || resetting }
+									/>
+								</div>
+								<div className="has-admin__tabs--content-actions--right">
+									<Button
+										className={ classnames(
+											'has__btn has__btn-danger has__btn--icon-right',
+											{ 'has-icon': resetting },
+											{ 'is-resetting': { resetting } }
+										) }
+										type="button"
+										text={
+											resetting
+												? __( 'Discarding Changes…', 'highlight-and-share' )
+												: __( 'Discard Changes', 'highlight-and-share' )
+										}
+										icon={ resetting ? Spinner : false }
+										iconSize="18"
+										iconPosition="right"
+										disabled={ saving || resetting }
+										onClick={ ( e ) => {
+											//handleReset( e );
+										} }
+									/>
+								</div>
+							</div>
+						</div>
+					</>
+				) }
+			</FormProvider>
+		</>
 	);
 };
 
