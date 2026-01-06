@@ -4439,6 +4439,9 @@ h2.has-admin-content-subheading:after {
 .components-popover.has-component-color-picker .has-component-color-picker-palette button.components-circular-option-picker__option .components-popover {
   display: none;
 }
+.components-popover.has-component-color-picker .has-component-color-picker-palette button.components-circular-option-picker__option:after {
+  transform: unset;
+}
 .components-popover.has-component-color-picker .has-component-color-picker-palette .components-circular-option-picker__swatches {
   display: flex;
   flex-wrap: wrap;
@@ -4479,6 +4482,9 @@ h2.has-admin-content-subheading:after {
 
 .components-circular-option-picker__option.is-pressed {
   box-shadow: inset 0 0 0 4px !important;
+}
+.components-circular-option-picker__option.is-pressed:after {
+  transform: unset;
 }
 
 .has-component-color-opacity {

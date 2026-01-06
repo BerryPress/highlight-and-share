@@ -805,6 +805,10 @@ h2.has-admin-content-subheading {
 			.components-popover {
 				display: none;
 			}
+
+			&:after {
+				transform: unset;
+			}
 		}
 
 		.components-circular-option-picker__swatches {
@@ -857,6 +861,10 @@ h2.has-admin-content-subheading {
 
 .components-circular-option-picker__option.is-pressed {
 	box-shadow: inset 0 0 0 4px !important;
+
+	&:after {
+		transform: unset;
+	}
 }
 
 .has-component-color-opacity {
