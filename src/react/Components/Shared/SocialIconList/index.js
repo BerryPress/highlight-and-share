@@ -26,26 +26,31 @@ const SocialIconList = () => {
 		( dragIndex, hoverIndex ) => {
 			const dragItem = networks[ dragIndex ];
 			const hoverItem = networks[ hoverIndex ];
-			// Swap places of dragItem and hoverItem in the pets array
-			const newNetworks = [];
-			networks.forEach( ( network, index ) => {
+			// Swap places of dragItem and hoverItem in the networks array.
+			const newNetworksArray = [];
+			Object.values( storeNetworks ).forEach( ( network, index ) => {
 				if ( index !== dragIndex && index !== hoverIndex ) {
-					newNetworks.push( network );
+					newNetworksArray.push( network );
 				} else {
 					if ( index === hoverIndex && dragIndex < hoverIndex ) {
-						newNetworks.push( hoverItem );
-						newNetworks.push( dragItem );
+						newNetworksArray.push( hoverItem );
+						newNetworksArray.push( dragItem );
 					}
 					if ( index === hoverIndex && dragIndex > hoverIndex ) {
-						newNetworks.push( dragItem );
-						newNetworks.push( hoverItem );
+						newNetworksArray.push( dragItem );
+						newNetworksArray.push( hoverItem );
 					}
 				}
 			} );
-			setValue( 'networkOrder', newNetworks.map( ( network ) => network.slug ), { shouldDirty: true } );
+			// Convert array to object (key => value) while preserving order.
+			const newNetworks = {};
+			newNetworksArray.forEach( ( network ) => {
+				newNetworks[ network.slug ?? network.key ] = network;
+			} );
+			setValue( 'networkOrder', newNetworksArray.map( ( network ) => network.slug ), { shouldDirty: true } );
 			dispatch( store ).setNetworks( newNetworks );
 		},
-		[ networks ],
+		[ networks, storeNetworks ],
 	);
 
 	/**
@@ -93,7 +98,7 @@ const SocialIconList = () => {
 					}
 					return (
 						<SocialIconListItem
-							key={ network.key ?? network.slug }
+							key={ `${ network.key ?? network.slug }-item` }
 							listItemKey={ network.key ?? network.slug }
 							className={ network.className }
 							styles={ network.styles }

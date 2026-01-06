@@ -90,7 +90,7 @@ const PreviewSocialIconListItem = ( { listItemKey, className, icon, label } ) =>
 	};
 
 	return (
-		<div key={ listItemKey } className={ classes } data-tooltip={ escapeAttribute( getTooltip() ) }>
+		<div key={ `${ listItemKey }-wrapper` } className={ classes } data-tooltip={ escapeAttribute( getTooltip() ) }>
 			<>
 				{ iconStyles && <style>{ iconStyles }</style> }
 				<a

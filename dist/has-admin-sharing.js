@@ -25245,12 +25245,12 @@ var PreviewSocialIconList = function PreviewSocialIconList() {
   }
 
   // Set icon size.
-  if (!appearanceEmpty) {
+  if (!appearanceEmpty && 'custom' === formValues.theme) {
     themeStyles += "\n\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a .has-icon {\n\t\t\t\twidth: ".concat(formValues.iconSize, "px !important;\n\t\t\t\theight: ").concat(formValues.iconSize, "px !important;\n\t\t\t}\n\t\t");
   }
 
   // Set font size.
-  if (!appearanceEmpty) {
+  if (!appearanceEmpty && 'custom' === formValues.theme) {
     themeStyles += "\n\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\tfont-size: ".concat(formValues.fontSize, "px !important;\n\t\t\t}\n\t\t");
   }
 
@@ -25282,7 +25282,7 @@ var PreviewSocialIconList = function PreviewSocialIconList() {
   }, networks.map(function (network, index) {
     if (network.enabled) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_PreviewSocialIconListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        key: network.key,
+        key: "".concat(network.key, "-item"),
         listItemKey: network.key,
         className: network.className,
         icon: network.icon,
@@ -25402,7 +25402,7 @@ var PreviewSocialIconListItem = function PreviewSocialIconListItem(_ref) {
     return maybeTooltip;
   };
   return /*#__PURE__*/React.createElement("div", {
-    key: listItemKey,
+    key: "".concat(listItemKey, "-wrapper"),
     className: classes,
     "data-tooltip": (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_1__.escapeAttribute)(getTooltip())
   }, /*#__PURE__*/React.createElement(React.Fragment, null, iconStyles && /*#__PURE__*/React.createElement("style", null, iconStyles), /*#__PURE__*/React.createElement("a", {
@@ -25467,29 +25467,35 @@ var SocialIconList = function SocialIconList() {
   var moveSocialNetwork = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (dragIndex, hoverIndex) {
     var dragItem = networks[dragIndex];
     var hoverItem = networks[hoverIndex];
-    // Swap places of dragItem and hoverItem in the pets array
-    var newNetworks = [];
-    networks.forEach(function (network, index) {
+    // Swap places of dragItem and hoverItem in the networks array.
+    var newNetworksArray = [];
+    Object.values(storeNetworks).forEach(function (network, index) {
       if (index !== dragIndex && index !== hoverIndex) {
-        newNetworks.push(network);
+        newNetworksArray.push(network);
       } else {
         if (index === hoverIndex && dragIndex < hoverIndex) {
-          newNetworks.push(hoverItem);
-          newNetworks.push(dragItem);
+          newNetworksArray.push(hoverItem);
+          newNetworksArray.push(dragItem);
         }
         if (index === hoverIndex && dragIndex > hoverIndex) {
-          newNetworks.push(dragItem);
-          newNetworks.push(hoverItem);
+          newNetworksArray.push(dragItem);
+          newNetworksArray.push(hoverItem);
         }
       }
     });
-    setValue('networkOrder', newNetworks.map(function (network) {
+    // Convert array to object (key => value) while preserving order.
+    var newNetworks = {};
+    newNetworksArray.forEach(function (network) {
+      var _network$slug;
+      newNetworks[(_network$slug = network.slug) !== null && _network$slug !== void 0 ? _network$slug : network.key] = network;
+    });
+    setValue('networkOrder', newNetworksArray.map(function (network) {
       return network.slug;
     }), {
       shouldDirty: true
     });
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_Sharing_Store__WEBPACK_IMPORTED_MODULE_4__["default"]).setNetworks(newNetworks);
-  }, [networks]);
+  }, [networks, storeNetworks]);
 
   /**
    * Save the social networks and their orders.
@@ -25537,7 +25543,7 @@ var SocialIconList = function SocialIconList() {
       return null;
     }
     return /*#__PURE__*/React.createElement(_SocialIconListItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      key: (_network$key = network.key) !== null && _network$key !== void 0 ? _network$key : network.slug,
+      key: "".concat((_network$key = network.key) !== null && _network$key !== void 0 ? _network$key : network.slug, "-item"),
       listItemKey: (_network$key2 = network.key) !== null && _network$key2 !== void 0 ? _network$key2 : network.slug,
       className: network.className,
       styles: network.styles,
@@ -25630,7 +25636,7 @@ var SocialIconListItem = function SocialIconListItem(_ref) {
   });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
     ref: dragDropRef,
-    key: listItemKey,
+    key: "".concat(listItemKey, "-list-item"),
     className: classes,
     style: styles
   }, icon);

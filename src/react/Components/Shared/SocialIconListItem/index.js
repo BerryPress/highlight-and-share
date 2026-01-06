@@ -36,7 +36,7 @@ const SocialIconListItem = ( { listItemKey, className, styles, index, icon, move
 		'is-over': spec.isOver,
 	} );
 	return (
-		<li ref={ dragDropRef } key={ listItemKey } className={ classes } style={ styles }>
+		<li ref={ dragDropRef } key={ `${ listItemKey }-list-item` } className={ classes } style={ styles }>
 			{ icon }
 		</li>
 	);

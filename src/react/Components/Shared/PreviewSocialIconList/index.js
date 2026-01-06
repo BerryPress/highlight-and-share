@@ -112,7 +112,7 @@ const PreviewSocialIconList = () => {
 	}
 
 	// Set icon size.
-	if ( ! appearanceEmpty ) {
+	if ( ! appearanceEmpty && 'custom' === formValues.theme ) {
 		themeStyles += `
 			.has-admin-theme-preview-list.highlight-and-share-wrapper div a .has-icon {
 				width: ${ formValues.iconSize }px !important;
@@ -122,7 +122,7 @@ const PreviewSocialIconList = () => {
 	}
 
 	// Set font size.
-	if ( ! appearanceEmpty ) {
+	if ( ! appearanceEmpty && 'custom' === formValues.theme ) {
 		themeStyles += `
 			.has-admin-theme-preview-list.highlight-and-share-wrapper div a {
 				font-size: ${ formValues.fontSize }px !important;
@@ -183,7 +183,7 @@ const PreviewSocialIconList = () => {
 					if ( network.enabled ) {
 						return (
 							<PreviewSocialIconListItem
-								key={ network.key }
+								key={ `${ network.key }-item` }
 								listItemKey={ network.key }
 								className={ network.className }
 								icon={ network.icon }
