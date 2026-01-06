@@ -12,20 +12,18 @@ import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndi
 import ErrorBoundary from '../../../Components/ErrorBoundary';
 import Loader from '../../../Components/Loader';
 import PreviewSocialIconList from '../../../Components/Shared/PreviewSocialIconList';
-import { useFormContext } from 'react-hook-form';
 
 const Interface = () => {
-	const { control } = useFormContext();
-
 	return (
 		<PanelBodyWithIndicator
 			title={ __( 'Preview', 'highlight-and-share' ) }
 			initialOpen={ true } // Default expanded.
 			panelId="preview"
 			className="has-sharing-panel"
-			control={ control }
 		>
-			<PreviewSocialIconList />
+			<div className="has-admin-component-wrapper">
+				<PreviewSocialIconList />
+			</div>
 		</PanelBodyWithIndicator>
 	);
 };

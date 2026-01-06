@@ -1,106 +1,111 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import classNames from 'classnames';
 import { useSelect } from '@wordpress/data';
 import store from '../../../Sharing/Store';
+import { useFormContext } from 'react-hook-form';
 import PreviewSocialIconListItem from '../PreviewSocialIconListItem';
 // Import all the social media icons.
 import SocialIcons from '../../SocialIcons';
 
 const PreviewSocialIconList = () => {
-	const appearanceThemeData = useSelect( ( select ) => select( store ).getThemeData() );
+	const { watch } = useFormContext();
+	const formValues = watch();
 
 	const { getSocialIcons } = SocialIcons();
-	const networks = getSocialIcons();
 
-	if ( ! appearanceThemeData ) {
+	const networks = useMemo( () => {
+		return getSocialIcons();
+	}, [ formValues ] );
+
+	if ( ! formValues ) {
 		return null;
 	}
 	// Make sure appearance theme data is present.
 	let appearanceEmpty = true;
-	if ( Object.keys( appearanceThemeData ).length > 0 ) {
+	if ( Object.keys( formValues ).length > 0 ) {
 		appearanceEmpty = false;
 	}
 
 	let themeStyles = ''; // placeholder for custom styles.
 	// If appearance theme data is present, and the theme is custom, then add custom styles.
-	if ( 'custom' === appearanceThemeData.theme && ! appearanceEmpty ) {
-		if ( appearanceThemeData.groupIcons ) {
+	if ( 'custom' === formValues.theme && ! appearanceEmpty ) {
+		if ( formValues.groupIcons ) {
 			themeStyles += `
 				.has-admin-theme-preview-list.highlight-and-share-wrapper {
-					background-color: ${ appearanceThemeData.backgroundColor } !important;
+					background-color: ${ formValues.backgroundColor } !important;
 				}
 				.has-admin-theme-preview-list.highlight-and-share-wrapper div a {
-					color: ${ appearanceThemeData.iconColorsGroup } !important;
-					background-color: ${ appearanceThemeData.backgroundColor } !important;
+					color: ${ formValues.iconColorsGroup } !important;
+					background-color: ${ formValues.backgroundColor } !important;
 				}
 				.has-admin-theme-preview-list.highlight-and-share-wrapper div a:hover {
-					color: ${ appearanceThemeData.iconColorsGroupHover } !important;
-					background-color: ${ appearanceThemeData.backgroundColorHover } !important;
+					color: ${ formValues.iconColorsGroupHover } !important;
+					background-color: ${ formValues.backgroundColorHover } !important;
 				}
 				.has-admin-theme-preview-list.highlight-and-share-wrapper div:first-child a {
-					border-top-left-radius: ${ appearanceThemeData.borderRadiusGroup.attrTop + appearanceThemeData.borderRadiusGroup.attrUnit } !important;
-					border-bottom-left-radius: ${ appearanceThemeData.borderRadiusGroup.attrTop + appearanceThemeData.borderRadiusGroup.attrUnit } !important;
+					border-top-left-radius: ${ formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrUnit } !important;
+					border-bottom-left-radius: ${ formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrUnit } !important;
 				}
 				.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child a {
-					border-bottom-right-radius: ${ appearanceThemeData.borderRadiusGroup.attrTop + appearanceThemeData.borderRadiusGroup.attrBottom } !important;
-					border-top-right-radius: ${ appearanceThemeData.borderRadiusGroup.attrTop + appearanceThemeData.borderRadiusGroup.attrRight } !important;
+					border-bottom-right-radius: ${ formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrBottom } !important;
+					border-top-right-radius: ${ formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrRight } !important;
 				}
 			`;
 			// Get border radius values.
-			if ( appearanceThemeData.borderRadiusGroup.attrSyncUnits ) {
+			if ( formValues.borderRadiusGroup.attrSyncUnits ) {
 				themeStyles += `
 					.has-admin-theme-preview-list.highlight-and-share-wrapper,
 					.has-admin-theme-preview-list.highlight-and-share-wrapper:not(.icons-grouped) a {
-						border-radius: ${ appearanceThemeData.borderRadiusGroup.attrTop }${ appearanceThemeData.borderRadiusGroup.attrUnit } !important;
+						border-radius: ${ formValues.borderRadiusGroup.attrTop }${ formValues.borderRadiusGroup.attrUnit } !important;
 					}
 				`;
 			} else {
 				themeStyles += `
 					.has-admin-theme-preview-list.highlight-and-share-wrapper,
 					.has-admin-theme-preview-list.highlight-and-share-wrapper a {
-						border-top-left-radius: ${ appearanceThemeData.borderRadiusGroup.attrTop }${ appearanceThemeData.borderRadiusGroup.attrUnit } !important;
-						border-top-right-radius: ${ appearanceThemeData.borderRadiusGroup.attrRight }${ appearanceThemeData.borderRadiusGroup.attrUnit } !important;
-						border-bottom-right-radius: ${ appearanceThemeData.borderRadiusGroup.attrBottom }${ appearanceThemeData.borderRadiusGroup.attrUnit } !important;
-						border-bottom-left-radius: ${ appearanceThemeData.borderRadiusGroup.attrLeft }${ appearanceThemeData.borderRadiusGroup.attrUnit } !important;
+						border-top-left-radius: ${ formValues.borderRadiusGroup.attrTop }${ formValues.borderRadiusGroup.attrUnit } !important;
+						border-top-right-radius: ${ formValues.borderRadiusGroup.attrRight }${ formValues.borderRadiusGroup.attrUnit } !important;
+						border-bottom-right-radius: ${ formValues.borderRadiusGroup.attrBottom }${ formValues.borderRadiusGroup.attrUnit } !important;
+						border-bottom-left-radius: ${ formValues.borderRadiusGroup.attrLeft }${ formValues.borderRadiusGroup.attrUnit } !important;
 					}
 				`;
 			}
 		}
-		if ( ! appearanceThemeData.groupIcons ) {
-			if ( appearanceThemeData.iconBorderRadius.attrSyncUnits ) {
+		if ( ! formValues.groupIcons ) {
+			if ( formValues.iconBorderRadius.attrSyncUnits ) {
 				themeStyles += `
 					.has-admin-theme-preview-list.highlight-and-share-wrapper div a {
-						border-radius: ${ appearanceThemeData.iconBorderRadius.attrTop }${ appearanceThemeData.iconBorderRadius.attrUnit } !important;
+						border-radius: ${ formValues.iconBorderRadius.attrTop }${ formValues.iconBorderRadius.attrUnit } !important;
 					}
 				`;
 			} else {
 				themeStyles += `
 					.has-admin-theme-preview-list.highlight-and-share-wrapper div a {
-						border-top-left-radius: ${ appearanceThemeData.iconBorderRadius.attrTop }${ appearanceThemeData.iconBorderRadius.attrUnit } !important;
-						border-top-right-radius: ${ appearanceThemeData.iconBorderRadius.attrRight }${ appearanceThemeData.iconBorderRadius.attrUnit } !important;
-						border-bottom-right-radius: ${ appearanceThemeData.iconBorderRadius.attrBottom }${ appearanceThemeData.iconBorderRadius.attrUnit } !important;
-						border-bottom-left-radius: ${ appearanceThemeData.iconBorderRadius.attrLeft }${ appearanceThemeData.iconBorderRadius.attrUnit } !important;
+						border-top-left-radius: ${ formValues.iconBorderRadius.attrTop }${ formValues.iconBorderRadius.attrUnit } !important;
+						border-top-right-radius: ${ formValues.iconBorderRadius.attrRight }${ formValues.iconBorderRadius.attrUnit } !important;
+						border-bottom-right-radius: ${ formValues.iconBorderRadius.attrBottom }${ formValues.iconBorderRadius.attrUnit } !important;
+						border-bottom-left-radius: ${ formValues.iconBorderRadius.attrLeft }${ formValues.iconBorderRadius.attrUnit } !important;
 					}
 				`;
 			}
 		}
 	}
 	// Set padding.
-	if ( ! appearanceEmpty && 'custom' === appearanceThemeData.theme ) {
+	if ( ! appearanceEmpty && 'custom' === formValues.theme ) {
 		// Get padding values.
-		if ( appearanceThemeData.iconPadding.attrSyncUnits ) {
+		if ( formValues.iconPadding.attrSyncUnits ) {
 			themeStyles += `
 				.has-admin-theme-preview-list.highlight-and-share-wrapper div a {
-					padding: ${ appearanceThemeData.iconPadding.attrTop }${ appearanceThemeData.iconPadding.attrUnit } !important;
+					padding: ${ formValues.iconPadding.attrTop }${ formValues.iconPadding.attrUnit } !important;
 				}
 			`;
 		} else {
 			themeStyles += `
 				.has-admin-theme-preview-list.highlight-and-share-wrapper div a {
-					padding-top: ${ appearanceThemeData.iconPadding.attrTop }${ appearanceThemeData.iconPadding.attrUnit } !important;
-					padding-right: ${ appearanceThemeData.iconPadding.attrRight }${ appearanceThemeData.iconPadding.attrUnit } !important;
-					padding-bottom: ${ appearanceThemeData.icon_padding.attrBottom }${ appearanceThemeData.icon_padding.attrUnit } !important;
-					padding-left: ${ appearanceThemeData.iconPadding.attrLeft }${ appearanceThemeData.iconPadding.attrUnit } !important;
+					padding-top: ${ formValues.iconPadding.attrTop }${ formValues.iconPadding.attrUnit } !important;
+					padding-right: ${ formValues.iconPadding.attrRight }${ formValues.iconPadding.attrUnit } !important;
+					padding-bottom: ${ formValues.icon_padding.attrBottom }${ formValues.icon_padding.attrUnit } !important;
+					padding-left: ${ formValues.iconPadding.attrLeft }${ formValues.iconPadding.attrUnit } !important;
 				}
 			`;
 		}
@@ -110,8 +115,8 @@ const PreviewSocialIconList = () => {
 	if ( ! appearanceEmpty ) {
 		themeStyles += `
 			.has-admin-theme-preview-list.highlight-and-share-wrapper div a .has-icon {
-				width: ${ appearanceThemeData.iconSize }px !important;
-				height: ${ appearanceThemeData.iconSize }px !important;
+				width: ${ formValues.iconSize }px !important;
+				height: ${ formValues.iconSize }px !important;
 			}
 		`;
 	}
@@ -120,27 +125,27 @@ const PreviewSocialIconList = () => {
 	if ( ! appearanceEmpty ) {
 		themeStyles += `
 			.has-admin-theme-preview-list.highlight-and-share-wrapper div a {
-				font-size: ${ appearanceThemeData.fontSize }px !important;
+				font-size: ${ formValues.fontSize }px !important;
 			}
 		`;
 	}
 
 	// Set the icon gap.
 	if ( ! appearanceEmpty ) {
-		if ( ! appearanceThemeData.groupIcons ) {
-			if ( appearanceThemeData.orientation === 'horizontal' && 'custom' === appearanceThemeData.theme ) {
+		if ( ! formValues.groupIcons ) {
+			if ( formValues.orientation === 'horizontal' && 'custom' === formValues.theme ) {
 				themeStyles += `
 					.has-admin-theme-preview-list.highlight-and-share-wrapper div {
-						margin-right: ${ appearanceThemeData.iconGap }px !important;
+						margin-right: ${ formValues.iconGap }px !important;
 					}
 					.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child {
 						margin-right: 0 !important;
 					}
 				`;
-			} else if ( appearanceThemeData.orientation === 'vertical' && 'custom' === appearanceThemeData.theme ) {
+			} else if ( formValues.orientation === 'vertical' && 'custom' === formValues.theme ) {
 				themeStyles += `
 					.has-admin-theme-preview-list.highlight-and-share-wrapper div {
-						margin-bottom: ${ appearanceThemeData.iconGap }px !important;
+						margin-bottom: ${ formValues.iconGap }px !important;
 					}
 					.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child {
 						margin-bottom: 0 !important;
@@ -153,8 +158,8 @@ const PreviewSocialIconList = () => {
 	// Set the tooltip background and color.
 	themeStyles += `
 		.has-admin-theme-preview-list.highlight-and-share-wrapper > div.has-tooltip:hover:after {
-			background-color: ${ appearanceThemeData.tooltipsBackgroundColor } !important;
-			color: ${ appearanceThemeData.tooltipsTextColor } !important;
+			background-color: ${ formValues.tooltipsBackgroundColor } !important;
+			color: ${ formValues.tooltipsTextColor } !important;
 		}
 	`;
 
@@ -166,12 +171,12 @@ const PreviewSocialIconList = () => {
 			<div
 				className={ classNames(
 					'has-admin-theme-preview-list highlight-and-share-wrapper',
-					`theme-${ appearanceThemeData.theme }`,
-					{ 'icons-grouped': appearanceThemeData.groupIcons },
-					{ 'icons-ungrouped': ! appearanceThemeData.groupIcons },
-					{ 'orientation-horizontal': appearanceThemeData.orientation === 'horizontal' },
-					{ 'orientation-vertical': appearanceThemeData.orientation === 'vertical' },
-					{ 'has-label': ! appearanceThemeData.iconsOnly },
+					`theme-${ formValues.theme }`,
+					{ 'icons-grouped': formValues.groupIcons },
+					{ 'icons-ungrouped': ! formValues.groupIcons },
+					{ 'orientation-horizontal': formValues.orientation === 'horizontal' },
+					{ 'orientation-vertical': formValues.orientation === 'vertical' },
+					{ 'has-label': ! formValues.iconsOnly },
 				) }
 			>
 				{ networks.map( ( network, index ) => {
@@ -184,8 +189,6 @@ const PreviewSocialIconList = () => {
 								icon={ network.icon }
 								index={ index }
 								label={ network.label }
-								theme={ `theme-${ appearanceThemeData.theme }` }
-								appearanceThemeData={ appearanceThemeData }
 							/>
 						);
 					}

@@ -25037,6 +25037,255 @@ var PostTypeSelector = function PostTypeSelector(_ref) {
 
 /***/ }),
 
+/***/ "./src/react/Components/Shared/PreviewSocialIconList/index.js":
+/*!********************************************************************!*\
+  !*** ./src/react/Components/Shared/PreviewSocialIconList/index.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
+/* harmony import */ var _PreviewSocialIconListItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../PreviewSocialIconListItem */ "./src/react/Components/Shared/PreviewSocialIconListItem/index.js");
+/* harmony import */ var _SocialIcons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../SocialIcons */ "./src/react/Components/SocialIcons/index.js");
+
+
+
+
+
+
+// Import all the social media icons.
+
+var PreviewSocialIconList = function PreviewSocialIconList() {
+  var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useFormContext)(),
+    watch = _useFormContext.watch;
+  var formValues = watch();
+  var _SocialIcons = (0,_SocialIcons__WEBPACK_IMPORTED_MODULE_5__["default"])(),
+    getSocialIcons = _SocialIcons.getSocialIcons;
+  var networks = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return getSocialIcons();
+  }, [formValues]);
+  if (!formValues) {
+    return null;
+  }
+  // Make sure appearance theme data is present.
+  var appearanceEmpty = true;
+  if (Object.keys(formValues).length > 0) {
+    appearanceEmpty = false;
+  }
+  var themeStyles = ''; // placeholder for custom styles.
+  // If appearance theme data is present, and the theme is custom, then add custom styles.
+  if ('custom' === formValues.theme && !appearanceEmpty) {
+    if (formValues.groupIcons) {
+      themeStyles += "\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper {\n\t\t\t\t\tbackground-color: ".concat(formValues.backgroundColor, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\tcolor: ").concat(formValues.iconColorsGroup, " !important;\n\t\t\t\t\tbackground-color: ").concat(formValues.backgroundColor, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a:hover {\n\t\t\t\t\tcolor: ").concat(formValues.iconColorsGroupHover, " !important;\n\t\t\t\t\tbackground-color: ").concat(formValues.backgroundColorHover, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:first-child a {\n\t\t\t\t\tborder-top-left-radius: ").concat(formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\tborder-bottom-left-radius: ").concat(formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child a {\n\t\t\t\t\tborder-bottom-right-radius: ").concat(formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrBottom, " !important;\n\t\t\t\t\tborder-top-right-radius: ").concat(formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrRight, " !important;\n\t\t\t\t}\n\t\t\t");
+      // Get border radius values.
+      if (formValues.borderRadiusGroup.attrSyncUnits) {
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper,\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper:not(.icons-grouped) a {\n\t\t\t\t\t\tborder-radius: ".concat(formValues.borderRadiusGroup.attrTop).concat(formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
+      } else {
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper,\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper a {\n\t\t\t\t\t\tborder-top-left-radius: ".concat(formValues.borderRadiusGroup.attrTop).concat(formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t\tborder-top-right-radius: ").concat(formValues.borderRadiusGroup.attrRight).concat(formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-right-radius: ").concat(formValues.borderRadiusGroup.attrBottom).concat(formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-left-radius: ").concat(formValues.borderRadiusGroup.attrLeft).concat(formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
+      }
+    }
+    if (!formValues.groupIcons) {
+      if (formValues.iconBorderRadius.attrSyncUnits) {
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\t\tborder-radius: ".concat(formValues.iconBorderRadius.attrTop).concat(formValues.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
+      } else {
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\t\tborder-top-left-radius: ".concat(formValues.iconBorderRadius.attrTop).concat(formValues.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t\tborder-top-right-radius: ").concat(formValues.iconBorderRadius.attrRight).concat(formValues.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-right-radius: ").concat(formValues.iconBorderRadius.attrBottom).concat(formValues.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-left-radius: ").concat(formValues.iconBorderRadius.attrLeft).concat(formValues.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
+      }
+    }
+  }
+  // Set padding.
+  if (!appearanceEmpty && 'custom' === formValues.theme) {
+    // Get padding values.
+    if (formValues.iconPadding.attrSyncUnits) {
+      themeStyles += "\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\tpadding: ".concat(formValues.iconPadding.attrTop).concat(formValues.iconPadding.attrUnit, " !important;\n\t\t\t\t}\n\t\t\t");
+    } else {
+      themeStyles += "\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\tpadding-top: ".concat(formValues.iconPadding.attrTop).concat(formValues.iconPadding.attrUnit, " !important;\n\t\t\t\t\tpadding-right: ").concat(formValues.iconPadding.attrRight).concat(formValues.iconPadding.attrUnit, " !important;\n\t\t\t\t\tpadding-bottom: ").concat(formValues.icon_padding.attrBottom).concat(formValues.icon_padding.attrUnit, " !important;\n\t\t\t\t\tpadding-left: ").concat(formValues.iconPadding.attrLeft).concat(formValues.iconPadding.attrUnit, " !important;\n\t\t\t\t}\n\t\t\t");
+    }
+  }
+
+  // Set icon size.
+  if (!appearanceEmpty) {
+    themeStyles += "\n\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a .has-icon {\n\t\t\t\twidth: ".concat(formValues.iconSize, "px !important;\n\t\t\t\theight: ").concat(formValues.iconSize, "px !important;\n\t\t\t}\n\t\t");
+  }
+
+  // Set font size.
+  if (!appearanceEmpty) {
+    themeStyles += "\n\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\tfont-size: ".concat(formValues.fontSize, "px !important;\n\t\t\t}\n\t\t");
+  }
+
+  // Set the icon gap.
+  if (!appearanceEmpty) {
+    if (!formValues.groupIcons) {
+      if (formValues.orientation === 'horizontal' && 'custom' === formValues.theme) {
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div {\n\t\t\t\t\t\tmargin-right: ".concat(formValues.iconGap, "px !important;\n\t\t\t\t\t}\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child {\n\t\t\t\t\t\tmargin-right: 0 !important;\n\t\t\t\t\t}\n\t\t\t\t");
+      } else if (formValues.orientation === 'vertical' && 'custom' === formValues.theme) {
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div {\n\t\t\t\t\t\tmargin-bottom: ".concat(formValues.iconGap, "px !important;\n\t\t\t\t\t}\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child {\n\t\t\t\t\t\tmargin-bottom: 0 !important;\n\t\t\t\t\t}\n\t\t\t\t");
+      }
+    }
+  }
+
+  // Set the tooltip background and color.
+  themeStyles += "\n\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper > div.has-tooltip:hover:after {\n\t\t\tbackground-color: ".concat(formValues.tooltipsBackgroundColor, " !important;\n\t\t\tcolor: ").concat(formValues.tooltipsTextColor, " !important;\n\t\t}\n\t");
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, themeStyles), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('has-admin-theme-preview-list highlight-and-share-wrapper', "theme-".concat(formValues.theme), {
+      'icons-grouped': formValues.groupIcons
+    }, {
+      'icons-ungrouped': !formValues.groupIcons
+    }, {
+      'orientation-horizontal': formValues.orientation === 'horizontal'
+    }, {
+      'orientation-vertical': formValues.orientation === 'vertical'
+    }, {
+      'has-label': !formValues.iconsOnly
+    })
+  }, networks.map(function (network, index) {
+    if (network.enabled) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_PreviewSocialIconListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        key: network.key,
+        listItemKey: network.key,
+        className: network.className,
+        icon: network.icon,
+        index: index,
+        label: network.label
+      });
+    }
+    return null;
+  })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PreviewSocialIconList);
+
+/***/ }),
+
+/***/ "./src/react/Components/Shared/PreviewSocialIconListItem/index.js":
+/*!************************************************************************!*\
+  !*** ./src/react/Components/Shared/PreviewSocialIconListItem/index.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/escape-html */ "@wordpress/escape-html");
+/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
+
+
+
+
+var PreviewSocialIconListItem = function PreviewSocialIconListItem(_ref) {
+  var listItemKey = _ref.listItemKey,
+    className = _ref.className,
+    icon = _ref.icon,
+    label = _ref.label;
+  var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useFormContext)(),
+    watch = _useFormContext.watch;
+  var formValues = watch();
+  var classes = classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, "has_".concat(listItemKey), {
+    'has-tooltip': formValues.showTooltips
+  });
+  var iconStyles = '';
+  if (!formValues.groupIcons && 'custom' === formValues.theme) {
+    var iconColor = formValues.iconColors[listItemKey].iconColor;
+    var iconColorHover = formValues.iconColors[listItemKey].iconColorHover;
+    var backgroundColor = formValues.iconColors[listItemKey].background;
+    var backgroundColorHover = formValues.iconColors[listItemKey].backgroundHover;
+    iconStyles = "\n\t\t\t.has_".concat(listItemKey, " a {\n\t\t\t\tcolor: ").concat(iconColor, " !important;\n\t\t\t\tbackground: ").concat(backgroundColor, " !important;\n\t\t\t}\n\t\t\t.has_").concat(listItemKey, " a:hover {\n\t\t\t\tcolor: ").concat(iconColorHover, " !important;\n\t\t\t\tbackground: ").concat(backgroundColorHover, " !important;\n\t\t\t}\n\t\t");
+  }
+
+  /**
+   * Get label field name for network.
+   *
+   * @param {string} networkSlug Network slug.
+   * @return {string} Field name.
+   */
+  var getLabelFieldName = function getLabelFieldName(networkSlug) {
+    // Special cases.
+    if (networkSlug === 'twitter') {
+      return 'twitterLabel';
+    }
+    if (networkSlug === 'mastodon') {
+      return 'mastodonLabel';
+    }
+    // Default pattern.
+    return "".concat(networkSlug, "Label");
+  };
+
+  /**
+   * Get tooltip field name for network.
+   *
+   * @param {string} networkSlug Network slug.
+   * @return {string} Field name.
+   */
+  var getTooltipFieldName = function getTooltipFieldName(networkSlug) {
+    // Special cases.
+    if (networkSlug === 'twitter') {
+      return 'twitterTooltip';
+    }
+    if (networkSlug === 'mastodon') {
+      return 'mastodonTooltip';
+    }
+    // Default pattern.
+    return "".concat(networkSlug, "Tooltip");
+  };
+
+  /**
+   * Get a translated label for the social network.
+   *
+   * @return {string} The social network label.
+   */
+  var getLabel = function getLabel() {
+    var _formValues$getLabelF;
+    var maybeLabel = (_formValues$getLabelF = formValues[getLabelFieldName(listItemKey)]) !== null && _formValues$getLabelF !== void 0 ? _formValues$getLabelF : '';
+    if ('' === maybeLabel) {
+      return label;
+    }
+    return maybeLabel;
+  };
+
+  /**
+   * Get a tooltip for the social network.
+   *
+   * @return {string} The social network tooltip.
+   */
+  var getTooltip = function getTooltip() {
+    var _formValues$getToolti;
+    var maybeTooltip = (_formValues$getToolti = formValues[getTooltipFieldName(listItemKey)]) !== null && _formValues$getToolti !== void 0 ? _formValues$getToolti : '';
+    return maybeTooltip;
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    key: listItemKey,
+    className: classes,
+    "data-tooltip": (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_1__.escapeAttribute)(getTooltip())
+  }, /*#__PURE__*/React.createElement(React.Fragment, null, iconStyles && /*#__PURE__*/React.createElement("style", null, iconStyles), /*#__PURE__*/React.createElement("a", {
+    href: "#",
+    onClick: function onClick(e) {
+      e.preventDefault();
+    }
+  }, icon, ('default' === formValues.theme || 'custom' === formValues.theme && !formValues.iconsOnly) && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+    className: "has-icon-label"
+  }, "".concat((0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_1__.escapeEditableHTML)(getLabel())))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PreviewSocialIconListItem);
+
+/***/ }),
+
 /***/ "./src/react/Components/Shared/SocialIconList/index.js":
 /*!*************************************************************!*\
   !*** ./src/react/Components/Shared/SocialIconList/index.js ***!
@@ -25326,9 +25575,9 @@ var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
         title: network.label,
         className: "social-network-colors-tab-".concat(network.slug),
         background: network.background,
-        background_hover: network.background_hover,
-        icon_color: network.icon_color,
-        icon_color_hover: network.icon_color_hover
+        background_hover: network.backgroundHover,
+        icon_color: network.iconColor,
+        icon_color_hover: network.iconColorHover
       });
     });
     return tabs;
@@ -25684,7 +25933,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
   })), 'custom' === theme && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_4__.Controller, {
-    name: "iconOnly",
+    name: "iconsOnly",
     control: control,
     render: function render(_ref2) {
       var _ref2$field = _ref2.field,
@@ -25911,7 +26160,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
         railColor: "#CECECE"
       }));
     }
-  })), !getValues('iconOnly') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), !getValues('iconsOnly') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_4__.Controller, {
     name: "fontSize",
@@ -26862,6 +27111,70 @@ var DisplayRulesPanel = function DisplayRulesPanel(_ref8) {
 
 /***/ }),
 
+/***/ "./src/react/Sharing/Panels/PreviewPanel/index.js":
+/*!********************************************************!*\
+  !*** ./src/react/Sharing/Panels/PreviewPanel/index.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Components/Shared/PanelBodyWithIndicator */ "./src/react/Components/Shared/PanelBodyWithIndicator/index.js");
+/* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
+/* harmony import */ var _Components_Loader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../Components/Loader */ "./src/react/Components/Loader/index.js");
+/* harmony import */ var _Components_Shared_PreviewSocialIconList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Components/Shared/PreviewSocialIconList */ "./src/react/Components/Shared/PreviewSocialIconList/index.js");
+/**
+ * Preview Panel Component.
+ *
+ * Displays the preview of the social networks with the current theme and appearance settings.
+ *
+ * @package
+ */
+
+
+
+
+
+
+
+var Interface = function Interface() {
+  return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Preview', 'highlight-and-share'),
+    initialOpen: true // Default expanded.
+    ,
+    panelId: "preview",
+    className: "has-sharing-panel"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-admin-component-wrapper"
+  }, /*#__PURE__*/React.createElement(_Components_Shared_PreviewSocialIconList__WEBPACK_IMPORTED_MODULE_5__["default"], null)));
+};
+
+/**
+ * Display Rules Panel Component.
+ *
+ * @param {Object} data Ajax Data object.
+ * @return {Element} Display Rules Panel with error boundary and suspense.
+ */
+var PreviewPanel = function PreviewPanel(data) {
+  return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Could not load Preview panel.', 'highlight-and-share'))
+  }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Suspense, {
+    fallback: /*#__PURE__*/React.createElement(_Components_Loader__WEBPACK_IMPORTED_MODULE_4__["default"], null)
+  }, /*#__PURE__*/React.createElement(Interface, {
+    data: data
+  })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PreviewPanel);
+
+/***/ }),
+
 /***/ "./src/react/Sharing/Panels/SocialNetworksPanel/index.js":
 /*!***************************************************************!*\
   !*** ./src/react/Sharing/Panels/SocialNetworksPanel/index.js ***!
@@ -27468,6 +27781,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
 /* harmony import */ var _Components_Loader__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Components/Loader */ "./src/react/Components/Loader/index.js");
 /* harmony import */ var _Panels_AppearancesPanel__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Panels/AppearancesPanel */ "./src/react/Sharing/Panels/AppearancesPanel/index.js");
+/* harmony import */ var _Panels_PreviewPanel__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Panels/PreviewPanel */ "./src/react/Sharing/Panels/PreviewPanel/index.js");
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -27507,7 +27821,7 @@ var retrieveDefaults = function retrieveDefaults() {
 };
 var socialNetworksPanelWatchValues = ['showTwitter', 'showFacebook', 'showWhatsApp', 'showReddit', 'showTelegram', 'showLinkedin', 'showXing', 'showCopy', 'showMastodon', 'showTumblr', 'showWebshare', 'showThreads', 'showBluesky', 'enableEmails', 'twitterLabel', 'twitterTooltip', 'facebookLabel', 'facebookTooltip', 'whatsappLabel', 'whatsappTooltip', 'redditLabel', 'redditTooltip', 'telegramLabel', 'telegramTooltip', 'linkedinLabel', 'linkedinTooltip', 'xingLabel', 'xingTooltip', 'copyLabel', 'copyTooltip', 'emailLabel', 'emailTooltip', 'tumblrLabel', 'tumblrTooltip', 'webshareLabel', 'webshareTooltip', 'mastodonLabel', 'mastodonTooltip', 'threadsLabel', 'threadsTooltip', 'blueskyLabel', 'blueskyTooltip', 'twitter', 'enableHashtags', 'whatsappApiEndpoint', 'whatsappCanShareUrl'];
 var displayRulesPanelWatchValues = ['enableMobile', 'enableContent', 'enableExcerpt', 'enableComments', 'sharingPrefix', 'sharingSuffix', 'excludedPostTypes'];
-var appearancePanelWatchValues = ['theme', 'iconOnly', 'orientation', 'showTooltips', 'tooltipsTextColor', 'tooltipsBackgroundColor', 'groupIcons', 'backgroundColor', 'backgroundColorHover', 'networkOrder', 'iconColors', 'iconColorsGroup', 'iconColorsGroupHover', 'borderRadiusGroup', 'iconBorderRadius', 'fontSize', 'iconPadding', 'iconSize', 'iconGap'];
+var appearancePanelWatchValues = ['theme', 'iconsOnly', 'orientation', 'showTooltips', 'tooltipsTextColor', 'tooltipsBackgroundColor', 'groupIcons', 'backgroundColor', 'backgroundColorHover', 'networkOrder', 'iconColors', 'iconColorsGroup', 'iconColorsGroupHover', 'borderRadiusGroup', 'iconBorderRadius', 'fontSize', 'iconPadding', 'iconSize', 'iconGap'];
 /**
  * Get default form values for all panels.
  *
@@ -27516,7 +27830,7 @@ var appearancePanelWatchValues = ['theme', 'iconOnly', 'orientation', 'showToolt
  * @return {Object} Default form values.
  */
 var getDefaultValues = function getDefaultValues() {
-  var _values$showTwitter, _values$showFacebook, _values$showWhatsApp, _values$showReddit, _values$showTelegram, _values$showLinkedin, _values$showXing, _values$showCopy, _values$showMastodon, _values$showTumblr, _values$showWebshare, _values$showThreads, _values$showBluesky, _values$enableEmails, _values$enableHashtag, _values$whatsappCanSh, _values$enableMobile, _values$enableContent, _values$enableExcerpt, _values$enableComment, _themeData$theme, _themeData$iconOnly, _themeData$orientatio, _themeData$showToolti, _themeData$tooltipsTe, _themeData$tooltipsBa, _themeData$groupIcons, _themeData$background, _themeData$background2, _themeData$iconColors, _themeData$iconColors2, _themeData$borderRadi, _themeData$iconBorder, _themeData$fontSize, _themeData$iconPaddin, _themeData$iconSize, _themeData$iconGap;
+  var _values$showTwitter, _values$showFacebook, _values$showWhatsApp, _values$showReddit, _values$showTelegram, _values$showLinkedin, _values$showXing, _values$showCopy, _values$showMastodon, _values$showTumblr, _values$showWebshare, _values$showThreads, _values$showBluesky, _values$enableEmails, _values$enableHashtag, _values$whatsappCanSh, _values$enableMobile, _values$enableContent, _values$enableExcerpt, _values$enableComment, _themeData$theme, _themeData$iconsOnly, _themeData$orientatio, _themeData$showToolti, _themeData$tooltipsTe, _themeData$tooltipsBa, _themeData$groupIcons, _themeData$background, _themeData$background2, _themeData$iconColors, _themeData$iconColors2, _themeData$iconColors3, _themeData$borderRadi, _themeData$iconBorder, _themeData$fontSize, _themeData$iconPaddin, _themeData$iconSize, _themeData$iconGap;
   var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var themeData = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   // Build default values object with all network toggles and labels/tooltips.
@@ -27580,7 +27894,7 @@ var getDefaultValues = function getDefaultValues() {
     // Appearance options.
     theme: (_themeData$theme = themeData.theme) !== null && _themeData$theme !== void 0 ? _themeData$theme : 'default',
     networkOrder: [],
-    iconOnly: (_themeData$iconOnly = themeData.iconOnly) !== null && _themeData$iconOnly !== void 0 ? _themeData$iconOnly : true,
+    iconsOnly: (_themeData$iconsOnly = themeData.iconsOnly) !== null && _themeData$iconsOnly !== void 0 ? _themeData$iconsOnly : true,
     orientation: (_themeData$orientatio = themeData.orientation) !== null && _themeData$orientatio !== void 0 ? _themeData$orientatio : 'horizontal',
     showTooltips: (_themeData$showToolti = themeData.showTooltips) !== null && _themeData$showToolti !== void 0 ? _themeData$showToolti : true,
     tooltipsTextColor: (_themeData$tooltipsTe = themeData.tooltipsTextColor) !== null && _themeData$tooltipsTe !== void 0 ? _themeData$tooltipsTe : '#FFFFFF',
@@ -27588,9 +27902,9 @@ var getDefaultValues = function getDefaultValues() {
     groupIcons: (_themeData$groupIcons = themeData.groupIcons) !== null && _themeData$groupIcons !== void 0 ? _themeData$groupIcons : true,
     backgroundColor: (_themeData$background = themeData.backgroundColor) !== null && _themeData$background !== void 0 ? _themeData$background : '#000000',
     backgroundColorHover: (_themeData$background2 = themeData.backgroundColorHover) !== null && _themeData$background2 !== void 0 ? _themeData$background2 : '#333333',
-    iconColors: [],
-    iconColorsGroup: (_themeData$iconColors = themeData.iconColorsGroup) !== null && _themeData$iconColors !== void 0 ? _themeData$iconColors : '#FFFFFF',
-    iconColorsGroupHover: (_themeData$iconColors2 = themeData.iconColorsGroupHover) !== null && _themeData$iconColors2 !== void 0 ? _themeData$iconColors2 : '#FFFFFF',
+    iconColors: (_themeData$iconColors = themeData.iconColors) !== null && _themeData$iconColors !== void 0 ? _themeData$iconColors : [],
+    iconColorsGroup: (_themeData$iconColors2 = themeData.iconColorsGroup) !== null && _themeData$iconColors2 !== void 0 ? _themeData$iconColors2 : '#FFFFFF',
+    iconColorsGroupHover: (_themeData$iconColors3 = themeData.iconColorsGroupHover) !== null && _themeData$iconColors3 !== void 0 ? _themeData$iconColors3 : '#FFFFFF',
     borderRadiusGroup: (_themeData$borderRadi = themeData.borderRadiusGroup) !== null && _themeData$borderRadi !== void 0 ? _themeData$borderRadi : {
       attrTop: 0,
       attrRight: 0,
@@ -27671,6 +27985,7 @@ var SharingInterface = function SharingInterface(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     if (data) {
       (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_4__["default"]).setNetworks(data.socialNetworks);
+      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_4__["default"]).setSettings(data.values);
       (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_4__["default"]).setTheme(data.themeOptions.theme);
       (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_4__["default"]).setThemeData(data.themeOptions);
       (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_4__["default"]).setSocialNetworkColors(data.themeOptions.iconColors);
@@ -27703,7 +28018,7 @@ var SharingInterface = function SharingInterface(_ref) {
     watchFields: displayRulesPanelWatchValues
   }), /*#__PURE__*/React.createElement(_Panels_AppearancesPanel__WEBPACK_IMPORTED_MODULE_12__["default"], _extends({}, data, {
     watchFields: appearancePanelWatchValues
-  })))))));
+  })), /*#__PURE__*/React.createElement(_Panels_PreviewPanel__WEBPACK_IMPORTED_MODULE_13__["default"], data))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sharing);
 

@@ -618,9 +618,9 @@ var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
         title: network.label,
         className: "social-network-colors-tab-".concat(network.slug),
         background: network.background,
-        background_hover: network.background_hover,
-        icon_color: network.icon_color,
-        icon_color_hover: network.icon_color_hover
+        background_hover: network.backgroundHover,
+        icon_color: network.iconColor,
+        icon_color_hover: network.iconColorHover
       });
     });
     return tabs;
@@ -974,7 +974,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
   })), 'custom' === theme && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_4__.Controller, {
-    name: "iconOnly",
+    name: "iconsOnly",
     control: control,
     render: function render(_ref2) {
       var _ref2$field = _ref2.field,
@@ -1201,7 +1201,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
         railColor: "#CECECE"
       }));
     }
-  })), !getValues('iconOnly') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), !getValues('iconsOnly') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_4__.Controller, {
     name: "fontSize",

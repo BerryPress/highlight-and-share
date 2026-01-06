@@ -89,7 +89,7 @@ const displayRulesPanelWatchValues = [
 
 const appearancePanelWatchValues = [
 	'theme',
-	'iconOnly',
+	'iconsOnly',
 	'orientation',
 	'showTooltips',
 	'tooltipsTextColor',
@@ -181,7 +181,7 @@ export const getDefaultValues = ( values = {}, themeData = {} ) => {
 		// Appearance options.
 		theme: themeData.theme ?? 'default',
 		networkOrder: [],
-		iconOnly: themeData.iconOnly ?? true,
+		iconsOnly: themeData.iconsOnly ?? true,
 		orientation: themeData.orientation ?? 'horizontal',
 		showTooltips: themeData.showTooltips ?? true,
 		tooltipsTextColor: themeData.tooltipsTextColor ?? '#FFFFFF',
@@ -189,7 +189,7 @@ export const getDefaultValues = ( values = {}, themeData = {} ) => {
 		groupIcons: themeData.groupIcons ?? true,
 		backgroundColor: themeData.backgroundColor ?? '#000000',
 		backgroundColorHover: themeData.backgroundColorHover ?? '#333333',
-		iconColors: [],
+		iconColors: themeData.iconColors ?? [],
 		iconColorsGroup: themeData.iconColorsGroup ?? '#FFFFFF',
 		iconColorsGroupHover: themeData.iconColorsGroupHover ?? '#FFFFFF',
 		borderRadiusGroup: themeData.borderRadiusGroup ?? {
@@ -273,6 +273,7 @@ const SharingInterface = ( { defaults } ) => {
 	useEffect( () => {
 		if ( data ) {
 			dispatch( store ).setNetworks( data.socialNetworks );
+			dispatch( store ).setSettings( data.values );
 			dispatch( store ).setTheme( data.themeOptions.theme );
 			dispatch( store ).setThemeData( data.themeOptions );
 			dispatch( store ).setSocialNetworkColors( data.themeOptions.iconColors );
@@ -310,7 +311,7 @@ const SharingInterface = ( { defaults } ) => {
 							<SocialNetworksPanel { ...data } watchFields={ socialNetworksPanelWatchValues } />
 							<DisplayRulesPanel watchFields={ displayRulesPanelWatchValues } />
 							<AppearancesPanel { ...data } watchFields={ appearancePanelWatchValues } />
-							{ /*<PreviewPanel { ...data } /> */}
+							<PreviewPanel { ...data } />
 						</FormProvider>
 					</Suspense>
 				</div>

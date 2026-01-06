@@ -3,21 +3,20 @@ import classNames from 'classnames';
 import { escapeAttribute, escapeEditableHTML } from '@wordpress/escape-html';
 import { useSelect } from '@wordpress/data';
 import store from '../../../Sharing/Store';
+import { useFormContext } from 'react-hook-form';
 
-const PreviewSocialIconListItem = ( { listItemKey, className, icon, label, theme } ) => {
-	const appearanceThemeData = useSelect( ( select ) => select( store ).getThemeData() );
-	const socialNetworkColors = useSelect( ( select ) => select( store ).getSocialNetworkColors() );
-	const mainSettings = useSelect( ( select ) => select( store ).getSettings() );
-	const classes = classNames( className, `has_${ listItemKey }`, { 'has-tooltip': appearanceThemeData.showTooltips } );
+const PreviewSocialIconListItem = ( { listItemKey, className, icon, label } ) => {
+	const { watch } = useFormContext();
+	const formValues = watch();
 
-	console.log( appearanceThemeData );
+	const classes = classNames( className, `has_${ listItemKey }`, { 'has-tooltip': formValues.showTooltips } );
 
 	let iconStyles = '';
-	if ( ! appearanceThemeData.groupIcons && 'custom' === theme ) {
-		const iconColor = socialNetworkColors[ listItemKey ].iconColor;
-		const iconColorHover = socialNetworkColors[ listItemKey ].iconColorHover;
-		const backgroundColor = socialNetworkColors[ listItemKey ].backgroundColor;
-		const backgroundColorHover = socialNetworkColors[ listItemKey ].backgroundColorHover;
+	if ( ! formValues.groupIcons && 'custom' === formValues.theme ) {
+		const iconColor = formValues.iconColors[ listItemKey ].iconColor;
+		const iconColorHover = formValues.iconColors[ listItemKey ].iconColorHover;
+		const backgroundColor = formValues.iconColors[ listItemKey ].background;
+		const backgroundColorHover = formValues.iconColors[ listItemKey ].backgroundHover;
 
 		iconStyles = `
 			.has_${ listItemKey } a {
@@ -32,12 +31,48 @@ const PreviewSocialIconListItem = ( { listItemKey, className, icon, label, theme
 	}
 
 	/**
+	 * Get label field name for network.
+	 *
+	 * @param {string} networkSlug Network slug.
+	 * @return {string} Field name.
+	 */
+	const getLabelFieldName = ( networkSlug) => {
+		// Special cases.
+		if ( networkSlug === 'twitter' ) {
+			return 'twitterLabel';
+		}
+		if ( networkSlug === 'mastodon' ) {
+			return 'mastodonLabel';
+		}
+		// Default pattern.
+		return `${ networkSlug }Label`;
+	};
+
+	/**
+	 * Get tooltip field name for network.
+	 *
+	 * @param {string} networkSlug Network slug.
+	 * @return {string} Field name.
+	 */
+	const getTooltipFieldName = ( networkSlug ) => {
+		// Special cases.
+		if ( networkSlug === 'twitter' ) {
+			return 'twitterTooltip';
+		}
+		if ( networkSlug === 'mastodon' ) {
+			return 'mastodonTooltip';
+		}
+		// Default pattern.
+		return `${ networkSlug }Tooltip`;
+	};
+
+	/**
 	 * Get a translated label for the social network.
 	 *
 	 * @return {string} The social network label.
 	 */
 	const getLabel = () => {
-		const maybeLabel = mainSettings[ `${ listItemKey }_label` ] ?? '';
+		const maybeLabel = formValues[ getLabelFieldName( listItemKey ) ] ?? '';
 		if ( '' === maybeLabel ) {
 			return label;
 		}
@@ -47,10 +82,10 @@ const PreviewSocialIconListItem = ( { listItemKey, className, icon, label, theme
 	/**
 	 * Get a tooltip for the social network.
 	 *
-	 * @return {string} The social network label.
+	 * @return {string} The social network tooltip.
 	 */
 	const getTooltip = () => {
-		const maybeTooltip = mainSettings[ `${ listItemKey }_tooltip` ] ?? '';
+		const maybeTooltip = formValues[ getTooltipFieldName( listItemKey ) ] ?? '';
 		return maybeTooltip;
 	};
 
@@ -65,7 +100,7 @@ const PreviewSocialIconListItem = ( { listItemKey, className, icon, label, theme
 					} }
 				>
 					{ icon }
-					{ ( 'default' === appearanceThemeData.theme || ( 'custom' === appearanceThemeData.theme && ! appearanceThemeData.iconsOnly ) ) && (
+					{ ( 'default' === formValues.theme || ( 'custom' === formValues.theme && ! formValues.iconsOnly ) ) && (
 						<>
 							<span className="has-icon-label">{ `${ escapeEditableHTML( getLabel() ) }` }</span>
 						</>

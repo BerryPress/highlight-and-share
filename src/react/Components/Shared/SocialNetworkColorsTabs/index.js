@@ -28,9 +28,9 @@ const SocialNetworkColorsTabs = () => {
 				title: network.label,
 				className: `social-network-colors-tab-${ network.slug }`,
 				background: network.background,
-				background_hover: network.background_hover,
-				icon_color: network.icon_color,
-				icon_color_hover: network.icon_color_hover,
+				background_hover: network.backgroundHover,
+				icon_color: network.iconColor,
+				icon_color_hover: network.iconColorHover,
 			} );
 		} );
 		return tabs;

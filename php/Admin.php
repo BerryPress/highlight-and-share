@@ -504,6 +504,9 @@ class Admin {
 		 * Can't change the default names of the options because they are used elsewhere.
 		 */
 		foreach ( $options as $option_name => $option_value ) {
+			if ( is_array( $option_value ) ) {
+				$option_value = $this->map_defaults_to_js( $option_value );
+			}
 			$js_option_names[ Functions::to_camelcase( $option_name ) ] = $option_value;
 		}
 		return $js_option_names;
@@ -1021,8 +1024,8 @@ class Admin {
 	 * @return string $classes.
 	 */
 	public function add_admin_body_class( $classes ) {
-		$current_tab = Functions::get_admin_tab();
-		if ( null !== $current_tab && 'appearance' === $current_tab ) {
+		$screen = get_current_screen();
+		if ( 'settings_page_highlight-and-share' === $screen->id ) {
 			$classes .= ' has-body';
 		}
 		return $classes;

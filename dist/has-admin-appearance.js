@@ -23724,9 +23724,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
 /* harmony import */ var _PreviewSocialIconListItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../PreviewSocialIconListItem */ "./src/react/Components/Shared/PreviewSocialIconListItem/index.js");
 /* harmony import */ var _SocialIcons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../SocialIcons */ "./src/react/Components/SocialIcons/index.js");
+
 
 
 
@@ -23735,84 +23736,86 @@ __webpack_require__.r(__webpack_exports__);
 // Import all the social media icons.
 
 var PreviewSocialIconList = function PreviewSocialIconList() {
-  var appearanceThemeData = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(function (select) {
-    return select(_Sharing_Store__WEBPACK_IMPORTED_MODULE_3__["default"]).getThemeData();
-  });
+  var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useFormContext)(),
+    watch = _useFormContext.watch;
+  var formValues = watch();
   var _SocialIcons = (0,_SocialIcons__WEBPACK_IMPORTED_MODULE_5__["default"])(),
     getSocialIcons = _SocialIcons.getSocialIcons;
-  var networks = getSocialIcons();
-  if (!appearanceThemeData) {
+  var networks = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return getSocialIcons();
+  }, [formValues]);
+  if (!formValues) {
     return null;
   }
   // Make sure appearance theme data is present.
   var appearanceEmpty = true;
-  if (Object.keys(appearanceThemeData).length > 0) {
+  if (Object.keys(formValues).length > 0) {
     appearanceEmpty = false;
   }
   var themeStyles = ''; // placeholder for custom styles.
   // If appearance theme data is present, and the theme is custom, then add custom styles.
-  if ('custom' === appearanceThemeData.theme && !appearanceEmpty) {
-    if (appearanceThemeData.groupIcons) {
-      themeStyles += "\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper {\n\t\t\t\t\tbackground-color: ".concat(appearanceThemeData.backgroundColor, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\tcolor: ").concat(appearanceThemeData.iconColorsGroup, " !important;\n\t\t\t\t\tbackground-color: ").concat(appearanceThemeData.backgroundColor, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a:hover {\n\t\t\t\t\tcolor: ").concat(appearanceThemeData.iconColorsGroupHover, " !important;\n\t\t\t\t\tbackground-color: ").concat(appearanceThemeData.backgroundColorHover, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:first-child a {\n\t\t\t\t\tborder-top-left-radius: ").concat(appearanceThemeData.borderRadiusGroup.attrTop + appearanceThemeData.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\tborder-bottom-left-radius: ").concat(appearanceThemeData.borderRadiusGroup.attrTop + appearanceThemeData.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child a {\n\t\t\t\t\tborder-bottom-right-radius: ").concat(appearanceThemeData.borderRadiusGroup.attrTop + appearanceThemeData.borderRadiusGroup.attrBottom, " !important;\n\t\t\t\t\tborder-top-right-radius: ").concat(appearanceThemeData.borderRadiusGroup.attrTop + appearanceThemeData.borderRadiusGroup.attrRight, " !important;\n\t\t\t\t}\n\t\t\t");
+  if ('custom' === formValues.theme && !appearanceEmpty) {
+    if (formValues.groupIcons) {
+      themeStyles += "\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper {\n\t\t\t\t\tbackground-color: ".concat(formValues.backgroundColor, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\tcolor: ").concat(formValues.iconColorsGroup, " !important;\n\t\t\t\t\tbackground-color: ").concat(formValues.backgroundColor, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a:hover {\n\t\t\t\t\tcolor: ").concat(formValues.iconColorsGroupHover, " !important;\n\t\t\t\t\tbackground-color: ").concat(formValues.backgroundColorHover, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:first-child a {\n\t\t\t\t\tborder-top-left-radius: ").concat(formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\tborder-bottom-left-radius: ").concat(formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t}\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child a {\n\t\t\t\t\tborder-bottom-right-radius: ").concat(formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrBottom, " !important;\n\t\t\t\t\tborder-top-right-radius: ").concat(formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrRight, " !important;\n\t\t\t\t}\n\t\t\t");
       // Get border radius values.
-      if (appearanceThemeData.borderRadiusGroup.attrSyncUnits) {
-        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper,\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper:not(.icons-grouped) a {\n\t\t\t\t\t\tborder-radius: ".concat(appearanceThemeData.borderRadiusGroup.attrTop).concat(appearanceThemeData.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
+      if (formValues.borderRadiusGroup.attrSyncUnits) {
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper,\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper:not(.icons-grouped) a {\n\t\t\t\t\t\tborder-radius: ".concat(formValues.borderRadiusGroup.attrTop).concat(formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
       } else {
-        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper,\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper a {\n\t\t\t\t\t\tborder-top-left-radius: ".concat(appearanceThemeData.borderRadiusGroup.attrTop).concat(appearanceThemeData.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t\tborder-top-right-radius: ").concat(appearanceThemeData.borderRadiusGroup.attrRight).concat(appearanceThemeData.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-right-radius: ").concat(appearanceThemeData.borderRadiusGroup.attrBottom).concat(appearanceThemeData.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-left-radius: ").concat(appearanceThemeData.borderRadiusGroup.attrLeft).concat(appearanceThemeData.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper,\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper a {\n\t\t\t\t\t\tborder-top-left-radius: ".concat(formValues.borderRadiusGroup.attrTop).concat(formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t\tborder-top-right-radius: ").concat(formValues.borderRadiusGroup.attrRight).concat(formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-right-radius: ").concat(formValues.borderRadiusGroup.attrBottom).concat(formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-left-radius: ").concat(formValues.borderRadiusGroup.attrLeft).concat(formValues.borderRadiusGroup.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
       }
     }
-    if (!appearanceThemeData.groupIcons) {
-      if (appearanceThemeData.iconBorderRadius.attrSyncUnits) {
-        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\t\tborder-radius: ".concat(appearanceThemeData.iconBorderRadius.attrTop).concat(appearanceThemeData.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
+    if (!formValues.groupIcons) {
+      if (formValues.iconBorderRadius.attrSyncUnits) {
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\t\tborder-radius: ".concat(formValues.iconBorderRadius.attrTop).concat(formValues.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
       } else {
-        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\t\tborder-top-left-radius: ".concat(appearanceThemeData.iconBorderRadius.attrTop).concat(appearanceThemeData.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t\tborder-top-right-radius: ").concat(appearanceThemeData.iconBorderRadius.attrRight).concat(appearanceThemeData.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-right-radius: ").concat(appearanceThemeData.iconBorderRadius.attrBottom).concat(appearanceThemeData.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-left-radius: ").concat(appearanceThemeData.iconBorderRadius.attrLeft).concat(appearanceThemeData.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\t\tborder-top-left-radius: ".concat(formValues.iconBorderRadius.attrTop).concat(formValues.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t\tborder-top-right-radius: ").concat(formValues.iconBorderRadius.attrRight).concat(formValues.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-right-radius: ").concat(formValues.iconBorderRadius.attrBottom).concat(formValues.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t\tborder-bottom-left-radius: ").concat(formValues.iconBorderRadius.attrLeft).concat(formValues.iconBorderRadius.attrUnit, " !important;\n\t\t\t\t\t}\n\t\t\t\t");
       }
     }
   }
   // Set padding.
-  if (!appearanceEmpty && 'custom' === appearanceThemeData.theme) {
+  if (!appearanceEmpty && 'custom' === formValues.theme) {
     // Get padding values.
-    if (appearanceThemeData.iconPadding.attrSyncUnits) {
-      themeStyles += "\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\tpadding: ".concat(appearanceThemeData.iconPadding.attrTop).concat(appearanceThemeData.iconPadding.attrUnit, " !important;\n\t\t\t\t}\n\t\t\t");
+    if (formValues.iconPadding.attrSyncUnits) {
+      themeStyles += "\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\tpadding: ".concat(formValues.iconPadding.attrTop).concat(formValues.iconPadding.attrUnit, " !important;\n\t\t\t\t}\n\t\t\t");
     } else {
-      themeStyles += "\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\tpadding-top: ".concat(appearanceThemeData.iconPadding.attrTop).concat(appearanceThemeData.iconPadding.attrUnit, " !important;\n\t\t\t\t\tpadding-right: ").concat(appearanceThemeData.iconPadding.attrRight).concat(appearanceThemeData.iconPadding.attrUnit, " !important;\n\t\t\t\t\tpadding-bottom: ").concat(appearanceThemeData.icon_padding.attrBottom).concat(appearanceThemeData.icon_padding.attrUnit, " !important;\n\t\t\t\t\tpadding-left: ").concat(appearanceThemeData.iconPadding.attrLeft).concat(appearanceThemeData.iconPadding.attrUnit, " !important;\n\t\t\t\t}\n\t\t\t");
+      themeStyles += "\n\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\t\tpadding-top: ".concat(formValues.iconPadding.attrTop).concat(formValues.iconPadding.attrUnit, " !important;\n\t\t\t\t\tpadding-right: ").concat(formValues.iconPadding.attrRight).concat(formValues.iconPadding.attrUnit, " !important;\n\t\t\t\t\tpadding-bottom: ").concat(formValues.icon_padding.attrBottom).concat(formValues.icon_padding.attrUnit, " !important;\n\t\t\t\t\tpadding-left: ").concat(formValues.iconPadding.attrLeft).concat(formValues.iconPadding.attrUnit, " !important;\n\t\t\t\t}\n\t\t\t");
     }
   }
 
   // Set icon size.
   if (!appearanceEmpty) {
-    themeStyles += "\n\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a .has-icon {\n\t\t\t\twidth: ".concat(appearanceThemeData.iconSize, "px !important;\n\t\t\t\theight: ").concat(appearanceThemeData.iconSize, "px !important;\n\t\t\t}\n\t\t");
+    themeStyles += "\n\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a .has-icon {\n\t\t\t\twidth: ".concat(formValues.iconSize, "px !important;\n\t\t\t\theight: ").concat(formValues.iconSize, "px !important;\n\t\t\t}\n\t\t");
   }
 
   // Set font size.
   if (!appearanceEmpty) {
-    themeStyles += "\n\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\tfont-size: ".concat(appearanceThemeData.fontSize, "px !important;\n\t\t\t}\n\t\t");
+    themeStyles += "\n\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div a {\n\t\t\t\tfont-size: ".concat(formValues.fontSize, "px !important;\n\t\t\t}\n\t\t");
   }
 
   // Set the icon gap.
   if (!appearanceEmpty) {
-    if (!appearanceThemeData.groupIcons) {
-      if (appearanceThemeData.orientation === 'horizontal' && 'custom' === appearanceThemeData.theme) {
-        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div {\n\t\t\t\t\t\tmargin-right: ".concat(appearanceThemeData.iconGap, "px !important;\n\t\t\t\t\t}\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child {\n\t\t\t\t\t\tmargin-right: 0 !important;\n\t\t\t\t\t}\n\t\t\t\t");
-      } else if (appearanceThemeData.orientation === 'vertical' && 'custom' === appearanceThemeData.theme) {
-        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div {\n\t\t\t\t\t\tmargin-bottom: ".concat(appearanceThemeData.iconGap, "px !important;\n\t\t\t\t\t}\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child {\n\t\t\t\t\t\tmargin-bottom: 0 !important;\n\t\t\t\t\t}\n\t\t\t\t");
+    if (!formValues.groupIcons) {
+      if (formValues.orientation === 'horizontal' && 'custom' === formValues.theme) {
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div {\n\t\t\t\t\t\tmargin-right: ".concat(formValues.iconGap, "px !important;\n\t\t\t\t\t}\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child {\n\t\t\t\t\t\tmargin-right: 0 !important;\n\t\t\t\t\t}\n\t\t\t\t");
+      } else if (formValues.orientation === 'vertical' && 'custom' === formValues.theme) {
+        themeStyles += "\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div {\n\t\t\t\t\t\tmargin-bottom: ".concat(formValues.iconGap, "px !important;\n\t\t\t\t\t}\n\t\t\t\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child {\n\t\t\t\t\t\tmargin-bottom: 0 !important;\n\t\t\t\t\t}\n\t\t\t\t");
       }
     }
   }
 
   // Set the tooltip background and color.
-  themeStyles += "\n\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper > div.has-tooltip:hover:after {\n\t\t\tbackground-color: ".concat(appearanceThemeData.tooltipsBackgroundColor, " !important;\n\t\t\tcolor: ").concat(appearanceThemeData.tooltipsTextColor, " !important;\n\t\t}\n\t");
+  themeStyles += "\n\t\t.has-admin-theme-preview-list.highlight-and-share-wrapper > div.has-tooltip:hover:after {\n\t\t\tbackground-color: ".concat(formValues.tooltipsBackgroundColor, " !important;\n\t\t\tcolor: ").concat(formValues.tooltipsTextColor, " !important;\n\t\t}\n\t");
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, themeStyles), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('has-admin-theme-preview-list highlight-and-share-wrapper', "theme-".concat(appearanceThemeData.theme), {
-      'icons-grouped': appearanceThemeData.groupIcons
+    className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('has-admin-theme-preview-list highlight-and-share-wrapper', "theme-".concat(formValues.theme), {
+      'icons-grouped': formValues.groupIcons
     }, {
-      'icons-ungrouped': !appearanceThemeData.groupIcons
+      'icons-ungrouped': !formValues.groupIcons
     }, {
-      'orientation-horizontal': appearanceThemeData.orientation === 'horizontal'
+      'orientation-horizontal': formValues.orientation === 'horizontal'
     }, {
-      'orientation-vertical': appearanceThemeData.orientation === 'vertical'
+      'orientation-vertical': formValues.orientation === 'vertical'
     }, {
-      'has-label': !appearanceThemeData.iconsOnly
+      'has-label': !formValues.iconsOnly
     })
   }, networks.map(function (network, index) {
     if (network.enabled) {
@@ -23822,9 +23825,7 @@ var PreviewSocialIconList = function PreviewSocialIconList() {
         className: network.className,
         icon: network.icon,
         index: index,
-        label: network.label,
-        theme: "theme-".concat(appearanceThemeData.theme),
-        appearanceThemeData: appearanceThemeData
+        label: network.label
       });
     }
     return null;
@@ -23851,8 +23852,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
 /* eslint-disable jsx-a11y/anchor-is-valid */
+
 
 
 
@@ -23861,29 +23863,57 @@ var PreviewSocialIconListItem = function PreviewSocialIconListItem(_ref) {
   var listItemKey = _ref.listItemKey,
     className = _ref.className,
     icon = _ref.icon,
-    label = _ref.label,
-    theme = _ref.theme;
-  var appearanceThemeData = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(function (select) {
-    return select(_Sharing_Store__WEBPACK_IMPORTED_MODULE_3__["default"]).getThemeData();
-  });
-  var socialNetworkColors = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(function (select) {
-    return select(_Sharing_Store__WEBPACK_IMPORTED_MODULE_3__["default"]).getSocialNetworkColors();
-  });
-  var mainSettings = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(function (select) {
-    return select(_Sharing_Store__WEBPACK_IMPORTED_MODULE_3__["default"]).getSettings();
-  });
+    label = _ref.label;
+  var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useFormContext)(),
+    watch = _useFormContext.watch;
+  var formValues = watch();
   var classes = classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, "has_".concat(listItemKey), {
-    'has-tooltip': appearanceThemeData.showTooltips
+    'has-tooltip': formValues.showTooltips
   });
-  console.log(appearanceThemeData);
   var iconStyles = '';
-  if (!appearanceThemeData.groupIcons && 'custom' === theme) {
-    var iconColor = socialNetworkColors[listItemKey].iconColor;
-    var iconColorHover = socialNetworkColors[listItemKey].iconColorHover;
-    var backgroundColor = socialNetworkColors[listItemKey].backgroundColor;
-    var backgroundColorHover = socialNetworkColors[listItemKey].backgroundColorHover;
+  if (!formValues.groupIcons && 'custom' === formValues.theme) {
+    var iconColor = formValues.iconColors[listItemKey].iconColor;
+    var iconColorHover = formValues.iconColors[listItemKey].iconColorHover;
+    var backgroundColor = formValues.iconColors[listItemKey].background;
+    var backgroundColorHover = formValues.iconColors[listItemKey].backgroundHover;
     iconStyles = "\n\t\t\t.has_".concat(listItemKey, " a {\n\t\t\t\tcolor: ").concat(iconColor, " !important;\n\t\t\t\tbackground: ").concat(backgroundColor, " !important;\n\t\t\t}\n\t\t\t.has_").concat(listItemKey, " a:hover {\n\t\t\t\tcolor: ").concat(iconColorHover, " !important;\n\t\t\t\tbackground: ").concat(backgroundColorHover, " !important;\n\t\t\t}\n\t\t");
   }
+
+  /**
+   * Get label field name for network.
+   *
+   * @param {string} networkSlug Network slug.
+   * @return {string} Field name.
+   */
+  var getLabelFieldName = function getLabelFieldName(networkSlug) {
+    // Special cases.
+    if (networkSlug === 'twitter') {
+      return 'twitterLabel';
+    }
+    if (networkSlug === 'mastodon') {
+      return 'mastodonLabel';
+    }
+    // Default pattern.
+    return "".concat(networkSlug, "Label");
+  };
+
+  /**
+   * Get tooltip field name for network.
+   *
+   * @param {string} networkSlug Network slug.
+   * @return {string} Field name.
+   */
+  var getTooltipFieldName = function getTooltipFieldName(networkSlug) {
+    // Special cases.
+    if (networkSlug === 'twitter') {
+      return 'twitterTooltip';
+    }
+    if (networkSlug === 'mastodon') {
+      return 'mastodonTooltip';
+    }
+    // Default pattern.
+    return "".concat(networkSlug, "Tooltip");
+  };
 
   /**
    * Get a translated label for the social network.
@@ -23891,8 +23921,8 @@ var PreviewSocialIconListItem = function PreviewSocialIconListItem(_ref) {
    * @return {string} The social network label.
    */
   var getLabel = function getLabel() {
-    var _mainSettings;
-    var maybeLabel = (_mainSettings = mainSettings["".concat(listItemKey, "_label")]) !== null && _mainSettings !== void 0 ? _mainSettings : '';
+    var _formValues$getLabelF;
+    var maybeLabel = (_formValues$getLabelF = formValues[getLabelFieldName(listItemKey)]) !== null && _formValues$getLabelF !== void 0 ? _formValues$getLabelF : '';
     if ('' === maybeLabel) {
       return label;
     }
@@ -23902,11 +23932,11 @@ var PreviewSocialIconListItem = function PreviewSocialIconListItem(_ref) {
   /**
    * Get a tooltip for the social network.
    *
-   * @return {string} The social network label.
+   * @return {string} The social network tooltip.
    */
   var getTooltip = function getTooltip() {
-    var _mainSettings2;
-    var maybeTooltip = (_mainSettings2 = mainSettings["".concat(listItemKey, "_tooltip")]) !== null && _mainSettings2 !== void 0 ? _mainSettings2 : '';
+    var _formValues$getToolti;
+    var maybeTooltip = (_formValues$getToolti = formValues[getTooltipFieldName(listItemKey)]) !== null && _formValues$getToolti !== void 0 ? _formValues$getToolti : '';
     return maybeTooltip;
   };
   return /*#__PURE__*/React.createElement("div", {
@@ -23918,7 +23948,7 @@ var PreviewSocialIconListItem = function PreviewSocialIconListItem(_ref) {
     onClick: function onClick(e) {
       e.preventDefault();
     }
-  }, icon, ('default' === appearanceThemeData.theme || 'custom' === appearanceThemeData.theme && !appearanceThemeData.iconsOnly) && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+  }, icon, ('default' === formValues.theme || 'custom' === formValues.theme && !formValues.iconsOnly) && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
     className: "has-icon-label"
   }, "".concat((0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_1__.escapeEditableHTML)(getLabel())))))));
 };

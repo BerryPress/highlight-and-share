@@ -131,7 +131,7 @@ const ThemeCustomizer = () => {
 				<>
 					<div className="has-admin-component-row">
 						<Controller
-							name="iconOnly"
+							name="iconsOnly"
 							control={ control }
 							render={ ( { field: { onChange, value } } ) => (
 								<ToggleControl
@@ -363,7 +363,7 @@ const ThemeCustomizer = () => {
 							) }
 						/>
 					</div>
-					{ ! getValues( 'iconOnly' ) && (
+					{ ! getValues( 'iconsOnly' ) && (
 						<>
 							<div className="has-admin-component-row">
 								<Controller
