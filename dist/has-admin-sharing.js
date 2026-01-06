@@ -24069,46 +24069,6 @@ var CircularExclamationIcon = function CircularExclamationIcon(_ref) {
 
 /***/ }),
 
-/***/ "./src/react/Components/Icons/CircularInfo.js":
-/*!****************************************************!*\
-  !*** ./src/react/Components/Icons/CircularInfo.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _excluded = ["width", "height", "fill"];
-function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-
-var CircularInfo = function CircularInfo(_ref) {
-  var _ref$width = _ref.width,
-    width = _ref$width === void 0 ? 16 : _ref$width,
-    _ref$height = _ref.height,
-    height = _ref$height === void 0 ? 16 : _ref$height,
-    _ref$fill = _ref.fill,
-    fill = _ref$fill === void 0 ? '#333333' : _ref$fill,
-    props = _objectWithoutProperties(_ref, _excluded);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", _extends({
-    xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 512 512",
-    width: width,
-    height: height
-  }, props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
-    fill: fill,
-    d: "M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 128c17.67 0 32 14.33 32 32s-14.33 32-32 32-32-14.3-32-32 14.3-32 32-32zm40 256h-80c-13.2 0-24-10.7-24-24s10.75-24 24-24h16v-64h-8c-13.25 0-24-10.75-24-24s10.8-24 24-24h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24s-10.7 24-24 24z"
-  }));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CircularInfo);
-
-/***/ }),
-
 /***/ "./src/react/Components/Icons/Gear.js":
 /*!********************************************!*\
   !*** ./src/react/Components/Icons/Gear.js ***!
@@ -24989,10 +24949,12 @@ var PanelBodyWithIndicator = function PanelBodyWithIndicator(_ref) {
 
   // Build panel title with indicator.
   var panelTitle = /*#__PURE__*/React.createElement(React.Fragment, null, title, control && isDirty && !hasErrors && /*#__PURE__*/React.createElement("span", {
-    className: "has-panel-indicator has-panel-indicator-dirty"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Please save your changes', 'highlight-and-share')), control && hasErrors && /*#__PURE__*/React.createElement("span", {
-    className: "has-panel-indicator has-panel-indicator-error"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Please fix any errors', 'highlight-and-share')));
+    className: "has-panel-indicator has-panel-indicator-dirty",
+    "data-tooltip": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('You have unsaved changes in this panel.', 'highlight-and-share')
+  }), control && hasErrors && /*#__PURE__*/React.createElement("span", {
+    className: "has-panel-indicator has-panel-indicator-error",
+    "data-tooltip": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('There are errors in this panel.', 'highlight-and-share')
+  }));
   return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.PanelBody, _extends({
     title: panelTitle,
     initialOpen: isOpen,
@@ -25048,11 +25010,9 @@ var PostTypeSelector = function PostTypeSelector(_ref) {
   if (!postTypes || postTypes.length === 0) {
     return null;
   }
-  return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.BaseControl, {
-    id: "excludedPostTypes",
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Excluded Post Types', 'highlight-and-share'),
-    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select post types where sharing should be disabled. All post types are enabled by default.', 'highlight-and-share')
-  }, Object.values(postTypes).map(function (postType) {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h3", {
+    className: "has-admin-content-subheading"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Excluded Post Types', 'highlight-and-share')), Object.values(postTypes).map(function (postType) {
     return /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_1__.Controller, {
       key: postType.value,
       name: "excludedPostTypes[".concat(postType.value, "]"),
@@ -25579,11 +25539,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _Notice__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Notice */ "./src/react/Components/Notice/index.js");
-/* harmony import */ var _Icons_CircularInfo__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Icons/CircularInfo */ "./src/react/Components/Icons/CircularInfo.js");
-/* harmony import */ var _ColorPicker__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../ColorPicker */ "./src/react/Components/ColorPicker/index.js");
-/* harmony import */ var _Dimensions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Dimensions */ "./src/react/Components/Dimensions/index.js");
-/* harmony import */ var _SocialNetworkColorsTabs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../SocialNetworkColorsTabs */ "./src/react/Components/Shared/SocialNetworkColorsTabs/index.js");
+/* harmony import */ var _ColorPicker__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../ColorPicker */ "./src/react/Components/ColorPicker/index.js");
+/* harmony import */ var _Dimensions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Dimensions */ "./src/react/Components/Dimensions/index.js");
+/* harmony import */ var _SocialNetworkColorsTabs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../SocialNetworkColorsTabs */ "./src/react/Components/Shared/SocialNetworkColorsTabs/index.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -25724,14 +25682,6 @@ var ThemeCustomizer = function ThemeCustomizer() {
       });
     }
   })), 'custom' === theme && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "has-admin-component-row has-description"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Notice__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('You have chosen a custom theme. You can configure the settings and see a preview below.', 'highlight-and-share'),
-    status: "info",
-    politeness: "polite",
-    inline: false,
-    icon: _Icons_CircularInfo__WEBPACK_IMPORTED_MODULE_8__["default"]
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_4__.Controller, {
     name: "iconOnly",
@@ -25778,7 +25728,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref4$field = _ref4.field,
         _onChange4 = _ref4$field.onChange,
         value = _ref4$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange4(newValue);
@@ -25798,7 +25748,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref5$field = _ref5.field,
         _onChange5 = _ref5$field.onChange,
         value = _ref5$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange5(newValue);
@@ -25818,7 +25768,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref6$field = _ref6.field,
         _onChange6 = _ref6$field.onChange,
         value = _ref6$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange6(newValue);
@@ -25838,7 +25788,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref7$field = _ref7.field,
         _onChange7 = _ref7$field.onChange,
         value = _ref7$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange7(newValue);
@@ -25858,7 +25808,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref8$field = _ref8.field,
         onChange = _ref8$field.onChange,
         value = _ref8$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_8__["default"], {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Border Radius', 'highlight-and-share'),
         allowNegatives: false,
         attrTop: value.attrTop,
@@ -25879,7 +25829,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
     }
   }))), !getValues('groupIcons') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_SocialNetworkColorsTabs__WEBPACK_IMPORTED_MODULE_11__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_SocialNetworkColorsTabs__WEBPACK_IMPORTED_MODULE_9__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_4__.Controller, {
     name: "iconBorderRadius",
@@ -25888,7 +25838,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref9$field = _ref9.field,
         onChange = _ref9$field.onChange,
         value = _ref9$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_8__["default"], {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Icons Border Radius', 'highlight-and-share'),
         allowNegatives: false,
         attrTop: value.attrTop,
@@ -25916,7 +25866,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref0$field = _ref0.field,
         onChange = _ref0$field.onChange,
         value = _ref0$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_8__["default"], {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Icons Padding', 'highlight-and-share'),
         allowNegatives: false,
         attrTop: value.attrTop,
@@ -26041,7 +25991,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref13$field = _ref13.field,
         _onChange10 = _ref13$field.onChange,
         value = _ref13$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange10(newValue);
@@ -26061,7 +26011,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref14$field = _ref14.field,
         _onChange11 = _ref14$field.onChange,
         value = _ref14$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange11(newValue);

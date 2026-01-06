@@ -551,127 +551,6 @@ var DimensionsControl = function DimensionsControl(props) {
 
 /***/ }),
 
-/***/ "./src/react/Components/Icons/CircularInfo.js":
-/*!****************************************************!*\
-  !*** ./src/react/Components/Icons/CircularInfo.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _excluded = ["width", "height", "fill"];
-function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-
-var CircularInfo = function CircularInfo(_ref) {
-  var _ref$width = _ref.width,
-    width = _ref$width === void 0 ? 16 : _ref$width,
-    _ref$height = _ref.height,
-    height = _ref$height === void 0 ? 16 : _ref$height,
-    _ref$fill = _ref.fill,
-    fill = _ref$fill === void 0 ? '#333333' : _ref$fill,
-    props = _objectWithoutProperties(_ref, _excluded);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", _extends({
-    xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 512 512",
-    width: width,
-    height: height
-  }, props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
-    fill: fill,
-    d: "M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 128c17.67 0 32 14.33 32 32s-14.33 32-32 32-32-14.3-32-32 14.3-32 32-32zm40 256h-80c-13.2 0-24-10.7-24-24s10.75-24 24-24h16v-64h-8c-13.25 0-24-10.75-24-24s10.8-24 24-24h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24s-10.7 24-24 24z"
-  }));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CircularInfo);
-
-/***/ }),
-
-/***/ "./src/react/Components/Notice/index.js":
-/*!**********************************************!*\
-  !*** ./src/react/Components/Notice/index.js ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_a11y__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/a11y */ "@wordpress/a11y");
-/* harmony import */ var _wordpress_a11y__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_a11y__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_3__);
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-var _excluded = ["message", "status", "politeness", "icon", "className", "inline", "children", "animate", "animationType"];
-function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-// eslint-disable-next-line no-unused-vars
-
-
-
-
-var Notice = function Notice(_ref) {
-  var _ref$message = _ref.message,
-    message = _ref$message === void 0 ? '' : _ref$message,
-    _ref$status = _ref.status,
-    status = _ref$status === void 0 ? 'info' : _ref$status,
-    _ref$politeness = _ref.politeness,
-    politeness = _ref$politeness === void 0 ? 'polite' : _ref$politeness,
-    _ref$icon = _ref.icon,
-    icon = _ref$icon === void 0 ? null : _ref$icon,
-    _ref$className = _ref.className,
-    className = _ref$className === void 0 ? '' : _ref$className,
-    _ref$inline = _ref.inline,
-    inline = _ref$inline === void 0 ? false : _ref$inline,
-    children = _ref.children,
-    _ref$animate = _ref.animate,
-    animate = _ref$animate === void 0 ? false : _ref$animate,
-    _ref$animationType = _ref.animationType,
-    animationType = _ref$animationType === void 0 ? 'fadein' : _ref$animationType,
-    props = _objectWithoutProperties(_ref, _excluded);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    (0,_wordpress_a11y__WEBPACK_IMPORTED_MODULE_1__.speak)(message, politeness);
-  }, [message, status, politeness]);
-  var hasIcon = function hasIcon() {
-    return icon !== null;
-  };
-  var getIcon = function getIcon(Icon) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Icon, {
-      width: 16,
-      height: 16,
-      fill: "#6c757d"
-    });
-  };
-  var containerClasses = classnames__WEBPACK_IMPORTED_MODULE_3___default()(className, 'has-admin__notice', _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
-    'has-admin__notice--has-icon': hasIcon()
-  }, "has-admin__notice-type--".concat(status), true), "has-admin__notice-appearance--inline", inline), "has-admin__notice-appearance--block", !inline), "has-admin__notice-animate", animate), "has-admin__notice-animate--".concat(animationType), animate));
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: containerClasses
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Notice, _extends({
-    isDismissible: false,
-    spokenMessage: message,
-    actions: []
-  }, props), hasIcon() && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "has-admin__notice-icon"
-  }, getIcon(icon)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "has-admin__notice-message"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, message, " ", children, " "))));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Notice);
-
-/***/ }),
-
 /***/ "./src/react/Components/Shared/SocialNetworkColorsTabs/index.js":
 /*!**********************************************************************!*\
   !*** ./src/react/Components/Shared/SocialNetworkColorsTabs/index.js ***!
@@ -950,11 +829,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _Notice__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Notice */ "./src/react/Components/Notice/index.js");
-/* harmony import */ var _Icons_CircularInfo__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Icons/CircularInfo */ "./src/react/Components/Icons/CircularInfo.js");
-/* harmony import */ var _ColorPicker__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../ColorPicker */ "./src/react/Components/ColorPicker/index.js");
-/* harmony import */ var _Dimensions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Dimensions */ "./src/react/Components/Dimensions/index.js");
-/* harmony import */ var _SocialNetworkColorsTabs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../SocialNetworkColorsTabs */ "./src/react/Components/Shared/SocialNetworkColorsTabs/index.js");
+/* harmony import */ var _ColorPicker__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../ColorPicker */ "./src/react/Components/ColorPicker/index.js");
+/* harmony import */ var _Dimensions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Dimensions */ "./src/react/Components/Dimensions/index.js");
+/* harmony import */ var _SocialNetworkColorsTabs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../SocialNetworkColorsTabs */ "./src/react/Components/Shared/SocialNetworkColorsTabs/index.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -1095,14 +972,6 @@ var ThemeCustomizer = function ThemeCustomizer() {
       });
     }
   })), 'custom' === theme && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "has-admin-component-row has-description"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Notice__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('You have chosen a custom theme. You can configure the settings and see a preview below.', 'highlight-and-share'),
-    status: "info",
-    politeness: "polite",
-    inline: false,
-    icon: _Icons_CircularInfo__WEBPACK_IMPORTED_MODULE_8__["default"]
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_4__.Controller, {
     name: "iconOnly",
@@ -1149,7 +1018,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref4$field = _ref4.field,
         _onChange4 = _ref4$field.onChange,
         value = _ref4$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange4(newValue);
@@ -1169,7 +1038,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref5$field = _ref5.field,
         _onChange5 = _ref5$field.onChange,
         value = _ref5$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange5(newValue);
@@ -1189,7 +1058,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref6$field = _ref6.field,
         _onChange6 = _ref6$field.onChange,
         value = _ref6$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange6(newValue);
@@ -1209,7 +1078,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref7$field = _ref7.field,
         _onChange7 = _ref7$field.onChange,
         value = _ref7$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange7(newValue);
@@ -1229,7 +1098,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref8$field = _ref8.field,
         onChange = _ref8$field.onChange,
         value = _ref8$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_8__["default"], {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Border Radius', 'highlight-and-share'),
         allowNegatives: false,
         attrTop: value.attrTop,
@@ -1250,7 +1119,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
     }
   }))), !getValues('groupIcons') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_SocialNetworkColorsTabs__WEBPACK_IMPORTED_MODULE_11__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_SocialNetworkColorsTabs__WEBPACK_IMPORTED_MODULE_9__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_4__.Controller, {
     name: "iconBorderRadius",
@@ -1259,7 +1128,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref9$field = _ref9.field,
         onChange = _ref9$field.onChange,
         value = _ref9$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_8__["default"], {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Icons Border Radius', 'highlight-and-share'),
         allowNegatives: false,
         attrTop: value.attrTop,
@@ -1287,7 +1156,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref0$field = _ref0.field,
         onChange = _ref0$field.onChange,
         value = _ref0$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dimensions__WEBPACK_IMPORTED_MODULE_8__["default"], {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Icons Padding', 'highlight-and-share'),
         allowNegatives: false,
         attrTop: value.attrTop,
@@ -1412,7 +1281,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref13$field = _ref13.field,
         _onChange10 = _ref13$field.onChange,
         value = _ref13$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange10(newValue);
@@ -1432,7 +1301,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       var _ref14$field = _ref14.field,
         _onChange11 = _ref14$field.onChange,
         value = _ref14$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange11(newValue);

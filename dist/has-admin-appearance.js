@@ -24836,17 +24836,6 @@ function sendCommand(action, data, maybeAjaxUrl) {
 
 /***/ }),
 
-/***/ "@wordpress/a11y":
-/*!******************************!*\
-  !*** external ["wp","a11y"] ***!
-  \******************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = window["wp"]["a11y"];
-
-/***/ }),
-
 /***/ "@wordpress/components":
 /*!************************************!*\
   !*** external ["wp","components"] ***!

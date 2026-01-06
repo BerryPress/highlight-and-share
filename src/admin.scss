@@ -463,6 +463,7 @@ h2.has-admin-content-subheading {
 	.has-admin-component-row .components-select-control {
 
 		.components-has-units-control-label__units,
+		.components-base-control__label,
 		label {
 			display: block;
 			font-weight: 600;
@@ -582,8 +583,8 @@ h2.has-admin-content-subheading {
 		margin-bottom: 8px;
 
 		input {
-			max-height: 24px;
-			max-width: 24px;
+			max-height: 20px;
+			max-width: 20px;
 			&:before {
 				display: none;
 			}
@@ -1244,7 +1245,6 @@ h3.has-icon-heading {
 .has-sharing-panel {
 	margin: 0;
 	border: 0;
-	border-bottom: 1px solid #c3c4c7;
 	background: #fff;
 
 	&:last-child {
@@ -1265,14 +1265,6 @@ h3.has-icon-heading {
 
 		/* Panel indicator dots */
 		.has-panel-indicator {
-			position: relative;
-			display: flex;
-			justify-content: flex-end;
-			flex: 1;
-			margin-right: 32px;
-		}
-
-		.has-panel-indicator:after {
 			position: absolute;
 			display: block;
 			content: '';
@@ -1280,25 +1272,60 @@ h3.has-icon-heading {
 			height: 8px;
 			border-radius: 50%;
 			top: calc(50% - 4px);
-			right: -12px;
+			right: 48px;
 		}
-		.has-panel-indicator.has-panel-indicator-dirty:after {
+		.has-panel-indicator.has-panel-indicator-dirty {
 			background-color: #00a32a;
 			box-shadow: 0 0 0 2px rgba(0, 163, 42, 0.2);
 		}
 
-		.has-panel-indicator.has-panel-indicator-error:after {
+		.has-panel-indicator.has-panel-indicator-error {
 			background-color: #d63638;
 			box-shadow: 0 0 0 2px rgba(214, 54, 56, 0.2);
+		}
+		.has-panel-indicator:after {
+			content: '';
+			position: absolute;
+			top: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			background: #333;
+			color: #fff;
+			opacity: 0;
+			transition: opacity 0.2s ease;
+			pointer-events: none;
+		}
+		.has-panel-indicator:hover:after {
+			content: attr(data-tooltip);
+			position: absolute;
+			top: -40px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: #333;
+			color: #fff;
+			padding: 5px 10px;
+			border-radius: 4px;
+			font-size: 12px;
+			line-height: 1.5;
+			white-space: nowrap;
+			z-index: 1000;
+			opacity: 1;
+			transition: opacity 0.2s ease;
+			pointer-events: none;
 		}
 	}
 
 	/* Panel content */
 	&.components-panel__body  {
 		background: #fff;
+		margin-bottom: 20px;
 
 		.has-admin-component-wrapper {
 			padding: 16px 8px 8px 8px;
+		}
+
+		h3.has-admin-content-subheading {
+			margin-bottom: 16px;
 		}
 
 		.has-admin-component-row {
@@ -1316,6 +1343,11 @@ h3.has-icon-heading {
 			}
 		}
 	}
+	.components-checkbox-control__input-container {
+		svg {
+			transform: unset;
+		}
+	}
 
 	/* Panel toggle button */
 	.components-panel__body-toggle {
@@ -1330,7 +1362,8 @@ h3.has-icon-heading {
 		transition: background-color 0.2s ease;
 
 		&:hover {
-			background: #f0f0f1;
+			background: #EAEAEA;
+			color: #333;
 		}
 
 		&:focus {
@@ -1492,58 +1525,7 @@ h3.has-icon-heading {
 			padding: 0 !important;
 		}
 
-		input[type='checkbox'] {
-			width: 20px !important;
-			height: 20px !important;
-			min-width: 20px !important;
-			min-height: 20px !important;
-			margin: 0 !important;
-			padding: 0 !important;
-			border: 2px solid #c3c4c7 !important;
-			border-radius: 4px !important;
-			background: #fff !important;
-			appearance: none !important;
-			-webkit-appearance: none !important;
-			-moz-appearance: none !important;
-			cursor: pointer !important;
-			position: relative !important;
-			transition: all 0.2s ease !important;
-			flex-shrink: 0 !important;
-			box-shadow: none !important;
-			outline: none !important;
-
-			&:hover {
-				border-color: #8c8f94 !important;
-			}
-
-			&:checked {
-				background: #2271b1 !important;
-				border-color: #2271b1 !important;
-				box-shadow: 0 0 0 1px #fff, 0 0 0 2px #2271b1 !important;
-
-				&::before {
-					content: '' !important;
-					position: absolute !important;
-					left: 50% !important;
-					top: 50% !important;
-					transform: translate(-50%, -50%) rotate(45deg) !important;
-					width: 5px !important;
-					height: 10px !important;
-					border: solid #fff !important;
-					border-width: 0 2px 2px 0 !important;
-					margin: -1px 0 0 0 !important;
-				}
-
-				&::after {
-					display: none !important;
-				}
-			}
-
-			&:focus {
-				outline: 1px solid #2271b1 !important;
-				outline-offset: 2px !important;
-			}
-		}
+		
 
 		.components-checkbox-control__label {
 			display: none !important;

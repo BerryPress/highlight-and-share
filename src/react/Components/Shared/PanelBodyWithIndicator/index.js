@@ -56,10 +56,10 @@ const PanelBodyWithIndicator = ( {
 		<>
 			{ title }
 			{ control && isDirty && ! hasErrors && (
-				<span className="has-panel-indicator has-panel-indicator-dirty">{ __( 'Please save your changes', 'highlight-and-share' ) }</span>
+				<span className="has-panel-indicator has-panel-indicator-dirty" data-tooltip={ __( 'You have unsaved changes in this panel.', 'highlight-and-share' ) } />
 			) }
 			{ control && hasErrors && (
-				<span className="has-panel-indicator has-panel-indicator-error">{ __( 'Please fix any errors', 'highlight-and-share' ) }</span>
+				<span className="has-panel-indicator has-panel-indicator-error" data-tooltip={ __( 'There are errors in this panel.', 'highlight-and-share' ) } />
 			) }
 		</>
 	);

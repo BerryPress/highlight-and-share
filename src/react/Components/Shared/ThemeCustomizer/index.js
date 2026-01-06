@@ -129,18 +129,6 @@ const ThemeCustomizer = () => {
 			</div>
 			{ 'custom' === theme && (
 				<>
-					<div className="has-admin-component-row has-description">
-						<Notice
-							message={ __(
-								'You have chosen a custom theme. You can configure the settings and see a preview below.',
-								'highlight-and-share'
-							) }
-							status="info"
-							politeness="polite"
-							inline={ false }
-							icon={ CircularInfoIcon }
-						/>
-					</div>
 					<div className="has-admin-component-row">
 						<Controller
 							name="iconOnly"

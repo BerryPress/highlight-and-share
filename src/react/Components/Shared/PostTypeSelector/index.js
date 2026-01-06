@@ -25,14 +25,8 @@ const PostTypeSelector = ( { control, postTypes = [] } ) => {
 	}
 
 	return (
-		<BaseControl
-			id="excludedPostTypes"
-			label={ __( 'Excluded Post Types', 'highlight-and-share' ) }
-			help={ __(
-				'Select post types where sharing should be disabled. All post types are enabled by default.',
-				'highlight-and-share'
-			) }
-		>
+		<>
+			<h3 className="has-admin-content-subheading">{ __( 'Excluded Post Types', 'highlight-and-share' ) }</h3>
 			{ Object.values( postTypes ).map( ( postType ) => (
 				<Controller
 					key={ postType.value }
@@ -49,7 +43,7 @@ const PostTypeSelector = ( { control, postTypes = [] } ) => {
 					) }
 				/>
 			) ) }
-		</BaseControl>
+		</>
 	);
 };
 
