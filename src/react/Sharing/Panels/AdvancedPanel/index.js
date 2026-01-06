@@ -10,7 +10,7 @@
 import { __ } from '@wordpress/i18n';
 import { Suspense } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
-import { ToggleControl, TextControl } from '@wordpress/components';
+import { TextControl } from '@wordpress/components';
 import classNames from 'classnames';
 import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndicator';
 import ErrorBoundary from '../../../Components/ErrorBoundary';
@@ -31,7 +31,7 @@ const Interface = ( { watchFields } ) => {
 
 	return (
 		<PanelBodyWithIndicator
-			title={ __( 'Advanced', 'highlight-and-share' ) }
+			title={ __( 'Advanced - Selector Settings for Page Builders', 'highlight-and-share' ) }
 			initialOpen={ false }
 			panelId="advanced"
 			control={ control }
@@ -174,27 +174,6 @@ const Interface = ( { watchFields } ) => {
 									/>
 								) }
 							</>
-						) }
-					/>
-				</div>
-
-				<div className="has-admin-component-row">
-					<Controller
-						name="shortlinks"
-						control={ control }
-						render={ ( { field: { onChange, value } } ) => (
-							<ToggleControl
-								label={ __( 'Enable Shortlinks', 'highlight-and-share' ) }
-								className="has-admin__toggle-control"
-								checked={ value ?? false }
-								onChange={ ( boolValue ) => {
-									onChange( boolValue );
-								} }
-								help={ __(
-									'Enable shortlinks for sharing URLs.',
-									'highlight-and-share'
-								) }
-							/>
 						) }
 					/>
 				</div>

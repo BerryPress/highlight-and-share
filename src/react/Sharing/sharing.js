@@ -356,7 +356,7 @@ const SharingInterface = ( { defaults } ) => {
 					</h1>
 					<p className="description">
 						{ __(
-							'Configure how and where content can be shared across your site.',
+							'Configure how and where content can be shared across your site, whether through text selection, a Click to Share block, or inline highlighting.',
 							'highlight-and-share'
 						) }
 					</p>

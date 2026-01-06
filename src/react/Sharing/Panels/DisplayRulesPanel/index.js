@@ -32,7 +32,7 @@ const Interface = ( { watchFields } ) => {
 
 	return (
 		<PanelBodyWithIndicator
-			title={ __( 'Display Rules', 'highlight-and-share' ) }
+			title={ __( 'Display Rules - Post Types and Content Areas', 'highlight-and-share' ) }
 			initialOpen={ false }
 			panelId="display-rules"
 			control={ control }
@@ -171,6 +171,26 @@ const Interface = ( { watchFields } ) => {
 								className="has-admin__text-control"
 								help={ __(
 									'Choose a suffix to go after the sharing text such as a quote.',
+									'highlight-and-share'
+								) }
+							/>
+						) }
+					/>
+				</div>
+				<div className="has-admin-component-row">
+					<Controller
+						name="shortlinks"
+						control={ control }
+						render={ ( { field: { onChange, value } } ) => (
+							<ToggleControl
+								label={ __( 'Enable Shortlinks', 'highlight-and-share' ) }
+								className="has-admin__toggle-control"
+								checked={ value ?? false }
+								onChange={ ( boolValue ) => {
+									onChange( boolValue );
+								} }
+								help={ __(
+									'Enable shortlinks for sharing URLs.',
 									'highlight-and-share'
 								) }
 							/>

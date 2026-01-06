@@ -600,10 +600,7 @@ class Admin {
 				<div class="has-admin-container-body">
 					<nav class="nav-tab-wrapper">
 						<a class="<?php echo esc_attr( implode( ' ', $sharing_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'sharing' ) ); ?>"><?php esc_html_e( 'Sharing', 'highlight-and-share' ); ?></a>
-						<a class="<?php echo esc_attr( implode( ' ', $settings_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'settings' ) ); ?>"><?php esc_html_e( 'Settings', 'highlight-and-share' ); ?></a>
-						<a class="<?php echo esc_attr( implode( ' ', $appearance_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'appearance' ) ); ?>"><?php esc_html_e( 'Appearance', 'highlight-and-share' ); ?></a>
 						<a class="<?php echo esc_attr( implode( ' ', $image_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'images' ) ); ?>"><?php esc_html_e( 'Images', 'highlight-and-share' ); ?></a>
-						<a class="<?php echo esc_attr( implode( ' ', $block_editor_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'block-editor' ) ); ?>"><?php esc_html_e( 'Block Editor', 'highlight-and-share' ); ?></a>
 						<a class="<?php echo esc_attr( implode( ' ', $emails_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'emails' ) ); ?>"><?php esc_html_e( 'Emails', 'highlight-and-share' ); ?></a>
 						<a class="<?php echo esc_attr( implode( ' ', $support_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'support' ) ); ?>"><?php esc_html_e( 'Support', 'highlight-and-share' ); ?></a>
 					</nav>
@@ -617,33 +614,12 @@ class Admin {
 						</div>
 						<?php
 					}
-					if ( 'settings' === $current_tab ) {
-						?>
-						<div class="has-admin-container-body__content">
-							<div id="has-settings-admin">
-								<?php echo wp_kses( $this->get_loading_svg(), Functions::get_kses_allowed_html() ); ?>
-							</div>
-						</div>
-						<?php
-					}
-					if ( 'appearance' === $current_tab ) {
-						// No wrapper as there are separate wrappers for each section. A wrapper is included in the loader.
-						?>
-						<div id="has-appearance-admin-settings"><div class="has-admin-container-body__content"><?php echo wp_kses( $this->get_loading_svg(), Functions::get_kses_allowed_html() ); ?></div></div>
-						<?php
-					}
 					if ( 'images' === $current_tab ) {
 						// No wrapper as there are separate wrappers for each section. A wrapper is included in the loader.
 						?>
 						<div id="has-images-admin-settings">
 							<?php echo wp_kses( $this->get_loading_svg(), Functions::get_kses_allowed_html() ); ?>
 						</div>
-						<?php
-					}
-					if ( 'block-editor' === $current_tab ) {
-						// No wrapper as there are separate wrappers for each section. A wrapper is included in the loader.
-						?>
-						<div id="has-block-editor-admin-settings"><div class="has-admin-container-body__content"><?php echo wp_kses( $this->get_loading_svg(), Functions::get_kses_allowed_html() ); ?></div></div>
 						<?php
 					}
 					if ( 'emails' === $current_tab ) {

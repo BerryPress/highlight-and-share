@@ -24149,6 +24149,43 @@ var GearIcon = function GearIcon(_ref) {
 
 /***/ }),
 
+/***/ "./src/react/Components/Icons/Preview.js":
+/*!***********************************************!*\
+  !*** ./src/react/Components/Icons/Preview.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var _excluded = ["opacity", "width", "height"];
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var PreviewIcon = function PreviewIcon(_ref) {
+  var _ref$opacity = _ref.opacity,
+    opacity = _ref$opacity === void 0 ? 0.4 : _ref$opacity,
+    _ref$width = _ref.width,
+    width = _ref$width === void 0 ? 24 : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? 24 : _ref$height,
+    props = _objectWithoutProperties(_ref, _excluded);
+  return /*#__PURE__*/React.createElement("svg", _extends({
+    xmlns: "http://www.w3.org/2000/svg",
+    width: width,
+    height: height,
+    viewBox: "0 0 24 24"
+  }, props), /*#__PURE__*/React.createElement("path", {
+    fill: "currentColor",
+    d: "M1.001 7.5a1 1 0 0 0 1-1V5c0-.552.449-1 1-1h1.5a1 1 0 1 0 0-2h-1.5c-1.654 0-3 1.346-3 3v1.5a1 1 0 0 0 1 1zM21.001 2h-1.5a1 1 0 1 0 0 2h1.5c.551 0 1 .448 1 1v1.5a1 1 0 1 0 2 0V5c0-1.654-1.346-3-3-3zM.001 19c0 1.654 1.346 3 3 3h1.5a1 1 0 1 0 0-2h-1.5c-.551 0-1-.448-1-1v-1.5a1 1 0 1 0-2 0V19zM23.001 16.5a1 1 0 0 0-1 1V19c0 .552-.449 1-1 1h-1.5a1 1 0 1 0 0 2h1.5c1.654 0 3-1.346 3-3v-1.5a1 1 0 0 0-1-1zM12 18.07c3.85 0 7.13-2.42 7.98-5.89.03-.12.03-.24 0-.36-.85-3.47-4.13-5.89-7.98-5.89s-7.13 2.42-7.98 5.89c-.03.12-.03.24 0 .36.85 3.47 4.13 5.89 7.98 5.89zM12 9c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3z"
+  }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PreviewIcon);
+
+/***/ }),
+
 /***/ "./src/react/Components/Icons/Spinner.js":
 /*!***********************************************!*\
   !*** ./src/react/Components/Icons/Spinner.js ***!
@@ -24966,7 +25003,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
 /* harmony import */ var _Hooks_usePanelState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Hooks/usePanelState */ "./src/react/Hooks/usePanelState.js");
 /* harmony import */ var _Hooks_useUnsavedChanges__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../Hooks/useUnsavedChanges */ "./src/react/Hooks/useUnsavedChanges.js");
-var _excluded = ["panelId", "title", "defaultOpen", "className", "watchFields", "onToggle"];
+var _excluded = ["panelId", "title", "defaultOpen", "className", "watchFields", "onToggle", "icon"];
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -24998,6 +25035,7 @@ function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t =
  * @param {Function} props.onToggle    Custom toggle handler (optional).
  * @param {Array}    props.watchFields Fields to watch.
  * @param {*}        props.rest        All other PanelBody props.
+ * @param {Element}  props.icon        Icon to display in the panel header (optional).
  * @return {JSX.Element} PanelBody component with indicators.
  */
 var PanelBodyWithIndicator = function PanelBodyWithIndicator(_ref) {
@@ -25010,6 +25048,10 @@ var PanelBodyWithIndicator = function PanelBodyWithIndicator(_ref) {
     _ref$watchFields = _ref.watchFields,
     watchFields = _ref$watchFields === void 0 ? [] : _ref$watchFields,
     onToggle = _ref.onToggle,
+    _ref$icon = _ref.icon,
+    icon = _ref$icon === void 0 ? function () {
+      return null;
+    } : _ref$icon,
     rest = _objectWithoutProperties(_ref, _excluded);
   // Panel state management.
   var _usePanelState = (0,_Hooks_usePanelState__WEBPACK_IMPORTED_MODULE_3__["default"])(panelId, defaultOpen),
@@ -25048,7 +25090,8 @@ var PanelBodyWithIndicator = function PanelBodyWithIndicator(_ref) {
     title: panelTitle,
     initialOpen: isOpen,
     onToggle: handleToggle,
-    className: className
+    className: className,
+    icon: icon
   }, rest));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PanelBodyWithIndicator);
@@ -26977,7 +27020,7 @@ var Interface = function Interface(_ref) {
     control = _useFormContext.control,
     errors = _useFormContext.formState.errors;
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Advanced', 'highlight-and-share'),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Advanced - Selector Settings for Page Builders', 'highlight-and-share'),
     initialOpen: false,
     panelId: "advanced",
     control: control,
@@ -27083,25 +27126,6 @@ var Interface = function Interface(_ref) {
         icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_9__["default"]
       }));
     }
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "has-admin-component-row"
-  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
-    name: "shortlinks",
-    control: control,
-    render: function render(_ref6) {
-      var _ref6$field = _ref6.field,
-        _onChange = _ref6$field.onChange,
-        value = _ref6$field.value;
-      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable Shortlinks', 'highlight-and-share'),
-        className: "has-admin__toggle-control",
-        checked: value !== null && value !== void 0 ? value : false,
-        onChange: function onChange(boolValue) {
-          _onChange(boolValue);
-        },
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable shortlinks for sharing URLs.', 'highlight-and-share')
-      });
-    }
   }))));
 };
 
@@ -27112,8 +27136,8 @@ var Interface = function Interface(_ref) {
  * @param {Array}  props.watchFields Fields to watch.
  * @return {Element} Advanced Panel with error boundary and suspense.
  */
-var AdvancedPanel = function AdvancedPanel(_ref7) {
-  var watchFields = _ref7.watchFields;
+var AdvancedPanel = function AdvancedPanel(_ref6) {
+  var watchFields = _ref6.watchFields;
   return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_6__["default"], {
     fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Could not load Advanced panel.', 'highlight-and-share'))
   }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Suspense, {
@@ -27171,7 +27195,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 var Interface = function Interface(data) {
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Appearance', 'highlight-and-share'),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Appearance - Reordering and Styling', 'highlight-and-share'),
     initialOpen: false,
     panelId: "appearance",
     className: "has-sharing-panel",
@@ -27383,7 +27407,7 @@ var Interface = function Interface(_ref) {
     })));
   };
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Block Editor', 'highlight-and-share'),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Block Editor - Click to Share Block Settings', 'highlight-and-share'),
     initialOpen: false,
     panelId: "block-editor",
     control: control,
@@ -27582,7 +27606,7 @@ var Interface = function Interface(_ref) {
   // Get post types from localization.
   var postTypes = ((_window$hasSharingAdm = window.hasSharingAdmin) === null || _window$hasSharingAdm === void 0 ? void 0 : _window$hasSharingAdm.postTypes) || [];
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Display Rules', 'highlight-and-share'),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Display Rules - Post Types and Content Areas', 'highlight-and-share'),
     initialOpen: false,
     panelId: "display-rules",
     control: control,
@@ -27705,6 +27729,25 @@ var Interface = function Interface(_ref) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Choose a suffix to go after the sharing text such as a quote.', 'highlight-and-share')
       }));
     }
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+    name: "shortlinks",
+    control: control,
+    render: function render(_ref8) {
+      var _ref8$field = _ref8.field,
+        _onChange5 = _ref8$field.onChange,
+        value = _ref8$field.value;
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable Shortlinks', 'highlight-and-share'),
+        className: "has-admin__toggle-control",
+        checked: value !== null && value !== void 0 ? value : false,
+        onChange: function onChange(boolValue) {
+          _onChange5(boolValue);
+        },
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable shortlinks for sharing URLs.', 'highlight-and-share')
+      });
+    }
   }))));
 };
 
@@ -27715,8 +27758,8 @@ var Interface = function Interface(_ref) {
  * @param {Array}  props.watchFields Fields to watch.
  * @return {Element} Display Rules Panel with error boundary and suspense.
  */
-var DisplayRulesPanel = function DisplayRulesPanel(_ref8) {
-  var watchFields = _ref8.watchFields;
+var DisplayRulesPanel = function DisplayRulesPanel(_ref9) {
+  var watchFields = _ref9.watchFields;
   return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_6__["default"], {
     fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Could not load Display Rules panel.', 'highlight-and-share'))
   }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Suspense, {
@@ -28029,7 +28072,7 @@ var Interface = function Interface(_ref) {
     }));
   };
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Inline Highlighting', 'highlight-and-share'),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Inline Highlighting - Colors and Tooltips', 'highlight-and-share'),
     initialOpen: false,
     panelId: "inline-highlighting",
     control: control,
@@ -28126,6 +28169,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
 /* harmony import */ var _Components_Loader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../Components/Loader */ "./src/react/Components/Loader/index.js");
 /* harmony import */ var _Components_Shared_PreviewSocialIconList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Components/Shared/PreviewSocialIconList */ "./src/react/Components/Shared/PreviewSocialIconList/index.js");
+/* harmony import */ var _Components_Icons_Preview__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../Components/Icons/Preview */ "./src/react/Components/Icons/Preview.js");
 /**
  * Preview Panel Component.
  *
@@ -28140,13 +28184,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var Interface = function Interface() {
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_2__["default"], {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Preview', 'highlight-and-share'),
     initialOpen: true // Default expanded.
     ,
     panelId: "preview",
-    className: "has-sharing-panel"
+    className: "has-sharing-panel",
+    icon: /*#__PURE__*/React.createElement(_Components_Icons_Preview__WEBPACK_IMPORTED_MODULE_6__["default"], null)
   }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-wrapper"
   }, /*#__PURE__*/React.createElement(_Components_Shared_PreviewSocialIconList__WEBPACK_IMPORTED_MODULE_5__["default"], null)));
@@ -28368,7 +28414,7 @@ var Interface = function Interface(_ref) {
   };
   return /*#__PURE__*/React.createElement(React.Fragment, null, renderErrorNotice(), /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_6__["default"], {
     panelId: "socialNetworks",
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Social Networks', 'highlight-and-share'),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Social Networks - Visibility, Tooltips, and Labels', 'highlight-and-share'),
     defaultOpen: true,
     className: "has-sharing-panel",
     watchFields: data.watchFields
@@ -29036,7 +29082,7 @@ var SharingInterface = function SharingInterface(_ref) {
     className: "has-admin-content-heading-text"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Sharing', 'highlight-and-share'))), /*#__PURE__*/React.createElement("p", {
     className: "description"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Configure how and where content can be shared across your site.', 'highlight-and-share'))), /*#__PURE__*/React.createElement("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Configure how and where content can be shared across your site, whether through text selection, a Click to Share block, or inline highlighting.', 'highlight-and-share'))), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-content-body"
   }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_2__.Suspense, {
     fallback: /*#__PURE__*/React.createElement("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Loading…', 'highlight-and-share'))

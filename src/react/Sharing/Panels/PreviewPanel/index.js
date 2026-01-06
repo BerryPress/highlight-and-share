@@ -12,6 +12,7 @@ import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndi
 import ErrorBoundary from '../../../Components/ErrorBoundary';
 import Loader from '../../../Components/Loader';
 import PreviewSocialIconList from '../../../Components/Shared/PreviewSocialIconList';
+import PreviewIcon from '../../../Components/Icons/Preview';
 
 const Interface = () => {
 	return (
@@ -20,6 +21,7 @@ const Interface = () => {
 			initialOpen={ true } // Default expanded.
 			panelId="preview"
 			className="has-sharing-panel"
+			icon={ <PreviewIcon /> }
 		>
 			<div className="has-admin-component-wrapper">
 				<PreviewSocialIconList />

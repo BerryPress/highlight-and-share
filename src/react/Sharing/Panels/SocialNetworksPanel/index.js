@@ -187,7 +187,7 @@ const Interface = ( { data } ) => {
 			{ renderErrorNotice() }
 			<PanelBodyWithIndicator
 				panelId="socialNetworks"
-				title={ __( 'Social Networks', 'highlight-and-share' ) }
+				title={ __( 'Social Networks - Visibility, Tooltips, and Labels', 'highlight-and-share' ) }
 				defaultOpen={ true }
 				className="has-sharing-panel"
 				watchFields={ data.watchFields }

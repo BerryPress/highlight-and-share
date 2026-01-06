@@ -20,6 +20,7 @@ import useUnsavedChanges from '../../../Hooks/useUnsavedChanges';
  * @param {Function} props.onToggle    Custom toggle handler (optional).
  * @param {Array}    props.watchFields Fields to watch.
  * @param {*}        props.rest        All other PanelBody props.
+ * @param {Element}  props.icon        Icon to display in the panel header (optional).
  * @return {JSX.Element} PanelBody component with indicators.
  */
 const PanelBodyWithIndicator = ( {
@@ -29,6 +30,7 @@ const PanelBodyWithIndicator = ( {
 	className = '',
 	watchFields = [],
 	onToggle,
+	icon = () => null,
 	...rest
 } ) => {
 	// Panel state management.
@@ -70,6 +72,7 @@ const PanelBodyWithIndicator = ( {
 			initialOpen={ isOpen }
 			onToggle={ handleToggle }
 			className={ className }
+			icon={ icon }
 			{ ...rest }
 		/>
 	);

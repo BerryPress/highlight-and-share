@@ -24,7 +24,7 @@ import ThemeCustomizer from '../../../Components/Shared/ThemeCustomizer';
 const Interface = ( data ) => {
 	return (
 		<PanelBodyWithIndicator
-			title={ __( 'Appearance', 'highlight-and-share' ) }
+			title={ __( 'Appearance - Reordering and Styling', 'highlight-and-share' ) }
 			initialOpen={ false }
 			panelId="appearance"
 			className="has-sharing-panel"

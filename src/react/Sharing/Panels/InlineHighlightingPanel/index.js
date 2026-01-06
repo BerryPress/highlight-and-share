@@ -281,7 +281,7 @@ const Interface = ( { watchFields } ) => {
 
 	return (
 		<PanelBodyWithIndicator
-			title={ __( 'Inline Highlighting', 'highlight-and-share' ) }
+			title={ __( 'Inline Highlighting - Colors and Tooltips', 'highlight-and-share' ) }
 			initialOpen={ false }
 			panelId="inline-highlighting"
 			control={ control }
