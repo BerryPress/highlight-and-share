@@ -25,7 +25,7 @@ const Interface = ( data ) => {
 	return (
 		<PanelBodyWithIndicator
 			title={ __( 'Appearance', 'highlight-and-share' ) }
-			initialOpen={ true } // Default expanded.
+			initialOpen={ false }
 			panelId="appearance"
 			className="has-sharing-panel"
 			watchFields={ data.watchFields }

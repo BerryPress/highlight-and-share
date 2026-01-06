@@ -33,7 +33,7 @@ const Interface = ( { watchFields } ) => {
 	return (
 		<PanelBodyWithIndicator
 			title={ __( 'Display Rules', 'highlight-and-share' ) }
-			initialOpen={ true } // Default expanded.
+			initialOpen={ false }
 			panelId="display-rules"
 			control={ control }
 			className="has-sharing-panel"

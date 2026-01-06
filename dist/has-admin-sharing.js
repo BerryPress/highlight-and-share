@@ -27172,8 +27172,7 @@ __webpack_require__.r(__webpack_exports__);
 var Interface = function Interface(data) {
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_2__["default"], {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Appearance', 'highlight-and-share'),
-    initialOpen: true // Default expanded.
-    ,
+    initialOpen: false,
     panelId: "appearance",
     className: "has-sharing-panel",
     watchFields: data.watchFields
@@ -27584,8 +27583,7 @@ var Interface = function Interface(_ref) {
   var postTypes = ((_window$hasSharingAdm = window.hasSharingAdmin) === null || _window$hasSharingAdm === void 0 ? void 0 : _window$hasSharingAdm.postTypes) || [];
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_4__["default"], {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Display Rules', 'highlight-and-share'),
-    initialOpen: true // Default expanded.
-    ,
+    initialOpen: false,
     panelId: "display-rules",
     control: control,
     className: "has-sharing-panel",
