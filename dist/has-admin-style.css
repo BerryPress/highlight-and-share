@@ -4047,51 +4047,6 @@ body div.updated.warning {
   color: #f52a39;
 }
 
-.has-admin-container-footer footer {
-  background: #4f4f4f;
-}
-.has-admin-container-footer .has-admin-container-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 0 auto;
-  max-width: 275px;
-  margin: 0 auto;
-  padding: 4em 0;
-}
-.has-admin-container-footer .footer-rate-icon,
-.has-admin-container-footer .has-plea {
-  display: block;
-  font-style: italic;
-  color: #fff;
-}
-.has-admin-container-footer .has__btn-primary {
-  display: block;
-  width: 100%;
-  text-align: center;
-  margin-bottom: 0px;
-  border-radius: 2px;
-  font-size: 1.3em;
-  line-height: 1.35em;
-  background: #f08ea5;
-  color: #fff;
-  border: 2px solid #f5a4b7;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: all 0.4s ease-in-out;
-  text-decoration: none;
-  margin-top: 18px;
-  margin-bottom: 18px;
-}
-.has-admin-container-footer .has__btn-primary:not([disabled]):hover {
-  border-radius: 2px;
-  background: #4f4f4f;
-  color: #fff;
-  border-color: #f08ea5;
-  text-decoration: none;
-  transition: all 0.4s ease-in-out;
-}
-
 /* Admin panel content container styles */
 h2.has-admin-content-subheading {
   position: relative;

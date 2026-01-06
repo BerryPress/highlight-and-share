@@ -1187,7 +1187,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.RangeControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Set the Icon Size', 'highlight-and-share'),
         step: 1,
-        value: value,
+        value: parseInt(value),
         max: 64,
         min: 14,
         currentInput: 16,
