@@ -637,16 +637,6 @@ class Admin {
 					?>
 				</div>
 			</div>
-			<div class="has-admin-container-footer">
-				<footer>
-					<div class="has-admin-container-wrap">
-						<div class="footer-rate-icon" aria-hidden="true"><img 
-							width="100" height="90" src="<?php echo esc_url( Functions::get_plugin_url( '/img/heart.png' ) ); ?>" /></div>
-						<a class="has__btn-primary" href="https://wordpress.org/support/plugin/highlight-and-share/reviews/" target="_blank"><i ></i> <?php esc_html_e( 'Please Tell Others About Highlight and Share', 'highlight-and-share' ); ?></a>
-						<div class="has-plea"><?php esc_html_e( 'It really helps. ❤️', 'highlight-and-share' ); ?></div>
-					</div>
-				</footer>
-			</div>
 		</div>
 		<?php
 	}
