@@ -4,7 +4,7 @@
 
 import { __ } from '@wordpress/i18n';
 import { Popover, TextControl, ToggleControl, SelectControl } from '@wordpress/components';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import classNames from 'classnames';
 import Notice from '../../Notice';
 import CircularExclamationIcon from '../../Icons/CircularExplanation';
@@ -16,7 +16,6 @@ import twttr from '../../../Validation/twitter';
  * @param {Object}   props             Component props.
  * @param {string}   props.networkSlug Network slug.
  * @param {Object}   props.network     Network data.
- * @param {Object}   props.control     React Hook Form control object.
  * @param {Function} props.clearErrors React Hook Form clearErrors function to clear validation errors.
  * @param {Function} props.trigger     React Hook Form trigger function to manually trigger validation.
  * @param {Object}   props.errors      React Hook Form errors object.
@@ -27,13 +26,13 @@ import twttr from '../../../Validation/twitter';
 const NetworkSettingsPopover = ( {
 	networkSlug,
 	network,
-	control,
 	clearErrors,
 	trigger, // eslint-disable-line no-unused-vars -- Kept for future use if needed.
 	errors,
 	onClose,
 	anchor,
 } ) => {
+	const { control } = useFormContext();
 	if ( ! networkSlug || ! network ) {
 		return null;
 	}

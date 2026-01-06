@@ -19,9 +19,11 @@ import Loader from '../../../Components/Loader';
 /**
  * Display Rules Panel Interface Component.
  *
+ * @param {Object} props             Component props.
+ * @param {Array}  props.watchFields Fields to watch.
  * @return {Element} Display Rules Panel component.
  */
-const Interface = () => {
+const Interface = ( { watchFields } ) => {
 	// Get form methods from FormProvider context.
 	const { control } = useFormContext();
 
@@ -35,6 +37,7 @@ const Interface = () => {
 			panelId="display-rules"
 			control={ control }
 			className="has-sharing-panel"
+			watchFields={ watchFields }
 		>
 			<div className="has-admin-component-row">
 				<PostTypeSelector control={ control } postTypes={ postTypes } />
@@ -180,10 +183,11 @@ const Interface = () => {
 /**
  * Display Rules Panel Component.
  *
- * @param {Object} data Ajax Data object.
+ * @param {Object} props             Component props.
+ * @param {Array}  props.watchFields Fields to watch.
  * @return {Element} Display Rules Panel with error boundary and suspense.
  */
-const DisplayRulesPanel = ( data ) => {
+const DisplayRulesPanel = ( { watchFields } ) => {
 	return (
 		<ErrorBoundary
 			fallback={
@@ -193,7 +197,7 @@ const DisplayRulesPanel = ( data ) => {
 			}
 		>
 			<Suspense fallback={ <Loader /> }>
-				<Interface data={ data } />
+				<Interface watchFields={ watchFields } />
 			</Suspense>
 		</ErrorBoundary>
 	);

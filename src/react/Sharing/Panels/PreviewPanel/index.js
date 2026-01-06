@@ -11,7 +11,7 @@ import { Suspense } from 'react';
 import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndicator';
 import ErrorBoundary from '../../../Components/ErrorBoundary';
 import Loader from '../../../Components/Loader';
-import PreviewSocialIconList from '../../../Components/PreviewSocialIconList';
+import PreviewSocialIconList from '../../../Components/Shared/PreviewSocialIconList';
 import { useFormContext } from 'react-hook-form';
 
 const Interface = () => {

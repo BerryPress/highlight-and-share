@@ -3,7 +3,7 @@
  */
 
 import { __ } from '@wordpress/i18n';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import classNames from 'classnames';
 import { CheckboxControl } from '@wordpress/components';
 import SocialIcons from '../../SocialIcons';
@@ -13,15 +13,14 @@ import GearIcon from '../../Icons/Gear';
  * NetworkSelector component.
  *
  * @param {Object}   props                     Component props.
- * @param {Object}   props.control             React Hook Form control object.
  * @param {Object}   props.networks            Networks data from PHP.
  * @param {Object}   props.networkErrors       Object mapping network slugs to boolean error state.
  * @param {Function} props.onSettingsMouseDown Callback when settings gear icon is mouse down.
  * @return {JSX.Element} NetworkSelector component.
  */
-const NetworkSelector = ( { control, networks = {}, networkErrors = {}, onSettingsMouseDown } ) => {
+const NetworkSelector = ( { networks = {}, networkErrors = {}, onSettingsMouseDown } ) => {
 	const { getSocialIcon } = SocialIcons( networks );
-
+	const { control } = useFormContext();
 	/**
 	 * Convert underscore_case to camelCase.
 	 *

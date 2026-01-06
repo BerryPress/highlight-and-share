@@ -4848,19 +4848,27 @@ h3.has-icon-heading svg {
   /* Panel indicator dots */
 }
 .has-sharing-panel .components-panel__body-title .has-panel-indicator {
-  display: inline-block;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+  margin-right: 32px;
+}
+.has-sharing-panel .components-panel__body-title .has-panel-indicator:after {
+  position: absolute;
+  display: block;
+  content: "";
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  margin-left: auto;
-  margin-right: 20px;
-  flex-shrink: 0;
+  top: calc(50% - 4px);
+  right: -12px;
 }
-.has-sharing-panel .components-panel__body-title .has-panel-indicator.has-panel-indicator-dirty {
+.has-sharing-panel .components-panel__body-title .has-panel-indicator.has-panel-indicator-dirty:after {
   background-color: #00a32a;
   box-shadow: 0 0 0 2px rgba(0, 163, 42, 0.2);
 }
-.has-sharing-panel .components-panel__body-title .has-panel-indicator.has-panel-indicator-error {
+.has-sharing-panel .components-panel__body-title .has-panel-indicator.has-panel-indicator-error:after {
   background-color: #d63638;
   box-shadow: 0 0 0 2px rgba(214, 54, 56, 0.2);
 }

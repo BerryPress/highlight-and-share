@@ -28,6 +28,64 @@ const retrieveDefaults = () => {
 	} );
 };
 
+const socialNetworksPanelWatchValues = [
+	'showTwitter',
+	'showFacebook',
+	'showWhatsApp',
+	'showReddit',
+	'showTelegram',
+	'showLinkedin',
+	'showXing',
+	'showCopy',
+	'showMastodon',
+	'showTumblr',
+	'showWebshare',
+	'showThreads',
+	'showBluesky',
+	'enableEmails',
+	'twitterLabel',
+	'twitterTooltip',
+	'facebookLabel',
+	'facebookTooltip',
+	'whatsappLabel',
+	'whatsappTooltip',
+	'redditLabel',
+	'redditTooltip',
+	'telegramLabel',
+	'telegramTooltip',
+	'linkedinLabel',
+	'linkedinTooltip',
+	'xingLabel',
+	'xingTooltip',
+	'copyLabel',
+	'copyTooltip',
+	'emailLabel',
+	'emailTooltip',
+	'tumblrLabel',
+	'tumblrTooltip',
+	'webshareLabel',
+	'webshareTooltip',
+	'mastodonLabel',
+	'mastodonTooltip',
+	'threadsLabel',
+	'threadsTooltip',
+	'blueskyLabel',
+	'blueskyTooltip',
+	'twitter',
+	'enableHashtags',
+	'whatsappApiEndpoint',
+	'whatsappCanShareUrl',
+];
+
+const displayRulesPanelWatchValues = [
+	'enableMobile',
+	'enableContent',
+	'enableExcerpt',
+	'enableComments',
+	'sharingPrefix',
+	'sharingSuffix',
+	'excludedPostTypes',
+];
 /**
  * Get default form values for all panels.
  *
@@ -215,42 +273,6 @@ const SharingInterface = ( { defaults } ) => {
 		return str.replace( /_([a-z])/g, ( _, letter ) => letter.toUpperCase() );
 	};
 
-	/**
-	 * Update networks object with enabled states from form values.
-	 *
-	 * @param {Object} networks Original networks object from data.
-	 * @return {Object} Updated networks object with enabled properties.
-	 */
-	const updateNetworksFromFormValues = ( networks ) => {
-		if ( ! networks || ! formValues ) {
-			return networks || {};
-		}
-
-		const updatedNetworks = { ...networks };
-
-		// Iterate through each network and update its enabled state.
-		Object.keys( updatedNetworks ).forEach( ( networkSlug ) => {
-			const network = updatedNetworks[ networkSlug ];
-			if ( ! network ) {
-				return;
-			}
-
-			// Get the enabled option key for this network.
-			const enabledOptionKey = network.enabled_option_key || `show_${ networkSlug }`;
-			// Convert to camelCase to match form field names.
-			const formFieldName = toCamelCase( enabledOptionKey );
-
-			// Update the enabled property from form values.
-			// Default to false if form value is not found.
-			updatedNetworks[ networkSlug ] = {
-				...network,
-				enabled: formValues[ formFieldName ] ?? false,
-			};
-		} );
-
-		return updatedNetworks;
-	};
-
 	if ( ! data ) {
 		return <div>{ __( 'Loading…', 'highlight-and-share' ) }</div>;
 	}
@@ -274,10 +296,10 @@ const SharingInterface = ( { defaults } ) => {
 				<div className="has-admin-content-body">
 					<Suspense fallback={ <div>{ __( 'Loading…', 'highlight-and-share' ) }</div> }>
 						<FormProvider { ...methods }>
-							<SocialNetworksPanel { ...data } />
-							<DisplayRulesPanel />
-							<AppearancesPanel { ...data } />
-							<PreviewPanel { ...data } />
+							<SocialNetworksPanel { ...data } watchFields={ socialNetworksPanelWatchValues } />
+							<DisplayRulesPanel watchFields={ displayRulesPanelWatchValues } />
+							{/* <AppearancesPanel { ...data } />
+							<PreviewPanel { ...data } /> */}
 						</FormProvider>
 					</Suspense>
 				</div>

@@ -3,6 +3,8 @@
  */
 
 import { PanelBody } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { useFormContext } from 'react-hook-form';
 import usePanelState from '../../../Hooks/usePanelState';
 import useUnsavedChanges from '../../../Hooks/useUnsavedChanges';
 
@@ -16,23 +18,26 @@ import useUnsavedChanges from '../../../Hooks/useUnsavedChanges';
  * @param {boolean}  props.defaultOpen Default open state (default: false).
  * @param {string}   props.className   Additional CSS classes.
  * @param {Function} props.onToggle    Custom toggle handler (optional).
+ * @param {Array}    props.watchFields Fields to watch.
  * @param {*}        props.rest        All other PanelBody props.
  * @return {JSX.Element} PanelBody component with indicators.
  */
 const PanelBodyWithIndicator = ( {
 	panelId,
-	control,
 	title,
 	defaultOpen = false,
 	className = '',
+	watchFields = [],
 	onToggle,
 	...rest
 } ) => {
 	// Panel state management.
 	const [ isOpen, setIsOpen ] = usePanelState( panelId, defaultOpen );
 
+	const { control } = useFormContext();
+
 	// Track unsaved changes if control is provided.
-	const { isDirty, hasErrors } = useUnsavedChanges( control || {} );
+	const { isDirty, hasErrors } = useUnsavedChanges( control || {}, watchFields );
 
 	/**
 	 * Handle panel toggle.
@@ -51,10 +56,10 @@ const PanelBodyWithIndicator = ( {
 		<>
 			{ title }
 			{ control && isDirty && ! hasErrors && (
-				<span className="has-panel-indicator has-panel-indicator-dirty" />
+				<span className="has-panel-indicator has-panel-indicator-dirty">{ __( 'Please save your changes', 'highlight-and-share' ) }</span>
 			) }
 			{ control && hasErrors && (
-				<span className="has-panel-indicator has-panel-indicator-error" />
+				<span className="has-panel-indicator has-panel-indicator-error">{ __( 'Please fix any errors', 'highlight-and-share' ) }</span>
 			) }
 		</>
 	);

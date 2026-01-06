@@ -9,7 +9,7 @@
 
 import { __ } from '@wordpress/i18n';
 import { Controller, useForm } from 'react-hook-form';
-import HASColorPicker from '../ColorPicker';
+import HASColorPicker from '../../ColorPicker';
 
 const defaultColors = hasSharingAdmin.colors;
 

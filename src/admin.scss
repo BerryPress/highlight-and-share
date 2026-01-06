@@ -1265,23 +1265,31 @@ h3.has-icon-heading {
 
 		/* Panel indicator dots */
 		.has-panel-indicator {
-			display: inline-block;
+			position: relative;
+			display: flex;
+			justify-content: flex-end;
+			flex: 1;
+			margin-right: 32px;
+		}
+
+		.has-panel-indicator:after {
+			position: absolute;
+			display: block;
+			content: '';
 			width: 8px;
 			height: 8px;
 			border-radius: 50%;
-			margin-left: auto;
-			margin-right: 20px; // Space between indicator and arrow
-			flex-shrink: 0;
+			top: calc(50% - 4px);
+			right: -12px;
+		}
+		.has-panel-indicator.has-panel-indicator-dirty:after {
+			background-color: #00a32a;
+			box-shadow: 0 0 0 2px rgba(0, 163, 42, 0.2);
+		}
 
-			&.has-panel-indicator-dirty {
-				background-color: #00a32a;
-				box-shadow: 0 0 0 2px rgba(0, 163, 42, 0.2);
-			}
-
-			&.has-panel-indicator-error {
-				background-color: #d63638;
-				box-shadow: 0 0 0 2px rgba(214, 54, 56, 0.2);
-			}
+		.has-panel-indicator.has-panel-indicator-error:after {
+			background-color: #d63638;
+			box-shadow: 0 0 0 2px rgba(214, 54, 56, 0.2);
 		}
 	}
 

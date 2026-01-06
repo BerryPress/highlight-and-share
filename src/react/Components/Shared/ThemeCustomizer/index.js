@@ -9,15 +9,15 @@ import {
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useForm, Controller, useWatch, useFormContext } from 'react-hook-form';
-import store from '../../Sharing/Store';
+import store from '../../../Sharing/Store';
 import classNames from 'classnames';
-import Notice from '../Notice';
-import CircularInfoIcon from '../Icons/CircularInfo';
-import HASColorPicker from '../ColorPicker';
-import DimensionsControl from '../Dimensions';
+import Notice from '../../Notice';
+import CircularInfoIcon from '../../Icons/CircularInfo';
+import HASColorPicker from '../../ColorPicker';
+import DimensionsControl from '../../Dimensions';
 import SocialNetworkColorsTabs from '../SocialNetworkColorsTabs';
-import Spinner from '../Icons/Spinner';
-import sendCommand from '../../Utils/SendCommand';
+import Spinner from '../../Icons/Spinner';
+import sendCommand from '../../../Utils/SendCommand';
 
 const defaultColors = hasSharingAdmin.colors;
 

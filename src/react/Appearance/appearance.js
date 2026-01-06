@@ -2,13 +2,13 @@ import React, { lazy } from 'react';
 import { __ } from '@wordpress/i18n';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import SocialIconList from '../Components/SocialIconList';
-import PreviewSocialIconList from '../Components/PreviewSocialIconList';
+import SocialIconList from '../Components/Shared/SocialIconList';
+import PreviewSocialIconList from '../Components/Shared/PreviewSocialIconList';
 import ErrorBoundary from '../Components/ErrorBoundary';
 
 // Lazy load theme customizer.
 const ThemeCustomizer = lazy( () =>
-	import( /* webpackChunkName: "ThemeCustomizer.0.0.7" */ '../Components/ThemeCustomizer' )
+	import( /* webpackChunkName: "ThemeCustomizer.0.0.7" */ '../Components/Shared/ThemeCustomizer' )
 );
 
 const Appearance = () => {

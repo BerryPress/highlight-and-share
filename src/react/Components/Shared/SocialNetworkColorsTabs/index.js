@@ -5,7 +5,7 @@ import {
 } from '@wordpress/components';
 import TabColorPickers from '../TabColorPickers';
 import { useSelect, useDispatch } from '@wordpress/data';
-import store from '../../Sharing/Store';
+import store from '../../../Sharing/Store';
 import { __ } from '@wordpress/i18n';
 
 const SocialNetworkColorsTabs = () => {

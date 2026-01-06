@@ -20532,8 +20532,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Components_SocialIconList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Components/SocialIconList */ "./src/react/Components/SocialIconList/index.js");
-/* harmony import */ var _Components_PreviewSocialIconList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Components/PreviewSocialIconList */ "./src/react/Components/PreviewSocialIconList/index.js");
+/* harmony import */ var _Components_Shared_SocialIconList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Components/Shared/SocialIconList */ "./src/react/Components/Shared/SocialIconList/index.js");
+/* harmony import */ var _Components_Shared_PreviewSocialIconList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Components/Shared/PreviewSocialIconList */ "./src/react/Components/Shared/PreviewSocialIconList/index.js");
 /* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
 
 
@@ -20545,7 +20545,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // Lazy load theme customizer.
 var ThemeCustomizer = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.lazy)(function () {
-  return Promise.all(/*! import() | ThemeCustomizer.0.0.7 */[__webpack_require__.e("vendors-node_modules_hex-to-rgba_build_index_js-node_modules_react-hook-form_dist_index_esm_mjs"), __webpack_require__.e("ThemeCustomizer.0.0.7")]).then(__webpack_require__.bind(__webpack_require__, /*! ../Components/ThemeCustomizer */ "./src/react/Components/ThemeCustomizer/index.js"));
+  return Promise.all(/*! import() | ThemeCustomizer.0.0.7 */[__webpack_require__.e("vendors-node_modules_hex-to-rgba_build_index_js-node_modules_react-hook-form_dist_index_esm_mjs"), __webpack_require__.e("ThemeCustomizer.0.0.7")]).then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Shared/ThemeCustomizer */ "./src/react/Components/Shared/ThemeCustomizer/index.js"));
 });
 var Appearance = function Appearance() {
   var getIcons = function getIcons() {
@@ -20556,7 +20556,7 @@ var Appearance = function Appearance() {
         target: "_blank",
         rel: "noopener noreferrer"
       }, "DLX Plugins Support"))
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_SocialIconList__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Shared_SocialIconList__WEBPACK_IMPORTED_MODULE_2__["default"], null));
   };
   var getPreview = function getPreview() {
     // Now return component with icons.
@@ -20566,7 +20566,7 @@ var Appearance = function Appearance() {
         target: "_blank",
         rel: "noopener noreferrer"
       }, "DLX Plugins Support"))
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_PreviewSocialIconList__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Shared_PreviewSocialIconList__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-container-body__content"
@@ -20816,10 +20816,10 @@ var Loader = function Loader(_ref) {
 
 /***/ }),
 
-/***/ "./src/react/Components/PreviewSocialIconList/index.js":
-/*!*************************************************************!*\
-  !*** ./src/react/Components/PreviewSocialIconList/index.js ***!
-  \*************************************************************/
+/***/ "./src/react/Components/Shared/PreviewSocialIconList/index.js":
+/*!********************************************************************!*\
+  !*** ./src/react/Components/Shared/PreviewSocialIconList/index.js ***!
+  \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -20833,9 +20833,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
-/* harmony import */ var _PreviewSocialIconListItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../PreviewSocialIconListItem */ "./src/react/Components/PreviewSocialIconListItem/index.js");
-/* harmony import */ var _SocialIcons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../SocialIcons */ "./src/react/Components/SocialIcons/index.js");
+/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
+/* harmony import */ var _PreviewSocialIconListItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../PreviewSocialIconListItem */ "./src/react/Components/Shared/PreviewSocialIconListItem/index.js");
+/* harmony import */ var _SocialIcons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../SocialIcons */ "./src/react/Components/SocialIcons/index.js");
 
 
 
@@ -20943,10 +20943,10 @@ var PreviewSocialIconList = function PreviewSocialIconList() {
 
 /***/ }),
 
-/***/ "./src/react/Components/PreviewSocialIconListItem/index.js":
-/*!*****************************************************************!*\
-  !*** ./src/react/Components/PreviewSocialIconListItem/index.js ***!
-  \*****************************************************************/
+/***/ "./src/react/Components/Shared/PreviewSocialIconListItem/index.js":
+/*!************************************************************************!*\
+  !*** ./src/react/Components/Shared/PreviewSocialIconListItem/index.js ***!
+  \************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -20960,7 +20960,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
+/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 
@@ -21035,10 +21035,10 @@ var PreviewSocialIconListItem = function PreviewSocialIconListItem(_ref) {
 
 /***/ }),
 
-/***/ "./src/react/Components/SocialIconList/index.js":
-/*!******************************************************!*\
-  !*** ./src/react/Components/SocialIconList/index.js ***!
-  \******************************************************/
+/***/ "./src/react/Components/Shared/SocialIconList/index.js":
+/*!*************************************************************!*\
+  !*** ./src/react/Components/Shared/SocialIconList/index.js ***!
+  \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -21050,9 +21050,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _SocialIconListItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../SocialIconListItem */ "./src/react/Components/SocialIconListItem/index.js");
-/* harmony import */ var _SocialIcons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../SocialIcons */ "./src/react/Components/SocialIcons/index.js");
-/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
+/* harmony import */ var _SocialIconListItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../SocialIconListItem */ "./src/react/Components/Shared/SocialIconListItem/index.js");
+/* harmony import */ var _SocialIcons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../SocialIcons */ "./src/react/Components/SocialIcons/index.js");
+/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
 /* harmony import */ var react_dnd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-dnd */ "./node_modules/react-dnd/dist/core/DndProvider.js");
 /* harmony import */ var react_dnd_html5_backend__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-dnd-html5-backend */ "./node_modules/react-dnd-html5-backend/dist/index.js");
 
@@ -21160,10 +21160,10 @@ var SocialIconList = function SocialIconList() {
 
 /***/ }),
 
-/***/ "./src/react/Components/SocialIconListItem/index.js":
-/*!**********************************************************!*\
-  !*** ./src/react/Components/SocialIconListItem/index.js ***!
-  \**********************************************************/
+/***/ "./src/react/Components/Shared/SocialIconListItem/index.js":
+/*!*****************************************************************!*\
+  !*** ./src/react/Components/Shared/SocialIconListItem/index.js ***!
+  \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";

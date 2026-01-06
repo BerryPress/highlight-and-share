@@ -14,8 +14,8 @@ import { ToggleControl, TextControl } from '@wordpress/components';
 import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndicator';
 import ErrorBoundary from '../../../Components/ErrorBoundary';
 import Loader from '../../../Components/Loader';
-import SocialIconList from '../../../Components/SocialIconList';
-import ThemeCustomizer from '../../../Components/ThemeCustomizer';
+import SocialIconList from '../../../Components/Shared/SocialIconList';
+import ThemeCustomizer from '../../../Components/Shared/ThemeCustomizer';
 
 /**
  * Appearances Panel Interface Component.

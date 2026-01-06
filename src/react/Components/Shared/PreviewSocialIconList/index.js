@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import classNames from 'classnames';
 import { useSelect } from '@wordpress/data';
-import store from '../../Sharing/Store';
+import store from '../../../Sharing/Store';
 import PreviewSocialIconListItem from '../PreviewSocialIconListItem';
 // Import all the social media icons.
-import SocialIcons from '../SocialIcons';
+import SocialIcons from '../../SocialIcons';
 
 const PreviewSocialIconList = () => {
 	const appearanceThemeData = useSelect( ( select ) => select( store ).getThemeData() );

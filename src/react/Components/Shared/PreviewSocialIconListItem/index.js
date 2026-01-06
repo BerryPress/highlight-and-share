@@ -2,7 +2,7 @@
 import classNames from 'classnames';
 import { escapeAttribute, escapeEditableHTML } from '@wordpress/escape-html';
 import { useSelect } from '@wordpress/data';
-import store from '../../Sharing/Store';
+import store from '../../../Sharing/Store';
 
 const PreviewSocialIconListItem = ( { listItemKey, className, icon, label, theme } ) => {
 	const appearanceThemeData = useSelect( ( select ) => select( store ).getThemeData() );

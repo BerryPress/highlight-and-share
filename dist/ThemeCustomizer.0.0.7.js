@@ -593,10 +593,10 @@ var Notice = function Notice(_ref) {
 
 /***/ }),
 
-/***/ "./src/react/Components/SocialNetworkColorsTabs/index.js":
-/*!***************************************************************!*\
-  !*** ./src/react/Components/SocialNetworkColorsTabs/index.js ***!
-  \***************************************************************/
+/***/ "./src/react/Components/Shared/SocialNetworkColorsTabs/index.js":
+/*!**********************************************************************!*\
+  !*** ./src/react/Components/Shared/SocialNetworkColorsTabs/index.js ***!
+  \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -609,10 +609,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _TabColorPickers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../TabColorPickers */ "./src/react/Components/TabColorPickers/index.js");
+/* harmony import */ var _TabColorPickers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../TabColorPickers */ "./src/react/Components/Shared/TabColorPickers/index.js");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
+/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -699,10 +699,10 @@ var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
 
 /***/ }),
 
-/***/ "./src/react/Components/TabColorPickers/index.js":
-/*!*******************************************************!*\
-  !*** ./src/react/Components/TabColorPickers/index.js ***!
-  \*******************************************************/
+/***/ "./src/react/Components/Shared/TabColorPickers/index.js":
+/*!**************************************************************!*\
+  !*** ./src/react/Components/Shared/TabColorPickers/index.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -712,7 +712,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
-/* harmony import */ var _ColorPicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ColorPicker */ "./src/react/Components/ColorPicker/index.js");
+/* harmony import */ var _ColorPicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../ColorPicker */ "./src/react/Components/ColorPicker/index.js");
 /**
  * Dimensions Component.
  * Credit: Forked from @GenerateBlocks
@@ -842,10 +842,10 @@ var TabColorPickers = function TabColorPickers(props) {
 
 /***/ }),
 
-/***/ "./src/react/Components/ThemeCustomizer/index.js":
-/*!*******************************************************!*\
-  !*** ./src/react/Components/ThemeCustomizer/index.js ***!
-  \*******************************************************/
+/***/ "./src/react/Components/Shared/ThemeCustomizer/index.js":
+/*!**************************************************************!*\
+  !*** ./src/react/Components/Shared/ThemeCustomizer/index.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -861,14 +861,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
-/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
+/* harmony import */ var _Sharing_Store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Sharing/Store */ "./src/react/Sharing/Store/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _Notice__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Notice */ "./src/react/Components/Notice/index.js");
-/* harmony import */ var _Icons_CircularInfo__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Icons/CircularInfo */ "./src/react/Components/Icons/CircularInfo.js");
-/* harmony import */ var _ColorPicker__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../ColorPicker */ "./src/react/Components/ColorPicker/index.js");
-/* harmony import */ var _Dimensions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Dimensions */ "./src/react/Components/Dimensions/index.js");
-/* harmony import */ var _SocialNetworkColorsTabs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../SocialNetworkColorsTabs */ "./src/react/Components/SocialNetworkColorsTabs/index.js");
+/* harmony import */ var _Notice__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Notice */ "./src/react/Components/Notice/index.js");
+/* harmony import */ var _Icons_CircularInfo__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Icons/CircularInfo */ "./src/react/Components/Icons/CircularInfo.js");
+/* harmony import */ var _ColorPicker__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../ColorPicker */ "./src/react/Components/ColorPicker/index.js");
+/* harmony import */ var _Dimensions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Dimensions */ "./src/react/Components/Dimensions/index.js");
+/* harmony import */ var _SocialNetworkColorsTabs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../SocialNetworkColorsTabs */ "./src/react/Components/Shared/SocialNetworkColorsTabs/index.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }

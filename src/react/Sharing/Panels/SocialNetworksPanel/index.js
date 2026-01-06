@@ -187,10 +187,10 @@ const Interface = ( { data } ) => {
 			{ renderErrorNotice() }
 			<PanelBodyWithIndicator
 				panelId="socialNetworks"
-				control={ control }
 				title={ __( 'Social Networks', 'highlight-and-share' ) }
 				defaultOpen={ true }
 				className="has-sharing-panel"
+				watchFields={ data.watchFields }
 			>
 				<div className="has-admin-component-row">
 					<p className="description">
