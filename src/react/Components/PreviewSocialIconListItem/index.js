@@ -1,19 +1,23 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useContext } from 'react';
 import classNames from 'classnames';
 import { escapeAttribute, escapeEditableHTML } from '@wordpress/escape-html';
-import SocialNetworksContext from '../../Contexts/SocialNetworksContext';
+import { useSelect } from '@wordpress/data';
+import store from '../../Sharing/Store';
 
-const PreviewSocialIconListItem = ( { listItemKey, className, icon, label } ) => {
-	const { theme, hasIconsOnly, socialNetworkColors, appearanceThemeData, mainSettings } = useContext( SocialNetworksContext );
-	const classes = classNames( className, `has_${ listItemKey }`, { 'has-tooltip': appearanceThemeData.show_tooltips } );
+const PreviewSocialIconListItem = ( { listItemKey, className, icon, label, theme } ) => {
+	const appearanceThemeData = useSelect( ( select ) => select( store ).getThemeData() );
+	const socialNetworkColors = useSelect( ( select ) => select( store ).getSocialNetworkColors() );
+	const mainSettings = useSelect( ( select ) => select( store ).getSettings() );
+	const classes = classNames( className, `has_${ listItemKey }`, { 'has-tooltip': appearanceThemeData.showTooltips } );
+
+	console.log( appearanceThemeData );
 
 	let iconStyles = '';
 	if ( ! appearanceThemeData.groupIcons && 'custom' === theme ) {
-		const iconColor = socialNetworkColors[ listItemKey ].icon_color;
-		const iconColorHover = socialNetworkColors[ listItemKey ].icon_color_hover;
-		const backgroundColor = socialNetworkColors[ listItemKey ].background;
-		const backgroundColorHover = socialNetworkColors[ listItemKey ].background_hover;
+		const iconColor = socialNetworkColors[ listItemKey ].iconColor;
+		const iconColorHover = socialNetworkColors[ listItemKey ].iconColorHover;
+		const backgroundColor = socialNetworkColors[ listItemKey ].backgroundColor;
+		const backgroundColorHover = socialNetworkColors[ listItemKey ].backgroundColorHover;
 
 		iconStyles = `
 			.has_${ listItemKey } a {
@@ -61,7 +65,7 @@ const PreviewSocialIconListItem = ( { listItemKey, className, icon, label } ) =>
 					} }
 				>
 					{ icon }
-					{ ( 'default' === appearanceThemeData.theme || ( 'custom' === appearanceThemeData.theme && ! appearanceThemeData.icons_only ) ) && (
+					{ ( 'default' === appearanceThemeData.theme || ( 'custom' === appearanceThemeData.theme && ! appearanceThemeData.iconsOnly ) ) && (
 						<>
 							<span className="has-icon-label">{ `${ escapeEditableHTML( getLabel() ) }` }</span>
 						</>

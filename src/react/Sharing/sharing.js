@@ -15,6 +15,7 @@ import { escapeEditableHTML } from '@wordpress/escape-html';
 import ErrorBoundary from '../Components/ErrorBoundary';
 import Loader from '../Components/Loader';
 import AppearancesPanel from './Panels/AppearancesPanel';
+import PreviewPanel from './Panels/PreviewPanel';
 
 /**
  * Retrieve settings data from PHP.
@@ -250,14 +251,6 @@ const SharingInterface = ( { defaults } ) => {
 		return updatedNetworks;
 	};
 
-	// Set Networks when form values change.
-	useEffect( () => {
-		if ( data?.socialNetworks && formValues ) {
-			const updatedNetworks = updateNetworksFromFormValues( data.socialNetworks );
-			dispatch( store ).setNetworks( updatedNetworks );
-		}
-	}, [ data?.socialNetworks, formValues ] );
-
 	if ( ! data ) {
 		return <div>{ __( 'Loading…', 'highlight-and-share' ) }</div>;
 	}
@@ -284,6 +277,7 @@ const SharingInterface = ( { defaults } ) => {
 							<SocialNetworksPanel { ...data } />
 							<DisplayRulesPanel />
 							<AppearancesPanel { ...data } />
+							<PreviewPanel { ...data } />
 						</FormProvider>
 					</Suspense>
 				</div>
