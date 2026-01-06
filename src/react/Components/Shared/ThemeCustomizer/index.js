@@ -346,7 +346,7 @@ const ThemeCustomizer = () => {
 											'highlight-and-share'
 										) }
 										step={ 1 }
-										value={ value }
+										value={ parseInt( value ) }
 										max={ 64 }
 										min={ 14 }
 										currentInput={ 16 }

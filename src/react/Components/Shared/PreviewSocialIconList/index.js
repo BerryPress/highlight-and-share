@@ -47,8 +47,8 @@ const PreviewSocialIconList = () => {
 					border-bottom-left-radius: ${ formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrUnit } !important;
 				}
 				.has-admin-theme-preview-list.highlight-and-share-wrapper div:last-child a {
-					border-bottom-right-radius: ${ formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrBottom } !important;
-					border-top-right-radius: ${ formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrRight } !important;
+					border-bottom-right-radius: ${ formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrUnit } !important;
+					border-top-right-radius: ${ formValues.borderRadiusGroup.attrTop + formValues.borderRadiusGroup.attrUnit } !important;
 				}
 			`;
 			// Get border radius values.
@@ -104,7 +104,7 @@ const PreviewSocialIconList = () => {
 				.has-admin-theme-preview-list.highlight-and-share-wrapper div a {
 					padding-top: ${ formValues.iconPadding.attrTop }${ formValues.iconPadding.attrUnit } !important;
 					padding-right: ${ formValues.iconPadding.attrRight }${ formValues.iconPadding.attrUnit } !important;
-					padding-bottom: ${ formValues.icon_padding.attrBottom }${ formValues.icon_padding.attrUnit } !important;
+					padding-bottom: ${ formValues.iconPadding.attrBottom }${ formValues.iconPadding.attrUnit } !important;
 					padding-left: ${ formValues.iconPadding.attrLeft }${ formValues.iconPadding.attrUnit } !important;
 				}
 			`;
