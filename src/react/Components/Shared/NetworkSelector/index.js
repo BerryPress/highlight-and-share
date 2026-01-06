@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import { CheckboxControl } from '@wordpress/components';
 import SocialIcons from '../../SocialIcons';
 import GearIcon from '../../Icons/Gear';
+import store from '../../../Sharing/Store';
+import { dispatch, select } from '@wordpress/data';
 
 /**
  * NetworkSelector component.
@@ -72,6 +74,14 @@ const NetworkSelector = ( { networks = {}, networkErrors = {}, onSettingsMouseDo
 	 * @param {Function} onChange     Change handler from Controller.
 	 */
 	const handleItemClick = ( networkSlug, currentValue, onChange ) => {
+		// Get social networks from store.
+		const existingNetworks = select( store ).getNetworks();
+		const newNetworks = { ...existingNetworks };
+		newNetworks[ networkSlug ] = {
+			...newNetworks[ networkSlug ],
+			enabled: ! currentValue,
+		};
+		dispatch( store ).setNetworks( newNetworks );
 		onChange( ! currentValue );
 	};
 
@@ -147,7 +157,9 @@ const NetworkSelector = ( { networks = {}, networkErrors = {}, onSettingsMouseDo
 									<div className="has-network-selector-checkbox-wrapper">
 										<CheckboxControl
 											checked={ isEnabled }
-											onChange={ onChange }
+											onChange={ ( newValue ) => {
+												onChange( newValue );
+											} }
 											label=""
 											__nextHasNoMarginBottom
 											className="has-network-selector-checkbox"

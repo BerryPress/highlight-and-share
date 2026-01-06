@@ -5,7 +5,7 @@
 import { __ } from '@wordpress/i18n';
 import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { Suspense, useEffect } from 'react';
-import { dispatch } from '@wordpress/data';
+import { dispatch, useSelect } from '@wordpress/data';
 import store from './Store'; // Register the store before using components that depend on it.
 import SocialNetworksPanel from './Panels/SocialNetworksPanel';
 import DisplayRulesPanel from './Panels/DisplayRulesPanel';
@@ -245,10 +245,6 @@ const SharingInterface = ( { defaults } ) => {
 		},
 	} );
 
-	const formValues = useWatch( {
-		control: methods.control,
-	} );
-
 	// Set the initial form state when data loads.
 	useEffect( () => {
 		if ( data ) {
@@ -259,19 +255,10 @@ const SharingInterface = ( { defaults } ) => {
 			methods.reset( getDefaultValues( data.values, data.themeOptions ) );
 		}
 	}, [ data, methods ] );
-
-	/**
-	 * Convert underscore_case to camelCase.
-	 *
-	 * @param {string} str String in underscore_case.
-	 * @return {string} String in camelCase.
-	 */
-	const toCamelCase = ( str ) => {
-		if ( ! str ) {
-			return str;
-		}
-		return str.replace( /_([a-z])/g, ( _, letter ) => letter.toUpperCase() );
-	};
+	
+	const formValues = useWatch( {
+		control: methods.control,
+	} );
 
 	if ( ! data ) {
 		return <div>{ __( 'Loading…', 'highlight-and-share' ) }</div>;
@@ -298,8 +285,8 @@ const SharingInterface = ( { defaults } ) => {
 						<FormProvider { ...methods }>
 							<SocialNetworksPanel { ...data } watchFields={ socialNetworksPanelWatchValues } />
 							<DisplayRulesPanel watchFields={ displayRulesPanelWatchValues } />
-							{/* <AppearancesPanel { ...data } />
-							<PreviewPanel { ...data } /> */}
+							<AppearancesPanel { ...data } formValues={ formValues } />
+							{ /*<PreviewPanel { ...data } /> */}
 						</FormProvider>
 					</Suspense>
 				</div>

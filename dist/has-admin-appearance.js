@@ -21076,7 +21076,6 @@ var SocialIconList = function SocialIconList() {
   // Recompute when storeNetworks changes (which happens when store is updated).
   var networks = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
     return getSocialIcons();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storeNetworks]);
   var moveSocialNetwork = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (dragIndex, hoverIndex) {
     var dragItem = networks[dragIndex];

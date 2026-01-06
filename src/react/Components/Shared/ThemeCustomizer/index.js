@@ -16,13 +16,11 @@ import CircularInfoIcon from '../../Icons/CircularInfo';
 import HASColorPicker from '../../ColorPicker';
 import DimensionsControl from '../../Dimensions';
 import SocialNetworkColorsTabs from '../SocialNetworkColorsTabs';
-import Spinner from '../../Icons/Spinner';
-import sendCommand from '../../../Utils/SendCommand';
 
 const defaultColors = hasSharingAdmin.colors;
 
 const ThemeCustomizer = () => {
-	const { control, formValues, getValues } = useFormContext();
+	const { control, getValues } = useFormContext();
 	const {
 		theme,
 		themeData,
@@ -109,10 +107,6 @@ const ThemeCustomizer = () => {
 		return themeOptions;
 	};
 
-	useEffect( () => {
-		setThemeData( formValues );
-	}, [ formValues ] );
-
 	return (
 		<div className="has-admin-theme-customizer">
 			<div className="has-admin-component-row">
@@ -191,7 +185,7 @@ const ThemeCustomizer = () => {
 							) }
 						/>
 					</div>
-					{ getValues( 'group_icons' ) && (
+					{ getValues( 'groupIcons' ) && (
 						<>
 							<div className="has-admin-component-row">
 								<Controller

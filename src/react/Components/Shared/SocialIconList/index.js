@@ -17,7 +17,6 @@ const SocialIconList = () => {
 	// Recompute when storeNetworks changes (which happens when store is updated).
 	const networks = useMemo( () => {
 		return getSocialIcons();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ storeNetworks ] );
 
 	const moveSocialNetwork = useCallback(

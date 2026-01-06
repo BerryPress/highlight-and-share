@@ -9,8 +9,6 @@
 
 import { __ } from '@wordpress/i18n';
 import { Suspense } from 'react';
-import { useFormContext, Controller } from 'react-hook-form';
-import { ToggleControl, TextControl } from '@wordpress/components';
 import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndicator';
 import ErrorBoundary from '../../../Components/ErrorBoundary';
 import Loader from '../../../Components/Loader';
@@ -23,15 +21,11 @@ import ThemeCustomizer from '../../../Components/Shared/ThemeCustomizer';
  * @return {Element} Appearances Panel component.
  */
 const Interface = () => {
-	// Get form methods from FormProvider context.
-	const { control } = useFormContext();
-
 	return (
 		<PanelBodyWithIndicator
 			title={ __( 'Appearance', 'highlight-and-share' ) }
 			initialOpen={ true } // Default expanded.
 			panelId="appearance"
-			control={ control }
 			className="has-sharing-panel"
 		>
 			<h3 className="has-admin-content-subheading">

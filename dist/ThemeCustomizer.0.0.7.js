@@ -887,13 +887,10 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
-
-
 var defaultColors = hasSharingAdmin.colors;
 var ThemeCustomizer = function ThemeCustomizer() {
   var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_4__.useFormContext)(),
     control = _useFormContext.control,
-    formValues = _useFormContext.formValues,
     getValues = _useFormContext.getValues;
   var _useSelect = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(function (select) {
       return {
@@ -989,9 +986,6 @@ var ThemeCustomizer = function ThemeCustomizer() {
     });
     return themeOptions;
   };
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    setThemeData(formValues);
-  }, [formValues]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-theme-customizer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -1060,7 +1054,7 @@ var ThemeCustomizer = function ThemeCustomizer() {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Modify all icons at once or have them separated with individual colors and backgrounds.', 'highlight-and-share')
       });
     }
-  })), getValues('group_icons') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), getValues('groupIcons') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_4__.Controller, {
     name: "backgroundColor",
