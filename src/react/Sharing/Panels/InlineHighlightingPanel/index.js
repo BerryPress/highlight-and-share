@@ -171,7 +171,7 @@ const Interface = ( { watchFields } ) => {
 				<div className="has-admin-component-row">
 					<h4>{ __( 'Inline Highlighting Preview:', 'highlight-and-share' ) }</h4>
 					<p>
-						Lorem ipsum dolor sit amet, <span className="has-inline-text" style={ styles }>consectetur adipiscing elit. Morbi ut lacinia augue</span>. Nam convallis lacus at ex fringilla, a venenatis mi facilisis. Sed lobortis pharetra massa, sit amet dictum erat egestas in.
+						Lorem ipsum dolor sit amet, <span className="has-inline-text" style={ styles } data-tooltip={ formValues.inlineHighlightTooltipsText ?? __( 'This is an example tooltip.', 'highlight-and-share' ) }>consectetur adipiscing elit. Morbi ut lacinia augue</span>. Nam convallis lacus at ex fringilla, a venenatis mi facilisis. Sed lobortis pharetra massa, sit amet dictum erat egestas in.
 					</p>
 				</div>
 			</>

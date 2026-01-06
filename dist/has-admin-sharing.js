@@ -27891,6 +27891,7 @@ var Interface = function Interface(_ref) {
    * @return {JSX.Element|null} Color options or null.
    */
   var getInlineHighlightingColorOptions = function getInlineHighlightingColorOptions() {
+    var _formValues$inlineHig;
     if (!enableInlineHighlighting) {
       return null;
     }
@@ -27983,7 +27984,8 @@ var Interface = function Interface(_ref) {
       className: "has-admin-component-row"
     }, /*#__PURE__*/React.createElement("h4", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Inline Highlighting Preview:', 'highlight-and-share')), /*#__PURE__*/React.createElement("p", null, "Lorem ipsum dolor sit amet, ", /*#__PURE__*/React.createElement("span", {
       className: "has-inline-text",
-      style: styles
+      style: styles,
+      "data-tooltip": (_formValues$inlineHig = formValues.inlineHighlightTooltipsText) !== null && _formValues$inlineHig !== void 0 ? _formValues$inlineHig : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('This is an example tooltip.', 'highlight-and-share')
     }, "consectetur adipiscing elit. Morbi ut lacinia augue"), ". Nam convallis lacus at ex fringilla, a venenatis mi facilisis. Sed lobortis pharetra massa, sit amet dictum erat egestas in.")));
   };
 
