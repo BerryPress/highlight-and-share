@@ -7,7 +7,7 @@ import { useForm, FormProvider, useWatch, useFormState } from 'react-hook-form';
 import { Suspense, useEffect, useState } from 'react';
 import { dispatch, useSelect } from '@wordpress/data';
 import classnames from 'classnames';
-import { Button, Spinner } from '@wordpress/components';
+import { Button, Spinner, Fill } from '@wordpress/components';
 import store from './Store'; // Register the store before using components that depend on it.
 import SocialNetworksPanel from './Panels/SocialNetworksPanel';
 import DisplayRulesPanel from './Panels/DisplayRulesPanel';
@@ -333,9 +333,12 @@ const SharingInterface = ( { defaults } ) => {
 		control: methods.control,
 	} ).isDirty;
 
-	const hasErrors = useFormState( {
+	const errors = useFormState( {
 		control: methods.control,
-	} ).errors.length > 0 ? true : false;
+	} ).errors;
+
+	const hasErrors = Object.keys( errors ).length > 0 ? true : false;
+
 
 	// Set the initial form state when data loads.
 	useEffect( () => {
@@ -391,51 +394,53 @@ const SharingInterface = ( { defaults } ) => {
 				</div>
 				{ ( isDirtyFields && ! hasErrors ) && (
 					<>
-						<div className="has-admin-save-bar">
-							<div className="has-admin__tabs--content-actions">
-								<div className="has-admin__tabs--content-actions--left">
-									<Button
-										className={ classnames(
-											'has__btn has__btn-primary has__btn--icon-right',
-											{ 'has-icon': saving },
-											{ 'is-saving': { saving } }
-										) }
-										type="submit"
-										text={
-											saving
-												? __( 'Saving…', 'highlight-and-share' )
-												: __( 'Save Settings', 'highlight-and-share' )
-										}
-										icon={ saving ? Spinner : false }
-										iconSize="18"
-										iconPosition="right"
-										disabled={ saving || resetting }
-									/>
-								</div>
-								<div className="has-admin__tabs--content-actions--right">
-									<Button
-										className={ classnames(
-											'has__btn has__btn-danger has__btn--icon-right',
-											{ 'has-icon': resetting },
-											{ 'is-resetting': { resetting } }
-										) }
-										type="button"
-										text={
-											resetting
-												? __( 'Discarding Changes…', 'highlight-and-share' )
-												: __( 'Discard Changes', 'highlight-and-share' )
-										}
-										icon={ resetting ? Spinner : false }
-										iconSize="18"
-										iconPosition="right"
-										disabled={ saving || resetting }
-										onClick={ ( e ) => {
-											//handleReset( e );
-										} }
-									/>
+						<Fill name="hasSharingFooter">
+							<div className="has-admin-save-bar">
+								<div className="has-admin__tabs--content-actions">
+									<div className="has-admin__tabs--content-actions--left">
+										<Button
+											className={ classnames(
+												'has__btn has__btn-primary has__btn--icon-right',
+												{ 'has-icon': saving },
+												{ 'is-saving': { saving } }
+											) }
+											type="submit"
+											text={
+												saving
+													? __( 'Saving…', 'highlight-and-share' )
+													: __( 'Save Settings', 'highlight-and-share' )
+											}
+											icon={ saving ? Spinner : false }
+											iconSize="18"
+											iconPosition="right"
+											disabled={ saving || resetting }
+										/>
+									</div>
+									<div className="has-admin__tabs--content-actions--right">
+										<Button
+											className={ classnames(
+												'has__btn has__btn-danger has__btn--icon-right',
+												{ 'has-icon': resetting },
+												{ 'is-resetting': { resetting } }
+											) }
+											type="button"
+											text={
+												resetting
+													? __( 'Discarding Changes…', 'highlight-and-share' )
+													: __( 'Discard Changes', 'highlight-and-share' )
+											}
+											icon={ resetting ? Spinner : false }
+											iconSize="18"
+											iconPosition="right"
+											disabled={ saving || resetting }
+											onClick={ ( e ) => {
+												//handleReset( e );
+											} }
+										/>
+									</div>
 								</div>
 							</div>
-						</div>
+						</Fill>
 					</>
 				) }
 			</FormProvider>

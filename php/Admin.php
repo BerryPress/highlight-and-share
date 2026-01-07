@@ -636,6 +636,7 @@ class Admin {
 					}
 					?>
 				</div>
+				<div id="has-admin-container-slot"></div>
 			</div>
 		</div>
 		<?php

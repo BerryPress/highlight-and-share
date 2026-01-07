@@ -29079,9 +29079,10 @@ var SharingInterface = function SharingInterface(_ref) {
   var isDirtyFields = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_1__.useFormState)({
     control: methods.control
   }).isDirty;
-  var hasErrors = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_1__.useFormState)({
+  var errors = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_1__.useFormState)({
     control: methods.control
-  }).errors.length > 0 ? true : false;
+  }).errors;
+  var hasErrors = Object.keys(errors).length > 0 ? true : false;
 
   // Set the initial form state when data loads.
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
@@ -29126,7 +29127,9 @@ var SharingInterface = function SharingInterface(_ref) {
     watchFields: inlineHighlightingPanelWatchValues
   }), /*#__PURE__*/React.createElement(_Panels_AdvancedPanel__WEBPACK_IMPORTED_MODULE_18__["default"], {
     watchFields: advancedPanelWatchValues
-  }))))), isDirtyFields && !hasErrors && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }))))), isDirtyFields && !hasErrors && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Fill, {
+    name: "hasSharingFooter"
+  }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin-save-bar"
   }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin__tabs--content-actions"
@@ -29165,7 +29168,7 @@ var SharingInterface = function SharingInterface(_ref) {
     onClick: function onClick(e) {
       //handleReset( e );
     }
-  })))))));
+  }))))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sharing);
 
@@ -30685,7 +30688,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
-/* harmony import */ var _sharing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sharing */ "./src/react/Sharing/sharing.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _sharing__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sharing */ "./src/react/Sharing/sharing.js");
 /**
  * Sharing tab entry point.
  */
@@ -30693,12 +30700,34 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
  // Register the store.
 
 var container = document.getElementById('has-sharing-admin');
-if (container) {
-  var root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container);
-  root.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_sharing__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
+var slotContainer = document.getElementById('has-admin-container-slot');
+
+// If both containers exist, use a shared SlotFillProvider with portals.
+if (container && slotContainer) {
+  var commonParent = slotContainer.parentElement;
+  if (commonParent && commonParent.contains(container)) {
+    // Create a hidden root container for the shared provider.
+    var rootContainer = document.createElement('div');
+    rootContainer.style.display = 'none';
+    commonParent.appendChild(rootContainer);
+    var root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(rootContainer);
+    root.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SlotFillProvider, null, /*#__PURE__*/(0,react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal)(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_sharing__WEBPACK_IMPORTED_MODULE_4__["default"], null), container), /*#__PURE__*/(0,react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal)(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Slot, {
+      name: "hasSharingFooter"
+    }), slotContainer))));
+  } else {
+    // Fallback: render separately if no common parent found.
+    var _root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container);
+    _root.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SlotFillProvider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_sharing__WEBPACK_IMPORTED_MODULE_4__["default"], null))));
+    var slotRoot = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(slotContainer);
+    slotRoot.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SlotFillProvider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Slot, {
+      name: "hasSharingFooter"
+    }))));
+  }
 }
 })();
 
