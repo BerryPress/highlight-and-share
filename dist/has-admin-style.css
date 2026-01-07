@@ -5152,7 +5152,6 @@ h3.has-icon-heading svg {
 }
 
 .has-admin-save-bar {
-  padding: 16px 24px;
   background: #f6f7f7;
   border-top: 1px solid #c3c4c7;
   position: sticky;
@@ -5161,7 +5160,13 @@ h3.has-icon-heading svg {
   z-index: 1000;
 }
 .has-admin-save-bar .has-admin__tabs--content-actions {
+  display: flex;
+  justify-content: flex-start;
   padding: 0;
+  gap: 16px;
+  max-width: calc(69.5rem - 70px);
+  margin: 0 auto;
+  padding: 16px 0;
 }
 
 /*# sourceMappingURL=has-admin-style.css.map*/

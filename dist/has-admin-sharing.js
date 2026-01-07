@@ -29152,7 +29152,7 @@ var SharingInterface = function SharingInterface(_ref) {
   })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin__tabs--content-actions--right"
   }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
-    className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has__btn has__btn-danger has__btn--icon-right', {
+    className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has__btn has__btn-secondary has__btn--icon-right', {
       'has-icon': resetting
     }, {
       'is-resetting': {

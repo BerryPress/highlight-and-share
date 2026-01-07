@@ -419,7 +419,7 @@ const SharingInterface = ( { defaults } ) => {
 									<div className="has-admin__tabs--content-actions--right">
 										<Button
 											className={ classnames(
-												'has__btn has__btn-danger has__btn--icon-right',
+												'has__btn has__btn-secondary has__btn--icon-right',
 												{ 'has-icon': resetting },
 												{ 'is-resetting': { resetting } }
 											) }
