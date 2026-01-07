@@ -399,11 +399,7 @@ const SharingInterface = ( { defaults } ) => {
 								<div className="has-admin__tabs--content-actions">
 									<div className="has-admin__tabs--content-actions--left">
 										<Button
-											className={ classnames(
-												'has__btn has__btn-primary has__btn--icon-right',
-												{ 'has-icon': saving },
-												{ 'is-saving': { saving } }
-											) }
+											variant="primary"
 											type="submit"
 											text={
 												saving
@@ -418,11 +414,7 @@ const SharingInterface = ( { defaults } ) => {
 									</div>
 									<div className="has-admin__tabs--content-actions--right">
 										<Button
-											className={ classnames(
-												'has__btn has__btn-secondary has__btn--icon-right',
-												{ 'has-icon': resetting },
-												{ 'is-resetting': { resetting } }
-											) }
+											variant="secondary"
 											type="button"
 											text={
 												resetting

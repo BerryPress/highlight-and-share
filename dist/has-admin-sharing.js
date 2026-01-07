@@ -29136,13 +29136,7 @@ var SharingInterface = function SharingInterface(_ref) {
   }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin__tabs--content-actions--left"
   }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
-    className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has__btn has__btn-primary has__btn--icon-right', {
-      'has-icon': saving
-    }, {
-      'is-saving': {
-        saving: saving
-      }
-    }),
+    variant: "primary",
     type: "submit",
     text: saving ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Saving…', 'highlight-and-share') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Save Settings', 'highlight-and-share'),
     icon: saving ? _wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Spinner : false,
@@ -29152,13 +29146,7 @@ var SharingInterface = function SharingInterface(_ref) {
   })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin__tabs--content-actions--right"
   }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
-    className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has__btn has__btn-secondary has__btn--icon-right', {
-      'has-icon': resetting
-    }, {
-      'is-resetting': {
-        resetting: resetting
-      }
-    }),
+    variant: "secondary",
     type: "button",
     text: resetting ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Discarding Changes…', 'highlight-and-share') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Discard Changes', 'highlight-and-share'),
     icon: resetting ? _wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Spinner : false,
