@@ -30706,6 +30706,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var container = document.getElementById('has-sharing-admin');
 var slotContainer = document.getElementById('has-admin-container-slot');
+container.innerHTML = '';
 
 // If both containers exist, use a shared SlotFillProvider with portals.
 if (container && slotContainer) {

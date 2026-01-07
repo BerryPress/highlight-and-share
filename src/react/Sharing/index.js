@@ -11,6 +11,7 @@ import './Store'; // Register the store.
 
 const container = document.getElementById( 'has-sharing-admin' );
 const slotContainer = document.getElementById( 'has-admin-container-slot' );
+container.innerHTML = '';
 
 // If both containers exist, use a shared SlotFillProvider with portals.
 if ( container && slotContainer ) {
