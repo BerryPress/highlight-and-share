@@ -459,10 +459,12 @@ class Admin {
 
 		// Get saved options. Then write over it with the defaults (array_replace_recursive in reverse).
 		$defaults = Options::get_defaults();
-		$options  = get_option( 'highlight-and-share', array() );
-		$options  = array_replace_recursive( $options, $defaults );
-		update_option( 'highlight-and-share', $options );
+		$defaults = Functions::sanitize_array_recursive( $defaults );
+		update_option( 'highlight-and-share', $defaults );
 		$this->clear_frontend_cache();
+
+		// Retrieve fresh options.
+		$options = Options::get_plugin_options( true );
 
 		// Send the data home.
 		$return = array(

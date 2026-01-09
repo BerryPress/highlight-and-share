@@ -8,22 +8,22 @@
  */
 
 import { __ } from '@wordpress/i18n';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { BaseControl, CheckboxControl } from '@wordpress/components';
 
 /**
  * Post Type Selector Component.
  *
  * @param {Object} props           Component props.
- * @param {Object} props.control   React Hook Form control object.
  * @param {Array}  props.postTypes Array of post type objects with `label` and `value` properties.
  * @return {Element} Post type selector component.
  */
-const PostTypeSelector = ( { control, postTypes = [] } ) => {
+const PostTypeSelector = ( { postTypes = [] } ) => {
+	const { control } = useFormContext();
+
 	if ( ! postTypes || postTypes.length === 0 ) {
 		return null;
 	}
-
 	return (
 		<>
 			<h3 className="has-admin-content-subheading">{ __( 'Excluded Post Types', 'highlight-and-share' ) }</h3>
@@ -32,15 +32,17 @@ const PostTypeSelector = ( { control, postTypes = [] } ) => {
 					key={ postType.value }
 					name={ `excludedPostTypes[${ postType.value }]` }
 					control={ control }
-					render={ ( { field: { onChange, value } } ) => (
-						<CheckboxControl
-							label={ postType.label }
-							checked={ value || false } // Checked = excluded.
-							onChange={ ( isExcluded ) => {
-								onChange( isExcluded );
-							} }
-						/>
-					) }
+					render={ ( { field: { onChange, value } } ) => {
+						return (
+							<CheckboxControl
+								label={ postType.label }
+								checked={ value || false }
+								onChange={ ( isExcluded ) => {
+									onChange( isExcluded );
+								} }
+							/>
+						);
+					} }
 				/>
 			) ) }
 		</>

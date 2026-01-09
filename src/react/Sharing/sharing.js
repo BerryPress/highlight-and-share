@@ -366,7 +366,12 @@ const SharingInterface = ( { defaults } ) => {
 		dispatch( store ).setSettings( newData.values );
 		dispatch( store ).setTheme( newData.values.theme );
 		dispatch( store ).setSocialNetworkColors( newData.values.iconColors );
-		methods.reset( getDefaultValues( newData.values ), { keepDirtyValues } );
+		// Build post types exclusion object.
+		Object.keys( hasSharingAdmin.postTypes ).forEach( ( postType ) => {
+			// If post type isn't included in object, add it.
+			newData.values.excludedPostTypes[ postType ] = newData.values.excludedPostTypes?.[ postType ] || false;
+		} );
+		methods.reset( getDefaultValues( newData.values ), { keepDirtyValues, keepDirty: keepDirtyValues } );
 		dispatch( store ).setCheckpoint( newData );
 	};
 
@@ -504,6 +509,8 @@ const SharingInterface = ( { defaults } ) => {
 								.then( ( ajaxResponse ) => {
 									const { data: ajaxData, success } = ajaxResponse.data;
 									if ( success ) {
+										console.log( 'ajaxData', ajaxData );
+										console.log( 'ajaxData.values.excludedPostTypes', ajaxData.values.excludedPostTypes );
 										setCheckpointData( ajaxData, false );
 										// Wait 350ms so animation can hide.
 										setTimeout( () => {

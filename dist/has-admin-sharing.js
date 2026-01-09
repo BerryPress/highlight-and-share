@@ -25621,14 +25621,14 @@ __webpack_require__.r(__webpack_exports__);
  * Post Type Selector Component.
  *
  * @param {Object} props           Component props.
- * @param {Object} props.control   React Hook Form control object.
  * @param {Array}  props.postTypes Array of post type objects with `label` and `value` properties.
  * @return {Element} Post type selector component.
  */
 var PostTypeSelector = function PostTypeSelector(_ref) {
-  var control = _ref.control,
-    _ref$postTypes = _ref.postTypes,
+  var _ref$postTypes = _ref.postTypes,
     postTypes = _ref$postTypes === void 0 ? [] : _ref$postTypes;
+  var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_1__.useFormContext)(),
+    control = _useFormContext.control;
   if (!postTypes || postTypes.length === 0) {
     return null;
   }
@@ -25645,8 +25645,7 @@ var PostTypeSelector = function PostTypeSelector(_ref) {
           value = _ref2$field.value;
         return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
           label: postType.label,
-          checked: value || false // Checked = excluded.
-          ,
+          checked: value || false,
           onChange: function onChange(isExcluded) {
             _onChange(isExcluded);
           }
@@ -29782,8 +29781,15 @@ var SharingInterface = function SharingInterface(_ref) {
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setSettings(newData.values);
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setTheme(newData.values.theme);
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setSocialNetworkColors(newData.values.iconColors);
+    // Build post types exclusion object.
+    Object.keys(hasSharingAdmin.postTypes).forEach(function (postType) {
+      var _newData$values$exclu;
+      // If post type isn't included in object, add it.
+      newData.values.excludedPostTypes[postType] = ((_newData$values$exclu = newData.values.excludedPostTypes) === null || _newData$values$exclu === void 0 ? void 0 : _newData$values$exclu[postType]) || false;
+    });
     methods.reset(getDefaultValues(newData.values), {
-      keepDirtyValues: keepDirtyValues
+      keepDirtyValues: keepDirtyValues,
+      keepDirty: keepDirtyValues
     });
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setCheckpoint(newData);
   };
@@ -29896,6 +29902,8 @@ var SharingInterface = function SharingInterface(_ref) {
           ajaxData = _ajaxResponse$data2.data,
           success = _ajaxResponse$data2.success;
         if (success) {
+          console.log('ajaxData', ajaxData);
+          console.log('ajaxData.values.excludedPostTypes', ajaxData.values.excludedPostTypes);
           setCheckpointData(ajaxData, false);
           // Wait 350ms so animation can hide.
           setTimeout(function () {
