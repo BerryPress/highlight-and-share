@@ -68,3 +68,7 @@ export function getHasIconsOnly( state ) {
 export function getSocialNetworkColors( state ) {
 	return state.socialNetworkColors;
 }
+
+export function getCheckpoint( state ) {
+	return state.checkpoint || {};
+}

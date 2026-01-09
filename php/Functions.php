@@ -310,8 +310,40 @@ class Functions {
 	 * @return string $field Field name in camelCase..
 	 */
 	public static function to_underlines( string $field ) {
-		$field = strtolower( preg_replace( '/([a-z])([A-Z])/', '$1_$2', $field ) );
+		$regex = '/([a-z])([A-Z])/';
+		if ( preg_match( $regex, $field ) ) {
+			$field = strtolower( preg_replace( $regex, '$1_$2', $field ) );
+		}
 		return $field;
+	}
+
+	/**
+	 * Take a camelcase key and converts it to underline case.
+	 *
+	 * @param array $fields Array of fields to convert to underline case.
+	 *
+	 * @return array $fields Array of fields in underline case.
+	 */
+	public static function to_underlines_recursive( array $fields ) {
+		foreach ( $fields as $key => $value ) {
+			// Store old key.
+			$old_key = $key;
+
+			// Convert key to underline case.
+			$key            = self::to_underlines( $key );
+			$fields[ $key ] = $value;
+
+			// Unset old key if it has changed.
+			if ( $key !== $old_key ) {
+				unset( $fields[ $old_key ] );
+			}
+
+			// Recursively convert array values to underline case.
+			if ( is_array( $value ) ) {
+				$fields[ $key ] = self::to_underlines_recursive( $value );
+			}
+		}
+		return $fields;
 	}
 
 	/**
@@ -700,4 +732,3 @@ class Functions {
 		return $highest_priority;
 	}
 }
-

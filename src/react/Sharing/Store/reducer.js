@@ -93,6 +93,11 @@ function reducer( state = initialState, action ) {
 				...state,
 				themeData: action.themeData,
 			};
+		case 'SET_CHECKPOINT':
+			return {
+				...state,
+				checkpoint: action.data,
+			};
 		default:
 			return state;
 	}

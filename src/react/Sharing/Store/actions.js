@@ -44,6 +44,19 @@ export function setNetworks( networks ) {
 }
 
 /**
+ * Store a version of the data.
+ *
+ * @param {Object} data Data object.
+ * @return {Object} Action object.
+ */
+export function setCheckpoint( data ) {
+	return {
+		type: 'SET_CHECKPOINT',
+		data,
+	};
+}
+
+/**
  * Set preview visibility.
  *
  * @param {boolean} isVisible Whether preview should be visible.

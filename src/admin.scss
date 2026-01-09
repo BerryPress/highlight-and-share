@@ -572,6 +572,7 @@ h2.has-admin-content-subheading {
 	.has-admin__tabs--content-actions--right {
 		display: flex;
 		justify-content: flex-end;
+		flex: 1;
 	}
 
 	&.no-flex {
@@ -651,7 +652,7 @@ h2.has-admin-content-subheading {
 					animation: has-spin 1s linear infinite;
 
 					path {
-						fill: #017e01;
+						fill: currentColor;
 					}
 				}
 			}
@@ -667,12 +668,18 @@ h2.has-admin-content-subheading {
 					animation: has-spin 1s linear infinite;
 
 					path {
-						fill: #822700;
+						fill: currentColor;
 					}
 				}
 			}
 		}
 	}
+}
+.has-modal-buttons-group {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
 }
 
 /* Social Icons for Reorder */

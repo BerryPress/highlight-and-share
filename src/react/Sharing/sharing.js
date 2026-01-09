@@ -4,8 +4,8 @@
 
 import { __ } from '@wordpress/i18n';
 import { useForm, FormProvider, useWatch, useFormState } from 'react-hook-form';
-import { Suspense, useEffect, useState } from 'react';
-import { dispatch, useSelect } from '@wordpress/data';
+import { Suspense, useEffect, useState, useRef } from 'react';
+import { dispatch, select } from '@wordpress/data';
 import classnames from 'classnames';
 import { Button, Spinner, Fill } from '@wordpress/components';
 import store from './Store'; // Register the store before using components that depend on it.
@@ -21,6 +21,7 @@ import PreviewPanel from './Panels/PreviewPanel';
 import BlockEditorPanel from './Panels/BlockEditorPanel';
 import InlineHighlightingPanel from './Panels/InlineHighlightingPanel';
 import AdvancedPanel from './Panels/AdvancedPanel';
+import SaveBar from '../Components/SaveBar';
 
 /**
  * Retrieve settings data from PHP.
@@ -226,14 +227,21 @@ export const getDefaultValues = ( values = {} ) => {
 
 		// Inline Highlighting options.
 		enableInlineHighlighting: values?.enableInlineHighlighting ?? false,
-		inlineHighlightBackgroundColor: values?.inlineHighlightBackgroundColor || '#ffefb1',
-		inlineHighlightBackgroundColorHover: values?.inlineHighlightBackgroundColorHover || '#fcd63c',
+		inlineHighlightBackgroundColor:
+			values?.inlineHighlightBackgroundColor || '#ffefb1',
+		inlineHighlightBackgroundColorHover:
+			values?.inlineHighlightBackgroundColorHover || '#fcd63c',
 		inlineHighlightTextColor: values?.inlineHighlightTextColor || '#000000',
-		inlineHighlightTextColorHover: values?.inlineHighlightTextColorHover || '#000000',
-		inlineHighlightTooltipsText: escapeEditableHTML( values?.inlineHighlightTooltipsText || '' ),
+		inlineHighlightTextColorHover:
+			values?.inlineHighlightTextColorHover || '#000000',
+		inlineHighlightTooltipsText: escapeEditableHTML(
+			values?.inlineHighlightTooltipsText || ''
+		),
 		inlineHighlightShowTooltips: values?.inlineHighlightShowTooltips ?? false,
-		inlineHighlightTooltipsBackgroundColor: values?.inlineHighlightTooltipsBackgroundColor || '#000000',
-		inlineHighlightTooltipsTextColor: values?.inlineHighlightTooltipsTextColor || '#FFFFFF',
+		inlineHighlightTooltipsBackgroundColor:
+			values?.inlineHighlightTooltipsBackgroundColor || '#000000',
+		inlineHighlightTooltipsTextColor:
+			values?.inlineHighlightTooltipsTextColor || '#FFFFFF',
 
 		// Appearance options.
 		theme: values.theme ?? 'default',
@@ -290,9 +298,7 @@ const Sharing = () => {
 	return (
 		<ErrorBoundary
 			fallback={
-				<p>
-					{ __( 'Could not load Sharing panel.', 'highlight-and-share' ) }
-				</p>
+				<p>{ __( 'Could not load Sharing panel.', 'highlight-and-share' ) }</p>
 			}
 		>
 			<Suspense fallback={ <Loader /> }>
@@ -312,10 +318,8 @@ const Sharing = () => {
 const SharingInterface = ( { defaults } ) => {
 	const response = defaults();
 	const { data } = response.data;
-
 	const [ saving, setSaving ] = useState( false );
 	const [ resetting, setResetting ] = useState( false );
-
 	// Set up global React Hook Form instance for all panels.
 	// Default values will be reset when async data loads (in SocialNetworksPanel).
 	const methods = useForm( {
@@ -339,16 +343,26 @@ const SharingInterface = ( { defaults } ) => {
 
 	const hasErrors = Object.keys( errors ).length > 0 ? true : false;
 
+	/**
+	 * Set the checkpoint data.
+	 *
+	 * @param {Object}  newData         New data.
+	 * @param {boolean} keepDirtyValues Whether to keep dirty values.
+	 */
+	const setCheckpointData = ( newData, keepDirtyValues = true ) => {
+		dispatch( store ).setNetworks( newData.socialNetworks );
+		dispatch( store ).setSettings( newData.settings );
+		dispatch( store ).setTheme( newData.theme );
+		dispatch( store ).setThemeData( newData.themeData );
+		dispatch( store ).setSocialNetworkColors( newData.iconColors );
+		methods.reset( getDefaultValues( newData.values ), { keepDirtyValues } );
+		dispatch( store ).setCheckpoint( newData );
+	};
 
 	// Set the initial form state when data loads.
 	useEffect( () => {
 		if ( data ) {
-			dispatch( store ).setNetworks( data.socialNetworks );
-			dispatch( store ).setSettings( data.values );
-			dispatch( store ).setTheme( data.values.theme );
-			dispatch( store ).setThemeData( data.values );
-			dispatch( store ).setSocialNetworkColors( data.values.iconColors );
-			methods.reset( getDefaultValues( data.values ) );
+			setCheckpointData( data );
 		}
 	}, [ data, methods ] );
 
@@ -364,7 +378,6 @@ const SharingInterface = ( { defaults } ) => {
 		<>
 			<FormProvider { ...methods }>
 				<div className="has-admin-content-wrapper">
-
 					<div className="has-admin-content-panel">
 						<div className="has-admin-content-heading">
 							<h1>
@@ -380,61 +393,65 @@ const SharingInterface = ( { defaults } ) => {
 							</p>
 						</div>
 						<div className="has-admin-content-body">
-							<Suspense fallback={ <div>{ __( 'Loading…', 'highlight-and-share' ) }</div> }>
-								<SocialNetworksPanel { ...data } watchFields={ socialNetworksPanelWatchValues } />
+							<Suspense
+								fallback={ <div>{ __( 'Loading…', 'highlight-and-share' ) }</div> }
+							>
+								<SocialNetworksPanel
+									{ ...data }
+									watchFields={ socialNetworksPanelWatchValues }
+								/>
 								<DisplayRulesPanel watchFields={ displayRulesPanelWatchValues } />
-								<AppearancesPanel { ...data } watchFields={ appearancePanelWatchValues } />
+								<AppearancesPanel
+									{ ...data }
+									watchFields={ appearancePanelWatchValues }
+								/>
 								<PreviewPanel { ...data } />
 								<BlockEditorPanel watchFields={ blockEditorPanelWatchValues } />
-								<InlineHighlightingPanel watchFields={ inlineHighlightingPanelWatchValues } />
+								<InlineHighlightingPanel
+									watchFields={ inlineHighlightingPanelWatchValues }
+								/>
 								<AdvancedPanel watchFields={ advancedPanelWatchValues } />
 							</Suspense>
 						</div>
 					</div>
 				</div>
-				{ ( isDirtyFields && ! hasErrors ) && (
-					<>
-						<Fill name="hasSharingFooter">
-							<div className="has-admin-save-bar">
-								<div className="has-admin__tabs--content-actions">
-									<div className="has-admin__tabs--content-actions--left">
-										<Button
-											variant="primary"
-											type="submit"
-											text={
-												saving
-													? __( 'Saving…', 'highlight-and-share' )
-													: __( 'Save Settings', 'highlight-and-share' )
-											}
-											icon={ saving ? Spinner : false }
-											iconSize="18"
-											iconPosition="right"
-											disabled={ saving || resetting }
-										/>
-									</div>
-									<div className="has-admin__tabs--content-actions--right">
-										<Button
-											variant="secondary"
-											type="button"
-											text={
-												resetting
-													? __( 'Discarding Changes…', 'highlight-and-share' )
-													: __( 'Discard Changes', 'highlight-and-share' )
-											}
-											icon={ resetting ? Spinner : false }
-											iconSize="18"
-											iconPosition="right"
-											disabled={ saving || resetting }
-											onClick={ ( e ) => {
-												//handleReset( e );
-											} }
-										/>
-									</div>
-								</div>
-							</div>
-						</Fill>
-					</>
-				) }
+				<Fill name="hasSharingFooter">
+					<SaveBar
+						onDiscardChanges={ () => {
+							const checkpoint = select( store ).getCheckpoint();
+							setCheckpointData( checkpoint, false );
+						} }
+						onSave={ () => {
+							// Save the form data.
+							setSaving( true );
+							sendCommand( 'has_save_settings_tab', {
+								nonce: window.hasSharingAdmin?.saveNonce,
+								form_data: formValues,
+							} )
+								.then( ( ajaxResponse ) => {
+									const { data: ajaxData, success } = ajaxResponse.data;
+									if ( success ) {
+										setCheckpointData( ajaxData, false );
+										setSaving( false );
+									} else {
+										// Error stuff.
+										setSaving( false );
+									}
+								} )
+								.catch( ( error ) => {
+									console.error( error );
+									setSaving( false );
+								} );
+						} }
+						onReset={ () => {
+							// Reset the form data.
+						} }
+						isSaving={ saving }
+						isResetting={ resetting }
+						isDirtyFields={ isDirtyFields }
+						hasErrors={ hasErrors }
+					/>
+				</Fill>
 			</FormProvider>
 		</>
 	);

@@ -431,41 +431,22 @@ class Admin {
 		}
 
 		$form_data = $_POST['form_data']; // expect array.
+		$form_data = Functions::to_underlines_recursive( $form_data );
+		$form_data = Functions::sanitize_array_recursive( $form_data );
 
-		// Loop through form data, convert to underscore case, sanitize, and save options.
-		$converted_options = array();
-		foreach ( $form_data as $key => $value ) {
-			$key = sanitize_key( Functions::to_underlines( $key ) );
-
-			if ( is_bool( $value ) || 'true' === $value || 'false' === $value ) {
-				// Convert string to boolean.
-				$value                     = (bool) filter_var( $value, FILTER_VALIDATE_BOOLEAN );
-				$converted_options[ $key ] = $value;
-			} elseif ( is_numeric( $value ) || is_int( $value ) ) {
-
-				$converted_options[ $key ] = absint( $value );
-			} elseif ( is_array( $value ) ) {
-				// Check if this is a nested object/array with boolean values (e.g., excludedPostTypes).
-				if ( 'excluded_post_types' === $key ) {
-					// Preserve boolean values in nested object.
-					$sanitized_array = array();
-					foreach ( $value as $nested_key => $nested_value ) {
-						$sanitized_key                     = sanitize_key( $nested_key );
-						$sanitized_array[ $sanitized_key ] = (bool) filter_var( $nested_value, FILTER_VALIDATE_BOOLEAN );
-					}
-					$converted_options[ $key ] = $sanitized_array;
-				} else {
-					$converted_options[ $key ] = array_map( 'sanitize_text_field', $value );
-				}
-			} else {
-				$converted_options[ $key ] = $value;
-			}
-		}
-
-		// Converted options are sanitized. Save the options.
-		update_option( 'highlight-and-share', $converted_options );
+		// Form data are sanitized. Save the options.
+		update_option( 'highlight-and-share', $form_data );
 		$this->clear_frontend_cache();
-		wp_send_json_success( $this->map_defaults_to_js( stripslashes_deep( $converted_options ) ) );
+
+		// Retrieve fresh options.
+		$options = Options::get_plugin_options( true );
+		$return  = array(
+			'socialNetworks' => Options::get_plugin_options_social_networks( true ),
+			'values'         => $this->map_defaults_to_js(
+				stripslashes_deep( $options ),
+			),
+		);
+		wp_send_json_success( $return );
 	}
 
 	/**
@@ -705,6 +686,8 @@ class Admin {
 					array(
 						'userMetaNonce'      => wp_create_nonce( 'has_admin_user_meta' ),
 						'retrieveNonce'      => wp_create_nonce( 'has_retrieve_settings' ),
+						'saveNonce'          => wp_create_nonce( 'has_save_settings' ),
+						'resetNonce'         => wp_create_nonce( 'has_reset_settings' ),
 						'postTypes'          => $post_types,
 						'themes'             => Themes::get_main_themes(),
 						'colors'             => Themes::get_default_theme_colors(),
