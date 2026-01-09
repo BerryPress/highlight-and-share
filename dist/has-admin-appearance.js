@@ -23876,6 +23876,12 @@ var PreviewSocialIconListItem = function PreviewSocialIconListItem(_ref) {
     var iconColorHover = formValues.iconColors[listItemKey].iconColorHover;
     var backgroundColor = formValues.iconColors[listItemKey].background;
     var backgroundColorHover = formValues.iconColors[listItemKey].backgroundHover;
+    if ('facebook' === listItemKey) {
+      console.log('iconColor', iconColor);
+      console.log('iconColorHover', iconColorHover);
+      console.log('backgroundColor', backgroundColor);
+      console.log('backgroundColorHover', backgroundColorHover);
+    }
     iconStyles = "\n\t\t\t.has_".concat(listItemKey, " a {\n\t\t\t\tcolor: ").concat(iconColor, " !important;\n\t\t\t\tbackground: ").concat(backgroundColor, " !important;\n\t\t\t}\n\t\t\t.has_").concat(listItemKey, " a:hover {\n\t\t\t\tcolor: ").concat(iconColorHover, " !important;\n\t\t\t\tbackground: ").concat(backgroundColorHover, " !important;\n\t\t\t}\n\t\t");
   }
 

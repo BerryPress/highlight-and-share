@@ -618,9 +618,9 @@ var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
         title: network.label,
         className: "social-network-colors-tab-".concat(network.slug),
         background: network.background,
-        background_hover: network.backgroundHover,
-        icon_color: network.iconColor,
-        icon_color_hover: network.iconColorHover
+        backgroundHover: network.backgroundHover,
+        iconColor: network.iconColor,
+        iconColorHover: network.iconColorHover
       });
     });
     return tabs;
@@ -629,9 +629,9 @@ var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
     var newSocialNetworkColors = _objectSpread({}, socialNetworkColors);
     newSocialNetworkColors[selectedTab] = _objectSpread(_objectSpread({}, newSocialNetworkColors[selectedTab]), {}, {
       background: formValues.backgroundColor,
-      background_hover: formValues.backgroundColorHover,
-      icon_color: formValues.iconColor,
-      icon_color_hover: formValues.iconColorHover
+      backgroundHover: formValues.backgroundColorHover,
+      iconColor: formValues.iconColor,
+      iconColorHover: formValues.iconColorHover
     });
     setSocialNetworkColors(newSocialNetworkColors);
     setValue('iconColors', newSocialNetworkColors, {
@@ -653,9 +653,9 @@ var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
     return /*#__PURE__*/React.createElement(_TabColorPickers__WEBPACK_IMPORTED_MODULE_3__["default"], {
       key: tab.key,
       backgroundColor: tab.background,
-      backgroundColorHover: tab.background_hover,
-      iconColor: tab.icon_color,
-      iconColorHover: tab.icon_color_hover,
+      backgroundColorHover: tab.backgroundHover,
+      iconColor: tab.iconColor,
+      iconColorHover: tab.iconColorHover,
       onValueChange: onValueChange
     });
   })));

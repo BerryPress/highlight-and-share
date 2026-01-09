@@ -148,7 +148,7 @@ const advancedPanelWatchValues = [
  * @param {Object} blockEditorValues Block editor values from PHP.
  * @return {Object} Default form values.
  */
-export const getDefaultValues = ( values = {}, themeData = {}, blockEditorValues = {} ) => {
+export const getDefaultValues = ( values = {} ) => {
 	// Build default values object with all network toggles and labels/tooltips.
 	const defaultValues = {
 		// Network toggles.
@@ -219,50 +219,50 @@ export const getDefaultValues = ( values = {}, themeData = {}, blockEditorValues
 		shortlinks: values.shortlinks ?? false,
 
 		// Block Editor options.
-		enableBlocks: blockEditorValues?.enableBlocks ?? true,
-		enableAdobeFonts: blockEditorValues?.enableAdobeFonts ?? false,
-		adobeProjectId: escapeEditableHTML( blockEditorValues?.adobeProjectId || '' ),
-		adobeFonts: blockEditorValues?.adobeFonts || [],
+		enableBlocks: values?.enableBlocks ?? true,
+		enableAdobeFonts: values?.enableAdobeFonts ?? false,
+		adobeProjectId: escapeEditableHTML( values?.adobeProjectId || '' ),
+		adobeFonts: values?.adobeFonts || [],
 
 		// Inline Highlighting options.
-		enableInlineHighlighting: blockEditorValues?.enableInlineHighlighting ?? false,
-		inlineHighlightBackgroundColor: blockEditorValues?.inlineHighlightBackgroundColor || '#ffefb1',
-		inlineHighlightBackgroundColorHover: blockEditorValues?.inlineHighlightBackgroundColorHover || '#fcd63c',
-		inlineHighlightTextColor: blockEditorValues?.inlineHighlightTextColor || '#000000',
-		inlineHighlightTextColorHover: blockEditorValues?.inlineHighlightTextColorHover || '#000000',
-		inlineHighlightTooltipsText: escapeEditableHTML( blockEditorValues?.inlineHighlightTooltipsText || '' ),
-		inlineHighlightShowTooltips: blockEditorValues?.inlineHighlightShowTooltips ?? false,
-		inlineHighlightTooltipsBackgroundColor: blockEditorValues?.inlineHighlightTooltipsBackgroundColor || '#000000',
-		inlineHighlightTooltipsTextColor: blockEditorValues?.inlineHighlightTooltipsTextColor || '#FFFFFF',
+		enableInlineHighlighting: values?.enableInlineHighlighting ?? false,
+		inlineHighlightBackgroundColor: values?.inlineHighlightBackgroundColor || '#ffefb1',
+		inlineHighlightBackgroundColorHover: values?.inlineHighlightBackgroundColorHover || '#fcd63c',
+		inlineHighlightTextColor: values?.inlineHighlightTextColor || '#000000',
+		inlineHighlightTextColorHover: values?.inlineHighlightTextColorHover || '#000000',
+		inlineHighlightTooltipsText: escapeEditableHTML( values?.inlineHighlightTooltipsText || '' ),
+		inlineHighlightShowTooltips: values?.inlineHighlightShowTooltips ?? false,
+		inlineHighlightTooltipsBackgroundColor: values?.inlineHighlightTooltipsBackgroundColor || '#000000',
+		inlineHighlightTooltipsTextColor: values?.inlineHighlightTooltipsTextColor || '#FFFFFF',
 
 		// Appearance options.
-		theme: themeData.theme ?? 'default',
+		theme: values.theme ?? 'default',
 		networkOrder: [],
-		iconsOnly: themeData.iconsOnly ?? true,
-		orientation: themeData.orientation ?? 'horizontal',
-		showTooltips: themeData.showTooltips ?? true,
-		tooltipsTextColor: themeData.tooltipsTextColor ?? '#FFFFFF',
-		tooltipsBackgroundColor: themeData.tooltipsBackgroundColor ?? '#000000',
-		groupIcons: themeData.groupIcons ?? true,
-		backgroundColor: themeData.backgroundColor ?? '#000000',
-		backgroundColorHover: themeData.backgroundColorHover ?? '#333333',
-		iconColors: themeData.iconColors ?? [],
-		iconColorsGroup: themeData.iconColorsGroup ?? '#FFFFFF',
-		iconColorsGroupHover: themeData.iconColorsGroupHover ?? '#FFFFFF',
-		borderRadiusGroup: themeData.borderRadiusGroup ?? {
+		iconsOnly: values.iconsOnly ?? true,
+		orientation: values.orientation ?? 'horizontal',
+		showTooltips: values.showTooltips ?? true,
+		tooltipsTextColor: values.tooltipsTextColor ?? '#FFFFFF',
+		tooltipsBackgroundColor: values.tooltipsBackgroundColor ?? '#000000',
+		groupIcons: values.groupIcons ?? true,
+		backgroundColor: values.backgroundColor ?? '#000000',
+		backgroundColorHover: values.backgroundColorHover ?? '#333333',
+		iconColors: values.iconColors ?? [],
+		iconColorsGroup: values.iconColorsGroup ?? '#FFFFFF',
+		iconColorsGroupHover: values.iconColorsGroupHover ?? '#FFFFFF',
+		borderRadiusGroup: values.borderRadiusGroup ?? {
 			attrTop: 0,
 			attrRight: 0,
 			attrBottom: 0,
 			attrLeft: 0,
 		},
-		iconBorderRadius: themeData.iconBorderRadius ?? {
+		iconBorderRadius: values.iconBorderRadius ?? {
 			attrTop: 0,
 			attrRight: 0,
 			attrBottom: 0,
 			attrLeft: 0,
 		},
-		fontSize: themeData.fontSize ?? 14,
-		iconPadding: themeData.iconPadding ?? {
+		fontSize: values.fontSize ?? 14,
+		iconPadding: values.iconPadding ?? {
 			attrTop: 12,
 			attrRight: 20,
 			attrBottom: 12,
@@ -270,11 +270,11 @@ export const getDefaultValues = ( values = {}, themeData = {}, blockEditorValues
 			attrUnit: 'px',
 			attrSyncUnits: false,
 		},
-		iconSize: themeData.iconSize ?? 25,
-		iconGap: themeData.iconGap ?? 0,
+		iconSize: values.iconSize ?? 25,
+		iconGap: values.iconGap ?? 0,
 
 		// Post Types Exclusion.
-		excludedPostTypes: themeData.excludedPostTypes || {},
+		excludedPostTypes: values.excludedPostTypes || {},
 	};
 
 	return defaultValues;
@@ -319,7 +319,7 @@ const SharingInterface = ( { defaults } ) => {
 	// Set up global React Hook Form instance for all panels.
 	// Default values will be reset when async data loads (in SocialNetworksPanel).
 	const methods = useForm( {
-		defaultValues: getDefaultValues( {}, {}, {} ), // Start with empty defaults, will be reset when data loads.
+		defaultValues: getDefaultValues( {} ), // Start with empty defaults, will be reset when data loads.
 		mode: 'onBlur', // Validate on blur for better UX in popovers.
 		reValidateMode: 'onChange', // Re-validate and clear errors immediately when user starts typing.
 		shouldUnregister: false, // Keep fields registered even when not rendered.
@@ -345,10 +345,10 @@ const SharingInterface = ( { defaults } ) => {
 		if ( data ) {
 			dispatch( store ).setNetworks( data.socialNetworks );
 			dispatch( store ).setSettings( data.values );
-			dispatch( store ).setTheme( data.themeOptions.theme );
-			dispatch( store ).setThemeData( data.themeOptions );
-			dispatch( store ).setSocialNetworkColors( data.themeOptions.iconColors );
-			methods.reset( getDefaultValues( data.values, data.themeOptions, data.blockEditorOptions ) );
+			dispatch( store ).setTheme( data.values.theme );
+			dispatch( store ).setThemeData( data.values );
+			dispatch( store ).setSocialNetworkColors( data.values.iconColors );
+			methods.reset( getDefaultValues( data.values ) );
 		}
 	}, [ data, methods ] );
 

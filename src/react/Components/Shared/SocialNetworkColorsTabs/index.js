@@ -28,9 +28,9 @@ const SocialNetworkColorsTabs = () => {
 				title: network.label,
 				className: `social-network-colors-tab-${ network.slug }`,
 				background: network.background,
-				background_hover: network.backgroundHover,
-				icon_color: network.iconColor,
-				icon_color_hover: network.iconColorHover,
+				backgroundHover: network.backgroundHover,
+				iconColor: network.iconColor,
+				iconColorHover: network.iconColorHover,
 			} );
 		} );
 		return tabs;
@@ -41,9 +41,9 @@ const SocialNetworkColorsTabs = () => {
 		newSocialNetworkColors[ selectedTab ] = {
 			...newSocialNetworkColors[ selectedTab ],
 			background: formValues.backgroundColor,
-			background_hover: formValues.backgroundColorHover,
-			icon_color: formValues.iconColor,
-			icon_color_hover: formValues.iconColorHover,
+			backgroundHover: formValues.backgroundColorHover,
+			iconColor: formValues.iconColor,
+			iconColorHover: formValues.iconColorHover,
 		};
 		setSocialNetworkColors( newSocialNetworkColors );
 		setValue( 'iconColors', newSocialNetworkColors, { shouldDirty: true } );
@@ -72,9 +72,9 @@ const SocialNetworkColorsTabs = () => {
 							<TabColorPickers
 								key={ tab.key }
 								backgroundColor={ tab.background }
-								backgroundColorHover={ tab.background_hover }
-								iconColor={ tab.icon_color }
-								iconColorHover={ tab.icon_color_hover }
+								backgroundColorHover={ tab.backgroundHover }
+								iconColor={ tab.iconColor }
+								iconColorHover={ tab.iconColorHover }
 								onValueChange={ onValueChange }
 							/>
 						);

@@ -25338,6 +25338,12 @@ var PreviewSocialIconListItem = function PreviewSocialIconListItem(_ref) {
     var iconColorHover = formValues.iconColors[listItemKey].iconColorHover;
     var backgroundColor = formValues.iconColors[listItemKey].background;
     var backgroundColorHover = formValues.iconColors[listItemKey].backgroundHover;
+    if ('facebook' === listItemKey) {
+      console.log('iconColor', iconColor);
+      console.log('iconColorHover', iconColorHover);
+      console.log('backgroundColor', backgroundColor);
+      console.log('backgroundColorHover', backgroundColorHover);
+    }
     iconStyles = "\n\t\t\t.has_".concat(listItemKey, " a {\n\t\t\t\tcolor: ").concat(iconColor, " !important;\n\t\t\t\tbackground: ").concat(backgroundColor, " !important;\n\t\t\t}\n\t\t\t.has_").concat(listItemKey, " a:hover {\n\t\t\t\tcolor: ").concat(iconColorHover, " !important;\n\t\t\t\tbackground: ").concat(backgroundColorHover, " !important;\n\t\t\t}\n\t\t");
   }
 
@@ -25713,9 +25719,9 @@ var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
         title: network.label,
         className: "social-network-colors-tab-".concat(network.slug),
         background: network.background,
-        background_hover: network.backgroundHover,
-        icon_color: network.iconColor,
-        icon_color_hover: network.iconColorHover
+        backgroundHover: network.backgroundHover,
+        iconColor: network.iconColor,
+        iconColorHover: network.iconColorHover
       });
     });
     return tabs;
@@ -25724,9 +25730,9 @@ var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
     var newSocialNetworkColors = _objectSpread({}, socialNetworkColors);
     newSocialNetworkColors[selectedTab] = _objectSpread(_objectSpread({}, newSocialNetworkColors[selectedTab]), {}, {
       background: formValues.backgroundColor,
-      background_hover: formValues.backgroundColorHover,
-      icon_color: formValues.iconColor,
-      icon_color_hover: formValues.iconColorHover
+      backgroundHover: formValues.backgroundColorHover,
+      iconColor: formValues.iconColor,
+      iconColorHover: formValues.iconColorHover
     });
     setSocialNetworkColors(newSocialNetworkColors);
     setValue('iconColors', newSocialNetworkColors, {
@@ -25748,9 +25754,9 @@ var SocialNetworkColorsTabs = function SocialNetworkColorsTabs() {
     return /*#__PURE__*/React.createElement(_TabColorPickers__WEBPACK_IMPORTED_MODULE_3__["default"], {
       key: tab.key,
       backgroundColor: tab.background,
-      backgroundColorHover: tab.background_hover,
-      iconColor: tab.icon_color,
-      iconColorHover: tab.icon_color_hover,
+      backgroundColorHover: tab.backgroundHover,
+      iconColor: tab.iconColor,
+      iconColorHover: tab.iconColorHover,
       onValueChange: onValueChange
     });
   })));
@@ -28896,10 +28902,8 @@ var advancedPanelWatchValues = ['jsContent', 'elementContent', 'idContent', 'wra
  * @return {Object} Default form values.
  */
 var getDefaultValues = function getDefaultValues() {
-  var _values$showTwitter, _values$showFacebook, _values$showWhatsApp, _values$showReddit, _values$showTelegram, _values$showLinkedin, _values$showXing, _values$showCopy, _values$showMastodon, _values$showTumblr, _values$showWebshare, _values$showThreads, _values$showBluesky, _values$enableEmails, _values$enableHashtag, _values$whatsappCanSh, _values$enableMobile, _values$enableContent, _values$enableExcerpt, _values$enableComment, _values$shortlinks, _blockEditorValues$en, _blockEditorValues$en2, _blockEditorValues$en3, _blockEditorValues$in, _themeData$theme, _themeData$iconsOnly, _themeData$orientatio, _themeData$showToolti, _themeData$tooltipsTe, _themeData$tooltipsBa, _themeData$groupIcons, _themeData$background, _themeData$background2, _themeData$iconColors, _themeData$iconColors2, _themeData$iconColors3, _themeData$borderRadi, _themeData$iconBorder, _themeData$fontSize, _themeData$iconPaddin, _themeData$iconSize, _themeData$iconGap;
+  var _values$showTwitter, _values$showFacebook, _values$showWhatsApp, _values$showReddit, _values$showTelegram, _values$showLinkedin, _values$showXing, _values$showCopy, _values$showMastodon, _values$showTumblr, _values$showWebshare, _values$showThreads, _values$showBluesky, _values$enableEmails, _values$enableHashtag, _values$whatsappCanSh, _values$enableMobile, _values$enableContent, _values$enableExcerpt, _values$enableComment, _values$shortlinks, _values$enableBlocks, _values$enableAdobeFo, _values$enableInlineH, _values$inlineHighlig, _values$theme, _values$iconsOnly, _values$orientation, _values$showTooltips, _values$tooltipsTextC, _values$tooltipsBackg, _values$groupIcons, _values$backgroundCol, _values$backgroundCol2, _values$iconColors, _values$iconColorsGro, _values$iconColorsGro2, _values$borderRadiusG, _values$iconBorderRad, _values$fontSize, _values$iconPadding, _values$iconSize, _values$iconGap;
   var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var themeData = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var blockEditorValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   // Build default values object with all network toggles and labels/tooltips.
   var defaultValues = {
     // Network toggles.
@@ -28965,48 +28969,48 @@ var getDefaultValues = function getDefaultValues() {
     wrapperClasses: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.wrapperClasses || ''),
     shortlinks: (_values$shortlinks = values.shortlinks) !== null && _values$shortlinks !== void 0 ? _values$shortlinks : false,
     // Block Editor options.
-    enableBlocks: (_blockEditorValues$en = blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.enableBlocks) !== null && _blockEditorValues$en !== void 0 ? _blockEditorValues$en : true,
-    enableAdobeFonts: (_blockEditorValues$en2 = blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.enableAdobeFonts) !== null && _blockEditorValues$en2 !== void 0 ? _blockEditorValues$en2 : false,
-    adobeProjectId: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)((blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.adobeProjectId) || ''),
-    adobeFonts: (blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.adobeFonts) || [],
+    enableBlocks: (_values$enableBlocks = values === null || values === void 0 ? void 0 : values.enableBlocks) !== null && _values$enableBlocks !== void 0 ? _values$enableBlocks : true,
+    enableAdobeFonts: (_values$enableAdobeFo = values === null || values === void 0 ? void 0 : values.enableAdobeFonts) !== null && _values$enableAdobeFo !== void 0 ? _values$enableAdobeFo : false,
+    adobeProjectId: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)((values === null || values === void 0 ? void 0 : values.adobeProjectId) || ''),
+    adobeFonts: (values === null || values === void 0 ? void 0 : values.adobeFonts) || [],
     // Inline Highlighting options.
-    enableInlineHighlighting: (_blockEditorValues$en3 = blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.enableInlineHighlighting) !== null && _blockEditorValues$en3 !== void 0 ? _blockEditorValues$en3 : false,
-    inlineHighlightBackgroundColor: (blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.inlineHighlightBackgroundColor) || '#ffefb1',
-    inlineHighlightBackgroundColorHover: (blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.inlineHighlightBackgroundColorHover) || '#fcd63c',
-    inlineHighlightTextColor: (blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.inlineHighlightTextColor) || '#000000',
-    inlineHighlightTextColorHover: (blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.inlineHighlightTextColorHover) || '#000000',
-    inlineHighlightTooltipsText: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)((blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.inlineHighlightTooltipsText) || ''),
-    inlineHighlightShowTooltips: (_blockEditorValues$in = blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.inlineHighlightShowTooltips) !== null && _blockEditorValues$in !== void 0 ? _blockEditorValues$in : false,
-    inlineHighlightTooltipsBackgroundColor: (blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.inlineHighlightTooltipsBackgroundColor) || '#000000',
-    inlineHighlightTooltipsTextColor: (blockEditorValues === null || blockEditorValues === void 0 ? void 0 : blockEditorValues.inlineHighlightTooltipsTextColor) || '#FFFFFF',
+    enableInlineHighlighting: (_values$enableInlineH = values === null || values === void 0 ? void 0 : values.enableInlineHighlighting) !== null && _values$enableInlineH !== void 0 ? _values$enableInlineH : false,
+    inlineHighlightBackgroundColor: (values === null || values === void 0 ? void 0 : values.inlineHighlightBackgroundColor) || '#ffefb1',
+    inlineHighlightBackgroundColorHover: (values === null || values === void 0 ? void 0 : values.inlineHighlightBackgroundColorHover) || '#fcd63c',
+    inlineHighlightTextColor: (values === null || values === void 0 ? void 0 : values.inlineHighlightTextColor) || '#000000',
+    inlineHighlightTextColorHover: (values === null || values === void 0 ? void 0 : values.inlineHighlightTextColorHover) || '#000000',
+    inlineHighlightTooltipsText: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)((values === null || values === void 0 ? void 0 : values.inlineHighlightTooltipsText) || ''),
+    inlineHighlightShowTooltips: (_values$inlineHighlig = values === null || values === void 0 ? void 0 : values.inlineHighlightShowTooltips) !== null && _values$inlineHighlig !== void 0 ? _values$inlineHighlig : false,
+    inlineHighlightTooltipsBackgroundColor: (values === null || values === void 0 ? void 0 : values.inlineHighlightTooltipsBackgroundColor) || '#000000',
+    inlineHighlightTooltipsTextColor: (values === null || values === void 0 ? void 0 : values.inlineHighlightTooltipsTextColor) || '#FFFFFF',
     // Appearance options.
-    theme: (_themeData$theme = themeData.theme) !== null && _themeData$theme !== void 0 ? _themeData$theme : 'default',
+    theme: (_values$theme = values.theme) !== null && _values$theme !== void 0 ? _values$theme : 'default',
     networkOrder: [],
-    iconsOnly: (_themeData$iconsOnly = themeData.iconsOnly) !== null && _themeData$iconsOnly !== void 0 ? _themeData$iconsOnly : true,
-    orientation: (_themeData$orientatio = themeData.orientation) !== null && _themeData$orientatio !== void 0 ? _themeData$orientatio : 'horizontal',
-    showTooltips: (_themeData$showToolti = themeData.showTooltips) !== null && _themeData$showToolti !== void 0 ? _themeData$showToolti : true,
-    tooltipsTextColor: (_themeData$tooltipsTe = themeData.tooltipsTextColor) !== null && _themeData$tooltipsTe !== void 0 ? _themeData$tooltipsTe : '#FFFFFF',
-    tooltipsBackgroundColor: (_themeData$tooltipsBa = themeData.tooltipsBackgroundColor) !== null && _themeData$tooltipsBa !== void 0 ? _themeData$tooltipsBa : '#000000',
-    groupIcons: (_themeData$groupIcons = themeData.groupIcons) !== null && _themeData$groupIcons !== void 0 ? _themeData$groupIcons : true,
-    backgroundColor: (_themeData$background = themeData.backgroundColor) !== null && _themeData$background !== void 0 ? _themeData$background : '#000000',
-    backgroundColorHover: (_themeData$background2 = themeData.backgroundColorHover) !== null && _themeData$background2 !== void 0 ? _themeData$background2 : '#333333',
-    iconColors: (_themeData$iconColors = themeData.iconColors) !== null && _themeData$iconColors !== void 0 ? _themeData$iconColors : [],
-    iconColorsGroup: (_themeData$iconColors2 = themeData.iconColorsGroup) !== null && _themeData$iconColors2 !== void 0 ? _themeData$iconColors2 : '#FFFFFF',
-    iconColorsGroupHover: (_themeData$iconColors3 = themeData.iconColorsGroupHover) !== null && _themeData$iconColors3 !== void 0 ? _themeData$iconColors3 : '#FFFFFF',
-    borderRadiusGroup: (_themeData$borderRadi = themeData.borderRadiusGroup) !== null && _themeData$borderRadi !== void 0 ? _themeData$borderRadi : {
+    iconsOnly: (_values$iconsOnly = values.iconsOnly) !== null && _values$iconsOnly !== void 0 ? _values$iconsOnly : true,
+    orientation: (_values$orientation = values.orientation) !== null && _values$orientation !== void 0 ? _values$orientation : 'horizontal',
+    showTooltips: (_values$showTooltips = values.showTooltips) !== null && _values$showTooltips !== void 0 ? _values$showTooltips : true,
+    tooltipsTextColor: (_values$tooltipsTextC = values.tooltipsTextColor) !== null && _values$tooltipsTextC !== void 0 ? _values$tooltipsTextC : '#FFFFFF',
+    tooltipsBackgroundColor: (_values$tooltipsBackg = values.tooltipsBackgroundColor) !== null && _values$tooltipsBackg !== void 0 ? _values$tooltipsBackg : '#000000',
+    groupIcons: (_values$groupIcons = values.groupIcons) !== null && _values$groupIcons !== void 0 ? _values$groupIcons : true,
+    backgroundColor: (_values$backgroundCol = values.backgroundColor) !== null && _values$backgroundCol !== void 0 ? _values$backgroundCol : '#000000',
+    backgroundColorHover: (_values$backgroundCol2 = values.backgroundColorHover) !== null && _values$backgroundCol2 !== void 0 ? _values$backgroundCol2 : '#333333',
+    iconColors: (_values$iconColors = values.iconColors) !== null && _values$iconColors !== void 0 ? _values$iconColors : [],
+    iconColorsGroup: (_values$iconColorsGro = values.iconColorsGroup) !== null && _values$iconColorsGro !== void 0 ? _values$iconColorsGro : '#FFFFFF',
+    iconColorsGroupHover: (_values$iconColorsGro2 = values.iconColorsGroupHover) !== null && _values$iconColorsGro2 !== void 0 ? _values$iconColorsGro2 : '#FFFFFF',
+    borderRadiusGroup: (_values$borderRadiusG = values.borderRadiusGroup) !== null && _values$borderRadiusG !== void 0 ? _values$borderRadiusG : {
       attrTop: 0,
       attrRight: 0,
       attrBottom: 0,
       attrLeft: 0
     },
-    iconBorderRadius: (_themeData$iconBorder = themeData.iconBorderRadius) !== null && _themeData$iconBorder !== void 0 ? _themeData$iconBorder : {
+    iconBorderRadius: (_values$iconBorderRad = values.iconBorderRadius) !== null && _values$iconBorderRad !== void 0 ? _values$iconBorderRad : {
       attrTop: 0,
       attrRight: 0,
       attrBottom: 0,
       attrLeft: 0
     },
-    fontSize: (_themeData$fontSize = themeData.fontSize) !== null && _themeData$fontSize !== void 0 ? _themeData$fontSize : 14,
-    iconPadding: (_themeData$iconPaddin = themeData.iconPadding) !== null && _themeData$iconPaddin !== void 0 ? _themeData$iconPaddin : {
+    fontSize: (_values$fontSize = values.fontSize) !== null && _values$fontSize !== void 0 ? _values$fontSize : 14,
+    iconPadding: (_values$iconPadding = values.iconPadding) !== null && _values$iconPadding !== void 0 ? _values$iconPadding : {
       attrTop: 12,
       attrRight: 20,
       attrBottom: 12,
@@ -29014,10 +29018,10 @@ var getDefaultValues = function getDefaultValues() {
       attrUnit: 'px',
       attrSyncUnits: false
     },
-    iconSize: (_themeData$iconSize = themeData.iconSize) !== null && _themeData$iconSize !== void 0 ? _themeData$iconSize : 25,
-    iconGap: (_themeData$iconGap = themeData.iconGap) !== null && _themeData$iconGap !== void 0 ? _themeData$iconGap : 0,
+    iconSize: (_values$iconSize = values.iconSize) !== null && _values$iconSize !== void 0 ? _values$iconSize : 25,
+    iconGap: (_values$iconGap = values.iconGap) !== null && _values$iconGap !== void 0 ? _values$iconGap : 0,
     // Post Types Exclusion.
-    excludedPostTypes: themeData.excludedPostTypes || {}
+    excludedPostTypes: values.excludedPostTypes || {}
   };
   return defaultValues;
 };
@@ -29063,7 +29067,7 @@ var SharingInterface = function SharingInterface(_ref) {
   // Set up global React Hook Form instance for all panels.
   // Default values will be reset when async data loads (in SocialNetworksPanel).
   var methods = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_1__.useForm)({
-    defaultValues: getDefaultValues({}, {}, {}),
+    defaultValues: getDefaultValues({}),
     // Start with empty defaults, will be reset when data loads.
     mode: 'onBlur',
     // Validate on blur for better UX in popovers.
@@ -29089,10 +29093,10 @@ var SharingInterface = function SharingInterface(_ref) {
     if (data) {
       (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setNetworks(data.socialNetworks);
       (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setSettings(data.values);
-      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setTheme(data.themeOptions.theme);
-      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setThemeData(data.themeOptions);
-      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setSocialNetworkColors(data.themeOptions.iconColors);
-      methods.reset(getDefaultValues(data.values, data.themeOptions, data.blockEditorOptions));
+      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setTheme(data.values.theme);
+      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setThemeData(data.values);
+      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setSocialNetworkColors(data.values.iconColors);
+      methods.reset(getDefaultValues(data.values));
     }
   }, [data, methods]);
   var formValues = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_1__.useWatch)({

@@ -61,18 +61,35 @@ class Options {
 	private static $instance = false;
 	/**
 	 * Main class runner.
-	 *
-	 * @return Options.
 	 */
 	public static function run() {
-		$self = new self();
-		add_action( 'init', array( $self, 'register_block' ) );
-		add_action( 'enqueue_block_editor_assets', array( $self, 'register_block_assets' ) );
-		add_action( 'enqueue_block_assets', array( $self, 'enqueue_frontend_assets' ) );
-		$self->instance = $self;
-		return $self;
+		add_filter( 'has_migrate_plugin_options', array( __CLASS__, 'migrate_plugin_options' ), 10, 3 );
 	}
 
+	/**
+	 * Migrate plugin options.
+	 *
+	 * @param array  $settings The plugin options.
+	 * @param string $options_version The current options version.
+	 * @param string $settings_version The stored or default options version.
+	 * @return array The migrated plugin options.
+	 */
+	public static function migrate_plugin_options( $settings, $options_version, $settings_version ) {
+		// Migrate theme and block editor options.
+		$theme_options_raw        = get_option( 'highlight-and-share-theme-options' );
+		$block_editor_options_raw = get_option( 'highlight-and-share-block-editor-options' );
+		if ( false !== $theme_options_raw && false !== $block_editor_options_raw ) {
+			$theme_options        = self::get_theme_options( true );
+			$block_editor_options = self::get_block_editor_options( true );
+
+			$theme_and_block_options = array_merge( $theme_options, $block_editor_options );
+			$settings                = array_replace_recursive( $settings, $theme_and_block_options );
+			delete_option( 'highlight-and-share-theme-options' );
+			delete_option( 'highlight-and-share-block-editor-options' );
+		}
+
+		return $settings;
+	}
 	/**
 	 * Get email setting options.
 	 */
@@ -104,7 +121,7 @@ class Options {
 	/**
 	 * Retrieve local networks from storage.
 	 */
-	public static function get_social_network_defaults() {
+	protected static function get_social_network_defaults() {
 		$social_networks = array(
 			'twitter'  => array(
 				'label'              => __( 'X', 'highlight-and-share' ),
@@ -414,7 +431,7 @@ class Options {
 	/**
 	 * Get Block Editor Defaults.
 	 */
-	public static function get_block_editor_defaults() {
+	protected static function get_block_editor_defaults() {
 		$defaults = array(
 			'enable_blocks'                              => true,
 			'enable_adobe_fonts'                         => false,
@@ -437,7 +454,7 @@ class Options {
 	/**
 	 * Get default options for custom themes.
 	 */
-	public static function get_theme_defaults() {
+	protected static function get_theme_defaults() {
 		$defaults = array(
 			'theme'                     => 'default',
 			'icons_only'                => true, /* custom theme option */
@@ -564,7 +581,8 @@ class Options {
 	 * Get default options.
 	 */
 	public static function get_defaults() {
-		$defaults = array(
+		$defaults              = array(
+			'options_version'                  => 0,
 			'js_content'                       => '',
 			'element_content'                  => '',
 			'id_content'                       => '',
@@ -637,6 +655,10 @@ class Options {
 			'mastodon_label'                   => __( 'Mastodon', 'highlight-and-share' ),
 			'mastodon_tooltip'                 => __( 'Share on Mastodon', 'highlight-and-share' ),
 		);
+		$theme_defaults        = self::get_theme_defaults();
+		$block_editor_defaults = self::get_block_editor_defaults();
+
+		array_merge( $defaults, $theme_defaults, $block_editor_defaults );
 		return $defaults;
 	}
 
@@ -676,7 +698,23 @@ class Options {
 			return $defaults;
 		}
 
-		$settings      = wp_parse_args( $settings, $defaults );
+		$settings        = array_replace_recursive( $defaults, $settings );
+		$options_version = HIGHLIGHT_AND_SHARE_OPTIONS_VERSION;
+
+		if ( $options_version !== $settings['options_version'] ) {
+			/**
+			 * Filter to migrate plugin options.
+			 *
+			 * @param array $settings The plugin options.
+			 * @param string $options_version The current options version.
+			 * @param string $settings_version The stored or default settings version.
+			 * @return array The migrated plugin options.
+			 */
+			$settings                    = apply_filters( 'has_migrate_plugin_options', $settings, $options_version, $settings['options_version'] );
+			$settings['options_version'] = sanitize_text_field( $options_version );
+			update_option( 'highlight-and-share', $settings );
+		}
+
 		self::$options = $settings;
 		return $settings;
 	}
@@ -804,11 +842,7 @@ class Options {
 		$defaults = self::get_theme_defaults();
 
 		if ( false === $settings || ! is_array( $settings ) ) {
-			// Add theme option from old options into new one.
-			$options           = self::get_plugin_options();
-			$defaults['theme'] = sanitize_text_field( $options['theme'] );
-			update_option( 'highlight-and-share-theme-options', $defaults );
-			return $defaults;
+			$settings = $defaults;
 		}
 
 		// Merge two multi-dimensional arrays (defaults, and from settings).
@@ -840,10 +874,7 @@ class Options {
 		$defaults = self::get_block_editor_defaults();
 
 		if ( false === $settings || ! is_array( $settings ) ) {
-			// Add theme option from old options into new one.
-			$options = self::get_block_editor_defaults();
-			update_option( 'highlight-and-share-block-editor-options', $defaults );
-			return $defaults;
+			$settings = $defaults;
 		}
 
 		// Merge two multi-dimensional arrays (defaults, and from settings).
