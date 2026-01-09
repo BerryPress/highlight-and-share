@@ -22,6 +22,7 @@ import BlockEditorPanel from './Panels/BlockEditorPanel';
 import InlineHighlightingPanel from './Panels/InlineHighlightingPanel';
 import AdvancedPanel from './Panels/AdvancedPanel';
 import SaveBar from '../Components/SaveBar';
+import Snackbar from '../Components/Snackbar';
 
 /**
  * Retrieve settings data from PHP.
@@ -320,6 +321,17 @@ const SharingInterface = ( { defaults } ) => {
 	const { data } = response.data;
 	const [ saving, setSaving ] = useState( false );
 	const [ resetting, setResetting ] = useState( false );
+	const [ snackbar, setSnackbar ] = useState( {
+		isVisible: false,
+		message: __( 'Settings saved successfully.', 'highlight-and-share' ),
+		title: __( 'Settings saved successfully.', 'highlight-and-share' ),
+		type: 'success',
+		isDismissable: false,
+		isPersistent: false,
+		isSuccess: true,
+		loadingMessage: null,
+		politeness: 'assertive',
+	} );
 	// Set up global React Hook Form instance for all panels.
 	// Default values will be reset when async data loads (in SocialNetworksPanel).
 	const methods = useForm( {
@@ -415,6 +427,27 @@ const SharingInterface = ( { defaults } ) => {
 					</div>
 				</div>
 				<Fill name="hasSharingFooter">
+					{
+						<Snackbar
+							politeness={ snackbar.politeness }
+							isVisible={ snackbar.isVisible }
+							message={ snackbar.message }
+							title={ snackbar.title }
+							type={ snackbar.type }
+							isDismissable={ snackbar.isDismissable }
+							isPersistent={ snackbar.isPersistent }
+							isSuccess={ snackbar.isSuccess }
+							loadingMessage={ snackbar.loadingMessage }
+							onClose={ () => {
+								setSnackbar( {
+									...snackbar,
+									isVisible: false,
+								} );
+							} }
+						>
+							{ snackbar.message }
+						</Snackbar>
+					}
 					<SaveBar
 						onDiscardChanges={ () => {
 							const checkpoint = select( store ).getCheckpoint();
@@ -431,6 +464,26 @@ const SharingInterface = ( { defaults } ) => {
 									const { data: ajaxData, success } = ajaxResponse.data;
 									if ( success ) {
 										setCheckpointData( ajaxData, false );
+										// Wait 350ms so animation can hide.
+										setTimeout( () => {
+											setSnackbar( {
+												isVisible: true,
+												message: __(
+													'Settings saved successfully.',
+													'highlight-and-share'
+												),
+												title: __(
+													'Settings saved successfully.',
+													'highlight-and-share'
+												),
+												type: 'success',
+												isDismissable: true,
+												isPersistent: false,
+												isSuccess: true,
+												loadingMessage: null,
+												politeness: 'assertive',
+											} );
+										}, 350 );
 										setSaving( false );
 									} else {
 										// Error stuff.
@@ -452,6 +505,26 @@ const SharingInterface = ( { defaults } ) => {
 									const { data: ajaxData, success } = ajaxResponse.data;
 									if ( success ) {
 										setCheckpointData( ajaxData, false );
+										// Wait 350ms so animation can hide.
+										setTimeout( () => {
+											setSnackbar( {
+												isVisible: true,
+												message: __(
+													'Settings reset to defaults successfully.',
+													'highlight-and-share'
+												),
+												title: __(
+													'Settings reset to defaults successfully.',
+													'highlight-and-share'
+												),
+												type: 'info',
+												isDismissable: true,
+												isPersistent: false,
+												isSuccess: false,
+												loadingMessage: null,
+												politeness: 'assertive',
+											} );
+										}, 350 );
 										setResetting( false );
 									} else {
 										// Error stuff.

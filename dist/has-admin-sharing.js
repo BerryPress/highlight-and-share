@@ -13074,6 +13074,185 @@ module.exports = hexToRgba;
 
 /***/ }),
 
+/***/ "./node_modules/lucide-react/dist/esm/createLucideIcon.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/createLucideIcon.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ createLucideIcon),
+/* harmony export */   toKebabCase: () => (/* binding */ toKebabCase)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _defaultAttributes_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./defaultAttributes.js */ "./node_modules/lucide-react/dist/esm/defaultAttributes.js");
+/**
+ * lucide-react v0.268.0 - ISC
+ */
+
+
+
+
+const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+const createLucideIcon = (iconName, iconNode) => {
+  const Component = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(
+    ({ color = "currentColor", size = 24, strokeWidth = 2, absoluteStrokeWidth, children, ...rest }, ref) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(
+      "svg",
+      {
+        ref,
+        ..._defaultAttributes_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+        width: size,
+        height: size,
+        stroke: color,
+        strokeWidth: absoluteStrokeWidth ? Number(strokeWidth) * 24 / Number(size) : strokeWidth,
+        className: `lucide lucide-${toKebabCase(iconName)}`,
+        ...rest
+      },
+      [
+        ...iconNode.map(([tag, attrs]) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(tag, attrs)),
+        ...(Array.isArray(children) ? children : [children]) || []
+      ]
+    )
+  );
+  Component.displayName = `${iconName}`;
+  return Component;
+};
+
+
+//# sourceMappingURL=createLucideIcon.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/defaultAttributes.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/defaultAttributes.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ defaultAttributes)
+/* harmony export */ });
+/**
+ * lucide-react v0.268.0 - ISC
+ */
+
+var defaultAttributes = {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: 24,
+  height: 24,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2,
+  strokeLinecap: "round",
+  strokeLinejoin: "round"
+};
+
+
+//# sourceMappingURL=defaultAttributes.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/alert-circle.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/alert-circle.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ AlertCircle)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * lucide-react v0.268.0 - ISC
+ */
+
+
+
+const AlertCircle = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("AlertCircle", [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
+  ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+]);
+
+
+//# sourceMappingURL=alert-circle.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/check-circle-2.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/check-circle-2.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CheckCircle2)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * lucide-react v0.268.0 - ISC
+ */
+
+
+
+const CheckCircle2 = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("CheckCircle2", [
+  [
+    "path",
+    {
+      d: "M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z",
+      key: "14v8dr"
+    }
+  ],
+  ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
+]);
+
+
+//# sourceMappingURL=check-circle-2.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/loader-2.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/loader-2.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Loader2)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * lucide-react v0.268.0 - ISC
+ */
+
+
+
+const Loader2 = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Loader2", [
+  ["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]
+]);
+
+
+//# sourceMappingURL=loader-2.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/math-intrinsics/abs.js":
 /*!*********************************************!*\
   !*** ./node_modules/math-intrinsics/abs.js ***!
@@ -26751,6 +26930,159 @@ var ThemeCustomizer = function ThemeCustomizer() {
 
 /***/ }),
 
+/***/ "./src/react/Components/Snackbar/index.js":
+/*!************************************************!*\
+  !*** ./src/react/Components/Snackbar/index.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/alert-circle.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/check-circle-2.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/loader-2.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _Notice__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Notice */ "./src/react/Components/Notice/index.js");
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
+
+
+
+
+
+/**
+ * SnackPop is a component which handles alerts and notifications for the user.
+ * It can handle multiple alerts at once, toggles and forms, and will display the notifications in a queue.
+ *
+ * @param {Object}   props                Component props.
+ * @param {boolean}  props.isVisible      Whether the snackbar is visible.
+ * @param {string}   props.message        The message to display in the snackbar.
+ * @param {string}   props.title          The title of the snackbar.
+ * @param {string}   props.type           The type of snackbar to display.
+ * @param {boolean}  props.isDismissable  Whether the snackbar is dismissable.
+ * @param {boolean}  props.isPersistent   Whether the snackbar is persistent.
+ * @param {boolean}  props.isSuccess      Whether the snackbar is a success.
+ * @param {string}   props.loadingMessage The message to display when the snackbar is loading.
+ * @param {string}   props.politeness     The politeness of the snackbar.
+ * @param {Function} props.onClose        The function to call when the snackbar is closed.
+ *
+ * @return {Element} JSX markup for the component.
+ */
+var Snackbar = function Snackbar(props) {
+  var loadingMessage = props.loadingMessage;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState2 = _slicedToArray(_useState, 1),
+    isBusy = _useState2[0];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    isModalVisible = _useState4[0],
+    setIsModalVisible = _useState4[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (props.isVisible) {
+      setTimeout(function () {
+        props.onClose();
+      }, 5000);
+    }
+  }, [props.isVisible]);
+
+  /**
+   * Gets the icon for the notification.
+   *
+   * @return {Element} JSX markup for the icon.
+   */
+  var getIcon = function getIcon() {
+    switch (props.type) {
+      case 'success':
+        return /*#__PURE__*/React.createElement(lucide_react__WEBPACK_IMPORTED_MODULE_2__["default"], null);
+      case 'error':
+      case 'critical':
+        return /*#__PURE__*/React.createElement(lucide_react__WEBPACK_IMPORTED_MODULE_1__["default"], null);
+      default:
+        return /*#__PURE__*/React.createElement(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], null);
+    }
+  };
+  var getSnackbarActions = function getSnackbarActions() {
+    var actions = [];
+    if (props.type === 'success') {
+      actions.push({
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Back to Top', 'highlight-and-share'),
+        url: '#has-admin-header',
+        variant: 'link',
+        className: 'dlx-pw-admin__notice-action dlx-pw-admin__notice-action--to-top'
+      });
+    }
+    return actions;
+  };
+  var getSnackBar = function getSnackBar() {
+    return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Snackbar, {
+      className: classnames__WEBPACK_IMPORTED_MODULE_5___default()("dlx-pw-snackbar dlx-pw-snackbar-".concat(props.type), {
+        'dlx-pw-snackbar-loading': isBusy
+      }),
+      actions: getSnackbarActions(),
+      icon: getIcon(),
+      onDismiss: function onDismiss() {
+        setIsModalVisible(false);
+        props.onClose();
+      },
+      explicitDismiss: props.isDismissable
+    }, isBusy ? loadingMessage : props.message);
+  };
+  var getModal = function getModal() {
+    if ('critical' === props.type) {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Modal, {
+        className: classnames__WEBPACK_IMPORTED_MODULE_5___default()("dlx-pw-modal dlx-pw-modal-".concat(props.type), {
+          'dlx-pw-modal-loading': isBusy
+        }),
+        bodyOpenClassName: 'dlx-pw-modal-body-open',
+        title: props.title,
+        onRequestClose: function onRequestClose() {
+          setIsModalVisible(false);
+        },
+        isDismissible: true,
+        shouldCloseOnClickOutside: props.isPersistent,
+        shouldCloseOnEsc: props.isPersistent
+      }, /*#__PURE__*/React.createElement(_Notice__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        message: props.message,
+        status: props.type,
+        politeness: props.politeness,
+        icon: getIcon,
+        inline: false
+      }), /*#__PURE__*/React.createElement("div", {
+        className: "dlx-pw-modal-button-group"
+      }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+        className: "button button-error",
+        variant: "secondary",
+        onClick: function onClick() {
+          setIsModalVisible(false);
+        }
+      }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('OK', 'highlight-and-share'))));
+    }
+  };
+  if (!props.isVisible) {
+    return null;
+  }
+  return /*#__PURE__*/React.createElement(React.Fragment, null, getSnackBar(), " ", isModalVisible && getModal(), " ");
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Snackbar);
+
+/***/ }),
+
 /***/ "./src/react/Components/SocialIcons/index.js":
 /*!***************************************************!*\
   !*** ./src/react/Components/SocialIcons/index.js ***!
@@ -29173,6 +29505,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Panels_InlineHighlightingPanel__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Panels/InlineHighlightingPanel */ "./src/react/Sharing/Panels/InlineHighlightingPanel/index.js");
 /* harmony import */ var _Panels_AdvancedPanel__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Panels/AdvancedPanel */ "./src/react/Sharing/Panels/AdvancedPanel/index.js");
 /* harmony import */ var _Components_SaveBar__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../Components/SaveBar */ "./src/react/Components/SaveBar/index.js");
+/* harmony import */ var _Components_Snackbar__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../Components/Snackbar */ "./src/react/Components/Snackbar/index.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -29191,6 +29530,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
  // Register the store before using components that depend on it.
+
 
 
 
@@ -29392,6 +29732,20 @@ var SharingInterface = function SharingInterface(_ref) {
     _useState4 = _slicedToArray(_useState3, 2),
     resetting = _useState4[0],
     setResetting = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)({
+      isVisible: false,
+      message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Settings saved successfully.', 'highlight-and-share'),
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Settings saved successfully.', 'highlight-and-share'),
+      type: 'success',
+      isDismissable: false,
+      isPersistent: false,
+      isSuccess: true,
+      loadingMessage: null,
+      politeness: 'assertive'
+    }),
+    _useState6 = _slicedToArray(_useState5, 2),
+    snackbar = _useState6[0],
+    setSnackbar = _useState6[1];
   // Set up global React Hook Form instance for all panels.
   // Default values will be reset when async data loads (in SocialNetworksPanel).
   var methods = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_1__.useForm)({
@@ -29474,7 +29828,22 @@ var SharingInterface = function SharingInterface(_ref) {
     watchFields: advancedPanelWatchValues
   }))))), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Fill, {
     name: "hasSharingFooter"
-  }, /*#__PURE__*/React.createElement(_Components_SaveBar__WEBPACK_IMPORTED_MODULE_19__["default"], {
+  }, /*#__PURE__*/React.createElement(_Components_Snackbar__WEBPACK_IMPORTED_MODULE_20__["default"], {
+    politeness: snackbar.politeness,
+    isVisible: snackbar.isVisible,
+    message: snackbar.message,
+    title: snackbar.title,
+    type: snackbar.type,
+    isDismissable: snackbar.isDismissable,
+    isPersistent: snackbar.isPersistent,
+    isSuccess: snackbar.isSuccess,
+    loadingMessage: snackbar.loadingMessage,
+    onClose: function onClose() {
+      setSnackbar(_objectSpread(_objectSpread({}, snackbar), {}, {
+        isVisible: false
+      }));
+    }
+  }, snackbar.message), /*#__PURE__*/React.createElement(_Components_SaveBar__WEBPACK_IMPORTED_MODULE_19__["default"], {
     onDiscardChanges: function onDiscardChanges() {
       var checkpoint = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.select)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).getCheckpoint();
       setCheckpointData(checkpoint, false);
@@ -29492,6 +29861,20 @@ var SharingInterface = function SharingInterface(_ref) {
           success = _ajaxResponse$data.success;
         if (success) {
           setCheckpointData(ajaxData, false);
+          // Wait 350ms so animation can hide.
+          setTimeout(function () {
+            setSnackbar({
+              isVisible: true,
+              message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Settings saved successfully.', 'highlight-and-share'),
+              title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Settings saved successfully.', 'highlight-and-share'),
+              type: 'success',
+              isDismissable: true,
+              isPersistent: false,
+              isSuccess: true,
+              loadingMessage: null,
+              politeness: 'assertive'
+            });
+          }, 350);
           setSaving(false);
         } else {
           // Error stuff.
@@ -29514,6 +29897,20 @@ var SharingInterface = function SharingInterface(_ref) {
           success = _ajaxResponse$data2.success;
         if (success) {
           setCheckpointData(ajaxData, false);
+          // Wait 350ms so animation can hide.
+          setTimeout(function () {
+            setSnackbar({
+              isVisible: true,
+              message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Settings reset to defaults successfully.', 'highlight-and-share'),
+              title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Settings reset to defaults successfully.', 'highlight-and-share'),
+              type: 'info',
+              isDismissable: true,
+              isPersistent: false,
+              isSuccess: false,
+              loadingMessage: null,
+              politeness: 'assertive'
+            });
+          }, 350);
           setResetting(false);
         } else {
           // Error stuff.
