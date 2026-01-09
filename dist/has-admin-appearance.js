@@ -23876,12 +23876,6 @@ var PreviewSocialIconListItem = function PreviewSocialIconListItem(_ref) {
     var iconColorHover = formValues.iconColors[listItemKey].iconColorHover;
     var backgroundColor = formValues.iconColors[listItemKey].background;
     var backgroundColorHover = formValues.iconColors[listItemKey].backgroundHover;
-    if ('facebook' === listItemKey) {
-      console.log('iconColor', iconColor);
-      console.log('iconColorHover', iconColorHover);
-      console.log('backgroundColor', backgroundColor);
-      console.log('backgroundColorHover', backgroundColorHover);
-    }
     iconStyles = "\n\t\t\t.has_".concat(listItemKey, " a {\n\t\t\t\tcolor: ").concat(iconColor, " !important;\n\t\t\t\tbackground: ").concat(backgroundColor, " !important;\n\t\t\t}\n\t\t\t.has_").concat(listItemKey, " a:hover {\n\t\t\t\tcolor: ").concat(iconColorHover, " !important;\n\t\t\t\tbackground: ").concat(backgroundColorHover, " !important;\n\t\t\t}\n\t\t");
   }
 
@@ -24480,6 +24474,7 @@ var SocialNetworksContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___defa
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   setCheckpoint: () => (/* binding */ setCheckpoint),
 /* harmony export */   setHasIconsOnly: () => (/* binding */ setHasIconsOnly),
 /* harmony export */   setNetworks: () => (/* binding */ setNetworks),
 /* harmony export */   setPanelState: () => (/* binding */ setPanelState),
@@ -24532,6 +24527,19 @@ function setNetworks(networks) {
   return {
     type: 'SET_NETWORKS',
     networks: networks
+  };
+}
+
+/**
+ * Store a version of the data.
+ *
+ * @param {Object} data Data object.
+ * @return {Object} Action object.
+ */
+function setCheckpoint(data) {
+  return {
+    type: 'SET_CHECKPOINT',
+    data: data
   };
 }
 
@@ -24722,6 +24730,10 @@ function reducer() {
       return _objectSpread(_objectSpread({}, state), {}, {
         themeData: action.themeData
       });
+    case 'SET_CHECKPOINT':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        checkpoint: action.data
+      });
     default:
       return state;
   }
@@ -24740,6 +24752,7 @@ function reducer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   getAllPanelStates: () => (/* binding */ getAllPanelStates),
+/* harmony export */   getCheckpoint: () => (/* binding */ getCheckpoint),
 /* harmony export */   getHasIconsOnly: () => (/* binding */ getHasIconsOnly),
 /* harmony export */   getNetworks: () => (/* binding */ getNetworks),
 /* harmony export */   getPanelState: () => (/* binding */ getPanelState),
@@ -24814,6 +24827,9 @@ function getHasIconsOnly(state) {
 }
 function getSocialNetworkColors(state) {
   return state.socialNetworkColors;
+}
+function getCheckpoint(state) {
+  return state.checkpoint || {};
 }
 
 /***/ }),

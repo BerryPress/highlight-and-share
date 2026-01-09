@@ -4219,6 +4219,7 @@ h2.has-admin-content-subheading:after {
 .has-admin__tabs--content-actions-inline .has-admin__tabs--content-actions--right {
   display: flex;
   justify-content: flex-end;
+  flex: 1;
 }
 .has-admin__tabs--content-actions.no-flex,
 .has-admin__tabs--content-actions-inline.no-flex {
@@ -4302,7 +4303,7 @@ h2.has-admin-content-subheading:after {
 }
 .has-admin__tabs--content-actions button.has__btn--icon-right.is-saving svg path,
 .has-admin__tabs--content-actions-inline button.has__btn--icon-right.is-saving svg path {
-  fill: #017e01;
+  fill: currentColor;
 }
 .has-admin__tabs--content-actions button.has__btn--icon-right.is-resetting,
 .has-admin__tabs--content-actions-inline button.has__btn--icon-right.is-resetting {
@@ -4318,7 +4319,14 @@ h2.has-admin-content-subheading:after {
 }
 .has-admin__tabs--content-actions button.has__btn--icon-right.is-resetting svg path,
 .has-admin__tabs--content-actions-inline button.has__btn--icon-right.is-resetting svg path {
-  fill: #822700;
+  fill: currentColor;
+}
+
+.has-modal-buttons-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
 /* Social Icons for Reorder */

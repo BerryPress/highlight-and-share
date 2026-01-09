@@ -457,15 +457,21 @@ class Admin {
 			wp_send_json_error( array() );
 		}
 
-		// Get saved options. Then write over it with the defaults (wp_parse_args in reverse).
+		// Get saved options. Then write over it with the defaults (array_replace_recursive in reverse).
 		$defaults = Options::get_defaults();
 		$options  = get_option( 'highlight-and-share', array() );
-		$options  = wp_parse_args( $defaults, $options ); // wp_parse_args in reverse order as to not lose data.
+		$options  = array_replace_recursive( $options, $defaults );
 		update_option( 'highlight-and-share', $options );
 		$this->clear_frontend_cache();
 
 		// Send the data home.
-		wp_send_json_success( $this->map_defaults_to_js( stripslashes_deep( $options ) ) );
+		$return = array(
+			'socialNetworks' => Options::get_plugin_options_social_networks( true ),
+			'values'         => $this->map_defaults_to_js(
+				stripslashes_deep( $options ),
+			),
+		);
+		wp_send_json_success( $return );
 	}
 
 	/**

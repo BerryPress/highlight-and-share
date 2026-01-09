@@ -4,6 +4,7 @@ import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
 import Spinner from '../Icons/Spinner';
 import DiscardChangesModal from '../Modals/DiscardChangesModal';
+import ResetChangesModal from '../Modals/ResetChangesModal';
 
 /**
  * Save Bar component.
@@ -21,6 +22,7 @@ import DiscardChangesModal from '../Modals/DiscardChangesModal';
 const SaveBar = ( props ) => {
 	const { onDiscardChanges, onSave, onReset, isSaving = false, isResetting = false, isDirtyFields = false, hasErrors = false } = props;
 	const [ isDiscardChangesModalOpen, setIsDiscardChangesModalOpen ] = useState( false );
+	const [ isResetChangesModalOpen, setIsResetChangesModalOpen ] = useState( false );
 	const saveBarRef = useRef( null );
 
 	useEffect( () => {
@@ -116,7 +118,7 @@ const SaveBar = ( props ) => {
 						disabled={ isSaving || isResetting }
 						onClick={ ( e ) => {
 							e.preventDefault();
-							onReset();
+							setIsResetChangesModalOpen( true );
 						} }
 					/>
 				</div>
@@ -129,6 +131,16 @@ const SaveBar = ( props ) => {
 				} }
 				onCancel={ () => {
 					setIsDiscardChangesModalOpen( false );
+				} }
+			/>
+			<ResetChangesModal
+				isOpen={ isResetChangesModalOpen }
+				onConfirm={ () => {
+					setIsResetChangesModalOpen( false );
+					onReset();
+				} }
+				onCancel={ () => {
+					setIsResetChangesModalOpen( false );
 				} }
 			/>
 		</div>

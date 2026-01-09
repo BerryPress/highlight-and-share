@@ -351,10 +351,9 @@ const SharingInterface = ( { defaults } ) => {
 	 */
 	const setCheckpointData = ( newData, keepDirtyValues = true ) => {
 		dispatch( store ).setNetworks( newData.socialNetworks );
-		dispatch( store ).setSettings( newData.settings );
-		dispatch( store ).setTheme( newData.theme );
-		dispatch( store ).setThemeData( newData.themeData );
-		dispatch( store ).setSocialNetworkColors( newData.iconColors );
+		dispatch( store ).setSettings( newData.values );
+		dispatch( store ).setTheme( newData.values.theme );
+		dispatch( store ).setSocialNetworkColors( newData.values.iconColors );
 		methods.reset( getDefaultValues( newData.values ), { keepDirtyValues } );
 		dispatch( store ).setCheckpoint( newData );
 	};
@@ -445,6 +444,24 @@ const SharingInterface = ( { defaults } ) => {
 						} }
 						onReset={ () => {
 							// Reset the form data.
+							setResetting( true );
+							sendCommand( 'has_reset_settings_tab', {
+								nonce: window.hasSharingAdmin?.resetNonce,
+							} )
+								.then( ( ajaxResponse ) => {
+									const { data: ajaxData, success } = ajaxResponse.data;
+									if ( success ) {
+										setCheckpointData( ajaxData, false );
+										setResetting( false );
+									} else {
+										// Error stuff.
+										setResetting( false );
+									}
+								} )
+								.catch( ( error ) => {
+									console.error( error );
+									setResetting( false );
+								} );
 						} }
 						isSaving={ saving }
 						isResetting={ resetting }
