@@ -658,8 +658,7 @@ class Options {
 		$theme_defaults        = self::get_theme_defaults();
 		$block_editor_defaults = self::get_block_editor_defaults();
 
-		array_merge( $defaults, $theme_defaults, $block_editor_defaults );
-		return $defaults;
+		return array_merge( $defaults, $theme_defaults, $block_editor_defaults );
 	}
 
 	/**
@@ -692,7 +691,6 @@ class Options {
 		}
 
 		$defaults = self::get_defaults();
-
 		if ( false === $settings || ! is_array( $settings ) ) {
 			update_option( 'highlight-and-share', $defaults );
 			return $defaults;

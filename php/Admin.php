@@ -457,10 +457,7 @@ class Admin {
 			wp_send_json_error( array() );
 		}
 
-		// Get saved options. Then write over it with the defaults (array_replace_recursive in reverse).
-		$defaults = Options::get_defaults();
-		$defaults = Functions::sanitize_array_recursive( $defaults );
-		update_option( 'highlight-and-share', $defaults );
+		delete_option( 'highlight-and-share' );
 		$this->clear_frontend_cache();
 
 		// Retrieve fresh options.

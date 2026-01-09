@@ -29902,8 +29902,6 @@ var SharingInterface = function SharingInterface(_ref) {
           ajaxData = _ajaxResponse$data2.data,
           success = _ajaxResponse$data2.success;
         if (success) {
-          console.log('ajaxData', ajaxData);
-          console.log('ajaxData.values.excludedPostTypes', ajaxData.values.excludedPostTypes);
           setCheckpointData(ajaxData, false);
           // Wait 350ms so animation can hide.
           setTimeout(function () {

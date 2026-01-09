@@ -509,8 +509,6 @@ const SharingInterface = ( { defaults } ) => {
 								.then( ( ajaxResponse ) => {
 									const { data: ajaxData, success } = ajaxResponse.data;
 									if ( success ) {
-										console.log( 'ajaxData', ajaxData );
-										console.log( 'ajaxData.values.excludedPostTypes', ajaxData.values.excludedPostTypes );
 										setCheckpointData( ajaxData, false );
 										// Wait 350ms so animation can hide.
 										setTimeout( () => {
