@@ -11113,37 +11113,49 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-var _excluded = ["message", "status", "politeness", "icon", "className", "inline", "children", "animate", "animationType"];
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 // eslint-disable-next-line no-unused-vars
 
 
 
 
-var Notice = function Notice(_ref) {
-  var _ref$message = _ref.message,
-    message = _ref$message === void 0 ? '' : _ref$message,
-    _ref$status = _ref.status,
-    status = _ref$status === void 0 ? 'info' : _ref$status,
-    _ref$politeness = _ref.politeness,
-    politeness = _ref$politeness === void 0 ? 'polite' : _ref$politeness,
-    _ref$icon = _ref.icon,
-    icon = _ref$icon === void 0 ? null : _ref$icon,
-    _ref$className = _ref.className,
-    className = _ref$className === void 0 ? '' : _ref$className,
-    _ref$inline = _ref.inline,
-    inline = _ref$inline === void 0 ? false : _ref$inline,
-    children = _ref.children,
-    _ref$animate = _ref.animate,
-    animate = _ref$animate === void 0 ? false : _ref$animate,
-    _ref$animationType = _ref.animationType,
-    animationType = _ref$animationType === void 0 ? 'fadein' : _ref$animationType,
-    props = _objectWithoutProperties(_ref, _excluded);
+
+/**
+ * Notice component.
+ *
+ * @param {Object}          props               - The props object.
+ * @param {string}          props.message       - The message to display.
+ * @param {string}          props.status        - The status of the notice.
+ * @param {string}          props.politeness    - The politeness of the notice.
+ * @param {string}          props.icon          - The icon to display.
+ * @param {string}          props.className     - The class name to add to the notice.
+ * @param {boolean}         props.inline        - Whether to display the notice inline.
+ * @param {React.ReactNode} props.children      - The children to display in the notice.
+ * @param {boolean}         props.animate       - Whether to animate the notice.
+ * @param {string}          props.animationType - The type of animation to use.
+ * @return {React.ReactNode} The Notice component.
+ */
+var Notice = function Notice(props) {
+  var _props$message = props.message,
+    message = _props$message === void 0 ? '' : _props$message,
+    _props$status = props.status,
+    status = _props$status === void 0 ? 'info' : _props$status,
+    _props$politeness = props.politeness,
+    politeness = _props$politeness === void 0 ? 'polite' : _props$politeness,
+    _props$icon = props.icon,
+    icon = _props$icon === void 0 ? null : _props$icon,
+    _props$className = props.className,
+    className = _props$className === void 0 ? '' : _props$className,
+    _props$inline = props.inline,
+    inline = _props$inline === void 0 ? false : _props$inline,
+    children = props.children,
+    _props$animate = props.animate,
+    animate = _props$animate === void 0 ? false : _props$animate,
+    _props$animationType = props.animationType,
+    animationType = _props$animationType === void 0 ? 'fadein' : _props$animationType;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     (0,_wordpress_a11y__WEBPACK_IMPORTED_MODULE_1__.speak)(message, politeness);
   }, [message, status, politeness]);
@@ -11170,7 +11182,7 @@ var Notice = function Notice(_ref) {
     className: "has-admin__notice-icon"
   }, getIcon(icon)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin__notice-message"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, message, " ", children, " "))));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, message, " ", children, ' '))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Notice);
 

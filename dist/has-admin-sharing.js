@@ -24677,37 +24677,49 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-var _excluded = ["message", "status", "politeness", "icon", "className", "inline", "children", "animate", "animationType"];
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 // eslint-disable-next-line no-unused-vars
 
 
 
 
-var Notice = function Notice(_ref) {
-  var _ref$message = _ref.message,
-    message = _ref$message === void 0 ? '' : _ref$message,
-    _ref$status = _ref.status,
-    status = _ref$status === void 0 ? 'info' : _ref$status,
-    _ref$politeness = _ref.politeness,
-    politeness = _ref$politeness === void 0 ? 'polite' : _ref$politeness,
-    _ref$icon = _ref.icon,
-    icon = _ref$icon === void 0 ? null : _ref$icon,
-    _ref$className = _ref.className,
-    className = _ref$className === void 0 ? '' : _ref$className,
-    _ref$inline = _ref.inline,
-    inline = _ref$inline === void 0 ? false : _ref$inline,
-    children = _ref.children,
-    _ref$animate = _ref.animate,
-    animate = _ref$animate === void 0 ? false : _ref$animate,
-    _ref$animationType = _ref.animationType,
-    animationType = _ref$animationType === void 0 ? 'fadein' : _ref$animationType,
-    props = _objectWithoutProperties(_ref, _excluded);
+
+/**
+ * Notice component.
+ *
+ * @param {Object}          props               - The props object.
+ * @param {string}          props.message       - The message to display.
+ * @param {string}          props.status        - The status of the notice.
+ * @param {string}          props.politeness    - The politeness of the notice.
+ * @param {string}          props.icon          - The icon to display.
+ * @param {string}          props.className     - The class name to add to the notice.
+ * @param {boolean}         props.inline        - Whether to display the notice inline.
+ * @param {React.ReactNode} props.children      - The children to display in the notice.
+ * @param {boolean}         props.animate       - Whether to animate the notice.
+ * @param {string}          props.animationType - The type of animation to use.
+ * @return {React.ReactNode} The Notice component.
+ */
+var Notice = function Notice(props) {
+  var _props$message = props.message,
+    message = _props$message === void 0 ? '' : _props$message,
+    _props$status = props.status,
+    status = _props$status === void 0 ? 'info' : _props$status,
+    _props$politeness = props.politeness,
+    politeness = _props$politeness === void 0 ? 'polite' : _props$politeness,
+    _props$icon = props.icon,
+    icon = _props$icon === void 0 ? null : _props$icon,
+    _props$className = props.className,
+    className = _props$className === void 0 ? '' : _props$className,
+    _props$inline = props.inline,
+    inline = _props$inline === void 0 ? false : _props$inline,
+    children = props.children,
+    _props$animate = props.animate,
+    animate = _props$animate === void 0 ? false : _props$animate,
+    _props$animationType = props.animationType,
+    animationType = _props$animationType === void 0 ? 'fadein' : _props$animationType;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     (0,_wordpress_a11y__WEBPACK_IMPORTED_MODULE_1__.speak)(message, politeness);
   }, [message, status, politeness]);
@@ -24734,7 +24746,7 @@ var Notice = function Notice(_ref) {
     className: "has-admin__notice-icon"
   }, getIcon(icon)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "has-admin__notice-message"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, message, " ", children, " "))));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, message, " ", children, ' '))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Notice);
 
@@ -27666,7 +27678,8 @@ var Interface = function Interface(_ref) {
   // Get form methods from FormProvider context.
   var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_2__.useFormContext)(),
     control = _useFormContext.control,
-    errors = _useFormContext.formState.errors;
+    errors = _useFormContext.formState.errors,
+    clearErrors = _useFormContext.clearErrors;
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_5__["default"], {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Advanced - Selector Settings for Page Builders', 'highlight-and-share'),
     initialOpen: false,
@@ -27678,27 +27691,33 @@ var Interface = function Interface(_ref) {
     className: "has-admin-component-wrapper"
   }, /*#__PURE__*/React.createElement("p", {
     className: "description"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('These advanced settings allow Highlight and Share to work with your theme, particularly if you are using a page builder.', 'highlight-and-share')), /*#__PURE__*/React.createElement("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('These advanced settings allow Highlight and Share to work with your theme, particularly if you are using a page builder. If you are not comfortable with selectors, leave these blank and contact support for assistance.', 'highlight-and-share')), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "jsContent",
     control: control,
     rules: {
-      pattern: /^\.?[-_,A-Za-z0-9]+$/i
+      pattern: /^(\.?[^0-9][-_A-Za-z0-9](,? ?\.?[^0-9][-_A-Za-z0-9])?)+$/i
     },
     render: function render(_ref2) {
-      var _errors$jsContent;
+      var _errors$jsContent, _errors$jsContent2;
       var field = _ref2.field;
       return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, _extends({}, field, {
         type: "text",
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('CSS Class Selectors', 'highlight-and-share'),
-        className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has-admin__text-control'),
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Separate each class with commas.', 'highlight-and-share')
-      })), 'pattern' === ((_errors$jsContent = errors.jsContent) === null || _errors$jsContent === void 0 ? void 0 : _errors$jsContent.type) && /*#__PURE__*/React.createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has-admin__text-control', {
+          'has-error': 'pattern' === ((_errors$jsContent = errors.jsContent) === null || _errors$jsContent === void 0 ? void 0 : _errors$jsContent.type)
+        }),
+        onChange: function onChange(value) {
+          clearErrors('jsContent');
+          field.onChange(value);
+        },
+        placeholder: ".entry-content,.page",
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Separate each class with commas. With or without the (.).', 'highlight-and-share')
+      })), 'pattern' === ((_errors$jsContent2 = errors.jsContent) === null || _errors$jsContent2 === void 0 ? void 0 : _errors$jsContent2.type) && /*#__PURE__*/React.createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_8__["default"], {
         message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('There are invalid characters.', 'highlight-and-share'),
         status: "error",
         politeness: "assertive",
-        inline: true,
         icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_9__["default"]
       }));
     }
@@ -27708,21 +27727,27 @@ var Interface = function Interface(_ref) {
     name: "idContent",
     control: control,
     rules: {
-      pattern: /^\#?[-_,A-Za-z0-9]+$/i
+      pattern: /^(\#?[^0-9][-_A-Za-z0-9](,? ?\#?[^0-9][-_A-Za-z0-9])?)+$/i
     },
     render: function render(_ref3) {
-      var _errors$idContent;
+      var _errors$idContent, _errors$idContent2;
       var field = _ref3.field;
       return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, _extends({}, field, {
         type: "text",
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('CSS ID Selectors', 'highlight-and-share'),
-        className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has-admin__text-control'),
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Separate each ID with commas.', 'highlight-and-share')
-      })), 'pattern' === ((_errors$idContent = errors.idContent) === null || _errors$idContent === void 0 ? void 0 : _errors$idContent.type) && /*#__PURE__*/React.createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has-admin__text-control', {
+          'has-error': 'pattern' === ((_errors$idContent = errors.idContent) === null || _errors$idContent === void 0 ? void 0 : _errors$idContent.type)
+        }),
+        onChange: function onChange(value) {
+          clearErrors('idContent');
+          field.onChange(value);
+        },
+        placeholder: "#main,#sidebar",
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Separate each ID with commas. With or without the (#).', 'highlight-and-share')
+      })), 'pattern' === ((_errors$idContent2 = errors.idContent) === null || _errors$idContent2 === void 0 ? void 0 : _errors$idContent2.type) && /*#__PURE__*/React.createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_8__["default"], {
         message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('There are invalid characters.', 'highlight-and-share'),
         status: "error",
         politeness: "assertive",
-        inline: true,
         icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_9__["default"]
       }));
     }
@@ -27732,21 +27757,27 @@ var Interface = function Interface(_ref) {
     name: "elementContent",
     control: control,
     rules: {
-      pattern: /^[,A-Za-z0-9]+$/i
+      pattern: /^([^0-9][A-Za-z0-9](,? ?[^0-9][A-Za-z0-9])?)+$/i
     },
     render: function render(_ref4) {
-      var _errors$elementConten;
+      var _errors$elementConten, _errors$elementConten2;
       var field = _ref4.field;
       return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, _extends({}, field, {
         type: "text",
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('HTML Element Selectors', 'highlight-and-share'),
-        className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has-admin__text-control'),
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Separate each element with commas.', 'highlight-and-share')
-      })), 'pattern' === ((_errors$elementConten = errors.elementContent) === null || _errors$elementConten === void 0 ? void 0 : _errors$elementConten.type) && /*#__PURE__*/React.createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has-admin__text-control', {
+          'has-error': 'pattern' === ((_errors$elementConten = errors.elementContent) === null || _errors$elementConten === void 0 ? void 0 : _errors$elementConten.type)
+        }),
+        onChange: function onChange(value) {
+          clearErrors('elementContent');
+          field.onChange(value);
+        },
+        placeholder: "main,section,article",
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Separate each HTML element selector with commas.', 'highlight-and-share')
+      })), 'pattern' === ((_errors$elementConten2 = errors.elementContent) === null || _errors$elementConten2 === void 0 ? void 0 : _errors$elementConten2.type) && /*#__PURE__*/React.createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_8__["default"], {
         message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('There are invalid characters.', 'highlight-and-share'),
         status: "error",
         politeness: "assertive",
-        inline: true,
         icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_9__["default"]
       }));
     }
@@ -27756,21 +27787,27 @@ var Interface = function Interface(_ref) {
     name: "wrapperClasses",
     control: control,
     rules: {
-      pattern: /^[ -_,A-Za-z0-9]+$/i
+      pattern: /^(\.?[^0-9][-_A-Za-z0-9](,? ?\.?[^0-9][-_A-Za-z0-9])?)+$/i
     },
     render: function render(_ref5) {
-      var _errors$wrapperClasse;
+      var _errors$wrapperClasse, _errors$wrapperClasse2;
       var field = _ref5.field;
       return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, _extends({}, field, {
         type: "text",
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Post Wrapper Classes', 'highlight-and-share'),
-        className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has-admin__text-control'),
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add classes to the Highlight and Share post wrapper. This is useful if you are having any style conflicts with block elements. Separate each class with commas and without the (.).', 'highlight-and-share')
-      })), 'pattern' === ((_errors$wrapperClasse = errors.wrapperClasses) === null || _errors$wrapperClasse === void 0 ? void 0 : _errors$wrapperClasse.type) && /*#__PURE__*/React.createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('has-admin__text-control', {
+          'has-error': 'pattern' === ((_errors$wrapperClasse = errors.wrapperClasses) === null || _errors$wrapperClasse === void 0 ? void 0 : _errors$wrapperClasse.type)
+        }),
+        onChange: function onChange(value) {
+          clearErrors('wrapperClasses');
+          field.onChange(value);
+        },
+        placeholder: ".wrapper,.post-content",
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add classes to the Highlight and Share post wrapper. This is useful if you are having any style conflicts with block elements. Separate each class with commas and with or without the (.).', 'highlight-and-share')
+      })), 'pattern' === ((_errors$wrapperClasse2 = errors.wrapperClasses) === null || _errors$wrapperClasse2 === void 0 ? void 0 : _errors$wrapperClasse2.type) && /*#__PURE__*/React.createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_8__["default"], {
         message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('There are invalid characters.', 'highlight-and-share'),
         status: "error",
         politeness: "assertive",
-        inline: true,
         icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_9__["default"]
       }));
     }

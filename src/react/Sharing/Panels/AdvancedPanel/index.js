@@ -11,7 +11,7 @@ import { __ } from '@wordpress/i18n';
 import { Suspense } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import { TextControl } from '@wordpress/components';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndicator';
 import ErrorBoundary from '../../../Components/ErrorBoundary';
 import Loader from '../../../Components/Loader';
@@ -27,7 +27,7 @@ import CircularExclamationIcon from '../../../Components/Icons/CircularExplanati
  */
 const Interface = ( { watchFields } ) => {
 	// Get form methods from FormProvider context.
-	const { control, formState: { errors } } = useFormContext();
+	const { control, formState: { errors }, clearErrors } = useFormContext();
 
 	return (
 		<PanelBodyWithIndicator
@@ -41,7 +41,7 @@ const Interface = ( { watchFields } ) => {
 			<div className="has-admin-component-wrapper">
 				<p className="description">
 					{ __(
-						'These advanced settings allow Highlight and Share to work with your theme, particularly if you are using a page builder.',
+						'These advanced settings allow Highlight and Share to work with your theme, particularly if you are using a page builder. If you are not comfortable with selectors, leave these blank and contact support for assistance.',
 						'highlight-and-share'
 					) }
 				</p>
@@ -51,7 +51,7 @@ const Interface = ( { watchFields } ) => {
 						name="jsContent"
 						control={ control }
 						rules={ {
-							pattern: /^\.?[-_,A-Za-z0-9]+$/i,
+							pattern: /^(\.?[^0-9][-_A-Za-z0-9](,? ?\.?[^0-9][-_A-Za-z0-9])?)+$/i,
 						} }
 						render={ ( { field } ) => (
 							<>
@@ -59,9 +59,16 @@ const Interface = ( { watchFields } ) => {
 									{ ...field }
 									type="text"
 									label={ __( 'CSS Class Selectors', 'highlight-and-share' ) }
-									className={ classNames( 'has-admin__text-control' ) }
+									className={ classnames( 'has-admin__text-control', {
+										'has-error': 'pattern' === errors.jsContent?.type,
+									} ) }
+									onChange={ ( value ) => {
+										clearErrors( 'jsContent' );
+										field.onChange( value );
+									} }
+									placeholder=".entry-content,.page"
 									help={ __(
-										'Separate each class with commas.',
+										'Separate each class with commas. With or without the (.).',
 										'highlight-and-share'
 									) }
 								/>
@@ -70,7 +77,6 @@ const Interface = ( { watchFields } ) => {
 										message={ __( 'There are invalid characters.', 'highlight-and-share' ) }
 										status="error"
 										politeness="assertive"
-										inline={ true }
 										icon={ CircularExclamationIcon }
 									/>
 								) }
@@ -84,7 +90,7 @@ const Interface = ( { watchFields } ) => {
 						name="idContent"
 						control={ control }
 						rules={ {
-							pattern: /^\#?[-_,A-Za-z0-9]+$/i,
+							pattern: /^(\#?[^0-9][-_A-Za-z0-9](,? ?\#?[^0-9][-_A-Za-z0-9])?)+$/i,
 						} }
 						render={ ( { field } ) => (
 							<>
@@ -92,9 +98,16 @@ const Interface = ( { watchFields } ) => {
 									{ ...field }
 									type="text"
 									label={ __( 'CSS ID Selectors', 'highlight-and-share' ) }
-									className={ classNames( 'has-admin__text-control' ) }
+									className={ classnames( 'has-admin__text-control', {
+										'has-error': 'pattern' === errors.idContent?.type,
+									} ) }
+									onChange={ ( value ) => {
+										clearErrors( 'idContent' );
+										field.onChange( value );
+									} }
+									placeholder="#main,#sidebar"
 									help={ __(
-										'Separate each ID with commas.',
+										'Separate each ID with commas. With or without the (#).',
 										'highlight-and-share'
 									) }
 								/>
@@ -103,7 +116,6 @@ const Interface = ( { watchFields } ) => {
 										message={ __( 'There are invalid characters.', 'highlight-and-share' ) }
 										status="error"
 										politeness="assertive"
-										inline={ true }
 										icon={ CircularExclamationIcon }
 									/>
 								) }
@@ -117,7 +129,7 @@ const Interface = ( { watchFields } ) => {
 						name="elementContent"
 						control={ control }
 						rules={ {
-							pattern: /^[,A-Za-z0-9]+$/i,
+							pattern: /^([^0-9][A-Za-z0-9](,? ?[^0-9][A-Za-z0-9])?)+$/i,
 						} }
 						render={ ( { field } ) => (
 							<>
@@ -125,9 +137,16 @@ const Interface = ( { watchFields } ) => {
 									{ ...field }
 									type="text"
 									label={ __( 'HTML Element Selectors', 'highlight-and-share' ) }
-									className={ classNames( 'has-admin__text-control' ) }
+									className={ classnames( 'has-admin__text-control', {
+										'has-error': 'pattern' === errors.elementContent?.type,
+									} ) }
+									onChange={ ( value ) => {
+										clearErrors( 'elementContent' );
+										field.onChange( value );
+									} }
+									placeholder="main,section,article"
 									help={ __(
-										'Separate each element with commas.',
+										'Separate each HTML element selector with commas.',
 										'highlight-and-share'
 									) }
 								/>
@@ -136,7 +155,6 @@ const Interface = ( { watchFields } ) => {
 										message={ __( 'There are invalid characters.', 'highlight-and-share' ) }
 										status="error"
 										politeness="assertive"
-										inline={ true }
 										icon={ CircularExclamationIcon }
 									/>
 								) }
@@ -150,7 +168,7 @@ const Interface = ( { watchFields } ) => {
 						name="wrapperClasses"
 						control={ control }
 						rules={ {
-							pattern: /^[ -_,A-Za-z0-9]+$/i,
+							pattern: /^(\.?[^0-9][-_A-Za-z0-9](,? ?\.?[^0-9][-_A-Za-z0-9])?)+$/i,
 						} }
 						render={ ( { field } ) => (
 							<>
@@ -158,9 +176,16 @@ const Interface = ( { watchFields } ) => {
 									{ ...field }
 									type="text"
 									label={ __( 'Post Wrapper Classes', 'highlight-and-share' ) }
-									className={ classNames( 'has-admin__text-control' ) }
+									className={ classnames( 'has-admin__text-control', {
+										'has-error': 'pattern' === errors.wrapperClasses?.type,
+									} ) }
+									onChange={ ( value ) => {
+										clearErrors( 'wrapperClasses' );
+										field.onChange( value );
+									} }
+									placeholder=".wrapper,.post-content"
 									help={ __(
-										'Add classes to the Highlight and Share post wrapper. This is useful if you are having any style conflicts with block elements. Separate each class with commas and without the (.).',
+										'Add classes to the Highlight and Share post wrapper. This is useful if you are having any style conflicts with block elements. Separate each class with commas and with or without the (.).',
 										'highlight-and-share'
 									) }
 								/>
@@ -169,7 +194,6 @@ const Interface = ( { watchFields } ) => {
 										message={ __( 'There are invalid characters.', 'highlight-and-share' ) }
 										status="error"
 										politeness="assertive"
-										inline={ true }
 										icon={ CircularExclamationIcon }
 									/>
 								) }
