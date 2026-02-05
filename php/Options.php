@@ -499,8 +499,9 @@ class Options {
 		// Derive icon_colors from network registry.
 		$social_networks = self::get_social_network_defaults();
 		$icon_colors     = array();
+		$network_order   = array();
 		foreach ( $social_networks as $slug => $network ) {
-			$icon_colors[ $slug ] = array(
+			$icon_colors[ $slug ]                    = array(
 				'label'            => $network['label'] ?? '',
 				'slug'             => $slug,
 				'background'       => $network['icon_colors']['background'] ?? '#000',
@@ -508,8 +509,11 @@ class Options {
 				'icon_color'       => $network['icon_colors']['icon_color'] ?? '#fff',
 				'icon_color_hover' => $network['icon_colors']['icon_color_hover'] ?? '#fff',
 			);
+			$network_order[ $network['order'] ?? 0 ] = $slug;
 		}
-		$defaults['icon_colors'] = $icon_colors;
+		ksort( $network_order );
+		$defaults['icon_colors']   = $icon_colors;
+		$defaults['network_order'] = $network_order;
 		return $defaults;
 	}
 

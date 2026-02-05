@@ -326,6 +326,9 @@ class Functions {
 	 */
 	public static function to_underlines_recursive( array $fields ) {
 		foreach ( $fields as $key => $value ) {
+			if ( is_numeric( $key ) ) {
+				continue;
+			}
 			// Store old key.
 			$old_key = $key;
 

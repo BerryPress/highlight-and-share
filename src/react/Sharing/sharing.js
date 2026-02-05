@@ -246,7 +246,7 @@ export const getDefaultValues = ( values = {} ) => {
 
 		// Appearance options.
 		theme: values.theme ?? 'default',
-		networkOrder: [],
+		networkOrder: values.networkOrder ?? [],
 		iconsOnly: values.iconsOnly ?? true,
 		orientation: values.orientation ?? 'horizontal',
 		showTooltips: values.showTooltips ?? true,
@@ -354,6 +354,7 @@ const SharingInterface = ( { defaults } ) => {
 	} ).errors;
 
 	const hasErrors = Object.keys( errors ).length > 0 ? true : false;
+
 
 	/**
 	 * Set the checkpoint data.

@@ -8,7 +8,7 @@ import PreviewSocialIconListItem from '../PreviewSocialIconListItem';
 import SocialIcons from '../../SocialIcons';
 
 const PreviewSocialIconList = () => {
-	const { watch } = useFormContext();
+	const { watch, getValues } = useFormContext();
 	const formValues = watch();
 
 	const { getSocialIcons } = SocialIcons();
@@ -16,6 +16,13 @@ const PreviewSocialIconList = () => {
 	const networks = useMemo( () => {
 		return getSocialIcons();
 	}, [ formValues ] );
+
+	const networksToShow = useMemo( () => {
+		const networkOrder = getValues( 'networkOrder' );
+		return Object.values( networkOrder ).map( ( networkSlug ) => networks.find( ( network ) => {
+			return network.key === networkSlug;
+		} ) );
+	}, [ networks, formValues ] );
 
 	if ( ! formValues ) {
 		return null;
@@ -179,7 +186,7 @@ const PreviewSocialIconList = () => {
 					{ 'has-label': ! formValues.iconsOnly },
 				) }
 			>
-				{ networks.map( ( network, index ) => {
+				{ networksToShow.map( ( network, index ) => {
 					if ( network.enabled ) {
 						return (
 							<PreviewSocialIconListItem

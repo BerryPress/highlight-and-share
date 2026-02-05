@@ -11,7 +11,9 @@ const SocialIconList = () => {
 	// Subscribe to store changes to trigger re-renders when networks update.
 	const storeNetworks = useSelect( ( select ) => select( store ).getNetworks(), [] );
 
-	const { setValue } = useFormContext();
+	const { setValue, getValues } = useFormContext();
+
+	const networkOrderFormValue = getValues( 'networkOrder' );
 
 	// Get social icons function - this will re-run when storeNetworks changes.
 	const { getSocialIcons } = SocialIcons();
@@ -22,77 +24,39 @@ const SocialIconList = () => {
 		return getSocialIcons();
 	}, [ storeNetworks ] );
 
+	const networksToShow = useMemo( () => {
+		const networkOrder = getValues( 'networkOrder' );
+		return Object.values( networkOrder ).map( ( networkSlug ) => networks.find( ( network ) => {
+			return network.key === networkSlug;
+		} ) );
+	}, [ networks, networkOrderFormValue ] );
+
 	const moveSocialNetwork = useCallback(
 		( dragIndex, hoverIndex ) => {
-			const dragItem = networks[ dragIndex ];
-			const hoverItem = networks[ hoverIndex ];
-			// Swap places of dragItem and hoverItem in the networks array.
-			const newNetworksArray = [];
-			Object.values( storeNetworks ).forEach( ( network, index ) => {
-				if ( index !== dragIndex && index !== hoverIndex ) {
-					newNetworksArray.push( network );
-				} else {
-					if ( index === hoverIndex && dragIndex < hoverIndex ) {
-						newNetworksArray.push( hoverItem );
-						newNetworksArray.push( dragItem );
-					}
-					if ( index === hoverIndex && dragIndex > hoverIndex ) {
-						newNetworksArray.push( dragItem );
-						newNetworksArray.push( hoverItem );
-					}
+			const networkOrder = getValues( 'networkOrder' );
+			const order = Array.isArray( networkOrder )
+				? [ ...networkOrder ]
+				: [ ...Object.values( networkOrder ) ];
+			const [ removed ] = order.splice( dragIndex, 1 );
+			order.splice( hoverIndex, 0, removed );
+			setValue( 'networkOrder', order, { shouldDirty: true } );
+			// Sync store with same order.
+			const newNetworks = {};
+			order.forEach( ( slug ) => {
+				const network = storeNetworks[ slug ];
+				if ( network ) {
+					newNetworks[ network.key ?? network.slug ] = network;
 				}
 			} );
-			// Convert array to object (key => value) while preserving order.
-			const newNetworks = {};
-			newNetworksArray.forEach( ( network ) => {
-				newNetworks[ network.slug ?? network.key ] = network;
-			} );
-			setValue( 'networkOrder', newNetworksArray.map( ( network ) => network.slug ), { shouldDirty: true } );
 			dispatch( store ).setNetworks( newNetworks );
 		},
-		[ networks, storeNetworks ],
+		[ getValues, setValue, storeNetworks ],
 	);
-
-	/**
-	 * Save the social networks and their orders.
-	 */
-	// const saveSocialNetworksOrder = () => {
-	// 	setSaving( true );
-
-	// 	// Get social networks pruned for Ajax.
-	// 	const socialNetworksForAjax = [];
-	// 	let order = 0;
-	// 	networks.forEach( ( network ) => {
-	// 		socialNetworksForAjax.push( {
-	// 			slug: network.key ?? network.slug,
-	// 			order,
-	// 		} );
-	// 		order++;
-	// 	} );
-	// 	sendCommand( 'has_save_social_icon_order', {
-	// 		nonce: hasAppearanceAdmin.saveNonce,
-	// 		socialNetworks: socialNetworksForAjax,
-	// 	} )
-	// 		.then( ( response ) => {
-	// 			const { data, success } = response.data;
-	// 			setSocialNetworks( data );
-	// 			if ( success ) {
-	// 				setIsSaved( true );
-	// 				setTimeout( () => {
-	// 					setIsSaved( false );
-	// 				}, 3000 );
-	// 			}
-	// 		} )
-	// 		.catch( ( error ) => {
-	// 		} ).then( ( ) => {
-	// 			setSaving( false );
-	// 		} );
-	// };
 
 	return (
 		<>
 			<DndProvider backend={ HTML5Backend }>
-				<ul className="has-admin-theme-reorder-list">{ networks.map( ( network ) => {
+				<ul className="has-admin-theme-reorder-list">{ networksToShow.map( ( network, listIndex ) => {
 					if ( ! network.enabled ) {
 						return null;
 					}
@@ -103,7 +67,7 @@ const SocialIconList = () => {
 							className={ network.className }
 							styles={ network.styles }
 							icon={ network.icon }
-							index={ network.index }
+							index={ listIndex }
 							moveSocialNetwork={ moveSocialNetwork }
 						/>
 					);

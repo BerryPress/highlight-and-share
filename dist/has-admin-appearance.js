@@ -23737,13 +23737,22 @@ __webpack_require__.r(__webpack_exports__);
 
 var PreviewSocialIconList = function PreviewSocialIconList() {
   var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_3__.useFormContext)(),
-    watch = _useFormContext.watch;
+    watch = _useFormContext.watch,
+    getValues = _useFormContext.getValues;
   var formValues = watch();
   var _SocialIcons = (0,_SocialIcons__WEBPACK_IMPORTED_MODULE_5__["default"])(),
     getSocialIcons = _SocialIcons.getSocialIcons;
   var networks = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
     return getSocialIcons();
   }, [formValues]);
+  var networksToShow = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    var networkOrder = getValues('networkOrder');
+    return Object.values(networkOrder).map(function (networkSlug) {
+      return networks.find(function (network) {
+        return network.key === networkSlug;
+      });
+    });
+  }, [networks, formValues]);
   if (!formValues) {
     return null;
   }
@@ -23817,7 +23826,7 @@ var PreviewSocialIconList = function PreviewSocialIconList() {
     }, {
       'has-label': !formValues.iconsOnly
     })
-  }, networks.map(function (network, index) {
+  }, networksToShow.map(function (network, index) {
     if (network.enabled) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_PreviewSocialIconListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
         key: "".concat(network.key, "-item"),
@@ -23977,6 +23986,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dnd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-dnd */ "./node_modules/react-dnd/dist/core/DndProvider.js");
 /* harmony import */ var react_dnd_html5_backend__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-dnd-html5-backend */ "./node_modules/react-dnd-html5-backend/dist/index.js");
 /* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.mjs");
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 
 
@@ -23991,7 +24010,9 @@ var SocialIconList = function SocialIconList() {
     return select(_Sharing_Store__WEBPACK_IMPORTED_MODULE_4__["default"]).getNetworks();
   }, []);
   var _useFormContext = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_7__.useFormContext)(),
-    setValue = _useFormContext.setValue;
+    setValue = _useFormContext.setValue,
+    getValues = _useFormContext.getValues;
+  var networkOrderFormValue = getValues('networkOrder');
 
   // Get social icons function - this will re-run when storeNetworks changes.
   var _SocialIcons = (0,_SocialIcons__WEBPACK_IMPORTED_MODULE_3__["default"])(),
@@ -24002,91 +24023,51 @@ var SocialIconList = function SocialIconList() {
   var networks = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
     return getSocialIcons();
   }, [storeNetworks]);
+  var networksToShow = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    var networkOrder = getValues('networkOrder');
+    return Object.values(networkOrder).map(function (networkSlug) {
+      return networks.find(function (network) {
+        return network.key === networkSlug;
+      });
+    });
+  }, [networks, networkOrderFormValue]);
   var moveSocialNetwork = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (dragIndex, hoverIndex) {
-    var dragItem = networks[dragIndex];
-    var hoverItem = networks[hoverIndex];
-    // Swap places of dragItem and hoverItem in the networks array.
-    var newNetworksArray = [];
-    Object.values(storeNetworks).forEach(function (network, index) {
-      if (index !== dragIndex && index !== hoverIndex) {
-        newNetworksArray.push(network);
-      } else {
-        if (index === hoverIndex && dragIndex < hoverIndex) {
-          newNetworksArray.push(hoverItem);
-          newNetworksArray.push(dragItem);
-        }
-        if (index === hoverIndex && dragIndex > hoverIndex) {
-          newNetworksArray.push(dragItem);
-          newNetworksArray.push(hoverItem);
-        }
-      }
-    });
-    // Convert array to object (key => value) while preserving order.
-    var newNetworks = {};
-    newNetworksArray.forEach(function (network) {
-      var _network$slug;
-      newNetworks[(_network$slug = network.slug) !== null && _network$slug !== void 0 ? _network$slug : network.key] = network;
-    });
-    setValue('networkOrder', newNetworksArray.map(function (network) {
-      return network.slug;
-    }), {
+    var networkOrder = getValues('networkOrder');
+    var order = Array.isArray(networkOrder) ? _toConsumableArray(networkOrder) : _toConsumableArray(Object.values(networkOrder));
+    var _order$splice = order.splice(dragIndex, 1),
+      _order$splice2 = _slicedToArray(_order$splice, 1),
+      removed = _order$splice2[0];
+    order.splice(hoverIndex, 0, removed);
+    setValue('networkOrder', order, {
       shouldDirty: true
     });
+    // Sync store with same order.
+    var newNetworks = {};
+    order.forEach(function (slug) {
+      var network = storeNetworks[slug];
+      if (network) {
+        var _network$key;
+        newNetworks[(_network$key = network.key) !== null && _network$key !== void 0 ? _network$key : network.slug] = network;
+      }
+    });
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_Sharing_Store__WEBPACK_IMPORTED_MODULE_4__["default"]).setNetworks(newNetworks);
-  }, [networks, storeNetworks]);
-
-  /**
-   * Save the social networks and their orders.
-   */
-  // const saveSocialNetworksOrder = () => {
-  // 	setSaving( true );
-
-  // 	// Get social networks pruned for Ajax.
-  // 	const socialNetworksForAjax = [];
-  // 	let order = 0;
-  // 	networks.forEach( ( network ) => {
-  // 		socialNetworksForAjax.push( {
-  // 			slug: network.key ?? network.slug,
-  // 			order,
-  // 		} );
-  // 		order++;
-  // 	} );
-  // 	sendCommand( 'has_save_social_icon_order', {
-  // 		nonce: hasAppearanceAdmin.saveNonce,
-  // 		socialNetworks: socialNetworksForAjax,
-  // 	} )
-  // 		.then( ( response ) => {
-  // 			const { data, success } = response.data;
-  // 			setSocialNetworks( data );
-  // 			if ( success ) {
-  // 				setIsSaved( true );
-  // 				setTimeout( () => {
-  // 					setIsSaved( false );
-  // 				}, 3000 );
-  // 			}
-  // 		} )
-  // 		.catch( ( error ) => {
-  // 		} ).then( ( ) => {
-  // 			setSaving( false );
-  // 		} );
-  // };
-
+  }, [getValues, setValue, storeNetworks]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(react_dnd__WEBPACK_IMPORTED_MODULE_5__.DndProvider, {
     backend: react_dnd_html5_backend__WEBPACK_IMPORTED_MODULE_6__.HTML5Backend
   }, /*#__PURE__*/React.createElement("ul", {
     className: "has-admin-theme-reorder-list"
-  }, networks.map(function (network) {
-    var _network$key, _network$key2;
+  }, networksToShow.map(function (network, listIndex) {
+    var _network$key2, _network$key3;
     if (!network.enabled) {
       return null;
     }
     return /*#__PURE__*/React.createElement(_SocialIconListItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      key: "".concat((_network$key = network.key) !== null && _network$key !== void 0 ? _network$key : network.slug, "-item"),
-      listItemKey: (_network$key2 = network.key) !== null && _network$key2 !== void 0 ? _network$key2 : network.slug,
+      key: "".concat((_network$key2 = network.key) !== null && _network$key2 !== void 0 ? _network$key2 : network.slug, "-item"),
+      listItemKey: (_network$key3 = network.key) !== null && _network$key3 !== void 0 ? _network$key3 : network.slug,
       className: network.className,
       styles: network.styles,
       icon: network.icon,
-      index: network.index,
+      index: listIndex,
       moveSocialNetwork: moveSocialNetwork
     });
   }))));
