@@ -59,7 +59,7 @@ const Snackbar = ( props ) => {
 		if ( props.type === 'success' ) {
 			actions.push( {
 				label: __( 'Back to Top', 'highlight-and-share' ),
-				url: '#has-admin-header',
+				url: '#wpbody-content',
 				variant: 'link',
 				className:
 					'dlx-pw-admin__notice-action dlx-pw-admin__notice-action--to-top',

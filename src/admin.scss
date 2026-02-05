@@ -675,6 +675,56 @@ h2.has-admin-content-subheading {
 		}
 	}
 }
+/**
+ * Snackbar styles.
+ */
+ .dlx-pw-snackbar.components-snackbar {
+	position: fixed;
+	top: 32px;
+	right: 0;
+	z-index: 10000;
+	background: #0D3172;
+	color: #FFF;
+
+	.components-snackbar__content {
+		display: flex;
+		align-items: center;
+	}
+	.components-snackbar__icon {
+		position: absolute;
+		top: 24px;
+		left: 28px;
+		left: 14px;
+		top: auto;
+		bottom: auto;
+		line-height: 0;
+	}
+	.components-snackbar__content-with-icon {
+		padding-left: 50px;
+	}
+
+	&.dlx-pw-snackbar-loading {
+		svg {
+			animation: dlx-pw-rotate;
+			animation-duration: 1.2s;
+			animation-iteration-count: infinite;
+			animation-timing-function: linear;
+		}
+	}
+	&.dlx-pw-snackbar-success {
+		background: #14720D;
+		color: #FFF;
+	}
+	&.dlx-pw-snackbar-error,
+	&.dlx-pw-snackbar-critical {
+		background: #820000;
+		color: #FFF;
+	}
+	&.dlx-pw-snackbar-warning {
+		background: #FFC107;
+		color: #000;
+	}
+ }
 .has-modal-buttons-group {
 	display: flex;
 	justify-content: space-between;

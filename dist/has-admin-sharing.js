@@ -27014,7 +27014,7 @@ var Snackbar = function Snackbar(props) {
     if (props.type === 'success') {
       actions.push({
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Back to Top', 'highlight-and-share'),
-        url: '#has-admin-header',
+        url: '#wpbody-content',
         variant: 'link',
         className: 'dlx-pw-admin__notice-action dlx-pw-admin__notice-action--to-top'
       });
