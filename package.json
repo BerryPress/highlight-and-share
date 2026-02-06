@@ -5,9 +5,9 @@
 	"main": "index.js",
 	"sideEffects": false,
 	"scripts": {
-		"start": "wp-scripts start has-inline-highlighting=./src/inline-highlighting.js has-click-to-share=./src/blocks/click-to-share/block.js --env mode=development",
+		"start": "wp-scripts start has-inline-highlighting=./src/inline-highlighting.js has-click-to-share=./src/blocks/click-to-share/block.js has-post-sidebar=./src/post-sidebar/index.js --env mode=development",
 		"dev": "wp-scripts start has-click-to-share=./src/blocks/click-to-share/block.js --env mode=development",
-		"build": "wp-scripts build has-inline-highlighting=./src/inline-highlighting.js has-click-to-share=./src/blocks/click-to-share/block.js --env mode=production"
+		"build": "wp-scripts build has-inline-highlighting=./src/inline-highlighting.js has-click-to-share=./src/blocks/click-to-share/block.js has-post-sidebar=./src/post-sidebar/index.js --env mode=production"
 	},
 	"repository": {
 		"type": "git",

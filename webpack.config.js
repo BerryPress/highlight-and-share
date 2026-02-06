@@ -13,6 +13,11 @@ module.exports = ( env ) => {
 			},
 			mode: env.mode,
 			devtool: 'production' === env.mode ? false : 'source-map',
+			entry: {
+				'has-inline-highlighting': './src/inline-highlighting.js',
+				'has-click-to-share': './src/blocks/click-to-share/block.js',
+				'has-post-sidebar': [ './src/post-sidebar/index.js', './src/post-sidebar/style.scss' ],
+			},
 		},
 		{
 			entry: {

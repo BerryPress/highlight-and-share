@@ -809,7 +809,29 @@ class Frontend {
 		}
 
 		// Get post vars.
-		$post_id          = $post->ID;
+		$post_id = $post->ID;
+		$options = Options::get_plugin_options();
+
+		// Global state: content on + post type not excluded. Post meta can override via filter below.
+		$global_content_on  = (bool) apply_filters( 'has_enable_content', (bool) $options['enable_content'] );
+		$post_type_excluded = $this->is_post_type_excluded_for_highlight_sharing( $post_id, $options );
+		$global_enabled     = $global_content_on && ! $post_type_excluded;
+
+		/**
+		 * Filter: has_highlight_sharing_enabled_for_post
+		 *
+		 * Whether Highlight and Share will work on the current post.
+		 *
+		 * @param bool $enabled Whether Highlight and Share will work on the current post.
+		 * @param int  $post_id The ID of the current post.
+		 *
+		 * @since 7.0.0
+		 */
+		$enabled = apply_filters( 'has_highlight_sharing_enabled_for_post', $global_enabled, $post_id );
+		if ( ! $enabled ) {
+			return $content;
+		}
+
 		$url              = Functions::get_content_url( $post_id );
 		$title            = get_the_title( $post_id );
 		$is_legacy_markup = $this->is_legacy_content_loop_markup( $post_id ); // Determine if we're in legacy markup mode (wrap everything in a div) or not.
@@ -821,7 +843,6 @@ class Frontend {
 
 		// Retrieve wrapper classes from options.
 		$class_dots_regex = '/\./';
-		$options          = Options::get_plugin_options();
 		$wrapper_classes  = $options['wrapper_classes'] ?? '';
 		if ( ! empty( $wrapper_classes ) ) {
 			$wrapper_classes     = preg_replace( $class_dots_regex, '', $wrapper_classes );
@@ -896,10 +917,69 @@ class Frontend {
 		}
 
 		$post_id = $post->ID;
+		$options = Options::get_plugin_options();
+
+		// Global state: excerpt on + post type not excluded. Post meta can override via filter below.
+		$global_excerpt_on  = (bool) apply_filters( 'has_enable_excerpt', (bool) $options['enable_excerpt'] );
+		$post_type_excluded = $this->is_post_type_excluded_for_highlight_sharing( $post_id, $options );
+		$global_enabled     = $global_excerpt_on && ! $post_type_excluded;
+
+		/**
+		 * Filter: has_highlight_sharing_enabled_for_post
+		 *
+		 * Whether Highlight and Share will work on the current post.
+		 *
+		 * @param bool $enabled Whether Highlight and Share will work on the current post.
+		 * @param int  $post_id The ID of the current post.
+		 *
+		 * @since 7.0.0
+		 */
+		$enabled = apply_filters( 'has_highlight_sharing_enabled_for_post', $global_enabled, $post_id );
+		if ( ! $enabled ) {
+			return $content;
+		}
+
 		$url     = Functions::get_content_url( $post_id );
 		$title   = get_the_title( $post_id );
 		$content = sprintf( '<div class="has-excerpt-area" data-url="%s" data-title="%s" data-hashtags="%s">%s</div>', esc_url( $url ), esc_attr( $title ), esc_attr( Hashtags::get_hashtags( $post_id ) ), $content );
 		return $content;
+	}
+
+	/**
+	 * Whether the given post's type is in the excluded post types option (no highlight sharing).
+	 *
+	 * Respects the Highlight and Share excluded_post_types option. Normalizes both
+	 * array-of-slugs and object (slug => true) formats.
+	 *
+	 * @param int   $post_id Post ID.
+	 * @param array $options Optional. Plugin options; if not passed, fetched via Options::get_plugin_options().
+	 * @return bool True if this post type is excluded, false otherwise.
+	 */
+	private function is_post_type_excluded_for_highlight_sharing( $post_id, $options = null ) {
+		if ( null === $options ) {
+			$options = Options::get_plugin_options();
+		}
+		$raw = isset( $options['excluded_post_types'] ) && is_array( $options['excluded_post_types'] ) ? $options['excluded_post_types'] : array();
+		if ( empty( $raw ) ) {
+			return false;
+		}
+		// Normalize: support both array of slugs and associative slug => true.
+		$keys     = array_keys( $raw );
+		$is_assoc = ! empty( array_filter( $keys, 'is_string' ) );
+		if ( $is_assoc ) {
+			$slugs = array_keys(
+				array_filter(
+					$raw,
+					function ( $v ) {
+						return ! empty( $v );
+					}
+				)
+			);
+		} else {
+			$slugs = array_values( $raw );
+		}
+		$post_type = get_post_type( $post_id );
+		return in_array( $post_type, $slugs, true );
 	}
 
 	/**

@@ -121,6 +121,9 @@ function highlightshare_instantiate() {
 	$blocks = new Blocks();
 	$blocks->run();
 
+	// Per-post settings (sidebar / meta box).
+	PostSettings::run();
+
 	// Init admin panel settings.
 	$admin_panel = new Admin();
 	$admin_panel->run();
