@@ -537,7 +537,23 @@ class Admin {
 					</div>
 					<div class="header__btn-wrap">
 						<a class=" has__btn-primary" href="https://has.dlxplugins.com"><i class="dashicons dashicons-media-document"></i> <?php esc_html_e( 'Documentation', 'highlight-and-share' ); ?></a>
-						<a class=" has__btn-primary" href="<?php echo esc_url( Functions::get_settings_url( 'support' ) ); ?>"><i class="dashicons dashicons-groups"></i> <?php esc_html_e( 'Support', 'highlight-and-share' ); ?></a>
+						<a class=" has__btn-primary" href="
+						<?php
+						$user = get_user_by( 'id', get_current_user_id() );
+						echo esc_url_raw(
+							add_query_arg(
+								array(
+									'product'   => 'Highlight and Share',
+									'firstname' => $user->first_name,
+									'lastname'  => $user->last_name ?? '',
+									'email'     => $user->user_email,
+									'site'      => get_site_url(),
+								),
+								'https://dlxplugins.com/support/'
+							)
+						);
+						?>
+						" target="_blank" rel="noopener noreferrer"><i class="dashicons dashicons-external"></i> <?php esc_html_e( 'Support', 'highlight-and-share' ); ?></a>
 					</div>
 				</div>
 			</header>

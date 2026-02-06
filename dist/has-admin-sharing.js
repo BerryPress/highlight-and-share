@@ -28344,6 +28344,7 @@ var Interface = function Interface(_ref) {
         type: "text",
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Sharing Text Before', 'highlight-and-share'),
         className: "has-admin__text-control",
+        placeholder: '<',
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Choose a prefix to go before the sharing text such as a quote.', 'highlight-and-share')
       }));
     }
@@ -28358,6 +28359,7 @@ var Interface = function Interface(_ref) {
         type: "text",
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Sharing Text After', 'highlight-and-share'),
         className: "has-admin__text-control",
+        placeholder: '>',
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Choose a suffix to go after the sharing text such as a quote.', 'highlight-and-share')
       }));
     }

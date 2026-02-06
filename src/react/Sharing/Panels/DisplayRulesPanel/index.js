@@ -150,6 +150,7 @@ const Interface = ( { watchFields } ) => {
 								type="text"
 								label={ __( 'Sharing Text Before', 'highlight-and-share' ) }
 								className="has-admin__text-control"
+								placeholder={ '<' }
 								help={ __(
 									'Choose a prefix to go before the sharing text such as a quote.',
 									'highlight-and-share'
@@ -169,6 +170,7 @@ const Interface = ( { watchFields } ) => {
 								type="text"
 								label={ __( 'Sharing Text After', 'highlight-and-share' ) }
 								className="has-admin__text-control"
+								placeholder={ '>' }
 								help={ __(
 									'Choose a suffix to go after the sharing text such as a quote.',
 									'highlight-and-share'

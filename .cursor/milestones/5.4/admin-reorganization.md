@@ -1,7 +1,7 @@
 # Admin Interface Reorganization
 
 **Priority:** 2  
-**Status:** In progress (user meta panel states remaining)  
+**Status:** In progress (Phase 10 Documentation remaining)  
 **Related Section:** Plan Section 2.11
 
 ## Overview
@@ -799,9 +799,10 @@ Each field will be mapped to its corresponding option key in the form state. Col
   - Migrate advanced settings (`jsContent`, `elementContent`, `idContent`, `wrapperClasses`, `shortlinks`)
   - Use `TextControl` for text inputs, `ToggleControl` for toggles
   - Default state: collapsed (`initialOpen={ false }`)
-- [ ] **User meta panel states (remaining):** Integrate panel state persistence with `PanelBody`'s `initialOpen` prop using store + user meta
-  - Use existing `usePanelState` hook pattern from previous phases
-  - See [Remaining: User Meta Panel States](#remaining-user-meta-panel-states) below for concrete tasks and open questions.
+- [x] **User meta panel states:** Integrate panel state persistence with `PanelBody`'s `initialOpen`/`opened` using store + user meta
+  - Use existing `usePanelState` hook; panel IDs aligned to camelCase in React, snake_case in PHP via `Functions::panel_states_to_snake` / `panel_states_to_camel`
+  - Single load: panel states passed on initial page load via `hasSharingAdmin.panelStates`; store reducer reads from `window` so panels render correctly on first paint
+  - See [Completed: User Meta Panel States](#completed-user-meta-panel-states) below for implementation summary.
 
 
 **Implementation Details:**
@@ -817,69 +818,49 @@ Each field will be mapped to its corresponding option key in the form state. Col
 
 ---
 
-### Remaining: User Meta Panel States
+### Completed: User Meta Panel States
 
-Everything in this milestone is complete **except** persisting panel expand/collapse state to user meta and restoring it on load. The following is documented so the remaining work can be implemented without re-auditing.
+Panel expand/collapse state is persisted to user meta and restored on load.
 
-**Current state:**
+**Implementation summary:**
 
-- `usePanelState` hook exists and is used by `PanelBodyWithIndicator`; it reads/writes the `has/sharing` store and calls `has_get_admin_user_meta` / `has_set_admin_user_meta` on load and on toggle.
-- PHP: `ajax_get_admin_user_meta` and `ajax_set_admin_user_meta` exist; user meta key `has_admin_user_meta` with `panel_states` (and `first_installed`); panel IDs are whitelisted and sanitized.
-- Store reducer initial state and PHP defaults use **camelCase** panel IDs: `socialNetworks`, `displayRules`, `appearance`, `preview`, `blockEditor`, `inlineHighlighting`, `advanced`.
-
-**Finding – panel ID mismatch:**
-
-- Some panels pass **kebab-case** `panelId`s: `display-rules`, `block-editor`, `inline-highlighting`.
-- PHP and the store use **camelCase**: `displayRules`, `blockEditor`, `inlineHighlighting`.
-- Result: for those three panels, saved state is stored under keys PHP does not whitelist, so persistence does not work and defaults are used after reload.
-
-**Tasks to complete (to be refined after questions):**
-
-1. **Align panel IDs:** Either (a) use camelCase `panelId` in all panels (`displayRules`, `blockEditor`, `inlineHighlighting`) to match store and PHP, or (b) add kebab-case IDs to the PHP whitelist and defaults and ensure the store accepts them. Recommendation: (a) for a single canonical set of IDs.
-2. **Load user meta once:** Right now every panel’s `usePanelState` runs a mount effect that calls `has_get_admin_user_meta`, so N panels cause N identical requests. Consider loading user meta once (e.g. in Sharing tab or store bootstrap) and having panels only read from the store.
-3. **Verify round-trip:** After ID alignment and optional single-load, confirm: load page → toggle panels → reload → panel states match last toggles; check network tab for one get and one set per toggle.
-
-**Questions before documenting the remaining tasks in more detail:**
-
-1. **Panel IDs:** Prefer aligning React to PHP (camelCase in all panels) or PHP to React (allow kebab-case in whitelist)? CamelCase is already used in the store and PHP defaults. **Answer** Use camelCase in JS. Use underline and convert functions in ``Functions.php`` before storing and reading from PHP.
-2. **Single load:** Should we document/implement “load user meta once on Sharing mount” as a required task, or is multiple requests on load acceptable for now? **Answer** Prefer to load only once as needed.
-3. **Nonce / action names:** The hook uses `has_get_admin_user_meta` and `has_set_admin_user_meta`; PHP registers `wp_ajax_has_get_admin_user_meta` and `wp_ajax_has_set_admin_user_meta`. Confirm these are the correct action names and that `userMetaNonce` is passed and validated as expected. **Answer** Correct.
-4. **Scope of “user meta panel states”:** Is the only remaining work the above (IDs + optional single load + verification), or are there other requirements (e.g. debouncing saves, or persisting something beyond expand/collapse)? **Answer** Only panels for now.
-
-Once these are answered, the “Remaining: User Meta Panel States” subsection can be updated with step-by-step implementation tasks and any code references.
+- **Panel IDs:** React panels use camelCase (`displayRules`, `blockEditor`, `inlineHighlighting`). PHP stores snake_case; `Functions::panel_states_to_snake()` and `panel_states_to_camel()` convert on set/get.
+- **Single load / first paint:** `get_initial_panel_states_for_js()` in Admin; `hasSharingAdmin.panelStates` localized; store reducer `getInitialPanelsState()` reads `window.hasSharingAdmin.panelStates` so panels render correctly on first paint.
+- **PHP:** `ajax_get_admin_user_meta` / `ajax_set_admin_user_meta`; `normalize_stored_panel_states()` for old duplicate keys; `filter_var(…, FILTER_VALIDATE_BOOLEAN)` for form booleans; defaults/sanitize use snake_case.
+- **Controlled panels:** `PanelBodyWithIndicator` uses `opened={ isOpen }` and `initialOpen={ defaultOpen }`; toggles persist via `usePanelState` → `has_set_admin_user_meta`.
 
 ---
 
-### Phase 7: Migration & Refactoring
+### Phase 7: Migration & Refactoring ✅ COMPLETED
 
-- [ ] Migrate Settings tab → Social Networks section to new panel
-- [ ] Migrate Settings tab → Display Rules to new panel
-- [ ] Migrate Settings tab → Advanced to new panel
-- [ ] Migrate Appearance tab → Reorder Networks to `ReorderNetworksPanel`
-- [ ] Migrate Appearance tab → Theme Customizer to `ThemeCustomizerPanel`
-- [ ] Migrate Appearance tab → Preview to `PreviewPanel`
-- [ ] Split Block Editor tab into Block Editor and Inline Highlighting panels
-- [ ] Update all tabs to use shared components
-- [ ] Ensure backward compatibility with existing options
+- [x] Migrate Settings tab → Social Networks section to new panel
+- [x] Migrate Settings tab → Display Rules to new panel
+- [x] Migrate Settings tab → Advanced to new panel
+- [x] Migrate Appearance tab → Reorder Networks to `ReorderNetworksPanel`
+- [x] Migrate Appearance tab → Theme Customizer to `ThemeCustomizerPanel`
+- [x] Migrate Appearance tab → Preview to `PreviewPanel`
+- [x] Split Block Editor tab into Block Editor and Inline Highlighting panels
+- [x] Update all tabs to use shared components
+- [x] Ensure backward compatibility with existing options
 
-### Phase 8: Responsive & Polish
+### Phase 8: Responsive & Polish ✅ COMPLETED
 
-- [ ] Implement responsive grid (two-column → one-column)
-- [ ] Test panel behavior on mobile/tablet
-- [ ] Polish panel animations and transitions
-- [ ] Test unsaved changes indicator behavior
-- [ ] Test form validation error indicators
+- [x] Implement responsive grid (two-column → one-column)
+- [x] Test panel behavior on mobile/tablet
+- [x] Polish panel animations and transitions
+- [x] Test unsaved changes indicator behavior
+- [x] Test form validation error indicators
 
-### Phase 9: Testing
+### Phase 9: Testing ✅ COMPLETED
 
-- [ ] Test all panels expand/collapse correctly
-- [ ] Test state persistence (user meta)
-- [ ] Test real-time preview updates
-- [ ] Test unsaved changes indicator
-- [ ] Test form validation error indicators
-- [ ] Test responsive behavior
-- [ ] Test all settings save correctly
-- [ ] Test backward compatibility
+- [x] Test all panels expand/collapse correctly
+- [x] Test state persistence (user meta)
+- [x] Test real-time preview updates
+- [x] Test unsaved changes indicator
+- [x] Test form validation error indicators
+- [x] Test responsive behavior
+- [x] Test all settings save correctly
+- [x] Test backward compatibility
 
 ### Phase 10: Documentation
 
