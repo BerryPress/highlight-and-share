@@ -1032,18 +1032,22 @@ class Frontend {
 	 * Render HTML for a single social network.
 	 *
 	 * @param array $network_def   Network definition from registry.
-	 * @param array $theme_options Theme options.
 	 * @param array $settings      Main plugin settings.
 	 * @param array $email_options Email options (if email network).
 	 * @return string HTML for network.
 	 */
-	private function render_network_html( $network_def, $theme_options, $settings, $email_options = array() ) {
+	private function render_network_html( $network_def, $settings, $email_options = array() ) {
 		$slug         = $network_def['slug'];
 		$css_class    = $network_def['css_class'];
 		$icon_id      = $network_def['icon_id'];
 		$label        = apply_filters( "has_{$slug}_text", $network_def['label_text'] );
 		$tooltip      = apply_filters( "has_{$slug}_tooltip", $network_def['tooltip_text'] );
-		$tooltip_attr = $theme_options['show_tooltips'] ? 'has-tooltip' : '';
+		$tooltip_attr = $settings['show_tooltips'] ? 'has-tooltip' : '';
+
+		// If network is not enabled, return an empty string.
+		if ( ! $settings[ $network_def['enabled_option_key'] ] ) {
+			return '';
+		}
 
 		// Build URL template.
 		$url_template = $this->get_network_url_template( $network_def, $settings, $email_options );
@@ -1089,12 +1093,16 @@ class Frontend {
 	 * Render email network HTML.
 	 *
 	 * @param array $network_def   Network definition.
-	 * @param array $theme_options Theme options.
 	 * @param array $settings      Main plugin settings.
 	 * @param array $email_options Email options.
 	 * @return string HTML for email network.
 	 */
-	private function render_email_network( $network_def, $theme_options, $settings, $email_options ) {
+	private function render_email_network( $network_def, $settings, $email_options ) {
+		// If email is not enabled, return an empty string.
+		if ( ! $settings['enable_emails'] ) {
+			return '';
+		}
+
 		// Get captcha enabled status.
 		$recaptcha_enabled = (bool) $email_options['recaptcha_enabled'];
 		$turnstile_enabled = (bool) $email_options['turnstile_enabled'];
@@ -1118,7 +1126,7 @@ class Frontend {
 		$icon_id      = $network_def['icon_id'];
 		$label        = apply_filters( "has_{$slug}_text", $network_def['label_text'] );
 		$tooltip      = apply_filters( "has_{$slug}_tooltip", $network_def['tooltip_text'] );
-		$tooltip_attr = $theme_options['show_tooltips'] ? 'has-tooltip' : '';
+		$tooltip_attr = $settings['show_tooltips'] ? 'has-tooltip' : '';
 
 		$html = sprintf(
 			'<div class="has_email %s %s" style="display: none;" data-type="email" data-title="%%title%%" data-url="%%url%%" data-tooltip="%s">',
@@ -1148,13 +1156,17 @@ class Frontend {
 	 * Render WhatsApp network HTML.
 	 *
 	 * @param array $network_def   Network definition.
-	 * @param array $theme_options Theme options.
 	 * @param array $settings      Main plugin settings.
 	 * @return string HTML for WhatsApp network.
 	 */
-	private function render_whatsapp_network( $network_def, $theme_options, $settings ) {
+	private function render_whatsapp_network( $network_def, $settings ) {
+		// If WhatsApp is not enabled, return an empty string.
+		if ( ! $settings['show_whats_app'] ) {
+			return '';
+		}
+
 		// WhatsApp uses the same rendering as other networks, but with special URL handling.
-		return $this->render_network_html( $network_def, $theme_options, $settings );
+		return $this->render_network_html( $network_def, $settings );
 	}
 
 	/**
@@ -1192,24 +1204,22 @@ class Frontend {
 			$this->get_footer_svgs();
 			return;
 		}
-		$social_networks_ordered = Options::get_plugin_options_social_networks(); // ordered social networks (appearances tab).
-		$theme_options           = Options::get_theme_options(); // appearance options (appearances tab).
-		$settings                = Options::get_plugin_options(); // main plugin options (settings tab).
-		$email_options           = Options::get_email_options(); // email options (emails tab).
+		$settings      = Options::get_plugin_options(); // main plugin options (settings tab).
+		$email_options = Options::get_email_options(); // email options (emails tab).
 
 		// Get HAS container classes.
 		$has_container_classes = array(
 			'highlight-and-share-wrapper',
-			'theme-' . $theme_options['theme'],
+			'theme-' . $settings['theme'],
 		);
 		// Check for horizontal vs vertical orientation.
-		if ( 'vertical' === $theme_options['orientation'] ) {
+		if ( 'vertical' === $settings['orientation'] ) {
 			$has_container_classes[] = 'orientation-vertical';
 		} else {
 			$has_container_classes[] = 'orientation-horizontal';
 		}
 		// Determine if labels are enabled.
-		if ( 'default' === $theme_options['theme'] || ( 'custom' === $theme_options['theme'] && false === (bool) $theme_options['icons_only'] ) ) {
+		if ( 'default' === $settings['theme'] || ( 'custom' === $settings['theme'] && false === (bool) $settings['icons_only'] ) ) {
 			$has_container_classes[] = 'show-has-labels';
 		} else {
 			$has_container_classes[] = 'hide-has-labels';
@@ -1220,8 +1230,8 @@ class Frontend {
 		?>
 		<style>
 			.highlight-and-share-wrapper div.has-tooltip:hover:after {
-				background-color: <?php echo esc_attr( $theme_options['tooltips_background_color'] ); ?> !important;
-				color: <?php echo esc_attr( $theme_options['tooltips_text_color'] ); ?> !important;
+				background-color: <?php echo esc_attr( $settings['tooltips_background_color'] ); ?> !important;
+				color: <?php echo esc_attr( $settings['tooltips_text_color'] ); ?> !important;
 			}
 		</style>
 		<?php
@@ -1229,196 +1239,196 @@ class Frontend {
 
 		// Get custom theme styles.
 		$custom_styles = false;
-		if ( 'custom' === $theme_options['theme'] ) {
+		if ( 'custom' === $settings['theme'] ) {
 			ob_start();
 			?>
 			<style>
 			<?php
-			if ( true === (bool) $theme_options['group_icons'] ) :
+			if ( true === (bool) $settings['group_icons'] ) :
 				?>
 					.highlight-and-share-wrapper {
-						background-color: <?php echo esc_attr( $theme_options['background_color'] ); ?> !important;
+						background-color: <?php echo esc_attr( $settings['background_color'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper div a {
-						color:<?php echo esc_attr( $theme_options['icon_colors_group'] ); ?> !important;
-						background-color:<?php echo esc_attr( $theme_options['background_color'] ); ?> !important;
+						color:<?php echo esc_attr( $settings['icon_colors_group'] ); ?> !important;
+						background-color:<?php echo esc_attr( $settings['background_color'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper div a:hover {
-						color:<?php echo esc_attr( $theme_options['icon_colors_group_hover'] ); ?> !important;
-						background-color:<?php echo esc_attr( $theme_options['background_color_hover'] ); ?> !important;
+						color:<?php echo esc_attr( $settings['icon_colors_group_hover'] ); ?> !important;
+						background-color:<?php echo esc_attr( $settings['background_color_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper div:first-of-type a {
-						border-top-left-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
-						border-bottom-left-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
+						border-top-left-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
+						border-bottom-left-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper div:last-of-type a {
-						border-bottom-right-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
-						border-top-right-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
+						border-bottom-right-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
+						border-top-right-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			endif;
-			if ( true === (bool) $theme_options['border_radius_group']['attrSyncUnits'] ) :
+			if ( true === (bool) $settings['border_radius_group']['attrSyncUnits'] ) :
 				?>
 					.highlight-and-share-wrapper {
-						border-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
+						border-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			else :
 				?>
 					.highlight-and-share-wrapper,
 					.highlight-and-share-wrapper a {
-						border-top-left-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
-						border-top-right-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrRight'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
-						border-bottom-right-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrBottom'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
-						border-bottom-left-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrLeft'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
+						border-top-left-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
+						border-top-right-radius: <?php echo esc_attr( $settings['border_radius_group']['attrRight'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
+						border-bottom-right-radius: <?php echo esc_attr( $settings['border_radius_group']['attrBottom'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
+						border-bottom-left-radius: <?php echo esc_attr( $settings['border_radius_group']['attrLeft'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			endif;
-			if ( true !== (bool) $theme_options['group_icons'] ) :
+			if ( true !== (bool) $settings['group_icons'] ) :
 				?>
 					.highlight-and-share-wrapper .has_twitter a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['twitter']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['twitter']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['twitter']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['twitter']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_twitter a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['twitter']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['twitter']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['twitter']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['twitter']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_facebook a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['facebook']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['facebook']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['facebook']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['facebook']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_facebook a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['facebook']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['facebook']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['facebook']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['facebook']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_linkedin a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['linkedin']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['linkedin']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['linkedin']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['linkedin']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_linkedin a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['linkedin']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['linkedin']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['linkedin']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['linkedin']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_whatsapp a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['whatsapp']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['whatsapp']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['whatsapp']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['whatsapp']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_whatsapp a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['whatsapp']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['whatsapp']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['whatsapp']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['whatsapp']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_telegram a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['telegram']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['telegram']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['telegram']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['telegram']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_telegram a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['telegram']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['telegram']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['telegram']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['telegram']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_reddit a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['reddit']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['reddit']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['reddit']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['reddit']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_reddit a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['reddit']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['reddit']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['reddit']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['reddit']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_tumblr a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['tumblr']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['tumblr']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['tumblr']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['tumblr']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_tumblr a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['tumblr']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['tumblr']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['tumblr']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['tumblr']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_xing a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['xing']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['xing']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['xing']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['xing']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_xing a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['xing']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['xing']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['xing']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['xing']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_email a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['email']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['email']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['email']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['email']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_email a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['email']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['email']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['email']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['email']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_copy a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['copy']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['copy']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['copy']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['copy']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_copy a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['copy']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['copy']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['copy']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['copy']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_webshare a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['webshare']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['webshare']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['webshare']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['webshare']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_webshare a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['webshare']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['webshare']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['webshare']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['webshare']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_mastodon a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['mastodon']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['mastodon']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_mastodon a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['mastodon']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['mastodon']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_threads a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['threads']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['threads']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['threads']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['threads']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_threads a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['threads']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['threads']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['threads']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['threads']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_bluesky a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['bluesky']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['bluesky']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_bluesky a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['bluesky']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['bluesky']['background_hover'] ); ?> !important;
 					}
 				<?php
-				if ( true === (bool) $theme_options['icon_border_radius']['attrSyncUnits'] ) :
+				if ( true === (bool) $settings['icon_border_radius']['attrSyncUnits'] ) :
 					?>
 						.highlight-and-share-wrapper div a {
-							border-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+							border-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 						}
 					<?php
 				else :
 					?>
 						.highlight-and-share-wrapper div a {
-							border-top-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-							border-top-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrRight'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-							border-bottom-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrBottom'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-							border-bottom-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrLeft'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+							border-top-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+							border-top-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrRight'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+							border-bottom-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrBottom'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+							border-bottom-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrLeft'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 						}
 					<?php
 				endif;
-				if ( 'horizontal' === $theme_options['orientation'] ) :
+				if ( 'horizontal' === $settings['orientation'] ) :
 					?>
 						.highlight-and-share-wrapper div {
-							margin-right: <?php echo esc_attr( $theme_options['icon_gap'] ); ?>px !important;
+							margin-right: <?php echo esc_attr( $settings['icon_gap'] ); ?>px !important;
 						}
 						.highlight-and-share-wrapper div:last-child {
 							margin-right: 0 !important;
 						}
 					<?php
 				endif;
-				if ( 'vertical' === $theme_options['orientation'] ) :
+				if ( 'vertical' === $settings['orientation'] ) :
 					?>
 						.highlight-and-share-wrapper div {
-							margin-bottom: <?php echo esc_attr( $theme_options['icon_gap'] ); ?>px !important;
+							margin-bottom: <?php echo esc_attr( $settings['icon_gap'] ); ?>px !important;
 						}
 						.highlight-and-share-wrapper div:last-child {
 							margin-bottom: 0 !important;
@@ -1426,61 +1436,61 @@ class Frontend {
 					<?php
 				endif;
 			endif;
-			if ( true === (bool) $theme_options['icon_border_radius']['attrSyncUnits'] ) :
+			if ( true === (bool) $settings['icon_border_radius']['attrSyncUnits'] ) :
 				?>
 					.highlight-and-share-wrapper div a {
-						border-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			else :
 				?>
 					.highlight-and-share-wrapper div a {
-						border-top-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-top-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrRight'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-bottom-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrBottom'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-bottom-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrLeft'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-top-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-top-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrRight'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-bottom-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrBottom'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-bottom-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrLeft'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			endif;
-			if ( true === (bool) $theme_options['icon_border_radius']['attrSyncUnits'] ) :
+			if ( true === (bool) $settings['icon_border_radius']['attrSyncUnits'] ) :
 				?>
 					.highlight-and-share-wrapper div a {
-						border-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			else :
 				?>
 					.highlight-and-share-wrapper div a {
-						border-top-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-top-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrRight'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-bottom-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrBottom'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-bottom-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrLeft'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-top-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-top-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrRight'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-bottom-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrBottom'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-bottom-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrLeft'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			endif;
-			if ( true === (bool) $theme_options['icon_padding']['attrSyncUnits'] ) :
+			if ( true === (bool) $settings['icon_padding']['attrSyncUnits'] ) :
 				?>
 					.highlight-and-share-wrapper div a {
-						padding: <?php echo esc_attr( $theme_options['icon_padding']['attrTop'] . $theme_options['icon_padding']['attrUnit'] ); ?> !important;
+						padding: <?php echo esc_attr( $settings['icon_padding']['attrTop'] . $settings['icon_padding']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			else :
 				?>
 					.highlight-and-share-wrapper div a {
-						padding-top: <?php echo esc_attr( $theme_options['icon_padding']['attrTop'] . $theme_options['icon_padding']['attrUnit'] ); ?> !important;
-						padding-right: <?php echo esc_attr( $theme_options['icon_padding']['attrRight'] . $theme_options['icon_padding']['attrUnit'] ); ?> !important;
-						padding-bottom: <?php echo esc_attr( $theme_options['icon_padding']['attrBottom'] . $theme_options['icon_padding']['attrUnit'] ); ?> !important;
-						padding-left: <?php echo esc_attr( $theme_options['icon_padding']['attrLeft'] . $theme_options['icon_padding']['attrUnit'] ); ?> !important;
+						padding-top: <?php echo esc_attr( $settings['icon_padding']['attrTop'] . $settings['icon_padding']['attrUnit'] ); ?> !important;
+						padding-right: <?php echo esc_attr( $settings['icon_padding']['attrRight'] . $settings['icon_padding']['attrUnit'] ); ?> !important;
+						padding-bottom: <?php echo esc_attr( $settings['icon_padding']['attrBottom'] . $settings['icon_padding']['attrUnit'] ); ?> !important;
+						padding-left: <?php echo esc_attr( $settings['icon_padding']['attrLeft'] . $settings['icon_padding']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			endif;
 			?>
 				.highlight-and-share-wrapper div a .has-icon {
-					width: <?php echo esc_attr( $theme_options['icon_size'] ); ?>px !important;
-					height: <?php echo esc_attr( $theme_options['icon_size'] ); ?>px !important;
+					width: <?php echo esc_attr( $settings['icon_size'] ); ?>px !important;
+					height: <?php echo esc_attr( $settings['icon_size'] ); ?>px !important;
 				}
 				.highlight-and-share-wrapper div a {
-					font-size: <?php echo esc_attr( $theme_options['font_size'] ); ?>px !important;
+					font-size: <?php echo esc_attr( $settings['font_size'] ); ?>px !important;
 				}
 			</style>
 			<?php
@@ -1506,20 +1516,22 @@ class Frontend {
 		}
 
 		// Loop through ordered networks and output HTML.
-		foreach ( $social_networks_ordered as $social_network ) {
-			if ( ! $social_network['enabled'] ) {
+		$network_order   = $settings['network_order'];
+		$social_networks = Options::get_social_network_defaults();
+		foreach ( $network_order as $network_slug ) {
+			$network_def = $social_networks[ $network_slug ] ?? null;
+			if ( ! $network_def ) {
 				continue;
 			}
-			// Handle special cases that need additional logic.
-			if ( 'email' === $social_network['slug'] ) {
-				$html .= $this->render_email_network( $social_network, $theme_options, $settings, $email_options );
-			} elseif ( 'whatsapp' === $social_network['slug'] ) {
-				$html .= $this->render_whatsapp_network( $social_network, $theme_options, $settings );
-			} elseif ( 'mastodon' === $social_network['slug'] ) {
-				$html .= $this->render_network_html( $social_network, $theme_options, $settings );
+			if ( 'email' === $network_slug ) {
+				$html .= $this->render_email_network( $network_def, $settings, $email_options );
+			} elseif ( 'whatsapp' === $network_slug ) {
+				$html .= $this->render_whatsapp_network( $network_def, $settings );
+			} elseif ( 'mastodon' === $network_slug ) {
+				$html .= $this->render_network_html( $network_def, $settings );
 				$this->maybe_enqueue_fancybox();
 			} else {
-				$html .= $this->render_network_html( $social_network, $theme_options, $settings );
+				$html .= $this->render_network_html( $network_def, $settings );
 			}
 		}
 		$html .= '</div><!-- #highlight-and-share-wrapper --></div><!-- #has-highlight-and-share -->';

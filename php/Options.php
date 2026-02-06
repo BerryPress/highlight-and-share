@@ -121,7 +121,7 @@ class Options {
 	/**
 	 * Retrieve local networks from storage.
 	 */
-	protected static function get_social_network_defaults() {
+	public static function get_social_network_defaults() {
 		$social_networks = array(
 			'twitter'  => array(
 				'label'              => __( 'X', 'highlight-and-share' ),
