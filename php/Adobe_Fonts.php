@@ -135,7 +135,7 @@ class Adobe_Fonts {
 	 */
 	public static function get_adobe_fonts_url() {
 		// Retrieve project ID if empty.
-		$options    = Options::get_block_editor_options( true );
+		$options    = Options::get_plugin_options( true );
 		$project_id = $options['adobe_project_id'];
 		// If still empty, return.
 		if ( empty( $project_id ) ) {
@@ -223,7 +223,7 @@ class Adobe_Fonts {
 		}
 
 		// Retrieve options and add fonts.
-		$options                     = Options::get_block_editor_options( true );
+		$options                     = Options::get_plugin_options( true );
 		$options['adobe_fonts']      = $fonts;
 		$options['adobe_project_id'] = $project_id;
 		update_option( 'highlight-and-share-block-editor-options', $options );

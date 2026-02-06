@@ -24,7 +24,7 @@ class Blocks {
 			'init',
 			function () use ( $self ) {
 				// Get block editor options.
-				$options = Options::get_block_editor_options();
+				$options = Options::get_plugin_options();
 
 				// Enqueue inline highlighting script if enabled.
 				if ( (bool) $options['enable_inline_highlighting'] ) {
@@ -158,7 +158,7 @@ class Blocks {
 		}
 
 		// Get adobe fonts.
-		$block_editor_options = Options::get_block_editor_options( true );
+		$block_editor_options = Options::get_plugin_options( true );
 		$adobe_fonts          = $block_editor_options['adobe_fonts'] ?? array();
 
 		// Get current user ID.
@@ -213,7 +213,7 @@ class Blocks {
 				continue;
 			}
 			if ( 'adobe' === $block_font['fontType'] ) {
-				$block_editor_options = Options::get_block_editor_options( true );
+				$block_editor_options = Options::get_plugin_options( true );
 				$adobe_project_id     = $block_editor_options['adobe_project_id'] ?? '';
 				if ( ! empty( $adobe_project_id ) ) {
 					$adobe_fonts_url = esc_url( Adobe_Fonts::$typekit_css_url . '/' . $adobe_project_id . '.css' );

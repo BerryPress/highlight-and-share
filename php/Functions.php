@@ -265,10 +265,10 @@ class Functions {
 	 * @return bool True if enabled, false if not.
 	 */
 	public static function is_adobe_fonts_enabled() {
-		$block_editor_options = Options::get_block_editor_options( true );
-		$adobe_project_id     = $block_editor_options['adobe_project_id'] ?? '';
-		$adobe_fonts          = $block_editor_options['adobe_fonts'] ?? false;
-		$adobe_fonts_enabled  = $block_editor_options['enable_adobe_fonts'] ?? false;
+		$options             = Options::get_plugin_options( true );
+		$adobe_project_id    = $options['adobe_project_id'] ?? '';
+		$adobe_fonts         = $options['adobe_fonts'] ?? false;
+		$adobe_fonts_enabled = $options['enable_adobe_fonts'] ?? false;
 
 		if ( $adobe_fonts_enabled && ! empty( $adobe_fonts ) && ! empty( $adobe_project_id ) ) {
 			return true;

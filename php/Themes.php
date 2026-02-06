@@ -134,7 +134,7 @@ class Themes {
 	 * Return CSS rule for inline highlighting.
 	 */
 	public static function get_inline_highlight_css() {
-		$block_editor_options = Options::get_block_editor_options();
+		$block_editor_options = Options::get_plugin_options();
 		$inline_styles        = sprintf(
 			'.has-inline-text { background-color: %1$s; color: %2$s; }.has-inline-text:hover { background-color: %3$s; color: %4$s; }',
 			$block_editor_options['inline_highlight_background_color'] ?? '#ffefb1',

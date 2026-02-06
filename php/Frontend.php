@@ -2056,11 +2056,12 @@ class Frontend {
 		$json_arr['prefix'] = isset( $settings['sharing_prefix'] ) ? stripslashes_deep( sanitize_text_field( $settings['sharing_prefix'] ) ) : '';
 		$json_arr['suffix'] = isset( $settings['sharing_suffix'] ) ? stripslashes_deep( sanitize_text_field( $settings['sharing_suffix'] ) ) : '';
 
+		$options = Options::get_plugin_options();
+
 		// Get highlight tooltip options.
-		$block_editor_options = Options::get_block_editor_options();
-		if ( (bool) $block_editor_options['inline_highlight_show_tooltips'] ) {
+		if ( (bool) $options['inline_highlight_show_tooltips'] ) {
 			$json_arr['inline_highlight_tooltips_enabled'] = true;
-			$json_arr['inline_highlight_tooltips_text']    = $block_editor_options['inline_highlight_tooltips_text'];
+			$json_arr['inline_highlight_tooltips_text']    = $options['inline_highlight_tooltips_text'];
 		} else {
 			$json_arr['inline_highlight_tooltips_enabled'] = false;
 			$json_arr['inline_highlight_tooltips_text']    = '';
@@ -2104,10 +2105,10 @@ class Frontend {
 			add_filter( 'body_class', array( $this, 'add_body_class' ), 10, 2 );
 
 			// Let's see if inline highlight tooltips are enabled.
-			if ( (bool) $block_editor_options['inline_highlight_show_tooltips'] ) {
+			if ( (bool) $options['inline_highlight_show_tooltips'] ) {
 				// Load dummy stylesheet.
 				wp_register_style( 'has-inline-highlight-tooltips', false );
-				$inline_highlight_styles = ':root { --has-inline-highlight-tooltips-color: ' . esc_html( $block_editor_options['inline_highlight_tooltips_text_color'] ) . '; --has-inline-highlight-tooltips-background-color: ' . esc_html( $block_editor_options['inline_highlight_tooltips_background_color'] ) . '; }';
+				$inline_highlight_styles = ':root { --has-inline-highlight-tooltips-color: ' . esc_html( $options['inline_highlight_tooltips_text_color'] ) . '; --has-inline-highlight-tooltips-background-color: ' . esc_html( $options['inline_highlight_tooltips_background_color'] ) . '; }';
 				// Add inline styles.
 				wp_add_inline_style(
 					'has-inline-highlight-tooltips',
