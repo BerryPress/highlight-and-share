@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import classNames from 'classnames';
 import { useSelect } from '@wordpress/data';
-import store from '../../../Sharing/Store';
+import store from '../../../Sharing/Panels/SocialNetworksPanel/Store';
 import { useFormContext } from 'react-hook-form';
 import PreviewSocialIconListItem from '../PreviewSocialIconListItem';
 // Import all the social media icons.

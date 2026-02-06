@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { dispatch, useSelect } from '@wordpress/data';
 import SocialIconListItem from '../SocialIconListItem';
 import SocialIcons from '../../SocialIcons';
-import store from '../../../Sharing/Store';
+import store from '../../../Sharing/Panels/SocialNetworksPanel/Store';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useFormContext } from 'react-hook-form';

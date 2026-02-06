@@ -1503,6 +1503,7 @@ h3.has-icon-heading {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		flex-wrap: wrap;
 
 		.has-error-indicator-asterisk {
 			color: #d63638;
@@ -1510,6 +1511,15 @@ h3.has-icon-heading {
 			font-weight: bold;
 			line-height: 1;
 			flex-shrink: 0;
+		}
+		.has-text-sharing-enabled-indicator {
+			width: 100%;
+			color: #333;
+			font-size: 11px;
+			font-weight: 400;
+			line-height: 1.2;
+			flex-shrink: 0;
+			text-align: left;
 		}
 	}
 

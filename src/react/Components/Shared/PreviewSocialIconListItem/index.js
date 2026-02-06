@@ -2,7 +2,7 @@
 import classNames from 'classnames';
 import { escapeAttribute, escapeEditableHTML } from '@wordpress/escape-html';
 import { useSelect } from '@wordpress/data';
-import store from '../../../Sharing/Store';
+import store from '../../../Sharing/Panels/SocialNetworksPanel/Store';
 import { useFormContext } from 'react-hook-form';
 
 const PreviewSocialIconListItem = ( { listItemKey, className, icon, label } ) => {

@@ -8,7 +8,7 @@ import { Suspense, useEffect, useState, useRef } from 'react';
 import { dispatch, select } from '@wordpress/data';
 import classnames from 'classnames';
 import { Button, Spinner, Fill } from '@wordpress/components';
-import store from './Store'; // Register the store before using components that depend on it.
+import store from './Panels/SocialNetworksPanel/Store'; // Register the store before using components that depend on it.
 import SocialNetworksPanel from './Panels/SocialNetworksPanel';
 import DisplayRulesPanel from './Panels/DisplayRulesPanel';
 import { useAsyncResource } from 'use-async-resource';

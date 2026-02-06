@@ -54,14 +54,14 @@ const Interface = ( { watchFields } ) => {
 						control={ control }
 						render={ ( { field: { onChange, value } } ) => (
 							<ToggleControl
-								label={ __( 'Enable on the Post Content', 'highlight-and-share' ) }
+								label={ __( 'Enable on Post Content', 'highlight-and-share' ) }
 								className="has-admin__toggle-control"
 								checked={ value ?? false }
 								onChange={ ( boolValue ) => {
 									onChange( boolValue );
 								} }
 								help={ __(
-									'Enabling this option will show the Highlight and Share buttons when users highlight post content.',
+									'Enabling this option will show the Highlight and Share buttons when users highlight text in post content.',
 									'highlight-and-share'
 								) }
 							/>
@@ -75,14 +75,14 @@ const Interface = ( { watchFields } ) => {
 						control={ control }
 						render={ ( { field: { onChange, value } } ) => (
 							<ToggleControl
-								label={ __( 'Enable on the Post Excerpt', 'highlight-and-share' ) }
+								label={ __( 'Enable on Post Excerpts', 'highlight-and-share' ) }
 								className="has-admin__toggle-control"
 								checked={ value ?? false }
 								onChange={ ( boolValue ) => {
 									onChange( boolValue );
 								} }
 								help={ __(
-									'Enabling this option will show the Highlight and Share buttons when users highlight a post excerpt.',
+									'Enabling this option will show the Highlight and Share buttons when users highlight text in post excerpts.',
 									'highlight-and-share'
 								) }
 							/>
@@ -152,7 +152,7 @@ const Interface = ( { watchFields } ) => {
 								className="has-admin__text-control"
 								placeholder={ '<' }
 								help={ __(
-									'Choose a prefix to go before the sharing text such as a quote.',
+									'Choose a prefix to go before the sharing text such as a quotation mark, parenthesis, or other punctuation.',
 									'highlight-and-share'
 								) }
 							/>
@@ -172,7 +172,7 @@ const Interface = ( { watchFields } ) => {
 								className="has-admin__text-control"
 								placeholder={ '>' }
 								help={ __(
-									'Choose a suffix to go after the sharing text such as a quote.',
+									'Choose a suffix to go after the sharing text such as a quotation mark, parenthesis, or other punctuation.',
 									'highlight-and-share'
 								) }
 							/>
@@ -192,7 +192,7 @@ const Interface = ( { watchFields } ) => {
 									onChange( boolValue );
 								} }
 								help={ __(
-									'Enable shortlinks for sharing URLs.',
+									'Enable shortlinks for sharing URLs. You must have a URL shortener plugin installed and configured to use this feature.',
 									'highlight-and-share'
 								) }
 							/>

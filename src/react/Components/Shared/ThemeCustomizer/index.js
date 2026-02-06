@@ -9,7 +9,7 @@ import {
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useForm, Controller, useWatch, useFormContext } from 'react-hook-form';
-import store from '../../../Sharing/Store';
+import store from '../../../Sharing/Panels/SocialNetworksPanel/Store';
 import classNames from 'classnames';
 import Notice from '../../Notice';
 import CircularInfoIcon from '../../Icons/CircularInfo';
@@ -166,7 +166,7 @@ const ThemeCustomizer = () => {
 										onChange( boolValue );
 									} }
 									help={ __(
-										'Modify all icons at once or have them separated with individual colors and backgrounds.',
+										'Modify all icons at once as one group or have them ungrouped with individual colors and backgrounds for each network.',
 										'highlight-and-share'
 									) }
 								/>
@@ -444,7 +444,7 @@ const ThemeCustomizer = () => {
 								onChange( boolValue );
 							} }
 							help={ __(
-								'Hover over a social network to see a tooltip.',
+								'Tooltips will be displayed when hovering over each sharing network if enabled.',
 								'highlight-and-share'
 							) }
 						/>
@@ -498,19 +498,19 @@ const ThemeCustomizer = () => {
 					control={ control }
 					render={ ( { field: { onChange, value } } ) => (
 						<RadioControl
-							label="Orientation Type"
+							label="Orientation Type for the Sharing Networks"
 							help={ __(
-								'Select the orientation of the icons (can be horizontal or vertical).',
+								'Select the orientation of the icons (can be horizontal or vertical) and how they are presented when displayed.',
 								'highlight-and-share'
 							) }
 							selected={ value }
 							options={ [
 								{
-									label: __( 'Horizontal', 'highlight-and-share' ),
+									label: __( 'Horizontal (Left to Right)', 'highlight-and-share' ),
 									value: 'horizontal',
 								},
 								{
-									label: __( 'Vertical', 'highlight-and-share' ),
+									label: __( 'Vertical (Top to Bottom)', 'highlight-and-share' ),
 									value: 'vertical',
 								},
 							] }

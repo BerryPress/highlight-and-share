@@ -16,7 +16,7 @@ import { faMastodon as MastodonIcon } from '@fortawesome/free-brands-svg-icons/f
 import { faThreads as ThreadsIcon } from '@fortawesome/free-brands-svg-icons/faThreads';
 import { faBluesky as BlueskyIcon } from '@fortawesome/free-brands-svg-icons/faBluesky';
 
-import store from '../../Sharing/Store';
+import store from '../../Sharing/Panels/SocialNetworksPanel/Store';
 import Twitter from '../Icons/twitter';
 const SocialIcons = () => {
 	const socialNetworks = useSelect( ( select ) => select( store ).getNetworks() );

@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { CheckboxControl } from '@wordpress/components';
 import SocialIcons from '../../SocialIcons';
 import GearIcon from '../../Icons/Gear';
-import store from '../../../Sharing/Store';
+import store from '../../../Sharing/Panels/SocialNetworksPanel/Store';
 import { dispatch, select } from '@wordpress/data';
 
 /**
@@ -20,7 +20,11 @@ import { dispatch, select } from '@wordpress/data';
  * @param {Function} props.onSettingsMouseDown Callback when settings gear icon is mouse down.
  * @return {JSX.Element} NetworkSelector component.
  */
-const NetworkSelector = ( { networks = {}, networkErrors = {}, onSettingsMouseDown } ) => {
+const NetworkSelector = ( {
+	networks = {},
+	networkErrors = {},
+	onSettingsMouseDown,
+} ) => {
 	const { getSocialIcon } = SocialIcons( networks );
 	const { control } = useFormContext();
 	/**
@@ -144,7 +148,9 @@ const NetworkSelector = ( { networks = {}, networkErrors = {}, onSettingsMouseDo
 										'is-enabled': isEnabled,
 										'has-error-indicator': hasError,
 									} ) }
-									onClick={ () => handleItemClick( network.slug, isEnabled, onChange ) }
+									onClick={ () =>
+										handleItemClick( network.slug, isEnabled, onChange )
+									}
 									role="button"
 									tabIndex={ 0 }
 									onKeyDown={ ( e ) => {
@@ -172,8 +178,25 @@ const NetworkSelector = ( { networks = {}, networkErrors = {}, onSettingsMouseDo
 										<div className="has-network-selector-label">
 											{ networkLabel }
 											{ hasError && (
-												<span className="has-error-indicator-asterisk" aria-label={ __( 'Validation error', 'highlight-and-share' ) }>
+												<span
+													className="has-error-indicator-asterisk"
+													aria-label={ __(
+														'Validation error',
+														'highlight-and-share'
+													) }
+												>
 													*
+												</span>
+											) }
+											{ network.allows_text_sharing && (
+												<span
+													className="has-text-sharing-enabled-indicator"
+													aria-label={ __(
+														'Supports text sharing',
+														'highlight-and-share'
+													) }
+												>
+													{ __( 'Supports Text Sharing', 'highlight-and-share' ) }
 												</span>
 											) }
 										</div>
@@ -186,7 +209,10 @@ const NetworkSelector = ( { networks = {}, networkErrors = {}, onSettingsMouseDo
 											onMouseDown={ ( e ) =>
 												handleSettingsMouseDown( e, network.slug )
 											}
-											aria-label={ __( 'Configure network settings', 'highlight-and-share' ) }
+											aria-label={ __(
+												'Configure network settings',
+												'highlight-and-share'
+											) }
 										>
 											<GearIcon width={ 16 } height={ 16 } />
 										</button>
@@ -202,4 +228,3 @@ const NetworkSelector = ( { networks = {}, networkErrors = {}, onSettingsMouseDo
 };
 
 export default NetworkSelector;
-
