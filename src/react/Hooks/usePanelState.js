@@ -1,8 +1,11 @@
 /**
  * Hook for managing panel state with user meta persistence.
+ *
+ * Panel states are loaded once by the Sharing tab; this hook only reads from
+ * the store and persists changes on toggle.
  */
 
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useSelect, useDispatch } from '@wordpress/data';
 import sendCommand from '../Utils/SendCommand';
 
@@ -51,60 +54,19 @@ export default function usePanelState( panelId, defaultOpen = false ) {
 	const dispatch = useDispatch( STORE_NAME );
 	const setStorePanelState = dispatch?.setPanelState || ( () => {} );
 
-	// Load panel states from user meta on mount (only once).
-	useEffect( () => {
-		let isMounted = true;
-
-		sendCommand( 'has_get_admin_user_meta', {
-			nonce: window.hasSharingAdmin?.userMetaNonce || '',
-		} )
-			.then( ( response ) => {
-				if ( ! isMounted ) {
-					return;
-				}
-
-				if ( response?.data?.success && response?.data?.data ) {
-					const adminUserMeta = response.data.data;
-					// Restore panel states from user meta.
-					if ( adminUserMeta?.panel_states && typeof adminUserMeta.panel_states === 'object' ) {
-						Object.keys( adminUserMeta.panel_states ).forEach( ( id ) => {
-							setStorePanelState( id, adminUserMeta.panel_states[ id ] );
-						} );
-					} else {
-						// Set default state if panel_states is invalid.
-						setStorePanelState( panelId, defaultOpen );
-					}
-				} else {
-					// Set default state if no saved state exists.
-					setStorePanelState( panelId, defaultOpen );
-				}
-			} )
-			.catch( () => {
-				if ( ! isMounted ) {
-					return;
-				}
-				// Set default state on error.
-				setStorePanelState( panelId, defaultOpen );
-			} );
-
-		return () => {
-			isMounted = false;
-		};
-	}, [] ); // Only run on mount.
-
 	/**
 	 * Set panel open state and save to user meta.
 	 *
-	 * @param {boolean} newState New open state.
+	 * @param {boolean} newState New open state (true = open, false = closed).
 	 */
 	const setIsOpen = useCallback(
 		( newState ) => {
 			setStorePanelState( panelId, newState );
 
-			// Update user meta with new state.
+			// Build payload with the toggled panel set to newState (use callback arg, not store, to avoid stale closure).
 			const updatedPanelStates = {
 				...allPanelStates,
-				[ panelId ]: newState,
+				[ panelId ]: Boolean( newState ),
 			};
 
 			// Send the full admin user meta structure.

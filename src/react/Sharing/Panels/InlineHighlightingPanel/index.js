@@ -283,7 +283,7 @@ const Interface = ( { watchFields } ) => {
 		<PanelBodyWithIndicator
 			title={ __( 'Inline Highlighting - Colors and Tooltips', 'highlight-and-share' ) }
 			initialOpen={ false }
-			panelId="inline-highlighting"
+			panelId="inlineHighlighting"
 			control={ control }
 			className="has-sharing-panel"
 			watchFields={ watchFields }

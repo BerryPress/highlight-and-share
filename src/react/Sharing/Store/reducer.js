@@ -3,19 +3,46 @@
  */
 
 /**
+ * Default panel states (used when no server data).
+ */
+const defaultPanels = {
+	socialNetworks: true,
+	displayRules: false,
+	appearance: false,
+	preview: true,
+	blockEditor: false,
+	inlineHighlighting: false,
+	advanced: false,
+};
+
+/**
+ * Get initial panel states from server (window.hasSharingAdmin.panelStates) when available.
+ * Ensures panels render with saved state on first paint regardless of registry timing.
+ *
+ * @return {Object} Panel states keyed by panel ID.
+ */
+function getInitialPanelsState() {
+	if ( typeof window === 'undefined' || ! window.hasSharingAdmin?.panelStates ) {
+		return defaultPanels;
+	}
+	const fromServer = window.hasSharingAdmin.panelStates;
+	if ( typeof fromServer !== 'object' ) {
+		return defaultPanels;
+	}
+	return {
+		...defaultPanels,
+		...Object.fromEntries(
+			Object.entries( fromServer ).map( ( [ id, value ] ) => [ id, !! value ] )
+		),
+	};
+}
+
+/**
  * Initial state.
  */
 const initialState = {
 	// Panel visibility state (keyed by panel ID).
-	panels: {
-		socialNetworks: true, // Default expanded.
-		displayRules: false,
-		appearance: false,
-		preview: true, // Default expanded.
-		blockEditor: false,
-		inlineHighlighting: false,
-		advanced: false,
-	},
+	panels: getInitialPanelsState(),
 	// Network data (loaded from PHP).
 	networks: {},
 	// Preview state.

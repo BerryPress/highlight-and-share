@@ -383,6 +383,34 @@ const SharingInterface = ( { defaults } ) => {
 		}
 	}, [ data, methods ] );
 
+	// Load panel states from user meta only when not already provided on initial page load.
+	useEffect( () => {
+		if ( window.hasSharingAdmin?.panelStates ) {
+			return;
+		}
+		let isMounted = true;
+		sendCommand( 'has_get_admin_user_meta', {
+			nonce: window.hasSharingAdmin?.userMetaNonce || '',
+		} )
+			.then( ( response ) => {
+				if ( ! isMounted ) {
+					return;
+				}
+				if ( response?.data?.success && response?.data?.data?.panel_states ) {
+					const panelStates = response.data.data.panel_states;
+					if ( typeof panelStates === 'object' ) {
+						Object.keys( panelStates ).forEach( ( id ) => {
+							dispatch( store ).setPanelState( id, !! panelStates[ id ] );
+						} );
+					}
+				}
+			} )
+			.catch( () => {} );
+		return () => {
+			isMounted = false;
+		};
+	}, [] );
+
 	const formValues = useWatch( {
 		control: methods.control,
 	} );

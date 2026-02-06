@@ -219,6 +219,7 @@ class Functions {
 	 * Get all fonts used for the blocks.
 	 *
 	 * @param array $blocks Array of blocks/innerblocks.
+	 * @param array $fonts  Array of fonts.
 	 */
 	public static function get_block_fonts( $blocks, $fonts = array() ) {
 		$devices = array(
@@ -294,6 +295,33 @@ class Functions {
 	/**
 	 * Take a _ separated field and convert to camelcase.
 	 *
+	 * @param array $fields Array of fields to convert to camelcase.
+	 *
+	 * @return string camelCased field.
+	 */
+	public static function to_camelcase_recursive( array $fields ) {
+		foreach ( $fields as $key => $value ) {
+			if ( is_numeric( $key ) || is_bool( $key ) ) {
+				continue;
+			}
+			// Store old key.
+			$old_key = $key;
+			if ( is_array( $value ) ) {
+				$value = self::to_camelcase_recursive( $value );
+			} else {
+				$key = self::to_camelcase( $key );
+			}
+			if ( $key !== $old_key ) {
+				unset( $fields[ $old_key ] );
+			}
+			$fields[ $key ] = $value;
+		}
+		return $fields;
+	}
+
+	/**
+	 * Take a _ separated field and convert to camelcase.
+	 *
 	 * @param string $field Field to convert to camelcase.
 	 *
 	 * @return string camelCased field.
@@ -326,7 +354,7 @@ class Functions {
 	 */
 	public static function to_underlines_recursive( array $fields ) {
 		foreach ( $fields as $key => $value ) {
-			if ( is_numeric( $key ) ) {
+			if ( is_numeric( $key ) || is_bool( $key ) ) {
 				continue;
 			}
 			// Store old key.

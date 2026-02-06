@@ -34,7 +34,7 @@ const Interface = ( { watchFields } ) => {
 		<PanelBodyWithIndicator
 			title={ __( 'Display Rules - Post Types and Content Areas', 'highlight-and-share' ) }
 			initialOpen={ false }
-			panelId="display-rules"
+			panelId="displayRules"
 			control={ control }
 			className="has-sharing-panel"
 			watchFields={ watchFields }

@@ -685,6 +685,8 @@ class Admin {
 					$post_types
 				);
 
+				$panel_states = $this->get_initial_panel_states_for_js();
+
 				wp_localize_script(
 					'has-sharing-admin-js',
 					'hasSharingAdmin',
@@ -697,6 +699,7 @@ class Admin {
 						'themes'             => Themes::get_main_themes(),
 						'colors'             => Themes::get_default_theme_colors(),
 						'themeOptionsCustom' => Options::get_theme_options(),
+						'panelStates'        => $panel_states,
 					)
 				);
 			}
@@ -1020,13 +1023,49 @@ class Admin {
 			$stored_value = array();
 		}
 
+		// Normalize panel_states from old meta that may have duplicate camelCase + snake_case keys.
+		$stored_value = $this->normalize_stored_panel_states( $stored_value );
+
 		// Merge defaults with stored values.
 		$merged_value = array_replace_recursive( $defaults, $stored_value );
 
 		// Sanitize the merged value.
 		$sanitized_value = $this->sanitize_admin_user_meta( $merged_value );
 
+		// Convert panel_states to camelCase for JS.
+		$sanitized_value['panel_states'] = Functions::to_camelcase_recursive( $sanitized_value['panel_states'] );
+
 		wp_send_json_success( $sanitized_value );
+	}
+
+	/**
+	 * Get panel states for the current user (camelCase for JS).
+	 *
+	 * Used to pass panel state on initial page load so panels render correctly before any AJAX.
+	 *
+	 * @return array Panel states keyed by camelCase panel ID (e.g. socialNetworks => true).
+	 */
+	public function get_initial_panel_states_for_js() {
+		$user_id = get_current_user_id();
+		if ( ! $user_id || ! current_user_can( 'manage_options' ) ) {
+			return array();
+		}
+
+		$user_meta_key = 'has_admin_user_meta';
+		$stored_value  = get_user_meta( $user_id, $user_meta_key, true );
+		$defaults      = $this->get_admin_user_meta_defaults();
+
+		if ( empty( $stored_value ) || ! is_array( $stored_value ) ) {
+			$stored_value = array();
+		}
+
+		$stored_value = $this->normalize_stored_panel_states( $stored_value );
+		$merged_value = array_replace_recursive( $defaults, $stored_value );
+		$sanitized    = $this->sanitize_admin_user_meta( $merged_value );
+		$panel_states = isset( $sanitized['panel_states'] ) ? $sanitized['panel_states'] : $defaults['panel_states'];
+
+		$panel_states = Functions::to_camelcase_recursive( $panel_states );
+		return $panel_states;
 	}
 
 	/**
@@ -1050,9 +1089,17 @@ class Admin {
 		}
 
 		$value = filter_input( INPUT_POST, 'value', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		$value = $this->normalize_stored_panel_states( $value );
 		if ( false === $value || ! is_array( $value ) ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid value.', 'highlight-and-share' ) ) );
 			return;
+		}
+
+		// Convert panel_states from camelCase (JS) to snake_case for storage.
+		if ( isset( $value['panel_states'] ) && is_array( $value['panel_states'] ) ) {
+			// Sanitise boolean values.
+			$value['panel_states'] = Functions::sanitize_array_recursive( $value['panel_states'] );
+			$value['panel_states'] = Functions::to_underlines_recursive( $value['panel_states'] );
 		}
 
 		// Get defaults and merge with incoming value.
@@ -1063,11 +1110,7 @@ class Admin {
 		$sanitized_value = $this->sanitize_admin_user_meta( $merged_value );
 
 		$user_meta_key = 'has_admin_user_meta';
-		$updated       = update_user_meta( $user_id, $user_meta_key, $sanitized_value );
-		if ( false === $updated ) {
-			wp_send_json_error( array( 'message' => __( 'Failed to update user meta.', 'highlight-and-share' ) ) );
-			return;
-		}
+		update_user_meta( $user_id, $user_meta_key, $sanitized_value );
 
 		wp_send_json_success( $sanitized_value );
 	}
@@ -1091,20 +1134,62 @@ class Admin {
 			$first_installed = current_time( 'mysql' );
 		}
 
+		// Use snake_case for panel_states so merge with converted incoming value has no duplicate keys.
 		$defaults = array(
 			'first_installed' => $first_installed,
 			'panel_states'    => array(
-				'socialNetworks'     => true, // Default expanded.
-				'displayRules'       => false,
-				'appearance'         => false,
-				'preview'            => true, // Default expanded.
-				'blockEditor'        => false,
-				'inlineHighlighting' => false,
-				'advanced'           => false,
+				'social_networks'     => true, // Default expanded.
+				'display_rules'       => false,
+				'appearance'          => false,
+				'preview'             => true, // Default expanded.
+				'block_editor'        => false,
+				'inline_highlighting' => false,
+				'advanced'            => false,
 			),
 		);
 
 		return $defaults;
+	}
+
+	/**
+	 * Normalize stored panel_states to snake_case only (no duplicate keys).
+	 *
+	 * Fixes old user meta that was saved with both camelCase and snake_case keys.
+	 * When both exist for a panel, prefers camelCase (last value from frontend).
+	 *
+	 * @param array $stored_value Raw stored user meta.
+	 * @return array Stored value with panel_states normalized to snake_case only.
+	 */
+	private function normalize_stored_panel_states( $stored_value ) {
+		if ( empty( $stored_value['panel_states'] ) || ! is_array( $stored_value['panel_states'] ) ) {
+			return $stored_value;
+		}
+
+		$allowed_panels = array(
+			'social_networks',
+			'display_rules',
+			'appearance',
+			'preview',
+			'block_editor',
+			'inline_highlighting',
+			'advanced',
+		);
+
+		$defaults   = $this->get_admin_user_meta_defaults();
+		$normalized = array();
+
+		foreach ( $allowed_panels as $panel_id ) {
+			$camel_key = Functions::to_camelcase( $panel_id );
+			$raw       = $stored_value['panel_states'][ $camel_key ] ?? $stored_value['panel_states'][ $panel_id ] ?? null;
+			if ( null !== $raw ) {
+				$normalized[ $panel_id ] = filter_var( $raw, FILTER_VALIDATE_BOOLEAN );
+			} else {
+				$normalized[ $panel_id ] = $defaults['panel_states'][ $panel_id ] ?? false;
+			}
+		}
+
+		$stored_value['panel_states'] = $normalized;
+		return $stored_value;
 	}
 
 	/**
@@ -1137,16 +1222,16 @@ class Admin {
 			$sanitized['first_installed'] = current_time( 'mysql' );
 		}
 
-		// Sanitize panel_states.
+		// Sanitize panel_states (keys are snake_case for storage).
 		if ( isset( $value['panel_states'] ) && is_array( $value['panel_states'] ) ) {
-			// Whitelist of allowed panel IDs.
+			// Whitelist of allowed panel IDs (snake_case).
 			$allowed_panels = array(
-				'socialNetworks',
-				'displayRules',
+				'social_networks',
+				'display_rules',
 				'appearance',
 				'preview',
-				'blockEditor',
-				'inlineHighlighting',
+				'block_editor',
+				'inline_highlighting',
 				'advanced',
 			);
 
@@ -1155,8 +1240,11 @@ class Admin {
 			// Only process whitelisted panel IDs.
 			foreach ( $allowed_panels as $panel_id ) {
 				if ( isset( $value['panel_states'][ $panel_id ] ) ) {
-					// Only allow boolean values.
-					$sanitized['panel_states'][ $panel_id ] = (bool) $value['panel_states'][ $panel_id ];
+					// Form data sends booleans as strings "true"/"false"; (bool) "false" is true in PHP.
+					$sanitized['panel_states'][ $panel_id ] = filter_var(
+						$value['panel_states'][ $panel_id ],
+						FILTER_VALIDATE_BOOLEAN
+					);
 				} else {
 					// Use default if not set.
 					$defaults                               = $this->get_admin_user_meta_defaults();

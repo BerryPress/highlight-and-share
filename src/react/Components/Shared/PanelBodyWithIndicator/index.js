@@ -69,7 +69,8 @@ const PanelBodyWithIndicator = ( {
 	return (
 		<PanelBody
 			title={ panelTitle }
-			initialOpen={ isOpen }
+			initialOpen={ defaultOpen }
+			opened={ isOpen }
 			onToggle={ handleToggle }
 			className={ className }
 			icon={ icon }

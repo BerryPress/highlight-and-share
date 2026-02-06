@@ -119,7 +119,7 @@ const Interface = ( { watchFields } ) => {
 		<PanelBodyWithIndicator
 			title={ __( 'Block Editor - Click to Share Block Settings', 'highlight-and-share' ) }
 			initialOpen={ false }
-			panelId="block-editor"
+			panelId="blockEditor"
 			control={ control }
 			className="has-sharing-panel"
 			watchFields={ watchFields }

@@ -1,7 +1,7 @@
 # Admin Interface Reorganization
 
 **Priority:** 2  
-**Status:** Planning  
+**Status:** In progress (user meta panel states remaining)  
 **Related Section:** Plan Section 2.11
 
 ## Overview
@@ -784,23 +784,24 @@ Each field will be mapped to its corresponding option key in the form state. Col
   - Initialize with default values from PHP backend
   - Use React Hook Form's `Controller` component for all form inputs
 
-- [ ] Implement `BlockEditorPanel` component using `PanelBody` (split from Block Editor tab)
+- [x] Implement `BlockEditorPanel` component using `PanelBody` (split from Block Editor tab)
   - Follow structure from `DisplayRulesPanel` as reference
   - Migrate block settings (`enableBlocks`) and Adobe Fonts settings
   - Use `ToggleControl` for toggles, appropriate controls for other settings
   - Default state: collapsed (`initialOpen={ false }`)
-- [ ] Implement `InlineHighlightingPanel` component using `PanelBody` (split from Block Editor tab)
+- [x] Implement `InlineHighlightingPanel` component using `PanelBody` (split from Block Editor tab)
   - Follow structure from `DisplayRulesPanel` as reference
   - Migrate all inline highlighting options (background colors, text colors, tooltips, etc.)
   - Use appropriate form controls for each setting type
   - Default state: collapsed (`initialOpen={ false }`)
-- [ ] Implement `AdvancedPanel` component using `PanelBody`
+- [x] Implement `AdvancedPanel` component using `PanelBody`
   - Follow structure from `DisplayRulesPanel` as reference
   - Migrate advanced settings (`jsContent`, `elementContent`, `idContent`, `wrapperClasses`, `shortlinks`)
   - Use `TextControl` for text inputs, `ToggleControl` for toggles
   - Default state: collapsed (`initialOpen={ false }`)
-- [ ] Integrate panel state persistence with `PanelBody`'s `initialOpen` prop using store + user meta
+- [ ] **User meta panel states (remaining):** Integrate panel state persistence with `PanelBody`'s `initialOpen` prop using store + user meta
   - Use existing `usePanelState` hook pattern from previous phases
+  - See [Remaining: User Meta Panel States](#remaining-user-meta-panel-states) below for concrete tasks and open questions.
 
 
 **Implementation Details:**
@@ -813,6 +814,41 @@ Each field will be mapped to its corresponding option key in the form state. Col
 - Animation: Use CSS transitions for slide-up/slide-down effect
 - Accessibility: Proper ARIA labels and keyboard navigation
 - **Reference existing panels:** Use `SocialNetworksPanel` and `DisplayRulesPanel` as templates for structure, form integration, and state management
+
+---
+
+### Remaining: User Meta Panel States
+
+Everything in this milestone is complete **except** persisting panel expand/collapse state to user meta and restoring it on load. The following is documented so the remaining work can be implemented without re-auditing.
+
+**Current state:**
+
+- `usePanelState` hook exists and is used by `PanelBodyWithIndicator`; it reads/writes the `has/sharing` store and calls `has_get_admin_user_meta` / `has_set_admin_user_meta` on load and on toggle.
+- PHP: `ajax_get_admin_user_meta` and `ajax_set_admin_user_meta` exist; user meta key `has_admin_user_meta` with `panel_states` (and `first_installed`); panel IDs are whitelisted and sanitized.
+- Store reducer initial state and PHP defaults use **camelCase** panel IDs: `socialNetworks`, `displayRules`, `appearance`, `preview`, `blockEditor`, `inlineHighlighting`, `advanced`.
+
+**Finding – panel ID mismatch:**
+
+- Some panels pass **kebab-case** `panelId`s: `display-rules`, `block-editor`, `inline-highlighting`.
+- PHP and the store use **camelCase**: `displayRules`, `blockEditor`, `inlineHighlighting`.
+- Result: for those three panels, saved state is stored under keys PHP does not whitelist, so persistence does not work and defaults are used after reload.
+
+**Tasks to complete (to be refined after questions):**
+
+1. **Align panel IDs:** Either (a) use camelCase `panelId` in all panels (`displayRules`, `blockEditor`, `inlineHighlighting`) to match store and PHP, or (b) add kebab-case IDs to the PHP whitelist and defaults and ensure the store accepts them. Recommendation: (a) for a single canonical set of IDs.
+2. **Load user meta once:** Right now every panel’s `usePanelState` runs a mount effect that calls `has_get_admin_user_meta`, so N panels cause N identical requests. Consider loading user meta once (e.g. in Sharing tab or store bootstrap) and having panels only read from the store.
+3. **Verify round-trip:** After ID alignment and optional single-load, confirm: load page → toggle panels → reload → panel states match last toggles; check network tab for one get and one set per toggle.
+
+**Questions before documenting the remaining tasks in more detail:**
+
+1. **Panel IDs:** Prefer aligning React to PHP (camelCase in all panels) or PHP to React (allow kebab-case in whitelist)? CamelCase is already used in the store and PHP defaults. **Answer** Use camelCase in JS. Use underline and convert functions in ``Functions.php`` before storing and reading from PHP.
+2. **Single load:** Should we document/implement “load user meta once on Sharing mount” as a required task, or is multiple requests on load acceptable for now? **Answer** Prefer to load only once as needed.
+3. **Nonce / action names:** The hook uses `has_get_admin_user_meta` and `has_set_admin_user_meta`; PHP registers `wp_ajax_has_get_admin_user_meta` and `wp_ajax_has_set_admin_user_meta`. Confirm these are the correct action names and that `userMetaNonce` is passed and validated as expected. **Answer** Correct.
+4. **Scope of “user meta panel states”:** Is the only remaining work the above (IDs + optional single load + verification), or are there other requirements (e.g. debouncing saves, or persisting something beyond expand/collapse)? **Answer** Only panels for now.
+
+Once these are answered, the “Remaining: User Meta Panel States” subsection can be updated with step-by-step implementation tasks and any code references.
+
+---
 
 ### Phase 7: Migration & Refactoring
 

@@ -7,7 +7,7 @@ import { createRoot } from 'react-dom/client';
 import { createPortal } from 'react-dom';
 import { Slot, SlotFillProvider } from '@wordpress/components';
 import Sharing from './sharing';
-import './Store'; // Register the store.
+import './Store'; // Register the store (initial state already includes window.hasSharingAdmin.panelStates).
 
 const container = document.getElementById( 'has-sharing-admin' );
 const slotContainer = document.getElementById( 'has-admin-container-slot' );

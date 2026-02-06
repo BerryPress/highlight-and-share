@@ -25590,7 +25590,8 @@ var PanelBodyWithIndicator = function PanelBodyWithIndicator(_ref) {
   }));
   return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.PanelBody, _extends({
     title: panelTitle,
-    initialOpen: isOpen,
+    initialOpen: defaultOpen,
+    opened: isOpen,
     onToggle: handleToggle,
     className: className,
     icon: icon
@@ -27435,14 +27436,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 /**
  * Hook for managing panel state with user meta persistence.
+ *
+ * Panel states are loaded once by the Sharing tab; this hook only reads from
+ * the store and persists changes on toggle.
  */
 
 
@@ -27486,62 +27490,24 @@ function usePanelState(panelId) {
   var dispatch = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useDispatch)(STORE_NAME);
   var setStorePanelState = (dispatch === null || dispatch === void 0 ? void 0 : dispatch.setPanelState) || function () {};
 
-  // Load panel states from user meta on mount (only once).
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var _window$hasSharingAdm;
-    var isMounted = true;
-    (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_2__["default"])('has_get_admin_user_meta', {
-      nonce: ((_window$hasSharingAdm = window.hasSharingAdmin) === null || _window$hasSharingAdm === void 0 ? void 0 : _window$hasSharingAdm.userMetaNonce) || ''
-    }).then(function (response) {
-      var _response$data, _response$data2;
-      if (!isMounted) {
-        return;
-      }
-      if (response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.success && response !== null && response !== void 0 && (_response$data2 = response.data) !== null && _response$data2 !== void 0 && _response$data2.data) {
-        var adminUserMeta = response.data.data;
-        // Restore panel states from user meta.
-        if (adminUserMeta !== null && adminUserMeta !== void 0 && adminUserMeta.panel_states && _typeof(adminUserMeta.panel_states) === 'object') {
-          Object.keys(adminUserMeta.panel_states).forEach(function (id) {
-            setStorePanelState(id, adminUserMeta.panel_states[id]);
-          });
-        } else {
-          // Set default state if panel_states is invalid.
-          setStorePanelState(panelId, defaultOpen);
-        }
-      } else {
-        // Set default state if no saved state exists.
-        setStorePanelState(panelId, defaultOpen);
-      }
-    })["catch"](function () {
-      if (!isMounted) {
-        return;
-      }
-      // Set default state on error.
-      setStorePanelState(panelId, defaultOpen);
-    });
-    return function () {
-      isMounted = false;
-    };
-  }, []); // Only run on mount.
-
   /**
    * Set panel open state and save to user meta.
    *
-   * @param {boolean} newState New open state.
+   * @param {boolean} newState New open state (true = open, false = closed).
    */
   var setIsOpen = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (newState) {
-    var _window$hasSharingAdm2;
+    var _window$hasSharingAdm;
     setStorePanelState(panelId, newState);
 
-    // Update user meta with new state.
-    var updatedPanelStates = _objectSpread(_objectSpread({}, allPanelStates), {}, _defineProperty({}, panelId, newState));
+    // Build payload with the toggled panel set to newState (use callback arg, not store, to avoid stale closure).
+    var updatedPanelStates = _objectSpread(_objectSpread({}, allPanelStates), {}, _defineProperty({}, panelId, Boolean(newState)));
 
     // Send the full admin user meta structure.
     (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_2__["default"])('has_set_admin_user_meta', {
       value: {
         panel_states: updatedPanelStates
       },
-      nonce: ((_window$hasSharingAdm2 = window.hasSharingAdmin) === null || _window$hasSharingAdm2 === void 0 ? void 0 : _window$hasSharingAdm2.userMetaNonce) || ''
+      nonce: ((_window$hasSharingAdm = window.hasSharingAdmin) === null || _window$hasSharingAdm === void 0 ? void 0 : _window$hasSharingAdm.userMetaNonce) || ''
     })["catch"](function () {
       // Silently fail if user meta update fails.
     });
@@ -28075,7 +28041,7 @@ var Interface = function Interface(_ref) {
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_5__["default"], {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Block Editor - Click to Share Block Settings', 'highlight-and-share'),
     initialOpen: false,
-    panelId: "block-editor",
+    panelId: "blockEditor",
     control: control,
     className: "has-sharing-panel",
     watchFields: watchFields
@@ -28274,7 +28240,7 @@ var Interface = function Interface(_ref) {
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_4__["default"], {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Display Rules - Post Types and Content Areas', 'highlight-and-share'),
     initialOpen: false,
-    panelId: "display-rules",
+    panelId: "displayRules",
     control: control,
     className: "has-sharing-panel",
     watchFields: watchFields
@@ -28742,7 +28708,7 @@ var Interface = function Interface(_ref) {
   return /*#__PURE__*/React.createElement(_Components_Shared_PanelBodyWithIndicator__WEBPACK_IMPORTED_MODULE_5__["default"], {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Inline Highlighting - Colors and Tooltips', 'highlight-and-share'),
     initialOpen: false,
-    panelId: "inline-highlighting",
+    panelId: "inlineHighlighting",
     control: control,
     className: "has-sharing-panel",
     watchFields: watchFields
@@ -29294,32 +29260,64 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 /**
  * Reducer for Sharing tab store.
  */
+
+/**
+ * Default panel states (used when no server data).
+ */
+var defaultPanels = {
+  socialNetworks: true,
+  displayRules: false,
+  appearance: false,
+  preview: true,
+  blockEditor: false,
+  inlineHighlighting: false,
+  advanced: false
+};
+
+/**
+ * Get initial panel states from server (window.hasSharingAdmin.panelStates) when available.
+ * Ensures panels render with saved state on first paint regardless of registry timing.
+ *
+ * @return {Object} Panel states keyed by panel ID.
+ */
+function getInitialPanelsState() {
+  var _window$hasSharingAdm;
+  if (typeof window === 'undefined' || !((_window$hasSharingAdm = window.hasSharingAdmin) !== null && _window$hasSharingAdm !== void 0 && _window$hasSharingAdm.panelStates)) {
+    return defaultPanels;
+  }
+  var fromServer = window.hasSharingAdmin.panelStates;
+  if (_typeof(fromServer) !== 'object') {
+    return defaultPanels;
+  }
+  return _objectSpread(_objectSpread({}, defaultPanels), Object.fromEntries(Object.entries(fromServer).map(function (_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+      id = _ref2[0],
+      value = _ref2[1];
+    return [id, !!value];
+  })));
+}
 
 /**
  * Initial state.
  */
 var initialState = {
   // Panel visibility state (keyed by panel ID).
-  panels: {
-    socialNetworks: true,
-    // Default expanded.
-    displayRules: false,
-    appearance: false,
-    preview: true,
-    // Default expanded.
-    blockEditor: false,
-    inlineHighlighting: false,
-    advanced: false
-  },
+  panels: getInitialPanelsState(),
   // Network data (loaded from PHP).
   networks: {},
   // Preview state.
@@ -29523,13 +29521,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Panels_AdvancedPanel__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Panels/AdvancedPanel */ "./src/react/Sharing/Panels/AdvancedPanel/index.js");
 /* harmony import */ var _Components_SaveBar__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../Components/SaveBar */ "./src/react/Components/SaveBar/index.js");
 /* harmony import */ var _Components_Snackbar__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../Components/Snackbar */ "./src/react/Components/Snackbar/index.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -29818,6 +29816,34 @@ var SharingInterface = function SharingInterface(_ref) {
       setCheckpointData(data);
     }
   }, [data, methods]);
+
+  // Load panel states from user meta only when not already provided on initial page load.
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    var _window$hasSharingAdm2, _window$hasSharingAdm3;
+    if ((_window$hasSharingAdm2 = window.hasSharingAdmin) !== null && _window$hasSharingAdm2 !== void 0 && _window$hasSharingAdm2.panelStates) {
+      return;
+    }
+    var isMounted = true;
+    (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__["default"])('has_get_admin_user_meta', {
+      nonce: ((_window$hasSharingAdm3 = window.hasSharingAdmin) === null || _window$hasSharingAdm3 === void 0 ? void 0 : _window$hasSharingAdm3.userMetaNonce) || ''
+    }).then(function (response) {
+      var _response$data, _response$data2;
+      if (!isMounted) {
+        return;
+      }
+      if (response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.success && response !== null && response !== void 0 && (_response$data2 = response.data) !== null && _response$data2 !== void 0 && (_response$data2 = _response$data2.data) !== null && _response$data2 !== void 0 && _response$data2.panel_states) {
+        var panelStates = response.data.data.panel_states;
+        if (_typeof(panelStates) === 'object') {
+          Object.keys(panelStates).forEach(function (id) {
+            (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setPanelState(id, !!panelStates[id]);
+          });
+        }
+      }
+    })["catch"](function () {});
+    return function () {
+      isMounted = false;
+    };
+  }, []);
   var formValues = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_1__.useWatch)({
     control: methods.control
   });
@@ -29873,11 +29899,11 @@ var SharingInterface = function SharingInterface(_ref) {
       setCheckpointData(checkpoint, false);
     },
     onSave: function onSave() {
-      var _window$hasSharingAdm2;
+      var _window$hasSharingAdm4;
       // Save the form data.
       setSaving(true);
       (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__["default"])('has_save_settings_tab', {
-        nonce: (_window$hasSharingAdm2 = window.hasSharingAdmin) === null || _window$hasSharingAdm2 === void 0 ? void 0 : _window$hasSharingAdm2.saveNonce,
+        nonce: (_window$hasSharingAdm4 = window.hasSharingAdmin) === null || _window$hasSharingAdm4 === void 0 ? void 0 : _window$hasSharingAdm4.saveNonce,
         form_data: formValues
       }).then(function (ajaxResponse) {
         var _ajaxResponse$data = ajaxResponse.data,
@@ -29910,11 +29936,11 @@ var SharingInterface = function SharingInterface(_ref) {
       });
     },
     onReset: function onReset() {
-      var _window$hasSharingAdm3;
+      var _window$hasSharingAdm5;
       // Reset the form data.
       setResetting(true);
       (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__["default"])('has_reset_settings_tab', {
-        nonce: (_window$hasSharingAdm3 = window.hasSharingAdmin) === null || _window$hasSharingAdm3 === void 0 ? void 0 : _window$hasSharingAdm3.resetNonce
+        nonce: (_window$hasSharingAdm5 = window.hasSharingAdmin) === null || _window$hasSharingAdm5 === void 0 ? void 0 : _window$hasSharingAdm5.resetNonce
       }).then(function (ajaxResponse) {
         var _ajaxResponse$data2 = ajaxResponse.data,
           ajaxData = _ajaxResponse$data2.data,
@@ -31483,7 +31509,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // Register the store.
+ // Register the store (initial state already includes window.hasSharingAdmin.panelStates).
 
 var container = document.getElementById('has-sharing-admin');
 var slotContainer = document.getElementById('has-admin-container-slot');
