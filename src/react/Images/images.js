@@ -211,6 +211,7 @@ const Interface = ( props ) => {
 			enableWebshareSharing: data.enableWebshareSharing,
 			excludeLeadingImage: data.excludeLeadingImage,
 			enableImageSharingOnExcerpts: data.enableImageSharingOnExcerpts,
+			enableImageSharingOnArchiveFeatured: data.enableImageSharingOnArchiveFeatured ?? false,
 			supportedPostTypes: data.supportedPostTypes,
 			location: data.location,
 			showOnHover: data.showOnHover,
@@ -438,6 +439,31 @@ const Interface = ( props ) => {
 										) }
 									/>
 								</div>
+								{ formValues.enableImageSharing && (
+									<div className="has-admin-component-row">
+										<Controller
+											name="enableImageSharingOnArchiveFeatured"
+											control={ control }
+											render={ ( { field: { onChange, value } } ) => (
+												<ToggleControl
+													label={ __(
+														'Enable Image Sharing on Archive Featured Images',
+														'highlight-and-share'
+													) }
+													className="has-admin__toggle-control"
+													checked={ value }
+													onChange={ ( boolValue ) => {
+														onChange( boolValue );
+													} }
+													help={ __(
+														'Show sharing on featured images (post thumbnails) on archive pages only. Single posts/pages do not show featured image sharing unless enabled via developer filter.',
+														'highlight-and-share'
+													) }
+												/>
+											) }
+										/>
+									</div>
+								) }
 								<div className="has-admin-component-row">
 									<BaseControl
 										id="supportedPostTypes"

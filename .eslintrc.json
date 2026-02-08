@@ -11,7 +11,9 @@
 		"highlight_and_share": "readonly",
 		"React": "readonly",
 		"hasFooterJS": "readonly",
-		"hasSupportAdmin": "readonly"
+		"hasSupportAdmin": "readonly",
+		"hasImageSharing": "readonly",
+		"dataLayer": "readonly"
 	},
 	"env": {
 		"browser": true,

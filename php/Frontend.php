@@ -857,6 +857,26 @@ class Frontend {
 			return $html;
 		}
 
+		// Featured image sharing: archives only by default (option); singular only via filter.
+		$on_archive = is_post_type_archive() || is_home();
+		if ( $on_archive ) {
+			if ( ! (bool) $options['enable_image_sharing_on_archive_featured'] ) {
+				return $html;
+			}
+		} else {
+			/**
+			 * Filter: has_enable_image_sharing_on_singular_featured
+			 *
+			 * Allow image sharing on featured images (post thumbnails) on singular posts/pages.
+			 * Default is false to avoid large hero images with sharing buttons; enable via filter if desired.
+			 *
+			 * @param bool $enable True to show sharing on singular featured images.
+			 */
+			if ( ! apply_filters( 'has_enable_image_sharing_on_singular_featured', false ) ) {
+				return $html;
+			}
+		}
+
 		$dom = new \DOMDocument( '1.0', 'UTF-8' );
 		try {
 			libxml_use_internal_errors( true );
@@ -2239,7 +2259,7 @@ class Frontend {
 			);
 			wp_localize_script(
 				'has-image-sharing',
-				'has_image_sharing',
+				'hasImageSharing',
 				array(
 					'enable_webshare_image_only' => (bool) $image_options_for_script['webshare_share_image_only'],
 				)

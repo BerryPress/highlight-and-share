@@ -2,16 +2,16 @@
  * Image sharing (Pinterest and Web Share API) for Highlight and Share.
  *
  * Runs independently of the main highlight-and-share script. Expects global
- * has_image_sharing (from wp_localize_script) with enable_webshare_image_only.
+ * hasImageSharing (from wp_localize_script) with enable_webshare_image_only.
  */
 ( function() {
 	'use strict';
 
-	if ( 'undefined' === typeof has_image_sharing ) {
+	if ( 'undefined' === typeof hasImageSharing ) {
 		return;
 	}
 
-	const config = has_image_sharing;
+	const config = hasImageSharing;
 
 	/**
 	 * Get page URL from HAS placeholder or current window.
@@ -121,6 +121,7 @@
 			} )
 			.catch( ( err ) => {
 				if ( err.name !== 'AbortError' ) {
+					// eslint-disable-next-line no-console
 					console.warn( 'Highlight and Share: Web Share failed', err );
 				}
 			} );
@@ -187,38 +188,49 @@
 	};
 
 	/**
-	 * Start preloading the image for this webshare button (on hover or touch). Only when image-only is enabled.
+	 * Start preloading the image for this wrapper (on hover or touch of the image). Only when image-only is enabled.
 	 *
-	 * @param {Element} el Webshare button element.
+	 * @param {Element} wrapper .has-pin-image-wrapper element.
 	 */
-	const startPreloadForButton = ( el ) => {
+	const startPreloadForWrapper = ( wrapper ) => {
 		if ( ! config.enable_webshare_image_only ) {
 			return;
 		}
-		const parent = el.closest( '.has-pin-image-wrapper' );
-		if ( ! parent ) {
-			return;
-		}
-		const payload = getSharePayloadFromWrapper( parent );
+		const payload = getSharePayloadFromWrapper( wrapper );
 		if ( payload.imageUrl ) {
 			preloadImageBlob( payload.imageUrl );
 		}
 	};
 
 	/**
+	 * Image wrappers: preload blob when user hovers over or touches the image (not just the share button).
+	 */
+	const imageWrappers = document.querySelectorAll( '.has-pin-image-wrapper' );
+	if ( null !== imageWrappers && config.enable_webshare_image_only ) {
+		imageWrappers.forEach( ( wrapper ) => {
+			wrapper.addEventListener( 'pointerenter', () =>
+				startPreloadForWrapper( wrapper )
+			);
+			wrapper.addEventListener(
+				'touchstart',
+				() => startPreloadForWrapper( wrapper ),
+				{
+					passive: true,
+				}
+			);
+		} );
+	}
+
+	/**
 	 * Webshare Button.
-	 * Preload image blob on hover (pointerenter) or touch (touchstart) so share() can use it in the user gesture.
 	 * Use pointerdown and touchend so share() runs in the same user gesture.
 	 */
 	const webshareButton = document.querySelectorAll( '.has-pin-svg-webshare' );
 	if ( null !== webshareButton ) {
 		webshareButton.forEach( ( el ) => {
-			el.addEventListener( 'pointerenter', () => startPreloadForButton( el ) );
-			el.addEventListener( 'touchstart', () => startPreloadForButton( el ), {
-				passive: true,
-			} );
-
 			const handleWebShare = ( event ) => {
+				event.preventDefault();
+				event.stopPropagation();
 				if ( event.type === 'pointerdown' && event.pointerType === 'touch' ) {
 					return;
 				}
@@ -227,8 +239,6 @@
 				if ( ! parent ) {
 					return;
 				}
-				event.preventDefault();
-				event.stopPropagation();
 
 				const payload = getSharePayloadFromWrapper( parent );
 
@@ -244,20 +254,14 @@
 							} )
 							.catch( ( err ) => {
 								if ( err.name !== 'AbortError' ) {
+									// eslint-disable-next-line no-console
 									console.warn( 'Highlight and Share: Web Share failed', err );
 								}
-								doShareUrl(
-									payload.title,
-									'',
-									payload.imageUrl || payload.shareUrl
-								);
+								// Do not call doShareUrl() here: that would trigger a second share()
+								// and can cause "An earlier share has not yet completed" or double sheet.
 							} );
 					} else {
-						doShareUrl(
-							payload.title,
-							'',
-							payload.imageUrl || payload.shareUrl
-						);
+						doShareUrl( payload.title, '', payload.imageUrl || payload.shareUrl );
 					}
 				} else {
 					// Avoid duplicate: use text only when it differs from title.
