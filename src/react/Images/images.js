@@ -140,34 +140,36 @@ const Preview = ( props ) => {
 			label={ previewLabel }
 		>
 			<style>{ styles }</style>
-			<div className={ imageWrapperClasses }>
-				<div className={ classes }>
-					{ formValues.enablePinterestSharing && (
-						<span className="has-pin-svg-pinterest has-pin-button">
-							<FontAwesomeIcon icon={ faPinterest } />
-							{
-								formValues.showButtonLabels && (
-									<span className="has-icon-label">
-										{ formValues.pinterestButtonLabel }
-									</span>
-								)
-							}
-						</span>
-					) }
-					{
-						formValues.enableWebshareSharing && (
-							<span className="has-pin-svg-webshare has-pin-button">
-								<FontAwesomeIcon icon={ ShareIcon } />
+			<div className="has-admin-pinterest-preview-inner">
+				<div className={ imageWrapperClasses }>
+					<div className={ classes }>
+						{ formValues.enablePinterestSharing && (
+							<span className="has-pin-svg-pinterest has-pin-button">
+								<FontAwesomeIcon icon={ faPinterest } />
 								{
 									formValues.showButtonLabels && (
 										<span className="has-icon-label">
-											{ formValues.webshareButtonLabel }
+											{ formValues.pinterestButtonLabel }
 										</span>
 									)
 								}
 							</span>
-						)
-					}
+						) }
+						{
+							formValues.enableWebshareSharing && (
+								<span className="has-pin-svg-webshare has-pin-button">
+									<FontAwesomeIcon icon={ ShareIcon } />
+									{
+										formValues.showButtonLabels && (
+											<span className="has-icon-label">
+												{ formValues.webshareButtonLabel }
+											</span>
+										)
+									}
+								</span>
+							)
+						}
+					</div>
 				</div>
 			</div>
 		</BaseControl>
