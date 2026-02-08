@@ -509,6 +509,12 @@ class Frontend {
 		if ( is_admin() || is_feed() || ( ! is_singular() && ! is_page() && ! is_single() ) ) {
 			return $content;
 		}
+
+		// Avoid re-processing and infinite nesting when page builders call the_content multiple times.
+		if ( false !== strpos( $content, 'has-pin-image-wrapper' ) ) {
+			return $content;
+		}
+
 		$options = Options::get_image_options();
 
 		// If image sharing is not enabled, exit early.
@@ -594,8 +600,12 @@ class Frontend {
 			$sharing_wrapper_css[] = 'has-appearance-circle';
 		}
 
-		// Get all images.
-		$images   = $dom->getElementsByTagName( 'img' );
+		// Get all images. Copy to array to avoid live-node-list issues when modifying DOM during iteration.
+		$images_list = $dom->getElementsByTagName( 'img' );
+		$images      = array();
+		foreach ( $images_list as $img_node ) {
+			$images[] = $img_node;
+		}
 		$can_skip = false;
 		foreach ( $images as $image ) {
 			// Skip leading image if enabled.
