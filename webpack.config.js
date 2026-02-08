@@ -41,6 +41,7 @@ module.exports = ( env ) => {
 				'has-gfont-source-sans-pro': { import: './src/scss/fonts/source-sans-pro.scss' },
 				'has-shortcode-themes': { import: './src/shortcode-themes.scss' },
 				'highlight-and-share': [ './src/frontendjs/highlight-and-share.js' ],
+				'has-image-sharing': [ './src/frontendjs/has-image-sharing.js' ],
 				'has-cf-turnstile': [ './src/frontendjs/turnstile.js' ],
 
 			},

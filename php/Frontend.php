@@ -168,6 +168,13 @@ class Frontend {
 
 		// Add Pinterest and Web Share to image tags. WP 6.2 and up.
 		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 15 );
+		$image_options = Options::get_image_options();
+		if ( ! empty( $image_options['enable_image_sharing'] ) ) {
+			if ( ! empty( $image_options['enable_image_sharing_on_excerpts'] ) ) {
+				add_filter( 'the_excerpt', array( $this, 'add_image_sharing_html' ), 15 );
+			}
+			add_filter( 'post_thumbnail_html', array( $this, 'add_featured_image_sharing_html' ), 15, 5 );
+		}
 		add_filter( 'et_pb_post_content_shortcode_output', array( $this, 'add_image_sharing_html' ), 11 );
 
 		// For the Click to Share Shortcode.
@@ -500,86 +507,53 @@ class Frontend {
 	}
 
 	/**
-	 * Add Pinterest/Webshare to image tags where applicable.
+	 * Whether to load the image sharing script (and thus enqueue it) on this request.
 	 *
-	 * @param string $content The content HTML.
+	 * Mirrors the context and post-type checks used by add_image_sharing_html so the script
+	 * is only enqueued when image sharing could actually run.
+	 *
+	 * @return bool True if the image sharing script should be enqueued.
 	 */
-	public function add_image_sharing_html( $content ) {
-		// Allowed contexts: singular (single post/page/CPT) or post type archive when filter allows.
-		$on_singular = is_singular() || is_page() || is_single();
-		/**
-		 * Filter: has_pin_show_on_archives
-		 *
-		 * Allow image sharing (Pinterest/Web Share) on post type archive pages. Default true.
-		 *
-		 * @param bool $show Whether to run image sharing on archives. Default true.
-		 * @param string $post_type The post type.
-		 * @return bool Whether to show image sharing on archives.
-		 * @since 6.0.0
-		 */
-		$on_archive = is_post_type_archive() && apply_filters( 'has_pin_show_on_archives', true, get_post_type() );
-		if ( is_admin() || is_feed() || ( ! $on_singular && ! $on_archive ) ) {
-			return $content;
+	private function should_load_image_sharing_script() {
+		if ( is_admin() || is_feed() ) {
+			return false;
 		}
 
-		// Avoid re-processing and infinite nesting when page builders call the_content multiple times.
-		if ( false !== strpos( $content, 'has-pin-image-wrapper' ) ) {
-			return $content;
+		$on_singular = is_singular() || is_page() || is_single();
+		/** This filter is documented in add_image_sharing_html. */
+		$on_archive = ( is_post_type_archive() || is_home() ) && apply_filters( 'has_pin_show_on_archives', true, get_post_type() );
+		if ( ! $on_singular && ! $on_archive ) {
+			return false;
 		}
 
 		$options = Options::get_image_options();
-
-		// If image sharing is not enabled, exit early.
 		if ( ! (bool) $options['enable_image_sharing'] ) {
-			return $content;
+			return false;
 		}
 
-		// Load for supported post types.
-		$post_types = $options['supported_post_types'];
-		// Get enabled post types.
-		$supported_post_types = array();
+		$post_types      = $options['supported_post_types'];
+		$supported_slugs = array();
 		foreach ( $post_types as $post_type => $enabled ) {
 			if ( $enabled ) {
-				$supported_post_types[] = $post_type;
+				$supported_slugs[] = $post_type;
 			}
 		}
-		$supported_post_types = apply_filters( 'has_pin_supported_post_types', $supported_post_types );
-		$can_show_on_post     = in_array( get_post_type(), $supported_post_types, true );
+		$supported_slugs = apply_filters( 'has_pin_supported_post_types', $supported_slugs );
+		return in_array( get_post_type(), $supported_slugs, true );
+	}
 
-		// If we're not on a supported post type, bail.
-		if ( ! $can_show_on_post ) {
-			return $content;
-		}
+	/**
+	 * Get wrapper and sharing-button CSS class arrays for image sharing from options.
+	 *
+	 * @param array $options Image options from Options::get_image_options().
+	 * @return array{0: array, 1: array} [ $css_classes, $sharing_wrapper_css ].
+	 */
+	private function get_image_sharing_css_classes( $options ) {
+		$show_on_hover      = (bool) $options['show_on_hover'];
+		$sharing_location   = $options['location'];
+		$show_button_labels = (bool) $options['show_button_labels'];
+		$button_shape       = $options['button_shape'];
 
-		// Remove the filter to avoid infinite nesting when page builders call the_content multiple times.
-		remove_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 15 );
-
-		$dom = new \DOMDocument( '1.0', 'UTF-8' );
-		try {
-			libxml_use_internal_errors( true );
-			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD ); // phpcs:ignore 
-			libxml_clear_errors();
-
-		} catch ( \Exception $e ) {
-			add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 15 );
-			return $content;
-		}
-		$options = Options::get_image_options();
-
-		// Get core exclusions.
-		$core_exclusions = array(
-			'has-no-pin',
-		);
-
-		$can_show_pinterest    = (bool) $options['enable_pinterest_sharing'];
-		$can_show_webshare     = (bool) $options['enable_webshare_sharing'];
-		$show_on_hover         = (bool) $options['show_on_hover'];
-		$sharing_location      = $options['location'];
-		$show_button_labels    = (bool) $options['show_button_labels'];
-		$exclude_leading_image = (bool) $options['exclude_leading_image'];
-		$button_shape          = $options['button_shape'];
-
-		// Get image wrapper CSS classes.
 		$css_classes = array( 'has-pin-image-wrapper' );
 		if ( 'top-left' === $sharing_location ) {
 			$css_classes[] = 'has-pin-top-left';
@@ -601,7 +575,6 @@ class Frontend {
 		}
 		$css_classes = apply_filters( 'has_pin_image_css_classes', $css_classes );
 
-		// Get SVG wrapper CSS.
 		$sharing_wrapper_css = array( 'has-pin-sharing-icons' );
 		if ( $show_button_labels ) {
 			$sharing_wrapper_css[] = 'has-icon-label';
@@ -616,6 +589,213 @@ class Frontend {
 			$sharing_wrapper_css[] = 'has-appearance-circle';
 		}
 
+		return array( $css_classes, $sharing_wrapper_css );
+	}
+
+	/**
+	 * Wrap a single image node with the Pinterest/Web Share wrapper and buttons.
+	 *
+	 * @param \DOMDocument $dom                  Document containing the image.
+	 * @param \DOMNode     $image                The img element to wrap.
+	 * @param array        $options              Image options from Options::get_image_options().
+	 * @param array        $css_classes          Wrapper CSS classes (e.g. has-pin-image-wrapper).
+	 * @param array        $sharing_wrapper_css  Inner sharing span CSS classes.
+	 * @param string       $context              One of 'content', 'excerpt', 'thumbnail'.
+	 * @return bool True if the image was wrapped, false if skipped (exclusion).
+	 */
+	private function wrap_single_image_with_sharing( $dom, $image, $options, $css_classes, $sharing_wrapper_css, $context = 'content' ) {
+		$image_element  = $dom->saveHTML( $image );
+		$parent_element = $image->parentNode;
+		if ( $parent_element && 'a' === strtolower( $parent_element->nodeName ) ) {
+			$parent_element = $parent_element->parentNode;
+		}
+		while ( $parent_element && 'figure' === strtolower( $parent_element->nodeName ) ) {
+			$next = $parent_element->parentNode;
+			if ( $next && 'figure' === strtolower( $next->nodeName ) ) {
+				$parent_element = $next;
+			} else {
+				break;
+			}
+		}
+		$parent_html = '';
+		if ( $parent_element ) {
+			$parent_html = $dom->saveHTML( $parent_element );
+		}
+
+		$core_exclusions = array( 'has-no-pin' );
+		/** This filter is documented in add_image_sharing_html. */
+		$core_exclusions = apply_filters( 'has_pin_core_exclusions', $core_exclusions );
+		if ( 'excerpt' === $context ) {
+			/** This filter is documented in add_image_sharing_html. */
+			$core_exclusions = apply_filters( 'has_pin_excerpt_exclusions', $core_exclusions );
+		}
+
+		$exclusions = array_merge( $core_exclusions, array_map( 'trim', explode( ',', sanitize_text_field( $options['exclusions'] ) ) ) );
+		$exclusions = array_unique( array_filter( $exclusions ) );
+
+		$found_exclusion = false;
+		if ( ! empty( $exclusions ) ) {
+			foreach ( $exclusions as $exclusion ) {
+				if ( false !== strpos( $image_element, $exclusion ) || false !== strpos( $parent_html, $exclusion ) ) {
+					$found_exclusion = true;
+					break;
+				}
+			}
+		}
+		if ( $found_exclusion ) {
+			return false;
+		}
+
+		$can_show_pinterest = (bool) $options['enable_pinterest_sharing'];
+		$can_show_webshare  = (bool) $options['enable_webshare_sharing'];
+		$show_button_labels = (bool) $options['show_button_labels'];
+
+		$wrapper = $dom->createElement( 'span' );
+		$wrapper->setAttribute( 'class', implode( ' ', $css_classes ) );
+		$image->parentNode->replaceChild( $wrapper, $image );
+		$wrapper->appendChild( $image );
+
+		$svg = $dom->createElement( 'span' );
+		$svg->setAttribute( 'class', implode( ' ', $sharing_wrapper_css ) );
+
+		if ( $can_show_pinterest ) {
+			if ( $show_button_labels ) {
+				$pin_label     = $options['pinterest_button_label'];
+				$svg_inner_tag = $dom->createElement( 'span' );
+				$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-pinterest has-pin-button' );
+				$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+				$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+				$svg_use = $dom->createElement( 'use' );
+				$svg_use->setAttribute( 'xlink:href', '#has-pinterest' );
+				$svg_use_wrapper = $dom->createElement( 'svg' );
+				$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
+				$svg_use_wrapper->appendChild( $svg_use );
+				$svg_inner_tag->appendChild( $svg_use_wrapper );
+				$svg_span = $dom->createElement( 'span' );
+				$svg_span->setAttribute( 'className', 'has-icon-label' );
+				$svg_span->nodeValue = esc_html( $pin_label );
+				$svg_inner_tag->appendChild( $svg_span );
+				$svg->appendChild( $svg_inner_tag );
+			} else {
+				$svg_inner_tag = $dom->createElement( 'span' );
+				$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-pinterest has-pin-button' );
+				$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+				$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+				$svg_use = $dom->createElement( 'use' );
+				$svg_use->setAttribute( 'xlink:href', '#has-pinterest' );
+				$svg_use_wrapper = $dom->createElement( 'svg' );
+				$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
+				$svg_use_wrapper->appendChild( $svg_use );
+				$svg_inner_tag->appendChild( $svg_use_wrapper );
+				$svg->appendChild( $svg_inner_tag );
+			}
+		}
+		if ( $can_show_webshare ) {
+			if ( $show_button_labels ) {
+				$webshare_label = $options['webshare_button_label'];
+				$svg_inner_tag  = $dom->createElement( 'span' );
+				$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-webshare has-pin-button' );
+				$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+				$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+				$svg_use = $dom->createElement( 'use' );
+				$svg_use->setAttribute( 'xlink:href', '#has-webshare-icon' );
+				$svg_use_wrapper = $dom->createElement( 'svg' );
+				$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
+				$svg_use_wrapper->appendChild( $svg_use );
+				$svg_inner_tag->appendChild( $svg_use_wrapper );
+				$svg_span = $dom->createElement( 'span' );
+				$svg_span->setAttribute( 'className', 'has-icon-label' );
+				$svg_span->nodeValue = esc_html( $webshare_label );
+				$svg_inner_tag->appendChild( $svg_span );
+				$svg->appendChild( $svg_inner_tag );
+			} else {
+				$svg_inner_tag = $dom->createElement( 'span' );
+				$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-webshare has-pin-button' );
+				$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+				$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+				$svg_use = $dom->createElement( 'use' );
+				$svg_use->setAttribute( 'xlink:href', '#has-webshare-icon' );
+				$svg_use_wrapper = $dom->createElement( 'svg' );
+				$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
+				$svg_use_wrapper->appendChild( $svg_use );
+				$svg_inner_tag->appendChild( $svg_use_wrapper );
+				$svg->appendChild( $svg_inner_tag );
+			}
+		}
+		$wrapper->appendChild( $svg );
+		return true;
+	}
+
+	/**
+	 * Add Pinterest/Webshare to image tags where applicable.
+	 *
+	 * @param string $content The content HTML.
+	 */
+	public function add_image_sharing_html( $content ) {
+		if ( ! $this->should_load_image_sharing_script() ) {
+			return $content;
+		}
+
+		$is_excerpt = ( current_filter() === 'the_excerpt' );
+
+		// Avoid re-processing and infinite nesting when page builders call the_content multiple times.
+		if ( false !== strpos( $content, 'has-pin-image-wrapper' ) ) {
+			return $content;
+		}
+
+		if ( $is_excerpt ) {
+			error_log( 'is_excerpt' );
+		}
+
+		$options = Options::get_image_options();
+
+		// If image sharing is not enabled, exit early.
+		if ( ! (bool) $options['enable_image_sharing'] ) {
+			return $content;
+		}
+
+		// When processing excerpts, require the excerpt option and allow filter to disable.
+		if ( $is_excerpt ) {
+			if ( ! (bool) $options['enable_image_sharing_on_excerpts'] ) {
+				return $content;
+			}
+			/**
+			 * Filter: has_pin_show_on_excerpts
+			 *
+			 * Allow image sharing on excerpt output. Default true.
+			 *
+			 * @param bool $show Whether to run image sharing on excerpts. Default true.
+			 * @return bool Whether to show image sharing on excerpts.
+			 */
+			if ( ! apply_filters( 'has_pin_show_on_excerpts', true ) ) {
+				return $content;
+			}
+		}
+
+		// Remove the filter to avoid infinite nesting when page builders call the_content/the_excerpt multiple times.
+		$filter_name = current_filter();
+		remove_filter( $filter_name, array( $this, 'add_image_sharing_html' ), 15 );
+
+		$dom = new \DOMDocument( '1.0', 'UTF-8' );
+		try {
+			libxml_use_internal_errors( true );
+			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD ); // phpcs:ignore 
+			libxml_clear_errors();
+
+		} catch ( \Exception $e ) {
+			add_filter( $filter_name, array( $this, 'add_image_sharing_html' ), 15 );
+			return $content;
+		}
+		$options = Options::get_image_options();
+
+		$exclude_leading_image = (bool) $options['exclude_leading_image'];
+		// On excerpts, process all images (do not exclude the first).
+		if ( $is_excerpt ) {
+			$exclude_leading_image = false;
+		}
+
+		list( $css_classes, $sharing_wrapper_css ) = $this->get_image_sharing_css_classes( $options );
+
 		// Get all images. Copy to array to avoid live-node-list issues when modifying DOM during iteration.
 		$images_list = $dom->getElementsByTagName( 'img' );
 		$images      = array();
@@ -623,6 +803,7 @@ class Frontend {
 			$images[] = $img_node;
 		}
 		$can_skip = false;
+		$context  = $is_excerpt ? 'excerpt' : 'content';
 		foreach ( $images as $image ) {
 			// Skip leading image if enabled.
 			if ( $exclude_leading_image && ! $can_skip ) {
@@ -630,140 +811,75 @@ class Frontend {
 				continue;
 			}
 
-			/**
-			 * Filter: has_pin_core_exclusions
-			 *
-			 * Add core exclusions to the image sharing.
-			 *
-			 * @param array $core_exclusions Array of core exclusions.
-			 */
-			$core_exclusions = apply_filters( 'has_pin_core_exclusions', $core_exclusions );
-			// Get image innerHTML and find block-level wrapper (skip <a>, climb to outermost <figure> for galleries).
-			$image_element  = $dom->saveHTML( $image );
-			$parent_element = $image->parentNode;
-			if ( $parent_element && 'a' === strtolower( $parent_element->nodeName ) ) {
-				$parent_element = $parent_element->parentNode;
-			}
-			while ( $parent_element && 'figure' === strtolower( $parent_element->nodeName ) ) {
-				$next = $parent_element->parentNode;
-				if ( $next && 'figure' === strtolower( $next->nodeName ) ) {
-					$parent_element = $next;
-				} else {
-					break;
-				}
-			}
-			$parent_html = '';
-			if ( $parent_element ) {
-				$parent_html = $dom->saveHTML( $parent_element );
-			}
-
-			// Merge core and user exclusions.
-			$exclusions = array_merge( $core_exclusions, array_map( 'trim', explode( ',', sanitize_text_field( $options['exclusions'] ) ) ) ); // failing here.
-
-			$exclusions = array_unique( array_filter( $exclusions ) );
-
-			// Check for exclusions.
-			$found_exclusion = false;
-			if ( ! empty( $exclusions ) ) {
-				foreach ( $exclusions as $exclusion ) {
-					if ( false !== strpos( $image_element, $exclusion ) || false !== strpos( $parent_html, $exclusion ) ) {
-						$found_exclusion = true;
-					}
-				}
-			}
-			if ( $found_exclusion ) {
-				continue;
-			}
-
-			// Create wrapper span.
-			$wrapper = $dom->createElement( 'span' );
-			$wrapper->setAttribute( 'class', implode( ' ', $css_classes ) );
-
-			// Wrap around the image.
-			$image->parentNode->replaceChild( $wrapper, $image );
-			$wrapper->appendChild( $image );
-
-			// Now create child SVG to go adjacent to image tag.
-			$svg = $dom->createElement( 'span' );
-			$svg->setAttribute( 'class', implode( ' ', $sharing_wrapper_css ) );
-
-			// Set span inner html.
-			if ( $can_show_pinterest ) {
-				if ( $show_button_labels ) {
-					$pin_label     = $options['pinterest_button_label'];
-					$svg_inner_tag = $dom->createElement( 'span' );
-					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-pinterest has-pin-button' );
-					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
-					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
-					$svg_use = $dom->createElement( 'use' );
-					$svg_use->setAttribute( 'xlink:href', '#has-pinterest' );
-					$svg_use_wrapper = $dom->createElement( 'svg' );
-					$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
-					$svg_use_wrapper->appendChild( $svg_use );
-					$svg_inner_tag->appendChild( $svg_use_wrapper );
-					$svg_span = $dom->createElement( 'span' );
-					$svg_span->setAttribute( 'className', 'has-icon-label' );
-					$svg_span->nodeValue = esc_html( $pin_label );
-					$svg_inner_tag->appendChild( $svg_span );
-					$svg->appendChild( $svg_inner_tag );
-				} else {
-					$svg_inner_tag = $dom->createElement( 'span' );
-					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-pinterest has-pin-button' );
-					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
-					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
-					$svg_use = $dom->createElement( 'use' );
-					$svg_use->setAttribute( 'xlink:href', '#has-pinterest' );
-					$svg_use_wrapper = $dom->createElement( 'svg' );
-					$svg_use_wrapper->setAttribute(
-						'class',
-						'has-icon
-					'
-					);
-					$svg_use_wrapper->appendChild( $svg_use );
-					$svg_inner_tag->appendChild( $svg_use_wrapper );
-					$svg->appendChild( $svg_inner_tag );
-				}
-			}
-			if ( $can_show_webshare ) {
-				if ( $show_button_labels ) {
-					$webshare_label = $options['webshare_button_label'];
-					$svg_inner_tag  = $dom->createElement( 'span' );
-					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-webshare has-pin-button' );
-					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
-					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
-					$svg_use = $dom->createElement( 'use' );
-					$svg_use->setAttribute( 'xlink:href', '#has-webshare-icon' );
-					$svg_use_wrapper = $dom->createElement( 'svg' );
-					$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
-					$svg_use_wrapper->appendChild( $svg_use );
-					$svg_inner_tag->appendChild( $svg_use_wrapper );
-					$svg_span = $dom->createElement( 'span' );
-					$svg_span->setAttribute( 'className', 'has-icon-label' );
-					$svg_span->nodeValue = esc_html( $webshare_label );
-					$svg_inner_tag->appendChild( $svg_span );
-					$svg->appendChild( $svg_inner_tag );
-				} else {
-					$svg_inner_tag = $dom->createElement( 'span' );
-					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-webshare has-pin-button' );
-					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
-					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
-					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
-					$svg_use = $dom->createElement( 'use' );
-					$svg_use->setAttribute( 'xlink:href', '#has-webshare-icon' );
-					$svg_use_wrapper = $dom->createElement( 'svg' );
-					$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
-					$svg_use_wrapper->appendChild( $svg_use );
-					$svg_inner_tag->appendChild( $svg_use_wrapper );
-					$svg->appendChild( $svg_inner_tag );
-				}
-			}
-			// Now place SVG inside the parent span after the image.
-			$wrapper->appendChild( $svg );
+			$this->wrap_single_image_with_sharing( $dom, $image, $options, $css_classes, $sharing_wrapper_css, $context );
 		}
 
 		$new_html = $dom->saveHTML();
-		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 15 );
+		add_filter( $filter_name, array( $this, 'add_image_sharing_html' ), 15 );
 		return $new_html;
+	}
+
+	/**
+	 * Add Pinterest/Web Share wrapper to featured image (post thumbnail) HTML.
+	 *
+	 * Hooked to post_thumbnail_html. Only runs when image sharing is enabled and the post type is supported.
+	 *
+	 * @param string       $html              The post thumbnail HTML.
+	 * @param int          $post_id           The post ID.
+	 * @param int          $post_thumbnail_id The attachment ID (or 0).
+	 * @param string|int[] $size              Requested size.
+	 * @param string|array $attr              Attributes string or array.
+	 * @return string Filtered HTML.
+	 */
+	public function add_featured_image_sharing_html( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+		if ( is_admin() || is_feed() || empty( $html ) ) {
+			return $html;
+		}
+
+		if ( false !== strpos( $html, 'has-pin-image-wrapper' ) ) {
+			return $html;
+		}
+
+		$options = Options::get_image_options();
+		if ( ! (bool) $options['enable_image_sharing'] ) {
+			return $html;
+		}
+
+		$post_types      = $options['supported_post_types'];
+		$supported_slugs = array();
+		foreach ( $post_types as $post_type => $enabled ) {
+			if ( $enabled ) {
+				$supported_slugs[] = $post_type;
+			}
+		}
+		$supported_slugs = apply_filters( 'has_pin_supported_post_types', $supported_slugs );
+		if ( ! in_array( get_post_type( $post_id ), $supported_slugs, true ) ) {
+			return $html;
+		}
+
+		$dom = new \DOMDocument( '1.0', 'UTF-8' );
+		try {
+			libxml_use_internal_errors( true );
+			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD ); // phpcs:ignore
+			libxml_clear_errors();
+		} catch ( \Exception $e ) {
+			return $html;
+		}
+
+		$images_list = $dom->getElementsByTagName( 'img' );
+		$images      = array();
+		foreach ( $images_list as $img_node ) {
+			$images[] = $img_node;
+		}
+		if ( empty( $images ) ) {
+			return $html;
+		}
+
+		list( $css_classes, $sharing_wrapper_css ) = $this->get_image_sharing_css_classes( $options );
+
+		$this->wrap_single_image_with_sharing( $dom, $images[0], $options, $css_classes, $sharing_wrapper_css, 'thumbnail' );
+
+		return $dom->saveHTML();
 	}
 
 	/**
@@ -2109,6 +2225,27 @@ class Frontend {
 		// Localize.
 		wp_localize_script( 'highlight-and-share', 'highlight_and_share', $json_arr );
 
+		// Enqueue image sharing script only when we're in a context where it runs (approved post type, singular or archive).
+		if ( $this->should_load_image_sharing_script() ) {
+			$image_options_for_script = Options::get_image_options();
+			$image_script_deps        = require_once Functions::get_plugin_dir( 'dist/has-image-sharing.asset.php' );
+			$image_script_uri         = Functions::get_plugin_url( 'dist/has-image-sharing.js' );
+			wp_enqueue_script(
+				'has-image-sharing',
+				$image_script_uri,
+				$image_script_deps['dependencies'],
+				$image_script_deps['version'],
+				true
+			);
+			wp_localize_script(
+				'has-image-sharing',
+				'has_image_sharing',
+				array(
+					'enable_webshare_image_only' => (bool) $image_options_for_script['webshare_share_image_only'],
+				)
+			);
+		}
+
 		/**
 		 * Filter: has_load_css
 		 *
@@ -2150,10 +2287,9 @@ class Frontend {
 				wp_enqueue_style( 'has-inline-styles' );
 			}
 
-			// Load Image Sharing CSS (if image sharing is enabled).
-			$image_sharing_options = Options::get_image_options();
-			$image_sharing_enabled = (bool) $image_sharing_options['enable_image_sharing'];
-			if ( $image_sharing_enabled ) {
+			// Load Image Sharing CSS only when we're in a context where image sharing runs (same as script).
+			if ( $this->should_load_image_sharing_script() ) {
+				$image_sharing_options = Options::get_image_options();
 				// Get the colors.
 				$image_sharing_css = (
 					'.has-pin-image-wrapper {' .

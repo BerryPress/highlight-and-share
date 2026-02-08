@@ -16,6 +16,8 @@
 .has-pin-image-wrapper {
 	position: relative;
 	display: inline-block;
+	width: 100%;
+	height: 100%;
 
 	&.has-pin-top-left .has-pin-sharing-icons {
 		top: 16px;

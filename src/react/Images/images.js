@@ -208,6 +208,7 @@ const Interface = ( props ) => {
 			enablePinterestSharing: data.enablePinterestSharing,
 			enableWebshareSharing: data.enableWebshareSharing,
 			excludeLeadingImage: data.excludeLeadingImage,
+			enableImageSharingOnExcerpts: data.enableImageSharingOnExcerpts,
 			supportedPostTypes: data.supportedPostTypes,
 			location: data.location,
 			showOnHover: data.showOnHover,
@@ -406,6 +407,29 @@ const Interface = ( props ) => {
 												} }
 												help={ __(
 													'Exclude the leading image from the image sharing options.',
+													'highlight-and-share'
+												) }
+											/>
+										) }
+									/>
+								</div>
+								<div className="has-admin-component-row">
+									<Controller
+										name="enableImageSharingOnExcerpts"
+										control={ control }
+										render={ ( { field: { onChange, value } } ) => (
+											<ToggleControl
+												label={ __(
+													'Enable Image Sharing on Archives and Excerpts',
+													'highlight-and-share'
+												) }
+												className="has-admin__toggle-control"
+												checked={ value }
+												onChange={ ( boolValue ) => {
+													onChange( boolValue );
+												} }
+												help={ __(
+													'Show Pinterest and Web Share buttons on images in post excerpts (e.g. on archive pages). Only applies when Image Sharing is enabled above.',
 													'highlight-and-share'
 												) }
 											/>
