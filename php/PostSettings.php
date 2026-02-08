@@ -49,6 +49,7 @@ class PostSettings {
 		add_action( 'add_meta_boxes', array( PostSettings::class, 'register_classic_meta_box' ), 10, 2 );
 		add_action( 'save_post', array( PostSettings::class, 'save_classic_meta_box' ), 10, 2 );
 		add_filter( 'has_highlight_sharing_enabled_for_post', array( PostSettings::class, 'filter_highlight_sharing_for_post' ), 10, 2 );
+		add_filter( 'has_image_sharing_enabled_for_post', array( PostSettings::class, 'filter_image_sharing_for_post' ), 10, 2 );
 	}
 
 	/**
@@ -63,6 +64,27 @@ class PostSettings {
 	 */
 	public static function filter_highlight_sharing_for_post( $enabled, $post_id ) {
 		$value = self::get( $post_id, 'highlight_sharing', 'default' );
+		if ( 'disabled' === $value ) {
+			return false;
+		}
+		if ( 'enabled' === $value ) {
+			return true;
+		}
+		return (bool) $enabled;
+	}
+
+	/**
+	 * Filter image sharing per post: disabled / default / enabled.
+	 *
+	 * Use this filter when deciding whether to load or show image sharing
+	 * for a post. Pass the global/default enabled state as $enabled.
+	 *
+	 * @param bool $enabled  Whether image sharing is enabled (e.g. from global option and post type).
+	 * @param int  $post_id Post ID.
+	 * @return bool Effective enabled state for this post.
+	 */
+	public static function filter_image_sharing_for_post( $enabled, $post_id ) {
+		$value = self::get( $post_id, 'image_sharing', 'default' );
 		if ( 'disabled' === $value ) {
 			return false;
 		}
@@ -228,7 +250,7 @@ class PostSettings {
 		if ( ! in_array( $post_type, $supported, true ) ) {
 			return;
 		}
-		if ( ! $post instanceof \WP_Post ) {
+		if ( ! is_a( $post, 'WP_Post' ) ) {
 			return;
 		}
 		if ( self::use_block_editor_for_post( $post ) ) {
@@ -270,6 +292,21 @@ class PostSettings {
 					?>
 					<label for="<?php echo esc_attr( $id ); ?>" style="display: block; margin-bottom: 4px;">
 						<input type="radio" name="has_post_settings[highlight_sharing]" id="<?php echo esc_attr( $id ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php checked( $current, $value ); ?> />
+						<?php echo esc_html( $label ); ?>
+					</label>
+					<?php
+				}
+				?>
+			</fieldset>
+			<p class="has-post-settings-label"><?php esc_html_e( 'Image sharing', 'highlight-and-share' ); ?></p>
+			<fieldset class="has-post-settings-fieldset">
+				<?php
+				$current_image = isset( $settings['image_sharing'] ) ? $settings['image_sharing'] : 'default';
+				foreach ( $options as $value => $label ) {
+					$id = 'has_image_sharing_' . $value;
+					?>
+					<label for="<?php echo esc_attr( $id ); ?>" style="display: block; margin-bottom: 4px;">
+						<input type="radio" name="has_post_settings[image_sharing]" id="<?php echo esc_attr( $id ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php checked( $current_image, $value ); ?> />
 						<?php echo esc_html( $label ); ?>
 					</label>
 					<?php

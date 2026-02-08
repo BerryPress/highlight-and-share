@@ -47,8 +47,9 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 var META_KEY = '_has_post_settings';
 var HIGHLIGHT_SHARING_KEY = 'highlight_sharing';
+var IMAGE_SHARING_KEY = 'image_sharing';
 function HASPostSettingsPanel() {
-  var _window$hasPostSideba, _window$hasPostSideba2, _meta$META_KEY, _settings$HIGHLIGHT_S;
+  var _window$hasPostSideba, _window$hasPostSideba2, _meta$META_KEY, _settings$HIGHLIGHT_S, _settings$IMAGE_SHARI;
   var _useSelect = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(function (select) {
       var _editor$getCurrentPos, _editor$getCurrentPos2, _editor$getCurrentPos3, _editor$getCurrentPos4;
       var editor = select('core/editor');
@@ -70,9 +71,13 @@ function HASPostSettingsPanel() {
     return null;
   }
   var settings = (_meta$META_KEY = meta === null || meta === void 0 ? void 0 : meta[META_KEY]) !== null && _meta$META_KEY !== void 0 ? _meta$META_KEY : {};
-  var value = (_settings$HIGHLIGHT_S = settings === null || settings === void 0 ? void 0 : settings[HIGHLIGHT_SHARING_KEY]) !== null && _settings$HIGHLIGHT_S !== void 0 ? _settings$HIGHLIGHT_S : 'default';
+  var highlightValue = (_settings$HIGHLIGHT_S = settings === null || settings === void 0 ? void 0 : settings[HIGHLIGHT_SHARING_KEY]) !== null && _settings$HIGHLIGHT_S !== void 0 ? _settings$HIGHLIGHT_S : 'default';
+  var imageSharingValue = (_settings$IMAGE_SHARI = settings === null || settings === void 0 ? void 0 : settings[IMAGE_SHARING_KEY]) !== null && _settings$IMAGE_SHARI !== void 0 ? _settings$IMAGE_SHARI : 'default';
   var updateHighlightSharing = function updateHighlightSharing(newVal) {
     setMeta(_objectSpread(_objectSpread({}, meta || {}), {}, _defineProperty({}, META_KEY, _objectSpread(_objectSpread({}, settings || {}), {}, _defineProperty({}, HIGHLIGHT_SHARING_KEY, newVal)))));
+  };
+  var updateImageSharing = function updateImageSharing(newVal) {
+    setMeta(_objectSpread(_objectSpread({}, meta || {}), {}, _defineProperty({}, META_KEY, _objectSpread(_objectSpread({}, settings || {}), {}, _defineProperty({}, IMAGE_SHARING_KEY, newVal)))));
   };
   return /*#__PURE__*/React.createElement(_wordpress_editor__WEBPACK_IMPORTED_MODULE_2__.PluginDocumentSettingPanel, {
     name: "has-post-settings",
@@ -82,8 +87,22 @@ function HASPostSettingsPanel() {
     className: "has-admin-component-wrapper"
   }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.__experimentalToggleGroupControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Social Sharing via Highlight', 'highlight-and-share'),
-    value: value,
+    value: highlightValue,
     onChange: updateHighlightSharing,
+    isBlock: true
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.__experimentalToggleGroupControlOption, {
+    value: "disabled",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Disabled', 'highlight-and-share')
+  }), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.__experimentalToggleGroupControlOption, {
+    value: "default",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Default', 'highlight-and-share')
+  }), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.__experimentalToggleGroupControlOption, {
+    value: "enabled",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enabled', 'highlight-and-share')
+  })), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.__experimentalToggleGroupControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Image sharing', 'highlight-and-share'),
+    value: imageSharingValue,
+    onChange: updateImageSharing,
     isBlock: true
   }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.__experimentalToggleGroupControlOption, {
     value: "disabled",

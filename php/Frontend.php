@@ -538,8 +538,84 @@ class Frontend {
 				$supported_slugs[] = $post_type;
 			}
 		}
-		$supported_slugs = apply_filters( 'has_pin_supported_post_types', $supported_slugs );
-		return in_array( get_post_type(), $supported_slugs, true );
+		$has_supported_post_type = false; // Flag to run after post meta is checked.
+		$supported_slugs         = apply_filters( 'has_pin_supported_post_types', $supported_slugs );
+		if ( in_array( get_post_type(), $supported_slugs, true ) ) { // If the post type is supported, set the flag to true.
+			$has_supported_post_type = true;
+		}
+
+		// On singular, do not enqueue if image sharing is disabled for this post.
+		if ( $on_singular ) {
+			$maybe_post = get_queried_object();
+			if ( $maybe_post && is_a( $maybe_post, 'WP_Post' ) ) {
+				$global_enabled = true;
+				if ( apply_filters( 'has_image_sharing_enabled_for_post', $global_enabled, $maybe_post->ID ) ) {
+					return true;
+				}
+			}
+		}
+		if ( ! $has_supported_post_type ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Enqueue image sharing script and styles (footer). Call when should_load_image_sharing_script() is true.
+	 */
+	private function enqueue_image_sharing_assets() {
+		if ( wp_script_is( 'has-image-sharing', 'enqueued' ) ) {
+			return;
+		}
+
+		$image_options     = Options::get_image_options();
+		$asset_path        = Functions::get_plugin_dir( 'dist/has-image-sharing.asset.php' );
+		$image_script_deps = file_exists( $asset_path ) ? require_once $asset_path : array(
+			'dependencies' => array(),
+			'version'      => false,
+		);
+		$image_script_uri  = Functions::get_plugin_url( 'dist/has-image-sharing.js' );
+		wp_enqueue_script(
+			'has-image-sharing',
+			$image_script_uri,
+			isset( $image_script_deps['dependencies'] ) ? $image_script_deps['dependencies'] : array(),
+			isset( $image_script_deps['version'] ) ? $image_script_deps['version'] : false,
+			true
+		);
+		wp_localize_script(
+			'has-image-sharing',
+			'hasImageSharing',
+			array(
+				'enable_webshare_image_only' => (bool) $image_options['webshare_share_image_only'],
+			)
+		);
+		$image_sharing_css = (
+			'.has-pin-image-wrapper {' .
+			'--has-pinterest-button-color: ' . esc_html( $image_options['pinterest_button_color'] ) . ';' .
+			'--has-pinterest-button-color-hover: ' . esc_html( $image_options['pinterest_button_color_hover'] ) . ';' .
+			'--has-pinterest-icon-color: ' . esc_html( $image_options['pinterest_icon_color'] ) . ';' .
+			'--has-pinterest-icon-color-hover: ' . esc_html( $image_options['pinterest_icon_color_hover'] ) . ';' .
+			'--has-pinterest-text-color: ' . esc_html( $image_options['pinterest_text_color'] ) . ';' .
+			'--has-pinterest-text-color-hover: ' . esc_html( $image_options['pinterest_text_color_hover'] ) . ';' .
+			'--has-webshare-icon-color: ' . esc_html( $image_options['webshare_icon_color'] ) . ';' .
+			'--has-webshare-icon-color-hover: ' . esc_html( $image_options['webshare_icon_color_hover'] ) . ';' .
+			'--has-webshare-button-color: ' . esc_html( $image_options['webshare_button_color'] ) . ';' .
+			'--has-webshare-button-color-hover: ' . esc_html( $image_options['webshare_button_color_hover'] ) . ';' .
+			'--has-webshare-text-color: ' . esc_html( $image_options['webshare_text_color'] ) . ';' .
+			'--has-webshare-text-color-hover: ' . esc_html( $image_options['webshare_text_color_hover'] ) . ';' .
+			'}'
+		);
+		wp_register_style( 'has-image-sharing', false );
+		wp_add_inline_style( 'has-image-sharing', $image_sharing_css );
+		add_action(
+			'wp_footer',
+			function () {
+				if ( ! wp_style_is( 'has-image-sharing', 'enqueued' ) ) {
+					wp_print_styles( array( 'has-image-sharing' ) );
+				}
+			}
+		);
 	}
 
 	/**
@@ -743,10 +819,6 @@ class Frontend {
 			return $content;
 		}
 
-		if ( $is_excerpt ) {
-			error_log( 'is_excerpt' );
-		}
-
 		$options = Options::get_image_options();
 
 		// If image sharing is not enabled, exit early.
@@ -772,6 +844,27 @@ class Frontend {
 			}
 		}
 
+		// Per-post override: respect sidebar/meta box setting (disabled / default / enabled).
+		$maybe_post = get_queried_object();
+		if ( $maybe_post && is_a( $maybe_post, 'WP_Post' ) ) {
+			$post_types      = $options['supported_post_types'];
+			$supported_slugs = array();
+			foreach ( $post_types as $post_type => $enabled ) {
+				if ( $enabled ) {
+					$supported_slugs[] = $post_type;
+				}
+			}
+			$supported_slugs  = apply_filters( 'has_pin_supported_post_types', $supported_slugs );
+			$global_enabled   = ( (bool) $options['enable_image_sharing'] ) && in_array( get_post_type( $maybe_post->ID ), $supported_slugs, true );
+			$global_enabled   = $global_enabled && ( ! $is_excerpt || (bool) $options['enable_image_sharing_on_excerpts'] );
+			$enabled_for_post = apply_filters( 'has_image_sharing_enabled_for_post', $global_enabled, $maybe_post->ID );
+			if ( ! $enabled_for_post ) {
+				return $content;
+			}
+		}
+
+		$this->enqueue_image_sharing_assets();
+
 		// Remove the filter to avoid infinite nesting when page builders call the_content/the_excerpt multiple times.
 		$filter_name = current_filter();
 		remove_filter( $filter_name, array( $this, 'add_image_sharing_html' ), 15 );
@@ -781,6 +874,7 @@ class Frontend {
 			libxml_use_internal_errors( true );
 			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD ); // phpcs:ignore 
 			libxml_clear_errors();
+			error_log( $dom->saveHTML() );
 
 		} catch ( \Exception $e ) {
 			add_filter( $filter_name, array( $this, 'add_image_sharing_html' ), 15 );
@@ -845,8 +939,9 @@ class Frontend {
 			return $html;
 		}
 
-		$post_types      = $options['supported_post_types'];
-		$supported_slugs = array();
+		$has_supported_post_type = false;
+		$post_types              = $options['supported_post_types'];
+		$supported_slugs         = array();
 		foreach ( $post_types as $post_type => $enabled ) {
 			if ( $enabled ) {
 				$supported_slugs[] = $post_type;
@@ -857,6 +952,7 @@ class Frontend {
 			return $html;
 		}
 
+		// No need to check post meta as post meta controls a page-wide setting, and shouldn't target featured images.
 		// Featured image sharing: archives only by default (option); singular only via filter.
 		$on_archive = is_post_type_archive() || is_home();
 		if ( $on_archive ) {
@@ -2246,25 +2342,9 @@ class Frontend {
 		// Localize.
 		wp_localize_script( 'highlight-and-share', 'highlight_and_share', $json_arr );
 
-		// Enqueue image sharing script only when we're in a context where it runs (approved post type, singular or archive).
+		// Enqueue image sharing script and styles (footer) when context and per-post allow.
 		if ( $this->should_load_image_sharing_script() ) {
-			$image_options_for_script = Options::get_image_options();
-			$image_script_deps        = require_once Functions::get_plugin_dir( 'dist/has-image-sharing.asset.php' );
-			$image_script_uri         = Functions::get_plugin_url( 'dist/has-image-sharing.js' );
-			wp_enqueue_script(
-				'has-image-sharing',
-				$image_script_uri,
-				$image_script_deps['dependencies'],
-				$image_script_deps['version'],
-				true
-			);
-			wp_localize_script(
-				'has-image-sharing',
-				'hasImageSharing',
-				array(
-					'enable_webshare_image_only' => (bool) $image_options_for_script['webshare_share_image_only'],
-				)
-			);
+			$this->enqueue_image_sharing_assets();
 		}
 
 		/**
@@ -2306,37 +2386,6 @@ class Frontend {
 					$inline_styles
 				);
 				wp_enqueue_style( 'has-inline-styles' );
-			}
-
-			// Load Image Sharing CSS only when we're in a context where image sharing runs (same as script).
-			if ( $this->should_load_image_sharing_script() ) {
-				$image_sharing_options = Options::get_image_options();
-				// Get the colors.
-				$image_sharing_css = (
-					'.has-pin-image-wrapper {' .
-					'--has-pinterest-button-color: ' . esc_html( $image_sharing_options['pinterest_button_color'] ) . ';' .
-					'--has-pinterest-button-color-hover: ' . esc_html( $image_sharing_options['pinterest_button_color_hover'] ) . ';' .
-					'--has-pinterest-icon-color: ' . esc_html( $image_sharing_options['pinterest_icon_color'] ) . ';' .
-					'--has-pinterest-icon-color-hover: ' . esc_html( $image_sharing_options['pinterest_icon_color_hover'] ) . ';' .
-					'--has-pinterest-text-color: ' . esc_html( $image_sharing_options['pinterest_text_color'] ) . ';' .
-					'--has-pinterest-text-color-hover: ' . esc_html( $image_sharing_options['pinterest_text_color_hover'] ) . ';' .
-					'--has-webshare-icon-color: ' . esc_html( $image_sharing_options['webshare_icon_color'] ) . ';' .
-					'--has-webshare-icon-color-hover: ' . esc_html( $image_sharing_options['webshare_icon_color_hover'] ) . ';' .
-					'--has-webshare-button-color: ' . esc_html( $image_sharing_options['webshare_button_color'] ) . ';' .
-					'--has-webshare-button-color-hover: ' . esc_html( $image_sharing_options['webshare_button_color_hover'] ) . ';' .
-					'--has-webshare-text-color: ' . esc_html( $image_sharing_options['webshare_text_color'] ) . ';' .
-					'--has-webshare-text-color-hover: ' . esc_html( $image_sharing_options['webshare_text_color_hover'] ) . ';' .
-					'}'
-				);
-				wp_register_style(
-					'has-image-sharing',
-					false
-				);
-				wp_add_inline_style(
-					'has-image-sharing',
-					$image_sharing_css
-				);
-				wp_enqueue_style( 'has-image-sharing' );
 			}
 		}
 	}
