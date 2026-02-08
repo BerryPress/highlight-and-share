@@ -1158,7 +1158,7 @@ class Frontend {
 
 		$html .= sprintf(
 			'<a href="%s" %s><svg class="has-icon"><use xlink:href="#%s"></use></svg><span class="has-text">&nbsp;%s</span></a>',
-			esc_url( $url_template ),
+			esc_url_raw( $url_template, array( 'mailto', 'https', 'whatsapp' ) ),
 			$link_attrs,
 			esc_attr( $icon_id ),
 			esc_html( $label )

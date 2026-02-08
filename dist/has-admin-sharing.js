@@ -26021,6 +26021,7 @@ var SocialIconList = function SocialIconList() {
     });
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_Sharing_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_4__["default"]).setNetworks(newNetworks);
   }, [getValues, setValue, storeNetworks]);
+  var count = 0;
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(react_dnd__WEBPACK_IMPORTED_MODULE_5__.DndProvider, {
     backend: react_dnd_html5_backend__WEBPACK_IMPORTED_MODULE_6__.HTML5Backend
   }, /*#__PURE__*/React.createElement("ul", {
@@ -26030,8 +26031,9 @@ var SocialIconList = function SocialIconList() {
     if (!network.enabled) {
       return null;
     }
+    count++;
     return /*#__PURE__*/React.createElement(_SocialIconListItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      key: "".concat((_network$key2 = network.key) !== null && _network$key2 !== void 0 ? _network$key2 : network.slug, "-item"),
+      key: "".concat((_network$key2 = network.key) !== null && _network$key2 !== void 0 ? _network$key2 : network.slug, "-item-").concat(count),
       listItemKey: (_network$key3 = network.key) !== null && _network$key3 !== void 0 ? _network$key3 : network.slug,
       className: network.className,
       styles: network.styles,
@@ -29507,27 +29509,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Panels/SocialNetworksPanel/Store */ "./src/react/Sharing/Panels/SocialNetworksPanel/Store/index.js");
-/* harmony import */ var _Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Panels/SocialNetworksPanel */ "./src/react/Sharing/Panels/SocialNetworksPanel/index.js");
-/* harmony import */ var _Panels_DisplayRulesPanel__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Panels/DisplayRulesPanel */ "./src/react/Sharing/Panels/DisplayRulesPanel/index.js");
-/* harmony import */ var use_async_resource__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-async-resource */ "./node_modules/use-async-resource/lib/index.js");
-/* harmony import */ var use_async_resource__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(use_async_resource__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
-/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @wordpress/escape-html */ "@wordpress/escape-html");
-/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
-/* harmony import */ var _Components_Loader__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Components/Loader */ "./src/react/Components/Loader/index.js");
-/* harmony import */ var _Panels_AppearancesPanel__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Panels/AppearancesPanel */ "./src/react/Sharing/Panels/AppearancesPanel/index.js");
-/* harmony import */ var _Panels_PreviewPanel__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Panels/PreviewPanel */ "./src/react/Sharing/Panels/PreviewPanel/index.js");
-/* harmony import */ var _Panels_BlockEditorPanel__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Panels/BlockEditorPanel */ "./src/react/Sharing/Panels/BlockEditorPanel/index.js");
-/* harmony import */ var _Panels_InlineHighlightingPanel__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Panels/InlineHighlightingPanel */ "./src/react/Sharing/Panels/InlineHighlightingPanel/index.js");
-/* harmony import */ var _Panels_AdvancedPanel__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Panels/AdvancedPanel */ "./src/react/Sharing/Panels/AdvancedPanel/index.js");
-/* harmony import */ var _Components_SaveBar__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../Components/SaveBar */ "./src/react/Components/SaveBar/index.js");
-/* harmony import */ var _Components_Snackbar__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../Components/Snackbar */ "./src/react/Components/Snackbar/index.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Panels/SocialNetworksPanel/Store */ "./src/react/Sharing/Panels/SocialNetworksPanel/Store/index.js");
+/* harmony import */ var _Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Panels/SocialNetworksPanel */ "./src/react/Sharing/Panels/SocialNetworksPanel/index.js");
+/* harmony import */ var _Panels_DisplayRulesPanel__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Panels/DisplayRulesPanel */ "./src/react/Sharing/Panels/DisplayRulesPanel/index.js");
+/* harmony import */ var use_async_resource__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! use-async-resource */ "./node_modules/use-async-resource/lib/index.js");
+/* harmony import */ var use_async_resource__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(use_async_resource__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
+/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @wordpress/escape-html */ "@wordpress/escape-html");
+/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
+/* harmony import */ var _Components_Loader__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Components/Loader */ "./src/react/Components/Loader/index.js");
+/* harmony import */ var _Panels_AppearancesPanel__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Panels/AppearancesPanel */ "./src/react/Sharing/Panels/AppearancesPanel/index.js");
+/* harmony import */ var _Panels_PreviewPanel__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Panels/PreviewPanel */ "./src/react/Sharing/Panels/PreviewPanel/index.js");
+/* harmony import */ var _Panels_BlockEditorPanel__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Panels/BlockEditorPanel */ "./src/react/Sharing/Panels/BlockEditorPanel/index.js");
+/* harmony import */ var _Panels_InlineHighlightingPanel__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Panels/InlineHighlightingPanel */ "./src/react/Sharing/Panels/InlineHighlightingPanel/index.js");
+/* harmony import */ var _Panels_AdvancedPanel__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Panels/AdvancedPanel */ "./src/react/Sharing/Panels/AdvancedPanel/index.js");
+/* harmony import */ var _Components_SaveBar__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../Components/SaveBar */ "./src/react/Components/SaveBar/index.js");
+/* harmony import */ var _Components_Snackbar__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../Components/Snackbar */ "./src/react/Components/Snackbar/index.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -29544,7 +29544,6 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 /**
  * Sharing tab component.
  */
-
 
 
 
@@ -29574,7 +29573,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
  */
 var retrieveDefaults = function retrieveDefaults() {
   var _window$hasSharingAdm;
-  return (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__["default"])('has_retrieve_settings_tab', {
+  return (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_9__["default"])('has_retrieve_settings_tab', {
     nonce: (_window$hasSharingAdm = window.hasSharingAdmin) === null || _window$hasSharingAdm === void 0 ? void 0 : _window$hasSharingAdm.retrieveNonce
   });
 };
@@ -29613,36 +29612,36 @@ var getDefaultValues = function getDefaultValues() {
     showBluesky: (_values$showBluesky = values.showBluesky) !== null && _values$showBluesky !== void 0 ? _values$showBluesky : false,
     enableEmails: (_values$enableEmails = values.enableEmails) !== null && _values$enableEmails !== void 0 ? _values$enableEmails : false,
     // Network labels and tooltips.
-    twitterLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.twitterLabel || ''),
-    twitterTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.twitterTooltip || ''),
-    facebookLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.facebookLabel || ''),
-    facebookTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.facebookTooltip || ''),
-    whatsappLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.whatsappLabel || ''),
-    whatsappTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.whatsappTooltip || ''),
-    redditLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.redditLabel || ''),
-    redditTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.redditTooltip || ''),
-    telegramLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.telegramLabel || ''),
-    telegramTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.telegramTooltip || ''),
-    linkedinLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.linkedinLabel || ''),
-    linkedinTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.linkedinTooltip || ''),
-    xingLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.xingLabel || ''),
-    xingTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.xingTooltip || ''),
-    copyLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.copyLabel || ''),
-    copyTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.copyTooltip || ''),
-    emailLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.emailLabel || ''),
-    emailTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.emailTooltip || ''),
-    tumblrLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.tumblrLabel || ''),
-    tumblrTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.tumblrTooltip || ''),
-    webshareLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.webshareLabel || ''),
-    webshareTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.webshareTooltip || ''),
-    mastodonLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.mastodonLabel || ''),
-    mastodonTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.mastodonTooltip || ''),
-    threadsLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.threadsLabel || ''),
-    threadsTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.threadsTooltip || ''),
-    blueskyLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.blueskyLabel || ''),
-    blueskyTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.blueskyTooltip || ''),
+    twitterLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.twitterLabel || ''),
+    twitterTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.twitterTooltip || ''),
+    facebookLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.facebookLabel || ''),
+    facebookTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.facebookTooltip || ''),
+    whatsappLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.whatsappLabel || ''),
+    whatsappTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.whatsappTooltip || ''),
+    redditLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.redditLabel || ''),
+    redditTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.redditTooltip || ''),
+    telegramLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.telegramLabel || ''),
+    telegramTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.telegramTooltip || ''),
+    linkedinLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.linkedinLabel || ''),
+    linkedinTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.linkedinTooltip || ''),
+    xingLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.xingLabel || ''),
+    xingTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.xingTooltip || ''),
+    copyLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.copyLabel || ''),
+    copyTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.copyTooltip || ''),
+    emailLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.emailLabel || ''),
+    emailTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.emailTooltip || ''),
+    tumblrLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.tumblrLabel || ''),
+    tumblrTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.tumblrTooltip || ''),
+    webshareLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.webshareLabel || ''),
+    webshareTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.webshareTooltip || ''),
+    mastodonLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.mastodonLabel || ''),
+    mastodonTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.mastodonTooltip || ''),
+    threadsLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.threadsLabel || ''),
+    threadsTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.threadsTooltip || ''),
+    blueskyLabel: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.blueskyLabel || ''),
+    blueskyTooltip: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.blueskyTooltip || ''),
     // Network-specific settings.
-    twitter: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.twitter || ''),
+    twitter: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.twitter || ''),
     enableHashtags: (_values$enableHashtag = values.enableHashtags) !== null && _values$enableHashtag !== void 0 ? _values$enableHashtag : false,
     whatsappApiEndpoint: values.whatsappApiEndpoint || 'app',
     whatsappCanShareUrl: (_values$whatsappCanSh = values.whatsappCanShareUrl) !== null && _values$whatsappCanSh !== void 0 ? _values$whatsappCanSh : true,
@@ -29651,18 +29650,18 @@ var getDefaultValues = function getDefaultValues() {
     enableContent: (_values$enableContent = values.enableContent) !== null && _values$enableContent !== void 0 ? _values$enableContent : true,
     enableExcerpt: (_values$enableExcerpt = values.enableExcerpt) !== null && _values$enableExcerpt !== void 0 ? _values$enableExcerpt : true,
     enableComments: (_values$enableComment = values.enableComments) !== null && _values$enableComment !== void 0 ? _values$enableComment : false,
-    sharingPrefix: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.sharingPrefix || ''),
-    sharingSuffix: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.sharingSuffix || ''),
+    sharingPrefix: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.sharingPrefix || ''),
+    sharingSuffix: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.sharingSuffix || ''),
     // Advanced options.
-    jsContent: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.jsContent || ''),
-    elementContent: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.elementContent || ''),
-    idContent: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.idContent || ''),
-    wrapperClasses: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)(values.wrapperClasses || ''),
+    jsContent: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.jsContent || ''),
+    elementContent: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.elementContent || ''),
+    idContent: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.idContent || ''),
+    wrapperClasses: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)(values.wrapperClasses || ''),
     shortlinks: (_values$shortlinks = values.shortlinks) !== null && _values$shortlinks !== void 0 ? _values$shortlinks : false,
     // Block Editor options.
     enableBlocks: (_values$enableBlocks = values === null || values === void 0 ? void 0 : values.enableBlocks) !== null && _values$enableBlocks !== void 0 ? _values$enableBlocks : true,
     enableAdobeFonts: (_values$enableAdobeFo = values === null || values === void 0 ? void 0 : values.enableAdobeFonts) !== null && _values$enableAdobeFo !== void 0 ? _values$enableAdobeFo : false,
-    adobeProjectId: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)((values === null || values === void 0 ? void 0 : values.adobeProjectId) || ''),
+    adobeProjectId: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)((values === null || values === void 0 ? void 0 : values.adobeProjectId) || ''),
     adobeFonts: (values === null || values === void 0 ? void 0 : values.adobeFonts) || [],
     // Inline Highlighting options.
     enableInlineHighlighting: (_values$enableInlineH = values === null || values === void 0 ? void 0 : values.enableInlineHighlighting) !== null && _values$enableInlineH !== void 0 ? _values$enableInlineH : false,
@@ -29670,7 +29669,7 @@ var getDefaultValues = function getDefaultValues() {
     inlineHighlightBackgroundColorHover: (values === null || values === void 0 ? void 0 : values.inlineHighlightBackgroundColorHover) || '#fcd63c',
     inlineHighlightTextColor: (values === null || values === void 0 ? void 0 : values.inlineHighlightTextColor) || '#000000',
     inlineHighlightTextColorHover: (values === null || values === void 0 ? void 0 : values.inlineHighlightTextColorHover) || '#000000',
-    inlineHighlightTooltipsText: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_11__.escapeEditableHTML)((values === null || values === void 0 ? void 0 : values.inlineHighlightTooltipsText) || ''),
+    inlineHighlightTooltipsText: (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_10__.escapeEditableHTML)((values === null || values === void 0 ? void 0 : values.inlineHighlightTooltipsText) || ''),
     inlineHighlightShowTooltips: (_values$inlineHighlig = values === null || values === void 0 ? void 0 : values.inlineHighlightShowTooltips) !== null && _values$inlineHighlig !== void 0 ? _values$inlineHighlig : false,
     inlineHighlightTooltipsBackgroundColor: (values === null || values === void 0 ? void 0 : values.inlineHighlightTooltipsBackgroundColor) || '#000000',
     inlineHighlightTooltipsTextColor: (values === null || values === void 0 ? void 0 : values.inlineHighlightTooltipsTextColor) || '#FFFFFF',
@@ -29723,13 +29722,13 @@ var getDefaultValues = function getDefaultValues() {
  * @return {Element} Display Rules Panel with error boundary and suspense.
  */
 var Sharing = function Sharing() {
-  var _useAsyncResource = (0,use_async_resource__WEBPACK_IMPORTED_MODULE_9__.useAsyncResource)(retrieveDefaults, []),
+  var _useAsyncResource = (0,use_async_resource__WEBPACK_IMPORTED_MODULE_8__.useAsyncResource)(retrieveDefaults, []),
     _useAsyncResource2 = _slicedToArray(_useAsyncResource, 1),
     defaults = _useAsyncResource2[0];
-  return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_12__["default"], {
+  return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_11__["default"], {
     fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Could not load Sharing panel.', 'highlight-and-share'))
   }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_2__.Suspense, {
-    fallback: /*#__PURE__*/React.createElement(_Components_Loader__WEBPACK_IMPORTED_MODULE_13__["default"], null)
+    fallback: /*#__PURE__*/React.createElement(_Components_Loader__WEBPACK_IMPORTED_MODULE_12__["default"], null)
   }, /*#__PURE__*/React.createElement(SharingInterface, {
     defaults: defaults
   })));
@@ -29800,10 +29799,10 @@ var SharingInterface = function SharingInterface(_ref) {
    */
   var setCheckpointData = function setCheckpointData(newData) {
     var keepDirtyValues = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setNetworks(newData.socialNetworks);
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setSettings(newData.values);
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setTheme(newData.values.theme);
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setSocialNetworkColors(newData.values.iconColors);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_5__["default"]).setNetworks(newData.socialNetworks);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_5__["default"]).setSettings(newData.values);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_5__["default"]).setTheme(newData.values.theme);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_5__["default"]).setSocialNetworkColors(newData.values.iconColors);
     // Build post types exclusion object.
     Object.keys(hasSharingAdmin.postTypes).forEach(function (postType) {
       var _newData$values$exclu;
@@ -29814,7 +29813,7 @@ var SharingInterface = function SharingInterface(_ref) {
       keepDirtyValues: keepDirtyValues,
       keepDirty: keepDirtyValues
     });
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setCheckpoint(newData);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_5__["default"]).setCheckpoint(newData);
   };
 
   // Set the initial form state when data loads.
@@ -29831,7 +29830,7 @@ var SharingInterface = function SharingInterface(_ref) {
       return;
     }
     var isMounted = true;
-    (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__["default"])('has_get_admin_user_meta', {
+    (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_9__["default"])('has_get_admin_user_meta', {
       nonce: ((_window$hasSharingAdm3 = window.hasSharingAdmin) === null || _window$hasSharingAdm3 === void 0 ? void 0 : _window$hasSharingAdm3.userMetaNonce) || ''
     }).then(function (response) {
       var _response$data, _response$data2;
@@ -29842,7 +29841,7 @@ var SharingInterface = function SharingInterface(_ref) {
         var panelStates = response.data.data.panel_states;
         if (_typeof(panelStates) === 'object') {
           Object.keys(panelStates).forEach(function (id) {
-            (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).setPanelState(id, !!panelStates[id]);
+            (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_5__["default"]).setPanelState(id, !!panelStates[id]);
           });
         }
       }
@@ -29871,21 +29870,21 @@ var SharingInterface = function SharingInterface(_ref) {
     className: "has-admin-content-body"
   }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_2__.Suspense, {
     fallback: /*#__PURE__*/React.createElement("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Loading…', 'highlight-and-share'))
-  }, /*#__PURE__*/React.createElement(_Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_7__["default"], _extends({}, data, {
+  }, /*#__PURE__*/React.createElement(_Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_6__["default"], _extends({}, data, {
     watchFields: socialNetworksPanelWatchValues
-  })), /*#__PURE__*/React.createElement(_Panels_DisplayRulesPanel__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  })), /*#__PURE__*/React.createElement(_Panels_DisplayRulesPanel__WEBPACK_IMPORTED_MODULE_7__["default"], {
     watchFields: displayRulesPanelWatchValues
-  }), /*#__PURE__*/React.createElement(_Panels_AppearancesPanel__WEBPACK_IMPORTED_MODULE_14__["default"], _extends({}, data, {
+  }), /*#__PURE__*/React.createElement(_Panels_AppearancesPanel__WEBPACK_IMPORTED_MODULE_13__["default"], _extends({}, data, {
     watchFields: appearancePanelWatchValues
-  })), /*#__PURE__*/React.createElement(_Panels_PreviewPanel__WEBPACK_IMPORTED_MODULE_15__["default"], data), /*#__PURE__*/React.createElement(_Panels_BlockEditorPanel__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  })), /*#__PURE__*/React.createElement(_Panels_PreviewPanel__WEBPACK_IMPORTED_MODULE_14__["default"], data), /*#__PURE__*/React.createElement(_Panels_BlockEditorPanel__WEBPACK_IMPORTED_MODULE_15__["default"], {
     watchFields: blockEditorPanelWatchValues
-  }), /*#__PURE__*/React.createElement(_Panels_InlineHighlightingPanel__WEBPACK_IMPORTED_MODULE_17__["default"], {
+  }), /*#__PURE__*/React.createElement(_Panels_InlineHighlightingPanel__WEBPACK_IMPORTED_MODULE_16__["default"], {
     watchFields: inlineHighlightingPanelWatchValues
-  }), /*#__PURE__*/React.createElement(_Panels_AdvancedPanel__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  }), /*#__PURE__*/React.createElement(_Panels_AdvancedPanel__WEBPACK_IMPORTED_MODULE_17__["default"], {
     watchFields: advancedPanelWatchValues
-  }))))), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Fill, {
+  }))))), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Fill, {
     name: "hasSharingFooter"
-  }, /*#__PURE__*/React.createElement(_Components_Snackbar__WEBPACK_IMPORTED_MODULE_20__["default"], {
+  }, /*#__PURE__*/React.createElement(_Components_Snackbar__WEBPACK_IMPORTED_MODULE_19__["default"], {
     politeness: snackbar.politeness,
     isVisible: snackbar.isVisible,
     message: snackbar.message,
@@ -29900,16 +29899,16 @@ var SharingInterface = function SharingInterface(_ref) {
         isVisible: false
       }));
     }
-  }, snackbar.message), /*#__PURE__*/React.createElement(_Components_SaveBar__WEBPACK_IMPORTED_MODULE_19__["default"], {
+  }, snackbar.message), /*#__PURE__*/React.createElement(_Components_SaveBar__WEBPACK_IMPORTED_MODULE_18__["default"], {
     onDiscardChanges: function onDiscardChanges() {
-      var checkpoint = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.select)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_6__["default"]).getCheckpoint();
+      var checkpoint = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.select)(_Panels_SocialNetworksPanel_Store__WEBPACK_IMPORTED_MODULE_5__["default"]).getCheckpoint();
       setCheckpointData(checkpoint, false);
     },
     onSave: function onSave() {
       var _window$hasSharingAdm4;
       // Save the form data.
       setSaving(true);
-      (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__["default"])('has_save_settings_tab', {
+      (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_9__["default"])('has_save_settings_tab', {
         nonce: (_window$hasSharingAdm4 = window.hasSharingAdmin) === null || _window$hasSharingAdm4 === void 0 ? void 0 : _window$hasSharingAdm4.saveNonce,
         form_data: formValues
       }).then(function (ajaxResponse) {
@@ -29946,7 +29945,7 @@ var SharingInterface = function SharingInterface(_ref) {
       var _window$hasSharingAdm5;
       // Reset the form data.
       setResetting(true);
-      (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_10__["default"])('has_reset_settings_tab', {
+      (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_9__["default"])('has_reset_settings_tab', {
         nonce: (_window$hasSharingAdm5 = window.hasSharingAdmin) === null || _window$hasSharingAdm5 === void 0 ? void 0 : _window$hasSharingAdm5.resetNonce
       }).then(function (ajaxResponse) {
         var _ajaxResponse$data2 = ajaxResponse.data,

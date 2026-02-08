@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { __ } from '@wordpress/i18n';
 import { useForm, Controller, useWatch, useFormState } from 'react-hook-form';
 import classNames from 'classnames';
@@ -7,11 +7,11 @@ import { escapeEditableHTML } from '@wordpress/escape-html';
 
 import {
 	TextControl,
-	Button,
 	ToggleControl,
 	CheckboxControl,
 	BaseControl,
 	SelectControl,
+	Fill,
 } from '@wordpress/components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPinterest } from '@fortawesome/free-brands-svg-icons';
@@ -24,6 +24,8 @@ import Spinner from '../Components/Icons/Spinner';
 import sendCommand from '../Utils/SendCommand';
 import Loader from '../Components/Loader';
 import HASColorPicker from '../Components/ColorPicker';
+import SaveBar from '../Components/SaveBar';
+import Snackbar from '../Components/Snackbar';
 
 const selectLocations = [
 	{ value: 'top-left', label: __( 'Top Left', 'highlight-and-share' ) },
@@ -172,6 +174,14 @@ const Preview = ( props ) => {
 	);
 };
 
+let checkpointData = null;
+const setCheckpointData = ( newData ) => {
+	checkpointData = newData;
+};
+const getCheckpointData = () => {
+	return checkpointData;
+};
+
 const Interface = ( props ) => {
 	// Get retrieved data.
 	const { defaults } = props;
@@ -179,10 +189,18 @@ const Interface = ( props ) => {
 	const { data, success } = response.data;
 
 	const [ saving, setSaving ] = useState( false );
-	const [ isSaved, setIsSaved ] = useState( false );
 	const [ resetting, setResetting ] = useState( false );
-	const [ isReset, setIsReset ] = useState( false );
-	const [ refreshingFonts, setRefreshingFonts ] = useState( false );
+	const [ snackbar, setSnackbar ] = useState( {
+		isVisible: false,
+		message: __( 'Settings saved successfully.', 'highlight-and-share' ),
+		title: __( 'Settings saved successfully.', 'highlight-and-share' ),
+		type: 'success',
+		isDismissable: false,
+		isPersistent: false,
+		isSuccess: true,
+		loadingMessage: null,
+		politeness: 'assertive',
+	} );
 
 	const getDefaultValues = () => {
 		return {
@@ -216,13 +234,8 @@ const Interface = ( props ) => {
 	const {
 		register,
 		control,
-		handleSubmit,
-		setValue,
 		getValues,
-		reset,
-		trigger,
-		setError,
-		clearErrors,
+		handleSubmit,
 	} = useForm( {
 		defaultValues: getDefaultValues(),
 	} );
@@ -234,59 +247,16 @@ const Interface = ( props ) => {
 	} );
 
 	const onSubmit = ( formData ) => {
-		setSaving( true );
+	};
 
-		sendCommand( 'has_save_images_options', {
-			nonce: hasImagesAdmin.saveNonce,
-			formData,
-		} )
-			.then( ( ajaxResponse ) => {
-				const ajaxData = ajaxResponse.data.data;
-				const ajaxSuccess = ajaxResponse.data.success;
-				if ( ajaxSuccess ) {
-					// Reset count.
-					reset( ajaxData );
-					setIsSaved( true );
-					setTimeout( () => {
-						setIsSaved( false );
-					}, 3000 );
-				} else {
-					const { message } = ajaxData[ 0 ];
-				}
-			} )
-			.catch( ( ajaxResponse ) => {} )
-			.then( ( ajaxResponse ) => {
-				setSaving( false );
-			} );
-	};
-	const handleReset = ( e ) => {
-		setResetting( true );
-		sendCommand( 'has_reset_images_options', {
-			nonce: hasImagesAdmin.resetNonce,
-		} )
-			.then( ( ajaxResponse ) => {
-				const ajaxData = ajaxResponse.data.data;
-				const ajaxSuccess = ajaxResponse.data.success;
-				if ( ajaxSuccess ) {
-					// Clear form dirty.
-					reset( ajaxData );
+	const hasErrors = Object.keys( errors ).length > 0 ? true : false;
 
-					setIsReset( true );
-					setTimeout( () => {
-						setIsReset( false );
-					}, 3000 );
-				} else {
-					// Error stuff.
-				}
-			} )
-			.catch( ( ajaxResponse ) => {} )
-			.then( ( ajaxResponse ) => {
-				setResetting( false );
-			} );
-	};
-	const hasErrors = () => {
-		return Object.keys( errors ).length > 0;
-	};
+	// Set the initial form state when data loads.
+	useEffect( () => {
+		if ( data ) {
+			setCheckpointData( data );
+		}
+	}, [ data, control ] );
 
 	return (
 		<>
@@ -459,7 +429,7 @@ const Interface = ( props ) => {
 													render={ ( { field: { onChange, value } } ) => (
 														<CheckboxControl
 															label={ postType.label }
-															checked={ value }
+															checked={ value ?? false }
 															value={ postType.value }
 															onChange={ ( newValue ) => {
 																onChange( newValue );
@@ -869,76 +839,124 @@ const Interface = ( props ) => {
 								</div>
 							</div>
 						</div>
-						<div className="has-admin__tabs--content-actions">
-							<div className="has-admin__tabs--content-actions--left">
-								<Button
-									className={ classNames(
-										'has__btn has__btn-primary has__btn--icon-right',
-										{ 'has-error': hasErrors() },
-										{ 'has-icon': saving },
-										{ 'is-saving': { saving } }
-									) }
-									type="submit"
-									text={
-										saving
-											? __( 'Saving…', 'highlight-and-share' )
-											: __( 'Save Image Sharing Options', 'highlight-and-share' )
-									}
-									icon={ saving ? Spinner : false }
-									iconSize="18"
-									iconPosition="right"
-									disabled={ saving || resetting }
-								/>
-							</div>
-							<div className="has-admin__tabs--content-actions--right">
-								<Button
-									className={ classNames(
-										'has__btn has__btn-danger has__btn--icon-right',
-										{ 'has-icon': resetting },
-										{ 'is-resetting': { resetting } }
-									) }
-									type="button"
-									text={
-										resetting
-											? __( 'Resetting…', 'highlight-and-share' )
-											: __( 'Reset Image Settings', 'highlight-and-share' )
-									}
-									icon={ resetting ? Spinner : false }
-									iconSize="18"
-									iconPosition="right"
-									disabled={ saving || resetting }
-									onClick={ ( e ) => {
-										setResetting( true );
-										handleReset( e );
-									} }
-								/>
-							</div>
-						</div>
-						{ hasErrors() && (
-							<Notice
-								message={ __(
-									'There are form validation errors. Please correct them above.', 'highlight-and-share'
-								) }
-								status="error"
-								politeness="polite"
-							/>
-						) }
-						{ isSaved && (
-							<Notice
-								message={ __( 'Your settings have been saved.', 'highlight-and-share' ) }
-								status="success"
-								politeness="assertive"
-							/>
-						) }
-						{ isReset && (
-							<Notice
-								message={ __( 'Your settings have been reset to defaults.', 'highlight-and-share' ) }
-								status="success"
-								politeness="assertive"
-							/>
-						) }
 					</div>
 				</div>
+				<Fill name="hasImagesFooter">
+					{
+						<Snackbar
+							politeness={ snackbar.politeness }
+							isVisible={ snackbar.isVisible }
+							message={ snackbar.message }
+							title={ snackbar.title }
+							type={ snackbar.type }
+							isDismissable={ snackbar.isDismissable }
+							isPersistent={ snackbar.isPersistent }
+							isSuccess={ snackbar.isSuccess }
+							loadingMessage={ snackbar.loadingMessage }
+							onClose={ () => {
+								setSnackbar( {
+									...snackbar,
+									isVisible: false,
+								} );
+							} }
+						>
+							{ snackbar.message }
+						</Snackbar>
+					}
+					<SaveBar
+						onDiscardChanges={ () => {
+							const checkpoint = getCheckpointData();
+							setCheckpointData( checkpoint, false );
+						} }
+						onSave={ () => {
+							// Save the form data.
+							setSaving( true );
+							sendCommand( 'has_save_images_options', {
+								nonce: window.hasImagesAdmin?.saveNonce,
+								form_data: formValues,
+							} )
+								.then( ( ajaxResponse ) => {
+									const { data: ajaxData, success } = ajaxResponse.data;
+									if ( success ) {
+										setCheckpointData( ajaxData, false );
+										// Wait 350ms so animation can hide.
+										setTimeout( () => {
+											setSnackbar( {
+												isVisible: true,
+												message: __(
+													'Settings saved successfully.',
+													'highlight-and-share'
+												),
+												title: __(
+													'Settings saved successfully.',
+													'highlight-and-share'
+												),
+												type: 'success',
+												isDismissable: true,
+												isPersistent: false,
+												isSuccess: true,
+												loadingMessage: null,
+												politeness: 'assertive',
+											} );
+										}, 350 );
+										setSaving( false );
+									} else {
+										// Error stuff.
+										setSaving( false );
+									}
+								} )
+								.catch( ( error ) => {
+									console.error( error );
+									setSaving( false );
+								} );
+						} }
+						onReset={ () => {
+							// Reset the form data.
+							setResetting( true );
+							sendCommand( 'has_reset_images_options', {
+								nonce: window.hasImagesAdmin?.resetNonce,
+							} )
+								.then( ( ajaxResponse ) => {
+									const { data: ajaxData, success } = ajaxResponse.data;
+									if ( success ) {
+										setCheckpointData( ajaxData, false );
+										// Wait 350ms so animation can hide.
+										setTimeout( () => {
+											setSnackbar( {
+												isVisible: true,
+												message: __(
+													'Settings reset to defaults successfully.',
+													'highlight-and-share'
+												),
+												title: __(
+													'Settings reset to defaults successfully.',
+													'highlight-and-share'
+												),
+												type: 'info',
+												isDismissable: true,
+												isPersistent: false,
+												isSuccess: false,
+												loadingMessage: null,
+												politeness: 'assertive',
+											} );
+										}, 350 );
+										setResetting( false );
+									} else {
+										// Error stuff.
+										setResetting( false );
+									}
+								} )
+								.catch( ( error ) => {
+									console.error( error );
+									setResetting( false );
+								} );
+						} }
+						isSaving={ saving }
+						isResetting={ resetting }
+						isDirtyFields={ isDirty }
+						hasErrors={ hasErrors }
+					/>
+				</Fill>
 			</form>
 		</>
 	);

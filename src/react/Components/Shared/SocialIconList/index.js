@@ -53,6 +53,7 @@ const SocialIconList = () => {
 		[ getValues, setValue, storeNetworks ],
 	);
 
+	let count = 0;
 	return (
 		<>
 			<DndProvider backend={ HTML5Backend }>
@@ -60,9 +61,10 @@ const SocialIconList = () => {
 					if ( ! network.enabled ) {
 						return null;
 					}
+					count++;
 					return (
 						<SocialIconListItem
-							key={ `${ network.key ?? network.slug }-item` }
+							key={ `${ network.key ?? network.slug }-item-${ count }` }
 							listItemKey={ network.key ?? network.slug }
 							className={ network.className }
 							styles={ network.styles }

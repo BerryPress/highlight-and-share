@@ -525,6 +525,7 @@ class Options {
 			);
 			$network_order[ $network['order'] ?? 0 ] = $slug;
 		}
+		$network_order = array_unique( $network_order );
 		ksort( $network_order );
 		$defaults['icon_colors']   = $icon_colors;
 		$defaults['network_order'] = $network_order;
@@ -714,9 +715,11 @@ class Options {
 			return $defaults;
 		}
 
-		$settings        = array_replace_recursive( $defaults, $settings );
-		$options_version = HIGHLIGHT_AND_SHARE_OPTIONS_VERSION;
+		$settings = array_replace_recursive( $defaults, $settings );
+		// Force network_order key to be unique.
+		$settings['network_order'] = array_unique( $settings['network_order'] );
 
+		$options_version = HIGHLIGHT_AND_SHARE_OPTIONS_VERSION;
 		if ( $options_version !== $settings['options_version'] ) {
 			/**
 			 * Filter to migrate plugin options.

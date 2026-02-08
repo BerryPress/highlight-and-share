@@ -14027,6 +14027,185 @@ module.exports = hexToRgba;
 
 /***/ }),
 
+/***/ "./node_modules/lucide-react/dist/esm/createLucideIcon.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/createLucideIcon.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ createLucideIcon),
+/* harmony export */   toKebabCase: () => (/* binding */ toKebabCase)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _defaultAttributes_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./defaultAttributes.js */ "./node_modules/lucide-react/dist/esm/defaultAttributes.js");
+/**
+ * lucide-react v0.268.0 - ISC
+ */
+
+
+
+
+const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+const createLucideIcon = (iconName, iconNode) => {
+  const Component = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(
+    ({ color = "currentColor", size = 24, strokeWidth = 2, absoluteStrokeWidth, children, ...rest }, ref) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(
+      "svg",
+      {
+        ref,
+        ..._defaultAttributes_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+        width: size,
+        height: size,
+        stroke: color,
+        strokeWidth: absoluteStrokeWidth ? Number(strokeWidth) * 24 / Number(size) : strokeWidth,
+        className: `lucide lucide-${toKebabCase(iconName)}`,
+        ...rest
+      },
+      [
+        ...iconNode.map(([tag, attrs]) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(tag, attrs)),
+        ...(Array.isArray(children) ? children : [children]) || []
+      ]
+    )
+  );
+  Component.displayName = `${iconName}`;
+  return Component;
+};
+
+
+//# sourceMappingURL=createLucideIcon.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/defaultAttributes.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/defaultAttributes.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ defaultAttributes)
+/* harmony export */ });
+/**
+ * lucide-react v0.268.0 - ISC
+ */
+
+var defaultAttributes = {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: 24,
+  height: 24,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2,
+  strokeLinecap: "round",
+  strokeLinejoin: "round"
+};
+
+
+//# sourceMappingURL=defaultAttributes.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/alert-circle.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/alert-circle.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ AlertCircle)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * lucide-react v0.268.0 - ISC
+ */
+
+
+
+const AlertCircle = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("AlertCircle", [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
+  ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+]);
+
+
+//# sourceMappingURL=alert-circle.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/check-circle-2.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/check-circle-2.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CheckCircle2)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * lucide-react v0.268.0 - ISC
+ */
+
+
+
+const CheckCircle2 = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("CheckCircle2", [
+  [
+    "path",
+    {
+      d: "M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z",
+      key: "14v8dr"
+    }
+  ],
+  ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
+]);
+
+
+//# sourceMappingURL=check-circle-2.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/loader-2.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/loader-2.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Loader2)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * lucide-react v0.268.0 - ISC
+ */
+
+
+
+const Loader2 = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Loader2", [
+  ["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]
+]);
+
+
+//# sourceMappingURL=loader-2.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/math-intrinsics/abs.js":
 /*!*********************************************!*\
   !*** ./node_modules/math-intrinsics/abs.js ***!
@@ -21371,6 +21550,126 @@ var Loader = function Loader(_ref) {
 
 /***/ }),
 
+/***/ "./src/react/Components/Modals/DiscardChangesModal.js":
+/*!************************************************************!*\
+  !*** ./src/react/Components/Modals/DiscardChangesModal.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+/**
+ * Discard Changes Modal.
+ *
+ * @param {Object}   props           Props.
+ * @param {Function} props.onConfirm Confirm callback.
+ * @param {Function} props.onCancel  Cancel callback.
+ * @param {boolean}  props.isOpen    Whether the modal is open.
+ * @return {JSX.Element} Discard Changes Modal.
+ */
+var DiscardChangesModal = function DiscardChangesModal(props) {
+  var onConfirm = props.onConfirm,
+    onCancel = props.onCancel,
+    isOpen = props.isOpen;
+  if (!isOpen) {
+    return null;
+  }
+  return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.Modal, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Discard Changes', 'highlight-and-share'),
+    onRequestClose: function onRequestClose() {
+      onCancel();
+    },
+    className: "has-discard-changes-modal",
+    shouldCloseOnClickOutside: false
+  }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Are you sure you want to discard your changes? This will reset all your changes back to the last saved version.', 'highlight-and-share')), /*#__PURE__*/React.createElement("div", {
+    className: "has-modal-buttons-group"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
+    variant: "primary",
+    isDestructive: true,
+    onClick: function onClick() {
+      onConfirm();
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Discard Changes', 'highlight-and-share')), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
+    variant: "secondary",
+    onClick: function onClick() {
+      onCancel();
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Cancel', 'highlight-and-share'))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DiscardChangesModal);
+
+/***/ }),
+
+/***/ "./src/react/Components/Modals/ResetChangesModal.js":
+/*!**********************************************************!*\
+  !*** ./src/react/Components/Modals/ResetChangesModal.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+/**
+ * Reset Changes Modal.
+ *
+ * @param {Object}   props           Props.
+ * @param {Function} props.onConfirm Confirm callback.
+ * @param {Function} props.onCancel  Cancel callback.
+ * @param {boolean}  props.isOpen    Whether the modal is open.
+ * @return {JSX.Element} Reset Changes Modal.
+ */
+var ResetChangesModal = function ResetChangesModal(props) {
+  var onConfirm = props.onConfirm,
+    onCancel = props.onCancel,
+    isOpen = props.isOpen;
+  if (!isOpen) {
+    return null;
+  }
+  return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.Modal, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Reset Changes', 'highlight-and-share'),
+    onRequestClose: function onRequestClose() {
+      onCancel();
+    },
+    className: "has-discard-changes-modal",
+    shouldCloseOnClickOutside: false
+  }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Are you sure you want to reset your changes? This will reset all your changes back to the default values.', 'highlight-and-share')), /*#__PURE__*/React.createElement("div", {
+    className: "has-modal-buttons-group"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
+    variant: "primary",
+    isDestructive: true,
+    onClick: function onClick() {
+      onConfirm();
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Reset Changes', 'highlight-and-share')), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.Button, {
+    variant: "secondary",
+    onClick: function onClick() {
+      onCancel();
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Cancel', 'highlight-and-share'))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ResetChangesModal);
+
+/***/ }),
+
 /***/ "./src/react/Components/Notice/index.js":
 /*!**********************************************!*\
   !*** ./src/react/Components/Notice/index.js ***!
@@ -21466,6 +21765,350 @@ var Notice = function Notice(props) {
 
 /***/ }),
 
+/***/ "./src/react/Components/SaveBar/index.js":
+/*!***********************************************!*\
+  !*** ./src/react/Components/SaveBar/index.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _Icons_Spinner__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Icons/Spinner */ "./src/react/Components/Icons/Spinner.js");
+/* harmony import */ var _Modals_DiscardChangesModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Modals/DiscardChangesModal */ "./src/react/Components/Modals/DiscardChangesModal.js");
+/* harmony import */ var _Modals_ResetChangesModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Modals/ResetChangesModal */ "./src/react/Components/Modals/ResetChangesModal.js");
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
+
+
+
+
+
+
+/**
+ * Save Bar component.
+ *
+ * @param {Object}   props                  Component props.
+ * @param {Function} props.onDiscardChanges Discard changes callback.
+ * @param {Function} props.onSave           Save callback.
+ * @param {Function} props.onReset          Reset callback.
+ * @param {boolean}  props.isSaving         Whether the form is saving.
+ * @param {boolean}  props.isResetting      Whether the form is resetting.
+ * @param {boolean}  props.isDirtyFields    Whether the form is dirty.
+ * @param {boolean}  props.hasErrors        Whether the form has errors.
+ * @return {JSX.Element} Save Bar component.
+ */
+var SaveBar = function SaveBar(props) {
+  var onDiscardChanges = props.onDiscardChanges,
+    onSave = props.onSave,
+    onReset = props.onReset,
+    _props$isSaving = props.isSaving,
+    isSaving = _props$isSaving === void 0 ? false : _props$isSaving,
+    _props$isResetting = props.isResetting,
+    isResetting = _props$isResetting === void 0 ? false : _props$isResetting,
+    _props$isDirtyFields = props.isDirtyFields,
+    isDirtyFields = _props$isDirtyFields === void 0 ? false : _props$isDirtyFields,
+    _props$hasErrors = props.hasErrors,
+    hasErrors = _props$hasErrors === void 0 ? false : _props$hasErrors;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    isDiscardChangesModalOpen = _useState2[0],
+    setIsDiscardChangesModalOpen = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    isResetChangesModalOpen = _useState4[0],
+    setIsResetChangesModalOpen = _useState4[1];
+  var saveBarRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var saveBar = saveBarRef.current;
+    if (!saveBar) {
+      return;
+    }
+    var handleTransitionEnd = function handleTransitionEnd(event) {
+      // Only handle height transitions.
+      if (event.propertyName === 'height') {
+        if (isDirtyFields && !hasErrors) {
+          // After expanding, set to auto so content can grow.
+          saveBar.style.height = 'auto';
+        }
+      }
+    };
+    saveBar.addEventListener('transitionend', handleTransitionEnd);
+    if (isDirtyFields && !hasErrors) {
+      saveBar.style.opacity = '1';
+      saveBar.style.height = '75px';
+    } else {
+      // When hiding, set to fixed height first, then transition to 0.
+      if (saveBar.style.height === 'auto') {
+        saveBar.style.height = "".concat(saveBar.scrollHeight, "px");
+        // Force reflow to ensure the height is set before transitioning.
+        // eslint-disable-next-line no-unused-expressions
+        saveBar.offsetHeight;
+      }
+      saveBar.style.opacity = '0';
+      saveBar.style.height = '0';
+    }
+    return function () {
+      saveBar.removeEventListener('transitionend', handleTransitionEnd);
+    };
+  }, [saveBarRef, isDirtyFields, hasErrors, isSaving, isResetting]);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "has-admin-save-bar",
+    ref: saveBarRef,
+    style: {
+      transition: 'all 0.3s ease-in-out',
+      opacity: 0,
+      height: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-admin__tabs--content-actions"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-admin__tabs--content-actions--left"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+    variant: "primary",
+    type: "submit",
+    className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has__btn--icon-right', {
+      'has-icon': isSaving
+    }, {
+      'is-saving': {
+        isSaving: isSaving
+      }
+    }),
+    text: isSaving ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Saving…', 'highlight-and-share') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Save Settings', 'highlight-and-share'),
+    icon: isSaving ? _Icons_Spinner__WEBPACK_IMPORTED_MODULE_4__["default"] : false,
+    iconSize: "18",
+    iconPosition: "right",
+    disabled: isSaving || isResetting,
+    onClick: function onClick(e) {
+      e.preventDefault();
+      onSave();
+    }
+  }), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+    variant: "secondary",
+    type: "button",
+    text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Discard Changes', 'highlight-and-share'),
+    iconSize: "18",
+    iconPosition: "right",
+    disabled: isSaving || isResetting,
+    onClick: function onClick(e) {
+      e.preventDefault();
+      setIsDiscardChangesModalOpen(true);
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-admin__tabs--content-actions--right"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+    variant: "secondary",
+    type: "button",
+    className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has__btn--icon-right', {
+      'has-icon': isResetting
+    }, {
+      'is-resetting': {
+        isResetting: isResetting
+      }
+    }),
+    isDestructive: true,
+    text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Reset to Defaults', 'highlight-and-share'),
+    icon: isResetting ? _Icons_Spinner__WEBPACK_IMPORTED_MODULE_4__["default"] : false,
+    iconSize: "18",
+    iconPosition: "right",
+    disabled: isSaving || isResetting,
+    onClick: function onClick(e) {
+      e.preventDefault();
+      setIsResetChangesModalOpen(true);
+    }
+  }))), /*#__PURE__*/React.createElement(_Modals_DiscardChangesModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    isOpen: isDiscardChangesModalOpen,
+    onConfirm: function onConfirm() {
+      setIsDiscardChangesModalOpen(false);
+      onDiscardChanges();
+    },
+    onCancel: function onCancel() {
+      setIsDiscardChangesModalOpen(false);
+    }
+  }), /*#__PURE__*/React.createElement(_Modals_ResetChangesModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    isOpen: isResetChangesModalOpen,
+    onConfirm: function onConfirm() {
+      setIsResetChangesModalOpen(false);
+      onReset();
+    },
+    onCancel: function onCancel() {
+      setIsResetChangesModalOpen(false);
+    }
+  }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SaveBar);
+
+/***/ }),
+
+/***/ "./src/react/Components/Snackbar/index.js":
+/*!************************************************!*\
+  !*** ./src/react/Components/Snackbar/index.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/alert-circle.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/check-circle-2.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/loader-2.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _Notice__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Notice */ "./src/react/Components/Notice/index.js");
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
+
+
+
+
+
+/**
+ * SnackPop is a component which handles alerts and notifications for the user.
+ * It can handle multiple alerts at once, toggles and forms, and will display the notifications in a queue.
+ *
+ * @param {Object}   props                Component props.
+ * @param {boolean}  props.isVisible      Whether the snackbar is visible.
+ * @param {string}   props.message        The message to display in the snackbar.
+ * @param {string}   props.title          The title of the snackbar.
+ * @param {string}   props.type           The type of snackbar to display.
+ * @param {boolean}  props.isDismissable  Whether the snackbar is dismissable.
+ * @param {boolean}  props.isPersistent   Whether the snackbar is persistent.
+ * @param {boolean}  props.isSuccess      Whether the snackbar is a success.
+ * @param {string}   props.loadingMessage The message to display when the snackbar is loading.
+ * @param {string}   props.politeness     The politeness of the snackbar.
+ * @param {Function} props.onClose        The function to call when the snackbar is closed.
+ *
+ * @return {Element} JSX markup for the component.
+ */
+var Snackbar = function Snackbar(props) {
+  var loadingMessage = props.loadingMessage;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState2 = _slicedToArray(_useState, 1),
+    isBusy = _useState2[0];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    isModalVisible = _useState4[0],
+    setIsModalVisible = _useState4[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (props.isVisible) {
+      setTimeout(function () {
+        props.onClose();
+      }, 5000);
+    }
+  }, [props.isVisible]);
+
+  /**
+   * Gets the icon for the notification.
+   *
+   * @return {Element} JSX markup for the icon.
+   */
+  var getIcon = function getIcon() {
+    switch (props.type) {
+      case 'success':
+        return /*#__PURE__*/React.createElement(lucide_react__WEBPACK_IMPORTED_MODULE_2__["default"], null);
+      case 'error':
+      case 'critical':
+        return /*#__PURE__*/React.createElement(lucide_react__WEBPACK_IMPORTED_MODULE_1__["default"], null);
+      default:
+        return /*#__PURE__*/React.createElement(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], null);
+    }
+  };
+  var getSnackbarActions = function getSnackbarActions() {
+    var actions = [];
+    if (props.type === 'success') {
+      actions.push({
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Back to Top', 'highlight-and-share'),
+        url: '#wpbody-content',
+        variant: 'link',
+        className: 'dlx-pw-admin__notice-action dlx-pw-admin__notice-action--to-top'
+      });
+    }
+    return actions;
+  };
+  var getSnackBar = function getSnackBar() {
+    return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Snackbar, {
+      className: classnames__WEBPACK_IMPORTED_MODULE_5___default()("dlx-pw-snackbar dlx-pw-snackbar-".concat(props.type), {
+        'dlx-pw-snackbar-loading': isBusy
+      }),
+      actions: getSnackbarActions(),
+      icon: getIcon(),
+      onDismiss: function onDismiss() {
+        setIsModalVisible(false);
+        props.onClose();
+      },
+      explicitDismiss: props.isDismissable
+    }, isBusy ? loadingMessage : props.message);
+  };
+  var getModal = function getModal() {
+    if ('critical' === props.type) {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Modal, {
+        className: classnames__WEBPACK_IMPORTED_MODULE_5___default()("dlx-pw-modal dlx-pw-modal-".concat(props.type), {
+          'dlx-pw-modal-loading': isBusy
+        }),
+        bodyOpenClassName: 'dlx-pw-modal-body-open',
+        title: props.title,
+        onRequestClose: function onRequestClose() {
+          setIsModalVisible(false);
+        },
+        isDismissible: true,
+        shouldCloseOnClickOutside: props.isPersistent,
+        shouldCloseOnEsc: props.isPersistent
+      }, /*#__PURE__*/React.createElement(_Notice__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        message: props.message,
+        status: props.type,
+        politeness: props.politeness,
+        icon: getIcon,
+        inline: false
+      }), /*#__PURE__*/React.createElement("div", {
+        className: "dlx-pw-modal-button-group"
+      }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+        className: "button button-error",
+        variant: "secondary",
+        onClick: function onClick() {
+          setIsModalVisible(false);
+        }
+      }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('OK', 'highlight-and-share'))));
+    }
+  };
+  if (!props.isVisible) {
+    return null;
+  }
+  return /*#__PURE__*/React.createElement(React.Fragment, null, getSnackBar(), " ", isModalVisible && getModal(), " ");
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Snackbar);
+
+/***/ }),
+
 /***/ "./src/react/Images/images.js":
 /*!************************************!*\
   !*** ./src/react/Images/images.js ***!
@@ -21496,10 +22139,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Components/ErrorBoundary */ "./src/react/Components/ErrorBoundary/index.js");
 /* harmony import */ var _Components_Notice__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Components/Notice */ "./src/react/Components/Notice/index.js");
 /* harmony import */ var _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Components/Icons/CircularExplanation */ "./src/react/Components/Icons/CircularExplanation.js");
-/* harmony import */ var _Components_Icons_Spinner__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Components/Icons/Spinner */ "./src/react/Components/Icons/Spinner.js");
-/* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
-/* harmony import */ var _Components_Loader__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Components/Loader */ "./src/react/Components/Loader/index.js");
-/* harmony import */ var _Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../Components/ColorPicker */ "./src/react/Components/ColorPicker/index.js");
+/* harmony import */ var _Utils_SendCommand__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Utils/SendCommand */ "./src/react/Utils/SendCommand.js");
+/* harmony import */ var _Components_Loader__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Components/Loader */ "./src/react/Components/Loader/index.js");
+/* harmony import */ var _Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Components/ColorPicker */ "./src/react/Components/ColorPicker/index.js");
+/* harmony import */ var _Components_SaveBar__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../Components/SaveBar */ "./src/react/Components/SaveBar/index.js");
+/* harmony import */ var _Components_Snackbar__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Components/Snackbar */ "./src/react/Components/Snackbar/index.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -21507,6 +22157,8 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
 
 
 
@@ -21553,7 +22205,7 @@ var selectButtonAppearance = [{
 }];
 var defaultColors = hasImagesAdmin.defaultColors;
 var retrieveDefaults = function retrieveDefaults() {
-  return (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_14__["default"])('has_retrieve_images_options', {
+  return (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_13__["default"])('has_retrieve_images_options', {
     nonce: hasImagesAdmin.retrieveNonce
   });
 };
@@ -21562,21 +22214,21 @@ var Images = function Images(props) {
     _useAsyncResource2 = _slicedToArray(_useAsyncResource, 2),
     defaults = _useAsyncResource2[0],
     getDefaults = _useAsyncResource2[1];
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_10__["default"], {
-    fallback: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Could not load Image Sharing options.', 'highlight-and-share'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+  return /*#__PURE__*/React.createElement(_Components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    fallback: /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Could not load Image Sharing options.', 'highlight-and-share'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
       href: "https://dlxplugins.com/support/",
       target: "_blank",
       rel: "noopener noreferrer"
     }, "DLX Plugins Support"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react__WEBPACK_IMPORTED_MODULE_0__.Suspense, {
-    fallback: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/React.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Suspense, {
+    fallback: /*#__PURE__*/React.createElement("div", {
       className: "has-admin-container-body__content"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Loader__WEBPACK_IMPORTED_MODULE_15__["default"], {
+    }, /*#__PURE__*/React.createElement(_Components_Loader__WEBPACK_IMPORTED_MODULE_14__["default"], {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image Sharing Settings', 'highlight-and-share'),
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading…', 'highlight-and-share'),
       color: "var(--wp-admin-theme-color)"
     }))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Interface, _extends({
+  }, /*#__PURE__*/React.createElement(Interface, _extends({
     defaults: defaults
   }, props))));
 };
@@ -21601,26 +22253,33 @@ var Preview = function Preview(props) {
   if (formValues.showOnHover) {
     previewLabel = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Preview: Hover to Preview', 'highlight-and-share');
   }
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
+  return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
     id: "preview",
     label: previewLabel
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, styles), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/React.createElement("style", null, styles), /*#__PURE__*/React.createElement("div", {
     className: imageWrapperClasses
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: classes
-  }, formValues.enablePinterestSharing && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+  }, formValues.enablePinterestSharing && /*#__PURE__*/React.createElement("span", {
     className: "has-pin-svg-pinterest has-pin-button"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_7__.FontAwesomeIcon, {
+  }, /*#__PURE__*/React.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_7__.FontAwesomeIcon, {
     icon: _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_8__.faPinterest
-  }), formValues.showButtonLabels && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+  }), formValues.showButtonLabels && /*#__PURE__*/React.createElement("span", {
     className: "has-icon-label"
-  }, formValues.pinterestButtonLabel)), formValues.enableWebshareSharing && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+  }, formValues.pinterestButtonLabel)), formValues.enableWebshareSharing && /*#__PURE__*/React.createElement("span", {
     className: "has-pin-svg-webshare has-pin-button"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_7__.FontAwesomeIcon, {
+  }, /*#__PURE__*/React.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_7__.FontAwesomeIcon, {
     icon: _fortawesome_free_solid_svg_icons_faShare__WEBPACK_IMPORTED_MODULE_9__.faShare
-  }), formValues.showButtonLabels && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+  }), formValues.showButtonLabels && /*#__PURE__*/React.createElement("span", {
     className: "has-icon-label"
   }, formValues.webshareButtonLabel)))));
+};
+var checkpointData = null;
+var setCheckpointData = function setCheckpointData(newData) {
+  checkpointData = newData;
+};
+var getCheckpointData = function getCheckpointData() {
+  return checkpointData;
 };
 var Interface = function Interface(props) {
   // Get retrieved data.
@@ -21635,20 +22294,22 @@ var Interface = function Interface(props) {
     setSaving = _useState2[1];
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState4 = _slicedToArray(_useState3, 2),
-    isSaved = _useState4[0],
-    setIsSaved = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    resetting = _useState4[0],
+    setResetting = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+      isVisible: false,
+      message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings saved successfully.', 'highlight-and-share'),
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings saved successfully.', 'highlight-and-share'),
+      type: 'success',
+      isDismissable: false,
+      isPersistent: false,
+      isSuccess: true,
+      loadingMessage: null,
+      politeness: 'assertive'
+    }),
     _useState6 = _slicedToArray(_useState5, 2),
-    resetting = _useState6[0],
-    setResetting = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-    _useState8 = _slicedToArray(_useState7, 2),
-    isReset = _useState8[0],
-    setIsReset = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-    _useState0 = _slicedToArray(_useState9, 2),
-    refreshingFonts = _useState0[0],
-    setRefreshingFonts = _useState0[1];
+    snackbar = _useState6[0],
+    setSnackbar = _useState6[1];
   var getDefaultValues = function getDefaultValues() {
     return {
       enableImageSharing: data.enableImageSharing,
@@ -21683,13 +22344,8 @@ var Interface = function Interface(props) {
     }),
     register = _useForm.register,
     control = _useForm.control,
-    handleSubmit = _useForm.handleSubmit,
-    setValue = _useForm.setValue,
     getValues = _useForm.getValues,
-    reset = _useForm.reset,
-    trigger = _useForm.trigger,
-    setError = _useForm.setError,
-    clearErrors = _useForm.clearErrors;
+    handleSubmit = _useForm.handleSubmit;
   var formValues = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_2__.useWatch)({
     control: control
   });
@@ -21700,88 +22356,51 @@ var Interface = function Interface(props) {
     isDirty = _useFormState.isDirty,
     dirtyFields = _useFormState.dirtyFields,
     touchedFields = _useFormState.touchedFields;
-  var onSubmit = function onSubmit(formData) {
-    setSaving(true);
-    (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_14__["default"])('has_save_images_options', {
-      nonce: hasImagesAdmin.saveNonce,
-      formData: formData
-    }).then(function (ajaxResponse) {
-      var ajaxData = ajaxResponse.data.data;
-      var ajaxSuccess = ajaxResponse.data.success;
-      if (ajaxSuccess) {
-        // Reset count.
-        reset(ajaxData);
-        setIsSaved(true);
-        setTimeout(function () {
-          setIsSaved(false);
-        }, 3000);
-      } else {
-        var message = ajaxData[0].message;
-      }
-    })["catch"](function (ajaxResponse) {}).then(function (ajaxResponse) {
-      setSaving(false);
-    });
-  };
-  var handleReset = function handleReset(e) {
-    setResetting(true);
-    (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_14__["default"])('has_reset_images_options', {
-      nonce: hasImagesAdmin.resetNonce
-    }).then(function (ajaxResponse) {
-      var ajaxData = ajaxResponse.data.data;
-      var ajaxSuccess = ajaxResponse.data.success;
-      if (ajaxSuccess) {
-        // Clear form dirty.
-        reset(ajaxData);
-        setIsReset(true);
-        setTimeout(function () {
-          setIsReset(false);
-        }, 3000);
-      } else {
-        // Error stuff.
-      }
-    })["catch"](function (ajaxResponse) {}).then(function (ajaxResponse) {
-      setResetting(false);
-    });
-  };
-  var hasErrors = function hasErrors() {
-    return Object.keys(errors).length > 0;
-  };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
+  var onSubmit = function onSubmit(formData) {};
+  var hasErrors = Object.keys(errors).length > 0 ? true : false;
+
+  // Set the initial form state when data loads.
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (data) {
+      setCheckpointData(data);
+    }
+  }, [data, control]);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("form", {
     onSubmit: handleSubmit(onSubmit)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin-container-body__content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin-content-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin-content-panel"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin-content-heading"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+  }, /*#__PURE__*/React.createElement("h1", null, /*#__PURE__*/React.createElement("span", {
     className: "has-admin-content-heading-text"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image Sharing Settings', 'highlight-and-share'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image Sharing Settings', 'highlight-and-share'))), /*#__PURE__*/React.createElement("p", {
     className: "description"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('On this screen, you can set the image sharing options for Pinterest and the Web Share API.', 'highlight-and-share'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('On this screen, you can set the image sharing options for Pinterest and the Web Share API.', 'highlight-and-share'))), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-content-body"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
+  }, /*#__PURE__*/React.createElement("h2", {
     className: "has-admin-content-subheading"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image Sharing', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image Sharing', 'highlight-and-share')), /*#__PURE__*/React.createElement("p", {
     className: "description"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Set image sharing options.', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Set image sharing options.', 'highlight-and-share')), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
+  }, /*#__PURE__*/React.createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
     status: "warning",
     icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_12__["default"],
     message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image sharing is still new and may not be compatible with all themes. Please ensure your site layout is not affected after enabling image sharing.', 'highlight-and-share')
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "enableImageSharing",
     control: control,
     render: function render(_ref) {
       var _ref$field = _ref.field,
         _onChange = _ref$field.onChange,
         value = _ref$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable Image Sharing', 'highlight-and-share'),
         className: "has-admin__toggle-control",
         checked: value,
@@ -21791,16 +22410,16 @@ var Interface = function Interface(props) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable or disable image sharing on your images.', 'highlight-and-share')
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "enablePinterestSharing",
     control: control,
     render: function render(_ref2) {
       var _ref2$field = _ref2.field,
         _onChange2 = _ref2$field.onChange,
         value = _ref2$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable Pinterest Sharing', 'highlight-and-share'),
         className: "has-admin__toggle-control",
         checked: value,
@@ -21810,16 +22429,16 @@ var Interface = function Interface(props) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable or disable Pinterest sharing on images.', 'highlight-and-share')
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "enableWebshareSharing",
     control: control,
     render: function render(_ref3) {
       var _ref3$field = _ref3.field,
         _onChange3 = _ref3$field.onChange,
         value = _ref3$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable Web Share Sharing (Mobile Only)', 'highlight-and-share'),
         className: "has-admin__toggle-control",
         checked: value,
@@ -21829,16 +22448,16 @@ var Interface = function Interface(props) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable or disable the Web Share API sharing on mobile devices.', 'highlight-and-share')
       });
     }
-  })), formValues.enableWebshareSharing && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), formValues.enableWebshareSharing && /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "webshareShareImageOnly",
     control: control,
     render: function render(_ref4) {
       var _ref4$field = _ref4.field,
         _onChange4 = _ref4$field.onChange,
         value = _ref4$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Share Image Only via Web Share', 'highlight-and-share'),
         className: "has-admin__toggle-control",
         checked: value,
@@ -21848,16 +22467,16 @@ var Interface = function Interface(props) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('By default, the page URL and image file are shared. Enable this to share the image only, which will allow for local copying and saving on mobile devices.', 'highlight-and-share')
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "excludeLeadingImage",
     control: control,
     render: function render(_ref5) {
       var _ref5$field = _ref5.field,
         _onChange5 = _ref5$field.onChange,
         value = _ref5$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Exclude Leading Image', 'highlight-and-share'),
         className: "has-admin__toggle-control",
         checked: value,
@@ -21867,14 +22486,14 @@ var Interface = function Interface(props) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Exclude the leading image from the image sharing options.', 'highlight-and-share')
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
     id: "supportedPostTypes",
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Supported Post Types', 'highlight-and-share'),
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select the post types where image sharing will be enabled.', 'highlight-and-share')
   }, Object.values(hasImagesAdmin.postTypes).map(function (postType) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+    return /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
       key: postType.value,
       name: "supportedPostTypes[".concat(postType.value, "]"),
       control: control,
@@ -21882,9 +22501,9 @@ var Interface = function Interface(props) {
         var _ref6$field = _ref6.field,
           _onChange6 = _ref6$field.onChange,
           value = _ref6$field.value;
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.CheckboxControl, {
+        return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.CheckboxControl, {
           label: postType.label,
-          checked: value,
+          checked: value !== null && value !== void 0 ? value : false,
           value: postType.value,
           onChange: function onChange(newValue) {
             _onChange6(newValue);
@@ -21892,16 +22511,16 @@ var Interface = function Interface(props) {
         });
       }
     });
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "exclusions",
     control: control,
     render: function render(_ref7) {
       var _ref7$field = _ref7.field,
         _onChange7 = _ref7$field.onChange,
         value = _ref7$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.TextControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.TextControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Exclusions', 'highlight-and-share'),
         value: value,
         onChange: function onChange(newValue) {
@@ -21911,26 +22530,26 @@ var Interface = function Interface(props) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter comma-separated keywords to exclude certain images, such as a CSS classname or data parameter.', 'highlight-and-share')
       });
     }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-content-body"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
+  }, /*#__PURE__*/React.createElement("h2", {
     className: "has-admin-content-subheading"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Sharing Appearance', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Sharing Appearance', 'highlight-and-share')), /*#__PURE__*/React.createElement("p", {
     className: "description"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Adjust the appearance of the image sharing options below.', 'highlight-and-share')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Adjust the appearance of the image sharing options below.', 'highlight-and-share')), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Preview, {
+  }, /*#__PURE__*/React.createElement(Preview, {
     formValues: formValues
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "location",
     control: control,
     render: function render(_ref8) {
       var _ref8$field = _ref8.field,
         _onChange8 = _ref8$field.onChange,
         value = _ref8$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Location', 'highlight-and-share'),
         value: value,
         options: selectLocations,
@@ -21941,16 +22560,16 @@ var Interface = function Interface(props) {
         className: "has-admin__theme-select"
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "showOnHover",
     control: control,
     render: function render(_ref9) {
       var _ref9$field = _ref9.field,
         _onChange9 = _ref9$field.onChange,
         value = _ref9$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show on Hover', 'highlight-and-share'),
         className: "has-admin__toggle-control",
         checked: value,
@@ -21960,16 +22579,16 @@ var Interface = function Interface(props) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show the sharing buttons on hover over the image.', 'highlight-and-share')
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "showButtonLabels",
     control: control,
     render: function render(_ref0) {
       var _ref0$field = _ref0.field,
         _onChange0 = _ref0$field.onChange,
         value = _ref0$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Button Labels', 'highlight-and-share'),
         className: "has-admin__toggle-control",
         checked: value,
@@ -21979,16 +22598,16 @@ var Interface = function Interface(props) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show the button labels on the sharing buttons.', 'highlight-and-share')
       });
     }
-  })), formValues.showButtonLabels && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), formValues.showButtonLabels && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "pinterestButtonLabel",
     control: control,
     render: function render(_ref1) {
       var _ref1$field = _ref1.field,
         _onChange1 = _ref1$field.onChange,
         value = _ref1$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.TextControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.TextControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pinterest Button Label', 'highlight-and-share'),
         value: value,
         onChange: function onChange(newValue) {
@@ -21998,16 +22617,16 @@ var Interface = function Interface(props) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter the label for the Pinterest sharing button.', 'highlight-and-share')
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "webshareButtonLabel",
     control: control,
     render: function render(_ref10) {
       var _ref10$field = _ref10.field,
         _onChange10 = _ref10$field.onChange,
         value = _ref10$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.TextControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.TextControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Web Share Button Label', 'highlight-and-share'),
         value: value,
         className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has-admin__text-control'),
@@ -22017,16 +22636,16 @@ var Interface = function Interface(props) {
         help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enter the label for the Web Share API sharing button.', 'highlight-and-share')
       });
     }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "buttonShape",
     control: control,
     render: function render(_ref11) {
       var _ref11$field = _ref11.field,
         _onChange11 = _ref11$field.onChange,
         value = _ref11$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Button Shape', 'highlight-and-share'),
         value: value,
         options: selectButtonAppearance,
@@ -22037,20 +22656,20 @@ var Interface = function Interface(props) {
         className: "has-admin__theme-select"
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Preview, {
+  }, /*#__PURE__*/React.createElement(Preview, {
     formValues: formValues
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "pinterestButtonColor",
     control: control,
     render: function render(_ref12) {
       var _ref12$field = _ref12.field,
         _onChange12 = _ref12$field.onChange,
         value = _ref12$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange12(newValue);
@@ -22061,16 +22680,16 @@ var Interface = function Interface(props) {
         slug: 'pinterest_button_background_color'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "pinterestButtonColorHover",
     control: control,
     render: function render(_ref13) {
       var _ref13$field = _ref13.field,
         _onChange13 = _ref13$field.onChange,
         value = _ref13$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange13(newValue);
@@ -22081,16 +22700,16 @@ var Interface = function Interface(props) {
         slug: 'pinterest_button_background_color_hover'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "pinterestIconColor",
     control: control,
     render: function render(_ref14) {
       var _ref14$field = _ref14.field,
         _onChange14 = _ref14$field.onChange,
         value = _ref14$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange14(newValue);
@@ -22101,16 +22720,16 @@ var Interface = function Interface(props) {
         slug: 'pinterest_icon_color'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "pinterestIconColorHover",
     control: control,
     render: function render(_ref15) {
       var _ref15$field = _ref15.field,
         _onChange15 = _ref15$field.onChange,
         value = _ref15$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange15(newValue);
@@ -22121,16 +22740,16 @@ var Interface = function Interface(props) {
         slug: 'pinterest_icon_color_hover'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "pinterestTextColor",
     control: control,
     render: function render(_ref16) {
       var _ref16$field = _ref16.field,
         _onChange16 = _ref16$field.onChange,
         value = _ref16$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange16(newValue);
@@ -22141,16 +22760,16 @@ var Interface = function Interface(props) {
         slug: 'pinterest_text_color'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "pinterestTextColorHover",
     control: control,
     render: function render(_ref17) {
       var _ref17$field = _ref17.field,
         _onChange17 = _ref17$field.onChange,
         value = _ref17$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange17(newValue);
@@ -22161,20 +22780,20 @@ var Interface = function Interface(props) {
         slug: 'pinterest_text_color_hover'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Preview, {
+  }, /*#__PURE__*/React.createElement(Preview, {
     formValues: formValues
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "webshareIconColor",
     control: control,
     render: function render(_ref18) {
       var _ref18$field = _ref18.field,
         _onChange18 = _ref18$field.onChange,
         value = _ref18$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange18(newValue);
@@ -22185,16 +22804,16 @@ var Interface = function Interface(props) {
         slug: 'webshare_icon_color'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "webshareIconColorHover",
     control: control,
     render: function render(_ref19) {
       var _ref19$field = _ref19.field,
         _onChange19 = _ref19$field.onChange,
         value = _ref19$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange19(newValue);
@@ -22205,16 +22824,16 @@ var Interface = function Interface(props) {
         slug: 'webshare_icon_color_hover'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "webshareButtonColor",
     control: control,
     render: function render(_ref20) {
       var _ref20$field = _ref20.field,
         _onChange20 = _ref20$field.onChange,
         value = _ref20$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange20(newValue);
@@ -22225,16 +22844,16 @@ var Interface = function Interface(props) {
         slug: 'webshare_button_color'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "webshareButtonColorHover",
     control: control,
     render: function render(_ref21) {
       var _ref21$field = _ref21.field,
         _onChange21 = _ref21$field.onChange,
         value = _ref21$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange21(newValue);
@@ -22245,16 +22864,16 @@ var Interface = function Interface(props) {
         slug: 'webshare_button_color_hover'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "webshareTextColor",
     control: control,
     render: function render(_ref22) {
       var _ref22$field = _ref22.field,
         _onChange22 = _ref22$field.onChange,
         value = _ref22$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange22(newValue);
@@ -22265,16 +22884,16 @@ var Interface = function Interface(props) {
         slug: 'webshare_text_color'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
+  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_2__.Controller, {
     name: "webshareTextColorHover",
     control: control,
     render: function render(_ref23) {
       var _ref23$field = _ref23.field,
         _onChange23 = _ref23$field.onChange,
         value = _ref23$field.value;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      return /*#__PURE__*/React.createElement(_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_15__["default"], {
         value: value,
         onChange: function onChange(slug, newValue) {
           _onChange23(newValue);
@@ -22285,63 +22904,110 @@ var Interface = function Interface(props) {
         slug: 'webshare_text_color_hover'
       });
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Preview, {
+  }, /*#__PURE__*/React.createElement(Preview, {
     formValues: formValues
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "has-admin__tabs--content-actions"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "has-admin__tabs--content-actions--left"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Button, {
-    className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has__btn has__btn-primary has__btn--icon-right', {
-      'has-error': hasErrors()
-    }, {
-      'has-icon': saving
-    }, {
-      'is-saving': {
-        saving: saving
-      }
-    }),
-    type: "submit",
-    text: saving ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Saving…', 'highlight-and-share') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Save Image Sharing Options', 'highlight-and-share'),
-    icon: saving ? _Components_Icons_Spinner__WEBPACK_IMPORTED_MODULE_13__["default"] : false,
-    iconSize: "18",
-    iconPosition: "right",
-    disabled: saving || resetting
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "has-admin__tabs--content-actions--right"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Button, {
-    className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('has__btn has__btn-danger has__btn--icon-right', {
-      'has-icon': resetting
-    }, {
-      'is-resetting': {
-        resetting: resetting
-      }
-    }),
-    type: "button",
-    text: resetting ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Resetting…', 'highlight-and-share') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Reset Image Settings', 'highlight-and-share'),
-    icon: resetting ? _Components_Icons_Spinner__WEBPACK_IMPORTED_MODULE_13__["default"] : false,
-    iconSize: "18",
-    iconPosition: "right",
-    disabled: saving || resetting,
-    onClick: function onClick(e) {
-      setResetting(true);
-      handleReset(e);
+  })))))), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Fill, {
+    name: "hasImagesFooter"
+  }, /*#__PURE__*/React.createElement(_Components_Snackbar__WEBPACK_IMPORTED_MODULE_17__["default"], {
+    politeness: snackbar.politeness,
+    isVisible: snackbar.isVisible,
+    message: snackbar.message,
+    title: snackbar.title,
+    type: snackbar.type,
+    isDismissable: snackbar.isDismissable,
+    isPersistent: snackbar.isPersistent,
+    isSuccess: snackbar.isSuccess,
+    loadingMessage: snackbar.loadingMessage,
+    onClose: function onClose() {
+      setSnackbar(_objectSpread(_objectSpread({}, snackbar), {}, {
+        isVisible: false
+      }));
     }
-  }))), hasErrors() && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('There are form validation errors. Please correct them above.', 'highlight-and-share'),
-    status: "error",
-    politeness: "polite"
-  }), isSaved && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Your settings have been saved.', 'highlight-and-share'),
-    status: "success",
-    politeness: "assertive"
-  }), isReset && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Your settings have been reset to defaults.', 'highlight-and-share'),
-    status: "success",
-    politeness: "assertive"
-  })))));
+  }, snackbar.message), /*#__PURE__*/React.createElement(_Components_SaveBar__WEBPACK_IMPORTED_MODULE_16__["default"], {
+    onDiscardChanges: function onDiscardChanges() {
+      var checkpoint = getCheckpointData();
+      setCheckpointData(checkpoint, false);
+    },
+    onSave: function onSave() {
+      var _window$hasImagesAdmi;
+      // Save the form data.
+      setSaving(true);
+      (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_13__["default"])('has_save_images_options', {
+        nonce: (_window$hasImagesAdmi = window.hasImagesAdmin) === null || _window$hasImagesAdmi === void 0 ? void 0 : _window$hasImagesAdmi.saveNonce,
+        form_data: formValues
+      }).then(function (ajaxResponse) {
+        var _ajaxResponse$data = ajaxResponse.data,
+          ajaxData = _ajaxResponse$data.data,
+          success = _ajaxResponse$data.success;
+        if (success) {
+          setCheckpointData(ajaxData, false);
+          // Wait 350ms so animation can hide.
+          setTimeout(function () {
+            setSnackbar({
+              isVisible: true,
+              message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings saved successfully.', 'highlight-and-share'),
+              title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings saved successfully.', 'highlight-and-share'),
+              type: 'success',
+              isDismissable: true,
+              isPersistent: false,
+              isSuccess: true,
+              loadingMessage: null,
+              politeness: 'assertive'
+            });
+          }, 350);
+          setSaving(false);
+        } else {
+          // Error stuff.
+          setSaving(false);
+        }
+      })["catch"](function (error) {
+        console.error(error);
+        setSaving(false);
+      });
+    },
+    onReset: function onReset() {
+      var _window$hasImagesAdmi2;
+      // Reset the form data.
+      setResetting(true);
+      (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_13__["default"])('has_reset_images_options', {
+        nonce: (_window$hasImagesAdmi2 = window.hasImagesAdmin) === null || _window$hasImagesAdmi2 === void 0 ? void 0 : _window$hasImagesAdmi2.resetNonce
+      }).then(function (ajaxResponse) {
+        var _ajaxResponse$data2 = ajaxResponse.data,
+          ajaxData = _ajaxResponse$data2.data,
+          success = _ajaxResponse$data2.success;
+        if (success) {
+          setCheckpointData(ajaxData, false);
+          // Wait 350ms so animation can hide.
+          setTimeout(function () {
+            setSnackbar({
+              isVisible: true,
+              message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings reset to defaults successfully.', 'highlight-and-share'),
+              title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings reset to defaults successfully.', 'highlight-and-share'),
+              type: 'info',
+              isDismissable: true,
+              isPersistent: false,
+              isSuccess: false,
+              loadingMessage: null,
+              politeness: 'assertive'
+            });
+          }, 350);
+          setResetting(false);
+        } else {
+          // Error stuff.
+          setResetting(false);
+        }
+      })["catch"](function (error) {
+        console.error(error);
+        setResetting(false);
+      });
+    },
+    isSaving: saving,
+    isResetting: resetting,
+    isDirtyFields: isDirty,
+    hasErrors: hasErrors
+  }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Images);
 
@@ -22564,13 +23230,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
-/* harmony import */ var _images__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./images */ "./src/react/Images/images.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _images__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./images */ "./src/react/Images/images.js");
+
+
 
 
 
 var container = document.getElementById('has-images-admin-settings');
-var root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container);
-root.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_images__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
+var slotContainer = document.getElementById('has-admin-container-slot');
+container.innerHTML = '';
+// If both containers exist, use a shared SlotFillProvider with portals.
+if (container && slotContainer) {
+  var commonParent = slotContainer.parentElement;
+  if (commonParent && commonParent.contains(container)) {
+    // Create a hidden root container for the shared provider.
+    var rootContainer = document.createElement('div');
+    rootContainer.style.display = 'none';
+    commonParent.appendChild(rootContainer);
+    var root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(rootContainer);
+    root.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SlotFillProvider, null, /*#__PURE__*/(0,react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal)(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_images__WEBPACK_IMPORTED_MODULE_4__["default"], null), container), /*#__PURE__*/(0,react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal)(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Slot, {
+      name: "hasImagesFooter"
+    }), slotContainer))));
+  } else {
+    // Fallback: render separately if no common parent found.
+    var _root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container);
+    _root.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SlotFillProvider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_images__WEBPACK_IMPORTED_MODULE_4__["default"], null))));
+    var slotRoot = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(slotContainer);
+    slotRoot.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SlotFillProvider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Slot, {
+      name: "hasImagesFooter"
+    }))));
+  }
+}
 })();
 
 /******/ })()

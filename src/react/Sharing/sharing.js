@@ -6,8 +6,7 @@ import { __ } from '@wordpress/i18n';
 import { useForm, FormProvider, useWatch, useFormState } from 'react-hook-form';
 import { Suspense, useEffect, useState, useRef } from 'react';
 import { dispatch, select } from '@wordpress/data';
-import classnames from 'classnames';
-import { Button, Spinner, Fill } from '@wordpress/components';
+import { Fill } from '@wordpress/components';
 import store from './Panels/SocialNetworksPanel/Store'; // Register the store before using components that depend on it.
 import SocialNetworksPanel from './Panels/SocialNetworksPanel';
 import DisplayRulesPanel from './Panels/DisplayRulesPanel';
@@ -410,6 +409,7 @@ const SharingInterface = ( { defaults } ) => {
 			isMounted = false;
 		};
 	}, [] );
+
 
 	const formValues = useWatch( {
 		control: methods.control,
