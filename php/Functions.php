@@ -378,6 +378,27 @@ class Functions {
 	}
 
 	/**
+	 * Get all public post types.
+	 *
+	 * @return array Array of post type objects.
+	 */
+	public static function get_post_types() {
+		$post_types          = get_post_types(
+			array(
+				'public' => true,
+			),
+			'objects'
+		);
+		$excluded_post_types = array( 'attachment', 'revision', 'nav_menu_item', 'ct_content_block' );
+		return array_filter(
+			$post_types,
+			function ( $post_type ) use ( $excluded_post_types ) {
+				return ! in_array( $post_type->name, $excluded_post_types, true );
+			}
+		);
+	}
+
+	/**
 	 * Return the plugin slug.
 	 *
 	 * @return string plugin slug.

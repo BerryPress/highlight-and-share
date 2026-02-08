@@ -246,10 +246,17 @@ class Admin {
 		}
 
 		// Get saved options.
-		$options = Options::get_image_options( true );
-		$return  = $this->map_defaults_to_js(
-			stripslashes_deep( $options ),
-		);
+		$options              = Options::get_image_options( true );
+		$post_types           = Functions::get_post_types();
+		$supported_post_types = $options['supported_post_types'] ?? array();
+		// Make sure array key is set (format post=>true) for all post types. Default to false.
+		foreach ( $post_types as $post_type ) {
+			if ( ! isset( $supported_post_types[ $post_type->name ] ) ) {
+				$supported_post_types[ $post_type->name ] = false;
+			}
+		}
+		$options['supported_post_types'] = $supported_post_types;
+		$return                          = $this->map_defaults_to_js( stripslashes_deep( $options ) );
 		wp_send_json_success( $return );
 	}
 
@@ -689,6 +696,7 @@ class Admin {
 				);
 
 				// Format post types into label|value pairs.
+				$post_types = Functions::get_post_types();
 				$post_types = array_map(
 					function ( $post_type ) {
 						return array(
