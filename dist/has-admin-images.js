@@ -22380,13 +22380,13 @@ var Interface = function Interface(props) {
     className: "has-admin-content-heading-text"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image Sharing Settings', 'highlight-and-share'))), /*#__PURE__*/React.createElement("p", {
     className: "description"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('On this screen, you can set the image sharing options for Pinterest and the Web Share API.', 'highlight-and-share'))), /*#__PURE__*/React.createElement("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('On this screen, you can set the image sharing options for Pinterest and the Web Share API. Image sharing can be enabled per post type, and also per page via the Highlight and Share sidebar options.', 'highlight-and-share'))), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-content-body"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "has-admin-content-subheading"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image Sharing', 'highlight-and-share')), /*#__PURE__*/React.createElement("p", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Display Settings', 'highlight-and-share')), /*#__PURE__*/React.createElement("p", {
     className: "description"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Set image sharing options.', 'highlight-and-share')), /*#__PURE__*/React.createElement("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Set how image sharing is enabled and configured.', 'highlight-and-share')), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/React.createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_11__["default"], {
     status: "warning",

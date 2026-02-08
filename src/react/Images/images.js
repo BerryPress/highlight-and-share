@@ -273,16 +273,16 @@ const Interface = ( props ) => {
 								</h1>
 								<p className="description">
 									{ __(
-										'On this screen, you can set the image sharing options for Pinterest and the Web Share API.',
+										'On this screen, you can set the image sharing options for Pinterest and the Web Share API. Image sharing can be enabled per post type, and also per page via the Highlight and Share sidebar options.',
 										'highlight-and-share'
 									) }
 								</p>
 							</div>
 							<div className="has-admin-content-body">
 								<h2 className="has-admin-content-subheading">
-									{ __( 'Image Sharing', 'highlight-and-share' ) }
+									{ __( 'Display Settings', 'highlight-and-share' ) }
 								</h2>
-								<p className="description">{ __( 'Set image sharing options.', 'highlight-and-share' ) }</p>
+								<p className="description">{ __( 'Set how image sharing is enabled and configured.', 'highlight-and-share' ) }</p>
 								<div className="has-admin-component-row">
 									<Notice
 										status="warning"
