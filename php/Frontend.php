@@ -505,8 +505,20 @@ class Frontend {
 	 * @param string $content The content HTML.
 	 */
 	public function add_image_sharing_html( $content ) {
-		// If we're not in the loop, bail.
-		if ( is_admin() || is_feed() || ( ! is_singular() && ! is_page() && ! is_single() ) ) {
+		// Allowed contexts: singular (single post/page/CPT) or post type archive when filter allows.
+		$on_singular = is_singular() || is_page() || is_single();
+		/**
+		 * Filter: has_pin_show_on_archives
+		 *
+		 * Allow image sharing (Pinterest/Web Share) on post type archive pages. Default true.
+		 *
+		 * @param bool $show Whether to run image sharing on archives. Default true.
+		 * @param string $post_type The post type.
+		 * @return bool Whether to show image sharing on archives.
+		 * @since 6.0.0
+		 */
+		$on_archive = is_post_type_archive() && apply_filters( 'has_pin_show_on_archives', true, get_post_type() );
+		if ( is_admin() || is_feed() || ( ! $on_singular && ! $on_archive ) ) {
 			return $content;
 		}
 
