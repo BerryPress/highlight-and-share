@@ -66,14 +66,18 @@
 				let description = image.getAttribute( 'alt' );
 				const dataPinDescription = image.getAttribute( 'data-pin-description' );
 
-				let pageUrl = getPageUrl();
+				const pageUrl = getPageUrl();
 
 				const maybeParentAnchor = image.closest( 'a' );
 				if ( null !== maybeParentAnchor ) {
 					const maybeParentAnchorUrl = maybeParentAnchor.getAttribute( 'href' );
-					if ( maybeParentAnchorUrl && maybeParentAnchorUrl.match( /\.(jpeg|jpg|gif|png)$/i ) ) {
+					if (
+						maybeParentAnchorUrl &&
+						maybeParentAnchorUrl.match( /\.(jpeg|jpg|gif|png)$/i )
+					) {
 						imageUrl = maybeParentAnchorUrl;
-						description = maybeParentAnchor.getAttribute( 'title' ) ?? description;
+						description =
+							maybeParentAnchor.getAttribute( 'title' ) ?? description;
 					}
 				}
 
@@ -89,7 +93,11 @@
 
 				window.open(
 					'https://www.pinterest.com/pin/create/button/?url=' +
-						encodeURIComponent( pageUrl ) + '&media=' + encodeURIComponent( dataPinUrl ?? imageUrl ) + '&description=' + encodeURIComponent( dataPinDescription ?? description ),
+						encodeURIComponent( pageUrl ) +
+						'&media=' +
+						encodeURIComponent( dataPinUrl ?? imageUrl ) +
+						'&description=' +
+						encodeURIComponent( dataPinDescription ?? description ),
 					'Highlight and Share',
 					'width=575,height=430,toolbar=false,menubar=false,location=false,status=false'
 				);
@@ -105,15 +113,17 @@
 	 * @param {string} url   URL.
 	 */
 	const doShareUrl = ( title, text, url ) => {
-		navigator.share( {
-			title: title || '',
-			text: text || '',
-			url: url || '',
-		} ).catch( ( err ) => {
-			if ( err.name !== 'AbortError' ) {
-				console.warn( 'Highlight and Share: Web Share failed', err );
-			}
-		} );
+		navigator
+			.share( {
+				title: title || '',
+				text: text || '',
+				url: url || '',
+			} )
+			.catch( ( err ) => {
+				if ( err.name !== 'AbortError' ) {
+					console.warn( 'Highlight and Share: Web Share failed', err );
+				}
+			} );
 	};
 
 	/**
@@ -126,7 +136,9 @@
 		const image = wrapper.querySelector( 'img' );
 		const dataPinUrl = image ? image.getAttribute( 'data-pin-url' ) : null;
 		let description = image ? image.getAttribute( 'alt' ) : '';
-		const dataPinDescription = image ? image.getAttribute( 'data-pin-description' ) : null;
+		const dataPinDescription = image
+			? image.getAttribute( 'data-pin-description' )
+			: null;
 		let imageUrl = image ? image.getAttribute( 'src' ) : '';
 		const pageUrl = getPageUrl();
 		const shareUrl = dataPinUrl || pageUrl;
@@ -144,13 +156,73 @@
 	};
 
 	/**
+	 * Cache of image URL -> { blob, extension } for synchronous Web Share (image-only).
+	 * Preloaded only when the webshare button is hovered or touched.
+	 */
+	const imageBlobCache = new Map();
+	const IMAGE_BLOB_CACHE_MAX = 10;
+
+	/**
+	 * Preload an image as a blob and store in cache. Evicts oldest entries when over limit.
+	 *
+	 * @param {string} imageUrl Image URL to fetch.
+	 */
+	const preloadImageBlob = ( imageUrl ) => {
+		if ( ! imageUrl || imageBlobCache.has( imageUrl ) ) {
+			return;
+		}
+		const ext = imageUrl.split( '.' ).pop().toLowerCase().split( '?' )[ 0 ] || 'png';
+		fetch( imageUrl )
+			.then( ( response ) => response.blob() )
+			.then( ( blob ) => {
+				while ( imageBlobCache.size >= IMAGE_BLOB_CACHE_MAX ) {
+					const firstKey = imageBlobCache.keys().next().value;
+					if ( firstKey !== undefined ) {
+						imageBlobCache.delete( firstKey );
+					}
+				}
+				imageBlobCache.set( imageUrl, { blob, extension: ext } );
+			} )
+			.catch( () => {} );
+	};
+
+	/**
+	 * Start preloading the image for this webshare button (on hover or touch). Only when image-only is enabled.
+	 *
+	 * @param {Element} el Webshare button element.
+	 */
+	const startPreloadForButton = ( el ) => {
+		if ( ! config.enable_webshare_image_only ) {
+			return;
+		}
+		const parent = el.closest( '.has-pin-image-wrapper' );
+		if ( ! parent ) {
+			return;
+		}
+		const payload = getSharePayloadFromWrapper( parent );
+		if ( payload.imageUrl ) {
+			preloadImageBlob( payload.imageUrl );
+		}
+	};
+
+	/**
 	 * Webshare Button.
-	 * Use pointerdown so share() runs in the same user gesture (click can be too late on some browsers).
+	 * Preload image blob on hover (pointerenter) or touch (touchstart) so share() can use it in the user gesture.
+	 * Use pointerdown and touchend so share() runs in the same user gesture.
 	 */
 	const webshareButton = document.querySelectorAll( '.has-pin-svg-webshare' );
 	if ( null !== webshareButton ) {
 		webshareButton.forEach( ( el ) => {
+			el.addEventListener( 'pointerenter', () => startPreloadForButton( el ) );
+			el.addEventListener( 'touchstart', () => startPreloadForButton( el ), {
+				passive: true,
+			} );
+
 			const handleWebShare = ( event ) => {
+				if ( event.type === 'pointerdown' && event.pointerType === 'touch' ) {
+					return;
+				}
+
 				const parent = event.target.closest( '.has-pin-image-wrapper' );
 				if ( ! parent ) {
 					return;
@@ -160,9 +232,37 @@
 
 				const payload = getSharePayloadFromWrapper( parent );
 
-				// Share must run in the same synchronous turn as the user gesture. Call before anything else.
-				if ( ! config.enable_webshare_image_only ) {
-					doShareUrl( payload.title, payload.text, payload.shareUrl );
+				if ( config.enable_webshare_image_only ) {
+					const cached = imageBlobCache.get( payload.imageUrl );
+					if ( cached ) {
+						const file = new File( [ cached.blob ], `image.${ cached.extension }`, {
+							type: cached.blob.type || 'image/' + cached.extension,
+						} );
+						navigator
+							.share( {
+								files: [ file ],
+							} )
+							.catch( ( err ) => {
+								if ( err.name !== 'AbortError' ) {
+									console.warn( 'Highlight and Share: Web Share failed', err );
+								}
+								doShareUrl(
+									payload.title,
+									'',
+									payload.imageUrl || payload.shareUrl
+								);
+							} );
+					} else {
+						doShareUrl(
+							payload.title,
+							'',
+							payload.imageUrl || payload.shareUrl
+						);
+					}
+				} else {
+					// Avoid duplicate: use text only when it differs from title.
+					const shareText = payload.text !== payload.title ? payload.text : '';
+					doShareUrl( payload.title, shareText, payload.shareUrl );
 				}
 
 				if ( 'undefined' !== typeof dataLayer ) {
@@ -174,31 +274,18 @@
 						hasSocialNetwork: 'webshare',
 					} );
 				}
-
-				if ( ! config.enable_webshare_image_only ) {
-					return;
-				}
-
-				// Image-only: try async file share; fallback to URL share on failure.
-				const imageExtension = payload.imageUrl.split( '.' ).pop().toLowerCase().split( '?' )[ 0 ];
-				fetch( payload.imageUrl )
-					.then( ( response ) => response.blob() )
-					.then( ( blob ) => new File( [ blob ], `image.${ imageExtension }`, { type: 'image/' + imageExtension } ) )
-					.then( ( imageFile ) => navigator.share( { title: payload.title, text: payload.text, files: [ imageFile ] } ) )
-					.catch( ( err ) => {
-						if ( err.name === 'NotAllowedError' || err.name === 'SecurityError' ) {
-							doShareUrl( payload.title, payload.text, payload.shareUrl );
-						} else if ( err.name !== 'AbortError' ) {
-							console.warn( 'Highlight and Share: Web Share (image) failed, falling back to URL', err );
-							doShareUrl( payload.title, payload.text, payload.shareUrl );
-						}
-					} );
 			};
 
 			el.addEventListener( 'pointerdown', handleWebShare, { capture: true } );
-			el.addEventListener( 'click', ( event ) => {
-				event.preventDefault();
-			} );
+			el.addEventListener(
+				'touchend',
+				( e ) => {
+					e.preventDefault();
+					handleWebShare( e );
+				},
+				{ capture: true, passive: false }
+			);
+			el.addEventListener( 'click', ( e ) => e.preventDefault() );
 		} );
 	}
 }() );
