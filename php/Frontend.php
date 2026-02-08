@@ -539,6 +539,9 @@ class Frontend {
 			return $content;
 		}
 
+		// Remove the filter to avoid infinite nesting when page builders call the_content multiple times.
+		remove_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 15 );
+
 		$dom = new \DOMDocument( '1.0', 'UTF-8' );
 		try {
 			libxml_use_internal_errors( true );
@@ -546,6 +549,7 @@ class Frontend {
 			libxml_clear_errors();
 
 		} catch ( \Exception $e ) {
+			add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 15 );
 			return $content;
 		}
 		$options = Options::get_image_options();
@@ -746,7 +750,7 @@ class Frontend {
 		}
 
 		$new_html = $dom->saveHTML();
-
+		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 15 );
 		return $new_html;
 	}
 
