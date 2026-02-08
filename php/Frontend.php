@@ -871,6 +871,7 @@ class Frontend {
 			 * Default is false to avoid large hero images with sharing buttons; enable via filter if desired.
 			 *
 			 * @param bool $enable True to show sharing on singular featured images.
+			 * @since 7.0.0
 			 */
 			if ( ! apply_filters( 'has_enable_image_sharing_on_singular_featured', false ) ) {
 				return $html;
