@@ -4840,6 +4840,10 @@ h3.has-icon-heading svg {
    Sharing Tab Base Styling
    ============================================ */
 /* Panel styling */
+.has-admin-content-wrapper .components-checkbox-control__input-container svg {
+  transform: unset;
+}
+
 .has-sharing-panel {
   margin: 0;
   border: 0;
@@ -4935,9 +4939,6 @@ h3.has-icon-heading svg {
   color: #646970;
   font-size: 13px;
   line-height: 1.5;
-}
-.has-sharing-panel .components-checkbox-control__input-container svg {
-  transform: unset;
 }
 .has-sharing-panel {
   /* Panel toggle button */

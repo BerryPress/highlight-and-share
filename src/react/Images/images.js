@@ -236,6 +236,7 @@ const Interface = ( props ) => {
 		control,
 		getValues,
 		handleSubmit,
+		reset,
 	} = useForm( {
 		defaultValues: getDefaultValues(),
 	} );
@@ -867,18 +868,20 @@ const Interface = ( props ) => {
 						onDiscardChanges={ () => {
 							const checkpoint = getCheckpointData();
 							setCheckpointData( checkpoint, false );
+							reset( checkpoint, { keepDirty: false, keepTouched: false } );
 						} }
 						onSave={ () => {
 							// Save the form data.
 							setSaving( true );
 							sendCommand( 'has_save_images_options', {
 								nonce: window.hasImagesAdmin?.saveNonce,
-								form_data: formValues,
+								formData: formValues,
 							} )
 								.then( ( ajaxResponse ) => {
 									const { data: ajaxData, success } = ajaxResponse.data;
 									if ( success ) {
 										setCheckpointData( ajaxData, false );
+										reset( ajaxData, { keepDirty: false, keepTouched: false } );
 										// Wait 350ms so animation can hide.
 										setTimeout( () => {
 											setSnackbar( {
@@ -920,6 +923,7 @@ const Interface = ( props ) => {
 									const { data: ajaxData, success } = ajaxResponse.data;
 									if ( success ) {
 										setCheckpointData( ajaxData, false );
+										reset( ajaxData, { keepDirty: false, keepTouched: false } );
 										// Wait 350ms so animation can hide.
 										setTimeout( () => {
 											setSnackbar( {
@@ -932,7 +936,7 @@ const Interface = ( props ) => {
 													'Settings reset to defaults successfully.',
 													'highlight-and-share'
 												),
-												type: 'info',
+												type: 'success',
 												isDismissable: true,
 												isPersistent: false,
 												isSuccess: false,

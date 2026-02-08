@@ -22345,7 +22345,8 @@ var Interface = function Interface(props) {
     register = _useForm.register,
     control = _useForm.control,
     getValues = _useForm.getValues,
-    handleSubmit = _useForm.handleSubmit;
+    handleSubmit = _useForm.handleSubmit,
+    reset = _useForm.reset;
   var formValues = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_2__.useWatch)({
     control: control
   });
@@ -22929,6 +22930,10 @@ var Interface = function Interface(props) {
     onDiscardChanges: function onDiscardChanges() {
       var checkpoint = getCheckpointData();
       setCheckpointData(checkpoint, false);
+      reset(checkpoint, {
+        keepDirty: false,
+        keepTouched: false
+      });
     },
     onSave: function onSave() {
       var _window$hasImagesAdmi;
@@ -22936,13 +22941,17 @@ var Interface = function Interface(props) {
       setSaving(true);
       (0,_Utils_SendCommand__WEBPACK_IMPORTED_MODULE_13__["default"])('has_save_images_options', {
         nonce: (_window$hasImagesAdmi = window.hasImagesAdmin) === null || _window$hasImagesAdmi === void 0 ? void 0 : _window$hasImagesAdmi.saveNonce,
-        form_data: formValues
+        formData: formValues
       }).then(function (ajaxResponse) {
         var _ajaxResponse$data = ajaxResponse.data,
           ajaxData = _ajaxResponse$data.data,
           success = _ajaxResponse$data.success;
         if (success) {
           setCheckpointData(ajaxData, false);
+          reset(ajaxData, {
+            keepDirty: false,
+            keepTouched: false
+          });
           // Wait 350ms so animation can hide.
           setTimeout(function () {
             setSnackbar({
@@ -22979,13 +22988,17 @@ var Interface = function Interface(props) {
           success = _ajaxResponse$data2.success;
         if (success) {
           setCheckpointData(ajaxData, false);
+          reset(ajaxData, {
+            keepDirty: false,
+            keepTouched: false
+          });
           // Wait 350ms so animation can hide.
           setTimeout(function () {
             setSnackbar({
               isVisible: true,
               message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings reset to defaults successfully.', 'highlight-and-share'),
               title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings reset to defaults successfully.', 'highlight-and-share'),
-              type: 'info',
+              type: 'success',
               isDismissable: true,
               isPersistent: false,
               isSuccess: false,

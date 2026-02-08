@@ -1256,6 +1256,11 @@ h3.has-icon-heading {
    ============================================ */
 
 /* Panel styling */
+.has-admin-content-wrapper .components-checkbox-control__input-container {
+	svg {
+		transform: unset;
+	}
+}
 .has-sharing-panel {
 	margin: 0;
 	border: 0;
@@ -1355,11 +1360,6 @@ h3.has-icon-heading {
 				font-size: 13px;
 				line-height: 1.5;
 			}
-		}
-	}
-	.components-checkbox-control__input-container {
-		svg {
-			transform: unset;
 		}
 	}
 

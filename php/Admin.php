@@ -563,6 +563,7 @@ class Admin {
 				);
 
 				// Format post types into label|value pairs.
+				$post_types = Functions::get_post_types();
 				$post_types = array_map(
 					function ( $post_type ) {
 						return array(
