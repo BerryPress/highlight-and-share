@@ -167,7 +167,7 @@ class Frontend {
 		add_filter( 'comment_text', array( $this, 'add_comment_area_html' ), 10, 2 );
 
 		// Add Pinterest and Web Share to image tags. WP 6.2 and up.
-		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 5 );
+		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 15 );
 		add_filter( 'et_pb_post_content_shortcode_output', array( $this, 'add_image_sharing_html' ), 11 );
 
 		// For the Click to Share Shortcode.
@@ -612,24 +612,18 @@ class Frontend {
 			 * @param array $core_exclusions Array of core exclusions.
 			 */
 			$core_exclusions = apply_filters( 'has_pin_core_exclusions', $core_exclusions );
-			// Get image innerHTML.
+			// Get image innerHTML and find block-level wrapper (skip <a>, climb to outermost <figure> for galleries).
 			$image_element  = $dom->saveHTML( $image );
-			$parent_element = $image->parentNode; // Can possibly be an anchor or figure tag.
-			if ( 'a' === $parent_element->tagName ) {
-				$parent_element = $parent_element->parentNode; // Can possibly be a figure tag.
-
-				// If the parent is a figure tag, try to get its parent, which can also be a figure (gallery).
-				if ( isset( $parent_element->tagName ) && 'figure' === $parent_element->tagName ) {
-					$maybe_new_parent_element = $parent_element->parentNode;
-					if ( isset( $maybe_new_parent_element->tagName ) && 'figure' === $maybe_new_parent_element->tagName ) {
-						$parent_element = $maybe_new_parent_element;
-					}
-				}
-			} elseif ( isset( $parent_element->tagName ) && 'figure' === $parent_element->tagName ) {
-				// Try to get its parent, which may possibly be a gallery.
-				$maybe_new_parent_element = $parent_element->parentNode;
-				if ( isset( $maybe_new_parent_element->tagName ) && 'figure' === $maybe_new_parent_element->tagName ) {
-					$parent_element = $maybe_new_parent_element;
+			$parent_element = $image->parentNode;
+			if ( $parent_element && 'a' === strtolower( $parent_element->nodeName ) ) {
+				$parent_element = $parent_element->parentNode;
+			}
+			while ( $parent_element && 'figure' === strtolower( $parent_element->nodeName ) ) {
+				$next = $parent_element->parentNode;
+				if ( $next && 'figure' === strtolower( $next->nodeName ) ) {
+					$parent_element = $next;
+				} else {
+					break;
 				}
 			}
 			$parent_html = '';
