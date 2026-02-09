@@ -716,6 +716,13 @@ class Admin {
 						'resetNonce'    => wp_create_nonce( 'has_reset_images' ),
 						'postTypes'     => $post_types,
 						'defaultColors' => Themes::get_default_theme_colors(),
+						'supportParams' => array(
+							'firstName' => get_user_meta( get_current_user_id(), 'first_name', true ),
+							'lastName'  => get_user_meta( get_current_user_id(), 'last_name', true ),
+							'email'     => wp_get_current_user()->user_email,
+							'theme'     => wp_get_theme()->get( 'Name' ),
+							'siteUrl'   => home_url(),
+						),
 					)
 				);
 			}

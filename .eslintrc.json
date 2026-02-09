@@ -12,6 +12,7 @@
 		"React": "readonly",
 		"hasFooterJS": "readonly",
 		"hasSupportAdmin": "readonly",
+		"hasImagesAdmin": "readonly",
 		"hasImageSharing": "readonly",
 		"dataLayer": "readonly"
 	},
