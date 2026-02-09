@@ -1439,9 +1439,10 @@ class Frontend {
 		// Get captcha enabled status.
 		$recaptcha_enabled = (bool) $email_options['recaptcha_enabled'];
 		$turnstile_enabled = (bool) $email_options['turnstile_enabled'];
+		$is_mailto         = 'mailto' === $email_options['email_send_type'];
 
 		// Require a captcha or turnstile to be enabled in order to send an email.
-		if ( ! $recaptcha_enabled && ! $turnstile_enabled ) {
+		if ( ! $recaptcha_enabled && ! $turnstile_enabled && ! $is_mailto ) {
 			return '';
 		}
 
@@ -1450,7 +1451,7 @@ class Frontend {
 		$email_url   = $this->get_email_url_template( $email_options );
 		$email_class = 'has_email_form';
 
-		if ( 'mailto' === $email_options['email_send_type'] ) {
+		if ( $is_mailto ) {
 			$email_class = 'has_email_mailto';
 		}
 
