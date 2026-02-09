@@ -2360,7 +2360,7 @@ class Frontend {
 			add_action( 'wp_footer', array( $this, 'output_footer_css' ), 1 );
 
 			// Classes needed for CSS.
-			add_filter( 'body_class', array( $this, 'add_body_class' ), 10, 2 );
+			add_filter( 'body_class', array( $this, 'add_body_class' ), 10, 1 );
 
 			// Let's see if inline highlight tooltips are enabled.
 			if ( (bool) $options['inline_highlight_show_tooltips'] ) {
@@ -2417,11 +2417,10 @@ class Frontend {
 	 * @since 3.2.11
 	 *
 	 * @param array $classes Array of class names.
-	 * @param array $class   Array of additional classnaes added to the body.
 	 *
 	 * @return array Updated classnames.
 	 */
-	public function add_body_class( $classes, $class ) {
+	public function add_body_class( $classes ) {
 		$classes[] = 'has-body';
 		return $classes;
 	}
