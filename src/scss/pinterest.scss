@@ -47,7 +47,8 @@
 	opacity: 0;
 	transition: all 0.5s ease-in-out;
 }
-.has-pin-show-on-hover:hover .has-pin-sharing-icons {
+.has-pin-show-on-hover:hover .has-pin-sharing-icons,
+.has-pin-show-on-hover:focus-within .has-pin-sharing-icons {
 	opacity: 1;
 }
 .has-pin-sharing-icons {

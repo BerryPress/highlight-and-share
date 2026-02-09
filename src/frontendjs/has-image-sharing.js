@@ -46,6 +46,14 @@
 		} );
 	}
 
+	// Make wrappers with show-on-hover focusable so keyboard users can focus the image and see the sharing buttons.
+	const showOnHoverWrappers = document.querySelectorAll( '.has-pin-image-wrapper.has-pin-show-on-hover' );
+	showOnHoverWrappers.forEach( ( wrapper ) => {
+		if ( ! wrapper.hasAttribute( 'tabindex' ) ) {
+			wrapper.setAttribute( 'tabindex', '0' );
+		}
+	} );
+
 	/**
 	 * Listen for Image Sharing Events (Pinterest).
 	 */
