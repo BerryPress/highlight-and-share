@@ -125,6 +125,18 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 == Changelog ==
 
+= 6.0.0 =
+* Released 2025-x-x
+* New: Sharing tab reorganized, consolidating the sharing options into one tab, eliminating the Appearance and Block Editor tabs. Social Networks have been moved to a single panel, with advanced options tucked away for a cleaner appearance.
+* New: All tabs support a global save bar, making saving and discarding options much more intuitive.
+* New: Post sidebar for per-post disabling of Highlight and Share, including sharing, images, and headlines.
+* New (Text Sharing): Added Post Type exclusions to selection sharing.
+* New (Image Sharing): Can enable on archive excerpts and featured images.
+* Bug fix (Image Sharing): Image sharing for Web Share would error out when sharing an image.
+* Bug fix (Image Sharing): Improved page builder support and added loop detection to prevent timeouts.
+* Bug fix (Image Sharing): Fixed hover and focus states, adding better reliability to image sharing display.
+* Bug fix (Email Sharing): Emails can be enabled with only the mailto option if spam protection isn't available.
+
 = 5.3.5 =
 * Released 2025-12-17
 * Bug fix: Responsive styles were not saving or setting correctly in the Click to Share block.
