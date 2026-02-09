@@ -5,15 +5,16 @@
 		"wpApiSettings": true,
 		"window": true,
 		"document": true,
-		"hasSettingsAdmin": "readonly",
-		"hasAppearanceAdmin": "readonly",
-		"hasBlockEditorAdmin": "readonly",
+		"hasSharingAdmin": "readonly",
 		"hasEmailsAdmin":"readonly",
 		"has_gutenberg": "readonly",
 		"highlight_and_share": "readonly",
 		"React": "readonly",
 		"hasFooterJS": "readonly",
-		"hasSupportAdmin": "readonly"
+		"hasSupportAdmin": "readonly",
+		"hasImagesAdmin": "readonly",
+		"hasImageSharing": "readonly",
+		"dataLayer": "readonly"
 	},
 	"env": {
 		"browser": true,

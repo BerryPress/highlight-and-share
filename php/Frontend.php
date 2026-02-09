@@ -167,7 +167,14 @@ class Frontend {
 		add_filter( 'comment_text', array( $this, 'add_comment_area_html' ), 10, 2 );
 
 		// Add Pinterest and Web Share to image tags. WP 6.2 and up.
-		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 5 );
+		add_filter( 'the_content', array( $this, 'add_image_sharing_html' ), 15 );
+		$image_options = Options::get_image_options();
+		if ( ! empty( $image_options['enable_image_sharing'] ) ) {
+			if ( ! empty( $image_options['enable_image_sharing_on_excerpts'] ) ) {
+				add_filter( 'the_excerpt', array( $this, 'add_image_sharing_html' ), 15 );
+			}
+			add_filter( 'post_thumbnail_html', array( $this, 'add_featured_image_sharing_html' ), 15, 5 );
+		}
 		add_filter( 'et_pb_post_content_shortcode_output', array( $this, 'add_image_sharing_html' ), 11 );
 
 		// For the Click to Share Shortcode.
@@ -500,64 +507,129 @@ class Frontend {
 	}
 
 	/**
-	 * Add Pinterest/Webshare to image tags where applicable.
+	 * Whether to load the image sharing script (and thus enqueue it) on this request.
 	 *
-	 * @param string $content The content HTML.
+	 * Mirrors the context and post-type checks used by add_image_sharing_html so the script
+	 * is only enqueued when image sharing could actually run.
+	 *
+	 * @return bool True if the image sharing script should be enqueued.
 	 */
-	public function add_image_sharing_html( $content ) {
-		// If we're not in the loop, bail.
-		if ( is_admin() || is_feed() || ( ! is_singular() && ! is_page() && ! is_single() ) ) {
-			return $content;
+	private function should_load_image_sharing_script() {
+		if ( is_admin() || is_feed() ) {
+			return false;
 		}
+
+		$on_singular = is_singular() || is_page() || is_single();
+		/** This filter is documented in add_image_sharing_html. */
+		$on_archive = ( is_post_type_archive() || is_home() ) && apply_filters( 'has_pin_show_on_archives', true, get_post_type() );
+		if ( ! $on_singular && ! $on_archive ) {
+			return false;
+		}
+
 		$options = Options::get_image_options();
-
-		// If image sharing is not enabled, exit early.
 		if ( ! (bool) $options['enable_image_sharing'] ) {
-			return $content;
+			return false;
 		}
 
-		// Load for supported post types.
-		$post_types = $options['supported_post_types'];
-		// Get enabled post types.
-		$supported_post_types = array();
+		$post_types      = $options['supported_post_types'];
+		$supported_slugs = array();
 		foreach ( $post_types as $post_type => $enabled ) {
 			if ( $enabled ) {
-				$supported_post_types[] = $post_type;
+				$supported_slugs[] = $post_type;
 			}
 		}
-		$supported_post_types = apply_filters( 'has_pin_supported_post_types', $supported_post_types );
-		$can_show_on_post     = in_array( get_post_type(), $supported_post_types, true );
-
-		// If we're not on a supported post type, bail.
-		if ( ! $can_show_on_post ) {
-			return $content;
+		$has_supported_post_type = false; // Flag to run after post meta is checked.
+		$supported_slugs         = apply_filters( 'has_pin_supported_post_types', $supported_slugs );
+		if ( in_array( get_post_type(), $supported_slugs, true ) ) { // If the post type is supported, set the flag to true.
+			$has_supported_post_type = true;
 		}
 
-		$dom = new \DOMDocument( '1.0', 'UTF-8' );
-		try {
-			libxml_use_internal_errors( true );
-			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD ); // phpcs:ignore 
-			libxml_clear_errors();
-
-		} catch ( \Exception $e ) {
-			return $content;
+		// On singular, do not enqueue if image sharing is disabled for this post.
+		if ( $on_singular ) {
+			$maybe_post = get_queried_object();
+			if ( $maybe_post && is_a( $maybe_post, 'WP_Post' ) ) {
+				$global_enabled = true;
+				if ( apply_filters( 'has_image_sharing_enabled_for_post', $global_enabled, $maybe_post->ID ) ) {
+					return true;
+				}
+			}
 		}
-		$options = Options::get_image_options();
+		if ( ! $has_supported_post_type ) {
+			return false;
+		}
 
-		// Get core exclusions.
-		$core_exclusions = array(
-			'has-no-pin',
+		return true;
+	}
+
+	/**
+	 * Enqueue image sharing script and styles (footer). Call when should_load_image_sharing_script() is true.
+	 */
+	private function enqueue_image_sharing_assets() {
+		if ( wp_script_is( 'has-image-sharing', 'enqueued' ) ) {
+			return;
+		}
+
+		$image_options     = Options::get_image_options();
+		$asset_path        = Functions::get_plugin_dir( 'dist/has-image-sharing.asset.php' );
+		$image_script_deps = file_exists( $asset_path ) ? require_once $asset_path : array(
+			'dependencies' => array(),
+			'version'      => false,
 		);
+		$image_script_uri  = Functions::get_plugin_url( 'dist/has-image-sharing.js' );
+		wp_enqueue_script(
+			'has-image-sharing',
+			$image_script_uri,
+			isset( $image_script_deps['dependencies'] ) ? $image_script_deps['dependencies'] : array(),
+			isset( $image_script_deps['version'] ) ? $image_script_deps['version'] : false,
+			true
+		);
+		wp_localize_script(
+			'has-image-sharing',
+			'hasImageSharing',
+			array(
+				'enable_webshare_image_only' => (bool) $image_options['webshare_share_image_only'],
+			)
+		);
+		$image_sharing_css = (
+			'.has-pin-image-wrapper {' .
+			'--has-pinterest-button-color: ' . esc_html( $image_options['pinterest_button_color'] ) . ';' .
+			'--has-pinterest-button-color-hover: ' . esc_html( $image_options['pinterest_button_color_hover'] ) . ';' .
+			'--has-pinterest-icon-color: ' . esc_html( $image_options['pinterest_icon_color'] ) . ';' .
+			'--has-pinterest-icon-color-hover: ' . esc_html( $image_options['pinterest_icon_color_hover'] ) . ';' .
+			'--has-pinterest-text-color: ' . esc_html( $image_options['pinterest_text_color'] ) . ';' .
+			'--has-pinterest-text-color-hover: ' . esc_html( $image_options['pinterest_text_color_hover'] ) . ';' .
+			'--has-webshare-icon-color: ' . esc_html( $image_options['webshare_icon_color'] ) . ';' .
+			'--has-webshare-icon-color-hover: ' . esc_html( $image_options['webshare_icon_color_hover'] ) . ';' .
+			'--has-webshare-button-color: ' . esc_html( $image_options['webshare_button_color'] ) . ';' .
+			'--has-webshare-button-color-hover: ' . esc_html( $image_options['webshare_button_color_hover'] ) . ';' .
+			'--has-webshare-text-color: ' . esc_html( $image_options['webshare_text_color'] ) . ';' .
+			'--has-webshare-text-color-hover: ' . esc_html( $image_options['webshare_text_color_hover'] ) . ';' .
+			'}'
+		);
+		wp_register_style( 'has-image-sharing', false );
+		wp_add_inline_style( 'has-image-sharing', $image_sharing_css );
+		add_action(
+			'wp_footer',
+			function () {
+				if ( ! wp_style_is( 'has-image-sharing', 'enqueued' ) ) {
+					wp_print_styles( array( 'has-image-sharing' ) );
+				}
+			}
+		);
+	}
 
-		$can_show_pinterest    = (bool) $options['enable_pinterest_sharing'];
-		$can_show_webshare     = (bool) $options['enable_webshare_sharing'];
-		$show_on_hover         = (bool) $options['show_on_hover'];
-		$sharing_location      = $options['location'];
-		$show_button_labels    = (bool) $options['show_button_labels'];
-		$exclude_leading_image = (bool) $options['exclude_leading_image'];
-		$button_shape          = $options['button_shape'];
+	/**
+	 * Get wrapper and sharing-button CSS class arrays for image sharing from options.
+	 *
+	 * @param array $options Image options from Options::get_image_options().
+	 * @return array{0: array, 1: array} [ $css_classes, $sharing_wrapper_css ].
+	 */
+	private function get_image_sharing_css_classes( $options ) {
+		$show_on_hover      = (bool) $options['show_on_hover'];
+		$sharing_location   = $options['location'];
+		$show_button_labels = (bool) $options['show_button_labels'];
+		$button_shape       = $options['button_shape'];
 
-		// Get image wrapper CSS classes.
 		$css_classes = array( 'has-pin-image-wrapper' );
 		if ( 'top-left' === $sharing_location ) {
 			$css_classes[] = 'has-pin-top-left';
@@ -579,7 +651,6 @@ class Frontend {
 		}
 		$css_classes = apply_filters( 'has_pin_image_css_classes', $css_classes );
 
-		// Get SVG wrapper CSS.
 		$sharing_wrapper_css = array( 'has-pin-sharing-icons' );
 		if ( $show_button_labels ) {
 			$sharing_wrapper_css[] = 'has-icon-label';
@@ -594,9 +665,239 @@ class Frontend {
 			$sharing_wrapper_css[] = 'has-appearance-circle';
 		}
 
-		// Get all images.
-		$images   = $dom->getElementsByTagName( 'img' );
+		return array( $css_classes, $sharing_wrapper_css );
+	}
+
+	/**
+	 * Wrap a single image node with the Pinterest/Web Share wrapper and buttons.
+	 *
+	 * @param \DOMDocument $dom                  Document containing the image.
+	 * @param \DOMNode     $image                The img element to wrap.
+	 * @param array        $options              Image options from Options::get_image_options().
+	 * @param array        $css_classes          Wrapper CSS classes (e.g. has-pin-image-wrapper).
+	 * @param array        $sharing_wrapper_css  Inner sharing span CSS classes.
+	 * @param string       $context              One of 'content', 'excerpt', 'thumbnail'.
+	 * @return bool True if the image was wrapped, false if skipped (exclusion).
+	 */
+	private function wrap_single_image_with_sharing( $dom, $image, $options, $css_classes, $sharing_wrapper_css, $context = 'content' ) {
+		$image_element  = $dom->saveHTML( $image );
+		$parent_element = $image->parentNode;
+		if ( $parent_element && 'a' === strtolower( $parent_element->nodeName ) ) {
+			$parent_element = $parent_element->parentNode;
+		}
+		while ( $parent_element && 'figure' === strtolower( $parent_element->nodeName ) ) {
+			$next = $parent_element->parentNode;
+			if ( $next && 'figure' === strtolower( $next->nodeName ) ) {
+				$parent_element = $next;
+			} else {
+				break;
+			}
+		}
+		$parent_html = '';
+		if ( $parent_element ) {
+			$parent_html = $dom->saveHTML( $parent_element );
+		}
+
+		$core_exclusions = array( 'has-no-pin' );
+		/** This filter is documented in add_image_sharing_html. */
+		$core_exclusions = apply_filters( 'has_pin_core_exclusions', $core_exclusions );
+		if ( 'excerpt' === $context ) {
+			/** This filter is documented in add_image_sharing_html. */
+			$core_exclusions = apply_filters( 'has_pin_excerpt_exclusions', $core_exclusions );
+		}
+
+		$exclusions = array_merge( $core_exclusions, array_map( 'trim', explode( ',', sanitize_text_field( $options['exclusions'] ) ) ) );
+		$exclusions = array_unique( array_filter( $exclusions ) );
+
+		$found_exclusion = false;
+		if ( ! empty( $exclusions ) ) {
+			foreach ( $exclusions as $exclusion ) {
+				if ( false !== strpos( $image_element, $exclusion ) || false !== strpos( $parent_html, $exclusion ) ) {
+					$found_exclusion = true;
+					break;
+				}
+			}
+		}
+		if ( $found_exclusion ) {
+			return false;
+		}
+
+		$can_show_pinterest = (bool) $options['enable_pinterest_sharing'];
+		$can_show_webshare  = (bool) $options['enable_webshare_sharing'];
+		$show_button_labels = (bool) $options['show_button_labels'];
+
+		$wrapper = $dom->createElement( 'span' );
+		$wrapper->setAttribute( 'class', implode( ' ', $css_classes ) );
+		$image->parentNode->replaceChild( $wrapper, $image );
+		$wrapper->appendChild( $image );
+
+		$svg = $dom->createElement( 'span' );
+		$svg->setAttribute( 'class', implode( ' ', $sharing_wrapper_css ) );
+
+		if ( $can_show_pinterest ) {
+			if ( $show_button_labels ) {
+				$pin_label     = $options['pinterest_button_label'];
+				$svg_inner_tag = $dom->createElement( 'span' );
+				$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-pinterest has-pin-button' );
+				$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+				$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+				$svg_use = $dom->createElement( 'use' );
+				$svg_use->setAttribute( 'xlink:href', '#has-pinterest' );
+				$svg_use_wrapper = $dom->createElement( 'svg' );
+				$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
+				$svg_use_wrapper->appendChild( $svg_use );
+				$svg_inner_tag->appendChild( $svg_use_wrapper );
+				$svg_span = $dom->createElement( 'span' );
+				$svg_span->setAttribute( 'className', 'has-icon-label' );
+				$svg_span->nodeValue = esc_html( $pin_label );
+				$svg_inner_tag->appendChild( $svg_span );
+				$svg->appendChild( $svg_inner_tag );
+			} else {
+				$svg_inner_tag = $dom->createElement( 'span' );
+				$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-pinterest has-pin-button' );
+				$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+				$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+				$svg_use = $dom->createElement( 'use' );
+				$svg_use->setAttribute( 'xlink:href', '#has-pinterest' );
+				$svg_use_wrapper = $dom->createElement( 'svg' );
+				$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
+				$svg_use_wrapper->appendChild( $svg_use );
+				$svg_inner_tag->appendChild( $svg_use_wrapper );
+				$svg->appendChild( $svg_inner_tag );
+			}
+		}
+		if ( $can_show_webshare ) {
+			if ( $show_button_labels ) {
+				$webshare_label = $options['webshare_button_label'];
+				$svg_inner_tag  = $dom->createElement( 'span' );
+				$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-webshare has-pin-button' );
+				$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+				$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+				$svg_use = $dom->createElement( 'use' );
+				$svg_use->setAttribute( 'xlink:href', '#has-webshare-icon' );
+				$svg_use_wrapper = $dom->createElement( 'svg' );
+				$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
+				$svg_use_wrapper->appendChild( $svg_use );
+				$svg_inner_tag->appendChild( $svg_use_wrapper );
+				$svg_span = $dom->createElement( 'span' );
+				$svg_span->setAttribute( 'className', 'has-icon-label' );
+				$svg_span->nodeValue = esc_html( $webshare_label );
+				$svg_inner_tag->appendChild( $svg_span );
+				$svg->appendChild( $svg_inner_tag );
+			} else {
+				$svg_inner_tag = $dom->createElement( 'span' );
+				$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-webshare has-pin-button' );
+				$svg_inner_tag->setAttribute( 'style', 'display: none;' );
+				$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
+				$svg_use = $dom->createElement( 'use' );
+				$svg_use->setAttribute( 'xlink:href', '#has-webshare-icon' );
+				$svg_use_wrapper = $dom->createElement( 'svg' );
+				$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
+				$svg_use_wrapper->appendChild( $svg_use );
+				$svg_inner_tag->appendChild( $svg_use_wrapper );
+				$svg->appendChild( $svg_inner_tag );
+			}
+		}
+		$wrapper->appendChild( $svg );
+		return true;
+	}
+
+	/**
+	 * Add Pinterest/Webshare to image tags where applicable.
+	 *
+	 * @param string $content The content HTML.
+	 */
+	public function add_image_sharing_html( $content ) {
+		if ( ! $this->should_load_image_sharing_script() ) {
+			return $content;
+		}
+
+		$is_excerpt = ( current_filter() === 'the_excerpt' );
+
+		// Avoid re-processing and infinite nesting when page builders call the_content multiple times.
+		if ( false !== strpos( $content, 'has-pin-image-wrapper' ) ) {
+			return $content;
+		}
+
+		$options = Options::get_image_options();
+
+		// If image sharing is not enabled, exit early.
+		if ( ! (bool) $options['enable_image_sharing'] ) {
+			return $content;
+		}
+
+		// When processing excerpts, require the excerpt option and allow filter to disable.
+		if ( $is_excerpt ) {
+			if ( ! (bool) $options['enable_image_sharing_on_excerpts'] ) {
+				return $content;
+			}
+			/**
+			 * Filter: has_pin_show_on_excerpts
+			 *
+			 * Allow image sharing on excerpt output. Default true.
+			 *
+			 * @param bool $show Whether to run image sharing on excerpts. Default true.
+			 * @return bool Whether to show image sharing on excerpts.
+			 */
+			if ( ! apply_filters( 'has_pin_show_on_excerpts', true ) ) {
+				return $content;
+			}
+		}
+
+		// Per-post override: respect sidebar/meta box setting (disabled / default / enabled).
+		$maybe_post = get_queried_object();
+		if ( $maybe_post && is_a( $maybe_post, 'WP_Post' ) ) {
+			$post_types      = $options['supported_post_types'];
+			$supported_slugs = array();
+			foreach ( $post_types as $post_type => $enabled ) {
+				if ( $enabled ) {
+					$supported_slugs[] = $post_type;
+				}
+			}
+			$supported_slugs  = apply_filters( 'has_pin_supported_post_types', $supported_slugs );
+			$global_enabled   = ( (bool) $options['enable_image_sharing'] ) && in_array( get_post_type( $maybe_post->ID ), $supported_slugs, true );
+			$global_enabled   = $global_enabled && ( ! $is_excerpt || (bool) $options['enable_image_sharing_on_excerpts'] );
+			$enabled_for_post = apply_filters( 'has_image_sharing_enabled_for_post', $global_enabled, $maybe_post->ID );
+			if ( ! $enabled_for_post ) {
+				return $content;
+			}
+		}
+
+		$this->enqueue_image_sharing_assets();
+
+		// Remove the filter to avoid infinite nesting when page builders call the_content/the_excerpt multiple times.
+		$filter_name = current_filter();
+		remove_filter( $filter_name, array( $this, 'add_image_sharing_html' ), 15 );
+
+		$dom = new \DOMDocument( '1.0', 'UTF-8' );
+		try {
+			libxml_use_internal_errors( true );
+			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD ); // phpcs:ignore 
+			libxml_clear_errors();
+			error_log( $dom->saveHTML() );
+
+		} catch ( \Exception $e ) {
+			add_filter( $filter_name, array( $this, 'add_image_sharing_html' ), 15 );
+			return $content;
+		}
+		$options = Options::get_image_options();
+
+		$exclude_leading_image = (bool) $options['exclude_leading_image'];
+		// On excerpts, process all images (do not exclude the first).
+		if ( $is_excerpt ) {
+			$exclude_leading_image = false;
+		}
+
+		list( $css_classes, $sharing_wrapper_css ) = $this->get_image_sharing_css_classes( $options );
+
+		// Get all images. Copy to array to avoid live-node-list issues when modifying DOM during iteration.
+		$images_list = $dom->getElementsByTagName( 'img' );
+		$images      = array();
+		foreach ( $images_list as $img_node ) {
+			$images[] = $img_node;
+		}
 		$can_skip = false;
+		$context  = $is_excerpt ? 'excerpt' : 'content';
 		foreach ( $images as $image ) {
 			// Skip leading image if enabled.
 			if ( $exclude_leading_image && ! $can_skip ) {
@@ -604,146 +905,98 @@ class Frontend {
 				continue;
 			}
 
-			/**
-			 * Filter: has_pin_core_exclusions
-			 *
-			 * Add core exclusions to the image sharing.
-			 *
-			 * @param array $core_exclusions Array of core exclusions.
-			 */
-			$core_exclusions = apply_filters( 'has_pin_core_exclusions', $core_exclusions );
-			// Get image innerHTML.
-			$image_element  = $dom->saveHTML( $image );
-			$parent_element = $image->parentNode; // Can possibly be an anchor or figure tag.
-			if ( 'a' === $parent_element->tagName ) {
-				$parent_element = $parent_element->parentNode; // Can possibly be a figure tag.
-
-				// If the parent is a figure tag, try to get its parent, which can also be a figure (gallery).
-				if ( isset( $parent_element->tagName ) && 'figure' === $parent_element->tagName ) {
-					$maybe_new_parent_element = $parent_element->parentNode;
-					if ( isset( $maybe_new_parent_element->tagName ) && 'figure' === $maybe_new_parent_element->tagName ) {
-						$parent_element = $maybe_new_parent_element;
-					}
-				}
-			} elseif ( isset( $parent_element->tagName ) && 'figure' === $parent_element->tagName ) {
-				// Try to get its parent, which may possibly be a gallery.
-				$maybe_new_parent_element = $parent_element->parentNode;
-				if ( isset( $maybe_new_parent_element->tagName ) && 'figure' === $maybe_new_parent_element->tagName ) {
-					$parent_element = $maybe_new_parent_element;
-				}
-			}
-			$parent_html = '';
-			if ( $parent_element ) {
-				$parent_html = $dom->saveHTML( $parent_element );
-			}
-
-			// Merge core and user exclusions.
-			$exclusions = array_merge( $core_exclusions, array_map( 'trim', explode( ',', sanitize_text_field( $options['exclusions'] ) ) ) ); // failing here.
-
-			$exclusions = array_unique( array_filter( $exclusions ) );
-
-			// Check for exclusions.
-			$found_exclusion = false;
-			if ( ! empty( $exclusions ) ) {
-				foreach ( $exclusions as $exclusion ) {
-					if ( false !== strpos( $image_element, $exclusion ) || false !== strpos( $parent_html, $exclusion ) ) {
-						$found_exclusion = true;
-					}
-				}
-			}
-			if ( $found_exclusion ) {
-				continue;
-			}
-
-			// Create wrapper span.
-			$wrapper = $dom->createElement( 'span' );
-			$wrapper->setAttribute( 'class', implode( ' ', $css_classes ) );
-
-			// Wrap around the image.
-			$image->parentNode->replaceChild( $wrapper, $image );
-			$wrapper->appendChild( $image );
-
-			// Now create child SVG to go adjacent to image tag.
-			$svg = $dom->createElement( 'span' );
-			$svg->setAttribute( 'class', implode( ' ', $sharing_wrapper_css ) );
-
-			// Set span inner html.
-			if ( $can_show_pinterest ) {
-				if ( $show_button_labels ) {
-					$pin_label     = $options['pinterest_button_label'];
-					$svg_inner_tag = $dom->createElement( 'span' );
-					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-pinterest has-pin-button' );
-					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
-					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
-					$svg_use = $dom->createElement( 'use' );
-					$svg_use->setAttribute( 'xlink:href', '#has-pinterest' );
-					$svg_use_wrapper = $dom->createElement( 'svg' );
-					$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
-					$svg_use_wrapper->appendChild( $svg_use );
-					$svg_inner_tag->appendChild( $svg_use_wrapper );
-					$svg_span = $dom->createElement( 'span' );
-					$svg_span->setAttribute( 'className', 'has-icon-label' );
-					$svg_span->nodeValue = esc_html( $pin_label );
-					$svg_inner_tag->appendChild( $svg_span );
-					$svg->appendChild( $svg_inner_tag );
-				} else {
-					$svg_inner_tag = $dom->createElement( 'span' );
-					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-pinterest has-pin-button' );
-					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
-					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
-					$svg_use = $dom->createElement( 'use' );
-					$svg_use->setAttribute( 'xlink:href', '#has-pinterest' );
-					$svg_use_wrapper = $dom->createElement( 'svg' );
-					$svg_use_wrapper->setAttribute(
-						'class',
-						'has-icon
-					'
-					);
-					$svg_use_wrapper->appendChild( $svg_use );
-					$svg_inner_tag->appendChild( $svg_use_wrapper );
-					$svg->appendChild( $svg_inner_tag );
-				}
-			}
-			if ( $can_show_webshare ) {
-				if ( $show_button_labels ) {
-					$webshare_label = $options['webshare_button_label'];
-					$svg_inner_tag  = $dom->createElement( 'span' );
-					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-webshare has-pin-button' );
-					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
-					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
-					$svg_use = $dom->createElement( 'use' );
-					$svg_use->setAttribute( 'xlink:href', '#has-webshare-icon' );
-					$svg_use_wrapper = $dom->createElement( 'svg' );
-					$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
-					$svg_use_wrapper->appendChild( $svg_use );
-					$svg_inner_tag->appendChild( $svg_use_wrapper );
-					$svg_span = $dom->createElement( 'span' );
-					$svg_span->setAttribute( 'className', 'has-icon-label' );
-					$svg_span->nodeValue = esc_html( $webshare_label );
-					$svg_inner_tag->appendChild( $svg_span );
-					$svg->appendChild( $svg_inner_tag );
-				} else {
-					$svg_inner_tag = $dom->createElement( 'span' );
-					$svg_inner_tag->setAttribute( 'class', 'has-pin-svg-webshare has-pin-button' );
-					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
-					$svg_inner_tag->setAttribute( 'aria-hidden', 'true' );
-					$svg_inner_tag->setAttribute( 'style', 'display: none;' );
-					$svg_use = $dom->createElement( 'use' );
-					$svg_use->setAttribute( 'xlink:href', '#has-webshare-icon' );
-					$svg_use_wrapper = $dom->createElement( 'svg' );
-					$svg_use_wrapper->setAttribute( 'class', 'has-icon' );
-					$svg_use_wrapper->appendChild( $svg_use );
-					$svg_inner_tag->appendChild( $svg_use_wrapper );
-					$svg->appendChild( $svg_inner_tag );
-				}
-			}
-			// Now place SVG inside the parent span after the image.
-			$wrapper->appendChild( $svg );
+			$this->wrap_single_image_with_sharing( $dom, $image, $options, $css_classes, $sharing_wrapper_css, $context );
 		}
 
 		$new_html = $dom->saveHTML();
-
+		add_filter( $filter_name, array( $this, 'add_image_sharing_html' ), 15 );
 		return $new_html;
+	}
+
+	/**
+	 * Add Pinterest/Web Share wrapper to featured image (post thumbnail) HTML.
+	 *
+	 * Hooked to post_thumbnail_html. Only runs when image sharing is enabled and the post type is supported.
+	 *
+	 * @param string       $html              The post thumbnail HTML.
+	 * @param int          $post_id           The post ID.
+	 * @param int          $post_thumbnail_id The attachment ID (or 0).
+	 * @param string|int[] $size              Requested size.
+	 * @param string|array $attr              Attributes string or array.
+	 * @return string Filtered HTML.
+	 */
+	public function add_featured_image_sharing_html( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+		if ( is_admin() || is_feed() || empty( $html ) ) {
+			return $html;
+		}
+
+		if ( false !== strpos( $html, 'has-pin-image-wrapper' ) ) {
+			return $html;
+		}
+
+		$options = Options::get_image_options();
+		if ( ! (bool) $options['enable_image_sharing'] ) {
+			return $html;
+		}
+
+		$has_supported_post_type = false;
+		$post_types              = $options['supported_post_types'];
+		$supported_slugs         = array();
+		foreach ( $post_types as $post_type => $enabled ) {
+			if ( $enabled ) {
+				$supported_slugs[] = $post_type;
+			}
+		}
+		$supported_slugs = apply_filters( 'has_pin_supported_post_types', $supported_slugs );
+		if ( ! in_array( get_post_type( $post_id ), $supported_slugs, true ) ) {
+			return $html;
+		}
+
+		// No need to check post meta as post meta controls a page-wide setting, and shouldn't target featured images.
+		// Featured image sharing: archives only by default (option); singular only via filter.
+		$on_archive = is_post_type_archive() || is_home();
+		if ( $on_archive ) {
+			if ( ! (bool) $options['enable_image_sharing_on_archive_featured'] ) {
+				return $html;
+			}
+		} else {
+			/**
+			 * Filter: has_enable_image_sharing_on_singular_featured
+			 *
+			 * Allow image sharing on featured images (post thumbnails) on singular posts/pages.
+			 * Default is false to avoid large hero images with sharing buttons; enable via filter if desired.
+			 *
+			 * @param bool $enable True to show sharing on singular featured images.
+			 * @since 7.0.0
+			 */
+			if ( ! apply_filters( 'has_enable_image_sharing_on_singular_featured', false ) ) {
+				return $html;
+			}
+		}
+
+		$dom = new \DOMDocument( '1.0', 'UTF-8' );
+		try {
+			libxml_use_internal_errors( true );
+			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD ); // phpcs:ignore
+			libxml_clear_errors();
+		} catch ( \Exception $e ) {
+			return $html;
+		}
+
+		$images_list = $dom->getElementsByTagName( 'img' );
+		$images      = array();
+		foreach ( $images_list as $img_node ) {
+			$images[] = $img_node;
+		}
+		if ( empty( $images ) ) {
+			return $html;
+		}
+
+		list( $css_classes, $sharing_wrapper_css ) = $this->get_image_sharing_css_classes( $options );
+
+		$this->wrap_single_image_with_sharing( $dom, $images[0], $options, $css_classes, $sharing_wrapper_css, 'thumbnail' );
+
+		return $dom->saveHTML();
 	}
 
 	/**
@@ -809,7 +1062,29 @@ class Frontend {
 		}
 
 		// Get post vars.
-		$post_id          = $post->ID;
+		$post_id = $post->ID;
+		$options = Options::get_plugin_options();
+
+		// Global state: content on + post type not excluded. Post meta can override via filter below.
+		$global_content_on  = (bool) apply_filters( 'has_enable_content', (bool) $options['enable_content'] );
+		$post_type_excluded = $this->is_post_type_excluded_for_highlight_sharing( $post_id, $options );
+		$global_enabled     = $global_content_on && ! $post_type_excluded;
+
+		/**
+		 * Filter: has_highlight_sharing_enabled_for_post
+		 *
+		 * Whether Highlight and Share will work on the current post.
+		 *
+		 * @param bool $enabled Whether Highlight and Share will work on the current post.
+		 * @param int  $post_id The ID of the current post.
+		 *
+		 * @since 7.0.0
+		 */
+		$enabled = apply_filters( 'has_highlight_sharing_enabled_for_post', $global_enabled, $post_id );
+		if ( ! $enabled ) {
+			return $content;
+		}
+
 		$url              = Functions::get_content_url( $post_id );
 		$title            = get_the_title( $post_id );
 		$is_legacy_markup = $this->is_legacy_content_loop_markup( $post_id ); // Determine if we're in legacy markup mode (wrap everything in a div) or not.
@@ -821,7 +1096,6 @@ class Frontend {
 
 		// Retrieve wrapper classes from options.
 		$class_dots_regex = '/\./';
-		$options          = Options::get_plugin_options();
 		$wrapper_classes  = $options['wrapper_classes'] ?? '';
 		if ( ! empty( $wrapper_classes ) ) {
 			$wrapper_classes     = preg_replace( $class_dots_regex, '', $wrapper_classes );
@@ -896,10 +1170,69 @@ class Frontend {
 		}
 
 		$post_id = $post->ID;
+		$options = Options::get_plugin_options();
+
+		// Global state: excerpt on + post type not excluded. Post meta can override via filter below.
+		$global_excerpt_on  = (bool) apply_filters( 'has_enable_excerpt', (bool) $options['enable_excerpt'] );
+		$post_type_excluded = $this->is_post_type_excluded_for_highlight_sharing( $post_id, $options );
+		$global_enabled     = $global_excerpt_on && ! $post_type_excluded;
+
+		/**
+		 * Filter: has_highlight_sharing_enabled_for_post
+		 *
+		 * Whether Highlight and Share will work on the current post.
+		 *
+		 * @param bool $enabled Whether Highlight and Share will work on the current post.
+		 * @param int  $post_id The ID of the current post.
+		 *
+		 * @since 7.0.0
+		 */
+		$enabled = apply_filters( 'has_highlight_sharing_enabled_for_post', $global_enabled, $post_id );
+		if ( ! $enabled ) {
+			return $content;
+		}
+
 		$url     = Functions::get_content_url( $post_id );
 		$title   = get_the_title( $post_id );
 		$content = sprintf( '<div class="has-excerpt-area" data-url="%s" data-title="%s" data-hashtags="%s">%s</div>', esc_url( $url ), esc_attr( $title ), esc_attr( Hashtags::get_hashtags( $post_id ) ), $content );
 		return $content;
+	}
+
+	/**
+	 * Whether the given post's type is in the excluded post types option (no highlight sharing).
+	 *
+	 * Respects the Highlight and Share excluded_post_types option. Normalizes both
+	 * array-of-slugs and object (slug => true) formats.
+	 *
+	 * @param int   $post_id Post ID.
+	 * @param array $options Optional. Plugin options; if not passed, fetched via Options::get_plugin_options().
+	 * @return bool True if this post type is excluded, false otherwise.
+	 */
+	private function is_post_type_excluded_for_highlight_sharing( $post_id, $options = null ) {
+		if ( null === $options ) {
+			$options = Options::get_plugin_options();
+		}
+		$raw = isset( $options['excluded_post_types'] ) && is_array( $options['excluded_post_types'] ) ? $options['excluded_post_types'] : array();
+		if ( empty( $raw ) ) {
+			return false;
+		}
+		// Normalize: support both array of slugs and associative slug => true.
+		$keys     = array_keys( $raw );
+		$is_assoc = ! empty( array_filter( $keys, 'is_string' ) );
+		if ( $is_assoc ) {
+			$slugs = array_keys(
+				array_filter(
+					$raw,
+					function ( $v ) {
+						return ! empty( $v );
+					}
+				)
+			);
+		} else {
+			$slugs = array_values( $raw );
+		}
+		$post_type = get_post_type( $post_id );
+		return in_array( $post_type, $slugs, true );
 	}
 
 	/**
@@ -1032,18 +1365,22 @@ class Frontend {
 	 * Render HTML for a single social network.
 	 *
 	 * @param array $network_def   Network definition from registry.
-	 * @param array $theme_options Theme options.
 	 * @param array $settings      Main plugin settings.
 	 * @param array $email_options Email options (if email network).
 	 * @return string HTML for network.
 	 */
-	private function render_network_html( $network_def, $theme_options, $settings, $email_options = array() ) {
+	private function render_network_html( $network_def, $settings, $email_options = array() ) {
 		$slug         = $network_def['slug'];
 		$css_class    = $network_def['css_class'];
 		$icon_id      = $network_def['icon_id'];
 		$label        = apply_filters( "has_{$slug}_text", $network_def['label_text'] );
 		$tooltip      = apply_filters( "has_{$slug}_tooltip", $network_def['tooltip_text'] );
-		$tooltip_attr = $theme_options['show_tooltips'] ? 'has-tooltip' : '';
+		$tooltip_attr = $settings['show_tooltips'] ? 'has-tooltip' : '';
+
+		// If network is not enabled, return an empty string.
+		if ( ! $settings[ $network_def['enabled_option_key'] ] ) {
+			return '';
+		}
 
 		// Build URL template.
 		$url_template = $this->get_network_url_template( $network_def, $settings, $email_options );
@@ -1074,7 +1411,7 @@ class Frontend {
 
 		$html .= sprintf(
 			'<a href="%s" %s><svg class="has-icon"><use xlink:href="#%s"></use></svg><span class="has-text">&nbsp;%s</span></a>',
-			esc_url( $url_template ),
+			esc_url_raw( $url_template, array( 'mailto', 'https', 'whatsapp' ) ),
 			$link_attrs,
 			esc_attr( $icon_id ),
 			esc_html( $label )
@@ -1089,18 +1426,23 @@ class Frontend {
 	 * Render email network HTML.
 	 *
 	 * @param array $network_def   Network definition.
-	 * @param array $theme_options Theme options.
 	 * @param array $settings      Main plugin settings.
 	 * @param array $email_options Email options.
 	 * @return string HTML for email network.
 	 */
-	private function render_email_network( $network_def, $theme_options, $settings, $email_options ) {
+	private function render_email_network( $network_def, $settings, $email_options ) {
+		// If email is not enabled, return an empty string.
+		if ( ! $settings['enable_emails'] ) {
+			return '';
+		}
+
 		// Get captcha enabled status.
 		$recaptcha_enabled = (bool) $email_options['recaptcha_enabled'];
 		$turnstile_enabled = (bool) $email_options['turnstile_enabled'];
+		$is_mailto         = 'mailto' === $email_options['email_send_type'];
 
 		// Require a captcha or turnstile to be enabled in order to send an email.
-		if ( ! $recaptcha_enabled && ! $turnstile_enabled ) {
+		if ( ! $recaptcha_enabled && ! $turnstile_enabled && ! $is_mailto ) {
 			return '';
 		}
 
@@ -1109,7 +1451,7 @@ class Frontend {
 		$email_url   = $this->get_email_url_template( $email_options );
 		$email_class = 'has_email_form';
 
-		if ( 'mailto' === $email_options['email_send_type'] ) {
+		if ( $is_mailto ) {
 			$email_class = 'has_email_mailto';
 		}
 
@@ -1118,7 +1460,7 @@ class Frontend {
 		$icon_id      = $network_def['icon_id'];
 		$label        = apply_filters( "has_{$slug}_text", $network_def['label_text'] );
 		$tooltip      = apply_filters( "has_{$slug}_tooltip", $network_def['tooltip_text'] );
-		$tooltip_attr = $theme_options['show_tooltips'] ? 'has-tooltip' : '';
+		$tooltip_attr = $settings['show_tooltips'] ? 'has-tooltip' : '';
 
 		$html = sprintf(
 			'<div class="has_email %s %s" style="display: none;" data-type="email" data-title="%%title%%" data-url="%%url%%" data-tooltip="%s">',
@@ -1148,13 +1490,17 @@ class Frontend {
 	 * Render WhatsApp network HTML.
 	 *
 	 * @param array $network_def   Network definition.
-	 * @param array $theme_options Theme options.
 	 * @param array $settings      Main plugin settings.
 	 * @return string HTML for WhatsApp network.
 	 */
-	private function render_whatsapp_network( $network_def, $theme_options, $settings ) {
+	private function render_whatsapp_network( $network_def, $settings ) {
+		// If WhatsApp is not enabled, return an empty string.
+		if ( ! $settings['show_whats_app'] ) {
+			return '';
+		}
+
 		// WhatsApp uses the same rendering as other networks, but with special URL handling.
-		return $this->render_network_html( $network_def, $theme_options, $settings );
+		return $this->render_network_html( $network_def, $settings );
 	}
 
 	/**
@@ -1192,24 +1538,22 @@ class Frontend {
 			$this->get_footer_svgs();
 			return;
 		}
-		$social_networks_ordered = Options::get_plugin_options_social_networks(); // ordered social networks (appearances tab).
-		$theme_options           = Options::get_theme_options(); // appearance options (appearances tab).
-		$settings                = Options::get_plugin_options(); // main plugin options (settings tab).
-		$email_options           = Options::get_email_options(); // email options (emails tab).
+		$settings      = Options::get_plugin_options(); // main plugin options (settings tab).
+		$email_options = Options::get_email_options(); // email options (emails tab).
 
 		// Get HAS container classes.
 		$has_container_classes = array(
 			'highlight-and-share-wrapper',
-			'theme-' . $theme_options['theme'],
+			'theme-' . $settings['theme'],
 		);
 		// Check for horizontal vs vertical orientation.
-		if ( 'vertical' === $theme_options['orientation'] ) {
+		if ( 'vertical' === $settings['orientation'] ) {
 			$has_container_classes[] = 'orientation-vertical';
 		} else {
 			$has_container_classes[] = 'orientation-horizontal';
 		}
 		// Determine if labels are enabled.
-		if ( 'default' === $theme_options['theme'] || ( 'custom' === $theme_options['theme'] && false === (bool) $theme_options['icons_only'] ) ) {
+		if ( 'default' === $settings['theme'] || ( 'custom' === $settings['theme'] && false === (bool) $settings['icons_only'] ) ) {
 			$has_container_classes[] = 'show-has-labels';
 		} else {
 			$has_container_classes[] = 'hide-has-labels';
@@ -1220,8 +1564,8 @@ class Frontend {
 		?>
 		<style>
 			.highlight-and-share-wrapper div.has-tooltip:hover:after {
-				background-color: <?php echo esc_attr( $theme_options['tooltips_background_color'] ); ?> !important;
-				color: <?php echo esc_attr( $theme_options['tooltips_text_color'] ); ?> !important;
+				background-color: <?php echo esc_attr( $settings['tooltips_background_color'] ); ?> !important;
+				color: <?php echo esc_attr( $settings['tooltips_text_color'] ); ?> !important;
 			}
 		</style>
 		<?php
@@ -1229,196 +1573,196 @@ class Frontend {
 
 		// Get custom theme styles.
 		$custom_styles = false;
-		if ( 'custom' === $theme_options['theme'] ) {
+		if ( 'custom' === $settings['theme'] ) {
 			ob_start();
 			?>
 			<style>
 			<?php
-			if ( true === (bool) $theme_options['group_icons'] ) :
+			if ( true === (bool) $settings['group_icons'] ) :
 				?>
 					.highlight-and-share-wrapper {
-						background-color: <?php echo esc_attr( $theme_options['background_color'] ); ?> !important;
+						background-color: <?php echo esc_attr( $settings['background_color'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper div a {
-						color:<?php echo esc_attr( $theme_options['icon_colors_group'] ); ?> !important;
-						background-color:<?php echo esc_attr( $theme_options['background_color'] ); ?> !important;
+						color:<?php echo esc_attr( $settings['icon_colors_group'] ); ?> !important;
+						background-color:<?php echo esc_attr( $settings['background_color'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper div a:hover {
-						color:<?php echo esc_attr( $theme_options['icon_colors_group_hover'] ); ?> !important;
-						background-color:<?php echo esc_attr( $theme_options['background_color_hover'] ); ?> !important;
+						color:<?php echo esc_attr( $settings['icon_colors_group_hover'] ); ?> !important;
+						background-color:<?php echo esc_attr( $settings['background_color_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper div:first-of-type a {
-						border-top-left-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
-						border-bottom-left-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
+						border-top-left-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
+						border-bottom-left-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper div:last-of-type a {
-						border-bottom-right-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
-						border-top-right-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
+						border-bottom-right-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
+						border-top-right-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			endif;
-			if ( true === (bool) $theme_options['border_radius_group']['attrSyncUnits'] ) :
+			if ( true === (bool) $settings['border_radius_group']['attrSyncUnits'] ) :
 				?>
 					.highlight-and-share-wrapper {
-						border-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
+						border-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			else :
 				?>
 					.highlight-and-share-wrapper,
 					.highlight-and-share-wrapper a {
-						border-top-left-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrTop'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
-						border-top-right-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrRight'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
-						border-bottom-right-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrBottom'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
-						border-bottom-left-radius: <?php echo esc_attr( $theme_options['border_radius_group']['attrLeft'] . $theme_options['border_radius_group']['attrUnit'] ); ?> !important;
+						border-top-left-radius: <?php echo esc_attr( $settings['border_radius_group']['attrTop'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
+						border-top-right-radius: <?php echo esc_attr( $settings['border_radius_group']['attrRight'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
+						border-bottom-right-radius: <?php echo esc_attr( $settings['border_radius_group']['attrBottom'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
+						border-bottom-left-radius: <?php echo esc_attr( $settings['border_radius_group']['attrLeft'] . $settings['border_radius_group']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			endif;
-			if ( true !== (bool) $theme_options['group_icons'] ) :
+			if ( true !== (bool) $settings['group_icons'] ) :
 				?>
 					.highlight-and-share-wrapper .has_twitter a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['twitter']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['twitter']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['twitter']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['twitter']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_twitter a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['twitter']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['twitter']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['twitter']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['twitter']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_facebook a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['facebook']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['facebook']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['facebook']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['facebook']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_facebook a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['facebook']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['facebook']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['facebook']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['facebook']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_linkedin a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['linkedin']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['linkedin']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['linkedin']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['linkedin']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_linkedin a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['linkedin']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['linkedin']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['linkedin']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['linkedin']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_whatsapp a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['whatsapp']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['whatsapp']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['whatsapp']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['whatsapp']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_whatsapp a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['whatsapp']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['whatsapp']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['whatsapp']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['whatsapp']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_telegram a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['telegram']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['telegram']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['telegram']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['telegram']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_telegram a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['telegram']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['telegram']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['telegram']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['telegram']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_reddit a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['reddit']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['reddit']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['reddit']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['reddit']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_reddit a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['reddit']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['reddit']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['reddit']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['reddit']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_tumblr a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['tumblr']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['tumblr']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['tumblr']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['tumblr']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_tumblr a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['tumblr']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['tumblr']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['tumblr']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['tumblr']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_xing a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['xing']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['xing']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['xing']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['xing']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_xing a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['xing']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['xing']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['xing']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['xing']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_email a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['email']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['email']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['email']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['email']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_email a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['email']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['email']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['email']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['email']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_copy a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['copy']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['copy']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['copy']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['copy']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_copy a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['copy']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['copy']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['copy']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['copy']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_webshare a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['webshare']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['webshare']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['webshare']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['webshare']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_webshare a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['webshare']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['webshare']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['webshare']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['webshare']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_mastodon a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['mastodon']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['mastodon']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_mastodon a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['mastodon']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['mastodon']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['mastodon']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_threads a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['threads']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['threads']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['threads']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['threads']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_threads a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['threads']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['threads']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['threads']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['threads']['background_hover'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_bluesky a {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['icon_color'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['background'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['bluesky']['icon_color'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['bluesky']['background'] ); ?> !important;
 					}
 					.highlight-and-share-wrapper .has_bluesky a:hover {
-						color: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['icon_color_hover'] ); ?> !important;
-						background: <?php echo esc_attr( $theme_options['icon_colors']['bluesky']['background_hover'] ); ?> !important;
+						color: <?php echo esc_attr( $settings['icon_colors']['bluesky']['icon_color_hover'] ); ?> !important;
+						background: <?php echo esc_attr( $settings['icon_colors']['bluesky']['background_hover'] ); ?> !important;
 					}
 				<?php
-				if ( true === (bool) $theme_options['icon_border_radius']['attrSyncUnits'] ) :
+				if ( true === (bool) $settings['icon_border_radius']['attrSyncUnits'] ) :
 					?>
 						.highlight-and-share-wrapper div a {
-							border-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+							border-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 						}
 					<?php
 				else :
 					?>
 						.highlight-and-share-wrapper div a {
-							border-top-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-							border-top-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrRight'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-							border-bottom-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrBottom'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-							border-bottom-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrLeft'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+							border-top-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+							border-top-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrRight'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+							border-bottom-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrBottom'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+							border-bottom-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrLeft'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 						}
 					<?php
 				endif;
-				if ( 'horizontal' === $theme_options['orientation'] ) :
+				if ( 'horizontal' === $settings['orientation'] ) :
 					?>
 						.highlight-and-share-wrapper div {
-							margin-right: <?php echo esc_attr( $theme_options['icon_gap'] ); ?>px !important;
+							margin-right: <?php echo esc_attr( $settings['icon_gap'] ); ?>px !important;
 						}
 						.highlight-and-share-wrapper div:last-child {
 							margin-right: 0 !important;
 						}
 					<?php
 				endif;
-				if ( 'vertical' === $theme_options['orientation'] ) :
+				if ( 'vertical' === $settings['orientation'] ) :
 					?>
 						.highlight-and-share-wrapper div {
-							margin-bottom: <?php echo esc_attr( $theme_options['icon_gap'] ); ?>px !important;
+							margin-bottom: <?php echo esc_attr( $settings['icon_gap'] ); ?>px !important;
 						}
 						.highlight-and-share-wrapper div:last-child {
 							margin-bottom: 0 !important;
@@ -1426,61 +1770,61 @@ class Frontend {
 					<?php
 				endif;
 			endif;
-			if ( true === (bool) $theme_options['icon_border_radius']['attrSyncUnits'] ) :
+			if ( true === (bool) $settings['icon_border_radius']['attrSyncUnits'] ) :
 				?>
 					.highlight-and-share-wrapper div a {
-						border-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			else :
 				?>
 					.highlight-and-share-wrapper div a {
-						border-top-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-top-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrRight'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-bottom-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrBottom'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-bottom-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrLeft'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-top-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-top-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrRight'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-bottom-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrBottom'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-bottom-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrLeft'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			endif;
-			if ( true === (bool) $theme_options['icon_border_radius']['attrSyncUnits'] ) :
+			if ( true === (bool) $settings['icon_border_radius']['attrSyncUnits'] ) :
 				?>
 					.highlight-and-share-wrapper div a {
-						border-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			else :
 				?>
 					.highlight-and-share-wrapper div a {
-						border-top-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrTop'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-top-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrRight'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-bottom-right-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrBottom'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
-						border-bottom-left-radius: <?php echo esc_attr( $theme_options['icon_border_radius']['attrLeft'] . $theme_options['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-top-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrTop'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-top-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrRight'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-bottom-right-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrBottom'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
+						border-bottom-left-radius: <?php echo esc_attr( $settings['icon_border_radius']['attrLeft'] . $settings['icon_border_radius']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			endif;
-			if ( true === (bool) $theme_options['icon_padding']['attrSyncUnits'] ) :
+			if ( true === (bool) $settings['icon_padding']['attrSyncUnits'] ) :
 				?>
 					.highlight-and-share-wrapper div a {
-						padding: <?php echo esc_attr( $theme_options['icon_padding']['attrTop'] . $theme_options['icon_padding']['attrUnit'] ); ?> !important;
+						padding: <?php echo esc_attr( $settings['icon_padding']['attrTop'] . $settings['icon_padding']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			else :
 				?>
 					.highlight-and-share-wrapper div a {
-						padding-top: <?php echo esc_attr( $theme_options['icon_padding']['attrTop'] . $theme_options['icon_padding']['attrUnit'] ); ?> !important;
-						padding-right: <?php echo esc_attr( $theme_options['icon_padding']['attrRight'] . $theme_options['icon_padding']['attrUnit'] ); ?> !important;
-						padding-bottom: <?php echo esc_attr( $theme_options['icon_padding']['attrBottom'] . $theme_options['icon_padding']['attrUnit'] ); ?> !important;
-						padding-left: <?php echo esc_attr( $theme_options['icon_padding']['attrLeft'] . $theme_options['icon_padding']['attrUnit'] ); ?> !important;
+						padding-top: <?php echo esc_attr( $settings['icon_padding']['attrTop'] . $settings['icon_padding']['attrUnit'] ); ?> !important;
+						padding-right: <?php echo esc_attr( $settings['icon_padding']['attrRight'] . $settings['icon_padding']['attrUnit'] ); ?> !important;
+						padding-bottom: <?php echo esc_attr( $settings['icon_padding']['attrBottom'] . $settings['icon_padding']['attrUnit'] ); ?> !important;
+						padding-left: <?php echo esc_attr( $settings['icon_padding']['attrLeft'] . $settings['icon_padding']['attrUnit'] ); ?> !important;
 					}
 				<?php
 			endif;
 			?>
 				.highlight-and-share-wrapper div a .has-icon {
-					width: <?php echo esc_attr( $theme_options['icon_size'] ); ?>px !important;
-					height: <?php echo esc_attr( $theme_options['icon_size'] ); ?>px !important;
+					width: <?php echo esc_attr( $settings['icon_size'] ); ?>px !important;
+					height: <?php echo esc_attr( $settings['icon_size'] ); ?>px !important;
 				}
 				.highlight-and-share-wrapper div a {
-					font-size: <?php echo esc_attr( $theme_options['font_size'] ); ?>px !important;
+					font-size: <?php echo esc_attr( $settings['font_size'] ); ?>px !important;
 				}
 			</style>
 			<?php
@@ -1506,20 +1850,22 @@ class Frontend {
 		}
 
 		// Loop through ordered networks and output HTML.
-		foreach ( $social_networks_ordered as $social_network ) {
-			if ( ! $social_network['enabled'] ) {
+		$network_order   = $settings['network_order'];
+		$social_networks = Options::get_social_network_defaults();
+		foreach ( $network_order as $network_slug ) {
+			$network_def = $social_networks[ $network_slug ] ?? null;
+			if ( ! $network_def ) {
 				continue;
 			}
-			// Handle special cases that need additional logic.
-			if ( 'email' === $social_network['slug'] ) {
-				$html .= $this->render_email_network( $social_network, $theme_options, $settings, $email_options );
-			} elseif ( 'whatsapp' === $social_network['slug'] ) {
-				$html .= $this->render_whatsapp_network( $social_network, $theme_options, $settings );
-			} elseif ( 'mastodon' === $social_network['slug'] ) {
-				$html .= $this->render_network_html( $social_network, $theme_options, $settings );
+			if ( 'email' === $network_slug ) {
+				$html .= $this->render_email_network( $network_def, $settings, $email_options );
+			} elseif ( 'whatsapp' === $network_slug ) {
+				$html .= $this->render_whatsapp_network( $network_def, $settings );
+			} elseif ( 'mastodon' === $network_slug ) {
+				$html .= $this->render_network_html( $network_def, $settings );
 				$this->maybe_enqueue_fancybox();
 			} else {
-				$html .= $this->render_network_html( $social_network, $theme_options, $settings );
+				$html .= $this->render_network_html( $network_def, $settings );
 			}
 		}
 		$html .= '</div><!-- #highlight-and-share-wrapper --></div><!-- #has-highlight-and-share -->';
@@ -1964,11 +2310,12 @@ class Frontend {
 		$json_arr['prefix'] = isset( $settings['sharing_prefix'] ) ? stripslashes_deep( sanitize_text_field( $settings['sharing_prefix'] ) ) : '';
 		$json_arr['suffix'] = isset( $settings['sharing_suffix'] ) ? stripslashes_deep( sanitize_text_field( $settings['sharing_suffix'] ) ) : '';
 
+		$options = Options::get_plugin_options();
+
 		// Get highlight tooltip options.
-		$block_editor_options = Options::get_block_editor_options();
-		if ( (bool) $block_editor_options['inline_highlight_show_tooltips'] ) {
+		if ( (bool) $options['inline_highlight_show_tooltips'] ) {
 			$json_arr['inline_highlight_tooltips_enabled'] = true;
-			$json_arr['inline_highlight_tooltips_text']    = $block_editor_options['inline_highlight_tooltips_text'];
+			$json_arr['inline_highlight_tooltips_text']    = $options['inline_highlight_tooltips_text'];
 		} else {
 			$json_arr['inline_highlight_tooltips_enabled'] = false;
 			$json_arr['inline_highlight_tooltips_text']    = '';
@@ -1996,6 +2343,11 @@ class Frontend {
 		// Localize.
 		wp_localize_script( 'highlight-and-share', 'highlight_and_share', $json_arr );
 
+		// Enqueue image sharing script and styles (footer) when context and per-post allow.
+		if ( $this->should_load_image_sharing_script() ) {
+			$this->enqueue_image_sharing_assets();
+		}
+
 		/**
 		 * Filter: has_load_css
 		 *
@@ -2009,13 +2361,13 @@ class Frontend {
 			add_action( 'wp_footer', array( $this, 'output_footer_css' ), 1 );
 
 			// Classes needed for CSS.
-			add_filter( 'body_class', array( $this, 'add_body_class' ), 10, 2 );
+			add_filter( 'body_class', array( $this, 'add_body_class' ), 10, 1 );
 
 			// Let's see if inline highlight tooltips are enabled.
-			if ( (bool) $block_editor_options['inline_highlight_show_tooltips'] ) {
+			if ( (bool) $options['inline_highlight_show_tooltips'] ) {
 				// Load dummy stylesheet.
 				wp_register_style( 'has-inline-highlight-tooltips', false );
-				$inline_highlight_styles = ':root { --has-inline-highlight-tooltips-color: ' . esc_html( $block_editor_options['inline_highlight_tooltips_text_color'] ) . '; --has-inline-highlight-tooltips-background-color: ' . esc_html( $block_editor_options['inline_highlight_tooltips_background_color'] ) . '; }';
+				$inline_highlight_styles = ':root { --has-inline-highlight-tooltips-color: ' . esc_html( $options['inline_highlight_tooltips_text_color'] ) . '; --has-inline-highlight-tooltips-background-color: ' . esc_html( $options['inline_highlight_tooltips_background_color'] ) . '; }';
 				// Add inline styles.
 				wp_add_inline_style(
 					'has-inline-highlight-tooltips',
@@ -2035,38 +2387,6 @@ class Frontend {
 					$inline_styles
 				);
 				wp_enqueue_style( 'has-inline-styles' );
-			}
-
-			// Load Image Sharing CSS (if image sharing is enabled).
-			$image_sharing_options = Options::get_image_options();
-			$image_sharing_enabled = (bool) $image_sharing_options['enable_image_sharing'];
-			if ( $image_sharing_enabled ) {
-				// Get the colors.
-				$image_sharing_css = (
-					'.has-pin-image-wrapper {' .
-					'--has-pinterest-button-color: ' . esc_html( $image_sharing_options['pinterest_button_color'] ) . ';' .
-					'--has-pinterest-button-color-hover: ' . esc_html( $image_sharing_options['pinterest_button_color_hover'] ) . ';' .
-					'--has-pinterest-icon-color: ' . esc_html( $image_sharing_options['pinterest_icon_color'] ) . ';' .
-					'--has-pinterest-icon-color-hover: ' . esc_html( $image_sharing_options['pinterest_icon_color_hover'] ) . ';' .
-					'--has-pinterest-text-color: ' . esc_html( $image_sharing_options['pinterest_text_color'] ) . ';' .
-					'--has-pinterest-text-color-hover: ' . esc_html( $image_sharing_options['pinterest_text_color_hover'] ) . ';' .
-					'--has-webshare-icon-color: ' . esc_html( $image_sharing_options['webshare_icon_color'] ) . ';' .
-					'--has-webshare-icon-color-hover: ' . esc_html( $image_sharing_options['webshare_icon_color_hover'] ) . ';' .
-					'--has-webshare-button-color: ' . esc_html( $image_sharing_options['webshare_button_color'] ) . ';' .
-					'--has-webshare-button-color-hover: ' . esc_html( $image_sharing_options['webshare_button_color_hover'] ) . ';' .
-					'--has-webshare-text-color: ' . esc_html( $image_sharing_options['webshare_text_color'] ) . ';' .
-					'--has-webshare-text-color-hover: ' . esc_html( $image_sharing_options['webshare_text_color_hover'] ) . ';' .
-					'}'
-				);
-				wp_register_style(
-					'has-image-sharing',
-					false
-				);
-				wp_add_inline_style(
-					'has-image-sharing',
-					$image_sharing_css
-				);
-				wp_enqueue_style( 'has-image-sharing' );
 			}
 		}
 	}
@@ -2098,11 +2418,10 @@ class Frontend {
 	 * @since 3.2.11
 	 *
 	 * @param array $classes Array of class names.
-	 * @param array $class   Array of additional classnaes added to the body.
 	 *
 	 * @return array Updated classnames.
 	 */
-	public function add_body_class( $classes, $class ) {
+	public function add_body_class( $classes ) {
 		$classes[] = 'has-body';
 		return $classes;
 	}

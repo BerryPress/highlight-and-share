@@ -5,7 +5,7 @@
  * Plugin URI: https://dlxplugins.com/plugins/highlight-and-share/
  * Description: Select text, inline highlight, or use a Click to Share block and show social networks.
  * Author: DLX Plugins
- * Version: 5.3.5
+ * Version: 5.3.24
  * Requires at least: 5.1
  * Requires PHP: 7.2
  * Author URI: https://dlxplugins.com/plugins/highlight-and-share/
@@ -17,7 +17,8 @@
 
 namespace DLXPlugins\HAS;
 
-define( 'HIGHLIGHT_AND_SHARE_VERSION', '5.3.5' );
+define( 'HIGHLIGHT_AND_SHARE_VERSION', '5.3.24' );
+define( 'HIGHLIGHT_AND_SHARE_OPTIONS_VERSION', '1.0.2' );
 define( 'HIGHLIGHT_AND_SHARE_FILE', __FILE__ );
 
 // Support for site-level autoloading.
@@ -112,9 +113,16 @@ add_action( 'plugins_loaded', 'DLXPlugins\HAS\highlightshare_instantiate' );
 function highlightshare_instantiate() {
 	Highlight_And_Share::get_instance();
 
+	// Options.
+	$options = new Options();
+	$options->run();
+
 	// Gutenberg block.
 	$blocks = new Blocks();
 	$blocks->run();
+
+	// Per-post settings (sidebar / meta box).
+	PostSettings::run();
 
 	// Init admin panel settings.
 	$admin_panel = new Admin();

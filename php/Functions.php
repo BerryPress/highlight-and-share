@@ -219,6 +219,7 @@ class Functions {
 	 * Get all fonts used for the blocks.
 	 *
 	 * @param array $blocks Array of blocks/innerblocks.
+	 * @param array $fonts  Array of fonts.
 	 */
 	public static function get_block_fonts( $blocks, $fonts = array() ) {
 		$devices = array(
@@ -264,10 +265,10 @@ class Functions {
 	 * @return bool True if enabled, false if not.
 	 */
 	public static function is_adobe_fonts_enabled() {
-		$block_editor_options = Options::get_block_editor_options( true );
-		$adobe_project_id     = $block_editor_options['adobe_project_id'] ?? '';
-		$adobe_fonts          = $block_editor_options['adobe_fonts'] ?? false;
-		$adobe_fonts_enabled  = $block_editor_options['enable_adobe_fonts'] ?? false;
+		$options             = Options::get_plugin_options( true );
+		$adobe_project_id    = $options['adobe_project_id'] ?? '';
+		$adobe_fonts         = $options['adobe_fonts'] ?? false;
+		$adobe_fonts_enabled = $options['enable_adobe_fonts'] ?? false;
 
 		if ( $adobe_fonts_enabled && ! empty( $adobe_fonts ) && ! empty( $adobe_project_id ) ) {
 			return true;
@@ -294,6 +295,33 @@ class Functions {
 	/**
 	 * Take a _ separated field and convert to camelcase.
 	 *
+	 * @param array $fields Array of fields to convert to camelcase.
+	 *
+	 * @return string camelCased field.
+	 */
+	public static function to_camelcase_recursive( array $fields ) {
+		foreach ( $fields as $key => $value ) {
+			if ( is_numeric( $key ) || is_bool( $key ) ) {
+				continue;
+			}
+			// Store old key.
+			$old_key = $key;
+			if ( is_array( $value ) ) {
+				$value = self::to_camelcase_recursive( $value );
+			} else {
+				$key = self::to_camelcase( $key );
+			}
+			if ( $key !== $old_key ) {
+				unset( $fields[ $old_key ] );
+			}
+			$fields[ $key ] = $value;
+		}
+		return $fields;
+	}
+
+	/**
+	 * Take a _ separated field and convert to camelcase.
+	 *
 	 * @param string $field Field to convert to camelcase.
 	 *
 	 * @return string camelCased field.
@@ -310,8 +338,64 @@ class Functions {
 	 * @return string $field Field name in camelCase..
 	 */
 	public static function to_underlines( string $field ) {
-		$field = strtolower( preg_replace( '/([a-z])([A-Z])/', '$1_$2', $field ) );
+		$regex = '/([a-z])([A-Z])/';
+		if ( preg_match( $regex, $field ) ) {
+			$field = strtolower( preg_replace( $regex, '$1_$2', $field ) );
+		}
 		return $field;
+	}
+
+	/**
+	 * Take a camelcase key and converts it to underline case.
+	 *
+	 * @param array $fields Array of fields to convert to underline case.
+	 *
+	 * @return array $fields Array of fields in underline case.
+	 */
+	public static function to_underlines_recursive( array $fields ) {
+		foreach ( $fields as $key => $value ) {
+			if ( is_numeric( $key ) || is_bool( $key ) ) {
+				continue;
+			}
+			// Store old key.
+			$old_key = $key;
+
+			// Convert key to underline case.
+			$key            = self::to_underlines( $key );
+			$fields[ $key ] = $value;
+
+			// Unset old key if it has changed.
+			if ( $key !== $old_key ) {
+				unset( $fields[ $old_key ] );
+			}
+
+			// Recursively convert array values to underline case.
+			if ( is_array( $value ) ) {
+				$fields[ $key ] = self::to_underlines_recursive( $value );
+			}
+		}
+		return $fields;
+	}
+
+	/**
+	 * Get all public post types.
+	 *
+	 * @return array Array of post type objects.
+	 */
+	public static function get_post_types() {
+		$post_types          = get_post_types(
+			array(
+				'public' => true,
+			),
+			'objects'
+		);
+		$excluded_post_types = array( 'attachment', 'revision', 'nav_menu_item', 'ct_content_block' );
+		return array_filter(
+			$post_types,
+			function ( $post_type ) use ( $excluded_post_types ) {
+				return ! in_array( $post_type->name, $excluded_post_types, true );
+			}
+		);
 	}
 
 	/**
@@ -700,4 +784,3 @@ class Functions {
 		return $highest_priority;
 	}
 }
-

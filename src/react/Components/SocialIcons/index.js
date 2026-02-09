@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { useSelect } from '@wordpress/data';
 // Return fontawesome icons for the social networks.
-import { faTwitter as TwitterIcon } from '@fortawesome/free-brands-svg-icons/faTwitter';
 import { faFacebook as FacebookIcon } from '@fortawesome/free-brands-svg-icons/faFacebook';
 import { faWhatsapp as WhatsappIcon } from '@fortawesome/free-brands-svg-icons/faWhatsapp';
 import { faLinkedinIn as LinkedinIcon } from '@fortawesome/free-brands-svg-icons/faLinkedinIn';
@@ -18,16 +16,10 @@ import { faMastodon as MastodonIcon } from '@fortawesome/free-brands-svg-icons/f
 import { faThreads as ThreadsIcon } from '@fortawesome/free-brands-svg-icons/faThreads';
 import { faBluesky as BlueskyIcon } from '@fortawesome/free-brands-svg-icons/faBluesky';
 
-import SocialNetworksContext from '../../Contexts/SocialNetworksContext';
+import store from '../../Sharing/Panels/SocialNetworksPanel/Store';
 import Twitter from '../Icons/twitter';
-const SocialIcons = ( socialNetworksData = {} ) => {
-	let socialNetworks = {};
-	const socialNetworksContext = useContext( SocialNetworksContext );
-	if ( undefined !== socialNetworksContext ) {
-		socialNetworks = socialNetworksContext.socialNetworks;
-	} else {
-		socialNetworks = socialNetworksData;
-	}
+const SocialIcons = () => {
+	const socialNetworks = useSelect( ( select ) => select( store ).getNetworks() );
 	const getSocialIcon = ( socialNetwork ) => {
 		switch ( socialNetwork ) {
 			case 'twitter':
@@ -121,7 +113,7 @@ const SocialIcons = ( socialNetworksData = {} ) => {
 	const getSocialIcons = () => {
 		const socialIcons = [];
 		let socialIconCount = 0;
-		for ( const [ key, value ] of Object.entries( socialNetworks ) ) {
+		for ( const value of Object.values( socialNetworks ) ) {
 			const classes = classNames( ( value.slug ?? value.key ), {
 				'is-disabled': ! value.enabled,
 				'is-custom': value.custom,

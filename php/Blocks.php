@@ -24,12 +24,15 @@ class Blocks {
 			'init',
 			function () use ( $self ) {
 				// Get block editor options.
-				$options = Options::get_block_editor_options();
+				$options = Options::get_plugin_options();
 
 				// Enqueue inline highlighting script if enabled.
 				if ( (bool) $options['enable_inline_highlighting'] ) {
 					add_action( 'enqueue_block_editor_assets', array( $self, 'enqueue_inline_highlighting_script' ) );
 				}
+
+				// Per-post sidebar panel (Document settings).
+				add_action( 'enqueue_block_editor_assets', array( $self, 'enqueue_post_sidebar_script' ) );
 
 				// Register the block if enabled.
 				if ( (bool) $options['enable_blocks'] ) {
@@ -71,6 +74,44 @@ class Blocks {
 				'all'
 			);
 		}
+	}
+
+	/**
+	 * Enqueue per-post sidebar script in the block editor (Document panel).
+	 */
+	public function enqueue_post_sidebar_script() {
+		$screen = get_current_screen();
+		if ( ! $screen || ! in_array( $screen->post_type, PostSettings::get_supported_post_types(), true ) ) {
+			return;
+		}
+		$asset_file = Functions::get_plugin_dir( 'build/has-post-sidebar.asset.php' );
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+		$deps = require $asset_file;
+		wp_enqueue_script(
+			'has-post-sidebar',
+			Functions::get_plugin_url( 'build/has-post-sidebar.js' ),
+			$deps['dependencies'],
+			$deps['version'],
+			true
+		);
+		wp_localize_script(
+			'has-post-sidebar',
+			'hasPostSidebar',
+			array(
+				'supportedPostTypes' => PostSettings::get_supported_post_types(),
+				'defaults'           => PostSettings::get_defaults(),
+			)
+		);
+		wp_enqueue_style(
+			'has-post-sidebar-style',
+			Functions::get_plugin_url( 'build/style-has-post-sidebar.css' ),
+			array(),
+			$deps['dependencies'],
+			'all'
+		);
+		wp_set_script_translations( 'has-post-sidebar', 'highlight-and-share' );
 	}
 
 	/**
@@ -117,7 +158,7 @@ class Blocks {
 		}
 
 		// Get adobe fonts.
-		$block_editor_options = Options::get_block_editor_options( true );
+		$block_editor_options = Options::get_plugin_options( true );
 		$adobe_fonts          = $block_editor_options['adobe_fonts'] ?? array();
 
 		// Get current user ID.
@@ -172,7 +213,7 @@ class Blocks {
 				continue;
 			}
 			if ( 'adobe' === $block_font['fontType'] ) {
-				$block_editor_options = Options::get_block_editor_options( true );
+				$block_editor_options = Options::get_plugin_options( true );
 				$adobe_project_id     = $block_editor_options['adobe_project_id'] ?? '';
 				if ( ! empty( $adobe_project_id ) ) {
 					$adobe_fonts_url = esc_url( Adobe_Fonts::$typekit_css_url . '/' . $adobe_project_id . '.css' );

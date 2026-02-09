@@ -61,18 +61,35 @@ class Options {
 	private static $instance = false;
 	/**
 	 * Main class runner.
-	 *
-	 * @return Options.
 	 */
 	public static function run() {
-		$self = new self();
-		add_action( 'init', array( $self, 'register_block' ) );
-		add_action( 'enqueue_block_editor_assets', array( $self, 'register_block_assets' ) );
-		add_action( 'enqueue_block_assets', array( $self, 'enqueue_frontend_assets' ) );
-		$self->instance = $self;
-		return $self;
+		add_filter( 'has_migrate_plugin_options', array( __CLASS__, 'migrate_plugin_options' ), 10, 3 );
 	}
 
+	/**
+	 * Migrate plugin options.
+	 *
+	 * @param array  $settings The plugin options.
+	 * @param string $options_version The current options version.
+	 * @param string $settings_version The stored or default options version.
+	 * @return array The migrated plugin options.
+	 */
+	public static function migrate_plugin_options( $settings, $options_version, $settings_version ) {
+		// Migrate theme and block editor options.
+		$theme_options_raw        = get_option( 'highlight-and-share-theme-options' );
+		$block_editor_options_raw = get_option( 'highlight-and-share-block-editor-options' );
+		if ( false !== $theme_options_raw && false !== $block_editor_options_raw ) {
+			$theme_options        = self::get_theme_options( true );
+			$block_editor_options = self::get_block_editor_options( true );
+
+			$theme_and_block_options = array_merge( $theme_options, $block_editor_options );
+			$settings                = array_replace_recursive( $settings, $theme_and_block_options );
+			delete_option( 'highlight-and-share-theme-options' );
+			delete_option( 'highlight-and-share-block-editor-options' );
+		}
+
+		return $settings;
+	}
 	/**
 	 * Get email setting options.
 	 */
@@ -107,20 +124,21 @@ class Options {
 	public static function get_social_network_defaults() {
 		$social_networks = array(
 			'twitter'  => array(
-				'label'              => __( 'Twitter', 'highlight-and-share' ),
-				'slug'               => 'twitter',
-				'color'              => '#000000',
-				'background'         => '#fff',
-				'order'              => 0,
-				'custom'             => false,
-				'css_class'          => 'has_twitter',
-				'icon_id'            => 'has-twitter-icon',
-				'label_text'         => _x( 'Share This', 'X social network formerly Twitter', 'highlight-and-share' ),
-				'tooltip_text'       => _x( 'Share on X', 'X social network formerly Twitter', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_twitter',
-				'share_url_template' => 'https://x.com/intent/tweet?via=%username%&url=%url%&text=%prefix%%text%%suffix%&hashtags=%hashtags%',
-				'requires_popup'     => true,
-				'icon_colors'        => array(
+				'label'               => __( 'X', 'highlight-and-share' ),
+				'slug'                => 'twitter',
+				'color'               => '#000000',
+				'background'          => '#fff',
+				'order'               => 0,
+				'custom'              => false,
+				'css_class'           => 'has_twitter',
+				'allows_text_sharing' => true,
+				'icon_id'             => 'has-twitter-icon',
+				'label_text'          => _x( 'Share This', 'X social network formerly Twitter', 'highlight-and-share' ),
+				'tooltip_text'        => _x( 'Share on X', 'X social network formerly Twitter', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_twitter',
+				'share_url_template'  => 'https://x.com/intent/tweet?via=%username%&url=%url%&text=%prefix%%text%%suffix%&hashtags=%hashtags%',
+				'requires_popup'      => true,
+				'icon_colors'         => array(
 					'background'       => '#FEFEFE',
 					'background_hover' => '#FFFFFF',
 					'icon_color'       => '#000000',
@@ -128,20 +146,21 @@ class Options {
 				),
 			),
 			'facebook' => array(
-				'label'              => __( 'Facebook', 'highlight-and-share' ),
-				'slug'               => 'facebook',
-				'color'              => '#3b5998',
-				'background'         => '#fff',
-				'order'              => 1,
-				'custom'             => false,
-				'css_class'          => 'has_facebook',
-				'icon_id'            => 'has-facebook-icon',
-				'label_text'         => __( 'Facebook', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share on Facebook', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_facebook',
-				'share_url_template' => 'https://www.facebook.com/sharer/sharer.php?u=%url%&t=%title%',
-				'requires_popup'     => true,
-				'icon_colors'        => array(
+				'label'               => __( 'Facebook', 'highlight-and-share' ),
+				'slug'                => 'facebook',
+				'color'               => '#3b5998',
+				'background'          => '#fff',
+				'order'               => 1,
+				'custom'              => false,
+				'css_class'           => 'has_facebook',
+				'allows_text_sharing' => false,
+				'icon_id'             => 'has-facebook-icon',
+				'label_text'          => __( 'Facebook', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share on Facebook', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_facebook',
+				'share_url_template'  => 'https://www.facebook.com/sharer/sharer.php?u=%url%&t=%title%',
+				'requires_popup'      => true,
+				'icon_colors'         => array(
 					'background'       => '#3b5998',
 					'background_hover' => '#2d4373',
 					'icon_color'       => '#fff',
@@ -149,20 +168,21 @@ class Options {
 				),
 			),
 			'whatsapp' => array(
-				'label'              => __( 'WhatsApp', 'highlight-and-share' ),
-				'slug'               => 'whatsapp',
-				'color'              => '#25d366',
-				'background'         => '#fff',
-				'order'              => 2,
-				'custom'             => false,
-				'css_class'          => 'has_whatsapp',
-				'icon_id'            => 'has-whatsapp-icon',
-				'label_text'         => __( 'WhatsApp', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share on WhatsApp', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_whats_app',
-				'share_url_template' => '', // Handled dynamically based on endpoint settings.
-				'requires_popup'     => true,
-				'icon_colors'        => array(
+				'label'               => __( 'WhatsApp', 'highlight-and-share' ),
+				'slug'                => 'whatsapp',
+				'color'               => '#25d366',
+				'background'          => '#fff',
+				'order'               => 2,
+				'custom'              => false,
+				'css_class'           => 'has_whatsapp',
+				'allows_text_sharing' => true,
+				'icon_id'             => 'has-whatsapp-icon',
+				'label_text'          => __( 'WhatsApp', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share on WhatsApp', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_whats_app',
+				'share_url_template'  => '', // Handled dynamically based on endpoint settings.
+				'requires_popup'      => true,
+				'icon_colors'         => array(
 					'background'       => '#25d366',
 					'background_hover' => '#1fbf4f',
 					'icon_color'       => '#fff',
@@ -170,20 +190,21 @@ class Options {
 				),
 			),
 			'reddit'   => array(
-				'label'              => __( 'reddit', 'highlight-and-share' ),
-				'slug'               => 'reddit',
-				'color'              => '#ff4500',
-				'background'         => '#fff',
-				'order'              => 3,
-				'custom'             => false,
-				'css_class'          => 'has_reddit',
-				'icon_id'            => 'has-reddit-icon',
-				'label_text'         => __( 'Reddit', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share on Reddit', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_reddit',
-				'share_url_template' => 'https://www.reddit.com/submit?resubmit=true&url=%url%&title=%title%',
-				'requires_popup'     => true,
-				'icon_colors'        => array(
+				'label'               => __( 'Reddit', 'highlight-and-share' ),
+				'slug'                => 'reddit',
+				'color'               => '#ff4500',
+				'background'          => '#fff',
+				'order'               => 3,
+				'custom'              => false,
+				'css_class'           => 'has_reddit',
+				'allows_text_sharing' => false,
+				'icon_id'             => 'has-reddit-icon',
+				'label_text'          => __( 'Reddit', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share on Reddit', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_reddit',
+				'share_url_template'  => 'https://www.reddit.com/submit?resubmit=true&url=%url%&title=%title%',
+				'requires_popup'      => true,
+				'icon_colors'         => array(
 					'background'       => '#ff4500',
 					'background_hover' => '#e63f00',
 					'icon_color'       => '#fff',
@@ -191,20 +212,21 @@ class Options {
 				),
 			),
 			'telegram' => array(
-				'label'              => __( 'Telegram', 'highlight-and-share' ),
-				'slug'               => 'telegram',
-				'color'              => '#0088cc',
-				'background'         => '#fff',
-				'order'              => 4,
-				'custom'             => false,
-				'css_class'          => 'has_telegram',
-				'icon_id'            => 'has-telegram-icon',
-				'label_text'         => __( 'Telegram', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share on Telegram', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_telegram',
-				'share_url_template' => 'https://t.me/share/url?url=%url%&text=%prefix%%text%%suffix%',
-				'requires_popup'     => true,
-				'icon_colors'        => array(
+				'label'               => __( 'Telegram', 'highlight-and-share' ),
+				'slug'                => 'telegram',
+				'color'               => '#0088cc',
+				'background'          => '#fff',
+				'order'               => 4,
+				'custom'              => false,
+				'css_class'           => 'has_telegram',
+				'allows_text_sharing' => true,
+				'icon_id'             => 'has-telegram-icon',
+				'label_text'          => __( 'Telegram', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share on Telegram', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_telegram',
+				'share_url_template'  => 'https://t.me/share/url?url=%url%&text=%prefix%%text%%suffix%',
+				'requires_popup'      => true,
+				'icon_colors'         => array(
 					'background'       => '#0088cc',
 					'background_hover' => '#006b9f',
 					'icon_color'       => '#fff',
@@ -212,20 +234,21 @@ class Options {
 				),
 			),
 			'linkedin' => array(
-				'label'              => __( 'LinkedIn', 'highlight-and-share' ),
-				'slug'               => 'linkedin',
-				'color'              => '#0077b5',
-				'background'         => '#fff',
-				'order'              => 5,
-				'custom'             => false,
-				'css_class'          => 'has_linkedin',
-				'icon_id'            => 'has-linkedin-icon',
-				'label_text'         => __( 'LinkedIn', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share on LinkedIn', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_linkedin',
-				'share_url_template' => 'https://www.linkedin.com/sharing/share-offsite/?mini=true&url=%url%&title=%title%',
-				'requires_popup'     => true,
-				'icon_colors'        => array(
+				'label'               => __( 'LinkedIn', 'highlight-and-share' ),
+				'slug'                => 'linkedin',
+				'color'               => '#0077b5',
+				'background'          => '#fff',
+				'order'               => 5,
+				'custom'              => false,
+				'css_class'           => 'has_linkedin',
+				'allows_text_sharing' => false,
+				'icon_id'             => 'has-linkedin-icon',
+				'label_text'          => __( 'LinkedIn', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share on LinkedIn', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_linkedin',
+				'share_url_template'  => 'https://www.linkedin.com/sharing/share-offsite/?mini=true&url=%url%&title=%title%',
+				'requires_popup'      => true,
+				'icon_colors'         => array(
 					'background'       => '#0077b5',
 					'background_hover' => '#005983',
 					'icon_color'       => '#fff',
@@ -233,20 +256,21 @@ class Options {
 				),
 			),
 			'xing'     => array(
-				'label'              => __( 'Xing', 'highlight-and-share' ),
-				'slug'               => 'xing',
-				'color'              => '#006567',
-				'background'         => '#fff',
-				'order'              => 6,
-				'custom'             => false,
-				'css_class'          => 'has_xing',
-				'icon_id'            => 'has-xing-icon',
-				'label_text'         => __( 'Xing', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share on Xing', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_xing',
-				'share_url_template' => 'https://www.xing.com/spi/shares/new?url=%url%',
-				'requires_popup'     => true,
-				'icon_colors'        => array(
+				'label'               => __( 'Xing', 'highlight-and-share' ),
+				'slug'                => 'xing',
+				'color'               => '#006567',
+				'background'          => '#fff',
+				'order'               => 6,
+				'custom'              => false,
+				'css_class'           => 'has_xing',
+				'allows_text_sharing' => false,
+				'icon_id'             => 'has-xing-icon',
+				'label_text'          => __( 'Xing', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share on Xing', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_xing',
+				'share_url_template'  => 'https://www.xing.com/spi/shares/new?url=%url%',
+				'requires_popup'      => true,
+				'icon_colors'         => array(
 					'background'       => '#006567',
 					'background_hover' => '#004c4c',
 					'icon_color'       => '#fff',
@@ -254,20 +278,21 @@ class Options {
 				),
 			),
 			'tumblr'   => array(
-				'label'              => __( 'Tumblr', 'highlight-and-share' ),
-				'slug'               => 'tumblr',
-				'color'              => '#000000',
-				'background'         => '#fff',
-				'order'              => 7,
-				'custom'             => false,
-				'css_class'          => 'has_tumblr',
-				'icon_id'            => 'has-tumblr',
-				'label_text'         => __( 'Tumblr', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share on Tumblr', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_tumblr',
-				'share_url_template' => 'https://tumblr.com/widgets/share/tool?canonicalUrl=%url%&content=%prefix%%text%%suffix%&title=%title%&posttype=quote',
-				'requires_popup'     => true,
-				'icon_colors'        => array(
+				'label'               => __( 'Tumblr', 'highlight-and-share' ),
+				'slug'                => 'tumblr',
+				'color'               => '#000000',
+				'background'          => '#fff',
+				'order'               => 7,
+				'custom'              => false,
+				'css_class'           => 'has_tumblr',
+				'allows_text_sharing' => true,
+				'icon_id'             => 'has-tumblr',
+				'label_text'          => __( 'Tumblr', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share on Tumblr', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_tumblr',
+				'share_url_template'  => 'https://tumblr.com/widgets/share/tool?canonicalUrl=%url%&content=%prefix%%text%%suffix%&title=%title%&posttype=quote',
+				'requires_popup'      => true,
+				'icon_colors'         => array(
 					'background'       => '#000000',
 					'background_hover' => '#333333',
 					'icon_color'       => '#fff',
@@ -275,20 +300,21 @@ class Options {
 				),
 			),
 			'mastodon' => array(
-				'label'              => __( 'Mastodon', 'highlight-and-share' ),
-				'slug'               => 'mastodon',
-				'color'              => '#605CF5',
-				'background'         => '#fff',
-				'order'              => 8,
-				'custom'             => false,
-				'css_class'          => 'has_mastodon',
-				'icon_id'            => 'has-mastodon',
-				'label_text'         => __( 'Mastodon', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share on Mastodon', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_mastodon',
-				'share_url_template' => 'https://mastodon.social/share?text=%prefix%%text%%suffix%: %url%',
-				'requires_popup'     => false, // Opens in same window, not popup.
-				'icon_colors'        => array(
+				'label'               => __( 'Mastodon', 'highlight-and-share' ),
+				'slug'                => 'mastodon',
+				'color'               => '#605CF5',
+				'background'          => '#fff',
+				'order'               => 8,
+				'custom'              => false,
+				'css_class'           => 'has_mastodon',
+				'allows_text_sharing' => true,
+				'icon_id'             => 'has-mastodon',
+				'label_text'          => __( 'Mastodon', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share on Mastodon', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_mastodon',
+				'share_url_template'  => 'https://mastodon.social/share?text=%prefix%%text%%suffix%: %url%',
+				'requires_popup'      => false, // Opens in same window, not popup.
+				'icon_colors'         => array(
 					'background'       => '#605CF5',
 					'background_hover' => '#4c49c3',
 					'icon_color'       => '#fff',
@@ -296,20 +322,21 @@ class Options {
 				),
 			),
 			'copy'     => array(
-				'label'              => __( 'Copy', 'highlight-and-share' ),
-				'slug'               => 'copy',
-				'color'              => '#000',
-				'background'         => '#fff',
-				'order'              => 9,
-				'custom'             => false,
-				'css_class'          => 'has_copy',
-				'icon_id'            => 'has-copy-icon',
-				'label_text'         => __( 'Copy', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Copy Selection', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_copy',
-				'share_url_template' => '#', // Handled by JavaScript via clipboard API.
-				'requires_popup'     => false,
-				'icon_colors'        => array(
+				'label'               => __( 'Copy', 'highlight-and-share' ),
+				'slug'                => 'copy',
+				'color'               => '#000',
+				'background'          => '#fff',
+				'order'               => 9,
+				'custom'              => false,
+				'css_class'           => 'has_copy',
+				'allows_text_sharing' => true,
+				'icon_id'             => 'has-copy-icon',
+				'label_text'          => __( 'Copy', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Copy Selection', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_copy',
+				'share_url_template'  => '#', // Handled by JavaScript via clipboard API.
+				'requires_popup'      => false,
+				'icon_colors'         => array(
 					'background'       => '#000',
 					'background_hover' => '#000',
 					'icon_color'       => '#fff',
@@ -317,20 +344,21 @@ class Options {
 				),
 			),
 			'email'    => array(
-				'label'              => __( 'Email', 'highlight-and-share' ),
-				'slug'               => 'email',
-				'color'              => '#000',
-				'background'         => '#fff',
-				'order'              => 10,
-				'custom'             => false,
-				'css_class'          => 'has_email',
-				'icon_id'            => 'has-email-icon',
-				'label_text'         => __( 'Email', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share via email', 'highlight-and-share' ),
-				'enabled_option_key' => 'enable_emails',
-				'share_url_template' => '', // Handled dynamically (mailto vs form).
-				'requires_popup'     => false,
-				'icon_colors'        => array(
+				'label'               => __( 'Email', 'highlight-and-share' ),
+				'slug'                => 'email',
+				'color'               => '#000',
+				'background'          => '#fff',
+				'order'               => 10,
+				'custom'              => false,
+				'css_class'           => 'has_email',
+				'allows_text_sharing' => true,
+				'icon_id'             => 'has-email-icon',
+				'label_text'          => __( 'Email', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share via email', 'highlight-and-share' ),
+				'enabled_option_key'  => 'enable_emails',
+				'share_url_template'  => '', // Handled dynamically (mailto vs form).
+				'requires_popup'      => false,
+				'icon_colors'         => array(
 					'background'       => '#000',
 					'background_hover' => '#000',
 					'icon_color'       => '#fff',
@@ -338,20 +366,21 @@ class Options {
 				),
 			),
 			'webshare' => array(
-				'label'              => __( 'Share', 'highlight-and-share' ),
-				'slug'               => 'webshare',
-				'color'              => '#000',
-				'background'         => '#e17713',
-				'order'              => 11,
-				'custom'             => false,
-				'css_class'          => 'has_webshare',
-				'icon_id'            => 'has-webshare-icon',
-				'label_text'         => __( 'Share', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share This', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_webshare',
-				'share_url_template' => '#', // Handled by JavaScript via Web Share API.
-				'requires_popup'     => false,
-				'icon_colors'        => array(
+				'label'               => __( 'Web Share', 'highlight-and-share' ),
+				'slug'                => 'webshare',
+				'color'               => '#000',
+				'background'          => '#e17713',
+				'order'               => 11,
+				'custom'              => false,
+				'css_class'           => 'has_webshare',
+				'allows_text_sharing' => true,
+				'icon_id'             => 'has-webshare-icon',
+				'label_text'          => __( 'Share', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share This', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_webshare',
+				'share_url_template'  => '#', // Handled by JavaScript via Web Share API.
+				'requires_popup'      => false,
+				'icon_colors'         => array(
 					'background'       => '#f58f2f',
 					'background_hover' => '#e17713',
 					'icon_color'       => '#fff',
@@ -359,20 +388,21 @@ class Options {
 				),
 			),
 			'threads'  => array(
-				'label'              => __( 'Threads', 'highlight-and-share' ),
-				'slug'               => 'threads',
-				'color'              => '#333',
-				'background'         => '#FFF',
-				'order'              => 12,
-				'custom'             => false,
-				'css_class'          => 'has_threads',
-				'icon_id'            => 'has-threads',
-				'label_text'         => __( 'Threads', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share on Threads', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_threads',
-				'share_url_template' => 'https://www.threads.net/intent/post?text=%threadstext%',
-				'requires_popup'     => true,
-				'icon_colors'        => array(
+				'label'               => __( 'Threads', 'highlight-and-share' ),
+				'slug'                => 'threads',
+				'color'               => '#333',
+				'background'          => '#FFF',
+				'order'               => 12,
+				'custom'              => false,
+				'css_class'           => 'has_threads',
+				'allows_text_sharing' => true,
+				'icon_id'             => 'has-threads',
+				'label_text'          => __( 'Threads', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share on Threads', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_threads',
+				'share_url_template'  => 'https://www.threads.net/intent/post?text=%threadstext%',
+				'requires_popup'      => true,
+				'icon_colors'         => array(
 					'background'       => '#333',
 					'background_hover' => '#000',
 					'icon_color'       => '#fff',
@@ -380,20 +410,21 @@ class Options {
 				),
 			),
 			'bluesky'  => array(
-				'label'              => __( 'BlueSky', 'highlight-and-share' ),
-				'slug'               => 'bluesky',
-				'color'              => '#1285FE',
-				'background'         => '#F2F9FF',
-				'order'              => 14,
-				'custom'             => false,
-				'css_class'          => 'has_bluesky',
-				'icon_id'            => 'has-bluesky',
-				'label_text'         => __( 'BlueSky', 'highlight-and-share' ),
-				'tooltip_text'       => __( 'Share on BlueSky', 'highlight-and-share' ),
-				'enabled_option_key' => 'show_bluesky',
-				'share_url_template' => 'https://bsky.app/intent/compose?text=%blueskytext%',
-				'requires_popup'     => true,
-				'icon_colors'        => array(
+				'label'               => __( 'BlueSky', 'highlight-and-share' ),
+				'slug'                => 'bluesky',
+				'color'               => '#1285FE',
+				'background'          => '#F2F9FF',
+				'order'               => 14,
+				'custom'              => false,
+				'css_class'           => 'has_bluesky',
+				'allows_text_sharing' => true,
+				'icon_id'             => 'has-bluesky',
+				'label_text'          => __( 'BlueSky', 'highlight-and-share' ),
+				'tooltip_text'        => __( 'Share on BlueSky', 'highlight-and-share' ),
+				'enabled_option_key'  => 'show_bluesky',
+				'share_url_template'  => 'https://bsky.app/intent/compose?text=%blueskytext%',
+				'requires_popup'      => true,
+				'icon_colors'         => array(
 					'background'       => '#F2F9FF',
 					'background_hover' => '#F2F9FF',
 					'icon_color'       => '#1285FE',
@@ -414,7 +445,7 @@ class Options {
 	/**
 	 * Get Block Editor Defaults.
 	 */
-	public static function get_block_editor_defaults() {
+	protected static function get_block_editor_defaults() {
 		$defaults = array(
 			'enable_blocks'                              => true,
 			'enable_adobe_fonts'                         => false,
@@ -437,7 +468,7 @@ class Options {
 	/**
 	 * Get default options for custom themes.
 	 */
-	public static function get_theme_defaults() {
+	protected static function get_theme_defaults() {
 		$defaults = array(
 			'theme'                     => 'default',
 			'icons_only'                => true, /* custom theme option */
@@ -482,8 +513,9 @@ class Options {
 		// Derive icon_colors from network registry.
 		$social_networks = self::get_social_network_defaults();
 		$icon_colors     = array();
+		$network_order   = array();
 		foreach ( $social_networks as $slug => $network ) {
-			$icon_colors[ $slug ] = array(
+			$icon_colors[ $slug ]                    = array(
 				'label'            => $network['label'] ?? '',
 				'slug'             => $slug,
 				'background'       => $network['icon_colors']['background'] ?? '#000',
@@ -491,8 +523,12 @@ class Options {
 				'icon_color'       => $network['icon_colors']['icon_color'] ?? '#fff',
 				'icon_color_hover' => $network['icon_colors']['icon_color_hover'] ?? '#fff',
 			);
+			$network_order[ $network['order'] ?? 0 ] = $slug;
 		}
-		$defaults['icon_colors'] = $icon_colors;
+		$network_order = array_unique( $network_order );
+		ksort( $network_order );
+		$defaults['icon_colors']   = $icon_colors;
+		$defaults['network_order'] = $network_order;
 		return $defaults;
 	}
 
@@ -501,33 +537,35 @@ class Options {
 	 */
 	public static function get_image_defaults() {
 		$defaults = array(
-			'enable_image_sharing'         => false,
-			'enable_pinterest_sharing'     => true,
-			'enable_webshare_sharing'      => true,
-			'supported_post_types'         => array(
+			'enable_image_sharing'                     => false,
+			'enable_image_sharing_on_excerpts'         => false,
+			'enable_image_sharing_on_archive_featured' => false,
+			'enable_pinterest_sharing'                 => true,
+			'enable_webshare_sharing'                  => true,
+			'supported_post_types'                     => array(
 				'post' => true,
 			),
-			'location'                     => 'top-left',
-			'exclude_leading_image'        => false,
-			'show_on_hover'                => true,
-			'pinterest_button_color'       => '#E7011D',
-			'pinterest_button_color_hover' => '#BE0319',
-			'pinterest_icon_color'         => '#FFFFFF',
-			'pinterest_icon_color_hover'   => '#FFFFFF',
-			'pinterest_text_color'         => '#FFFFFF',
-			'pinterest_text_color_hover'   => '#FFFFFF',
-			'webshare_icon_color'          => '#FFFFFF',
-			'webshare_icon_color_hover'    => '#FFFFFF',
-			'webshare_button_color'        => '#f58f2f',
-			'webshare_button_color_hover'  => '#e17713',
-			'webshare_text_color'          => '#FFFFFF',
-			'webshare_text_color_hover'    => '#FFFFFF',
-			'webshare_share_image_only'    => false,
-			'button_shape'                 => 'round', /* can be round, square, circular */
-			'show_button_labels'           => true,
-			'pinterest_button_label'       => __( 'Pin it', 'highlight-and-share' ),
-			'webshare_button_label'        => __( 'Share', 'highlight-and-share' ),
-			'exclusions'                   => '',
+			'location'                                 => 'top-left',
+			'exclude_leading_image'                    => false,
+			'show_on_hover'                            => true,
+			'pinterest_button_color'                   => '#E7011D',
+			'pinterest_button_color_hover'             => '#BE0319',
+			'pinterest_icon_color'                     => '#FFFFFF',
+			'pinterest_icon_color_hover'               => '#FFFFFF',
+			'pinterest_text_color'                     => '#FFFFFF',
+			'pinterest_text_color_hover'               => '#FFFFFF',
+			'webshare_icon_color'                      => '#FFFFFF',
+			'webshare_icon_color_hover'                => '#FFFFFF',
+			'webshare_button_color'                    => '#f58f2f',
+			'webshare_button_color_hover'              => '#e17713',
+			'webshare_text_color'                      => '#FFFFFF',
+			'webshare_text_color_hover'                => '#FFFFFF',
+			'webshare_share_image_only'                => false,
+			'button_shape'                             => 'round', /* can be round, square, circular */
+			'show_button_labels'                       => true,
+			'pinterest_button_label'                   => __( 'Pin it', 'highlight-and-share' ),
+			'webshare_button_label'                    => __( 'Share', 'highlight-and-share' ),
+			'exclusions'                               => '',
 		);
 		return $defaults;
 	}
@@ -564,7 +602,8 @@ class Options {
 	 * Get default options.
 	 */
 	public static function get_defaults() {
-		$defaults = array(
+		$defaults              = array(
+			'options_version'                  => 0,
 			'js_content'                       => '',
 			'element_content'                  => '',
 			'id_content'                       => '',
@@ -599,6 +638,7 @@ class Options {
 			'theme'                            => 'default',
 			'sharing_prefix'                   => '',
 			'sharing_suffix'                   => '',
+			'excluded_post_types'              => array(),
 			'whatsapp_api_endpoint'            => 'app', // Can also we 'web'.
 			'whatsapp_can_share_url'           => true,
 			'twitter_label'                    => _x( 'Share This', 'X social network formerly Twitter', 'highlight-and-share' ),
@@ -636,7 +676,10 @@ class Options {
 			'mastodon_label'                   => __( 'Mastodon', 'highlight-and-share' ),
 			'mastodon_tooltip'                 => __( 'Share on Mastodon', 'highlight-and-share' ),
 		);
-		return $defaults;
+		$theme_defaults        = self::get_theme_defaults();
+		$block_editor_defaults = self::get_block_editor_defaults();
+
+		return array_merge( $defaults, $theme_defaults, $block_editor_defaults );
 	}
 
 	/**
@@ -654,7 +697,7 @@ class Options {
 	 * @return array Plugin options
 	 */
 	public static function get_plugin_options( $force = false ) {
-		if ( false === self::$options ) {
+		if ( false === self::$options || $force ) {
 			$settings = get_option( 'highlight-and-share', array() );
 		} else {
 			$settings = self::$options;
@@ -669,13 +712,30 @@ class Options {
 		}
 
 		$defaults = self::get_defaults();
-
 		if ( false === $settings || ! is_array( $settings ) ) {
 			update_option( 'highlight-and-share', $defaults );
 			return $defaults;
 		}
 
-		$settings      = wp_parse_args( $settings, $defaults );
+		$settings = array_replace_recursive( $defaults, $settings );
+		// Force network_order key to be unique.
+		$settings['network_order'] = array_unique( $settings['network_order'] );
+
+		$options_version = HIGHLIGHT_AND_SHARE_OPTIONS_VERSION;
+		if ( $options_version !== $settings['options_version'] ) {
+			/**
+			 * Filter to migrate plugin options.
+			 *
+			 * @param array $settings The plugin options.
+			 * @param string $options_version The current options version.
+			 * @param string $settings_version The stored or default settings version.
+			 * @return array The migrated plugin options.
+			 */
+			$settings                    = apply_filters( 'has_migrate_plugin_options', $settings, $options_version, $settings['options_version'] );
+			$settings['options_version'] = sanitize_text_field( $options_version );
+			update_option( 'highlight-and-share', $settings );
+		}
+
 		self::$options = $settings;
 		return $settings;
 	}
@@ -763,6 +823,11 @@ class Options {
 		// Merge two multi-dimensional arrays (defaults, and from settings).
 		$settings = array_replace_recursive( $defaults, $settings );
 
+		// Ensure labels remain the same as the defaults.
+		foreach ( $defaults as $network_slug => $network_def ) {
+			$settings[ $network_slug ]['label'] = $network_def['label'];
+		}
+
 		// Loop through networks and set enabled state.
 		foreach ( $settings as $network_slug => &$network_def ) {
 			$network_def['enabled'] = self::get_network_enabled_state( $network_slug, $network_def );
@@ -798,11 +863,7 @@ class Options {
 		$defaults = self::get_theme_defaults();
 
 		if ( false === $settings || ! is_array( $settings ) ) {
-			// Add theme option from old options into new one.
-			$options           = self::get_plugin_options();
-			$defaults['theme'] = sanitize_text_field( $options['theme'] );
-			update_option( 'highlight-and-share-theme-options', $defaults );
-			return $defaults;
+			$settings = $defaults;
 		}
 
 		// Merge two multi-dimensional arrays (defaults, and from settings).
@@ -834,10 +895,7 @@ class Options {
 		$defaults = self::get_block_editor_defaults();
 
 		if ( false === $settings || ! is_array( $settings ) ) {
-			// Add theme option from old options into new one.
-			$options = self::get_block_editor_defaults();
-			update_option( 'highlight-and-share-block-editor-options', $defaults );
-			return $defaults;
+			$settings = $defaults;
 		}
 
 		// Merge two multi-dimensional arrays (defaults, and from settings).
