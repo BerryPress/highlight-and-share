@@ -1,4 +1,5 @@
 import { constrainRange } from './selection';
+import { dispatchStatsEvent } from './stats-dispatcher';
 ( function() {
 	'use strict';
 
@@ -232,18 +233,16 @@ import { constrainRange } from './selection';
 						// Get the URL.
 						const url = el.querySelector( 'a' ).getAttribute( 'href' );
 
-						// Set dataLayer event for GTM.
-						if ( 'undefined' !== typeof dataLayer ) {
-							// eslint-disable-next-line no-undef
-							dataLayer.push( {
-								event: 'highlight-and-share',
+						dispatchStatsEvent(
+							{
 								hasShareText: text,
 								hasSharePostUrl: href,
 								hasSharePostTitle: title,
-								hasShareType: type /* selection|cta|inline|image|headline */,
+								hasShareType: type,
 								hasSocialNetwork: el.getAttribute( 'data-type' ),
-							} );
-						}
+							},
+							{ dispatchSynthetic: typeof hasStatsConfig !== 'undefined' ? hasStatsConfig.dispatch_synthetic_events !== false : true }
+						);
 
 						window.open(
 							url,
@@ -278,18 +277,16 @@ import { constrainRange } from './selection';
 							// Change tooltip data attribute.
 							el.setAttribute( 'data-tooltip', 'Copied!' );
 
-							// Set dataLayer event for GTM.
-							if ( 'undefined' !== typeof dataLayer ) {
-								// eslint-disable-next-line no-undef
-								dataLayer.push( {
-									event: 'highlight-and-share',
+							dispatchStatsEvent(
+								{
 									hasShareText: text,
 									hasSharePostUrl: href,
 									hasSharePostTitle: title,
-									hasShareType: type /* selection|cta|inline */,
+									hasShareType: type,
 									hasSocialNetwork: 'copy',
-								} );
-							}
+								},
+								{ dispatchSynthetic: typeof hasStatsConfig !== 'undefined' ? hasStatsConfig.dispatch_synthetic_events !== false : true }
+							);
 						} );
 					}
 				}

@@ -4,6 +4,8 @@
  * Runs independently of the main highlight-and-share script. Expects global
  * hasImageSharing (from wp_localize_script) with enable_webshare_image_only.
  */
+import { dispatchStatsEvent } from './stats-dispatcher';
+
 ( function() {
 	'use strict';
 
@@ -89,15 +91,15 @@
 					}
 				}
 
-				if ( 'undefined' !== typeof dataLayer ) {
-					dataLayer.push( {
-						event: 'highlight-and-share',
+				dispatchStatsEvent(
+					{
 						hasSharePostUrl: imageUrl,
 						hasSharePostTitle: description,
 						hasShareType: 'image',
 						hasSocialNetwork: 'pinterest',
-					} );
-				}
+					},
+					{ dispatchSynthetic: typeof hasStatsConfig !== 'undefined' ? hasStatsConfig.dispatch_synthetic_events !== false : true }
+				);
 
 				window.open(
 					'https://www.pinterest.com/pin/create/button/?url=' +
@@ -277,15 +279,15 @@
 					doShareUrl( payload.title, shareText, payload.shareUrl );
 				}
 
-				if ( 'undefined' !== typeof dataLayer ) {
-					dataLayer.push( {
-						event: 'highlight-and-share',
+				dispatchStatsEvent(
+					{
 						hasSharePostUrl: payload.shareUrl,
 						hasSharePostTitle: payload.title,
-						hasShareType: 'image', /* selection|cta|inline|image|headline */
+						hasShareType: 'image',
 						hasSocialNetwork: 'webshare',
-					} );
-				}
+					},
+					{ dispatchSynthetic: typeof hasStatsConfig !== 'undefined' ? hasStatsConfig.dispatch_synthetic_events !== false : true }
+				);
 			};
 
 			el.addEventListener( 'pointerdown', handleWebShare, { capture: true } );
