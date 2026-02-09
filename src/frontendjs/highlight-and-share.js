@@ -240,7 +240,7 @@ import { constrainRange } from './selection';
 								hasShareText: text,
 								hasSharePostUrl: href,
 								hasSharePostTitle: title,
-								hasShareType: type /* selection|cta|inline */,
+								hasShareType: type /* selection|cta|inline|image|headline */,
 								hasSocialNetwork: el.getAttribute( 'data-type' ),
 							} );
 						}

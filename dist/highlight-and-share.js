@@ -411,7 +411,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
                 hasShareText: text,
                 hasSharePostUrl: href,
                 hasSharePostTitle: title,
-                hasShareType: type /* selection|cta|inline */,
+                hasShareType: type /* selection|cta|inline|image|headline */,
                 hasSocialNetwork: el.getAttribute('data-type')
               });
             }

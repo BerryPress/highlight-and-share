@@ -263,6 +263,7 @@
             hasSharePostUrl: payload.shareUrl,
             hasSharePostTitle: payload.title,
             hasShareType: 'image',
+            /* selection|cta|inline|image|headline */
             hasSocialNetwork: 'webshare'
           });
         }
