@@ -214,8 +214,8 @@ const attributes = {
 			fontFallback: '',
 		},
 		desktop: {
-			fontFamily: 'Roboto',
-			fontFamilySlug: 'roboto',
+			fontFamily: 'Arial',
+			fontFamilySlug: 'Arial',
 			fontSize: '26',
 			fontSizeUnit: 'px',
 			fontWeight: 'normal',

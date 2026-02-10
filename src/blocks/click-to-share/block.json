@@ -24,6 +24,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"theme": {
+			"type": "string",
+			"default": "custom"
+		},
 		"showClickToShare": {
 			"type": "number",
 			"default": true

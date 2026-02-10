@@ -13,13 +13,8 @@ import useDeviceType from '../../react/Hooks/useDeviceType';
 import Typography from '../../react/Components/Typography';
 import BackgroundSelector from '../../react/Components/BackgroundSelector';
 /* Preset Imports */
-import PresetButton from './components/PresetButton';
-import { attributes as purpleAttributes } from './presets/purple';
-import { attributes as darkAttributes } from './presets/dark';
-import { attributes as blueAttributes } from './presets/blue';
-import { attributes as lightAttributes } from './presets/light';
-import { attributes as pinkAttributes } from './presets/pink';
-import { attributes as redAttributes } from './presets/red';
+import ThemeButton from './components/ThemeButton';
+import { themes } from './themes';
 import BlockContent from './components/BlockContent';
 import CustomPresets from './components/CustomPresets';
 import MaxWidth from './components/MaxWidth';
@@ -116,6 +111,7 @@ const HAS_Click_To_Share = ( props ) => {
 		showClickToShareIcon,
 		iconSizeResponsive,
 		icon,
+		theme,
 	} = attributes;
 
 	useEffect( () => {
@@ -135,6 +131,9 @@ const HAS_Click_To_Share = ( props ) => {
 			}
 			if ( borderColor === borderColorHover ) {
 				setAttributes( { borderColorSync: 'sync' } );
+			}
+			if ( theme === 'custom' ) {
+				setAttributes( { theme: 'light' } );
 			}
 		}
 		// Set unique ID for block (for styling).
@@ -319,97 +318,27 @@ const HAS_Click_To_Share = ( props ) => {
 
 	const inspectorControls = (
 		<InspectorControls>
-			<div
-				id="has-screensize-group"
-				className="has-screensize-variants"
-				style={ { top: panelHeaderHeight + 'px' } }
-			>
-				<ButtonGroup>
-					<Button
-						variant={ deviceType === 'Desktop' ? 'primary' : 'secondary' }
-						onClick={ ( e ) => {
-							setDeviceType( 'Desktop' );
-						} }
-						icon="laptop"
-						iconSize="14"
-						label={ __( 'Desktop', 'highlight-and-share' ) }
-					/>
-					<Button
-						variant={ deviceType === 'Tablet' ? 'primary' : 'secondary' }
-						onClick={ ( e ) => {
-							setDeviceType( 'Tablet' );
-						} }
-						icon="tablet"
-						label={ __( 'Tablet', 'highlight-and-share' ) }
-					/>
-					<Button
-						variant={ deviceType === 'Mobile' ? 'primary' : 'secondary' }
-						onClick={ ( e ) => {
-							setDeviceType( 'Mobile' );
-						} }
-						icon="smartphone"
-						label={ __( 'Mobile', 'highlight-and-share' ) }
-					/>
-				</ButtonGroup>
-			</div>
 			<PanelBody
-				title={ __( 'Presets', 'highlight-and-share' ) }
-				initialOpen={ false }
+				title={ __( 'Theme', 'highlight-and-share' ) }
+				initialOpen={ true }
 				className="has-presets-panel"
 				icon="admin-customizer"
 			>
 				<PanelRow>
 					<div className="has-presets">
-						<h3>{ __( 'Select a Preset', 'highlight-and-share' ) }</h3>
+						<h3>{ __( 'Select a Theme', 'highlight-and-share' ) }</h3>
 						<ButtonGroup>
-							<PresetButton
-								label={ __( 'Purple Theme', 'highlight-and-share' ) }
-								setAttributes={ setAttributes }
-								attributes={ purpleAttributes }
-								uniqueId={ uniqueId }
-							/>
-							<PresetButton
-								label={ __( 'Dark Theme', 'highlight-and-share' ) }
-								setAttributes={ setAttributes }
-								attributes={ darkAttributes }
-								uniqueId={ uniqueId }
-							/>
-							<PresetButton
-								label={ __( 'Light Theme', 'highlight-and-share' ) }
-								setAttributes={ setAttributes }
-								attributes={ lightAttributes }
-								uniqueId={ uniqueId }
-							/>
-							<PresetButton
-								label={ __( 'Pink Theme', 'highlight-and-share' ) }
-								setAttributes={ setAttributes }
-								attributes={ pinkAttributes }
-								uniqueId={ uniqueId }
-							/>
-							<PresetButton
-								label={ __( 'Blue Theme', 'highlight-and-share' ) }
-								setAttributes={ setAttributes }
-								attributes={ blueAttributes }
-								uniqueId={ uniqueId }
-							/>
-							<PresetButton
-								label={ __( 'Red Theme', 'highlight-and-share' ) }
-								setAttributes={ setAttributes }
-								attributes={ redAttributes }
-								uniqueId={ uniqueId }
-							/>
+							{ themes.map( ( themeItem ) => (
+								<ThemeButton
+									key={ themeItem.id }
+									slug={ themeItem.id }
+									label={ themeItem.label }
+									setAttributes={ setAttributes }
+									attributes={ attributes }
+									uniqueId={ uniqueId }
+								/>
+							) ) }
 						</ButtonGroup>
-					</div>
-				</PanelRow>
-				<PanelRow>
-					<div className="has-presets">
-						<h3>{ __( 'Custom Presets', 'highlight-and-share' ) }</h3>
-						<CustomPresets
-							clientId={ clientId }
-							uniqueId={ uniqueId }
-							attributes={ attributes }
-							setAttributes={ setAttributes }
-						/>
 					</div>
 				</PanelRow>
 			</PanelBody>

@@ -1,1 +1,72 @@
-.has-click-to-share{position:relative}.has-click-to-share:after{content:"";display:table;clear:both}.has-click-to-share{z-index:1000}.has-click-prompt{display:block;position:absolute;width:100%;height:100%;top:0;left:0;z-index:1000}.has-background-gradient{transition:all .3s ease-in-out}.has-click-to-share-cta{display:flex;justify-content:flex-end;align-items:center}.has-click-to-share-cta svg{margin-left:4px}.has-click-to-share-cta-svg{display:inline-flex}.has-click-to-share-text p{text-align:left;margin:0;margin-bottom:.5rem}.has-click-to-share-text p:last-child{margin-bottom:0}
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/resolve-url-loader/index.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[3]!./src/blocks/style.scss ***!
+  \*******************************************************************************************************************************************************************************************************************/
+.has-click-to-share {
+  position: relative;
+  font-size: 16px;
+}
+.has-click-to-share:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.has-click-to-share {
+  z-index: 1000;
+}
+
+.has-click-prompt {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.has-background-gradient {
+  transition: all 0.3s ease-in-out;
+}
+
+.has-click-to-share-cta {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.has-click-to-share-cta svg {
+  margin-left: 4px;
+}
+
+.has-click-to-share-cta-svg {
+  display: inline-flex;
+}
+
+.has-click-to-share-text p {
+  text-align: left;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+.has-click-to-share-text p:last-child {
+  margin-bottom: 0;
+}
+
+:root {
+  --has-cts-font-family-cta-font: 1.3em/1.5 'Arial', sans-serif;
+  --has-cts-font-family-quote-text: 'Arial', sans-serif;
+  --has-cta-background-color: #f8f9fa;
+  --has-cta-background-color-hover: #e9ecef;
+  --has-cta-quote-text-color: #212529;
+  --has-cta-quote-text-color-hover: #212529;
+  --has-cta-cta-text-color: #212529;
+  --has-cta-cta-text-color-hover: #212529;
+  --has-cta-border-color: #dee2e6;
+  --has-cta-border-color-hover: #dee2e6;
+  --has-cta-border-radius: 4px;
+  --has-cta-icon-color: #212529;
+  --has-cta-icon-color-hover: #212529;
+  --has-cta-inner-padding: 25px 35px;
+  --has-cta-max-width: 650px;
+  --has-cta-outer-margin: 20px 0;
+}
+
+/*# sourceMappingURL=has-cts-style.css.map*/

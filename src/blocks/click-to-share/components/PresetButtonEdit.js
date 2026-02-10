@@ -2,7 +2,7 @@ import React, { useRef, useState, useContext } from 'react';
 import { Button, Popover, Modal } from '@wordpress/components';
 import classNames from 'classnames';
 import { __ } from '@wordpress/i18n';
-import PresetButton from './PresetButton';
+import PresetButton from './ThemeButton';
 import CustomPresetsContext from './CustomPresets/context';
 
 const PresetButtonEdit = ( props ) => {

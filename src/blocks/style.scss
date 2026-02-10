@@ -1,6 +1,7 @@
 
 .has-click-to-share {
 	position: relative;
+	font-size: 16px;
 	&:after {
 		content: '';
 		display: table;
@@ -40,4 +41,22 @@
 	&:last-child {
 		margin-bottom: 0;
 	}
+}
+:root {
+	--has-cts-font-family-cta-font: 1.3em/1.5 'Arial', sans-serif;
+	--has-cts-font-family-quote-text: 'Arial', sans-serif;
+	--has-cta-background-color: #f8f9fa;
+	--has-cta-background-color-hover: #e9ecef;
+	--has-cta-quote-text-color: #212529;
+	--has-cta-quote-text-color-hover: #212529;
+	--has-cta-cta-text-color: #212529;
+	--has-cta-cta-text-color-hover: #212529;
+	--has-cta-border-color: #dee2e6;
+	--has-cta-border-color-hover: #dee2e6;
+	--has-cta-border-radius: 4px;
+	--has-cta-icon-color: #212529;
+	--has-cta-icon-color-hover: #212529;
+	--has-cta-inner-padding: 25px 35px;
+	--has-cta-max-width: 650px;
+	--has-cta-outer-margin: 20px 0;
 }

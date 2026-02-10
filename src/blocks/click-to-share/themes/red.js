@@ -1,5 +1,5 @@
 const attributes = {
-	uniqueId: 'has-pink-preview',
+	uniqueId: 'has-red-preview',
 	showClickToShare: -1,
 	showIcon: -1,
 	iconSize: 24,
@@ -11,13 +11,13 @@ const attributes = {
 	customShareText: '',
 	shareText: '',
 	shareTextInner: [],
-	backgroundColor: '#FF83FF',
-	backgroundColorHover: '#EE7EEE',
+	backgroundColor: '#E7011D',
+	backgroundColorHover: '#f20621',
 	backgroundColorSync: 'hover',
 	backgroundType: 'solid',
-	backgroundGradient: '',
-	backgroundGradientHover: '',
-	backgroundGradientSync: 'normal',
+	backgroundGradient: 'linear-gradient(to top, rgb(247,112,98) 0%, rgb(254,81,150) 100%)',
+	backgroundGradientHover: 'linear-gradient(0deg,rgb(218,102,89) 0%,rgb(235,73,138) 100%)',
+	backgroundGradientSync: false,
 	backgroundImage: {
 		url: '',
 		id: 0,
@@ -214,8 +214,8 @@ const attributes = {
 			fontFallback: '',
 		},
 		desktop: {
-			fontFamily: 'Roboto',
-			fontFamilySlug: 'roboto',
+			fontFamily: 'Arial',
+			fontFamilySlug: 'Arial',
 			fontSize: '26',
 			fontSizeUnit: 'px',
 			fontWeight: 'normal',
@@ -272,5 +272,7 @@ const attributes = {
 			fontFallback: 'Helvetica, Arial, sans-serif',
 		},
 	},
+	gbBlockCondition: '',
+	gbBlockConditionInvert: false,
 };
 export { attributes };
