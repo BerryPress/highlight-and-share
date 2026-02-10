@@ -12,14 +12,14 @@
  *
  * @type {string}
  */
-const EVENT_NAME = 'highlight-and-share';
+const EVENT_NAME = 'has:share';
 
 /**
  * GA4 event name (underscores for consistency with GA4 conventions).
  *
  * @type {string}
  */
-const GA4_EVENT_NAME = 'highlight_and_share';
+const GA4_EVENT_NAME = 'has:share';
 
 /**
  * Dispatches a stats event to all enabled channels: dataLayer, gtag (when available), and synthetic CustomEvent.
@@ -48,7 +48,9 @@ export function dispatchStatsEvent( payload ) {
 
 	// dataLayer (GTM): push when present.
 	if ( 'undefined' !== typeof window.dataLayer ) {
-		window.dataLayer.push( { ...fullPayload } );
+		if ( Array.isArray( window.dataLayer ) ) {
+			window.dataLayer.push( { ...fullPayload } );
+		}
 	}
 
 	// gtag (GA4): call only when gtag is available (auto-detect).
