@@ -569,6 +569,21 @@ class Frontend {
 			return;
 		}
 
+		// Ensure shared stats config is available when only image sharing loads (e.g. from content filter).
+		if ( ! wp_script_is( 'has-stats-config', 'registered' ) ) {
+			$stats_enabled  = Functions::is_stats_enabled();
+			$stats_enhanced = Functions::is_stats_enhanced();
+			wp_register_script( 'has-stats-config', false, array(), HIGHLIGHT_AND_SHARE_VERSION, true );
+			wp_localize_script(
+				'has-stats-config',
+				'hasStatsConfig',
+				array(
+					'stats_enabled'  => $stats_enabled,
+					'stats_enhanced' => $stats_enhanced,
+				)
+			);
+		}
+
 		$image_options     = Options::get_image_options();
 		$asset_path        = Functions::get_plugin_dir( 'dist/has-image-sharing.asset.php' );
 		$image_script_deps = file_exists( $asset_path ) ? require_once $asset_path : array(
@@ -576,10 +591,12 @@ class Frontend {
 			'version'      => false,
 		);
 		$image_script_uri  = Functions::get_plugin_url( 'dist/has-image-sharing.js' );
+		$image_deps        = isset( $image_script_deps['dependencies'] ) ? $image_script_deps['dependencies'] : array();
+		$image_deps[]      = 'has-stats-config';
 		wp_enqueue_script(
 			'has-image-sharing',
 			$image_script_uri,
-			isset( $image_script_deps['dependencies'] ) ? $image_script_deps['dependencies'] : array(),
+			$image_deps,
 			isset( $image_script_deps['version'] ) ? $image_script_deps['version'] : false,
 			true
 		);
@@ -1388,7 +1405,7 @@ class Frontend {
 		// Determine link attributes.
 		$link_attrs = '';
 		if ( $network_def['requires_popup'] ) {
-			$link_attrs = 'target="_blank" rel="nofollow"';
+			$link_attrs = 'data-requires-popup="1"';
 		} else {
 			$link_attrs = 'rel="nofollow"';
 		}
@@ -2050,8 +2067,21 @@ class Frontend {
 		if ( false !== strpos( $_SERVER['REQUEST_URI'], 'elementor' ) ) { // phpcs:ignore
 			return;
 		}
+		// Shared stats config for all frontend scripts (highlight-and-share, has-image-sharing, etc.).
+		$stats_enabled  = Functions::is_stats_enabled();
+		$stats_enhanced = Functions::is_stats_enhanced();
+		wp_register_script( 'has-stats-config', false, array(), HIGHLIGHT_AND_SHARE_VERSION, true );
+		wp_localize_script(
+			'has-stats-config',
+			'hasStatsConfig',
+			array(
+				'stats_enabled'  => $stats_enabled,
+				'stats_enhanced' => $stats_enhanced,
+			)
+		);
+
 		$main_script_uri = Functions::get_plugin_url( 'dist/highlight-and-share.js' );
-		wp_enqueue_script( 'highlight-and-share', $main_script_uri, array(), HIGHLIGHT_AND_SHARE_VERSION, true );
+		wp_enqueue_script( 'highlight-and-share', $main_script_uri, array( 'has-stats-config' ), HIGHLIGHT_AND_SHARE_VERSION, true );
 		if ( function_exists( 'wp_set_script_translations' ) ) {
 			wp_set_script_translations( 'highlight-and-share', 'highlight-and-share' );
 		}

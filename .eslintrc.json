@@ -14,7 +14,8 @@
 		"hasSupportAdmin": "readonly",
 		"hasImagesAdmin": "readonly",
 		"hasImageSharing": "readonly",
-		"dataLayer": "readonly"
+		"dataLayer": "readonly",
+		"hasStatsConfig": "readonly"
 	},
 	"env": {
 		"browser": true,

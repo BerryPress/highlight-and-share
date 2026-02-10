@@ -132,6 +132,11 @@ Please report security bugs found in the source code of the undefined plugin thr
 * New: Post sidebar for per-post disabling of Highlight and Share, including sharing, images, and headlines.
 * New (Text Sharing): Added Post Type exclusions to selection sharing.
 * New (Image Sharing): Can enable on archive excerpts and featured images.
+* New (Stats): New stats system that dispatches events if stats service is found. This allows for layered opt-in to GA4, GTM, and synthetic events. No personal information or cookies are sent, so there's no need to update privacy policies.
+* New (Stats): The plugin detects GA4, dispatching events if found.
+* New (Stats): Google Tag Manager has been consolidated with GA4 and synthetic event firing.
+* New (Stats): The plugin fires synthetic events per social network, allowing for listeners and third-party integrations.
+* New (Stats): Filters `has_stats_enabled` and `has_stats_enhanced` control behavior. Stats are enabled by default and just show social network and click type (selection, cta, highlight, headline). `has_stats_enhanced` can be set to true to send page url, title, and text selection to stats tracking service.
 * Bug fix (Image Sharing): Image sharing for Web Share would error out when sharing an image.
 * Bug fix (Image Sharing): Improved page builder support and added loop detection to prevent timeouts.
 * Bug fix (Image Sharing): Fixed hover and focus states, adding better reliability to image sharing display.

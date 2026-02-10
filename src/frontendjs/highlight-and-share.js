@@ -1,4 +1,5 @@
 import { constrainRange } from './selection';
+import { dispatchStatsEvent } from './stats-dispatcher';
 ( function() {
 	'use strict';
 
@@ -190,6 +191,14 @@ import { constrainRange } from './selection';
 
 		hasVariableReplace( hasClone, href, title, text, hashtags, type ); // Replaced by reference.
 
+		// So the browser does not overtake the event chain for "open in new tab"; our handlers stay in control. Preserve intent for links that had target="_blank".
+		hasClone.querySelectorAll( 'a' ).forEach( ( a ) => {
+			if ( a.getAttribute( 'target' ) === '_blank' ) {
+				a.setAttribute( 'data-open-in-new-tab', '1' );
+			}
+			a.removeAttribute( 'target' );
+		} );
+
 		// Check for webshare. Enable if available.
 		if ( 'undefined' !== typeof navigator.share ) {
 			const webshare = hasClone.querySelector( '.has_webshare' );
@@ -216,47 +225,57 @@ import { constrainRange } from './selection';
 				break;
 		}
 
-		// Setup event handlers for links (for desktop).
-		const queryElements = document
-			.querySelector( 'body' )
-			.querySelectorAll(
-				'.has_whatsapp, .has_facebook, .has_twitter, .has_telegram, .has_linkedin, .has_xing, .has_reddit, .has_tumblr'
+		// One place: mousedown (stats) for every social network element. Click handling stays in the blocks below.
+		const allNetworkElements = hasClone.querySelectorAll( socialNetworks );
+		allNetworkElements.forEach( ( el ) => {
+			if ( ! isVisible( el ) ) {
+				return;
+			}
+			el.addEventListener(
+				'mousedown',
+				() => {
+					dispatchStatsEvent( {
+						hasShareText: text,
+						hasSharePostUrl: href,
+						hasSharePostTitle: title,
+						hasShareType: type,
+						hasSocialNetwork: el.getAttribute( 'data-type' ),
+					} );
+				},
+				true
 			);
+		} );
+
+		// Setup event handlers for links (for desktop). Scope to the popup clone so the visible buttons get the handlers (avoids missing events when body has both original and clone).
+		const queryElements = hasClone.querySelectorAll(
+			'.has_whatsapp, .has_facebook, .has_twitter, .has_telegram, .has_linkedin, .has_xing, .has_reddit, .has_tumblr, .has_threads, .has_bluesky'
+		);
 		if ( null !== queryElements ) {
-			// Add click listeners to visible elements.
 			queryElements.forEach( ( el ) => {
 				if ( isVisible( el ) ) {
-					el.querySelector( 'a' ).addEventListener( 'click', ( event ) => {
+					const link = el.querySelector( 'a' );
+
+					link.addEventListener( 'click', ( event ) => {
 						event.preventDefault();
-
-						// Get the URL.
-						const url = el.querySelector( 'a' ).getAttribute( 'href' );
-
-						// Set dataLayer event for GTM.
-						if ( 'undefined' !== typeof dataLayer ) {
-							// eslint-disable-next-line no-undef
-							dataLayer.push( {
-								event: 'highlight-and-share',
-								hasShareText: text,
-								hasSharePostUrl: href,
-								hasSharePostTitle: title,
-								hasShareType: type /* selection|cta|inline|image|headline */,
-								hasSocialNetwork: el.getAttribute( 'data-type' ),
-							} );
+						const url = link.getAttribute( 'href' );
+						if ( link.getAttribute( 'data-open-in-new-tab' ) === '1' ) {
+							window.open( url, '_blank', 'noopener,noreferrer' );
+						} else if ( link.getAttribute( 'data-requires-popup' ) === '1' ) {
+							window.open(
+								url,
+								'Highlight and Share',
+								'width=575,height=430,toolbar=false,menubar=false,location=false,status=false'
+							);
+						} else {
+							window.location.href = url;
 						}
-
-						window.open(
-							url,
-							'Highlight and Share',
-							'width=575,height=430,toolbar=false,menubar=false,location=false,status=false'
-						);
 					} );
 				}
 			} );
 		}
 
-		// Set up copy event.
-		const copyButtons = document.querySelectorAll( '.has_copy' );
+		// Set up copy event (scope to popup clone).
+		const copyButtons = hasClone.querySelectorAll( '.has_copy' );
 		if ( null !== copyButtons ) {
 			copyButtons.forEach( ( el ) => {
 				if ( isVisible( el ) ) {
@@ -274,30 +293,15 @@ import { constrainRange } from './selection';
 							} catch ( e ) {
 								// Copying is not supported on Mozilla (firefox).
 							}
-
-							// Change tooltip data attribute.
 							el.setAttribute( 'data-tooltip', 'Copied!' );
-
-							// Set dataLayer event for GTM.
-							if ( 'undefined' !== typeof dataLayer ) {
-								// eslint-disable-next-line no-undef
-								dataLayer.push( {
-									event: 'highlight-and-share',
-									hasShareText: text,
-									hasSharePostUrl: href,
-									hasSharePostTitle: title,
-									hasShareType: type /* selection|cta|inline */,
-									hasSocialNetwork: 'copy',
-								} );
-							}
 						} );
 					}
 				}
 			} );
 		}
 
-		// Set up email event.
-		const emailButtons = document.querySelectorAll( '.has_email_form' );
+		// Set up email event (scope to popup clone).
+		const emailButtons = hasClone.querySelectorAll( '.has_email_form' );
 		if ( null !== emailButtons ) {
 			emailButtons.forEach( ( el ) => {
 				if ( isVisible( el ) ) {
@@ -331,9 +335,9 @@ import { constrainRange } from './selection';
 		}
 
 		/**
-		 * Set up Mastodon Prompt.
+		 * Set up Mastodon Prompt (scope to popup clone).
 		 */
-		const mastodonButtons = document.querySelectorAll( '.has_mastodon' );
+		const mastodonButtons = hasClone.querySelectorAll( '.has_mastodon' );
 		if ( null !== mastodonButtons ) {
 			mastodonButtons.forEach( ( el ) => {
 				if ( isVisible( el ) ) {
@@ -408,8 +412,8 @@ import { constrainRange } from './selection';
 			} );
 		}
 
-		// Set up webshare event.
-		const webshareButtons = document.querySelectorAll( '.has_webshare' );
+		// Set up webshare event (scope to popup clone).
+		const webshareButtons = hasClone.querySelectorAll( '.has_webshare' );
 		if ( null !== webshareButtons ) {
 			webshareButtons.forEach( ( el ) => {
 				if ( isVisible( el ) ) {
