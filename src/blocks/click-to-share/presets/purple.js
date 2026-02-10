@@ -258,8 +258,8 @@ const attributes = {
 			fontFallback: 'sans-serif',
 		},
 		desktop: {
-			fontFamily: 'Lato',
-			fontFamilySlug: 'lato',
+			fontFamily: 'Arial',
+			fontFamilySlug: 'Arial',
 			fontSize: '28',
 			fontSizeUnit: 'px',
 			fontWeight: '400',

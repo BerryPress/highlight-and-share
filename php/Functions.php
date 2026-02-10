@@ -258,6 +258,63 @@ class Functions {
 	}
 
 	/**
+	 * Get available fonts for the block editor.
+	 *
+	 * @return array Array of fonts.
+	 */
+	public static function get_typography_fonts() {
+		// Get the adobe fonts.
+		$fonts_group = array();
+		// Get Adobe fonts from https://wordpress.org/plugins/custom-typekit-fonts/.
+		if ( defined( 'CUSTOM_TYPEKIT_FONTS_FILE' ) ) {
+			$adobe_fonts = get_option( 'custom-typekit-fonts', array() );
+			if ( isset( $adobe_fonts['custom-typekit-font-details'] ) ) {
+				foreach ( $adobe_fonts['custom-typekit-font-details'] as $font_name => $font_details ) {
+					$fonts_group[] = array(
+						'value' => $font_name,
+						'label' => $font_name,
+					);
+				}
+			}
+		}
+
+		// Get blocksy adobe fonts.
+		$options       = get_option( 'blocksy_ext_adobe_typekit_settings', array() );
+		$font_families = $options['fonts'] ?? array();
+		$project_id    = $options['project_id'] ?? '';
+		if ( ! empty( $project_id ) ) {
+			if ( function_exists( 'blc_get_ext' ) ) {
+				$typekit = blc_get_ext( 'adobe-typekit' );
+				// Add fonts to list.
+				if ( $typekit ) {
+					if ( ! empty( $font_families ) ) {
+						foreach ( $font_families as $font_family ) {
+							$fonts_group[] = array(
+								'value' => $font_family['slug'],
+								'label' => $font_family['name'],
+							);
+						}
+					}
+				}
+			}
+		}
+
+		// Get blocksy google fonts.
+		$google_fonts = get_option( 'blocksy_ext_local_google_fonts_settings', array() );
+		if ( $google_fonts && isset( $google_fonts['fonts'] ) ) {
+			if ( function_exists( 'blc_get_ext' ) && blc_get_ext( 'local-google-fonts' ) ) {
+				foreach ( $google_fonts['fonts'] as $font_family ) {
+					$fonts_group[] = array(
+						'value' => $font_family['name'],
+						'label' => $font_family['name'],
+					);
+				}
+			}
+		}
+		return $fonts_group;
+	}
+
+	/**
 	 * Get all fonts used for the blocks.
 	 *
 	 * @param array $blocks Array of blocks/innerblocks.

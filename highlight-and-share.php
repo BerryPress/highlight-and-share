@@ -144,11 +144,7 @@ function highlightshare_instantiate() {
 	$emails = new Emails();
 	$emails->run();
 
-	// Adobe fonts.
-	$adobe_fonts = new Adobe_Fonts();
-	$adobe_fonts->run();
-
-	// Adobe fonts.
+	// Block presets.
 	$block_presets = new Presets();
 	$block_presets->run();
 }

@@ -5,7 +5,6 @@ import { useDispatch } from '@wordpress/data';
 
 import { rawHandler } from '@wordpress/blocks';
 
-import GetFontStyles from './GetFontStyles';
 import GetStyles from './GetStyles';
 import useDeviceType from '../../../react/Hooks/useDeviceType';
 import sanitizeSVG from '../../../react/Utils/sanitize-svg';
@@ -63,8 +62,6 @@ const BlockContent = ( props ) => {
 
 	return (
 		<>
-			{ <GetFontStyles fontObject={ typographyQuote } /> }
-			{ <GetFontStyles fontObject={ typographyShareText } /> }
 			{ <GetStyles attributes={ attributes } isPreview={ isBlockPreview } /> }
 			<div
 				className={ classnames( 'has-click-to-share', {
