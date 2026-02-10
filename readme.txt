@@ -49,6 +49,12 @@ If you have a feature request, <a href="https://dlxplugins.com/support/">please 
 <li>Works with Page Builders using advanced selectors</li>
 </ul>
 
+### integrations
+
+* Block Editor: Native support for Adobe Fonts with free <a href="https://wordpress.org/plugins/custom-typekit-fonts/">Custom Adobe Fonts</a> plugin.
+* Block Editor: Native support for Local Google Fonts via free <a href="https://wordpress.org/plugins/custom-fonts/">Custom Fonts</a> plugin.
+* Block Editor: Compatible with Blocksy Companion Pro Local Google Fonts and Adobe Fonts extensions. 
+
 == Installation ==
 
 1. Search Highlight and Share in the plugin's screen.

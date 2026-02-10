@@ -311,6 +311,20 @@ class Functions {
 				}
 			}
 		}
+
+		// Get Custom Fonts (Local Google Fonts) plugin fonts. https://wordpress.org/plugins/custom-fonts/.
+		if ( class_exists( 'BCF_Custom_Font_Families' ) ) {
+			$local_google_fonts = \BCF_Custom_Font_Families::get_existing_google_fonts();
+			if ( ! empty( $local_google_fonts ) ) {
+				foreach ( $local_google_fonts as $font_name ) {
+					$fonts_group[] = array(
+						'value' => $font_name,
+						'label' => $font_name,
+					);
+				}
+			}
+		}
+
 		return $fonts_group;
 	}
 
