@@ -42,6 +42,27 @@ class Functions {
 	}
 
 	/**
+	 * Whether stats (dataLayer, gtag, synthetic events) are enabled for the frontend.
+	 * Respects the HAS_STATS_ENABLED constant and the has_stats_enabled filter (filter overrides constant).
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return bool True if stats are enabled, false otherwise.
+	 */
+	public static function is_stats_enabled() {
+		$enabled = defined( 'HAS_STATS_ENABLED' ) ? (bool) constant( 'HAS_STATS_ENABLED' ) : true;
+		/**
+		 * Filter: has_stats_enabled
+		 *
+		 * Whether stats are enabled for the frontend.
+		 *
+		 * @param bool $enabled True if stats are enabled, false otherwise.
+		 * @since 6.0.0
+		 */
+		return (bool) apply_filters( 'has_stats_enabled', $enabled );
+	}
+
+	/**
 	 * Sanitize an attribute based on type.
 	 *
 	 * @param array  $attributes Array of attributes.

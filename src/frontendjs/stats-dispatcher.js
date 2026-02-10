@@ -23,12 +23,20 @@ const GA4_EVENT_NAME = 'highlight_and_share';
 
 /**
  * Dispatches a stats event to all enabled channels: dataLayer, gtag (when available), and synthetic CustomEvent.
+ * No-ops when stats are disabled via hasStatsConfig.stats_enabled (PHP constant HAS_STATS_ENABLED or filter has_stats_enabled).
  *
  * @param {Object} payload Event payload. Expected keys: event (optional, defaults to EVENT_NAME),
  *                         hasShareText (optional), hasSharePostUrl, hasSharePostTitle, hasShareType, hasSocialNetwork.
- * @param {Object} options Options. dispatchSynthetic: whether to dispatch a CustomEvent (default true).
  */
-export function dispatchStatsEvent( payload, options = {} ) {
+export function dispatchStatsEvent( payload ) {
+	// Treat any falsy value as disabled (WP localize can output false as '').
+	if (
+		typeof hasStatsConfig !== 'undefined' &&
+		! hasStatsConfig.stats_enabled
+	) {
+		return;
+	}
+
 	const fullPayload = {
 		event: payload.event || EVENT_NAME,
 		hasShareText: payload.hasShareText ?? '',
@@ -37,10 +45,6 @@ export function dispatchStatsEvent( payload, options = {} ) {
 		hasShareType: payload.hasShareType ?? '',
 		hasSocialNetwork: payload.hasSocialNetwork ?? '',
 	};
-
-	const dispatchSynthetic = options.dispatchSynthetic !== false;
-
-	console.log( 'fullPayload', fullPayload );
 
 	// dataLayer (GTM): push when present.
 	if ( 'undefined' !== typeof window.dataLayer ) {
@@ -59,13 +63,11 @@ export function dispatchStatsEvent( payload, options = {} ) {
 	}
 
 	// Synthetic CustomEvent for third-party listeners (opt-in by adding listeners).
-	if ( dispatchSynthetic ) {
-		window.dispatchEvent(
-			new CustomEvent( fullPayload.event, {
-				detail: fullPayload,
-				bubbles: true,
-				cancelable: false,
-			} )
-		);
-	}
+	window.dispatchEvent(
+		new CustomEvent( fullPayload.event, {
+			detail: fullPayload,
+			bubbles: true,
+			cancelable: false,
+		} )
+	);
 }

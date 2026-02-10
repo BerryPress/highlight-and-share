@@ -62,22 +62,15 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 	const imageShare = document.querySelectorAll( '.has-pin-svg-pinterest' );
 	if ( null !== imageShare ) {
 		imageShare.forEach( ( el ) => {
-			el.addEventListener( 'click', ( event ) => {
-				event.preventDefault();
-
+			// Fire stats on mousedown so the event is sent before middle-click or right-click "Open in new tab".
+			el.addEventListener( 'mousedown', ( event ) => {
 				const parent = event.target.closest( '.has-pin-image-wrapper' );
 				if ( null === parent ) {
 					return;
 				}
-
 				const image = parent.querySelector( 'img' );
 				let imageUrl = image.getAttribute( 'src' );
-				const dataPinUrl = image.getAttribute( 'data-pin-url' );
 				let description = image.getAttribute( 'alt' );
-				const dataPinDescription = image.getAttribute( 'data-pin-description' );
-
-				const pageUrl = getPageUrl();
-
 				const maybeParentAnchor = image.closest( 'a' );
 				if ( null !== maybeParentAnchor ) {
 					const maybeParentAnchorUrl = maybeParentAnchor.getAttribute( 'href' );
@@ -90,17 +83,39 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 							maybeParentAnchor.getAttribute( 'title' ) ?? description;
 					}
 				}
+				dispatchStatsEvent( {
+					hasSharePostUrl: imageUrl,
+					hasSharePostTitle: description,
+					hasShareType: 'image',
+					hasSocialNetwork: 'pinterest',
+				} );
+			} );
 
-				dispatchStatsEvent(
-					{
-						hasSharePostUrl: imageUrl,
-						hasSharePostTitle: description,
-						hasShareType: 'image',
-						hasSocialNetwork: 'pinterest',
-					},
-					{ dispatchSynthetic: typeof hasStatsConfig !== 'undefined' ? hasStatsConfig.dispatch_synthetic_events !== false : true }
-				);
-
+			el.addEventListener( 'click', ( event ) => {
+				event.preventDefault();
+				event.stopPropagation();
+				const parent = event.target.closest( '.has-pin-image-wrapper' );
+				if ( null === parent ) {
+					return;
+				}
+				const image = parent.querySelector( 'img' );
+				let imageUrl = image.getAttribute( 'src' );
+				const dataPinUrl = image.getAttribute( 'data-pin-url' );
+				let description = image.getAttribute( 'alt' );
+				const dataPinDescription = image.getAttribute( 'data-pin-description' );
+				const pageUrl = getPageUrl();
+				const maybeParentAnchor = image.closest( 'a' );
+				if ( null !== maybeParentAnchor ) {
+					const maybeParentAnchorUrl = maybeParentAnchor.getAttribute( 'href' );
+					if (
+						maybeParentAnchorUrl &&
+						maybeParentAnchorUrl.match( /\.(jpeg|jpg|gif|png)$/i )
+					) {
+						imageUrl = maybeParentAnchorUrl;
+						description =
+							maybeParentAnchor.getAttribute( 'title' ) ?? description;
+					}
+				}
 				window.open(
 					'https://www.pinterest.com/pin/create/button/?url=' +
 						encodeURIComponent( pageUrl ) +
@@ -279,15 +294,12 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 					doShareUrl( payload.title, shareText, payload.shareUrl );
 				}
 
-				dispatchStatsEvent(
-					{
-						hasSharePostUrl: payload.shareUrl,
-						hasSharePostTitle: payload.title,
-						hasShareType: 'image',
-						hasSocialNetwork: 'webshare',
-					},
-					{ dispatchSynthetic: typeof hasStatsConfig !== 'undefined' ? hasStatsConfig.dispatch_synthetic_events !== false : true }
-				);
+				dispatchStatsEvent( {
+					hasSharePostUrl: payload.shareUrl,
+					hasSharePostTitle: payload.title,
+					hasShareType: 'image',
+					hasSocialNetwork: 'webshare',
+				} );
 			};
 
 			el.addEventListener( 'pointerdown', handleWebShare, { capture: true } );
