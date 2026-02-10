@@ -24,6 +24,7 @@ const GA4_EVENT_NAME = 'has:share';
 /**
  * Dispatches a stats event to all enabled channels: dataLayer, gtag (when available), and synthetic CustomEvent.
  * No-ops when stats are disabled via hasStatsConfig.stats_enabled (PHP constant HAS_STATS_ENABLED or filter has_stats_enabled).
+ * URL, share text, and title are omitted unless hasStatsConfig.stats_enhanced is truthy (HAS_STATS_ENHANCED or has_stats_enhanced filter).
  *
  * @param {Object} payload Event payload. Expected keys: event (optional, defaults to EVENT_NAME),
  *                         hasShareText (optional), hasSharePostUrl, hasSharePostTitle, hasShareType, hasSocialNetwork.
@@ -45,6 +46,16 @@ export function dispatchStatsEvent( payload ) {
 		hasShareType: payload.hasShareType ?? '',
 		hasSocialNetwork: payload.hasSocialNetwork ?? '',
 	};
+
+	// Unless enhanced is on, do not send URL, share text, or title (privacy).
+	if (
+		typeof hasStatsConfig !== 'undefined' &&
+		! hasStatsConfig.stats_enhanced
+	) {
+		fullPayload.hasShareText = '';
+		fullPayload.hasSharePostUrl = '';
+		fullPayload.hasSharePostTitle = '';
+	}
 
 	// dataLayer (GTM): push when present.
 	if ( 'undefined' !== typeof window.dataLayer ) {

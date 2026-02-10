@@ -571,13 +571,15 @@ class Frontend {
 
 		// Ensure shared stats config is available when only image sharing loads (e.g. from content filter).
 		if ( ! wp_script_is( 'has-stats-config', 'registered' ) ) {
-			$stats_enabled = Functions::is_stats_enabled();
+			$stats_enabled  = Functions::is_stats_enabled();
+			$stats_enhanced = Functions::is_stats_enhanced();
 			wp_register_script( 'has-stats-config', false, array(), HIGHLIGHT_AND_SHARE_VERSION, true );
 			wp_localize_script(
 				'has-stats-config',
 				'hasStatsConfig',
 				array(
-					'stats_enabled' => $stats_enabled,
+					'stats_enabled'  => $stats_enabled,
+					'stats_enhanced' => $stats_enhanced,
 				)
 			);
 		}
@@ -2066,13 +2068,15 @@ class Frontend {
 			return;
 		}
 		// Shared stats config for all frontend scripts (highlight-and-share, has-image-sharing, etc.).
-		$stats_enabled = Functions::is_stats_enabled();
+		$stats_enabled  = Functions::is_stats_enabled();
+		$stats_enhanced = Functions::is_stats_enhanced();
 		wp_register_script( 'has-stats-config', false, array(), HIGHLIGHT_AND_SHARE_VERSION, true );
 		wp_localize_script(
 			'has-stats-config',
 			'hasStatsConfig',
 			array(
-				'stats_enabled' => $stats_enabled,
+				'stats_enabled'  => $stats_enabled,
+				'stats_enhanced' => $stats_enhanced,
 			)
 		);
 
