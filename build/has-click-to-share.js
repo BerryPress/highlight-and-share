@@ -4530,13 +4530,9 @@ var BlockContent = function BlockContent(props) {
     isBlockPreview = _useState2[0];
   var shareText = attributes.shareText,
     backgroundType = attributes.backgroundType,
-    showClickToShare = attributes.showClickToShare,
-    showIcon = attributes.showIcon,
-    iconSize = attributes.iconSize,
     clickText = attributes.clickText,
     uniqueId = attributes.uniqueId,
-    typographyQuote = attributes.typographyQuote,
-    typographyShareText = attributes.typographyShareText,
+    theme = attributes.theme,
     showClickToShareText = attributes.showClickToShareText,
     showClickToShareIcon = attributes.showClickToShareIcon,
     icon = attributes.icon;
@@ -4561,7 +4557,7 @@ var BlockContent = function BlockContent(props) {
     attributes: attributes,
     isPreview: isBlockPreview
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('has-click-to-share', {
+    className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('has-click-to-share', "has-theme-".concat(theme), {
       'has-background-color': 'solid' === backgroundType,
       'has-background-gradient': 'gradient' === backgroundType,
       'has-background-image': 'image' === backgroundType
@@ -4929,12 +4925,17 @@ var GetStyles = function GetStyles(props) {
     typographyQuote = attributes.typographyQuote,
     typographyShareText = attributes.typographyShareText,
     iconSizeResponsive = attributes.iconSizeResponsive,
-    showClickToShareText = attributes.showClickToShareText;
+    showClickToShareText = attributes.showClickToShareText,
+    theme = attributes.theme;
   var screenSize = deviceType.toLowerCase();
   var styles = "\n\t\t#".concat(uniqueId, ".has-click-to-share {\n\t\t\tmargin: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_2__.buildDimensionsCSS)(marginSize, deviceType), ";\n\t\t\tborder-radius: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_2__.buildDimensionsCSS)(borderRadiusSize, deviceType), ";\n\t\t\tborder-style: solid;\n\t\t\tborder-width: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_2__.buildDimensionsCSS)(borderWidth, deviceType), ";\n\t\t\tmax-width: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].width, 'maxWidth')).concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].unit, 'maxWidth'), ";\n\t\t\toverflow: hidden;\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share .has-click-to-share-cta,\n\t\t#").concat(uniqueId, ".has-click-to-share .has-click-to-share-text {\n\t\t\tposition: relative;\n\t\t\tz-index: 2;\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share .has-click-to-share-wrapper {\n\t\t\tposition: relative;\n\t\t\tpadding: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_2__.buildDimensionsCSS)(paddingSize, deviceType), ";\n\t\t\tfont-size: ").concat(clickShareFontSize, "px;\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-color {\n\t\t\tbackground-color: ").concat(backgroundColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-color:hover {\n\t\t\tbackground-color: ").concat(backgroundColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-gradient {\n\t\t\tbackground-image: ").concat(backgroundGradient, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-gradient:hover {\n\t\t\tbackground-image: ").concat(backgroundGradientHover, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share {\n\t\t\tborder-color: ").concat(borderColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share:hover {\n\t\t\tborder-color: ").concat(borderColorHover, ";\n\t\t}\n\t\t\n\t\t#").concat(uniqueId, " .has-click-to-share-cta {\n\t\t\tcolor: ").concat(shareTextColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-cta {\n\t\t\tcolor: ").concat(shareTextColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-text,\n\t\t#").concat(uniqueId, " .has-click-to-share-text p {\n\t\t\tcolor: ").concat(textColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-text,\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-text p {\n\t\t\tcolor: ").concat(textColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-cta svg {\n\t\t\tcolor: ").concat(iconColor, ";\n\t\t\twidth: ").concat(iconSizeResponsive[deviceType.toLowerCase()], "px;\n\t\t}\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-cta svg {\n\t\t\tcolor: ").concat(iconColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-text,\n\t\t#").concat(uniqueId, " .has-click-to-share-text p {\n\t\t\tfont-family: \"").concat(typographyQuote.desktop.fontFamily, "\";\n\t\t\tfont-weight: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].fontWeight, 'fontWeight'), ";\n\t\t\tfont-size: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].fontSize, 'fontSize') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyQuote, screenSize, typographyQuote[screenSize].fontSizeUnit, 'fontSizeUnit'), ";\n\t\t\tline-height: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].lineHeight, 'lineHeight') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyQuote, screenSize, typographyQuote[screenSize].lineHeightUnit, 'lineHeightUnit'), ";\n\t\t\tletter-spacing: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].letterSpacing, 'letterSpacing') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyQuote, screenSize, typographyQuote[screenSize].letterSpacingUnit, 'letterSpacingUnit'), ";\n\t\t\ttext-transform: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].textTransform, 'textTransform'), ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-cta,\n\t\t#").concat(uniqueId, " .has-click-to-share-cta p {\n\t\t\tfont-family: \"").concat(typographyShareText.desktop.fontFamily, "\";\n\t\t\tfont-weight: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].fontWeight, 'fontWeight'), ";\n\t\t\tfont-size: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].fontSize, 'fontSize') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyShareText, screenSize, typographyShareText[screenSize].fontSizeUnit, 'fontSizeUnit'), ";\n\t\t\tline-height: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].lineHeight, 'lineHeight') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyShareText, screenSize, typographyShareText[screenSize].lineHeightUnit, 'lineHeightUnit'), ";\n\t\t\tletter-spacing: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].letterSpacing, 'letterSpacing') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyShareText, screenSize, typographyShareText[screenSize].letterSpacingUnit, 'letterSpacingUnit'), ";\n\t\t\ttext-transform: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].textTransform, 'textTransform'), ";\n\t\t}\n\t");
   var backgroundImageStyles = '';
   if ('image' === backgroundType) {
     backgroundImageStyles = "\n\t\t#".concat(uniqueId, ".has-click-to-share.has-background-image {\n\t\t\tbackground-color: ").concat(backgroundImage.backgroundColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-image .has-click-to-share-wrapper:after{\n\t\t\tdisplay: block;\n\t\t\tcontent: '';\n\t\t\twidth: 100%;\n\t\t\theight: 100%;\n\t\t\tposition: absolute;\n\t\t\ttop: 0;\n\t\t\tleft: 0;\n\t\t\tz-index: 1;\n\t\t\tbackground-image: url('").concat(decodeURIComponent(encodeURIComponent(backgroundImage.url)), " ');\n\t\t\tbackground-position: ").concat(escapeEditableHTML(backgroundImage.backgroundPosition), ";\n\t\t\tbackground-repeat: ").concat(escapeEditableHTML(backgroundImage.backgroundRepeat), ";\n\t\t\tbackground-size: ").concat(escapeEditableHTML(backgroundImage.backgroundSize), ";\n\t\t\topacity: ").concat(parseFloat(backgroundImage.backgroundOpacity), ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-image .has-click-to-share-wrapper:hover:after {\n\t\t\topacity: ").concat(parseFloat(backgroundImage.backgroundOpacityHover), ";\n\t\t}\n\t\t");
+  }
+  if ('custom' !== theme) {
+    // Only add max-width.
+    styles = "\n\t\t#".concat(uniqueId, ".has-click-to-share {\n\t\t\tmax-width: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].width, 'maxWidth')).concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].unit, 'maxWidth'), ";\n\t\t}\n\t\t");
   }
   var previewStyles = '';
   if (isPreview) {
@@ -5603,8 +5604,11 @@ var ThemeButton = function ThemeButton(_ref) {
     setShowPopover(false);
   };
   var popoverContent = function popoverContent() {
+    var newAttributes = _objectSpread(_objectSpread({}, attributes), {}, {
+      theme: slug
+    });
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_BlockContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      attributes: attributes,
+      attributes: newAttributes,
       isPreview: true
     });
   };
@@ -5612,11 +5616,9 @@ var ThemeButton = function ThemeButton(_ref) {
     variant: 'secondary',
     onClick: function onClick(e) {
       e.preventDefault();
-      var uniqueIdAttribute = {
-        uniqueId: uniqueId
-      };
-      var blockAttributes = _objectSpread(_objectSpread({}, attributes), uniqueIdAttribute);
-      setAttributes(blockAttributes);
+      setAttributes({
+        theme: slug
+      });
     },
     className: "has-preset-button",
     onMouseEnter: function onMouseEnter() {
@@ -5709,7 +5711,6 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var __ = wp.i18n.__;
 var _wp$components = wp.components,
   PanelBody = _wp$components.PanelBody,
-  PanelRow = _wp$components.PanelRow,
   RangeControl = _wp$components.RangeControl,
   TextControl = _wp$components.TextControl,
   TextareaControl = _wp$components.TextareaControl,
@@ -6015,7 +6016,9 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     initialOpen: true,
     className: "has-presets-panel",
     icon: "admin-customizer"
-  }, /*#__PURE__*/React.createElement(PanelRow, null, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row"
+  }, /*#__PURE__*/React.createElement("div", {
     className: "has-presets"
   }, /*#__PURE__*/React.createElement("h3", null, __('Select a Theme', 'highlight-and-share')), /*#__PURE__*/React.createElement(ButtonGroup, null, _themes__WEBPACK_IMPORTED_MODULE_11__.themes.map(function (themeItem) {
     return /*#__PURE__*/React.createElement(_components_ThemeButton__WEBPACK_IMPORTED_MODULE_10__["default"], {
@@ -6030,7 +6033,9 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     title: __('Share Settings', 'highlight-and-share'),
     initialOpen: true,
     icon: getDeviceIcon()
-  }, /*#__PURE__*/React.createElement(PanelRow, null, /*#__PURE__*/React.createElement(ToggleControl, {
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row"
+  }, /*#__PURE__*/React.createElement(ToggleControl, {
     label: __('Show Click to Share Text', 'alerts-dlx'),
     checked: showClickToShareText[deviceType.toLowerCase()],
     onChange: function onChange(value) {
@@ -6040,7 +6045,9 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
         showClickToShareText: newShowClickToShare
       });
     }
-  })), showClickToShare && deviceType === 'Desktop' && /*#__PURE__*/React.createElement(PanelRow, null, /*#__PURE__*/React.createElement(TextControl, {
+  })), showClickToShareText[deviceType.toLowerCase()] && deviceType === 'Desktop' && /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row"
+  }, /*#__PURE__*/React.createElement(TextControl, {
     label: __('Click to Share Text', 'highlight-and-share'),
     value: clickText,
     onChange: function onChange(value) {
@@ -6048,7 +6055,9 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
         clickText: value
       });
     }
-  })), /*#__PURE__*/React.createElement(PanelRow, null, /*#__PURE__*/React.createElement(ToggleControl, {
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row"
+  }, /*#__PURE__*/React.createElement(ToggleControl, {
     label: __('Show Share Icon', 'alerts-dlx'),
     checked: showClickToShareIcon[deviceType.toLowerCase()],
     onChange: function onChange(value) {
@@ -6058,12 +6067,14 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
         showClickToShareIcon: newShowClickToShare
       });
     }
-  })), showClickToShareIcon[deviceType.toLowerCase()] && /*#__PURE__*/React.createElement(React.Fragment, null, 'Desktop' === deviceType && /*#__PURE__*/React.createElement(PanelRow, null, /*#__PURE__*/React.createElement(_components_IconPicker__WEBPACK_IMPORTED_MODULE_14__["default"], {
+  })), showClickToShareIcon[deviceType.toLowerCase()] && /*#__PURE__*/React.createElement(React.Fragment, null, 'Desktop' === deviceType && /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row"
+  }, /*#__PURE__*/React.createElement(_components_IconPicker__WEBPACK_IMPORTED_MODULE_14__["default"], {
     defaultSvg: icon,
     setAttributes: setAttributes,
     icons: _components_Icons_shareSvgs__WEBPACK_IMPORTED_MODULE_15__["default"]
-  })), /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-range-control"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-range-control"
   }, /*#__PURE__*/React.createElement(RangeControl, {
     label: __('Icon Size', 'highlight-and-share'),
     value: iconSizeResponsive[deviceType.toLowerCase()],
@@ -6077,12 +6088,12 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     min: 10,
     max: 150,
     step: 1
-  })))), deviceType === 'Desktop' && /*#__PURE__*/React.createElement(PanelBody, {
+  })))), deviceType === 'Desktop' && 'custom' === theme && /*#__PURE__*/React.createElement(PanelBody, {
     title: __('Background Settings', 'highlight-and-share'),
     initialOpen: true,
     icon: "admin-appearance"
-  }, /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-background-type"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-background-type"
   }, /*#__PURE__*/React.createElement("h3", null, __('Background Type', 'highlight-and-share')), /*#__PURE__*/React.createElement(ButtonGroup, null, /*#__PURE__*/React.createElement(Button, {
     variant: backgroundType === 'solid' ? 'primary' : 'secondary',
     onClick: function onClick(e) {
@@ -6107,8 +6118,8 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
       });
     },
     label: __('Image Background', 'highlight-and-share')
-  }, __('Image', 'highlight-and-share')))), backgroundType === 'solid' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-color-picker"
+  }, __('Image', 'highlight-and-share')))), backgroundType === 'solid' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-color-picker"
   }, /*#__PURE__*/React.createElement(_components_ColorPickerHover_index__WEBPACK_IMPORTED_MODULE_2__["default"], {
     syncTitle: __('Sync Background Colors', 'highlight-and-share'),
     normalColor: backgroundColor,
@@ -6128,14 +6139,14 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     label: __('Background Color', 'highlight-and-share'),
     key: 'background-color-solid',
     slug: 'background-color-solid'
-  }))), backgroundType === 'gradient' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-background-gradient-sync"
+  }))), backgroundType === 'gradient' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-background-gradient-sync"
   }, /*#__PURE__*/React.createElement(_react_Components_GradientSync__WEBPACK_IMPORTED_MODULE_4__["default"], {
     attributes: attributes,
     setAttributes: setAttributes,
     label: __('Sync Gradients', 'highlight-and-share')
-  })), /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-background-gradient"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-background-gradient"
   }, /*#__PURE__*/React.createElement(_react_Components_GradientPicker__WEBPACK_IMPORTED_MODULE_3__["default"], {
     value: backgroundGradient,
     onChange: function onChange(newValue) {
@@ -6145,8 +6156,8 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     },
     label: __('Gradient Background', 'highlight-and-share'),
     clearable: false
-  })), /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-background-gradient"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-background-gradient"
   }, /*#__PURE__*/React.createElement(_react_Components_GradientPicker__WEBPACK_IMPORTED_MODULE_3__["default"], {
     value: backgroundGradientHover,
     onChange: function onChange(newValue) {
@@ -6156,12 +6167,14 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     },
     label: __('Gradient Background Hover', 'highlight-and-share'),
     clearable: false
-  })), /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-background-gradient-generator"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-background-gradient-generator"
   }, /*#__PURE__*/React.createElement(_react_Components_GradientGenerator__WEBPACK_IMPORTED_MODULE_5__["default"], {
     setAttributes: setAttributes,
     label: __('Generate Random Gradient', 'highlight-and-share')
-  }))), backgroundType === 'image' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(PanelRow, null, /*#__PURE__*/React.createElement(_react_Components_BackgroundSelector__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }))), backgroundType === 'image' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row"
+  }, /*#__PURE__*/React.createElement(_react_Components_BackgroundSelector__WEBPACK_IMPORTED_MODULE_9__["default"], {
     label: __('Background Image', 'highlight-and-share'),
     values: backgroundImage,
     onValuesChange: function onValuesChange(newValue) {
@@ -6169,12 +6182,12 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
         backgroundImage: newValue
       });
     }
-  })))), deviceType === 'Desktop' && /*#__PURE__*/React.createElement(PanelBody, {
+  })))), deviceType === 'Desktop' && 'custom' === theme && /*#__PURE__*/React.createElement(PanelBody, {
     title: __('Colors', 'highlight-and-share'),
     initialOpen: false,
     icon: "art"
-  }, /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-color-picker"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-color-picker"
   }, /*#__PURE__*/React.createElement(_components_ColorPickerHover_index__WEBPACK_IMPORTED_MODULE_2__["default"], {
     syncTitle: __('Sync Text Colors', 'highlight-and-share'),
     normalColor: textColor,
@@ -6194,8 +6207,8 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     label: __('Text Color', 'highlight-and-share'),
     key: 'text-color',
     slug: 'text-color'
-  })), /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-color-picker"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-color-picker"
   }, /*#__PURE__*/React.createElement(_components_ColorPickerHover_index__WEBPACK_IMPORTED_MODULE_2__["default"], {
     syncTitle: __('Sync Share Text Colors', 'highlight-and-share'),
     normalColor: shareTextColor,
@@ -6215,8 +6228,8 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     label: __('Share Text Color', 'highlight-and-share'),
     key: 'share-text-color',
     slug: 'share-text-color'
-  })), /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-color-picker"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-color-picker"
   }, /*#__PURE__*/React.createElement(_components_ColorPickerHover_index__WEBPACK_IMPORTED_MODULE_2__["default"], {
     syncTitle: __('Sync Icon Colors', 'highlight-and-share'),
     normalColor: iconColor,
@@ -6236,8 +6249,8 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     label: __('Icon Color', 'highlight-and-share'),
     key: 'icon-color',
     slug: 'icon-color'
-  })), /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-color-picker"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-color-picker"
   }, /*#__PURE__*/React.createElement(_components_ColorPickerHover_index__WEBPACK_IMPORTED_MODULE_2__["default"], {
     syncTitle: __('Sync Border Colors', 'highlight-and-share'),
     normalColor: borderColor,
@@ -6257,12 +6270,12 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     label: __('Border Color', 'highlight-and-share'),
     key: 'border-color',
     slug: 'border-color'
-  }))), /*#__PURE__*/React.createElement(PanelBody, {
+  }))), 'custom' === theme && /*#__PURE__*/React.createElement(PanelBody, {
     title: __('Fonts and Typography', 'highlight-and-share'),
     initialOpen: true,
     icon: getDeviceIcon()
-  }, /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-typography-panel-row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-typography-panel-row"
   }, /*#__PURE__*/React.createElement(_react_Components_Typography__WEBPACK_IMPORTED_MODULE_8__["default"], {
     values: typographyQuote,
     screenSize: deviceType,
@@ -6274,8 +6287,8 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
       });
     },
     label: __('Quote Typography', 'highlight-and-share')
-  })), /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-typography-panel-row"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-typography-panel-row"
   }, /*#__PURE__*/React.createElement(_react_Components_Typography__WEBPACK_IMPORTED_MODULE_8__["default"], {
     values: typographyShareText,
     screenSize: deviceType,
@@ -6285,12 +6298,12 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
       });
     },
     label: __('Share Text Typography', 'highlight-and-share')
-  }))), /*#__PURE__*/React.createElement(PanelBody, {
-    title: __('Spacing and Border', 'highlight-and-share'),
+  }))), 'custom' !== theme && /*#__PURE__*/React.createElement(PanelBody, {
+    title: __('Maximum Width', 'highlight-and-share'),
     initialOpen: true,
     icon: getDeviceIcon()
-  }, /*#__PURE__*/React.createElement(PanelRow, {
-    className: "has-unit-picker"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-unit-picker"
   }, /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_components_MaxWidth__WEBPACK_IMPORTED_MODULE_13__["default"], {
     values: maximumWidth,
     screenSize: deviceType,
@@ -6304,7 +6317,28 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
         maximumWidth: maxValues
       });
     }
-  }))), /*#__PURE__*/React.createElement(PanelRow, null, /*#__PURE__*/React.createElement(_react_Components_DimensionsBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  })))), 'custom' === theme && /*#__PURE__*/React.createElement(PanelBody, {
+    title: __('Spacing and Border', 'highlight-and-share'),
+    initialOpen: true,
+    icon: getDeviceIcon()
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row has-unit-picker"
+  }, /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_components_MaxWidth__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    values: maximumWidth,
+    screenSize: deviceType,
+    onValuesChange: function onValuesChange(newValues) {
+      var maxValues = _objectSpread({}, maximumWidth);
+      var newValue = newValues[deviceType.toLowerCase()];
+      if (newValue) {
+        maxValues[deviceType.toLowerCase()] = newValue;
+      }
+      setAttributes({
+        maximumWidth: maxValues
+      });
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row"
+  }, /*#__PURE__*/React.createElement(_react_Components_DimensionsBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: __('Inner Padding', 'highlight-and-share'),
     allowNegatives: false,
     values: paddingSize,
@@ -6321,7 +6355,9 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
         paddingSize: newPadding
       });
     }
-  })), /*#__PURE__*/React.createElement(PanelRow, null, /*#__PURE__*/React.createElement(_react_Components_DimensionsBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row"
+  }, /*#__PURE__*/React.createElement(_react_Components_DimensionsBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: __('Outer Margin', 'highlight-and-share'),
     allowNegatives: false,
     values: marginSize,
@@ -6338,7 +6374,9 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
         marginSize: newMargin
       });
     }
-  })), /*#__PURE__*/React.createElement(PanelRow, null, /*#__PURE__*/React.createElement(_react_Components_DimensionsBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row"
+  }, /*#__PURE__*/React.createElement(_react_Components_DimensionsBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: __('Border Width', 'highlight-and-share'),
     allowNegatives: false,
     values: borderWidth,
@@ -6355,7 +6393,9 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
         borderWidth: newBorderWidth
       });
     }
-  })), /*#__PURE__*/React.createElement(PanelRow, null, /*#__PURE__*/React.createElement(_react_Components_DimensionsBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row"
+  }, /*#__PURE__*/React.createElement(_react_Components_DimensionsBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: __('Border Radius', 'highlight-and-share'),
     allowNegatives: false,
     values: borderRadiusSize,

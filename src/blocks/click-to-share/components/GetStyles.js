@@ -38,9 +38,10 @@ const GetStyles = ( props ) => {
 		typographyShareText,
 		iconSizeResponsive,
 		showClickToShareText,
+		theme,
 	} = attributes;
 	const screenSize = deviceType.toLowerCase();
-	const styles = `
+	let styles = `
 		#${ uniqueId }.has-click-to-share {
 			margin: ${ buildDimensionsCSS( marginSize, deviceType ) };
 			border-radius: ${ buildDimensionsCSS( borderRadiusSize, deviceType ) };
@@ -245,8 +246,16 @@ const GetStyles = ( props ) => {
 		}
 		`;
 	}
+	if ( 'custom' !== theme ) {
+		// Only add max-width.
+		styles = `
+		#${ uniqueId }.has-click-to-share {
+			max-width: ${ geHierarchicalPlaceholderValue( maximumWidth, screenSize, maximumWidth[ screenSize ].width, 'maxWidth' ) }${ geHierarchicalPlaceholderValue( maximumWidth, screenSize, maximumWidth[ screenSize ].unit, 'maxWidth' ) };
+		}
+		`;
+	}
 	let previewStyles = '';
-	if ( isPreview) {
+	if ( isPreview ) {
 		previewStyles = `
 			#${ uniqueId }.has-click-to-share p {
 				font-size: 12px;

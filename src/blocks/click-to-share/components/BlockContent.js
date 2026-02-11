@@ -35,13 +35,9 @@ const BlockContent = ( props ) => {
 	const {
 		shareText,
 		backgroundType,
-		showClickToShare,
-		showIcon,
-		iconSize,
 		clickText,
 		uniqueId,
-		typographyQuote,
-		typographyShareText,
+		theme,
 		showClickToShareText,
 		showClickToShareIcon,
 		icon,
@@ -64,7 +60,7 @@ const BlockContent = ( props ) => {
 		<>
 			{ <GetStyles attributes={ attributes } isPreview={ isBlockPreview } /> }
 			<div
-				className={ classnames( 'has-click-to-share', {
+				className={ classnames( 'has-click-to-share', `has-theme-${ theme }`, {
 					'has-background-color': 'solid' === backgroundType,
 					'has-background-gradient': 'gradient' === backgroundType,
 					'has-background-image': 'image' === backgroundType,

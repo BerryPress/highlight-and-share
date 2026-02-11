@@ -25,7 +25,6 @@ const { __ } = wp.i18n;
 
 const {
 	PanelBody,
-	PanelRow,
 	RangeControl,
 	TextControl,
 	TextareaControl,
@@ -324,7 +323,7 @@ const HAS_Click_To_Share = ( props ) => {
 				className="has-presets-panel"
 				icon="admin-customizer"
 			>
-				<PanelRow>
+				<div className="has-panel-row">
 					<div className="has-presets">
 						<h3>{ __( 'Select a Theme', 'highlight-and-share' ) }</h3>
 						<ButtonGroup>
@@ -340,14 +339,14 @@ const HAS_Click_To_Share = ( props ) => {
 							) ) }
 						</ButtonGroup>
 					</div>
-				</PanelRow>
+				</div>
 			</PanelBody>
 			<PanelBody
 				title={ __( 'Share Settings', 'highlight-and-share' ) }
 				initialOpen={ true }
 				icon={ getDeviceIcon() }
 			>
-				<PanelRow>
+				<div className="has-panel-row">
 					<ToggleControl
 						label={ __( 'Show Click to Share Text', 'alerts-dlx' ) }
 						checked={ showClickToShareText[ deviceType.toLowerCase() ] }
@@ -359,9 +358,9 @@ const HAS_Click_To_Share = ( props ) => {
 							} );
 						} }
 					/>
-				</PanelRow>
-				{ showClickToShare && deviceType === 'Desktop' && (
-					<PanelRow>
+				</div>
+				{ showClickToShareText[ deviceType.toLowerCase() ] && deviceType === 'Desktop' && (
+					<div className="has-panel-row">
 						<TextControl
 							label={ __( 'Click to Share Text', 'highlight-and-share' ) }
 							value={ clickText }
@@ -369,9 +368,9 @@ const HAS_Click_To_Share = ( props ) => {
 								setAttributes( { clickText: value } );
 							} }
 						/>
-					</PanelRow>
+					</div>
 				) }
-				<PanelRow>
+				<div className="has-panel-row">
 					<ToggleControl
 						label={ __( 'Show Share Icon', 'alerts-dlx' ) }
 						checked={ showClickToShareIcon[ deviceType.toLowerCase() ] }
@@ -383,19 +382,19 @@ const HAS_Click_To_Share = ( props ) => {
 							} );
 						} }
 					/>
-				</PanelRow>
+				</div>
 				{ showClickToShareIcon[ deviceType.toLowerCase() ] && (
 					<>
 						{ 'Desktop' === deviceType && (
-							<PanelRow>
+							<div className="has-panel-row">
 								<IconPicker
 									defaultSvg={ icon }
 									setAttributes={ setAttributes }
 									icons={ iconSvgs }
 								/>
-							</PanelRow>
+							</div>
 						) }
-						<PanelRow className="has-range-control">
+						<div className="has-panel-row has-range-control">
 							<RangeControl
 								label={ __( 'Icon Size', 'highlight-and-share' ) }
 								value={ iconSizeResponsive[ deviceType.toLowerCase() ] }
@@ -408,17 +407,17 @@ const HAS_Click_To_Share = ( props ) => {
 								max={ 150 }
 								step={ 1 }
 							/>
-						</PanelRow>
+						</div>
 					</>
 				) }
 			</PanelBody>
-			{ deviceType === 'Desktop' && (
+			{ ( deviceType === 'Desktop' && 'custom' === theme ) && (
 				<PanelBody
 					title={ __( 'Background Settings', 'highlight-and-share' ) }
 					initialOpen={ true }
 					icon="admin-appearance"
 				>
-					<PanelRow className="has-background-type">
+					<div className="has-panel-row has-background-type">
 						<h3>{ __( 'Background Type', 'highlight-and-share' ) }</h3>
 						<ButtonGroup>
 							<Button
@@ -451,10 +450,10 @@ const HAS_Click_To_Share = ( props ) => {
 								{ __( 'Image', 'highlight-and-share' ) }
 							</Button>
 						</ButtonGroup>
-					</PanelRow>
+					</div>
 					{ backgroundType === 'solid' && (
 						<>
-							<PanelRow className="has-color-picker">
+							<div className="has-panel-row has-color-picker">
 								<ColorPickerHover
 									syncTitle={ __(
 										'Sync Background Colors',
@@ -472,19 +471,19 @@ const HAS_Click_To_Share = ( props ) => {
 									key={ 'background-color-solid' }
 									slug={ 'background-color-solid' }
 								/>
-							</PanelRow>
+							</div>
 						</>
 					) }
 					{ backgroundType === 'gradient' && (
 						<>
-							<PanelRow className="has-background-gradient-sync">
+							<div className="has-panel-row has-background-gradient-sync">
 								<GradientSync
 									attributes={ attributes }
 									setAttributes={ setAttributes }
 									label={ __( 'Sync Gradients', 'highlight-and-share' ) }
 								/>
-							</PanelRow>
-							<PanelRow className="has-background-gradient">
+							</div>
+							<div className="has-panel-row has-background-gradient">
 								<GradientPicker
 									value={ backgroundGradient }
 									onChange={ ( newValue ) => {
@@ -493,8 +492,8 @@ const HAS_Click_To_Share = ( props ) => {
 									label={ __( 'Gradient Background', 'highlight-and-share' ) }
 									clearable={ false }
 								/>
-							</PanelRow>
-							<PanelRow className="has-background-gradient">
+							</div>
+							<div className="has-panel-row has-background-gradient">
 								<GradientPicker
 									value={ backgroundGradientHover }
 									onChange={ ( newValue ) => {
@@ -503,18 +502,18 @@ const HAS_Click_To_Share = ( props ) => {
 									label={ __( 'Gradient Background Hover', 'highlight-and-share' ) }
 									clearable={ false }
 								/>
-							</PanelRow>
-							<PanelRow className="has-background-gradient-generator">
+							</div>
+							<div className="has-panel-row has-background-gradient-generator">
 								<GradientGenerator
 									setAttributes={ setAttributes }
 									label={ __( 'Generate Random Gradient', 'highlight-and-share' ) }
 								/>
-							</PanelRow>
+							</div>
 						</>
 					) }
 					{ backgroundType === 'image' && (
 						<>
-							<PanelRow>
+							<div className="has-panel-row">
 								<BackgroundSelector
 									label={ __( 'Background Image', 'highlight-and-share' ) }
 									values={ backgroundImage }
@@ -522,18 +521,18 @@ const HAS_Click_To_Share = ( props ) => {
 										setAttributes( { backgroundImage: newValue } );
 									} }
 								/>
-							</PanelRow>
+							</div>
 						</>
 					) }
 				</PanelBody>
 			) }
-			{ deviceType === 'Desktop' && (
+			{ ( deviceType === 'Desktop' && 'custom' === theme ) && (
 				<PanelBody
 					title={ __( 'Colors', 'highlight-and-share' ) }
 					initialOpen={ false }
 					icon="art"
 				>
-					<PanelRow className="has-color-picker">
+					<div className="has-panel-row has-color-picker">
 						<ColorPickerHover
 							syncTitle={ __( 'Sync Text Colors', 'highlight-and-share' ) }
 							normalColor={ textColor }
@@ -548,8 +547,8 @@ const HAS_Click_To_Share = ( props ) => {
 							key={ 'text-color' }
 							slug={ 'text-color' }
 						/>
-					</PanelRow>
-					<PanelRow className="has-color-picker">
+					</div>
+					<div className="has-panel-row has-color-picker">
 						<ColorPickerHover
 							syncTitle={ __( 'Sync Share Text Colors', 'highlight-and-share' ) }
 							normalColor={ shareTextColor }
@@ -564,8 +563,8 @@ const HAS_Click_To_Share = ( props ) => {
 							key={ 'share-text-color' }
 							slug={ 'share-text-color' }
 						/>
-					</PanelRow>
-					<PanelRow className="has-color-picker">
+					</div>
+					<div className="has-panel-row has-color-picker">
 						<ColorPickerHover
 							syncTitle={ __( 'Sync Icon Colors', 'highlight-and-share' ) }
 							normalColor={ iconColor }
@@ -580,8 +579,8 @@ const HAS_Click_To_Share = ( props ) => {
 							key={ 'icon-color' }
 							slug={ 'icon-color' }
 						/>
-					</PanelRow>
-					<PanelRow className="has-color-picker">
+					</div>
+					<div className="has-panel-row has-color-picker">
 						<ColorPickerHover
 							syncTitle={ __( 'Sync Border Colors', 'highlight-and-share' ) }
 							normalColor={ borderColor }
@@ -596,145 +595,177 @@ const HAS_Click_To_Share = ( props ) => {
 							key={ 'border-color' }
 							slug={ 'border-color' }
 						/>
-					</PanelRow>
+					</div>
 				</PanelBody>
 			) }
-			<PanelBody
-				title={ __( 'Fonts and Typography', 'highlight-and-share' ) }
-				initialOpen={ true }
-				icon={ getDeviceIcon() }
-			>
-				<PanelRow className="has-typography-panel-row">
-					<Typography
-						values={ typographyQuote }
-						screenSize={ deviceType }
-						onValuesChange={ ( formValues ) => {
-							const newTypographyQuote = { ...typographyQuote };
-							newTypographyQuote[ deviceType.toLowerCase() ] = formValues[ deviceType.toLowerCase() ];
-							setAttributes( {
-								typographyQuote: newTypographyQuote,
-							} );
-						} }
-						label={ __( 'Quote Typography', 'highlight-and-share' ) }
-					/>
-				</PanelRow>
-				<PanelRow className="has-typography-panel-row">
-					<Typography
-						values={ typographyShareText }
-						screenSize={ deviceType }
-						onValuesChange={ ( formValues ) => {
-							setAttributes( {
-								typographyShareText: formValues,
-							} );
-						} }
-						label={ __( 'Share Text Typography', 'highlight-and-share' ) }
-					/>
-				</PanelRow>
-			</PanelBody>
-			<PanelBody
-				title={ __( 'Spacing and Border', 'highlight-and-share' ) }
-				initialOpen={ true }
-				icon={ getDeviceIcon() }
-			>
-				<PanelRow className="has-unit-picker">
-					<>
-						<MaxWidth
-							values={ maximumWidth }
+			{ ( 'custom' === theme ) && (
+				<PanelBody
+					title={ __( 'Fonts and Typography', 'highlight-and-share' ) }
+					initialOpen={ true }
+					icon={ getDeviceIcon() }
+				>
+					<div className="has-panel-row has-typography-panel-row">
+						<Typography
+							values={ typographyQuote }
+							screenSize={ deviceType }
+							onValuesChange={ ( formValues ) => {
+								const newTypographyQuote = { ...typographyQuote };
+								newTypographyQuote[ deviceType.toLowerCase() ] = formValues[ deviceType.toLowerCase() ];
+								setAttributes( {
+									typographyQuote: newTypographyQuote,
+								} );
+							} }
+							label={ __( 'Quote Typography', 'highlight-and-share' ) }
+						/>
+					</div>
+					<div className="has-panel-row has-typography-panel-row">
+						<Typography
+							values={ typographyShareText }
+							screenSize={ deviceType }
+							onValuesChange={ ( formValues ) => {
+								setAttributes( {
+									typographyShareText: formValues,
+								} );
+							} }
+							label={ __( 'Share Text Typography', 'highlight-and-share' ) }
+						/>
+					</div>
+				</PanelBody>
+			) }
+			{
+				( 'custom' !== theme ) && (
+					<PanelBody
+						title={ __( 'Maximum Width', 'highlight-and-share' ) }
+						initialOpen={ true }
+						icon={ getDeviceIcon() }
+					>
+						<div className="has-panel-row has-unit-picker">
+							<>
+								<MaxWidth
+									values={ maximumWidth }
+									screenSize={ deviceType }
+									onValuesChange={ ( newValues ) => {
+										const maxValues = { ...maximumWidth };
+										const newValue = newValues[ deviceType.toLowerCase() ];
+										if ( newValue ) {
+											maxValues[ deviceType.toLowerCase() ] = newValue;
+										}
+										setAttributes( {
+											maximumWidth: maxValues,
+										} );
+									} }
+								/>
+							</>
+						</div>
+					</PanelBody>
+				)
+			}
+			{ ( 'custom' === theme ) && (
+				<PanelBody
+					title={ __( 'Spacing and Border', 'highlight-and-share' ) }
+					initialOpen={ true }
+					icon={ getDeviceIcon() }
+				>
+					<div className="has-panel-row has-unit-picker">
+						<>
+							<MaxWidth
+								values={ maximumWidth }
+								screenSize={ deviceType }
+								onValuesChange={ ( newValues ) => {
+									const maxValues = { ...maximumWidth };
+									const newValue = newValues[ deviceType.toLowerCase() ];
+									if ( newValue ) {
+										maxValues[ deviceType.toLowerCase() ] = newValue;
+									}
+									setAttributes( {
+										maximumWidth: maxValues,
+									} );
+								} }
+							/>
+						</>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsControlBlock
+							label={ __( 'Inner Padding', 'highlight-and-share' ) }
+							allowNegatives={ false }
+							values={ paddingSize }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
 							screenSize={ deviceType }
 							onValuesChange={ ( newValues ) => {
-								const maxValues = { ...maximumWidth };
-								const newValue = newValues[ deviceType.toLowerCase() ];
-								if ( newValue ) {
-									maxValues[ deviceType.toLowerCase() ] = newValue;
-								}
+								const newPadding = { ...paddingSize };
+								newPadding[ deviceSize ] = newValues[ deviceSize ];
 								setAttributes( {
-									maximumWidth: maxValues,
+									paddingSize: newPadding,
 								} );
 							} }
 						/>
-					</>
-				</PanelRow>
-				<PanelRow>
-					<DimensionsControlBlock
-						label={ __( 'Inner Padding', 'highlight-and-share' ) }
-						allowNegatives={ false }
-						values={ paddingSize }
-						labelTop={ __( 'Top', 'highlight-and-share' ) }
-						labelRight={ __( 'Right', 'highlight-and-share' ) }
-						labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
-						labelLeft={ __( 'Left', 'highlight-and-share' ) }
-						units={ [ 'px', 'em', 'rem' ] }
-						screenSize={ deviceType }
-						onValuesChange={ ( newValues ) => {
-							const newPadding = { ...paddingSize };
-							newPadding[ deviceSize ] = newValues[ deviceSize ];
-							setAttributes( {
-								paddingSize: newPadding,
-							} );
-						} }
-					/>
-				</PanelRow>
-				<PanelRow>
-					<DimensionsControlBlock
-						label={ __( 'Outer Margin', 'highlight-and-share' ) }
-						allowNegatives={ false }
-						values={ marginSize }
-						labelTop={ __( 'Top', 'highlight-and-share' ) }
-						labelRight={ __( 'Right', 'highlight-and-share' ) }
-						labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
-						labelLeft={ __( 'Left', 'highlight-and-share' ) }
-						units={ [ 'px', 'em', 'rem' ] }
-						screenSize={ deviceType }
-						onValuesChange={ ( newValues ) => {
-							const newMargin = { ...marginSize };
-							newMargin[ deviceSize ] = newValues[ deviceSize ];
-							setAttributes( {
-								marginSize: newMargin,
-							} );
-						} }
-					/>
-				</PanelRow>
-				<PanelRow>
-					<DimensionsControlBlock
-						label={ __( 'Border Width', 'highlight-and-share' ) }
-						allowNegatives={ false }
-						values={ borderWidth }
-						labelTop={ __( 'Top', 'highlight-and-share' ) }
-						labelRight={ __( 'Right', 'highlight-and-share' ) }
-						labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
-						labelLeft={ __( 'Left', 'highlight-and-share' ) }
-						units={ [ 'px', 'em', 'rem' ] }
-						screenSize={ deviceType }
-						onValuesChange={ ( newValues ) => {
-							const newBorderWidth = { ...borderWidth };
-							newBorderWidth[ deviceSize ] = newValues[ deviceSize ];
-							setAttributes( {
-								borderWidth: newBorderWidth,
-							} );
-						} }
-					/>
-				</PanelRow>
-				<PanelRow>
-					<DimensionsControlBlock
-						label={ __( 'Border Radius', 'highlight-and-share' ) }
-						allowNegatives={ false }
-						values={ borderRadiusSize }
-						labelTop={ __( 'Top Left', 'highlight-and-share' ) }
-						labelRight={ __( 'Top Right', 'highlight-and-share' ) }
-						labelBottom={ __( 'Bottom Right', 'highlight-and-share' ) }
-						labelLeft={ __( 'Bottom Left', 'highlight-and-share' ) }
-						units={ [ 'px', 'em', 'rem', '%' ] }
-						screenSize={ deviceType }
-						onValuesChange={ ( newValues ) => {
-							const newBorderRadius = { ...borderRadiusSize };
-							newBorderRadius[ deviceSize ] = newValues[ deviceSize ];
-							setAttributes( {
-								borderRadiusSize: newBorderRadius,
-							} );
-						} }
-					/>
-				</PanelRow>
-			</PanelBody>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsControlBlock
+							label={ __( 'Outer Margin', 'highlight-and-share' ) }
+							allowNegatives={ false }
+							values={ marginSize }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
+							screenSize={ deviceType }
+							onValuesChange={ ( newValues ) => {
+								const newMargin = { ...marginSize };
+								newMargin[ deviceSize ] = newValues[ deviceSize ];
+								setAttributes( {
+									marginSize: newMargin,
+								} );
+							} }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsControlBlock
+							label={ __( 'Border Width', 'highlight-and-share' ) }
+							allowNegatives={ false }
+							values={ borderWidth }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
+							screenSize={ deviceType }
+							onValuesChange={ ( newValues ) => {
+								const newBorderWidth = { ...borderWidth };
+								newBorderWidth[ deviceSize ] = newValues[ deviceSize ];
+								setAttributes( {
+									borderWidth: newBorderWidth,
+								} );
+							} }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsControlBlock
+							label={ __( 'Border Radius', 'highlight-and-share' ) }
+							allowNegatives={ false }
+							values={ borderRadiusSize }
+							labelTop={ __( 'Top Left', 'highlight-and-share' ) }
+							labelRight={ __( 'Top Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom Right', 'highlight-and-share' ) }
+							labelLeft={ __( 'Bottom Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem', '%' ] }
+							screenSize={ deviceType }
+							onValuesChange={ ( newValues ) => {
+								const newBorderRadius = { ...borderRadiusSize };
+								newBorderRadius[ deviceSize ] = newValues[ deviceSize ];
+								setAttributes( {
+									borderRadiusSize: newBorderRadius,
+								} );
+							} }
+						/>
+					</div>
+				</PanelBody>
+			) }
 		</InspectorControls>
 	);
 

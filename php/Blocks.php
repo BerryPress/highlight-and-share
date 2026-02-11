@@ -188,7 +188,9 @@ class Blocks {
 			return $this->get_legacy_frontend( $attributes );
 		}
 		ob_start();
-		?>
+		$theme = sanitize_key( $attributes['theme'] );
+		if ( 'custom' === $theme ) :
+			?>
 		<style>
 			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> {
 				border-style: solid;
@@ -398,7 +400,8 @@ class Blocks {
 			?>
 			/* resume here */
 		</style>
-		<?php
+			<?php
+		endif;
 		if ( ! wp_style_is( 'has-style-frontend-css', 'registered' ) ) {
 			wp_register_style(
 				'has-style-frontend-css',
@@ -414,6 +417,7 @@ class Blocks {
 		$container_classes = array(
 			'has-click-to-share',
 			'align' . $attributes['align'],
+			'has-theme-' . $theme,
 		);
 		if ( 'image' === $attributes['backgroundType'] ) {
 			$container_classes[] = 'has-background-image';

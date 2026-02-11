@@ -26,7 +26,8 @@ const ThemeButton = ( {
 	};
 
 	const popoverContent = () => {
-		return <BlockContent attributes={ attributes } isPreview={ true } />;
+		const newAttributes = { ...attributes, theme: slug };
+		return <BlockContent attributes={ newAttributes } isPreview={ true } />;
 	};
 	return (
 		<>
@@ -34,9 +35,7 @@ const ThemeButton = ( {
 				variant={ 'secondary' }
 				onClick={ ( e ) => {
 					e.preventDefault();
-					const uniqueIdAttribute = { uniqueId };
-					const blockAttributes = { ...attributes, ...uniqueIdAttribute };
-					setAttributes( blockAttributes );
+					setAttributes( { theme: slug } );
 				} }
 				className="has-preset-button"
 				onMouseEnter={ () => handlePopoverOpen( true ) }
