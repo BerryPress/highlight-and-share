@@ -461,6 +461,11 @@
       }
     }
   },
+  "supports": {
+    "anchor": true,
+    "align": true,
+    "className": true
+  },
   "example": {
     "attributes": {
       "backgroundColor": "#8364E8",

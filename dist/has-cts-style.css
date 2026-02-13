@@ -70,7 +70,7 @@
   --has-cta-icon-color: #212529;
   --has-cta-icon-color-hover: #212529;
   --has-cta-inner-padding: 25px 35px;
-  --has-cta-outer-margin: 20px 0;
+  --has-cta-outer-margin: 20px auto;
   --has-cta-maximium-width: 650px;
 }
 
@@ -88,7 +88,7 @@
   --has-cta-icon-color: #333333;
   --has-cta-icon-color-hover: #000000;
   --has-cta-inner-padding: 20px;
-  --has-cta-outer-margin: 20px 0;
+  --has-cta-outer-margin: 20px auto;
 }
 
 .has-click-to-share:not(.has-theme-custom) {
