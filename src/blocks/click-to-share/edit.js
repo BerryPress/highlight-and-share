@@ -111,6 +111,7 @@ const HAS_Click_To_Share = ( props ) => {
 		iconSizeResponsive,
 		icon,
 		theme,
+		themeOverrides,
 	} = attributes;
 
 	useEffect( () => {
@@ -132,7 +133,7 @@ const HAS_Click_To_Share = ( props ) => {
 				setAttributes( { borderColorSync: 'sync' } );
 			}
 			if ( theme === 'custom' ) {
-				setAttributes( { theme: 'light' } );
+				setAttributes( { theme: 'default' } );
 			}
 		}
 		// Set unique ID for block (for styling).
@@ -315,6 +316,58 @@ const HAS_Click_To_Share = ( props ) => {
 		</BlockControls>
 	);
 
+	const getThemeOverridesSidebar = () => {
+		return (
+			<PanelBody
+				title={ __( 'Share Settings', 'highlight-and-share' ) }
+				initialOpen={ true }
+			>
+				<div className="has-panel-row">
+					<ToggleControl
+						label={ __( 'Show Click to Share Text', 'highlight-and-share' ) }
+						checked={ themeOverrides?.showClickToShareText ?? true }
+						onChange={ ( value ) => {
+							setAttributes( { themeOverrides: { ...themeOverrides, showClickToShareText: value } } );
+						} }
+					/>
+				</div>
+				<div className="has-panel-row">
+					<TextControl
+						label={ __( 'Click to Share Text', 'highlight-and-share' ) }
+						value={ themeOverrides?.clickText ?? __( 'Click to share', 'highlight-and-share' ) }
+						onChange={ ( value ) => {
+							setAttributes( { themeOverrides: { ...themeOverrides, clickText: value } } );
+						} }
+					/>
+				</div>
+				<div className="has-panel-row">
+					<ToggleControl
+						label={ __( 'Show Share Icon', 'highlight-and-share' ) }
+						checked={ themeOverrides?.showShareIcon ?? true }
+						onChange={ ( value ) => {
+							setAttributes( { themeOverrides: { ...themeOverrides, showShareIcon: value } } );
+						} }
+					/>
+				</div>
+				<div className="has-panel-row">
+					<RangeControl
+						label={ __( 'Icon Size', 'highlight-and-share' ) }
+						value={ themeOverrides?.iconSize ?? 20 }
+						onChange={ ( value ) => {
+							setAttributes( { themeOverrides: { ...themeOverrides, iconSize: value } } );
+						} }
+					/>
+				</div>
+				<div className="has-panel-row">
+					<IconPicker
+						defaultSvg={ icon }
+						setAttributes={ setAttributes }
+						icons={ iconSvgs }
+					/>
+				</div>
+			</PanelBody>
+		);
+	};
 	const inspectorControls = (
 		<InspectorControls>
 			<PanelBody
@@ -341,76 +394,81 @@ const HAS_Click_To_Share = ( props ) => {
 					</div>
 				</div>
 			</PanelBody>
-			<PanelBody
-				title={ __( 'Share Settings', 'highlight-and-share' ) }
-				initialOpen={ true }
-				icon={ getDeviceIcon() }
-			>
-				<div className="has-panel-row">
-					<ToggleControl
-						label={ __( 'Show Click to Share Text', 'alerts-dlx' ) }
-						checked={ showClickToShareText[ deviceType.toLowerCase() ] }
-						onChange={ ( value ) => {
-							const newShowClickToShare = { ...showClickToShareText };
-							newShowClickToShare[ deviceType.toLowerCase() ] = value;
-							setAttributes( {
-								showClickToShareText: newShowClickToShare,
-							} );
-						} }
-					/>
-				</div>
-				{ showClickToShareText[ deviceType.toLowerCase() ] && deviceType === 'Desktop' && (
+			{
+				getThemeOverridesSidebar()
+			}
+			{ ( 'custom' === theme ) && (
+				<PanelBody
+					title={ __( 'Share Settings', 'highlight-and-share' ) }
+					initialOpen={ true }
+					icon={ getDeviceIcon() }
+				>
 					<div className="has-panel-row">
-						<TextControl
-							label={ __( 'Click to Share Text', 'highlight-and-share' ) }
-							value={ clickText }
+						<ToggleControl
+							label={ __( 'Show Click to Share Text', 'alerts-dlx' ) }
+							checked={ showClickToShareText[ deviceType.toLowerCase() ] }
 							onChange={ ( value ) => {
-								setAttributes( { clickText: value } );
+								const newShowClickToShare = { ...showClickToShareText };
+								newShowClickToShare[ deviceType.toLowerCase() ] = value;
+								setAttributes( {
+									showClickToShareText: newShowClickToShare,
+								} );
 							} }
 						/>
 					</div>
-				) }
-				<div className="has-panel-row">
-					<ToggleControl
-						label={ __( 'Show Share Icon', 'alerts-dlx' ) }
-						checked={ showClickToShareIcon[ deviceType.toLowerCase() ] }
-						onChange={ ( value ) => {
-							const newShowClickToShare = { ...showClickToShareIcon };
-							newShowClickToShare[ deviceType.toLowerCase() ] = value;
-							setAttributes( {
-								showClickToShareIcon: newShowClickToShare,
-							} );
-						} }
-					/>
-				</div>
-				{ showClickToShareIcon[ deviceType.toLowerCase() ] && (
-					<>
-						{ 'Desktop' === deviceType && (
-							<div className="has-panel-row">
-								<IconPicker
-									defaultSvg={ icon }
-									setAttributes={ setAttributes }
-									icons={ iconSvgs }
-								/>
-							</div>
-						) }
-						<div className="has-panel-row has-range-control">
-							<RangeControl
-								label={ __( 'Icon Size', 'highlight-and-share' ) }
-								value={ iconSizeResponsive[ deviceType.toLowerCase() ] }
+					{ showClickToShareText[ deviceType.toLowerCase() ] && deviceType === 'Desktop' && (
+						<div className="has-panel-row">
+							<TextControl
+								label={ __( 'Click to Share Text', 'highlight-and-share' ) }
+								value={ clickText }
 								onChange={ ( value ) => {
-									const newIconSize = { ...iconSizeResponsive };
-									newIconSize[ deviceType.toLowerCase() ] = value;
-									setAttributes( { iconSizeResponsive: newIconSize } );
+									setAttributes( { clickText: value } );
 								} }
-								min={ 10 }
-								max={ 150 }
-								step={ 1 }
 							/>
 						</div>
-					</>
-				) }
-			</PanelBody>
+					) }
+					<div className="has-panel-row">
+						<ToggleControl
+							label={ __( 'Show Share Icon', 'alerts-dlx' ) }
+							checked={ showClickToShareIcon[ deviceType.toLowerCase() ] }
+							onChange={ ( value ) => {
+								const newShowClickToShare = { ...showClickToShareIcon };
+								newShowClickToShare[ deviceType.toLowerCase() ] = value;
+								setAttributes( {
+									showClickToShareIcon: newShowClickToShare,
+								} );
+							} }
+						/>
+					</div>
+					{ showClickToShareIcon[ deviceType.toLowerCase() ] && (
+						<>
+							{ 'Desktop' === deviceType && (
+								<div className="has-panel-row">
+									<IconPicker
+										defaultSvg={ icon }
+										setAttributes={ setAttributes }
+										icons={ iconSvgs }
+									/>
+								</div>
+							) }
+							<div className="has-panel-row has-range-control">
+								<RangeControl
+									label={ __( 'Icon Size', 'highlight-and-share' ) }
+									value={ iconSizeResponsive[ deviceType.toLowerCase() ] }
+									onChange={ ( value ) => {
+										const newIconSize = { ...iconSizeResponsive };
+										newIconSize[ deviceType.toLowerCase() ] = value;
+										setAttributes( { iconSizeResponsive: newIconSize } );
+									} }
+									min={ 10 }
+									max={ 150 }
+									step={ 1 }
+								/>
+							</div>
+						</>
+					) }
+				</PanelBody>
+			) }
 			{ ( deviceType === 'Desktop' && 'custom' === theme ) && (
 				<PanelBody
 					title={ __( 'Background Settings', 'highlight-and-share' ) }
@@ -632,34 +690,6 @@ const HAS_Click_To_Share = ( props ) => {
 					</div>
 				</PanelBody>
 			) }
-			{
-				( 'custom' !== theme ) && (
-					<PanelBody
-						title={ __( 'Maximum Width', 'highlight-and-share' ) }
-						initialOpen={ true }
-						icon={ getDeviceIcon() }
-					>
-						<div className="has-panel-row has-unit-picker">
-							<>
-								<MaxWidth
-									values={ maximumWidth }
-									screenSize={ deviceType }
-									onValuesChange={ ( newValues ) => {
-										const maxValues = { ...maximumWidth };
-										const newValue = newValues[ deviceType.toLowerCase() ];
-										if ( newValue ) {
-											maxValues[ deviceType.toLowerCase() ] = newValue;
-										}
-										setAttributes( {
-											maximumWidth: maxValues,
-										} );
-									} }
-								/>
-							</>
-						</div>
-					</PanelBody>
-				)
-			}
 			{ ( 'custom' === theme ) && (
 				<PanelBody
 					title={ __( 'Spacing and Border', 'highlight-and-share' ) }

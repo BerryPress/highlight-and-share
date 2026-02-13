@@ -4461,7 +4461,7 @@ const Watch = ({ control, names, render, }) => render(useWatch({ control, name: 
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","title":"Click to Share","apiVersion":3,"name":"has/click-to-share","category":"widgets","icon":"<svg aria-hidden=\'true\' focusable=\'false\' data-prefix=\'fas\' data-icon=\'share-alt\' className=\'svg-inline--fa fa-share-alt fa-w-14\' role=\'img\' xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 448 512\'><path fill=\'currentColor\' d=\'M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z\'></path></svg>","description":"An easy-to-use Click to Share block.","keywords":["click","social","tweet","better","twitter","facebook","share","quote","blockquote"],"version":"1.0.0","textdomain":"highlight-and-share","attributes":{"uniqueId":{"type":"string","default":""},"theme":{"type":"string","default":"custom"},"showClickToShare":{"type":"number","default":true},"showIcon":{"type":"number","default":true},"iconSize":{"type":"number","default":-1},"iconSizeResponsive":{"type":"object","default":{"desktop":-1,"tablet":-1,"mobile":-1}},"customShareText":{"type":"string","default":""},"shareText":{"type":"string","default":""},"shareTextInner":{"type":"array","default":[]},"backgroundColor":{"type":"string","default":"#FFFFFF"},"backgroundColorHover":{"type":"string","default":"#FFFFFF"},"backgroundColorSync":{"type":"string","default":"normal"},"backgroundType":{"type":"string","default":"solid"},"backgroundGradient":{"type":"string","default":""},"backgroundGradientHover":{"type":"string","default":""},"backgroundGradientSync":{"type":"string","default":"normal"},"backgroundImage":{"type":"object","default":{"url":"","id":0,"backgroundColor":"#000000","backgroundSize":"cover","backgroundPosition":"center center","backgroundRepeat":"no-repeat","backgroundOpacity":1,"backgroundOpacityHover":1}},"icon":{"type":"string","default":"<svg aria-hidden=\'true\'  role=\'img\' xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 448 512\'><path fill=\'currentColor\' d=\'M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z\'></path></svg>"},"iconColor":{"type":"string","default":"#000000"},"iconColorHover":{"type":"string","default":"#000000"},"iconColorSync":{"type":"string","default":"normal"},"textColor":{"type":"string","default":"#000000"},"textColorHover":{"type":"string","default":"#000000"},"textColorSync":{"type":"string","default":"normal"},"shareTextColor":{"type":"string","default":"#000000"},"shareTextColorHover":{"type":"string","default":"#000000"},"shareTextColorSync":{"type":"string","default":"normal"},"fontSize":{"type":"integer","default":24},"clickShareFontSize":{"type":"integer","default":24},"clickText":{"type":"string","default":"Click to Share"},"padding":{"type":"integer","default":-1},"border":{"type":"integer","default":-1},"borderRadius":{"type":"integer","default":0},"borderColor":{"type":"string","default":"#000000"},"borderColorHover":{"type":"string","default":"#000000"},"borderColorSync":{"type":"string","default":"normal"},"fontWeight":{"type":"string","default":"400"},"maxWidth":{"type":"string","default":"-1"},"maxWidthUnit":{"type":"string","default":"-1"},"maximumWidth":{"type":"object","default":{"mobile":{"width":"","unit":"px"},"tablet":{"width":"","unit":"px"},"desktop":{"width":"850","unit":"px"}}},"showClickToShareText":{"type":"object","default":{"mobile":true,"tablet":true,"desktop":true}},"showClickToShareIcon":{"type":"object","default":{"mobile":true,"tablet":true,"desktop":true}},"align":{"type":"string","default":"center"},"alignment":{"type":"string","default":"center"},"marginLeft":{"type":"integer","default":0},"marginRight":{"type":"integer","default":0},"marginBottom":{"type":"integer","default":0},"marginTop":{"type":"integer","default":0},"paddingSize":{"type":"object","default":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":null,"unitSync":null},"desktop":{"top":"20","right":"20","bottom":"20","left":"20","unit":"px","unitSync":true}}},"marginSize":{"type":"object","default":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"20","right":"","bottom":"20","left":"","unit":"px","unitSync":true}}},"borderWidth":{"type":"object","default":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":null,"unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":null,"unitSync":null},"desktop":{"top":"1","right":"1","bottom":"1","left":"1","unit":"px","unitSync":true}}},"borderRadiusSize":{"type":"object","default":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":true}}},"typographyQuote":{"type":"object","default":{"mobile":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontFallback":"","fontType":"web"},"tablet":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontFallback":"","fontType":"web"},"desktop":{"fontFamily":"Arial","fontFamilySlug":"arial","fontSize":"24","fontSizeUnit":"px","fontWeight":"normal","lineHeight":"1.3","lineHeightUnit":"em","textTransform":"none","letterSpacing":"0","letterSpacingUnit":"px","fontFallback":"serif","fontType":"web"}}},"typographyShareText":{"type":"object","default":{"mobile":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"},"tablet":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"},"desktop":{"fontFamily":"Arial","fontFamilySlug":"arial","fontSize":"24","fontSizeUnit":"px","fontWeight":"normal","lineHeight":"1.3","lineHeightUnit":"em","textTransform":"none","letterSpacing":"0","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"}}}},"supports":{"anchor":true,"align":true,"className":true},"example":{"attributes":{"backgroundColor":"#8364E8","backgroundColorHover":"#714EE5","backgroundType":"solid","iconColor":"#FFFFFF","iconColorHover":"#FFFFFF","textColor":"#FFFFFF","textColorHover":"#FFFFFF","shareTextColor":"#FFFFFF","shareTextColorHover":"#FFFFFF","clickText":"Click to share","paddingSize":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"20","right":"20","bottom":"20","left":"20","unit":"px","unitSync":true}},"marginSize":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"20","right":"","bottom":"20","left":"","unit":"px","unitSync":true}},"borderWidth":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"1","right":"1","bottom":"1","left":"1","unit":"px","unitSync":true}},"borderRadiusSize":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"4","right":"4","bottom":"4","left":"4","unit":"px","unitSync":true}},"typographyQuote":{"mobile":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontFallback":"","fontType":"web"},"tablet":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontFallback":"","fontType":"web"},"desktop":{"fontFamily":"Arial","fontFamilySlug":"arial","fontSize":"24","fontSizeUnit":"px","fontWeight":"normal","lineHeight":"1.3","lineHeightUnit":"em","textTransform":"none","letterSpacing":"0","letterSpacingUnit":"px","fontFallback":"serif","fontType":"web"}},"typographyShareText":{"mobile":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"},"tablet":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"},"desktop":{"fontFamily":"Arial","fontFamilySlug":"arial","fontSize":"24","fontSizeUnit":"px","fontWeight":"normal","lineHeight":"1.3","lineHeightUnit":"em","textTransform":"none","letterSpacing":"0","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"}}},"innerBlocks":[{"name":"core/paragraph","attributes":{"content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}}]},"editorScript":"has-click-to-share","editorStyle":"has-style-admin-css","style":"has-style-frontend-css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","title":"Click to Share","apiVersion":3,"name":"has/click-to-share","category":"widgets","icon":"<svg aria-hidden=\'true\' focusable=\'false\' data-prefix=\'fas\' data-icon=\'share-alt\' className=\'svg-inline--fa fa-share-alt fa-w-14\' role=\'img\' xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 448 512\'><path fill=\'currentColor\' d=\'M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z\'></path></svg>","description":"An easy-to-use Click to Share block.","keywords":["click","social","tweet","better","twitter","facebook","share","quote","blockquote"],"version":"1.0.0","textdomain":"highlight-and-share","attributes":{"uniqueId":{"type":"string","default":""},"theme":{"type":"string","default":"custom"},"themeOverrides":{"type":"object","default":{}},"showClickToShare":{"type":"number","default":true},"showIcon":{"type":"number","default":true},"iconSize":{"type":"number","default":-1},"iconSizeResponsive":{"type":"object","default":{"desktop":-1,"tablet":-1,"mobile":-1}},"customShareText":{"type":"string","default":""},"shareText":{"type":"string","default":""},"shareTextInner":{"type":"array","default":[]},"backgroundColor":{"type":"string","default":"#FFFFFF"},"backgroundColorHover":{"type":"string","default":"#FFFFFF"},"backgroundColorSync":{"type":"string","default":"normal"},"backgroundType":{"type":"string","default":"solid"},"backgroundGradient":{"type":"string","default":""},"backgroundGradientHover":{"type":"string","default":""},"backgroundGradientSync":{"type":"string","default":"normal"},"backgroundImage":{"type":"object","default":{"url":"","id":0,"backgroundColor":"#000000","backgroundSize":"cover","backgroundPosition":"center center","backgroundRepeat":"no-repeat","backgroundOpacity":1,"backgroundOpacityHover":1}},"icon":{"type":"string","default":"<svg aria-hidden=\'true\'  role=\'img\' xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 448 512\'><path fill=\'currentColor\' d=\'M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z\'></path></svg>"},"iconColor":{"type":"string","default":"#000000"},"iconColorHover":{"type":"string","default":"#000000"},"iconColorSync":{"type":"string","default":"normal"},"textColor":{"type":"string","default":"#000000"},"textColorHover":{"type":"string","default":"#000000"},"textColorSync":{"type":"string","default":"normal"},"shareTextColor":{"type":"string","default":"#000000"},"shareTextColorHover":{"type":"string","default":"#000000"},"shareTextColorSync":{"type":"string","default":"normal"},"fontSize":{"type":"integer","default":24},"clickShareFontSize":{"type":"integer","default":24},"clickText":{"type":"string","default":"Click to Share"},"padding":{"type":"integer","default":-1},"border":{"type":"integer","default":-1},"borderRadius":{"type":"integer","default":0},"borderColor":{"type":"string","default":"#000000"},"borderColorHover":{"type":"string","default":"#000000"},"borderColorSync":{"type":"string","default":"normal"},"fontWeight":{"type":"string","default":"400"},"maxWidth":{"type":"string","default":"-1"},"maxWidthUnit":{"type":"string","default":"-1"},"maximumWidth":{"type":"object","default":{"mobile":{"width":"","unit":"px"},"tablet":{"width":"","unit":"px"},"desktop":{"width":"850","unit":"px"}}},"showClickToShareText":{"type":"object","default":{"mobile":true,"tablet":true,"desktop":true}},"showClickToShareIcon":{"type":"object","default":{"mobile":true,"tablet":true,"desktop":true}},"align":{"type":"string","default":"center"},"alignment":{"type":"string","default":"center"},"marginLeft":{"type":"integer","default":0},"marginRight":{"type":"integer","default":0},"marginBottom":{"type":"integer","default":0},"marginTop":{"type":"integer","default":0},"paddingSize":{"type":"object","default":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":null,"unitSync":null},"desktop":{"top":"20","right":"20","bottom":"20","left":"20","unit":"px","unitSync":true}}},"marginSize":{"type":"object","default":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"20","right":"","bottom":"20","left":"","unit":"px","unitSync":true}}},"borderWidth":{"type":"object","default":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":null,"unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":null,"unitSync":null},"desktop":{"top":"1","right":"1","bottom":"1","left":"1","unit":"px","unitSync":true}}},"borderRadiusSize":{"type":"object","default":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":true}}},"typographyQuote":{"type":"object","default":{"mobile":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontFallback":"","fontType":"web"},"tablet":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontFallback":"","fontType":"web"},"desktop":{"fontFamily":"Arial","fontFamilySlug":"arial","fontSize":"24","fontSizeUnit":"px","fontWeight":"normal","lineHeight":"1.3","lineHeightUnit":"em","textTransform":"none","letterSpacing":"0","letterSpacingUnit":"px","fontFallback":"serif","fontType":"web"}}},"typographyShareText":{"type":"object","default":{"mobile":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"},"tablet":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"},"desktop":{"fontFamily":"Arial","fontFamilySlug":"arial","fontSize":"24","fontSizeUnit":"px","fontWeight":"normal","lineHeight":"1.3","lineHeightUnit":"em","textTransform":"none","letterSpacing":"0","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"}}}},"example":{"attributes":{"backgroundColor":"#8364E8","backgroundColorHover":"#714EE5","backgroundType":"solid","iconColor":"#FFFFFF","iconColorHover":"#FFFFFF","textColor":"#FFFFFF","textColorHover":"#FFFFFF","shareTextColor":"#FFFFFF","shareTextColorHover":"#FFFFFF","clickText":"Click to share","paddingSize":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"20","right":"20","bottom":"20","left":"20","unit":"px","unitSync":true}},"marginSize":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"20","right":"","bottom":"20","left":"","unit":"px","unitSync":true}},"borderWidth":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"1","right":"1","bottom":"1","left":"1","unit":"px","unitSync":true}},"borderRadiusSize":{"mobile":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"tablet":{"top":"","right":"","bottom":"","left":"","unit":"px","unitSync":null},"desktop":{"top":"4","right":"4","bottom":"4","left":"4","unit":"px","unitSync":true}},"typographyQuote":{"mobile":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontFallback":"","fontType":"web"},"tablet":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontFallback":"","fontType":"web"},"desktop":{"fontFamily":"Arial","fontFamilySlug":"arial","fontSize":"24","fontSizeUnit":"px","fontWeight":"normal","lineHeight":"1.3","lineHeightUnit":"em","textTransform":"none","letterSpacing":"0","letterSpacingUnit":"px","fontFallback":"serif","fontType":"web"}},"typographyShareText":{"mobile":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"},"tablet":{"fontFamily":"","fontFamilySlug":"","fontSize":"","fontSizeUnit":"px","fontWeight":"","lineHeight":"","lineHeightUnit":"em","textTransform":"","letterSpacing":"","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"},"desktop":{"fontFamily":"Arial","fontFamilySlug":"arial","fontSize":"24","fontSizeUnit":"px","fontWeight":"normal","lineHeight":"1.3","lineHeightUnit":"em","textTransform":"none","letterSpacing":"0","letterSpacingUnit":"px","fontType":"web","fontFallback":"sans-serif"}}},"innerBlocks":[{"name":"core/paragraph","attributes":{"content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}}]},"editorScript":"has-click-to-share","editorStyle":"has-style-admin-css","style":"has-style-frontend-css"}');
 
 /***/ }),
 
@@ -5801,7 +5801,8 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     showClickToShareIcon = attributes.showClickToShareIcon,
     iconSizeResponsive = attributes.iconSizeResponsive,
     icon = attributes.icon,
-    theme = attributes.theme;
+    theme = attributes.theme,
+    themeOverrides = attributes.themeOverrides;
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     // If this is the first time inserting the block.
     if ('' === uniqueId) {
@@ -5832,7 +5833,7 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
       }
       if (theme === 'custom') {
         setAttributes({
-          theme: 'light'
+          theme: 'default'
         });
       }
     }
@@ -6011,6 +6012,67 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
       });
     }
   }))));
+  var getThemeOverridesSidebar = function getThemeOverridesSidebar() {
+    var _themeOverrides$showC, _themeOverrides$click, _themeOverrides$showS, _themeOverrides$iconS;
+    return /*#__PURE__*/React.createElement(PanelBody, {
+      title: __('Share Settings', 'highlight-and-share'),
+      initialOpen: true
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "has-panel-row"
+    }, /*#__PURE__*/React.createElement(ToggleControl, {
+      label: __('Show Click to Share Text', 'highlight-and-share'),
+      checked: (_themeOverrides$showC = themeOverrides === null || themeOverrides === void 0 ? void 0 : themeOverrides.showClickToShareText) !== null && _themeOverrides$showC !== void 0 ? _themeOverrides$showC : true,
+      onChange: function onChange(value) {
+        setAttributes({
+          themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), {}, {
+            showClickToShareText: value
+          })
+        });
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "has-panel-row"
+    }, /*#__PURE__*/React.createElement(TextControl, {
+      label: __('Click to Share Text', 'highlight-and-share'),
+      value: (_themeOverrides$click = themeOverrides === null || themeOverrides === void 0 ? void 0 : themeOverrides.clickText) !== null && _themeOverrides$click !== void 0 ? _themeOverrides$click : __('Click to share', 'highlight-and-share'),
+      onChange: function onChange(value) {
+        setAttributes({
+          themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), {}, {
+            clickText: value
+          })
+        });
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "has-panel-row"
+    }, /*#__PURE__*/React.createElement(ToggleControl, {
+      label: __('Show Share Icon', 'highlight-and-share'),
+      checked: (_themeOverrides$showS = themeOverrides === null || themeOverrides === void 0 ? void 0 : themeOverrides.showShareIcon) !== null && _themeOverrides$showS !== void 0 ? _themeOverrides$showS : true,
+      onChange: function onChange(value) {
+        setAttributes({
+          themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), {}, {
+            showShareIcon: value
+          })
+        });
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "has-panel-row"
+    }, /*#__PURE__*/React.createElement(RangeControl, {
+      label: __('Icon Size', 'highlight-and-share'),
+      value: (_themeOverrides$iconS = themeOverrides === null || themeOverrides === void 0 ? void 0 : themeOverrides.iconSize) !== null && _themeOverrides$iconS !== void 0 ? _themeOverrides$iconS : 20,
+      onChange: function onChange(value) {
+        setAttributes({
+          themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), {}, {
+            iconSize: value
+          })
+        });
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "has-panel-row"
+    }, /*#__PURE__*/React.createElement(_components_IconPicker__WEBPACK_IMPORTED_MODULE_14__["default"], {
+      defaultSvg: icon,
+      setAttributes: setAttributes,
+      icons: _components_Icons_shareSvgs__WEBPACK_IMPORTED_MODULE_15__["default"]
+    })));
+  };
   var inspectorControls = /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
     title: __('Theme', 'highlight-and-share'),
     initialOpen: true,
@@ -6029,7 +6091,7 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
       attributes: attributes,
       uniqueId: uniqueId
     });
-  }))))), /*#__PURE__*/React.createElement(PanelBody, {
+  }))))), getThemeOverridesSidebar(), 'custom' === theme && /*#__PURE__*/React.createElement(PanelBody, {
     title: __('Share Settings', 'highlight-and-share'),
     initialOpen: true,
     icon: getDeviceIcon()
@@ -6298,26 +6360,7 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
       });
     },
     label: __('Share Text Typography', 'highlight-and-share')
-  }))), 'custom' !== theme && /*#__PURE__*/React.createElement(PanelBody, {
-    title: __('Maximum Width', 'highlight-and-share'),
-    initialOpen: true,
-    icon: getDeviceIcon()
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "has-panel-row has-unit-picker"
-  }, /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_components_MaxWidth__WEBPACK_IMPORTED_MODULE_13__["default"], {
-    values: maximumWidth,
-    screenSize: deviceType,
-    onValuesChange: function onValuesChange(newValues) {
-      var maxValues = _objectSpread({}, maximumWidth);
-      var newValue = newValues[deviceType.toLowerCase()];
-      if (newValue) {
-        maxValues[deviceType.toLowerCase()] = newValue;
-      }
-      setAttributes({
-        maximumWidth: maxValues
-      });
-    }
-  })))), 'custom' === theme && /*#__PURE__*/React.createElement(PanelBody, {
+  }))), 'custom' === theme && /*#__PURE__*/React.createElement(PanelBody, {
     title: __('Spacing and Border', 'highlight-and-share'),
     initialOpen: true,
     icon: getDeviceIcon()
@@ -6443,32 +6486,11 @@ __webpack_require__.r(__webpack_exports__);
  * All built-in themes. Label is translated in the editor via __().
  */
 var themes = [{
-  id: 'blue',
-  label: 'Blue Theme'
-}, {
-  id: 'dark',
-  label: 'Dark Theme'
-}, {
-  id: 'green',
-  label: 'Green Theme'
-}, {
-  id: 'light',
-  label: 'Light Theme'
-}, {
-  id: 'orange',
-  label: 'Orange Theme'
-}, {
-  id: 'pink',
-  label: 'Pink Theme'
-}, {
-  id: 'purple',
-  label: 'Purple Theme'
-}, {
-  id: 'red',
-  label: 'Red Theme'
+  id: 'default',
+  label: 'Default Theme'
 }, {
   id: 'custom',
-  label: 'Custom Theme'
+  label: 'Legacy Theme'
 }];
 
 /***/ }),

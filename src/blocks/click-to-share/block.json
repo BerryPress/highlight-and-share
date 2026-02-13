@@ -28,6 +28,11 @@
 			"type": "string",
 			"default": "custom"
 		},
+		"themeOverrides": {
+			"type": "object",
+			"default": {
+			}
+		},
 		"showClickToShare": {
 			"type": "number",
 			"default": true
@@ -456,11 +461,6 @@
 				}
 			}
 		}
-	},
-	"supports": {
-		"anchor": true,
-		"align": true,
-		"className": true
 	},
 	"example": {
 		"attributes": {

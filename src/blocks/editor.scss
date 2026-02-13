@@ -405,6 +405,7 @@
 	}
 }
 .has-panel-row {
+	margin-top: 12px;
 	margin-bottom: 12px;
 
 	&:last-child {
@@ -483,7 +484,7 @@
 
 	.components-button-group {
 		display: grid;
-		grid-template-columns: 50% 50%;
+		grid-template-columns: auto auto;
 		grid-gap: 15px;
 		row-gap: 15px;
 
