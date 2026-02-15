@@ -6826,7 +6826,7 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
       attributes: attributes,
       uniqueId: uniqueId
     });
-  })))), /*#__PURE__*/React.createElement("div", {
+  })))), 'custom' !== theme && Object.keys(attributes.themeOverrides).length > 0 && /*#__PURE__*/React.createElement("div", {
     className: "has-panel-row"
   }, /*#__PURE__*/React.createElement(Button, {
     variant: "tertiary",
@@ -7308,7 +7308,16 @@ __webpack_require__.r(__webpack_exports__);
  */
 var themes = [{
   id: 'default',
-  label: 'Default Theme'
+  label: 'Light Theme'
+}, {
+  id: 'dark',
+  label: 'Dark Theme'
+}, {
+  id: 'bold',
+  label: 'Bold Theme'
+}, {
+  id: 'royal',
+  label: 'Royal Theme'
 }, {
   id: 'custom',
   label: 'Legacy Theme'

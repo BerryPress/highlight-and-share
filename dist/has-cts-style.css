@@ -79,7 +79,7 @@
   --has-cta-icon-color-hover: #212529;
   --has-cta-inner-padding: 25px 35px;
   --has-cta-outer-margin: 20px auto;
-  --has-cta-maximum-width: 650px;
+  --has-cta-maximum-width: 850px;
 }
 
 .has-theme-light {
@@ -96,6 +96,61 @@
   --has-cta-icon-color: #333333;
   --has-cta-icon-color-hover: #000000;
   --has-cta-inner-padding: 20px;
+  --has-cta-outer-margin: 20px auto;
+}
+
+.has-theme-dark {
+  --has-cta-background-color: #333333;
+  --has-cta-background-color-hover: #111111;
+  --has-cta-quote-text-color: #FFFFFF;
+  --has-cta-quote-text-color-hover: #FFFFFF;
+  --has-cta-cta-text-color: #FFFFFF;
+  --has-cta-cta-text-color-hover: #FFFFFF;
+  --has-cta-border-color: #444444;
+  --has-cta-border-color-hover: #555555;
+  --has-cta-border-width: 1px;
+  --has-cta-border-radius: 0.25em;
+  --has-cta-icon-color: #FFFFFF;
+  --has-cta-icon-color-hover: #FFFFFF;
+  --has-cta-inner-padding: 25px 35px;
+  --has-cta-outer-margin: 20px auto;
+}
+
+.has-theme-bold {
+  --has-cta-background-color: #e97e1b;
+  --has-cta-background-color-hover: #f47905;
+  --has-cta-quote-text-color: #FFFFFF;
+  --has-cta-quote-text-color-hover: #FFFFFF;
+  --has-cta-cta-text-color: #FFFFFF;
+  --has-cta-cta-text-color-hover: #FFFFFF;
+  --has-cta-border-color: rgba( 0, 0, 0, 0.85 );
+  --has-cta-border-color-hover: rgba( 0, 0, 0, 0.85 );
+  --has-cta-border-width: 1px;
+  --has-cta-border-radius: 0.25em;
+  --has-cta-icon-color: #FFFFFF;
+  --has-cta-icon-color-hover: #FFFFFF;
+  --has-cta-inner-padding: 25px 35px;
+  --has-cta-outer-margin: 20px auto;
+  --has-cta-cta-font-size: 1.75em;
+  --has-cta-cta-line-height: 1.5;
+  --has-cta-quote-font-size: 1.75em;
+  --has-cta-quote-line-height: 1.5;
+}
+
+.has-theme-royal {
+  --has-cta-background-color: #8364E8;
+  --has-cta-background-color-hover: #6f4ae6;
+  --has-cta-quote-text-color: #FFFFFF;
+  --has-cta-quote-text-color-hover: #FFFFFF;
+  --has-cta-cta-text-color: #FFFFFF;
+  --has-cta-cta-text-color-hover: #FFFFFF;
+  --has-cta-border-color: #8364E8;
+  --has-cta-border-color-hover: #6f4ae6;
+  --has-cta-border-width: 1px;
+  --has-cta-border-radius: 0.25em;
+  --has-cta-icon-color: #FFFFFF;
+  --has-cta-icon-color-hover: #FFFFFF;
+  --has-cta-inner-padding: 25px 35px;
   --has-cta-outer-margin: 20px auto;
 }
 

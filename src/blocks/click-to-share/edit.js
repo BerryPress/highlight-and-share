@@ -489,16 +489,20 @@ const HAS_Click_To_Share = ( props ) => {
 						</ButtonGroup>
 					</div>
 				</div>
-				<div className="has-panel-row">
-					<Button
-						variant="tertiary"
-						isDestructive={ true }
-						label={ __( 'Clear Theme Overrides', 'highlight-and-share' ) }
-						onClick={ () => setAttributes( { themeOverrides: {} } ) }
-					>
-						{ __( 'Clear Theme Overrides', 'highlight-and-share' ) }
-					</Button>
-				</div>
+				{
+					( 'custom' !== theme && Object.keys( attributes.themeOverrides ).length > 0 ) && (
+						<div className="has-panel-row">
+							<Button
+								variant="tertiary"
+								isDestructive={ true }
+								label={ __( 'Clear Theme Overrides', 'highlight-and-share' ) }
+								onClick={ () => setAttributes( { themeOverrides: {} } ) }
+							>
+								{ __( 'Clear Theme Overrides', 'highlight-and-share' ) }
+							</Button>
+						</div>
+					)
+				}
 			</PanelBody>
 			{ 'custom' !== theme && getThemeOverridesSidebar() }
 			{ 'custom' === theme && (

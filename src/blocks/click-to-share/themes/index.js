@@ -6,6 +6,9 @@
  * All built-in themes. Label is translated in the editor via __().
  */
 export const themes = [
-	{ id: 'default', label: 'Default Theme' },
+	{ id: 'default', label: 'Light Theme' },
+	{ id: 'dark', label: 'Dark Theme' },
+	{ id: 'bold', label: 'Bold Theme' },
+	{ id: 'royal', label: 'Royal Theme' },
 	{ id: 'custom', label: 'Legacy Theme' },
 ];
