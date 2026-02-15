@@ -144,6 +144,7 @@ Please report security bugs found in the source code of the undefined plugin thr
 * New (Stats): The plugin fires synthetic events per social network, allowing for listeners and third-party integrations.
 * New (Stats): Filters `has_stats_enabled` and `has_stats_enhanced` control behavior. Stats are enabled by default and just show social network and click type (selection, cta, highlight, headline). `has_stats_enhanced` can be set to true to send page url, title, and text selection to stats tracking service.
 * New (Sharing Block): Theme system with built-in themes (Light, Dark, Bold, Royal, Legacy) replacing presets.
+* New (Sharing Block): Removing third-party locally-hosted fonts in favor of third-party solutions, reducing the plugin bundle size by 75%.
 * New (Sharing Block): Block variations let you insert a pre-themed Click to Share block (Light, Dark, Bold, Royal) from the inserter.
 * New (Sharing Block): Theme overrides for color, typography, and dimensions in the block editor for the new themes.
 * New (Sharing Block): Quick shortcut to the parent block from child blocks for quicker access to block settings.
