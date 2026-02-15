@@ -414,7 +414,10 @@ class Blocks {
 		}
 
 		// Output theme override styles for non-custom themes (only when values exist).
-		$styles_to_print = array( 'has-style-frontend-css' );
+		$styles_to_print = array();
+		if ( ! wp_style_is( 'has-style-frontend-css', 'done' ) ) {
+			$styles_to_print[] = 'has-style-frontend-css';
+		}
 		if ( 'custom' !== $theme ) {
 			$override_styles = $this->build_theme_override_styles(
 				$attributes,
@@ -422,19 +425,15 @@ class Blocks {
 			);
 			if ( '' !== $override_styles ) {
 				$override_handle = 'has-cts-theme-overrides-' . sanitize_key( $attributes['uniqueId'] );
-				wp_register_style( $override_handle, false );
-				wp_add_inline_style( $override_handle, $override_styles );
-				$styles_to_print[] = $override_handle;
+				if ( ! wp_style_is( $override_handle, 'done' ) ) {
+					wp_register_style( $override_handle, false );
+					wp_add_inline_style( $override_handle, $override_styles );
+					$styles_to_print[] = $override_handle;
+				}
 			}
 		}
 
-		add_action(
-			'wp_footer',
-			function () use ( $styles_to_print ) {
-				wp_print_styles( $styles_to_print );
-			},
-			100
-		);
+		wp_print_styles( $styles_to_print );
 		?>
 		<?php
 		$container_classes = array(
