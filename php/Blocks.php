@@ -165,8 +165,6 @@ class Blocks {
 				'colorPalette'                      => Themes::get_default_theme_colors(),
 				'customFonts'                       => Functions::get_typography_fonts(),
 				'cssFolder'                         => esc_url( functions::get_plugin_url( '/dist/' ) ),
-				'blockPresetsNonceRetrieve'         => wp_create_nonce( 'has_load_presets' ),
-				'blockPresetsNonceSave'             => wp_create_nonce( 'has_save_presets' ),
 				'canEditOthersPosts'                => current_user_can( 'edit_others_posts' ),
 				'hasHiddenColorSyncNotice'          => (bool) get_user_meta( get_current_user_id(), 'has_hidden_color_sync_notice', true ),
 				'hasHiddenColorSyncNoticeSaveNonce' => wp_create_nonce( 'has_hidden_color_sync_notice_save_' . $current_user_id ),

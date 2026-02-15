@@ -882,3 +882,21 @@ button.components-button.has-icon-preview-button {
 		margin-right: 8px;
 	}
 }
+
+
+.has-edit-share-settings-link {
+	position: absolute;
+	background: #FFF !important;
+	color: #333 !important;
+	padding: 4px 8px !important;
+	bottom: 4px;
+	left: 4px;
+	z-index: 10;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+	&:hover {
+		background: #333 !important;
+		color: #FFF !important;
+		transition: all 0.2s ease-in-out;
+	}
+}

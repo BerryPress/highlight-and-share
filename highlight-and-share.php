@@ -143,8 +143,4 @@ function highlightshare_instantiate() {
 	// Emails.
 	$emails = new Emails();
 	$emails->run();
-
-	// Block presets.
-	$block_presets = new Presets();
-	$block_presets->run();
 }

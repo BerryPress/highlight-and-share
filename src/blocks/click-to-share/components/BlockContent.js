@@ -2,14 +2,31 @@ import { useEffect, useState, useRef } from 'react';
 import classnames from 'classnames';
 const { useInnerBlocksProps, store } = wp.blockEditor;
 const { __ } = wp.i18n;
-import { useDispatch } from '@wordpress/data';
-
+import { useSelect, useDispatch, dispatch } from '@wordpress/data';
+import { Button, Tooltip } from '@wordpress/components';
 import { rawHandler } from '@wordpress/blocks';
 
 import GetStyles from './GetStyles';
 import useDeviceType from '../../../react/Hooks/useDeviceType';
 import sanitizeSVG from '../../../react/Utils/sanitize-svg';
 import { useThemeOverrides } from '../hooks/useThemeOverrides';
+
+const openBlockInspector = () => {
+	// Post/page editor (most common).
+	const editPost = dispatch( 'core/edit-post' );
+
+	if ( editPost?.openGeneralSidebar ) {
+		editPost.openGeneralSidebar( 'edit-post/block' );
+		return;
+	}
+
+	// Fallback (some editors use the interface store).
+	const iface = dispatch( 'core/interface' );
+	if ( iface?.enableComplementaryArea ) {
+		// Scope is the editor store key; area is the sidebar.
+		iface.enableComplementaryArea( 'core/edit-post', 'edit-post/block' );
+	}
+};
 
 const BlockContent = ( props ) => {
 	const { attributes, setAttributes, isPreview, clientId } = props;
@@ -21,6 +38,24 @@ const BlockContent = ( props ) => {
 	const { replaceInnerBlocks } =
 		useDispatch( store );
 
+	const { selectBlock } = useDispatch( 'core/block-editor' );
+
+	const selectedBlockClientId = useSelect(
+		( select ) => select( 'core/block-editor' ).getSelectedBlockClientId(),
+		[]
+	);
+
+	const selectedBlockRootId = useSelect(
+		( select ) =>
+			selectedBlockClientId
+				? select( 'core/block-editor' ).getBlockRootClientId( selectedBlockClientId )
+				: null,
+		[ selectedBlockClientId ]
+	);
+
+	const isInnerBlockSelected =
+		selectedBlockClientId && selectedBlockRootId === clientId;
+
 	const { getThemeOverride } = useThemeOverrides( attributes, setAttributes );
 
 	const innerBlockProps = useInnerBlocksProps(
@@ -30,8 +65,8 @@ const BlockContent = ( props ) => {
 		},
 		{
 			allowedBlocks: [ 'core/paragraph' ],
-			template: [ [ 'core/paragraph', { placeholder: '' } ] ],
-			templateInsertUpdatesSelection: true,
+			template: [ [ 'core/paragraph', { placeholder: __( 'Add your share text here…', 'highlight-and-share' ) } ] ],
+			templateInsertUpdatesSelection: false,
 		}
 	);
 	const [ isBlockPreview ] = useState( isPreview ?? false );
@@ -83,9 +118,27 @@ const BlockContent = ( props ) => {
 					'has-background-color': 'solid' === backgroundType,
 					'has-background-gradient': 'gradient' === backgroundType,
 					'has-background-image': 'image' === backgroundType,
+					'has-click-to-share--edit-link-container': isInnerBlockSelected && ! isBlockPreview,
 				} ) }
 				id={ uniqueId }
 			>
+				{ isInnerBlockSelected && ! isBlockPreview && (
+					<Tooltip
+						text={ __( 'Edit Click to Share Settings and View Block Sidebar Options', 'highlight-and-share' ) }
+					>
+						<Button
+							variant="tertiary"
+							className="has-edit-share-settings-link"
+							onClick={ () => {
+								openBlockInspector();
+								selectBlock( clientId );
+							} }
+							aria-label={ __( 'Edit Share Settings', 'highlight-and-share' ) }
+						>
+							{ __( 'Edit Share Settings', 'highlight-and-share' ) }
+						</Button>
+					</Tooltip>
+				) }
 				<div className="has-click-to-share-wrapper">
 
 					{ isBlockPreview && (

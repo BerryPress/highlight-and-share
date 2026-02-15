@@ -232,6 +232,7 @@
   justify-content: flex-end;
   align-items: center;
   margin-top: 1.5em;
+  text-align: right;
 }
 .has-click-to-share-cta svg {
   margin-left: 4px;
@@ -1228,6 +1229,23 @@ button.components-button.has-icon-preview-button {
 button.components-button.has-icon-preview-button .has-icon-preview-button-label {
   display: inline-block;
   margin-right: 8px;
+}
+
+.has-edit-share-settings-link {
+  position: absolute;
+  background: #FFF !important;
+  color: #333 !important;
+  padding: 4px 8px !important;
+  bottom: 4px;
+  left: 4px;
+  z-index: 10;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.has-edit-share-settings-link:hover {
+  background: #333 !important;
+  color: #FFF !important;
+  transition: all 0.2s ease-in-out;
 }
 
 /*# sourceMappingURL=has-cts-editor.css.map*/

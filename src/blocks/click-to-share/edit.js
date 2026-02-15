@@ -16,7 +16,6 @@ import BackgroundSelector from '../../react/Components/BackgroundSelector';
 import ThemeButton from './components/ThemeButton';
 import { themes } from './themes';
 import BlockContent from './components/BlockContent';
-import CustomPresets from './components/CustomPresets';
 import MaxWidth from './components/MaxWidth';
 import IconPicker from './components/IconPicker';
 import iconSvgsLegacy from './components/Icons/shareSvgsLegacy';

@@ -4454,6 +4454,98 @@ const Watch = ({ control, names, render, }) => render(useWatch({ control, name: 
 
 /***/ }),
 
+/***/ "./src/blocks/click-to-share/block-filters.js":
+/*!****************************************************!*\
+  !*** ./src/blocks/click-to-share/block-filters.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__);
+/**
+ * Block filters: adds "Edit Share Settings" to inner block toolbar.
+ * When a core/paragraph inside has/click-to-share is selected, shows a toolbar button
+ * that switches selection to the parent block.
+ */
+
+
+
+
+
+
+var hasIcon = /*#__PURE__*/React.createElement("svg", {
+  "aria-hidden": "true",
+  focusable: "false",
+  "data-prefix": "fas",
+  "data-icon": "share-alt",
+  className: "svg-inline--fa fa-share-alt fa-w-14",
+  role: "img",
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 448 512"
+}, /*#__PURE__*/React.createElement("path", {
+  fill: "#F68105",
+  d: "M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"
+}));
+var openBlockInspector = function openBlockInspector() {
+  // Post/page editor (most common).
+  var editPost = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)('core/edit-post');
+  if (editPost !== null && editPost !== void 0 && editPost.openGeneralSidebar) {
+    editPost.openGeneralSidebar('edit-post/block');
+    return;
+  }
+
+  // Fallback (some editors use the interface store).
+  var iface = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)('core/interface');
+  if (iface !== null && iface !== void 0 && iface.enableComplementaryArea) {
+    // Scope is the editor store key; area is the sidebar.
+    iface.enableComplementaryArea('core/edit-post', 'edit-post/block');
+  }
+};
+var withEditShareSettingsToolbar = function withEditShareSettingsToolbar(BlockEdit) {
+  return function (props) {
+    var name = props.name,
+      clientId = props.clientId;
+    if ('core/paragraph' !== name) {
+      return /*#__PURE__*/React.createElement(BlockEdit, props);
+    }
+    var rootClientId = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(function (select) {
+      return select('core/block-editor').getBlockRootClientId(clientId);
+    }, [clientId]);
+    var rootBlock = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(function (select) {
+      return rootClientId ? select('core/block-editor').getBlock(rootClientId) : null;
+    }, [rootClientId]);
+    var _useDispatch = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useDispatch)('core/block-editor'),
+      selectBlock = _useDispatch.selectBlock;
+    if (!rootBlock || rootBlock.name !== 'has/click-to-share') {
+      return /*#__PURE__*/React.createElement(BlockEdit, props);
+    }
+    var handleEditShareSettings = function handleEditShareSettings() {
+      openBlockInspector();
+      selectBlock(rootClientId);
+    };
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockControls, {
+      group: "default"
+    }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ToolbarGroup, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ToolbarButton, {
+      icon: hasIcon,
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Back to Click to Share Settings', 'highlight-and-share'),
+      onClick: handleEditShareSettings
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Settings', 'highlight-and-share')))), /*#__PURE__*/React.createElement(BlockEdit, props));
+  };
+};
+(0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__.addFilter)('editor.BlockEdit', 'has/click-to-share/edit-share-settings-toolbar', withEditShareSettingsToolbar);
+
+/***/ }),
+
 /***/ "./src/blocks/click-to-share/block.json":
 /*!**********************************************!*\
   !*** ./src/blocks/click-to-share/block.json ***!
@@ -4482,12 +4574,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _GetStyles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GetStyles */ "./src/blocks/click-to-share/components/GetStyles.js");
-/* harmony import */ var _react_Hooks_useDeviceType__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../react/Hooks/useDeviceType */ "./src/react/Hooks/useDeviceType.js");
-/* harmony import */ var _react_Utils_sanitize_svg__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../react/Utils/sanitize-svg */ "./src/react/Utils/sanitize-svg/index.js");
-/* harmony import */ var _hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../hooks/useThemeOverrides */ "./src/blocks/click-to-share/hooks/useThemeOverrides.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _GetStyles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GetStyles */ "./src/blocks/click-to-share/components/GetStyles.js");
+/* harmony import */ var _react_Hooks_useDeviceType__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../react/Hooks/useDeviceType */ "./src/react/Hooks/useDeviceType.js");
+/* harmony import */ var _react_Utils_sanitize_svg__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../react/Utils/sanitize-svg */ "./src/react/Utils/sanitize-svg/index.js");
+/* harmony import */ var _hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../hooks/useThemeOverrides */ "./src/blocks/click-to-share/hooks/useThemeOverrides.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -4506,18 +4600,43 @@ var __ = wp.i18n.__;
 
 
 
+
+var openBlockInspector = function openBlockInspector() {
+  // Post/page editor (most common).
+  var editPost = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('core/edit-post');
+  if (editPost !== null && editPost !== void 0 && editPost.openGeneralSidebar) {
+    editPost.openGeneralSidebar('edit-post/block');
+    return;
+  }
+
+  // Fallback (some editors use the interface store).
+  var iface = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('core/interface');
+  if (iface !== null && iface !== void 0 && iface.enableComplementaryArea) {
+    // Scope is the editor store key; area is the sidebar.
+    iface.enableComplementaryArea('core/edit-post', 'edit-post/block');
+  }
+};
 var BlockContent = function BlockContent(props) {
   var attributes = props.attributes,
     setAttributes = props.setAttributes,
     isPreview = props.isPreview,
     clientId = props.clientId;
-  var _useDeviceType = (0,_react_Hooks_useDeviceType__WEBPACK_IMPORTED_MODULE_5__["default"])('Desktop'),
+  var _useDeviceType = (0,_react_Hooks_useDeviceType__WEBPACK_IMPORTED_MODULE_6__["default"])('Desktop'),
     _useDeviceType2 = _slicedToArray(_useDeviceType, 1),
     deviceType = _useDeviceType2[0];
   var innerBlocksRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var _useDispatch = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useDispatch)(store),
     replaceInnerBlocks = _useDispatch.replaceInnerBlocks;
-  var _useThemeOverrides = (0,_hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_7__.useThemeOverrides)(attributes, setAttributes),
+  var _useDispatch2 = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useDispatch)('core/block-editor'),
+    selectBlock = _useDispatch2.selectBlock;
+  var selectedBlockClientId = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(function (select) {
+    return select('core/block-editor').getSelectedBlockClientId();
+  }, []);
+  var selectedBlockRootId = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(function (select) {
+    return selectedBlockClientId ? select('core/block-editor').getBlockRootClientId(selectedBlockClientId) : null;
+  }, [selectedBlockClientId]);
+  var isInnerBlockSelected = selectedBlockClientId && selectedBlockRootId === clientId;
+  var _useThemeOverrides = (0,_hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_8__.useThemeOverrides)(attributes, setAttributes),
     getThemeOverride = _useThemeOverrides.getThemeOverride;
   var innerBlockProps = useInnerBlocksProps({
     className: 'has-click-to-share-text has-click-to-share__share-text',
@@ -4525,9 +4644,9 @@ var BlockContent = function BlockContent(props) {
   }, {
     allowedBlocks: ['core/paragraph'],
     template: [['core/paragraph', {
-      placeholder: ''
+      placeholder: __('Add your share text here…', 'highlight-and-share')
     }]],
-    templateInsertUpdatesSelection: true
+    templateInsertUpdatesSelection: false
   });
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(isPreview !== null && isPreview !== void 0 ? isPreview : false),
     _useState2 = _slicedToArray(_useState, 1),
@@ -4555,7 +4674,7 @@ var BlockContent = function BlockContent(props) {
     // Port shareText attribute to use innerBlocks instead.
     if (shareText !== '' && null !== innerBlocksRef.current && !isBlockPreview) {
       // Convert text over to blocks.
-      var richTextConvertedToBlocks = (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.rawHandler)({
+      var richTextConvertedToBlocks = (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.rawHandler)({
         HTML: shareText
       });
       replaceInnerBlocks(clientId, richTextConvertedToBlocks);
@@ -4564,17 +4683,28 @@ var BlockContent = function BlockContent(props) {
       });
     }
   }, [innerBlocksRef]);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_GetStyles__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_GetStyles__WEBPACK_IMPORTED_MODULE_5__["default"], {
     attributes: attributes,
     isPreview: isBlockPreview
   }), /*#__PURE__*/React.createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('has-click-to-share', "has-theme-".concat(theme), {
       'has-background-color': 'solid' === backgroundType,
       'has-background-gradient': 'gradient' === backgroundType,
-      'has-background-image': 'image' === backgroundType
+      'has-background-image': 'image' === backgroundType,
+      'has-click-to-share--edit-link-container': isInnerBlockSelected && !isBlockPreview
     }),
     id: uniqueId
-  }, /*#__PURE__*/React.createElement("div", {
+  }, isInnerBlockSelected && !isBlockPreview && /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Tooltip, {
+    text: __('Edit Click to Share Settings and View Block Sidebar Options', 'highlight-and-share')
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
+    variant: "tertiary",
+    className: "has-edit-share-settings-link",
+    onClick: function onClick() {
+      openBlockInspector();
+      selectBlock(clientId);
+    },
+    "aria-label": __('Edit Share Settings', 'highlight-and-share')
+  }, __('Edit Share Settings', 'highlight-and-share'))), /*#__PURE__*/React.createElement("div", {
     className: "has-click-to-share-wrapper"
   }, isBlockPreview && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "has-click-to-share-text has-click-to-share__share-text"
@@ -4585,7 +4715,7 @@ var BlockContent = function BlockContent(props) {
   }, resolvedClickText, " "), (resolvedShowIcon || isBlockPreview) && resolvedIcon && /*#__PURE__*/React.createElement("span", {
     className: "has-click-to-share-cta-svg has-click-to-share-icon-block-editor",
     dangerouslySetInnerHTML: {
-      __html: (0,_react_Utils_sanitize_svg__WEBPACK_IMPORTED_MODULE_6__["default"])(resolvedIcon)
+      __html: (0,_react_Utils_sanitize_svg__WEBPACK_IMPORTED_MODULE_7__["default"])(resolvedIcon)
     }
   })))));
 };
@@ -6364,7 +6494,6 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 /* Preset Imports */
-
 
 
 
@@ -10666,6 +10795,17 @@ module.exports = window["wp"]["element"];
 
 /***/ }),
 
+/***/ "@wordpress/hooks":
+/*!*******************************!*\
+  !*** external ["wp","hooks"] ***!
+  \*******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["hooks"];
+
+/***/ }),
+
 /***/ "@wordpress/i18n":
 /*!******************************!*\
   !*** external ["wp","i18n"] ***!
@@ -10768,7 +10908,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   name: () => (/* binding */ name)
 /* harmony export */ });
 /* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./block.json */ "./src/blocks/click-to-share/block.json");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/blocks/click-to-share/edit.js");
+/* harmony import */ var _block_filters__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./block-filters */ "./src/blocks/click-to-share/block-filters.js");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/blocks/click-to-share/edit.js");
 function _objectDestructuringEmpty(t) { if (null == t) throw new TypeError("Cannot destructure " + t); }
 
 var _wp$blocks = wp.blocks,
@@ -10781,6 +10922,7 @@ var _wp$blockEditor = wp.blockEditor,
 var _wp$richText = wp.richText,
   create = _wp$richText.create,
   toHTMLString = _wp$richText.toHTMLString;
+
 
 // Import JS
 
@@ -10800,7 +10942,7 @@ var hasIcon = /*#__PURE__*/React.createElement("svg", {
 var name = 'has/click-to-share';
 registerBlockType(_block_json__WEBPACK_IMPORTED_MODULE_0__, {
   icon: hasIcon,
-  edit: _edit__WEBPACK_IMPORTED_MODULE_1__["default"],
+  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
   // Render via PHP
   save: function save() {
     return /*#__PURE__*/React.createElement(InnerBlocks.Content, null);
