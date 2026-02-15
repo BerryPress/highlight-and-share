@@ -595,6 +595,80 @@ class Blocks {
 			}
 		}
 
+		// Typography overrides (quote and shareText).
+		$type_pairs = array(
+			array(
+				'quoteFontFamily',
+				'--has-cta-quote-font-family',
+				function ( $override_value ) {
+						return $override_value ? sprintf( '"%s"', esc_attr( $override_value ) ) : null;
+				},
+			),
+			array(
+				'quoteFontSize',
+				'--has-cta-quote-font-size',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['quoteFontSizeUnit'] ) && '' !== $overrides['quoteFontSizeUnit'] ? $overrides['quoteFontSizeUnit'] : 'px' ) : null;
+				},
+			),
+			array( 'quoteFontWeight', '--has-cta-quote-font-weight', null ),
+			array(
+				'quoteLineHeight',
+				'--has-cta-quote-line-height',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['quoteLineHeightUnit'] ) && '' !== $overrides['quoteLineHeightUnit'] ? $overrides['quoteLineHeightUnit'] : 'em' ) : null;
+				},
+			),
+			array(
+				'quoteLetterSpacing',
+				'--has-cta-quote-letter-spacing',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['quoteLetterSpacingUnit'] ) && '' !== $overrides['quoteLetterSpacingUnit'] ? $overrides['quoteLetterSpacingUnit'] : 'px' ) : null;
+				},
+			),
+			array( 'quoteTextTransform', '--has-cta-quote-text-transform', null ),
+			array(
+				'shareTextFontFamily',
+				'--has-cta-cta-font-family',
+				function ( $override_value ) {
+						return $override_value ? sprintf( '"%s"', esc_attr( $override_value ) ) : null;
+				},
+			),
+			array(
+				'shareTextFontSize',
+				'--has-cta-cta-font-size',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['shareTextFontSizeUnit'] ) && '' !== $overrides['shareTextFontSizeUnit'] ? $overrides['shareTextFontSizeUnit'] : 'px' ) : null;
+				},
+			),
+			array( 'shareTextFontWeight', '--has-cta-cta-font-weight', null ),
+			array(
+				'shareTextLineHeight',
+				'--has-cta-cta-line-height',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['shareTextLineHeightUnit'] ) && '' !== $overrides['shareTextLineHeightUnit'] ? $overrides['shareTextLineHeightUnit'] : 'em' ) : null;
+				},
+			),
+			array(
+				'shareTextLetterSpacing',
+				'--has-cta-cta-letter-spacing',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['shareTextLetterSpacingUnit'] ) && '' !== $overrides['shareTextLetterSpacingUnit'] ? $overrides['shareTextLetterSpacingUnit'] : 'px' ) : null;
+				},
+			),
+			array( 'shareTextTextTransform', '--has-cta-cta-text-transform', null ),
+		);
+		foreach ( $type_pairs as $pair ) {
+			$key    = $pair[0];
+			$var    = $pair[1];
+			$format = $pair[2];
+			$val    = isset( $overrides[ $key ] ) ? $overrides[ $key ] : null;
+			$out    = $format ? call_user_func( $format, $val, $overrides ) : ( ( null !== $val && '' !== $val ) ? esc_attr( $val ) : null );
+			if ( null !== $out && '' !== $out ) {
+				$custom_prop_rules[] = sprintf( '%s: %s;', $var, $out );
+			}
+		}
+
 		$cta_values  = $this->get_cta_values( $attributes );
 		$extra_rules = array();
 

@@ -47,8 +47,14 @@
 	--has-cta-cta-font-family: 'Arial', Helvetica, sans-serif;
 	--has-cta-quote-font-size: 1.3em;
 	--has-cta-quote-line-height: 1.5;
+	--has-cta-quote-font-weight: 400;
+	--has-cta-quote-letter-spacing: 0;
+	--has-cta-quote-text-transform: none;
 	--has-cta-cta-font-size: 1.3em;
 	--has-cta-cta-line-height: 1.5;
+	--has-cta-cta-font-weight: 400;
+	--has-cta-cta-letter-spacing: 0;
+	--has-cta-cta-text-transform: none;
 	--has-cta-background-color: #f8f9fa;
 	--has-cta-background-color-hover: #e9ecef;
 	--has-cta-quote-text-color: #212529;
@@ -116,8 +122,10 @@
 		color: var(--has-cta-cta-text-color);
 		font-family: var(--has-cta-cta-font-family);
 		font-size: var(--has-cta-cta-font-size);
+		font-weight: var(--has-cta-cta-font-weight);
 		line-height: var(--has-cta-cta-line-height);
-		text-transform: none;
+		letter-spacing: var(--has-cta-cta-letter-spacing);
+		text-transform: var(--has-cta-cta-text-transform);
 	}
 	&:hover .has-click-to-share-cta {
 		color: var(--has-cta-cta-text-color-hover);
@@ -138,9 +146,10 @@
 		color: var(--has-cta-quote-text-color);
 		font-family: var(--has-cta-quote-font-family);
 		font-size: var(--has-cta-quote-font-size);
+		font-weight: var(--has-cta-quote-font-weight);
 		line-height: var(--has-cta-quote-line-height);
-		letter-spacing: 0;
-		text-transform: none;
+		letter-spacing: var(--has-cta-quote-letter-spacing);
+		text-transform: var(--has-cta-quote-text-transform);
 	}
 	.has-click-to-share-text p {
 		font-size: var(--has-cta-quote-font-size);

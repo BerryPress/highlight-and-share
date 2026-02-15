@@ -22,6 +22,7 @@ import IconPicker from './components/IconPicker';
 import iconSvgsLegacy from './components/Icons/shareSvgsLegacy';
 import iconSvgs from './components/Icons/shareSvgs';
 import ThemeColors from './components/ThemeColors';
+import TypographyOverrides from '../../react/Components/TypographyOverrides';
 import { useThemeOverrides } from './hooks/useThemeOverrides';
 
 const { __ } = wp.i18n;
@@ -374,6 +375,27 @@ const HAS_Click_To_Share = ( props ) => {
 						/>
 					</div>
 				</PanelBody>
+				<PanelBody
+					title={ __( 'Typography', 'highlight-and-share' ) }
+					initialOpen={ true }
+				>
+					<div className="has-panel-row has-typography-panel-row">
+						<TypographyOverrides
+							variant="quote"
+							label={ __( 'Quote Typography', 'highlight-and-share' ) }
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</div>
+					<div className="has-panel-row has-typography-panel-row">
+						<TypographyOverrides
+							variant="shareText"
+							label={ __( 'Share Text Typography', 'highlight-and-share' ) }
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</div>
+				</PanelBody>
 			</>
 		);
 	};
@@ -403,7 +425,7 @@ const HAS_Click_To_Share = ( props ) => {
 					</div>
 				</div>
 			</PanelBody>
-			{ getThemeOverridesSidebar() }
+			{ 'custom' !== theme && getThemeOverridesSidebar() }
 			{ 'custom' === theme && (
 				<PanelBody
 					title={ __( 'Share Settings', 'highlight-and-share' ) }

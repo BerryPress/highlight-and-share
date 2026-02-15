@@ -4984,6 +4984,79 @@ var GetStyles = function GetStyles(props) {
       var _display = overrides.showShareIcon ? 'inline-flex' : 'none';
       extraRules.push("#".concat(uniqueId, ".has-click-to-share .has-click-to-share-cta-svg { display: ").concat(_display, "; }"));
     }
+
+    // Typography overrides (quote and shareText).
+    var typeMapping = [{
+      key: 'quoteFontFamily',
+      "var": '--has-cta-quote-font-family',
+      format: function format(v) {
+        return v ? "\"".concat(v, "\"") : null;
+      }
+    }, {
+      key: 'quoteFontSize',
+      "var": '--has-cta-quote-font-size',
+      format: function format(v, o) {
+        return v !== undefined && v !== '' ? v + (o.quoteFontSizeUnit || 'px') : null;
+      }
+    }, {
+      key: 'quoteFontWeight',
+      "var": '--has-cta-quote-font-weight'
+    }, {
+      key: 'quoteLineHeight',
+      "var": '--has-cta-quote-line-height',
+      format: function format(v, o) {
+        return v !== undefined && v !== '' ? v + (o.quoteLineHeightUnit || 'em') : null;
+      }
+    }, {
+      key: 'quoteLetterSpacing',
+      "var": '--has-cta-quote-letter-spacing',
+      format: function format(v, o) {
+        return v !== undefined && v !== '' ? v + (o.quoteLetterSpacingUnit || 'px') : null;
+      }
+    }, {
+      key: 'quoteTextTransform',
+      "var": '--has-cta-quote-text-transform'
+    }, {
+      key: 'shareTextFontFamily',
+      "var": '--has-cta-cta-font-family',
+      format: function format(v) {
+        return v ? "\"".concat(v, "\"") : null;
+      }
+    }, {
+      key: 'shareTextFontSize',
+      "var": '--has-cta-cta-font-size',
+      format: function format(v, o) {
+        return v !== undefined && v !== '' ? v + (o.shareTextFontSizeUnit || 'px') : null;
+      }
+    }, {
+      key: 'shareTextFontWeight',
+      "var": '--has-cta-cta-font-weight'
+    }, {
+      key: 'shareTextLineHeight',
+      "var": '--has-cta-cta-line-height',
+      format: function format(v, o) {
+        return v !== undefined && v !== '' ? v + (o.shareTextLineHeightUnit || 'em') : null;
+      }
+    }, {
+      key: 'shareTextLetterSpacing',
+      "var": '--has-cta-cta-letter-spacing',
+      format: function format(v, o) {
+        return v !== undefined && v !== '' ? v + (o.shareTextLetterSpacingUnit || 'px') : null;
+      }
+    }, {
+      key: 'shareTextTextTransform',
+      "var": '--has-cta-cta-text-transform'
+    }];
+    typeMapping.forEach(function (_ref) {
+      var key = _ref.key,
+        cssVar = _ref["var"],
+        format = _ref.format;
+      var val = overrides[key];
+      var formatted = format ? format(val, overrides) : val;
+      if (formatted !== undefined && formatted !== null && formatted !== '') {
+        customPropRules.push("".concat(cssVar, ": ").concat(formatted, ";"));
+      }
+    });
     if (customPropRules.length > 0) {
       nonCustomStyles += "\n\t\t#".concat(uniqueId, ".has-click-to-share {\n\t\t\t").concat(customPropRules.join('\n\t\t\t'), "\n\t\t}\n\t\t");
     }
@@ -6123,7 +6196,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Icons_shareSvgsLegacy__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/Icons/shareSvgsLegacy */ "./src/blocks/click-to-share/components/Icons/shareSvgsLegacy.js");
 /* harmony import */ var _components_Icons_shareSvgs__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/Icons/shareSvgs */ "./src/blocks/click-to-share/components/Icons/shareSvgs.js");
 /* harmony import */ var _components_ThemeColors__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/ThemeColors */ "./src/blocks/click-to-share/components/ThemeColors/index.js");
-/* harmony import */ var _hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./hooks/useThemeOverrides */ "./src/blocks/click-to-share/hooks/useThemeOverrides.js");
+/* harmony import */ var _react_Components_TypographyOverrides__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../react/Components/TypographyOverrides */ "./src/react/Components/TypographyOverrides/index.js");
+/* harmony import */ var _hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./hooks/useThemeOverrides */ "./src/blocks/click-to-share/hooks/useThemeOverrides.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -6151,6 +6225,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 /* Preset Imports */
+
 
 
 
@@ -6255,7 +6330,7 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     iconSizeResponsive = attributes.iconSizeResponsive,
     icon = attributes.icon,
     theme = attributes.theme;
-  var _useThemeOverrides = (0,_hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_18__.useThemeOverrides)(attributes, setAttributes),
+  var _useThemeOverrides = (0,_hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_19__.useThemeOverrides)(attributes, setAttributes),
     getThemeOverride = _useThemeOverrides.getThemeOverride,
     setThemeOverride = _useThemeOverrides.setThemeOverride;
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
@@ -6517,6 +6592,23 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     }, /*#__PURE__*/React.createElement(_components_ThemeColors__WEBPACK_IMPORTED_MODULE_17__["default"], {
       attributes: attributes,
       setAttributes: setAttributes
+    }))), /*#__PURE__*/React.createElement(PanelBody, {
+      title: __('Typography', 'highlight-and-share'),
+      initialOpen: true
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "has-panel-row has-typography-panel-row"
+    }, /*#__PURE__*/React.createElement(_react_Components_TypographyOverrides__WEBPACK_IMPORTED_MODULE_18__["default"], {
+      variant: "quote",
+      label: __('Quote Typography', 'highlight-and-share'),
+      attributes: attributes,
+      setAttributes: setAttributes
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "has-panel-row has-typography-panel-row"
+    }, /*#__PURE__*/React.createElement(_react_Components_TypographyOverrides__WEBPACK_IMPORTED_MODULE_18__["default"], {
+      variant: "shareText",
+      label: __('Share Text Typography', 'highlight-and-share'),
+      attributes: attributes,
+      setAttributes: setAttributes
     }))));
   };
   var inspectorControls = /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
@@ -6537,7 +6629,7 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
       attributes: attributes,
       uniqueId: uniqueId
     });
-  }))))), getThemeOverridesSidebar(), 'custom' === theme && /*#__PURE__*/React.createElement(PanelBody, {
+  }))))), 'custom' !== theme && getThemeOverridesSidebar(), 'custom' === theme && /*#__PURE__*/React.createElement(PanelBody, {
     title: __('Share Settings', 'highlight-and-share'),
     initialOpen: true,
     icon: getDeviceIcon()
@@ -8878,6 +8970,328 @@ var Typography = function Typography(props) {
   }, getPopoverContent())));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Typography);
+
+/***/ }),
+
+/***/ "./src/react/Components/TypographyOverrides/index.js":
+/*!***********************************************************!*\
+  !*** ./src/react/Components/TypographyOverrides/index.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _fonts_fonts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../fonts/fonts */ "./src/fonts/fonts.js");
+/* harmony import */ var _blocks_click_to_share_hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../blocks/click-to-share/hooks/useThemeOverrides */ "./src/blocks/click-to-share/hooks/useThemeOverrides.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+/**
+ * TypographyOverrides – typography controls for theme overrides (no device support).
+ * Stores values in themeOverrides with flat keys (quote* or shareText*).
+ */
+
+
+
+
+
+
+var TEXT_TRANSFORM_OPTIONS = [{
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('None', 'highlight-and-share'),
+  value: 'none'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Uppercase', 'highlight-and-share'),
+  value: 'uppercase'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Lowercase', 'highlight-and-share'),
+  value: 'lowercase'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Capitalize', 'highlight-and-share'),
+  value: 'capitalize'
+}];
+var FONT_WEIGHT_OPTIONS = [{
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('100', 'highlight-and-share'),
+  value: '100'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('200', 'highlight-and-share'),
+  value: '200'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('300', 'highlight-and-share'),
+  value: '300'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('400', 'highlight-and-share'),
+  value: '400'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('500', 'highlight-and-share'),
+  value: '500'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('600', 'highlight-and-share'),
+  value: '600'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('700', 'highlight-and-share'),
+  value: '700'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('800', 'highlight-and-share'),
+  value: '800'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('900', 'highlight-and-share'),
+  value: '900'
+}];
+var UNIT_OPTIONS = ['px', 'em', 'rem'];
+var TypographyOverrides = function TypographyOverrides(props) {
+  var variant = props.variant,
+    attributes = props.attributes,
+    setAttributes = props.setAttributes,
+    label = props.label;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    fontSizeUnitPopoverVisible = _useState2[0],
+    setFontSizeUnitPopoverVisible = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState4 = _slicedToArray(_useState3, 2),
+    fontSizeUnitPopoverAnchor = _useState4[0],
+    setFontSizeUnitPopoverAnchor = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    lineHeightUnitPopoverVisible = _useState6[0],
+    setLineHeightUnitPopoverVisible = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState8 = _slicedToArray(_useState7, 2),
+    lineHeightUnitPopoverAnchor = _useState8[0],
+    setLineHeightUnitPopoverAnchor = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState0 = _slicedToArray(_useState9, 2),
+    letterSpacingUnitPopoverVisible = _useState0[0],
+    setLetterSpacingUnitPopoverVisible = _useState0[1];
+  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState10 = _slicedToArray(_useState1, 2),
+    letterSpacingUnitPopoverAnchor = _useState10[0],
+    setLetterSpacingUnitPopoverAnchor = _useState10[1];
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState12 = _slicedToArray(_useState11, 2),
+    fontSettingsPopoverAnchor = _useState12[0],
+    setFontSettingsPopoverAnchor = _useState12[1];
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState14 = _slicedToArray(_useState13, 2),
+    isVisible = _useState14[0],
+    setIsVisible = _useState14[1];
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    isToggled = _useState16[0],
+    setIsToggled = _useState16[1];
+  var _useThemeOverrides = (0,_blocks_click_to_share_hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_4__.useThemeOverrides)(attributes, setAttributes),
+    getThemeOverride = _useThemeOverrides.getThemeOverride,
+    setThemeOverride = _useThemeOverrides.setThemeOverride;
+  var prefix = variant === 'shareText' ? 'shareText' : 'quote';
+  var getVal = function getVal(key) {
+    var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    return getThemeOverride(prefix + key, defaultValue);
+  };
+  var updateVal = function updateVal(key, value) {
+    return setThemeOverride(prefix + key, value);
+  };
+  var toggleClose = function toggleClose() {
+    setIsToggled(true);
+    setIsVisible(!isVisible);
+    setTimeout(function () {
+      return setIsToggled(false);
+    }, 500);
+  };
+  var getFonts = function getFonts() {
+    var customFonts = has_gutenberg.customFonts || [];
+    var fonts = [];
+    var mergedFamilies = [];
+    Object.values(_fonts_fonts__WEBPACK_IMPORTED_MODULE_3__["default"]).forEach(function (fontFamily) {
+      fonts.push({
+        label: fontFamily.name,
+        value: fontFamily.slug
+      });
+      mergedFamilies.push({
+        family: fontFamily.family,
+        slug: fontFamily.slug,
+        fallback: fontFamily.fallback,
+        type: fontFamily.type
+      });
+    });
+    customFonts.forEach(function (font) {
+      fonts.unshift({
+        label: font.label,
+        value: font.value
+      });
+      mergedFamilies.push({
+        family: font.label,
+        slug: font.value,
+        fallback: 'serif',
+        type: 'custom'
+      });
+    });
+    fonts.unshift({
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select a Font', 'highlight-and-share'),
+      value: ''
+    });
+    var uniqueFonts = fonts.filter(function (font, i, arr) {
+      return i === arr.findIndex(function (t) {
+        return t.value === font.value;
+      });
+    });
+    var uniqueMerged = mergedFamilies.filter(function (f, i, arr) {
+      return i === arr.findIndex(function (t) {
+        return t.slug === f.slug;
+      });
+    });
+    return {
+      fonts: uniqueFonts,
+      mergedFamilies: uniqueMerged
+    };
+  };
+  var _getFonts = getFonts(),
+    fonts = _getFonts.fonts,
+    mergedFamilies = _getFonts.mergedFamilies;
+  var handleFontFamilyChange = function handleFontFamilyChange(newValue) {
+    var _attributes$themeOver;
+    var themeOverrides = (_attributes$themeOver = attributes.themeOverrides) !== null && _attributes$themeOver !== void 0 ? _attributes$themeOver : {};
+    var updates = _defineProperty({}, prefix + 'FontFamilySlug', newValue);
+    var font = mergedFamilies.find(function (f) {
+      return f.slug === newValue;
+    });
+    if (font) {
+      updates[prefix + 'FontFamily'] = font.family;
+      updates[prefix + 'FontFallback'] = font.fallback;
+      updates[prefix + 'FontType'] = font.type;
+    }
+    setAttributes({
+      themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), updates)
+    });
+  };
+  var renderUnitPicker = function renderUnitPicker(unitKey, popoverVisible, setPopoverVisible, anchorRef, setAnchorRef) {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+      variant: "secondary",
+      onClick: function onClick() {
+        return setPopoverVisible(!popoverVisible);
+      },
+      ref: setAnchorRef
+    }, getVal(unitKey, 'px')), popoverVisible && /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Popover, {
+      className: "has-component-font-unit-picker",
+      noArrow: true,
+      anchor: anchorRef,
+      onClose: function onClose() {
+        return setPopoverVisible(false);
+      }
+    }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ButtonGroup, null, UNIT_OPTIONS.map(function (u) {
+      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+        key: u,
+        isPrimary: getVal(unitKey, 'px') === u,
+        onClick: function onClick() {
+          updateVal(unitKey, u);
+          setPopoverVisible(false);
+        }
+      }, u);
+    }))));
+  };
+  return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.BaseControl, {
+    className: "has-typography-picker-wrapper"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-component-label"
+  }, label), /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-component-settings"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    variant: "secondary",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Font Settings', 'highlight-and-share'),
+    icon: "admin-settings",
+    onClick: function onClick() {
+      return isToggled ? setIsToggled(false) : setIsVisible(!isVisible);
+    },
+    ref: setFontSettingsPopoverAnchor
+  }), isVisible && /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Popover, {
+    className: "has-component-typography-popup",
+    noArrow: false,
+    anchor: fontSettingsPopoverAnchor,
+    placement: "left",
+    offset: 10,
+    onClose: toggleClose
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.BaseControl, {
+    className: "has-typography-picker"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-picker__row has-typography-picker__row__col-full"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-picker__row_item"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Font Family', 'highlight-and-share'),
+    value: getVal('FontFamilySlug', 'arial') || 'arial',
+    options: fonts,
+    onChange: handleFontFamilyChange
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-picker__row has-typography-picker__row__col-full"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-picker__row_item"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Text Transform', 'highlight-and-share'),
+    value: getVal('TextTransform', 'none'),
+    options: TEXT_TRANSFORM_OPTIONS,
+    onChange: function onChange(v) {
+      return updateVal('TextTransform', v);
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-picker__row has-typography-picker__row__col-2"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-picker__row_item has-units"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Font Size', 'highlight-and-share'),
+    value: getVal('FontSize', ''),
+    onChange: function onChange(v) {
+      return updateVal('FontSize', v);
+    },
+    type: "number"
+  }), renderUnitPicker('FontSizeUnit', fontSizeUnitPopoverVisible, setFontSizeUnitPopoverVisible, fontSizeUnitPopoverAnchor, setFontSizeUnitPopoverAnchor)), /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-picker__row_item"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Font Weight', 'highlight-and-share'),
+    value: getVal('FontWeight', '400'),
+    options: FONT_WEIGHT_OPTIONS,
+    onChange: function onChange(v) {
+      return updateVal('FontWeight', v);
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-picker__row has-typography-picker__row__col-2"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-picker__row_item has-units"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Line Height', 'highlight-and-share'),
+    value: getVal('LineHeight', ''),
+    onChange: function onChange(v) {
+      return updateVal('LineHeight', v);
+    },
+    type: "number"
+  }), renderUnitPicker('LineHeightUnit', lineHeightUnitPopoverVisible, setLineHeightUnitPopoverVisible, lineHeightUnitPopoverAnchor, setLineHeightUnitPopoverAnchor)), /*#__PURE__*/React.createElement("div", {
+    className: "has-typography-picker__row_item has-units"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Letter Spacing', 'highlight-and-share'),
+    value: getVal('LetterSpacing', ''),
+    onChange: function onChange(v) {
+      return updateVal('LetterSpacing', v);
+    },
+    type: "number"
+  }), renderUnitPicker('LetterSpacingUnit', letterSpacingUnitPopoverVisible, setLetterSpacingUnitPopoverVisible, letterSpacingUnitPopoverAnchor, setLetterSpacingUnitPopoverAnchor)))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TypographyOverrides);
 
 /***/ }),
 

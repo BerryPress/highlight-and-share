@@ -1,1 +1,167 @@
-.has-click-to-share{position:relative;font-size:16px}.has-click-to-share:after{content:"";display:table;clear:both}.has-click-to-share{z-index:1000}.has-click-prompt{display:block;position:absolute;width:100%;height:100%;top:0;left:0;z-index:1000}.has-background-gradient{transition:all .3s ease-in-out}.has-click-to-share-cta{display:flex;justify-content:flex-end;align-items:center}.has-click-to-share-cta svg{margin-left:4px}.has-click-to-share-cta-svg{display:inline-flex}.has-click-to-share-text p{text-align:left;margin:0;margin-bottom:.5rem}.has-click-to-share-text p:last-child{margin-bottom:0}:root{--has-cta-quote-font-family: 'Arial', Helvetica, sans-serif;--has-cta-cta-font-family: 'Arial', Helvetica, sans-serif;--has-cta-quote-font-size: 1.3em;--has-cta-quote-line-height: 1.5;--has-cta-cta-font-size: 1.3em;--has-cta-cta-line-height: 1.5;--has-cta-background-color: #f8f9fa;--has-cta-background-color-hover: #e9ecef;--has-cta-quote-text-color: #212529;--has-cta-quote-text-color-hover: #212529;--has-cta-cta-text-color: #212529;--has-cta-cta-text-color-hover: #212529;--has-cta-border-color: #dee2e6;--has-cta-border-color-hover: #dee2e6;--has-cta-border-width: 1px;--has-cta-border-radius: 0.25em;--has-cta-icon-color: #212529;--has-cta-icon-color-hover: #212529;--has-cta-inner-padding: 25px 35px;--has-cta-outer-margin: 20px auto;--has-cta-maximium-width: 650px}.has-theme-light{--has-cta-background-color: #FFFFFF;--has-cta-background-color-hover: #EEEEEE;--has-cta-quote-text-color: #333333;--has-cta-quote-text-color-hover: #000000;--has-cta-cta-text-color: #333333;--has-cta-cta-text-color-hover: #000000;--has-cta-border-color: #dadada;--has-cta-border-color-hover: #CCC;--has-cta-border-width: 1px;--has-cta-border-radius: 0.1875em;--has-cta-icon-color: #333333;--has-cta-icon-color-hover: #000000;--has-cta-inner-padding: 20px;--has-cta-outer-margin: 20px auto}.has-click-to-share:not(.has-theme-custom){font-size:16px;border-style:solid;border-width:var(--has-cta-border-width);border-radius:var(--has-cta-border-radius);border-color:var(--has-cta-border-color);margin:var(--has-cta-outer-margin);max-width:var(--has-cta-maximium-width);overflow:hidden;transition:border-color .3s ease-in-out,background .3s ease-in-out,background-color .3s ease-in-out;background-color:var(--has-cta-background-color)}.has-click-to-share:not(.has-theme-custom):hover{background-color:var(--has-cta-background-color-hover)}.has-click-to-share:not(.has-theme-custom):hover{border-color:var(--has-cta-border-color-hover)}.has-click-to-share:not(.has-theme-custom) .has-click-to-share-cta,.has-click-to-share:not(.has-theme-custom) .has-click-to-share-text{position:relative;z-index:2}.has-click-to-share:not(.has-theme-custom) .has-click-to-share-wrapper{padding:var(--has-cta-inner-padding);position:relative}.has-click-to-share:not(.has-theme-custom) .has-click-to-share-cta{color:var(--has-cta-cta-text-color);font-family:var(--has-cta-cta-font-family);font-size:var(--has-cta-cta-font-size);line-height:var(--has-cta-cta-line-height);text-transform:none}.has-click-to-share:not(.has-theme-custom):hover .has-click-to-share-cta{color:var(--has-cta-cta-text-color-hover)}.has-click-to-share:not(.has-theme-custom) .has-click-to-share-cta svg{color:var(--has-cta-icon-color);fill:var(--has-cta-icon-color);width:1.5em;height:auto}.has-click-to-share:not(.has-theme-custom):hover .has-click-to-share-cta svg{color:var(--has-cta-icon-color-hover);fill:var(--has-cta-icon-color-hover)}.has-click-to-share:not(.has-theme-custom) .has-click-to-share-text,.has-click-to-share:not(.has-theme-custom) .has-click-to-share-text p{color:var(--has-cta-quote-text-color);font-family:var(--has-cta-quote-font-family);font-size:var(--has-cta-quote-font-size);line-height:var(--has-cta-quote-line-height);letter-spacing:0;text-transform:none}.has-click-to-share:not(.has-theme-custom) .has-click-to-share-text p{font-size:var(--has-cta-quote-font-size);line-height:var(--has-cta-quote-line-height)}.has-click-to-share:not(.has-theme-custom):hover .has-click-to-share-text,.has-click-to-share:not(.has-theme-custom):hover .has-click-to-share-text p{color:var(--has-cta-quote-text-color-hover)}
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/resolve-url-loader/index.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[3]!./src/blocks/style.scss ***!
+  \*******************************************************************************************************************************************************************************************************************/
+.has-click-to-share {
+  position: relative;
+  font-size: 16px;
+}
+.has-click-to-share:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.has-click-to-share {
+  z-index: 1000;
+}
+
+.has-click-prompt {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.has-background-gradient {
+  transition: all 0.3s ease-in-out;
+}
+
+.has-click-to-share-cta {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.has-click-to-share-cta svg {
+  margin-left: 4px;
+}
+
+.has-click-to-share-cta-svg {
+  display: inline-flex;
+}
+
+.has-click-to-share-text p {
+  text-align: left;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+.has-click-to-share-text p:last-child {
+  margin-bottom: 0;
+}
+
+:root {
+  --has-cta-quote-font-family: 'Arial', Helvetica, sans-serif;
+  --has-cta-cta-font-family: 'Arial', Helvetica, sans-serif;
+  --has-cta-quote-font-size: 1.3em;
+  --has-cta-quote-line-height: 1.5;
+  --has-cta-quote-font-weight: 400;
+  --has-cta-quote-letter-spacing: 0;
+  --has-cta-quote-text-transform: none;
+  --has-cta-cta-font-size: 1.3em;
+  --has-cta-cta-line-height: 1.5;
+  --has-cta-cta-font-weight: 400;
+  --has-cta-cta-letter-spacing: 0;
+  --has-cta-cta-text-transform: none;
+  --has-cta-background-color: #f8f9fa;
+  --has-cta-background-color-hover: #e9ecef;
+  --has-cta-quote-text-color: #212529;
+  --has-cta-quote-text-color-hover: #212529;
+  --has-cta-cta-text-color: #212529;
+  --has-cta-cta-text-color-hover: #212529;
+  --has-cta-border-color: #dee2e6;
+  --has-cta-border-color-hover: #dee2e6;
+  --has-cta-border-width: 1px;
+  --has-cta-border-radius: 0.25em;
+  --has-cta-icon-color: #212529;
+  --has-cta-icon-color-hover: #212529;
+  --has-cta-inner-padding: 25px 35px;
+  --has-cta-outer-margin: 20px auto;
+  --has-cta-maximium-width: 650px;
+}
+
+.has-theme-light {
+  --has-cta-background-color: #FFFFFF;
+  --has-cta-background-color-hover: #EEEEEE;
+  --has-cta-quote-text-color: #333333;
+  --has-cta-quote-text-color-hover: #000000;
+  --has-cta-cta-text-color: #333333;
+  --has-cta-cta-text-color-hover: #000000;
+  --has-cta-border-color: #dadada;
+  --has-cta-border-color-hover: #CCC;
+  --has-cta-border-width: 1px;
+  --has-cta-border-radius: 0.1875em;
+  --has-cta-icon-color: #333333;
+  --has-cta-icon-color-hover: #000000;
+  --has-cta-inner-padding: 20px;
+  --has-cta-outer-margin: 20px auto;
+}
+
+.has-click-to-share:not(.has-theme-custom) {
+  font-size: 16px;
+  border-style: solid;
+  border-width: var(--has-cta-border-width);
+  border-radius: var(--has-cta-border-radius);
+  border-color: var(--has-cta-border-color);
+  margin: var(--has-cta-outer-margin);
+  max-width: var(--has-cta-maximium-width);
+  overflow: hidden;
+  transition: border-color 0.3s ease-in-out, background 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  background-color: var(--has-cta-background-color);
+}
+.has-click-to-share:not(.has-theme-custom):hover {
+  background-color: var(--has-cta-background-color-hover);
+}
+.has-click-to-share:not(.has-theme-custom):hover {
+  border-color: var(--has-cta-border-color-hover);
+}
+.has-click-to-share:not(.has-theme-custom) .has-click-to-share-cta,
+.has-click-to-share:not(.has-theme-custom) .has-click-to-share-text {
+  position: relative;
+  z-index: 2;
+}
+.has-click-to-share:not(.has-theme-custom) .has-click-to-share-wrapper {
+  padding: var(--has-cta-inner-padding);
+  position: relative;
+}
+.has-click-to-share:not(.has-theme-custom) .has-click-to-share-cta {
+  color: var(--has-cta-cta-text-color);
+  font-family: var(--has-cta-cta-font-family);
+  font-size: var(--has-cta-cta-font-size);
+  font-weight: var(--has-cta-cta-font-weight);
+  line-height: var(--has-cta-cta-line-height);
+  letter-spacing: var(--has-cta-cta-letter-spacing);
+  text-transform: var(--has-cta-cta-text-transform);
+}
+.has-click-to-share:not(.has-theme-custom):hover .has-click-to-share-cta {
+  color: var(--has-cta-cta-text-color-hover);
+}
+.has-click-to-share:not(.has-theme-custom) .has-click-to-share-cta svg {
+  color: var(--has-cta-icon-color);
+  fill: var(--has-cta-icon-color);
+  width: 1.5em;
+  height: auto;
+}
+.has-click-to-share:not(.has-theme-custom):hover .has-click-to-share-cta svg {
+  color: var(--has-cta-icon-color-hover);
+  fill: var(--has-cta-icon-color-hover);
+}
+.has-click-to-share:not(.has-theme-custom) .has-click-to-share-text,
+.has-click-to-share:not(.has-theme-custom) .has-click-to-share-text p {
+  color: var(--has-cta-quote-text-color);
+  font-family: var(--has-cta-quote-font-family);
+  font-size: var(--has-cta-quote-font-size);
+  font-weight: var(--has-cta-quote-font-weight);
+  line-height: var(--has-cta-quote-line-height);
+  letter-spacing: var(--has-cta-quote-letter-spacing);
+  text-transform: var(--has-cta-quote-text-transform);
+}
+.has-click-to-share:not(.has-theme-custom) .has-click-to-share-text p {
+  font-size: var(--has-cta-quote-font-size);
+  line-height: var(--has-cta-quote-line-height);
+}
+.has-click-to-share:not(.has-theme-custom):hover .has-click-to-share-text, .has-click-to-share:not(.has-theme-custom):hover .has-click-to-share-text p {
+  color: var(--has-cta-quote-text-color-hover);
+}
+
+/*# sourceMappingURL=has-cts-style.css.map*/

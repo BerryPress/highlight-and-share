@@ -295,6 +295,29 @@ const GetStyles = ( props ) => {
 			);
 		}
 
+		// Typography overrides (quote and shareText).
+		const typeMapping = [
+			{ key: 'quoteFontFamily', var: '--has-cta-quote-font-family', format: ( v ) => ( v ? `"${ v }"` : null ) },
+			{ key: 'quoteFontSize', var: '--has-cta-quote-font-size', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.quoteFontSizeUnit || 'px' ) : null ) },
+			{ key: 'quoteFontWeight', var: '--has-cta-quote-font-weight' },
+			{ key: 'quoteLineHeight', var: '--has-cta-quote-line-height', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.quoteLineHeightUnit || 'em' ) : null ) },
+			{ key: 'quoteLetterSpacing', var: '--has-cta-quote-letter-spacing', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.quoteLetterSpacingUnit || 'px' ) : null ) },
+			{ key: 'quoteTextTransform', var: '--has-cta-quote-text-transform' },
+			{ key: 'shareTextFontFamily', var: '--has-cta-cta-font-family', format: ( v ) => ( v ? `"${ v }"` : null ) },
+			{ key: 'shareTextFontSize', var: '--has-cta-cta-font-size', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.shareTextFontSizeUnit || 'px' ) : null ) },
+			{ key: 'shareTextFontWeight', var: '--has-cta-cta-font-weight' },
+			{ key: 'shareTextLineHeight', var: '--has-cta-cta-line-height', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.shareTextLineHeightUnit || 'em' ) : null ) },
+			{ key: 'shareTextLetterSpacing', var: '--has-cta-cta-letter-spacing', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.shareTextLetterSpacingUnit || 'px' ) : null ) },
+			{ key: 'shareTextTextTransform', var: '--has-cta-cta-text-transform' },
+		];
+		typeMapping.forEach( ( { key, var: cssVar, format } ) => {
+			const val = overrides[ key ];
+			const formatted = format ? format( val, overrides ) : val;
+			if ( formatted !== undefined && formatted !== null && formatted !== '' ) {
+				customPropRules.push( `${ cssVar }: ${ formatted };` );
+			}
+		} );
+
 		if ( customPropRules.length > 0 ) {
 			nonCustomStyles += `
 		#${ uniqueId }.has-click-to-share {
