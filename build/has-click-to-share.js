@@ -5275,6 +5275,277 @@ var svgs = {
     icon: /*#__PURE__*/React.createElement("svg", {
       xmlns: "http://www.w3.org/2000/svg",
       xmlSpace: "preserve",
+      viewBox: "0 0 409.6 409.6"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M307.2 204.8c-30.715 0-58.199 13.583-76.964 35l-64.998-40.003c3.328-9.134 5.432-18.852 5.432-29.133 0-6.717-.963-13.179-2.432-19.466l86.4-39.869c12.513 15.268 31.278 25.201 52.567 25.201 37.683 0 68.265-30.566 68.265-68.265S344.883 0 307.2 0c-37.714 0-68.265 30.566-68.265 68.265 0 4.163.517 8.182 1.213 12.15l-86.298 39.834C138.301 99.164 113.516 85.33 85.335 85.33 38.2 85.335 0 123.53 0 170.665 0 217.8 38.2 256 85.335 256c24.53 0 46.5-10.501 62.065-27.1l64.901 39.936c-4.803 11.863-7.501 24.781-7.501 38.364 0 56.566 45.834 102.4 102.4 102.4 56.535 0 102.4-45.834 102.4-102.4s-45.865-102.4-102.4-102.4z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }))
+  },
+  sharingIconFive: {
+    label: _x('Sharing Icon Five', 'label', 'alerts-dlx'),
+    icon: /*#__PURE__*/React.createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      xmlSpace: "preserve",
+      viewBox: "0 0 512 512"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M256 0C114.42 0 0 114.39 0 256c0 141.58 114.39 256 256 256 141.58 0 256-114.39 256-256C512 114.42 397.61 0 256 0zm-45 256c0 5.65-.8 11.12-2.27 16.31l79.68 46.48C299.29 307.81 314.36 301 331 301c33.08 0 60 26.92 60 60s-26.92 60-60 60-60-26.92-60-60c0-5.65.8-11.12 2.27-16.31l-79.68-46.48C182.71 309.19 167.64 316 151 316c-33.08 0-60-26.92-60-60s26.92-60 60-60c16.64 0 31.71 6.81 42.59 17.79l79.68-46.48A59.768 59.768 0 0 1 271 151c0-33.08 26.92-60 60-60s60 26.92 60 60-26.92 60-60 60c-16.64 0-31.71-6.81-42.59-17.79l-79.68 46.48A59.768 59.768 0 0 1 211 256z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }))
+  },
+  sharingIconSix: {
+    label: _x('Sharing Icon Six', 'label', 'alerts-dlx'),
+    icon: /*#__PURE__*/React.createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      xmlSpace: "preserve",
+      viewBox: "0 0 512 512"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M182.461 155.48 232 105.941V368a24 24 0 0 0 48 0V105.941l49.539 49.539a24 24 0 1 0 33.941-33.941l-90.509-90.51a24 24 0 0 0-33.942 0l-90.509 90.51a24 24 0 1 0 33.941 33.941z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M464 232a24 24 0 0 0-24 24v184H72V256a24 24 0 0 0-48 0v192a40 40 0 0 0 40 40h384a40 40 0 0 0 40-40V256a24 24 0 0 0-24-24z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }))
+  },
+  sharingIconSeven: {
+    label: _x('Sharing Icon Seven', 'label', 'alerts-dlx'),
+    icon: /*#__PURE__*/React.createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      xmlSpace: "preserve",
+      viewBox: "0 0 24 24"
+    }, /*#__PURE__*/React.createElement("path", {
+      fill: "currentColor",
+      d: "M21.597 2.543c-.467-.504-1.2-.692-1.9-.76-.736-.07-1.617-.024-2.566.1-1.902.25-4.2.828-6.409 1.539-2.21.71-4.363 1.567-5.976 2.386-.802.408-1.499.821-2.005 1.218-.252.197-.482.41-.655.636-.165.216-.338.523-.336.894.006.972.668 1.659 1.373 2.12.72.47 1.657.825 2.589 1.103.941.281 1.931.499 2.783.675l.304.063c.514.106.772.16 1.013.087.242-.073.428-.258.8-.63l3.68-3.681a1 1 0 1 1 1.415 1.414l-3.433 3.433c-.379.379-.568.568-.64.814-.072.246-.014.507.102 1.03.448 2.024.838 3.697 1.226 4.823.227.657.483 1.227.806 1.646.337.438.796.77 1.4.796.376.017.69-.155.904-.315.226-.167.438-.393.635-.639.396-.495.812-1.18 1.226-1.97.832-1.59 1.713-3.722 2.459-5.915.745-2.193 1.366-4.48 1.665-6.38.149-.948.223-1.828.182-2.565-.04-.7-.188-1.434-.642-1.922z"
+    }))
+  },
+  sharingIconEight: {
+    label: _x('Sharing Icon Eight', 'label', 'alerts-dlx'),
+    icon: /*#__PURE__*/React.createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      xmlSpace: "preserve",
+      viewBox: "0 0 20 20"
+    }, /*#__PURE__*/React.createElement("path", {
+      fill: "currentColor",
+      fillRule: "evenodd",
+      d: "M5.116 5.407a2.5 2.5 0 1 0-1.916.575l.788 2.624a5.5 5.5 0 1 0 7.406 7.406l2.624.787a2.5 2.5 0 1 0 .575-1.915l-2.625-.788a5.474 5.474 0 0 0-.936-3.714l4.554-4.554a2.5 2.5 0 1 0-1.414-1.414L9.618 8.968a5.475 5.475 0 0 0-3.714-.936zM10 13.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z",
+      clipRule: "evenodd"
+    }))
+  },
+  sharingIconNine: {
+    label: _x('Sharing Icon Nine', 'label', 'alerts-dlx'),
+    icon: /*#__PURE__*/React.createElement("svg", {
+      "aria-hidden": "true",
+      focusable: "false",
+      "data-prefix": "fas",
+      "data-icon": "share-alt",
+      className: "svg-inline--fa fa-share-alt fa-w-14",
+      role: "img",
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 448 512"
+    }, /*#__PURE__*/React.createElement("path", {
+      fill: "currentColor",
+      d: "M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"
+    }))
+  },
+  sharingIconTen: {
+    label: _x('Sharing Icon Ten', 'label', 'alerts-dlx'),
+    icon: /*#__PURE__*/React.createElement("svg", {
+      viewBox: "0 0 100 100"
+    }, /*#__PURE__*/React.createElement("path", {
+      fill: "currentColor",
+      d: "M68.586 96.94c-8.83 2.342-17.883-2.882-20.275-11.69a16.61 16.61 0 0 1 5.152-16.785c6.922-6.012 17.4-5.275 23.418 1.64a33.32 33.32 0 0 0 10.976-26.366 3.715 3.715 0 1 1 7.42-.398 40.7 40.7 0 0 1-14.92 33.404c2.29 8.823-2.97 17.84-11.771 20.196zM32.834 11.144a40.77 40.77 0 0 1 36.373-3.858 16.606 16.606 0 0 1 17.075-3.88c8.663 2.984 13.266 12.428 10.282 21.091s-12.436 13.273-21.1 10.29S62.2 22.357 65.184 13.694a33.35 33.35 0 0 0-28.346 3.562 3.693 3.693 0 0 1-4.589-.484 5.184 5.184 0 0 1-.563-.564 3.7 3.7 0 0 1 1.149-5.065zM41.129 79.773a3.698 3.698 0 0 1-4.972 1.59 40.719 40.719 0 0 1-21.43-29.625C5.925 49.31.73 40.242 3.1 31.426c2.378-8.851 11.482-14.097 20.333-11.72S37.53 31.188 35.153 40.04a16.476 16.476 0 0 1-12.89 11.98 33.395 33.395 0 0 0 17.276 22.783 3.69 3.69 0 0 1 1.59 4.97z"
+    }))
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (svgs);
+
+/***/ }),
+
+/***/ "./src/blocks/click-to-share/components/Icons/shareSvgsLegacy.js":
+/*!***********************************************************************!*\
+  !*** ./src/blocks/click-to-share/components/Icons/shareSvgsLegacy.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * WordPress dependencies
+ */
+var _x = wp.i18n._x;
+var svgs = {
+  sharingIconOne: {
+    label: _x('Sharing Icon One', 'label', 'alerts-dlx'),
+    icon: /*#__PURE__*/React.createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      xmlSpace: "preserve",
+      viewBox: "0 0 1664 1857"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M1543.64 385.463c0 146.575-118.828 265.416-265.417 265.416-146.575 0-265.404-118.841-265.404-265.416 0-146.588 118.829-265.417 265.404-265.417 146.589 0 265.417 118.829 265.417 265.417Z",
+      fill: "currentColor"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M1543.64 385.463c0 146.575-118.828 265.416-265.417 265.416-146.575 0-265.404-118.841-265.404-265.416 0-146.588 118.829-265.417 265.404-265.417 146.589 0 265.417 118.829 265.417 265.417Z",
+      style: {
+        fill: 'none',
+        stroke: 'currentColor',
+        strokeWidth: '107.37px'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M1543.64 1471.24c0 146.589-118.828 265.417-265.417 265.417-146.575 0-265.404-118.828-265.404-265.417 0-146.588 118.829-265.417 265.404-265.417 146.589 0 265.417 118.829 265.417 265.417Z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M1543.64 1471.24c0 146.589-118.828 265.417-265.417 265.417-146.575 0-265.404-118.828-265.404-265.417 0-146.588 118.829-265.417 265.404-265.417 146.589 0 265.417 118.829 265.417 265.417Z",
+      style: {
+        fill: 'none',
+        stroke: 'currentColor',
+        strokeWidth: '107.37px'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M650.879 988.666c0 146.589-118.828 265.416-265.403 265.416-146.589 0-265.43-118.827-265.43-265.416 0-146.576 118.841-265.416 265.43-265.416 146.575 0 265.403 118.84 265.403 265.416Z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M650.879 988.666c0 146.589-118.828 265.416-265.403 265.416-146.589 0-265.43-118.827-265.43-265.416 0-146.576 118.841-265.416 265.43-265.416 146.575 0 265.403 118.84 265.403 265.416Z",
+      style: {
+        fill: 'none',
+        stroke: 'currentColor',
+        strokeWidth: '107.37px'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "m385.476 988.666 892.747-603.203",
+      style: {
+        fill: 'none',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "m415.528 1033.16-60.117-88.971 892.76-603.216 60.117 88.971-892.76 603.216Z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "m385.476 988.666 892.747 482.578",
+      style: {
+        fill: 'none',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "m1252.7 1518.47-892.76-482.578 51.055-94.454 892.76 482.579-51.055 94.453Z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }))
+  },
+  sharingIconTwo: {
+    label: _x('Sharing Icon Two', 'label', 'alerts-dlx'),
+    icon: /*#__PURE__*/React.createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      xmlSpace: "preserve",
+      viewBox: "0 0 1752 1836"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M1603.95 473.058c0 179.909-145.833 325.742-325.729 325.742S952.479 652.967 952.479 473.058c0-179.896 145.846-325.729 325.742-325.729 179.896 0 325.729 145.833 325.729 325.729Z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M1603.95 473.058c0 179.909-145.833 325.742-325.729 325.742S952.479 652.967 952.479 473.058c0-179.896 145.846-325.729 325.742-325.729 179.896 0 325.729 145.833 325.729 325.729Z",
+      style: {
+        fill: 'none',
+        stroke: 'currentColor',
+        strokeWidth: '131.77px'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M1468.85 1558.85c0 105.272-85.352 190.625-190.625 190.625-105.286 0-190.638-85.353-190.638-190.625 0-105.287 85.352-190.638 190.638-190.638 105.273 0 190.625 85.351 190.625 190.638Z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M1468.85 1558.85c0 105.272-85.352 190.625-190.625 190.625-105.286 0-190.638-85.353-190.638-190.625 0-105.287 85.352-190.638 190.638-190.638 105.273 0 190.625 85.351 190.625 190.638Z",
+      style: {
+        fill: 'none',
+        stroke: 'currentColor',
+        strokeWidth: '77.12px'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M650.879 1076.27c0 146.589-118.828 265.417-265.416 265.417-146.589 0-265.417-118.828-265.417-265.417 0-146.588 118.828-265.416 265.417-265.416 146.588 0 265.416 118.828 265.416 265.416Z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M650.879 1076.27c0 146.589-118.828 265.417-265.416 265.417-146.589 0-265.417-118.828-265.417-265.417 0-146.588 118.828-265.416 265.417-265.416 146.588 0 265.416 118.828 265.416 265.416Z",
+      style: {
+        fill: 'none',
+        stroke: 'currentColor',
+        strokeWidth: '107.37px'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "m385.463 1076.27 892.76-603.216",
+      style: {
+        fill: 'none',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "m415.515 1120.77-60.118-88.971 892.761-603.216 60.117 88.972-892.76 603.215Z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "m385.463 1076.27 892.76 482.579",
+      style: {
+        fill: 'none',
+        fillRule: 'nonzero'
+      }
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "m1252.69 1606.08-892.76-482.578 51.054-94.453 892.761 482.578-51.055 94.453Z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }))
+  },
+  sharingIconThree: {
+    label: _x('Sharing Icon Three', 'label', 'alerts-dlx'),
+    icon: /*#__PURE__*/React.createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      xmlSpace: "preserve",
+      viewBox: "0 0 1512 1688"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M1162.8 1005.12c-47.929.677-96.809 10.104-143.815 28.906-112.33 44.936-176.08-.508-273.125-52.617-116.601-62.786-9.739-206.511 61.407-256.38 185.312-129.909 340.091 23.255 512.304-63.607 116.68-58.841 192.331-181.367 192.331-312.07 0-192.617-156.693-349.323-349.297-349.349-106.497-.014-202.773 44.219-266.888 129.792C776.199 289.3 839.858 609.391 530.769 597.489c-127.526-4.908-206.497-74.973-332.864-13.359C78.334 642.425.001 765.42.001 898.818c0 192.578 156.641 349.258 349.193 349.349 100 .039 193.021-72.422 291.211-59.089 213.685 29.024 152.604 247.618 250.885 369.246 65.69 81.301 166.784 129.413 271.276 129.413 192.617 0 349.336-156.719 349.336-349.349.013-213.19-167.669-335.859-349.102-333.268Z",
+      style: {
+        fill: 'currentColor',
+        fillRule: 'nonzero'
+      }
+    }))
+  },
+  sharingIconFour: {
+    label: _x('Sharing Icon Four', 'label', 'alerts-dlx'),
+    icon: /*#__PURE__*/React.createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      xmlSpace: "preserve",
       viewBox: "0 0 1727 958"
     }, /*#__PURE__*/React.createElement("path", {
       d: "m1726.64 476.563-471.836 333.71-205 145.04-3.451 2.499-.95-267.135-27.93-14.14C695.377 515.794 241.731 600.247.003 893.776 136.565 549.388 514.86 328.06 878.089 299.818h.937c26.055-2.201 52.11-3.151 77.852-3.151 10.99 0 22.292.325 33.594.95l53.372 2.513-.312-147.552L1042.894 0l683.75 476.563Z",
@@ -5645,6 +5916,113 @@ var ThemeButton = function ThemeButton(_ref) {
 
 /***/ }),
 
+/***/ "./src/blocks/click-to-share/components/ThemeColors/index.js":
+/*!*******************************************************************!*\
+  !*** ./src/blocks/click-to-share/components/ThemeColors/index.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _react_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../react/Components/ColorPicker */ "./src/react/Components/ColorPicker/index.js");
+/* harmony import */ var _hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../hooks/useThemeOverrides */ "./src/blocks/click-to-share/hooks/useThemeOverrides.js");
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
+
+
+
+
+var colorOptions = [{
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Background Color', 'highlight-and-share'),
+  value: 'backgroundColor'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Background Color (Hover)', 'highlight-and-share'),
+  value: 'backgroundColorHover'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Text Color', 'highlight-and-share'),
+  value: 'textColor'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Text Color (Hover)', 'highlight-and-share'),
+  value: 'textColorHover'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Share Text Color', 'highlight-and-share'),
+  value: 'shareTextColor'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Share Text Color (Hover)', 'highlight-and-share'),
+  value: 'shareTextColorHover'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Icon Color', 'highlight-and-share'),
+  value: 'iconColor'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Icon Color (Hover)', 'highlight-and-share'),
+  value: 'iconColorHover'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Border Color', 'highlight-and-share'),
+  value: 'borderColor'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Border Color (Hover)', 'highlight-and-share'),
+  value: 'borderColorHover'
+}];
+var palette = has_gutenberg.colorPalette;
+var ThemeColors = function ThemeColors(props) {
+  var attributes = props.attributes,
+    setAttributes = props.setAttributes;
+  var _useThemeOverrides = (0,_hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_4__.useThemeOverrides)(attributes, setAttributes),
+    getThemeOverride = _useThemeOverrides.getThemeOverride,
+    setThemeOverride = _useThemeOverrides.setThemeOverride;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    syncColors = _useState2[0],
+    setSyncColors = _useState2[1];
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row-sync-colors"
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Tooltip, {
+    text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Sync Normal and Hover Colors when changing colors.', 'highlight-and-share')
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+    variant: "secondary",
+    isPressed: syncColors,
+    onClick: function onClick() {
+      setSyncColors(!syncColors);
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Sync Color States', 'highlight-and-share')))), colorOptions.map(function (option) {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "has-panel-row",
+      key: option.value
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "has-color-row"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "has-color-row__label"
+    }, option.label), /*#__PURE__*/React.createElement("div", {
+      className: "has-color-row__picker"
+    }, /*#__PURE__*/React.createElement(_react_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      value: getThemeOverride(option.value, ''),
+      onChange: function onChange(value) {
+        return setThemeOverride(option.value, value);
+      },
+      defaultColors: palette,
+      defaultColor: ''
+    }))));
+  }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ThemeColors);
+
+/***/ }),
+
 /***/ "./src/blocks/click-to-share/edit.js":
 /*!*******************************************!*\
   !*** ./src/blocks/click-to-share/edit.js ***!
@@ -5673,7 +6051,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_BlockContent__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/BlockContent */ "./src/blocks/click-to-share/components/BlockContent.js");
 /* harmony import */ var _components_MaxWidth__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/MaxWidth */ "./src/blocks/click-to-share/components/MaxWidth/index.js");
 /* harmony import */ var _components_IconPicker__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/IconPicker */ "./src/blocks/click-to-share/components/IconPicker/index.js");
-/* harmony import */ var _components_Icons_shareSvgs__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/Icons/shareSvgs */ "./src/blocks/click-to-share/components/Icons/shareSvgs.js");
+/* harmony import */ var _components_Icons_shareSvgsLegacy__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/Icons/shareSvgsLegacy */ "./src/blocks/click-to-share/components/Icons/shareSvgsLegacy.js");
+/* harmony import */ var _components_Icons_shareSvgs__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/Icons/shareSvgs */ "./src/blocks/click-to-share/components/Icons/shareSvgs.js");
+/* harmony import */ var _components_ThemeColors__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/ThemeColors */ "./src/blocks/click-to-share/components/ThemeColors/index.js");
+/* harmony import */ var _hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./hooks/useThemeOverrides */ "./src/blocks/click-to-share/hooks/useThemeOverrides.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -5701,6 +6082,9 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 /* Preset Imports */
+
+
+
 
 
 
@@ -5801,8 +6185,10 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     showClickToShareIcon = attributes.showClickToShareIcon,
     iconSizeResponsive = attributes.iconSizeResponsive,
     icon = attributes.icon,
-    theme = attributes.theme,
-    themeOverrides = attributes.themeOverrides;
+    theme = attributes.theme;
+  var _useThemeOverrides = (0,_hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_18__.useThemeOverrides)(attributes, setAttributes),
+    getThemeOverride = _useThemeOverrides.getThemeOverride,
+    setThemeOverride = _useThemeOverrides.setThemeOverride;
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     // If this is the first time inserting the block.
     if ('' === uniqueId) {
@@ -6013,65 +6399,56 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
     }
   }))));
   var getThemeOverridesSidebar = function getThemeOverridesSidebar() {
-    var _themeOverrides$showC, _themeOverrides$click, _themeOverrides$showS, _themeOverrides$iconS;
-    return /*#__PURE__*/React.createElement(PanelBody, {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(PanelBody, {
       title: __('Share Settings', 'highlight-and-share'),
       initialOpen: true
     }, /*#__PURE__*/React.createElement("div", {
       className: "has-panel-row"
     }, /*#__PURE__*/React.createElement(ToggleControl, {
       label: __('Show Click to Share Text', 'highlight-and-share'),
-      checked: (_themeOverrides$showC = themeOverrides === null || themeOverrides === void 0 ? void 0 : themeOverrides.showClickToShareText) !== null && _themeOverrides$showC !== void 0 ? _themeOverrides$showC : true,
+      checked: getThemeOverride('showClickToShareText', true),
       onChange: function onChange(value) {
-        setAttributes({
-          themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), {}, {
-            showClickToShareText: value
-          })
-        });
+        return setThemeOverride('showClickToShareText', value);
       }
     })), /*#__PURE__*/React.createElement("div", {
       className: "has-panel-row"
     }, /*#__PURE__*/React.createElement(TextControl, {
       label: __('Click to Share Text', 'highlight-and-share'),
-      value: (_themeOverrides$click = themeOverrides === null || themeOverrides === void 0 ? void 0 : themeOverrides.clickText) !== null && _themeOverrides$click !== void 0 ? _themeOverrides$click : __('Click to share', 'highlight-and-share'),
+      value: getThemeOverride('clickText', __('Click to share', 'highlight-and-share')),
       onChange: function onChange(value) {
-        setAttributes({
-          themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), {}, {
-            clickText: value
-          })
-        });
+        return setThemeOverride('clickText', value);
       }
     })), /*#__PURE__*/React.createElement("div", {
       className: "has-panel-row"
     }, /*#__PURE__*/React.createElement(ToggleControl, {
       label: __('Show Share Icon', 'highlight-and-share'),
-      checked: (_themeOverrides$showS = themeOverrides === null || themeOverrides === void 0 ? void 0 : themeOverrides.showShareIcon) !== null && _themeOverrides$showS !== void 0 ? _themeOverrides$showS : true,
+      checked: getThemeOverride('showShareIcon', true),
       onChange: function onChange(value) {
-        setAttributes({
-          themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), {}, {
-            showShareIcon: value
-          })
-        });
+        return setThemeOverride('showShareIcon', value);
       }
     })), /*#__PURE__*/React.createElement("div", {
       className: "has-panel-row"
     }, /*#__PURE__*/React.createElement(RangeControl, {
       label: __('Icon Size', 'highlight-and-share'),
-      value: (_themeOverrides$iconS = themeOverrides === null || themeOverrides === void 0 ? void 0 : themeOverrides.iconSize) !== null && _themeOverrides$iconS !== void 0 ? _themeOverrides$iconS : 20,
+      value: getThemeOverride('iconSize', 20),
       onChange: function onChange(value) {
-        setAttributes({
-          themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), {}, {
-            iconSize: value
-          })
-        });
+        return setThemeOverride('iconSize', value);
       }
     })), /*#__PURE__*/React.createElement("div", {
       className: "has-panel-row"
     }, /*#__PURE__*/React.createElement(_components_IconPicker__WEBPACK_IMPORTED_MODULE_14__["default"], {
       defaultSvg: icon,
       setAttributes: setAttributes,
-      icons: _components_Icons_shareSvgs__WEBPACK_IMPORTED_MODULE_15__["default"]
-    })));
+      icons: _components_Icons_shareSvgs__WEBPACK_IMPORTED_MODULE_16__["default"]
+    }))), /*#__PURE__*/React.createElement(PanelBody, {
+      title: __('Colors', 'highlight-and-share'),
+      initialOpen: true
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "has-panel-row"
+    }, /*#__PURE__*/React.createElement(_components_ThemeColors__WEBPACK_IMPORTED_MODULE_17__["default"], {
+      attributes: attributes,
+      setAttributes: setAttributes
+    }))));
   };
   var inspectorControls = /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
     title: __('Theme', 'highlight-and-share'),
@@ -6134,7 +6511,7 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
   }, /*#__PURE__*/React.createElement(_components_IconPicker__WEBPACK_IMPORTED_MODULE_14__["default"], {
     defaultSvg: icon,
     setAttributes: setAttributes,
-    icons: _components_Icons_shareSvgs__WEBPACK_IMPORTED_MODULE_15__["default"]
+    icons: _components_Icons_shareSvgsLegacy__WEBPACK_IMPORTED_MODULE_15__["default"]
   })), /*#__PURE__*/React.createElement("div", {
     className: "has-panel-row has-range-control"
   }, /*#__PURE__*/React.createElement(RangeControl, {
@@ -6464,6 +6841,71 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, block));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_HAS_Click_To_Share);
+
+/***/ }),
+
+/***/ "./src/blocks/click-to-share/hooks/useThemeOverrides.js":
+/*!**************************************************************!*\
+  !*** ./src/blocks/click-to-share/hooks/useThemeOverrides.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useThemeOverrides: () => (/* binding */ useThemeOverrides)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+/**
+ * Hook for reading and writing the themeOverrides block attribute.
+ * Returns prefixed keys to avoid collisions with generic names.
+ *
+ * @param {Object}   attributes    Block attributes.
+ * @param {Function} setAttributes Block setAttributes.
+ * @return {Object} { themeOverrides, getThemeOverride, setThemeOverride }. getThemeOverride( key, defaultValue ) returns themeOverrides[ key ] ?? defaultValue when provided.
+ */
+
+
+function useThemeOverrides(attributes, setAttributes) {
+  var _attributes$themeOver;
+  var themeOverrides = (_attributes$themeOver = attributes.themeOverrides) !== null && _attributes$themeOver !== void 0 ? _attributes$themeOver : {};
+  var getThemeOverride = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return function (key, defaultValue) {
+      var _themeOverrides$key;
+      return (_themeOverrides$key = themeOverrides[key]) !== null && _themeOverrides$key !== void 0 ? _themeOverrides$key : defaultValue;
+    };
+  }, [themeOverrides]);
+  var setThemeOverride = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return function (key, value) {
+      if (value === undefined) {
+        // eslint-disable-next-line no-unused-vars -- omit key from rest.
+        var _ = themeOverrides[key],
+          rest = _objectWithoutProperties(themeOverrides, [key].map(_toPropertyKey));
+        setAttributes({
+          themeOverrides: rest
+        });
+        return;
+      }
+      setAttributes({
+        themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), {}, _defineProperty({}, key, value))
+      });
+    };
+  }, [themeOverrides, setAttributes]);
+  return {
+    themeOverrides: themeOverrides,
+    getThemeOverride: getThemeOverride,
+    setThemeOverride: setThemeOverride
+  };
+}
 
 /***/ }),
 

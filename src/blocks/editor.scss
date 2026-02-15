@@ -412,7 +412,29 @@
 		margin-bottom: 0;
 	}
 }
+.has-color-row {
+	display: grid;
+	grid-template-columns: 1fr 32px;
+	align-items: center;
+	gap: 10px;
 
+	&__label {
+		font-weight: 600;
+	}
+	&__picker {
+		text-align: right;
+	}
+	.components-base-control {
+		margin-bottom: 0 !important;
+	}
+	.has-color-picker-area {
+		display: inline-block;
+	}
+}
+.has-panel-row-sync-colors {
+	display: flex;
+	justify-content: flex-end;
+}
 /* Typography row */
 .has-typography-panel-row {
 	display: block;

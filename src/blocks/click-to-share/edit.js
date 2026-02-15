@@ -19,7 +19,10 @@ import BlockContent from './components/BlockContent';
 import CustomPresets from './components/CustomPresets';
 import MaxWidth from './components/MaxWidth';
 import IconPicker from './components/IconPicker';
+import iconSvgsLegacy from './components/Icons/shareSvgsLegacy';
 import iconSvgs from './components/Icons/shareSvgs';
+import ThemeColors from './components/ThemeColors';
+import { useThemeOverrides } from './hooks/useThemeOverrides';
 
 const { __ } = wp.i18n;
 
@@ -111,8 +114,9 @@ const HAS_Click_To_Share = ( props ) => {
 		iconSizeResponsive,
 		icon,
 		theme,
-		themeOverrides,
 	} = attributes;
+
+	const { getThemeOverride, setThemeOverride } = useThemeOverrides( attributes, setAttributes );
 
 	useEffect( () => {
 		// If this is the first time inserting the block.
@@ -318,54 +322,59 @@ const HAS_Click_To_Share = ( props ) => {
 
 	const getThemeOverridesSidebar = () => {
 		return (
-			<PanelBody
-				title={ __( 'Share Settings', 'highlight-and-share' ) }
-				initialOpen={ true }
-			>
-				<div className="has-panel-row">
-					<ToggleControl
-						label={ __( 'Show Click to Share Text', 'highlight-and-share' ) }
-						checked={ themeOverrides?.showClickToShareText ?? true }
-						onChange={ ( value ) => {
-							setAttributes( { themeOverrides: { ...themeOverrides, showClickToShareText: value } } );
-						} }
-					/>
-				</div>
-				<div className="has-panel-row">
-					<TextControl
-						label={ __( 'Click to Share Text', 'highlight-and-share' ) }
-						value={ themeOverrides?.clickText ?? __( 'Click to share', 'highlight-and-share' ) }
-						onChange={ ( value ) => {
-							setAttributes( { themeOverrides: { ...themeOverrides, clickText: value } } );
-						} }
-					/>
-				</div>
-				<div className="has-panel-row">
-					<ToggleControl
-						label={ __( 'Show Share Icon', 'highlight-and-share' ) }
-						checked={ themeOverrides?.showShareIcon ?? true }
-						onChange={ ( value ) => {
-							setAttributes( { themeOverrides: { ...themeOverrides, showShareIcon: value } } );
-						} }
-					/>
-				</div>
-				<div className="has-panel-row">
-					<RangeControl
-						label={ __( 'Icon Size', 'highlight-and-share' ) }
-						value={ themeOverrides?.iconSize ?? 20 }
-						onChange={ ( value ) => {
-							setAttributes( { themeOverrides: { ...themeOverrides, iconSize: value } } );
-						} }
-					/>
-				</div>
-				<div className="has-panel-row">
-					<IconPicker
-						defaultSvg={ icon }
-						setAttributes={ setAttributes }
-						icons={ iconSvgs }
-					/>
-				</div>
-			</PanelBody>
+			<>
+				<PanelBody
+					title={ __( 'Share Settings', 'highlight-and-share' ) }
+					initialOpen={ true }
+				>
+					<div className="has-panel-row">
+						<ToggleControl
+							label={ __( 'Show Click to Share Text', 'highlight-and-share' ) }
+							checked={ getThemeOverride( 'showClickToShareText', true ) }
+							onChange={ ( value ) => setThemeOverride( 'showClickToShareText', value ) }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<TextControl
+							label={ __( 'Click to Share Text', 'highlight-and-share' ) }
+							value={ getThemeOverride( 'clickText', __( 'Click to share', 'highlight-and-share' ) ) }
+							onChange={ ( value ) => setThemeOverride( 'clickText', value ) }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<ToggleControl
+							label={ __( 'Show Share Icon', 'highlight-and-share' ) }
+							checked={ getThemeOverride( 'showShareIcon', true ) }
+							onChange={ ( value ) => setThemeOverride( 'showShareIcon', value ) }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<RangeControl
+							label={ __( 'Icon Size', 'highlight-and-share' ) }
+							value={ getThemeOverride( 'iconSize', 20 ) }
+							onChange={ ( value ) => setThemeOverride( 'iconSize', value ) }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<IconPicker
+							defaultSvg={ icon }
+							setAttributes={ setAttributes }
+							icons={ iconSvgs }
+						/>
+					</div>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Colors', 'highlight-and-share' ) }
+					initialOpen={ true }
+				>
+					<div className="has-panel-row">
+						<ThemeColors
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</div>
+				</PanelBody>
+			</>
 		);
 	};
 	const inspectorControls = (
@@ -394,10 +403,8 @@ const HAS_Click_To_Share = ( props ) => {
 					</div>
 				</div>
 			</PanelBody>
-			{
-				getThemeOverridesSidebar()
-			}
-			{ ( 'custom' === theme ) && (
+			{ getThemeOverridesSidebar() }
+			{ 'custom' === theme && (
 				<PanelBody
 					title={ __( 'Share Settings', 'highlight-and-share' ) }
 					initialOpen={ true }
@@ -416,7 +423,8 @@ const HAS_Click_To_Share = ( props ) => {
 							} }
 						/>
 					</div>
-					{ showClickToShareText[ deviceType.toLowerCase() ] && deviceType === 'Desktop' && (
+					{ showClickToShareText[ deviceType.toLowerCase() ] &&
+						deviceType === 'Desktop' && (
 						<div className="has-panel-row">
 							<TextControl
 								label={ __( 'Click to Share Text', 'highlight-and-share' ) }
@@ -447,7 +455,7 @@ const HAS_Click_To_Share = ( props ) => {
 									<IconPicker
 										defaultSvg={ icon }
 										setAttributes={ setAttributes }
-										icons={ iconSvgs }
+										icons={ iconSvgsLegacy }
 									/>
 								</div>
 							) }
@@ -469,7 +477,7 @@ const HAS_Click_To_Share = ( props ) => {
 					) }
 				</PanelBody>
 			) }
-			{ ( deviceType === 'Desktop' && 'custom' === theme ) && (
+			{ deviceType === 'Desktop' && 'custom' === theme && (
 				<PanelBody
 					title={ __( 'Background Settings', 'highlight-and-share' ) }
 					initialOpen={ true }
@@ -584,7 +592,7 @@ const HAS_Click_To_Share = ( props ) => {
 					) }
 				</PanelBody>
 			) }
-			{ ( deviceType === 'Desktop' && 'custom' === theme ) && (
+			{ deviceType === 'Desktop' && 'custom' === theme && (
 				<PanelBody
 					title={ __( 'Colors', 'highlight-and-share' ) }
 					initialOpen={ false }
@@ -656,7 +664,7 @@ const HAS_Click_To_Share = ( props ) => {
 					</div>
 				</PanelBody>
 			) }
-			{ ( 'custom' === theme ) && (
+			{ 'custom' === theme && (
 				<PanelBody
 					title={ __( 'Fonts and Typography', 'highlight-and-share' ) }
 					initialOpen={ true }
@@ -668,7 +676,8 @@ const HAS_Click_To_Share = ( props ) => {
 							screenSize={ deviceType }
 							onValuesChange={ ( formValues ) => {
 								const newTypographyQuote = { ...typographyQuote };
-								newTypographyQuote[ deviceType.toLowerCase() ] = formValues[ deviceType.toLowerCase() ];
+								newTypographyQuote[ deviceType.toLowerCase() ] =
+									formValues[ deviceType.toLowerCase() ];
 								setAttributes( {
 									typographyQuote: newTypographyQuote,
 								} );
@@ -690,7 +699,7 @@ const HAS_Click_To_Share = ( props ) => {
 					</div>
 				</PanelBody>
 			) }
-			{ ( 'custom' === theme ) && (
+			{ 'custom' === theme && (
 				<PanelBody
 					title={ __( 'Spacing and Border', 'highlight-and-share' ) }
 					initialOpen={ true }
