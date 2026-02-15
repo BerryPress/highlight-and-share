@@ -437,6 +437,7 @@
 }
 .highlight-and-share .has-click-to-share {
   width: 100%; /* max width in block settings */
+  z-index: 1;
 }
 
 .has-click-to-share-wrapper .has-click-to-share-text {
