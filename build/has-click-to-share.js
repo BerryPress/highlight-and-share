@@ -6955,7 +6955,11 @@ var _HAS_Click_To_Share = function HAS_Click_To_Share(props) {
       attributes: attributes,
       uniqueId: uniqueId
     });
-  })))), 'custom' !== theme && Object.keys(attributes.themeOverrides).length > 0 && /*#__PURE__*/React.createElement("div", {
+  })), 'custom' === theme && /*#__PURE__*/React.createElement("div", {
+    className: "has-panel-row"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "description"
+  }, __('The Legacy Theme is no longer recommended due to its complexity, bugs, scalability, and maintenance. The new themes are more configurable and have overrides.', 'highlight-and-share'))))), 'custom' !== theme && Object.keys(attributes.themeOverrides).length > 0 && /*#__PURE__*/React.createElement("div", {
     className: "has-panel-row"
   }, /*#__PURE__*/React.createElement(Button, {
     variant: "tertiary",

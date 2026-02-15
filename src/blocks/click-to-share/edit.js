@@ -486,6 +486,13 @@ const HAS_Click_To_Share = ( props ) => {
 								/>
 							) ) }
 						</ButtonGroup>
+						{
+							'custom' === theme && (
+								<div className="has-panel-row">
+									<p className="description">{ __( 'The Legacy Theme is no longer recommended due to its complexity, bugs, scalability, and maintenance. The new themes are more configurable and have overrides.', 'highlight-and-share' ) }</p>
+								</div>
+							)
+						}
 					</div>
 				</div>
 				{
