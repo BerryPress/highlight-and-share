@@ -493,6 +493,13 @@ const HAS_Click_To_Share = ( props ) => {
 								</div>
 							)
 						}
+						{
+							'custom' !== theme && (
+								<div className="has-panel-row">
+									<p className="description">{ __( 'You can override the theme settings below (optional).', 'highlight-and-share' ) }</p>
+								</div>
+							)
+						}
 					</div>
 				</div>
 				{

@@ -23,6 +23,8 @@ class Blocks {
 		add_action(
 			'init',
 			function () use ( $self ) {
+				add_filter( 'block_categories_all', array( $self, 'register_block_category' ), 10, 10 );
+
 				// Get block editor options.
 				$options = Options::get_plugin_options();
 
@@ -44,6 +46,29 @@ class Blocks {
 		);
 
 		return $self;
+	}
+
+	/**
+	 * Registers the Highlight and Share block category with orange share icon.
+	 *
+	 * @param array[] $block_categories     Array of block categories.
+	 * @return array[] Modified block categories.
+	 */
+	public function register_block_category( $block_categories ) {
+		$has_svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true"><path fill="#F68105" d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"/></svg>';
+
+		$new_category = array(
+			'slug'  => 'highlight-and-share',
+			'title' => __( 'Highlight and Share', 'highlight-and-share' ),
+			'icon'  => $has_svg,
+		);
+
+		$existing_slugs = is_array( $block_categories ) ? array_column( $block_categories, 'slug' ) : array();
+		if ( is_array( $existing_slugs ) && in_array( 'highlight-and-share', $existing_slugs, true ) ) {
+			return $block_categories;
+		}
+
+		return array_merge( $block_categories, array( $new_category ) );
 	}
 
 	/**
