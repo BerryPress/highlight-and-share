@@ -186,11 +186,6 @@ body main .has-cts-shortcode .has-cts-wrapper .has-click-to-share-cta {
   transition: all 0.3s ease-in-out;
   margin-top: 1.5em;
 }
-body .has-cts-shortcode .has-cts-wrapper .has-click-to-share-cta span.has-click-to-share-cta-text,
-body .entry-content .has-cts-shortcode .has-cts-wrapper .has-click-to-share-cta span.has-click-to-share-cta-text,
-body main .has-cts-shortcode .has-cts-wrapper .has-click-to-share-cta span.has-click-to-share-cta-text {
-  font-size: var(--has-cta-cta-font-size);
-}
 body .has-cts-shortcode .has-cts-wrapper .has-click-to-share-text,
 body .has-cts-shortcode .has-cts-wrapper .has-click-to-share-text p,
 body .entry-content .has-cts-shortcode .has-cts-wrapper .has-click-to-share-text,
@@ -199,7 +194,6 @@ body main .has-cts-shortcode .has-cts-wrapper .has-click-to-share-text,
 body main .has-cts-shortcode .has-cts-wrapper .has-click-to-share-text p {
   color: var(--has-cta-quote-text-color);
   font-family: var(--has-cta-quote-font-family);
-  font-size: var(--has-cta-quote-font-size);
   font-weight: var(--has-cta-quote-font-weight);
   line-height: var(--has-cta-quote-line-height);
   letter-spacing: var(--has-cta-quote-letter-spacing);
