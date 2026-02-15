@@ -64,7 +64,7 @@ const BlockContent = ( props ) => {
 			ref: innerBlocksRef,
 		},
 		{
-			allowedBlocks: [ 'core/paragraph' ],
+			allowedBlocks: [ 'core/paragraph', 'core/group' ],
 			template: [ [ 'core/paragraph', { placeholder: __( 'Add your share text here…', 'highlight-and-share' ) } ] ],
 			templateInsertUpdatesSelection: false,
 		}

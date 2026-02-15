@@ -4642,7 +4642,7 @@ var BlockContent = function BlockContent(props) {
     className: 'has-click-to-share-text has-click-to-share__share-text',
     ref: innerBlocksRef
   }, {
-    allowedBlocks: ['core/paragraph'],
+    allowedBlocks: ['core/paragraph', 'core/group'],
     template: [['core/paragraph', {
       placeholder: __('Add your share text here…', 'highlight-and-share')
     }]],
