@@ -1,4 +1,5 @@
 @import './../common.scss';
+@import './style.scss';
 /*
  * Editor styles for the admin
  */
@@ -22,6 +23,7 @@
 
 	.has-click-to-share {
 		width: 100%; /* max width in block settings */
+		z-index: 1;
 	}
 }
 
@@ -34,10 +36,6 @@
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
-
-		svg {
-			margin-left: 12px;
-		}
 	}
 	&:after {
 		content: '';
@@ -372,6 +370,7 @@
 				line-height: normal;
 				padding: 6px 8px;
 				max-height: 30px;
+				min-width: 36px;
 			}
 		}
 		
@@ -403,7 +402,37 @@
 		}
 	}
 }
+.has-panel-row {
+	margin-top: 12px;
+	margin-bottom: 12px;
 
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+.has-color-row {
+	display: grid;
+	grid-template-columns: 1fr 32px;
+	align-items: center;
+	gap: 10px;
+
+	&__label {
+		font-weight: 600;
+	}
+	&__picker {
+		text-align: right;
+	}
+	.components-base-control {
+		margin-bottom: 0 !important;
+	}
+	.has-color-picker-area {
+		display: inline-block;
+	}
+}
+.has-panel-row-sync-colors {
+	display: flex;
+	justify-content: flex-end;
+}
 /* Typography row */
 .has-typography-panel-row {
 	display: block;
@@ -475,7 +504,7 @@
 
 	.components-button-group {
 		display: grid;
-		grid-template-columns: 50% 50%;
+		grid-template-columns: auto auto;
 		grid-gap: 15px;
 		row-gap: 15px;
 
@@ -666,6 +695,10 @@
 		background: #333;
 		color: #FFF;
 	}
+	&.is-pressed {
+		background: #333;
+		color: #FFF;
+	}
 }
 .has-preset-edit-container--edit {
 	button.components-button.has-preset-button {
@@ -847,5 +880,23 @@ button.components-button.has-icon-preview-button {
 	.has-icon-preview-button-label {
 		display: inline-block;
 		margin-right: 8px;
+	}
+}
+
+
+.has-edit-share-settings-link {
+	position: absolute;
+	background: #FFF !important;
+	color: #333 !important;
+	padding: 4px 8px !important;
+	bottom: 4px;
+	left: 4px;
+	z-index: 10;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+	&:hover {
+		background: #333 !important;
+		color: #FFF !important;
+		transition: all 0.2s ease-in-out;
 	}
 }

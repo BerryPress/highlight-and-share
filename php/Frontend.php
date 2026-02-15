@@ -235,10 +235,10 @@ class Frontend {
 			'text_color_hover'         => '',
 			'share_text_color'         => '',
 			'share_text_color_hover'   => '',
-			'font_family'              => 'Lato', /* can be: Josefin Sans, Karla, Lato, Montserrat, Open Sans,Playfair Display, Raleway, Roboto, Source Sans Pro. */
-			'button_font_family'       => 'Lato', /* can be: Josefin Sans, Karla, Lato, Montserrat, Open Sans,Playfair Display, Raleway, Roboto, Source Sans Pro. */
-			'font_size'                => 'medium', /* can be small|medium|large */
-			'click_share_font_size'    => 'medium', /* can be small|medium|large */
+			'font_family'              => 'Arial',
+			'button_font_family'       => 'Arial',
+			'font_size'                => 'large', /* can be small|medium|large */
+			'click_share_font_size'    => 'large', /* can be small|medium|large */
 			'click_text'               => 'Click to Share',
 			'padding'                  => '',
 			'border'                   => '',

@@ -117,9 +117,6 @@ const appearancePanelWatchValues = [
 
 const blockEditorPanelWatchValues = [
 	'enableBlocks',
-	'enableAdobeFonts',
-	'adobeProjectId',
-	'adobeFonts',
 ];
 
 const inlineHighlightingPanelWatchValues = [
@@ -221,9 +218,6 @@ export const getDefaultValues = ( values = {} ) => {
 
 		// Block Editor options.
 		enableBlocks: values?.enableBlocks ?? true,
-		enableAdobeFonts: values?.enableAdobeFonts ?? false,
-		adobeProjectId: escapeEditableHTML( values?.adobeProjectId || '' ),
-		adobeFonts: values?.adobeFonts || [],
 
 		// Inline Highlighting options.
 		enableInlineHighlighting: values?.enableInlineHighlighting ?? false,

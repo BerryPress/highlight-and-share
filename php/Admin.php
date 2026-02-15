@@ -26,22 +26,6 @@ class Admin {
 		add_action( 'wp_ajax_has_retrieve_settings_tab', array( $this, 'ajax_retrieve_settings_tab' ) );
 		add_action( 'wp_ajax_has_reset_settings_tab', array( $this, 'ajax_reset_settings_tab' ) );
 
-		// Retrieve appearance settings for context.
-		add_action( 'wp_ajax_has_retrieve_appearance_settings_context', array( $this, 'ajax_retrieve_appearance_settings_context' ) );
-		add_action( 'wp_ajax_has_save_appearance_settings', array( $this, 'ajax_has_save_appearance_settings' ) );
-		add_action( 'wp_ajax_has_reset_appearance_settings', array( $this, 'ajax_has_reset_appearance_settings' ) );
-
-		// Retrieve block editor defaults.
-		add_action( 'wp_ajax_has_retrieve_block_editor_tab', array( $this, 'ajax_retrieve_block_editor_tab' ) );
-
-		// Save and reset social icon order.
-		add_action( 'wp_ajax_has_save_social_icon_order', array( $this, 'ajax_save_social_icon_order' ) );
-		add_action( 'wp_ajax_has_reset_social_icon_order', array( $this, 'ajax_reset_social_icon_order' ) );
-
-		// Save and reset block editor options.
-		add_action( 'wp_ajax_has_save_block_editor_options', array( $this, 'ajax_save_block_editor_options' ) );
-		add_action( 'wp_ajax_has_reset_block_editor_options', array( $this, 'ajax_reset_block_editor_options' ) );
-
 		// Retrieve, save, and reset recaptcha options.
 		add_action( 'wp_ajax_has_save_emails_tab', array( $this, 'ajax_save_emails_tab' ) );
 		add_action( 'wp_ajax_has_retrieve_emails_tab', array( $this, 'ajax_retrieve_emails_tab' ) );
@@ -83,45 +67,6 @@ class Admin {
 		array_unshift( $links, $docs_link );
 		array_unshift( $links, $settings_link );
 		return $links;
-	}
-
-	/**
-	 * Save Block Editor Options.
-	 */
-	public function ajax_save_block_editor_options() {
-		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce', FILTER_DEFAULT ), 'has_save_block_editor' ) || ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array() );
-		}
-
-		$block_editor_options = filter_input( INPUT_POST, 'formData', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-
-		$converted_options = array();
-		foreach ( $block_editor_options as $key => $value ) {
-			$key = sanitize_key( Functions::to_underlines( $key ) );
-
-			if ( is_bool( $value ) || 'true' === $value || 'false' === $value ) {
-				// Convert string to boolean.
-				$value                     = (bool) filter_var( $value, FILTER_VALIDATE_BOOLEAN );
-				$converted_options[ $key ] = $value;
-			} elseif ( is_numeric( $value ) || is_int( $value ) ) {
-
-				$converted_options[ $key ] = absint( $value );
-			} elseif ( is_array( $value ) ) {
-				$converted_options[ $key ] = array_map( 'sanitize_text_field', $value );
-			} else {
-				$converted_options[ $key ] = $value;
-			}
-		}
-
-		if ( true === $converted_options['enable_adobe_fonts'] ) {
-			$converted_options['adobe_fonts'] = Adobe_Fonts::get_adobe_fonts( $converted_options['adobe_project_id'] );
-			if ( is_wp_error( $converted_options['adobe_fonts'] ) ) {
-				wp_send_json_error( $converted_options['adobe_fonts'] );
-			}
-		}
-		update_option( 'highlight-and-share-block-editor-options', $converted_options );
-
-		wp_send_json_success( $this->map_defaults_to_js( stripslashes_deep( $converted_options ) ) );
 	}
 
 	/**

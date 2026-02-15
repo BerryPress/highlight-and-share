@@ -448,9 +448,6 @@ class Options {
 	protected static function get_block_editor_defaults() {
 		$defaults = array(
 			'enable_blocks'                              => true,
-			'enable_adobe_fonts'                         => false,
-			'adobe_fonts'                                => array(),
-			'adobe_project_id'                           => '',
 			'enable_inline_highlighting'                 => true,
 			'inline_highlight_background_color'          => '#ffefb1',
 			'inline_highlight_background_color_hover'    => '#fcd63c',

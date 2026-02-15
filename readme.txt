@@ -49,6 +49,12 @@ If you have a feature request, <a href="https://dlxplugins.com/support/">please 
 <li>Works with Page Builders using advanced selectors</li>
 </ul>
 
+### integrations
+
+* Block Editor: Native support for Adobe Fonts with free <a href="https://wordpress.org/plugins/custom-typekit-fonts/">Custom Adobe Fonts</a> plugin.
+* Block Editor: Native support for Local Google Fonts via free <a href="https://wordpress.org/plugins/custom-fonts/">Custom Fonts</a> plugin.
+* Block Editor: Compatible with Blocksy Companion Pro Local Google Fonts and Adobe Fonts extensions. 
+
 == Installation ==
 
 1. Search Highlight and Share in the plugin's screen.
@@ -137,6 +143,14 @@ Please report security bugs found in the source code of the undefined plugin thr
 * New (Stats): Google Tag Manager has been consolidated with GA4 and synthetic event firing.
 * New (Stats): The plugin fires synthetic events per social network, allowing for listeners and third-party integrations.
 * New (Stats): Filters `has_stats_enabled` and `has_stats_enhanced` control behavior. Stats are enabled by default and just show social network and click type (selection, cta, highlight, headline). `has_stats_enhanced` can be set to true to send page url, title, and text selection to stats tracking service.
+* New (Sharing Block): Theme system with built-in themes (Light, Dark, Bold, Royal, Legacy) replacing presets.
+* New (Sharing Block): Removing third-party locally-hosted fonts in favor of third-party solutions, reducing the plugin bundle size by 75%.
+* New (Sharing Block): Block variations let you insert a pre-themed Click to Share block (Light, Dark, Bold, Royal) from the inserter.
+* New (Sharing Block): Theme overrides for color, typography, and dimensions in the block editor for the new themes.
+* New (Sharing Block): Quick shortcut to the parent block from child blocks for quicker access to block settings.
+* New (Sharing Block): Custom Fonts plugin support; Adobe fonts removed from plugin in favor of third-party plugins.
+* New (Sharing Block): Core/Group allowed inside share content so any block can be nested via Group.
+* Bug fix (Sharing Block): Text alignment on mobile (align right).
 * Bug fix (Image Sharing): Image sharing for Web Share would error out when sharing an image.
 * Bug fix (Image Sharing): Improved page builder support and added loop detection to prevent timeouts.
 * Bug fix (Image Sharing): Fixed hover and focus states, adding better reliability to image sharing display.
