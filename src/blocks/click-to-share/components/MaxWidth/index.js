@@ -44,9 +44,7 @@ const MaxWidth = ( props ) => {
 	const { isDirty } = useFormState( { control } );
 
 
-	const {
-		onValuesChange,
-	} = props;
+	const { onValuesChange, placeholder } = props;
 
 	useEffect( () => {
 		if ( isDirty ) {
@@ -95,12 +93,15 @@ const MaxWidth = ( props ) => {
 						onChange={ ( newValue ) => {
 							onChange( newValue );
 						} }
-						placeholder={ geHierarchicalPlaceholderValue(
-							props.values,
-							screenSize,
-							getValues( screenSize ).width,
-							'width'
-						) }
+						placeholder={
+							placeholder ??
+							geHierarchicalPlaceholderValue(
+								props.values,
+								screenSize,
+								getValues( screenSize ).width,
+								'width'
+							)
+						}
 					/>
 				) }
 			/>

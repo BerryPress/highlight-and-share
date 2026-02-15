@@ -91,7 +91,7 @@ const BlockContent = ( props ) => {
 					{ isBlockPreview && (
 						<>
 							<div className="has-click-to-share-text has-click-to-share__share-text">
-								<p>Vivamus commodo nunc arcu, finibus cursus felis porta a. Nam ultrices, turpis eu fringilla molestie, lorem libero.</p>
+								<p>Vivamus commodo nunc arcu, finibus cursus felis porta a.</p>
 							</div>
 						</>
 					) }

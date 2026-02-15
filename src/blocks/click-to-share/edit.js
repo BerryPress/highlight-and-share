@@ -23,6 +23,8 @@ import iconSvgsLegacy from './components/Icons/shareSvgsLegacy';
 import iconSvgs from './components/Icons/shareSvgs';
 import ThemeColors from './components/ThemeColors';
 import TypographyOverrides from '../../react/Components/TypographyOverrides';
+import MaxWidthOverrides from './components/MaxWidthOverrides';
+import DimensionsBlockOverrides from '../../react/Components/DimensionsBlockOverrides';
 import { useThemeOverrides } from './hooks/useThemeOverrides';
 
 const { __ } = wp.i18n;
@@ -366,7 +368,7 @@ const HAS_Click_To_Share = ( props ) => {
 				</PanelBody>
 				<PanelBody
 					title={ __( 'Colors', 'highlight-and-share' ) }
-					initialOpen={ true }
+					initialOpen={ false }
 				>
 					<div className="has-panel-row">
 						<ThemeColors
@@ -377,7 +379,7 @@ const HAS_Click_To_Share = ( props ) => {
 				</PanelBody>
 				<PanelBody
 					title={ __( 'Typography', 'highlight-and-share' ) }
-					initialOpen={ true }
+					initialOpen={ false }
 				>
 					<div className="has-panel-row has-typography-panel-row">
 						<TypographyOverrides
@@ -393,6 +395,69 @@ const HAS_Click_To_Share = ( props ) => {
 							label={ __( 'Share Text Typography', 'highlight-and-share' ) }
 							attributes={ attributes }
 							setAttributes={ setAttributes }
+						/>
+					</div>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Spacing and Border', 'highlight-and-share' ) }
+					initialOpen={ false }
+				>
+					<div className="has-panel-row has-unit-picker">
+						<MaxWidthOverrides
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsBlockOverrides
+							label={ __( 'Inner Padding', 'highlight-and-share' ) }
+							valueKey="innerPadding"
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsBlockOverrides
+							label={ __( 'Outer Margin', 'highlight-and-share' ) }
+							valueKey="outerMargin"
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsBlockOverrides
+							label={ __( 'Border Width', 'highlight-and-share' ) }
+							valueKey="borderWidth"
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsBlockOverrides
+							label={ __( 'Border Radius', 'highlight-and-share' ) }
+							valueKey="borderRadius"
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							labelTop={ __( 'Top Left', 'highlight-and-share' ) }
+							labelRight={ __( 'Top Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom Right', 'highlight-and-share' ) }
+							labelLeft={ __( 'Bottom Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem', '%' ] }
 						/>
 					</div>
 				</PanelBody>

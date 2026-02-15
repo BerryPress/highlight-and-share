@@ -25,6 +25,7 @@
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
+	margin-top: 1.5em;
 
 	svg {
 		margin-left: 4px;
@@ -32,6 +33,7 @@
 }
 .has-click-to-share-cta-svg {
 	display: inline-flex;
+	margin-left: 0.5em;
 }
 .has-click-to-share-text p {
 	text-align: left;
@@ -69,7 +71,7 @@
 	--has-cta-icon-color-hover: #212529;
 	--has-cta-inner-padding: 25px 35px;
 	--has-cta-outer-margin: 20px auto;
-	--has-cta-maximium-width: 650px;
+	--has-cta-maximum-width: 650px;
 }
 
 .has-theme-light {
@@ -96,7 +98,7 @@
 	border-radius: var(--has-cta-border-radius);
 	border-color: var(--has-cta-border-color);
 	margin: var(--has-cta-outer-margin);
-	max-width: var(--has-cta-maximium-width);
+	max-width: var(--has-cta-maximum-width);
 	overflow: hidden;
 	transition: border-color 0.3s ease-in-out, background 0.3s ease-in-out, background-color 0.3s ease-in-out;
 
@@ -141,7 +143,7 @@
 		fill: var(--has-cta-icon-color-hover);
 	}
 
-	.has-click-to-share-text,
+	.has-click-to-share-text:not(:has(p)),
 	.has-click-to-share-text p {
 		color: var(--has-cta-quote-text-color);
 		font-family: var(--has-cta-quote-font-family);

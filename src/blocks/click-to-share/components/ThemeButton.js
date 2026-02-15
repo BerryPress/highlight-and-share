@@ -26,12 +26,20 @@ const ThemeButton = ( {
 	};
 
 	const popoverContent = () => {
-		const previewUniqueId = uniqueId ? `${ uniqueId }-preview` : 'has-cts-preview';
-		const newAttributes = {
+		let previewUniqueId = uniqueId ? `${ uniqueId }-preview` : 'has-cts-preview';
+		let newAttributes = {
 			...attributes,
 			theme: slug,
 			uniqueId: previewUniqueId,
 		};
+		if ( 'custom' !== slug ) {
+			previewUniqueId = `${ previewUniqueId }-${ slug }`;
+			// Strip themeOverrides from newAttributes
+			newAttributes = {
+				...newAttributes,
+				themeOverrides: {},
+			};
+		}
 		return <BlockContent attributes={ newAttributes } isPreview={ true } />;
 	};
 	return (

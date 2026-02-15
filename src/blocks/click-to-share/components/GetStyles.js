@@ -246,12 +246,9 @@ const GetStyles = ( props ) => {
 		`;
 	}
 	if ( 'custom' !== theme ) {
-		// Base: max-width.
-		let nonCustomStyles = `
-		#${ uniqueId }.has-click-to-share {
-			max-width: ${ geHierarchicalPlaceholderValue( maximumWidth, screenSize, maximumWidth[ screenSize ].width, 'maxWidth' ) }${ geHierarchicalPlaceholderValue( maximumWidth, screenSize, maximumWidth[ screenSize ].unit, 'maxWidth' ) };
-		}
-		`;
+		// Non-custom themes: max-width comes from --has-cta-maximum-width only.
+		// Base value from theme (maximumWidth); override from themeOverrides.maximumWidth.
+		let nonCustomStyles = '';
 
 		// Theme override styles (colors, iconSize, showClickToShareText, showShareIcon).
 		const overrides = themeOverrides || {};
@@ -317,6 +314,49 @@ const GetStyles = ( props ) => {
 				customPropRules.push( `${ cssVar }: ${ formatted };` );
 			}
 		} );
+
+		// Maximum width: only output when override is set; when cleared, let stylesheet theme default apply.
+		const maxWOverride = overrides.maximumWidth;
+		const maxWFromOverride =
+			maxWOverride && typeof maxWOverride === 'object' && maxWOverride.width !== undefined && maxWOverride.width !== ''
+				? maxWOverride
+				: null;
+		if ( maxWFromOverride ) {
+			const maxWidthVal = `${ maxWFromOverride.width }${ maxWFromOverride.unit || 'px' }`;
+			customPropRules.push( `--has-cta-maximum-width: ${ maxWidthVal };` );
+		}
+		const innerPad = overrides.innerPadding;
+		if ( innerPad && typeof innerPad === 'object' && 'top' in innerPad ) {
+			const dims = { desktop: innerPad };
+			const css = buildDimensionsCSS( dims, 'Desktop' );
+			if ( css ) {
+				customPropRules.push( `--has-cta-inner-padding: ${ css };` );
+			}
+		}
+		const outerMarg = overrides.outerMargin;
+		if ( outerMarg && typeof outerMarg === 'object' && 'top' in outerMarg ) {
+			const dims = { desktop: outerMarg };
+			const css = buildDimensionsCSS( dims, 'Desktop' );
+			if ( css ) {
+				customPropRules.push( `--has-cta-outer-margin: ${ css };` );
+			}
+		}
+		const borderW = overrides.borderWidth;
+		if ( borderW && typeof borderW === 'object' && 'top' in borderW ) {
+			const dims = { desktop: borderW };
+			const css = buildDimensionsCSS( dims, 'Desktop' );
+			if ( css ) {
+				customPropRules.push( `--has-cta-border-width: ${ css };` );
+			}
+		}
+		const borderR = overrides.borderRadius;
+		if ( borderR && typeof borderR === 'object' && 'top' in borderR ) {
+			const dims = { desktop: borderR };
+			const css = buildDimensionsCSS( dims, 'Desktop' );
+			if ( css ) {
+				customPropRules.push( `--has-cta-border-radius: ${ css };` );
+			}
+		}
 
 		if ( customPropRules.length > 0 ) {
 			nonCustomStyles += `

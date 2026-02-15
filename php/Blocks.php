@@ -669,6 +669,65 @@ class Blocks {
 			}
 		}
 
+		// Spacing overrides (flat structure, no breakpoints).
+		$max_w = isset( $overrides['maximumWidth'] ) && is_array( $overrides['maximumWidth'] ) ? $overrides['maximumWidth'] : null;
+		if ( $max_w && isset( $max_w['width'] ) && '' !== $max_w['width'] ) {
+			$unit                = isset( $max_w['unit'] ) && '' !== $max_w['unit'] ? $max_w['unit'] : 'px';
+			$custom_prop_rules[] = sprintf( '--has-cta-maximum-width: %s;', esc_attr( $max_w['width'] ) . esc_attr( $unit ) );
+		}
+		$inner = isset( $overrides['innerPadding'] ) && is_array( $overrides['innerPadding'] ) ? $overrides['innerPadding'] : null;
+		if ( $inner && isset( $inner['top'] ) ) {
+			$dims    = array(
+				'desktop' => $inner,
+				'tablet'  => $inner,
+				'mobile'  => $inner,
+			);
+			$css_val = $this->build_dimensions_css( $dims, 'desktop', false );
+			// Skip when empty (user cleared override) so theme default applies.
+			if ( null !== $css_val && '' !== $css_val ) {
+				$custom_prop_rules[] = sprintf( '--has-cta-inner-padding: %s;', esc_attr( $css_val ) );
+			}
+		}
+		$outer = isset( $overrides['outerMargin'] ) && is_array( $overrides['outerMargin'] ) ? $overrides['outerMargin'] : null;
+		if ( $outer && isset( $outer['top'] ) ) {
+			$dims    = array(
+				'desktop' => $outer,
+				'tablet'  => $outer,
+				'mobile'  => $outer,
+			);
+			$css_val = $this->build_dimensions_css( $dims, 'desktop', true );
+			// Skip when empty (user cleared override) so theme default applies.
+			if ( null !== $css_val && '' !== $css_val ) {
+				$custom_prop_rules[] = sprintf( '--has-cta-outer-margin: %s;', esc_attr( $css_val ) );
+			}
+		}
+		$bw = isset( $overrides['borderWidth'] ) && is_array( $overrides['borderWidth'] ) ? $overrides['borderWidth'] : null;
+		if ( $bw && isset( $bw['top'] ) ) {
+			$dims    = array(
+				'desktop' => $bw,
+				'tablet'  => $bw,
+				'mobile'  => $bw,
+			);
+			$css_val = $this->build_dimensions_css( $dims, 'desktop', false );
+			// Skip when empty (user cleared override) so theme default applies.
+			if ( null !== $css_val && '' !== $css_val ) {
+				$custom_prop_rules[] = sprintf( '--has-cta-border-width: %s;', esc_attr( $css_val ) );
+			}
+		}
+		$br = isset( $overrides['borderRadius'] ) && is_array( $overrides['borderRadius'] ) ? $overrides['borderRadius'] : null;
+		if ( $br && isset( $br['top'] ) ) {
+			$dims    = array(
+				'desktop' => $br,
+				'tablet'  => $br,
+				'mobile'  => $br,
+			);
+			$css_val = $this->build_dimensions_css( $dims, 'desktop', false );
+			// Skip when empty (user cleared override) so theme default applies.
+			if ( null !== $css_val && '' !== $css_val ) {
+				$custom_prop_rules[] = sprintf( '--has-cta-border-radius: %s;', esc_attr( $css_val ) );
+			}
+		}
+
 		$cta_values  = $this->get_cta_values( $attributes );
 		$extra_rules = array();
 
