@@ -144,7 +144,7 @@
 	--has-cta-inner-padding: 25px 35px;
 	--has-cta-outer-margin: 20px auto;
 }
-.has-click-to-share:not(.has-theme-custom) {
+.has-click-to-share:not(.has-theme-custom):not(.has-cts-shortcode) {
 	font-size: 16px;
 	border-style: solid;
 	border-width: var(--has-cta-border-width);
