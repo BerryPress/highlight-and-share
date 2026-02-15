@@ -1,4 +1,3 @@
-import React from 'react';
 const { escapeEditableHTML } = wp.escapeHtml;
 import useDeviceType from '../../../react/Hooks/useDeviceType';
 import { buildDimensionsCSS } from '../../../react/Utils/DimensionsHelper';
@@ -37,8 +36,8 @@ const GetStyles = ( props ) => {
 		typographyQuote,
 		typographyShareText,
 		iconSizeResponsive,
-		showClickToShareText,
 		theme,
+		themeOverrides = {},
 	} = attributes;
 	const screenSize = deviceType.toLowerCase();
 	let styles = `
@@ -247,12 +246,66 @@ const GetStyles = ( props ) => {
 		`;
 	}
 	if ( 'custom' !== theme ) {
-		// Only add max-width.
-		styles = `
+		// Base: max-width.
+		let nonCustomStyles = `
 		#${ uniqueId }.has-click-to-share {
 			max-width: ${ geHierarchicalPlaceholderValue( maximumWidth, screenSize, maximumWidth[ screenSize ].width, 'maxWidth' ) }${ geHierarchicalPlaceholderValue( maximumWidth, screenSize, maximumWidth[ screenSize ].unit, 'maxWidth' ) };
 		}
 		`;
+
+		// Theme override styles (colors, iconSize, showClickToShareText, showShareIcon).
+		const overrides = themeOverrides || {};
+		const colorMapping = {
+			backgroundColor: '--has-cta-background-color',
+			backgroundColorHover: '--has-cta-background-color-hover',
+			textColor: '--has-cta-quote-text-color',
+			textColorHover: '--has-cta-quote-text-color-hover',
+			shareTextColor: '--has-cta-cta-text-color',
+			shareTextColorHover: '--has-cta-cta-text-color-hover',
+			iconColor: '--has-cta-icon-color',
+			iconColorHover: '--has-cta-icon-color-hover',
+			borderColor: '--has-cta-border-color',
+			borderColorHover: '--has-cta-border-color-hover',
+		};
+		const customPropRules = [];
+		for ( const [ key, cssVar ] of Object.entries( colorMapping ) ) {
+			if ( overrides[ key ] !== undefined && overrides[ key ] !== null && overrides[ key ] !== '' ) {
+				customPropRules.push( `${ cssVar }: ${ overrides[ key ] };` );
+			}
+		}
+		const extraRules = [];
+		const iconSizeVal = overrides.iconSize !== undefined && overrides.iconSize !== null && overrides.iconSize !== '' && ! isNaN( Number( overrides.iconSize ) )
+			? Number( overrides.iconSize )
+			: null;
+		if ( iconSizeVal !== null && iconSizeVal > 0 ) {
+			extraRules.push(
+				`#${ uniqueId }.has-click-to-share .has-click-to-share-cta svg { width: ${ iconSizeVal }px; height: auto; }`
+			);
+		}
+		if ( Object.prototype.hasOwnProperty.call( overrides, 'showClickToShareText' ) ) {
+			const display = overrides.showClickToShareText ? 'inline' : 'none';
+			extraRules.push(
+				`#${ uniqueId }.has-click-to-share .has-click-to-share-cta-text { display: ${ display }; }`
+			);
+		}
+		if ( Object.prototype.hasOwnProperty.call( overrides, 'showShareIcon' ) ) {
+			const display = overrides.showShareIcon ? 'inline-flex' : 'none';
+			extraRules.push(
+				`#${ uniqueId }.has-click-to-share .has-click-to-share-cta-svg { display: ${ display }; }`
+			);
+		}
+
+		if ( customPropRules.length > 0 ) {
+			nonCustomStyles += `
+		#${ uniqueId }.has-click-to-share {
+			${ customPropRules.join( '\n\t\t\t' ) }
+		}
+		`;
+		}
+		if ( extraRules.length > 0 ) {
+			nonCustomStyles += extraRules.join( '\n\t\t' );
+		}
+		styles = nonCustomStyles;
 	}
 	let previewStyles = '';
 	if ( isPreview ) {

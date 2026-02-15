@@ -26,7 +26,12 @@ const ThemeButton = ( {
 	};
 
 	const popoverContent = () => {
-		const newAttributes = { ...attributes, theme: slug };
+		const previewUniqueId = uniqueId ? `${ uniqueId }-preview` : 'has-cts-preview';
+		const newAttributes = {
+			...attributes,
+			theme: slug,
+			uniqueId: previewUniqueId,
+		};
 		return <BlockContent attributes={ newAttributes } isPreview={ true } />;
 	};
 	return (

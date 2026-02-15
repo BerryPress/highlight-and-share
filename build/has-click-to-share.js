@@ -4487,6 +4487,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GetStyles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GetStyles */ "./src/blocks/click-to-share/components/GetStyles.js");
 /* harmony import */ var _react_Hooks_useDeviceType__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../react/Hooks/useDeviceType */ "./src/react/Hooks/useDeviceType.js");
 /* harmony import */ var _react_Utils_sanitize_svg__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../react/Utils/sanitize-svg */ "./src/react/Utils/sanitize-svg/index.js");
+/* harmony import */ var _hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../hooks/useThemeOverrides */ "./src/blocks/click-to-share/hooks/useThemeOverrides.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -4497,8 +4498,9 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 var _wp$blockEditor = wp.blockEditor,
   useInnerBlocksProps = _wp$blockEditor.useInnerBlocksProps,
-  RichText = _wp$blockEditor.RichText,
   store = _wp$blockEditor.store;
+var __ = wp.i18n.__;
+
 
 
 
@@ -4515,6 +4517,8 @@ var BlockContent = function BlockContent(props) {
   var innerBlocksRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var _useDispatch = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useDispatch)(store),
     replaceInnerBlocks = _useDispatch.replaceInnerBlocks;
+  var _useThemeOverrides = (0,_hooks_useThemeOverrides__WEBPACK_IMPORTED_MODULE_7__.useThemeOverrides)(attributes, setAttributes),
+    getThemeOverride = _useThemeOverrides.getThemeOverride;
   var innerBlockProps = useInnerBlocksProps({
     className: 'has-click-to-share-text has-click-to-share__share-text',
     ref: innerBlocksRef
@@ -4537,6 +4541,13 @@ var BlockContent = function BlockContent(props) {
     showClickToShareIcon = attributes.showClickToShareIcon,
     icon = attributes.icon;
 
+  // Resolve CTA values: custom theme uses legacy attrs, non-custom uses themeOverrides.
+  var isCustomTheme = theme === 'custom';
+  var resolvedClickText = isCustomTheme ? clickText || __('Click to share', 'highlight-and-share') : getThemeOverride('clickText', __('Click to share', 'highlight-and-share'));
+  var resolvedIcon = isCustomTheme ? icon : getThemeOverride('icon', icon) || icon;
+  var resolvedShowText = isCustomTheme ? typeof showClickToShareText !== 'undefined' && showClickToShareText[deviceType.toLowerCase()] : getThemeOverride('showClickToShareText', true);
+  var resolvedShowIcon = isCustomTheme ? typeof showClickToShareIcon !== 'undefined' && showClickToShareIcon[deviceType.toLowerCase()] : getThemeOverride('showShareIcon', true);
+
   /**
    * Migrate RichText to InnerBlocks.
    */
@@ -4553,26 +4564,28 @@ var BlockContent = function BlockContent(props) {
       });
     }
   }, [innerBlocksRef]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_GetStyles__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_GetStyles__WEBPACK_IMPORTED_MODULE_4__["default"], {
     attributes: attributes,
     isPreview: isBlockPreview
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('has-click-to-share', "has-theme-".concat(theme), {
       'has-background-color': 'solid' === backgroundType,
       'has-background-gradient': 'gradient' === backgroundType,
       'has-background-image': 'image' === backgroundType
     }),
     id: uniqueId
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "has-click-to-share-wrapper"
-  }, isBlockPreview && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, isBlockPreview && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "has-click-to-share-text has-click-to-share__share-text"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Vivamus commodo nunc arcu, finibus cursus felis porta a. Nam ultrices, turpis eu fringilla molestie, lorem libero."))), !isBlockPreview && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", innerBlockProps)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/React.createElement("p", null, "Vivamus commodo nunc arcu, finibus cursus felis porta a. Nam ultrices, turpis eu fringilla molestie, lorem libero."))), !isBlockPreview && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", innerBlockProps)), /*#__PURE__*/React.createElement("div", {
     className: "has-click-to-share-cta"
-  }, (typeof showClickToShareText !== 'undefined' && showClickToShareText[deviceType.toLowerCase()] || isBlockPreview) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, clickText, " "), (typeof showClickToShareIcon !== 'undefined' && showClickToShareIcon[deviceType.toLowerCase()] || isBlockPreview) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "has-click-to-share-icon-block-editor",
+  }, (resolvedShowText || isBlockPreview) && /*#__PURE__*/React.createElement("span", {
+    className: "has-click-to-share-cta-text"
+  }, resolvedClickText, " "), (resolvedShowIcon || isBlockPreview) && resolvedIcon && /*#__PURE__*/React.createElement("span", {
+    className: "has-click-to-share-cta-svg has-click-to-share-icon-block-editor",
     dangerouslySetInnerHTML: {
-      __html: (0,_react_Utils_sanitize_svg__WEBPACK_IMPORTED_MODULE_6__["default"])(icon)
+      __html: (0,_react_Utils_sanitize_svg__WEBPACK_IMPORTED_MODULE_6__["default"])(resolvedIcon)
     }
   })))));
 };
@@ -4879,18 +4892,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _react_Hooks_useDeviceType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../react/Hooks/useDeviceType */ "./src/react/Hooks/useDeviceType.js");
-/* harmony import */ var _react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../react/Utils/DimensionsHelper */ "./src/react/Utils/DimensionsHelper.js");
-/* harmony import */ var _react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../react/Utils/TypographyHelper */ "./src/react/Utils/TypographyHelper.js");
+/* harmony import */ var _react_Hooks_useDeviceType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../react/Hooks/useDeviceType */ "./src/react/Hooks/useDeviceType.js");
+/* harmony import */ var _react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../react/Utils/DimensionsHelper */ "./src/react/Utils/DimensionsHelper.js");
+/* harmony import */ var _react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../react/Utils/TypographyHelper */ "./src/react/Utils/TypographyHelper.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-
 var escapeEditableHTML = wp.escapeHtml.escapeEditableHTML;
 
 
@@ -4898,7 +4908,7 @@ var escapeEditableHTML = wp.escapeHtml.escapeEditableHTML;
 var GetStyles = function GetStyles(props) {
   var attributes = props.attributes,
     isPreview = props.isPreview;
-  var _useDeviceType = (0,_react_Hooks_useDeviceType__WEBPACK_IMPORTED_MODULE_1__["default"])('Desktop'),
+  var _useDeviceType = (0,_react_Hooks_useDeviceType__WEBPACK_IMPORTED_MODULE_0__["default"])('Desktop'),
     _useDeviceType2 = _slicedToArray(_useDeviceType, 1),
     deviceType = _useDeviceType2[0];
   var backgroundType = attributes.backgroundType,
@@ -4925,23 +4935,68 @@ var GetStyles = function GetStyles(props) {
     typographyQuote = attributes.typographyQuote,
     typographyShareText = attributes.typographyShareText,
     iconSizeResponsive = attributes.iconSizeResponsive,
-    showClickToShareText = attributes.showClickToShareText,
-    theme = attributes.theme;
+    theme = attributes.theme,
+    _attributes$themeOver = attributes.themeOverrides,
+    themeOverrides = _attributes$themeOver === void 0 ? {} : _attributes$themeOver;
   var screenSize = deviceType.toLowerCase();
-  var styles = "\n\t\t#".concat(uniqueId, ".has-click-to-share {\n\t\t\tmargin: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_2__.buildDimensionsCSS)(marginSize, deviceType), ";\n\t\t\tborder-radius: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_2__.buildDimensionsCSS)(borderRadiusSize, deviceType), ";\n\t\t\tborder-style: solid;\n\t\t\tborder-width: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_2__.buildDimensionsCSS)(borderWidth, deviceType), ";\n\t\t\tmax-width: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].width, 'maxWidth')).concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].unit, 'maxWidth'), ";\n\t\t\toverflow: hidden;\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share .has-click-to-share-cta,\n\t\t#").concat(uniqueId, ".has-click-to-share .has-click-to-share-text {\n\t\t\tposition: relative;\n\t\t\tz-index: 2;\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share .has-click-to-share-wrapper {\n\t\t\tposition: relative;\n\t\t\tpadding: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_2__.buildDimensionsCSS)(paddingSize, deviceType), ";\n\t\t\tfont-size: ").concat(clickShareFontSize, "px;\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-color {\n\t\t\tbackground-color: ").concat(backgroundColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-color:hover {\n\t\t\tbackground-color: ").concat(backgroundColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-gradient {\n\t\t\tbackground-image: ").concat(backgroundGradient, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-gradient:hover {\n\t\t\tbackground-image: ").concat(backgroundGradientHover, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share {\n\t\t\tborder-color: ").concat(borderColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share:hover {\n\t\t\tborder-color: ").concat(borderColorHover, ";\n\t\t}\n\t\t\n\t\t#").concat(uniqueId, " .has-click-to-share-cta {\n\t\t\tcolor: ").concat(shareTextColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-cta {\n\t\t\tcolor: ").concat(shareTextColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-text,\n\t\t#").concat(uniqueId, " .has-click-to-share-text p {\n\t\t\tcolor: ").concat(textColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-text,\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-text p {\n\t\t\tcolor: ").concat(textColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-cta svg {\n\t\t\tcolor: ").concat(iconColor, ";\n\t\t\twidth: ").concat(iconSizeResponsive[deviceType.toLowerCase()], "px;\n\t\t}\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-cta svg {\n\t\t\tcolor: ").concat(iconColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-text,\n\t\t#").concat(uniqueId, " .has-click-to-share-text p {\n\t\t\tfont-family: \"").concat(typographyQuote.desktop.fontFamily, "\";\n\t\t\tfont-weight: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].fontWeight, 'fontWeight'), ";\n\t\t\tfont-size: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].fontSize, 'fontSize') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyQuote, screenSize, typographyQuote[screenSize].fontSizeUnit, 'fontSizeUnit'), ";\n\t\t\tline-height: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].lineHeight, 'lineHeight') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyQuote, screenSize, typographyQuote[screenSize].lineHeightUnit, 'lineHeightUnit'), ";\n\t\t\tletter-spacing: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].letterSpacing, 'letterSpacing') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyQuote, screenSize, typographyQuote[screenSize].letterSpacingUnit, 'letterSpacingUnit'), ";\n\t\t\ttext-transform: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].textTransform, 'textTransform'), ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-cta,\n\t\t#").concat(uniqueId, " .has-click-to-share-cta p {\n\t\t\tfont-family: \"").concat(typographyShareText.desktop.fontFamily, "\";\n\t\t\tfont-weight: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].fontWeight, 'fontWeight'), ";\n\t\t\tfont-size: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].fontSize, 'fontSize') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyShareText, screenSize, typographyShareText[screenSize].fontSizeUnit, 'fontSizeUnit'), ";\n\t\t\tline-height: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].lineHeight, 'lineHeight') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyShareText, screenSize, typographyShareText[screenSize].lineHeightUnit, 'lineHeightUnit'), ";\n\t\t\tletter-spacing: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].letterSpacing, 'letterSpacing') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.getHierarchicalValueUnit)(typographyShareText, screenSize, typographyShareText[screenSize].letterSpacingUnit, 'letterSpacingUnit'), ";\n\t\t\ttext-transform: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].textTransform, 'textTransform'), ";\n\t\t}\n\t");
+  var styles = "\n\t\t#".concat(uniqueId, ".has-click-to-share {\n\t\t\tmargin: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_1__.buildDimensionsCSS)(marginSize, deviceType), ";\n\t\t\tborder-radius: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_1__.buildDimensionsCSS)(borderRadiusSize, deviceType), ";\n\t\t\tborder-style: solid;\n\t\t\tborder-width: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_1__.buildDimensionsCSS)(borderWidth, deviceType), ";\n\t\t\tmax-width: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].width, 'maxWidth')).concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].unit, 'maxWidth'), ";\n\t\t\toverflow: hidden;\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share .has-click-to-share-cta,\n\t\t#").concat(uniqueId, ".has-click-to-share .has-click-to-share-text {\n\t\t\tposition: relative;\n\t\t\tz-index: 2;\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share .has-click-to-share-wrapper {\n\t\t\tposition: relative;\n\t\t\tpadding: ").concat((0,_react_Utils_DimensionsHelper__WEBPACK_IMPORTED_MODULE_1__.buildDimensionsCSS)(paddingSize, deviceType), ";\n\t\t\tfont-size: ").concat(clickShareFontSize, "px;\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-color {\n\t\t\tbackground-color: ").concat(backgroundColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-color:hover {\n\t\t\tbackground-color: ").concat(backgroundColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-gradient {\n\t\t\tbackground-image: ").concat(backgroundGradient, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-gradient:hover {\n\t\t\tbackground-image: ").concat(backgroundGradientHover, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share {\n\t\t\tborder-color: ").concat(borderColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share:hover {\n\t\t\tborder-color: ").concat(borderColorHover, ";\n\t\t}\n\t\t\n\t\t#").concat(uniqueId, " .has-click-to-share-cta {\n\t\t\tcolor: ").concat(shareTextColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-cta {\n\t\t\tcolor: ").concat(shareTextColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-text,\n\t\t#").concat(uniqueId, " .has-click-to-share-text p {\n\t\t\tcolor: ").concat(textColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-text,\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-text p {\n\t\t\tcolor: ").concat(textColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-cta svg {\n\t\t\tcolor: ").concat(iconColor, ";\n\t\t\twidth: ").concat(iconSizeResponsive[deviceType.toLowerCase()], "px;\n\t\t}\n\t\t#").concat(uniqueId, ":hover .has-click-to-share-cta svg {\n\t\t\tcolor: ").concat(iconColorHover, ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-text,\n\t\t#").concat(uniqueId, " .has-click-to-share-text p {\n\t\t\tfont-family: \"").concat(typographyQuote.desktop.fontFamily, "\";\n\t\t\tfont-weight: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].fontWeight, 'fontWeight'), ";\n\t\t\tfont-size: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].fontSize, 'fontSize') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.getHierarchicalValueUnit)(typographyQuote, screenSize, typographyQuote[screenSize].fontSizeUnit, 'fontSizeUnit'), ";\n\t\t\tline-height: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].lineHeight, 'lineHeight') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.getHierarchicalValueUnit)(typographyQuote, screenSize, typographyQuote[screenSize].lineHeightUnit, 'lineHeightUnit'), ";\n\t\t\tletter-spacing: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].letterSpacing, 'letterSpacing') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.getHierarchicalValueUnit)(typographyQuote, screenSize, typographyQuote[screenSize].letterSpacingUnit, 'letterSpacingUnit'), ";\n\t\t\ttext-transform: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(typographyQuote, screenSize, typographyQuote[screenSize].textTransform, 'textTransform'), ";\n\t\t}\n\t\t#").concat(uniqueId, " .has-click-to-share-cta,\n\t\t#").concat(uniqueId, " .has-click-to-share-cta p {\n\t\t\tfont-family: \"").concat(typographyShareText.desktop.fontFamily, "\";\n\t\t\tfont-weight: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].fontWeight, 'fontWeight'), ";\n\t\t\tfont-size: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].fontSize, 'fontSize') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.getHierarchicalValueUnit)(typographyShareText, screenSize, typographyShareText[screenSize].fontSizeUnit, 'fontSizeUnit'), ";\n\t\t\tline-height: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].lineHeight, 'lineHeight') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.getHierarchicalValueUnit)(typographyShareText, screenSize, typographyShareText[screenSize].lineHeightUnit, 'lineHeightUnit'), ";\n\t\t\tletter-spacing: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].letterSpacing, 'letterSpacing') + (0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.getHierarchicalValueUnit)(typographyShareText, screenSize, typographyShareText[screenSize].letterSpacingUnit, 'letterSpacingUnit'), ";\n\t\t\ttext-transform: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(typographyShareText, screenSize, typographyShareText[screenSize].textTransform, 'textTransform'), ";\n\t\t}\n\t");
   var backgroundImageStyles = '';
   if ('image' === backgroundType) {
     backgroundImageStyles = "\n\t\t#".concat(uniqueId, ".has-click-to-share.has-background-image {\n\t\t\tbackground-color: ").concat(backgroundImage.backgroundColor, ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-image .has-click-to-share-wrapper:after{\n\t\t\tdisplay: block;\n\t\t\tcontent: '';\n\t\t\twidth: 100%;\n\t\t\theight: 100%;\n\t\t\tposition: absolute;\n\t\t\ttop: 0;\n\t\t\tleft: 0;\n\t\t\tz-index: 1;\n\t\t\tbackground-image: url('").concat(decodeURIComponent(encodeURIComponent(backgroundImage.url)), " ');\n\t\t\tbackground-position: ").concat(escapeEditableHTML(backgroundImage.backgroundPosition), ";\n\t\t\tbackground-repeat: ").concat(escapeEditableHTML(backgroundImage.backgroundRepeat), ";\n\t\t\tbackground-size: ").concat(escapeEditableHTML(backgroundImage.backgroundSize), ";\n\t\t\topacity: ").concat(parseFloat(backgroundImage.backgroundOpacity), ";\n\t\t}\n\t\t#").concat(uniqueId, ".has-click-to-share.has-background-image .has-click-to-share-wrapper:hover:after {\n\t\t\topacity: ").concat(parseFloat(backgroundImage.backgroundOpacityHover), ";\n\t\t}\n\t\t");
   }
   if ('custom' !== theme) {
-    // Only add max-width.
-    styles = "\n\t\t#".concat(uniqueId, ".has-click-to-share {\n\t\t\tmax-width: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].width, 'maxWidth')).concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_3__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].unit, 'maxWidth'), ";\n\t\t}\n\t\t");
+    // Base: max-width.
+    var nonCustomStyles = "\n\t\t#".concat(uniqueId, ".has-click-to-share {\n\t\t\tmax-width: ").concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].width, 'maxWidth')).concat((0,_react_Utils_TypographyHelper__WEBPACK_IMPORTED_MODULE_2__.geHierarchicalPlaceholderValue)(maximumWidth, screenSize, maximumWidth[screenSize].unit, 'maxWidth'), ";\n\t\t}\n\t\t");
+
+    // Theme override styles (colors, iconSize, showClickToShareText, showShareIcon).
+    var overrides = themeOverrides || {};
+    var colorMapping = {
+      backgroundColor: '--has-cta-background-color',
+      backgroundColorHover: '--has-cta-background-color-hover',
+      textColor: '--has-cta-quote-text-color',
+      textColorHover: '--has-cta-quote-text-color-hover',
+      shareTextColor: '--has-cta-cta-text-color',
+      shareTextColorHover: '--has-cta-cta-text-color-hover',
+      iconColor: '--has-cta-icon-color',
+      iconColorHover: '--has-cta-icon-color-hover',
+      borderColor: '--has-cta-border-color',
+      borderColorHover: '--has-cta-border-color-hover'
+    };
+    var customPropRules = [];
+    for (var _i = 0, _Object$entries = Object.entries(colorMapping); _i < _Object$entries.length; _i++) {
+      var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+        key = _Object$entries$_i[0],
+        cssVar = _Object$entries$_i[1];
+      if (overrides[key] !== undefined && overrides[key] !== null && overrides[key] !== '') {
+        customPropRules.push("".concat(cssVar, ": ").concat(overrides[key], ";"));
+      }
+    }
+    var extraRules = [];
+    var iconSizeVal = overrides.iconSize !== undefined && overrides.iconSize !== null && overrides.iconSize !== '' && !isNaN(Number(overrides.iconSize)) ? Number(overrides.iconSize) : null;
+    if (iconSizeVal !== null && iconSizeVal > 0) {
+      extraRules.push("#".concat(uniqueId, ".has-click-to-share .has-click-to-share-cta svg { width: ").concat(iconSizeVal, "px; height: auto; }"));
+    }
+    if (Object.prototype.hasOwnProperty.call(overrides, 'showClickToShareText')) {
+      var display = overrides.showClickToShareText ? 'inline' : 'none';
+      extraRules.push("#".concat(uniqueId, ".has-click-to-share .has-click-to-share-cta-text { display: ").concat(display, "; }"));
+    }
+    if (Object.prototype.hasOwnProperty.call(overrides, 'showShareIcon')) {
+      var _display = overrides.showShareIcon ? 'inline-flex' : 'none';
+      extraRules.push("#".concat(uniqueId, ".has-click-to-share .has-click-to-share-cta-svg { display: ").concat(_display, "; }"));
+    }
+    if (customPropRules.length > 0) {
+      nonCustomStyles += "\n\t\t#".concat(uniqueId, ".has-click-to-share {\n\t\t\t").concat(customPropRules.join('\n\t\t\t'), "\n\t\t}\n\t\t");
+    }
+    if (extraRules.length > 0) {
+      nonCustomStyles += extraRules.join('\n\t\t');
+    }
+    styles = nonCustomStyles;
   }
   var previewStyles = '';
   if (isPreview) {
     previewStyles = "\n\t\t\t#".concat(uniqueId, ".has-click-to-share p {\n\t\t\t\tfont-size: 12px;\n\t\t\t}\n\t\t\t#").concat(uniqueId, ".has-click-to-share .has-click-to-share-cta {\n\t\t\t\tfont-size: 12px;\n\t\t\t}\n\t\t\t#").concat(uniqueId, ".has-click-to-share .has-click-to-share-cta svg {\n\t\t\t\twidth: 12px !important;\n\t\t\t\theight: 12px !important;\n\t\t\t}\n\t\t");
   }
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, styles), 'image' === backgroundType && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, backgroundImageStyles), isPreview && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, previewStyles));
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, styles), 'image' === backgroundType && /*#__PURE__*/React.createElement("style", null, backgroundImageStyles), isPreview && /*#__PURE__*/React.createElement("style", null, previewStyles));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GetStyles);
 
@@ -5875,8 +5930,10 @@ var ThemeButton = function ThemeButton(_ref) {
     setShowPopover(false);
   };
   var popoverContent = function popoverContent() {
+    var previewUniqueId = uniqueId ? "".concat(uniqueId, "-preview") : 'has-cts-preview';
     var newAttributes = _objectSpread(_objectSpread({}, attributes), {}, {
-      theme: slug
+      theme: slug,
+      uniqueId: previewUniqueId
     });
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_BlockContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
       attributes: newAttributes,
@@ -5949,34 +6006,44 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 var colorOptions = [{
   label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Background Color', 'highlight-and-share'),
-  value: 'backgroundColor'
+  value: 'backgroundColor',
+  syncChange: 'backgroundColorHover'
 }, {
   label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Background Color (Hover)', 'highlight-and-share'),
-  value: 'backgroundColorHover'
+  value: 'backgroundColorHover',
+  syncChange: 'backgroundColor'
 }, {
   label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Text Color', 'highlight-and-share'),
-  value: 'textColor'
+  value: 'textColor',
+  syncChange: 'textColorHover'
 }, {
   label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Text Color (Hover)', 'highlight-and-share'),
-  value: 'textColorHover'
+  value: 'textColorHover',
+  syncChange: 'textColor'
 }, {
   label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Share Text Color', 'highlight-and-share'),
-  value: 'shareTextColor'
+  value: 'shareTextColor',
+  syncChange: 'shareTextColorHover'
 }, {
   label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Share Text Color (Hover)', 'highlight-and-share'),
-  value: 'shareTextColorHover'
+  value: 'shareTextColorHover',
+  syncChange: 'shareTextColor'
 }, {
   label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Icon Color', 'highlight-and-share'),
-  value: 'iconColor'
+  value: 'iconColor',
+  syncChange: 'iconColorHover'
 }, {
   label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Icon Color (Hover)', 'highlight-and-share'),
-  value: 'iconColorHover'
+  value: 'iconColorHover',
+  syncChange: 'iconColor'
 }, {
   label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Border Color', 'highlight-and-share'),
-  value: 'borderColor'
+  value: 'borderColor',
+  syncChange: 'borderColorHover'
 }, {
   label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Border Color (Hover)', 'highlight-and-share'),
-  value: 'borderColorHover'
+  value: 'borderColorHover',
+  syncChange: 'borderColor'
 }];
 var palette = has_gutenberg.colorPalette;
 var ThemeColors = function ThemeColors(props) {
@@ -6010,9 +6077,11 @@ var ThemeColors = function ThemeColors(props) {
     }, option.label), /*#__PURE__*/React.createElement("div", {
       className: "has-color-row__picker"
     }, /*#__PURE__*/React.createElement(_react_Components_ColorPicker__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      slug: option.value,
       value: getThemeOverride(option.value, ''),
-      onChange: function onChange(value) {
-        return setThemeOverride(option.value, value);
+      onChange: function onChange(_slug, colorValue) {
+        var keys = syncColors ? [option.value, option.syncChange] : option.value;
+        setThemeOverride(keys, colorValue);
       },
       defaultColors: palette,
       defaultColor: ''
@@ -6861,10 +6930,14 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 /**
  * Hook for reading and writing the themeOverrides block attribute.
  * Returns prefixed keys to avoid collisions with generic names.
@@ -6885,18 +6958,24 @@ function useThemeOverrides(attributes, setAttributes) {
     };
   }, [themeOverrides]);
   var setThemeOverride = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
-    return function (key, value) {
+    return function (keyOrKeys, value) {
+      var keys = Array.isArray(keyOrKeys) ? keyOrKeys : [keyOrKeys];
       if (value === undefined) {
-        // eslint-disable-next-line no-unused-vars -- omit key from rest.
-        var _ = themeOverrides[key],
-          rest = _objectWithoutProperties(themeOverrides, [key].map(_toPropertyKey));
+        var next = Object.fromEntries(Object.entries(themeOverrides).filter(function (_ref) {
+          var _ref2 = _slicedToArray(_ref, 1),
+            k = _ref2[0];
+          return !keys.includes(k);
+        }));
         setAttributes({
-          themeOverrides: rest
+          themeOverrides: next
         });
         return;
       }
+      var updates = keys.reduce(function (acc, k) {
+        return _objectSpread(_objectSpread({}, acc), {}, _defineProperty({}, k, value));
+      }, {});
       setAttributes({
-        themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), {}, _defineProperty({}, key, value))
+        themeOverrides: _objectSpread(_objectSpread({}, themeOverrides), updates)
       });
     };
   }, [themeOverrides, setAttributes]);

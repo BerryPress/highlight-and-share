@@ -9,16 +9,16 @@ import ColorPicker from '../../../../react/Components/ColorPicker';
 import { useThemeOverrides } from '../../hooks/useThemeOverrides';
 
 const colorOptions = [
-	{ label: __( 'Background Color', 'highlight-and-share' ), value: 'backgroundColor' },
-	{ label: __( 'Background Color (Hover)', 'highlight-and-share' ), value: 'backgroundColorHover' },
-	{ label: __( 'Text Color', 'highlight-and-share' ), value: 'textColor' },
-	{ label: __( 'Text Color (Hover)', 'highlight-and-share' ), value: 'textColorHover' },
-	{ label: __( 'Share Text Color', 'highlight-and-share' ), value: 'shareTextColor' },
-	{ label: __( 'Share Text Color (Hover)', 'highlight-and-share' ), value: 'shareTextColorHover' },
-	{ label: __( 'Icon Color', 'highlight-and-share' ), value: 'iconColor' },
-	{ label: __( 'Icon Color (Hover)', 'highlight-and-share' ), value: 'iconColorHover' },
-	{ label: __( 'Border Color', 'highlight-and-share' ), value: 'borderColor' },
-	{ label: __( 'Border Color (Hover)', 'highlight-and-share' ), value: 'borderColorHover' },
+	{ label: __( 'Background Color', 'highlight-and-share' ), value: 'backgroundColor', syncChange: 'backgroundColorHover' },
+	{ label: __( 'Background Color (Hover)', 'highlight-and-share' ), value: 'backgroundColorHover', syncChange: 'backgroundColor' },
+	{ label: __( 'Text Color', 'highlight-and-share' ), value: 'textColor', syncChange: 'textColorHover' },
+	{ label: __( 'Text Color (Hover)', 'highlight-and-share' ), value: 'textColorHover', syncChange: 'textColor' },
+	{ label: __( 'Share Text Color', 'highlight-and-share' ), value: 'shareTextColor', syncChange: 'shareTextColorHover' },
+	{ label: __( 'Share Text Color (Hover)', 'highlight-and-share' ), value: 'shareTextColorHover', syncChange: 'shareTextColor' },
+	{ label: __( 'Icon Color', 'highlight-and-share' ), value: 'iconColor', syncChange: 'iconColorHover' },
+	{ label: __( 'Icon Color (Hover)', 'highlight-and-share' ), value: 'iconColorHover', syncChange: 'iconColor' },
+	{ label: __( 'Border Color', 'highlight-and-share' ), value: 'borderColor', syncChange: 'borderColorHover' },
+	{ label: __( 'Border Color (Hover)', 'highlight-and-share' ), value: 'borderColorHover', syncChange: 'borderColor' },
 ];
 
 const palette = has_gutenberg.colorPalette;
@@ -52,8 +52,12 @@ const ThemeColors = ( props ) => {
 							<div className="has-color-row__label">{ option.label }</div>
 							<div className="has-color-row__picker">
 								<ColorPicker
+									slug={ option.value }
 									value={ getThemeOverride( option.value, '' ) }
-									onChange={ ( value ) => setThemeOverride( option.value, value ) }
+									onChange={ ( _slug, colorValue ) => {
+										const keys = syncColors ? [ option.value, option.syncChange ] : option.value;
+										setThemeOverride( keys, colorValue );
+									} }
 									defaultColors={ palette }
 									defaultColor={ '' }
 								/>

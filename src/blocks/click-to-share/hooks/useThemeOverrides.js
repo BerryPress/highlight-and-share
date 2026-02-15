@@ -18,15 +18,18 @@ export function useThemeOverrides( attributes, setAttributes ) {
 	);
 
 	const setThemeOverride = useMemo(
-		() => ( key, value ) => {
+		() => ( keyOrKeys, value ) => {
+			const keys = Array.isArray( keyOrKeys ) ? keyOrKeys : [ keyOrKeys ];
 			if ( value === undefined ) {
-				// eslint-disable-next-line no-unused-vars -- omit key from rest.
-				const { [ key ]: _, ...rest } = themeOverrides;
-				setAttributes( { themeOverrides: rest } );
+				const next = Object.fromEntries(
+					Object.entries( themeOverrides ).filter( ( [ k ] ) => ! keys.includes( k ) )
+				);
+				setAttributes( { themeOverrides: next } );
 				return;
 			}
+			const updates = keys.reduce( ( acc, k ) => ( { ...acc, [ k ]: value } ), {} );
 			setAttributes( {
-				themeOverrides: { ...themeOverrides, [ key ]: value },
+				themeOverrides: { ...themeOverrides, ...updates },
 			} );
 		},
 		[ themeOverrides, setAttributes ]

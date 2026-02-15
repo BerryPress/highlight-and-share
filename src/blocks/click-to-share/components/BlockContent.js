@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import classnames from 'classnames';
-const { useInnerBlocksProps, RichText, store } = wp.blockEditor;
+const { useInnerBlocksProps, store } = wp.blockEditor;
+const { __ } = wp.i18n;
 import { useDispatch } from '@wordpress/data';
 
 import { rawHandler } from '@wordpress/blocks';
@@ -8,6 +9,7 @@ import { rawHandler } from '@wordpress/blocks';
 import GetStyles from './GetStyles';
 import useDeviceType from '../../../react/Hooks/useDeviceType';
 import sanitizeSVG from '../../../react/Utils/sanitize-svg';
+import { useThemeOverrides } from '../hooks/useThemeOverrides';
 
 const BlockContent = ( props ) => {
 	const { attributes, setAttributes, isPreview, clientId } = props;
@@ -18,6 +20,8 @@ const BlockContent = ( props ) => {
 
 	const { replaceInnerBlocks } =
 		useDispatch( store );
+
+	const { getThemeOverride } = useThemeOverrides( attributes, setAttributes );
 
 	const innerBlockProps = useInnerBlocksProps(
 		{
@@ -42,6 +46,21 @@ const BlockContent = ( props ) => {
 		showClickToShareIcon,
 		icon,
 	} = attributes;
+
+	// Resolve CTA values: custom theme uses legacy attrs, non-custom uses themeOverrides.
+	const isCustomTheme = theme === 'custom';
+	const resolvedClickText = isCustomTheme
+		? ( clickText || __( 'Click to share', 'highlight-and-share' ) )
+		: ( getThemeOverride( 'clickText', __( 'Click to share', 'highlight-and-share' ) ) );
+	const resolvedIcon = isCustomTheme
+		? icon
+		: ( getThemeOverride( 'icon', icon ) || icon );
+	const resolvedShowText = isCustomTheme
+		? ( typeof showClickToShareText !== 'undefined' && showClickToShareText[ deviceType.toLowerCase() ] )
+		: getThemeOverride( 'showClickToShareText', true );
+	const resolvedShowIcon = isCustomTheme
+		? ( typeof showClickToShareIcon !== 'undefined' && showClickToShareIcon[ deviceType.toLowerCase() ] )
+		: getThemeOverride( 'showShareIcon', true );
 
 	/**
 	 * Migrate RichText to InnerBlocks.
@@ -82,11 +101,13 @@ const BlockContent = ( props ) => {
 						</>
 					) }
 					<div className="has-click-to-share-cta">
-						{ ( ( typeof showClickToShareText !== 'undefined' && showClickToShareText[ deviceType.toLowerCase() ] ) || isBlockPreview ) && <>{ clickText } </> }
-						{ ( ( typeof showClickToShareIcon !== 'undefined' && showClickToShareIcon[ deviceType.toLowerCase() ] ) || isBlockPreview ) && (
+						{ ( resolvedShowText || isBlockPreview ) && (
+							<span className="has-click-to-share-cta-text">{ resolvedClickText } </span>
+						) }
+						{ ( resolvedShowIcon || isBlockPreview ) && resolvedIcon && (
 							<span
-								className="has-click-to-share-icon-block-editor"
-								dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+								className="has-click-to-share-cta-svg has-click-to-share-icon-block-editor"
+								dangerouslySetInnerHTML={ { __html: sanitizeSVG( resolvedIcon ) } }
 							/>
 						) }
 					</div>

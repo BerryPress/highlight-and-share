@@ -402,6 +402,7 @@ class Blocks {
 		</style>
 			<?php
 		endif;
+
 		if ( ! wp_style_is( 'has-style-frontend-css', 'registered' ) ) {
 			wp_register_style(
 				'has-style-frontend-css',
@@ -410,8 +411,30 @@ class Blocks {
 				HIGHLIGHT_AND_SHARE_VERSION,
 				'all'
 			);
-			wp_print_styles( array( 'has-style-frontend-css' ) );
 		}
+
+		// Output theme override styles for non-custom themes (only when values exist).
+		$styles_to_print = array( 'has-style-frontend-css' );
+		if ( 'custom' !== $theme ) {
+			$override_styles = $this->build_theme_override_styles(
+				$attributes,
+				'.has-click-to-share#' . esc_attr( $attributes['uniqueId'] )
+			);
+			if ( '' !== $override_styles ) {
+				$override_handle = 'has-cts-theme-overrides-' . sanitize_key( $attributes['uniqueId'] );
+				wp_register_style( $override_handle, false );
+				wp_add_inline_style( $override_handle, $override_styles );
+				$styles_to_print[] = $override_handle;
+			}
+		}
+
+		add_action(
+			'wp_footer',
+			function () use ( $styles_to_print ) {
+				wp_print_styles( $styles_to_print );
+			},
+			100
+		);
 		?>
 		<?php
 		$container_classes = array(
@@ -458,17 +481,31 @@ class Blocks {
 				</div>
 				<div class='has-click-to-share-cta'>
 					<?php
-					echo '<span class="has-click-to-share-cta-text">';
-					echo wp_kses_post( $attributes['clickText'] );
-					echo '</span>';
-					if ( (bool) $attributes['showClickToShare'] && (bool) $attributes['showIcon'] ) {
-						echo '&nbsp;';
-					}
-					$icon = $attributes['icon'];
-					if ( (bool) $attributes['showIcon'] ) {
+					$cta_values = $this->get_cta_values( $attributes );
+
+					if ( 'custom' === $theme ) {
+						// Legacy: preserve current behavior.
+						echo '<span class="has-click-to-share-cta-text">';
+						echo wp_kses_post( $cta_values['clickText'] );
+						echo '</span>';
+						if ( $cta_values['showText'] && $cta_values['showIcon'] ) {
+							echo '&nbsp;';
+						}
+						if ( $cta_values['showIcon'] && '' !== $cta_values['icon'] ) {
+							?>
+							<span class="has-click-to-share-cta-svg"><?php echo wp_kses( $cta_values['icon'], Functions::get_kses_allowed_html( true ) ); ?></span>
+							<?php
+						}
+					} else {
+						// New theme: always output both spans, display controlled by override styles.
 						?>
-						<span class="has-click-to-share-cta-svg"><?php echo wp_kses( $attributes['icon'], Functions::get_kses_allowed_html( true ) ); ?></span>
+						<span class="has-click-to-share-cta-text"><?php echo wp_kses_post( $cta_values['clickText'] ); ?></span>
 						<?php
+						if ( '' !== $cta_values['icon'] ) {
+							?>
+							<span class="has-click-to-share-cta-svg"><?php echo wp_kses( $cta_values['icon'], Functions::get_kses_allowed_html( true ) ); ?></span>
+							<?php
+						}
 					}
 					?>
 				</div>
@@ -479,6 +516,113 @@ class Blocks {
 		<?php
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Resolve CTA values (clickText, showText, showIcon, icon, iconSize) based on theme.
+	 * For custom theme: use legacy attributes. For new themes: use themeOverrides with fallbacks.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return array Associative array with keys: clickText, showText, showIcon, icon, iconSize.
+	 */
+	protected function get_cta_values( $attributes ) {
+		$theme = isset( $attributes['theme'] ) ? sanitize_key( $attributes['theme'] ) : 'custom';
+
+		if ( 'custom' === $theme ) {
+			$show_click_to_share = isset( $attributes['showClickToShare'] ) ? (bool) $attributes['showClickToShare'] : true;
+			$show_icon           = isset( $attributes['showIcon'] ) ? (bool) $attributes['showIcon'] : true;
+			return array(
+				'clickText' => isset( $attributes['clickText'] ) ? $attributes['clickText'] : __( 'Click to share', 'highlight-and-share' ),
+				'showText'  => $show_click_to_share,
+				'showIcon'  => $show_icon,
+				'icon'      => isset( $attributes['icon'] ) ? $attributes['icon'] : '',
+				'iconSize'  => null,
+			);
+		}
+
+		$overrides = isset( $attributes['themeOverrides'] ) && is_array( $attributes['themeOverrides'] )
+			? $attributes['themeOverrides']
+			: array();
+
+		$show_text = isset( $overrides['showClickToShareText'] ) ? (bool) $overrides['showClickToShareText'] : true;
+		$show_icon = isset( $overrides['showShareIcon'] ) ? (bool) $overrides['showShareIcon'] : true;
+
+		return array(
+			'clickText' => isset( $overrides['clickText'] ) && '' !== $overrides['clickText']
+				? $overrides['clickText']
+				: __( 'Click to share', 'highlight-and-share' ),
+			'showText'  => $show_text,
+			'showIcon'  => $show_icon,
+			'icon'      => isset( $overrides['icon'] ) && '' !== $overrides['icon']
+				? $overrides['icon']
+				: ( isset( $attributes['icon'] ) ? $attributes['icon'] : '' ),
+			'iconSize'  => isset( $overrides['iconSize'] ) && '' !== $overrides['iconSize'] && is_numeric( $overrides['iconSize'] )
+				? (int) $overrides['iconSize']
+				: null,
+		);
+	}
+
+	/**
+	 * Build theme override styles (CSS custom properties) for non-custom themes.
+	 * Only outputs rules for keys that exist and have non-empty values.
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $selector   CSS selector (e.g. #uniqueId.has-click-to-share).
+	 * @return string CSS rules or empty string.
+	 */
+	protected function build_theme_override_styles( $attributes, $selector ) {
+		$overrides = isset( $attributes['themeOverrides'] ) && is_array( $attributes['themeOverrides'] )
+			? $attributes['themeOverrides']
+			: array();
+
+		$color_mapping = array(
+			'backgroundColor'      => '--has-cta-background-color',
+			'backgroundColorHover' => '--has-cta-background-color-hover',
+			'textColor'            => '--has-cta-quote-text-color',
+			'textColorHover'       => '--has-cta-quote-text-color-hover',
+			'shareTextColor'       => '--has-cta-cta-text-color',
+			'shareTextColorHover'  => '--has-cta-cta-text-color-hover',
+			'iconColor'            => '--has-cta-icon-color',
+			'iconColorHover'       => '--has-cta-icon-color-hover',
+			'borderColor'          => '--has-cta-border-color',
+			'borderColorHover'     => '--has-cta-border-color-hover',
+		);
+
+		$custom_prop_rules = array();
+		foreach ( $color_mapping as $key => $var ) {
+			if ( isset( $overrides[ $key ] ) && '' !== $overrides[ $key ] ) {
+				$custom_prop_rules[] = sprintf( '%s: %s;', $var, esc_attr( $overrides[ $key ] ) );
+			}
+		}
+
+		$cta_values  = $this->get_cta_values( $attributes );
+		$extra_rules = array();
+
+		if ( null !== $cta_values['iconSize'] && $cta_values['iconSize'] > 0 ) {
+			$extra_rules[] = sprintf( '%s .has-click-to-share-cta svg { width: %dpx; height: auto; }', $selector, (int) $cta_values['iconSize'] );
+		}
+		if ( array_key_exists( 'showClickToShareText', $overrides ) ) {
+			$display       = $overrides['showClickToShareText'] ? 'inline' : 'none';
+			$extra_rules[] = sprintf( '%s .has-click-to-share-cta-text { display: %s; }', $selector, $display );
+		}
+		if ( array_key_exists( 'showShareIcon', $overrides ) ) {
+			$display       = $overrides['showShareIcon'] ? 'inline-flex' : 'none';
+			$extra_rules[] = sprintf( '%s .has-click-to-share-cta-svg { display: %s; }', $selector, $display );
+		}
+
+		if ( empty( $custom_prop_rules ) && empty( $extra_rules ) ) {
+			return '';
+		}
+
+		$css = '';
+		if ( ! empty( $custom_prop_rules ) ) {
+			$css .= sprintf( "%s {\n\t\t%s\n\t}\n", $selector, implode( "\n\t\t", $custom_prop_rules ) );
+		}
+		if ( ! empty( $extra_rules ) ) {
+			$css .= implode( "\n", $extra_rules );
+		}
+
+		return $css;
 	}
 
 	/**
