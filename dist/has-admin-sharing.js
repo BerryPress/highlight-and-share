@@ -27503,7 +27503,7 @@ function usePanelState(panelId) {
    * @param {boolean} newState New open state (true = open, false = closed).
    */
   var setIsOpen = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (newState) {
-    var _window$hasSharingAdm;
+    var _window$hasSharingAdm, _window$hasHeadlinesA;
     setStorePanelState(panelId, newState);
 
     // Build payload with the toggled panel set to newState (use callback arg, not store, to avoid stale closure).
@@ -27514,7 +27514,7 @@ function usePanelState(panelId) {
       value: {
         panel_states: updatedPanelStates
       },
-      nonce: ((_window$hasSharingAdm = window.hasSharingAdmin) === null || _window$hasSharingAdm === void 0 ? void 0 : _window$hasSharingAdm.userMetaNonce) || ''
+      nonce: ((_window$hasSharingAdm = window.hasSharingAdmin) === null || _window$hasSharingAdm === void 0 ? void 0 : _window$hasSharingAdm.userMetaNonce) || ((_window$hasHeadlinesA = window.hasHeadlinesAdmin) === null || _window$hasHeadlinesA === void 0 ? void 0 : _window$hasHeadlinesA.userMetaNonce) || ''
     })["catch"](function () {
       // Silently fail if user meta update fails.
     });

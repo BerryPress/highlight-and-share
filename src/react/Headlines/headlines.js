@@ -4,7 +4,7 @@
 
 import { useState, Suspense, useEffect } from 'react';
 import { __ } from '@wordpress/i18n';
-import { useForm, useWatch, useFormState } from 'react-hook-form';
+import { useForm, FormProvider, useWatch, useFormState } from 'react-hook-form';
 import { useAsyncResource } from 'use-async-resource';
 import { Fill } from '@wordpress/components';
 import ErrorBoundary from '../Components/ErrorBoundary';
@@ -12,6 +12,9 @@ import Loader from '../Components/Loader';
 import sendCommand from '../Utils/SendCommand';
 import SaveBar from '../Components/SaveBar';
 import Snackbar from '../Components/Snackbar';
+import SocialNetworksPanel from './Panels/SocialNetworksPanel';
+import HeadlinesPanel from './Panels/HeadlinesPanel';
+import AppearancePanel from './Panels/AppearancePanel';
 
 const retrieveDefaults = () => {
 	return sendCommand( 'has_load_headlines_tab', {
@@ -50,9 +53,7 @@ const Headlines = () => {
 	return (
 		<ErrorBoundary
 			fallback={
-				<p>
-					{ __( 'Could not load Headlines options.', 'highlight-and-share' ) }
-				</p>
+				<p>{ __( 'Could not load Headlines options.', 'highlight-and-share' ) }</p>
 			}
 		>
 			<Suspense
@@ -89,12 +90,13 @@ const HeadlinesInterface = ( { defaults } ) => {
 		politeness: 'assertive',
 	} );
 
-	const { control, reset } = useForm( {
+	const methods = useForm( {
 		defaultValues: getDefaultValues( data ),
 		mode: 'onBlur',
 		resetOptions: { keepDirtyValues: false, keepErrors: false },
 	} );
 
+	const { control, reset } = methods;
 	const formValues = useWatch( { control } );
 	const { errors, isDirty } = useFormState( { control } );
 	const hasErrors = Object.keys( errors ).length > 0;
@@ -109,139 +111,142 @@ const HeadlinesInterface = ( { defaults } ) => {
 		if ( success && data ) {
 			const values = data.values ?? data;
 			setCheckpointData( values );
-			reset( getDefaultValues( values ), { keepDirtyValues: false, keepDirty: false } );
+			reset( getDefaultValues( values ), {
+				keepDirtyValues: false,
+				keepDirty: false,
+			} );
 		}
 	}, [ success, data, reset ] );
 
 	if ( ! success ) {
-		return (
-			<p>{ __( 'Loading…', 'highlight-and-share' ) }</p>
-		);
+		return <p>{ __( 'Loading…', 'highlight-and-share' ) }</p>;
 	}
 
 	return (
 		<>
-			<div className="has-admin-content-wrapper">
-				<div className="has-admin-content-panel">
-					<div className="has-admin-content-heading">
-						<h1>
-							<span className="has-admin-content-heading-text">
-								{ __( 'Headlines', 'highlight-and-share' ) }
-							</span>
-						</h1>
-						<p className="description">
-							{ __(
-								'Configure share buttons for section headings. Enable the feature, choose networks, and optionally auto-generate heading IDs for deep linking.',
-								'highlight-and-share'
-							) }
-						</p>
-					</div>
-					<div className="has-admin-content-body">
-						<p className="description">
-							{ __( 'Panels will appear here as the feature is implemented.', 'highlight-and-share' ) }
-						</p>
+			<FormProvider { ...methods }>
+				<div className="has-admin-content-wrapper">
+					<div className="has-admin-content-panel">
+						<div className="has-admin-content-heading">
+							<h1>
+								<span className="has-admin-content-heading-text">
+									{ __( 'Headlines', 'highlight-and-share' ) }
+								</span>
+							</h1>
+							<p className="description">
+								{ __(
+									'Configure share buttons for section headings. Enable the feature, choose networks, and optionally auto-generate heading IDs for deep linking.',
+									'highlight-and-share'
+								) }
+							</p>
+						</div>
+						<div className="has-admin-content-body">
+							<SocialNetworksPanel />
+							<HeadlinesPanel />
+							<AppearancePanel />
+						</div>
 					</div>
 				</div>
-			</div>
-			<Fill name="hasHeadlinesFooter">
-				<Snackbar
-					politeness={ snackbar.politeness }
-					isVisible={ snackbar.isVisible }
-					message={ snackbar.message }
-					title={ snackbar.title }
-					type={ snackbar.type }
-					isDismissable={ snackbar.isDismissable }
-					isPersistent={ snackbar.isPersistent }
-					isSuccess={ snackbar.isSuccess }
-					loadingMessage={ snackbar.loadingMessage }
-					onClose={ () => setSnackbar( { ...snackbar, isVisible: false } ) }
-				>
-					{ snackbar.message }
-				</Snackbar>
-				<SaveBar
-					onDiscardChanges={ () => {
-						const checkpoint = getCheckpointData();
-						setCheckpoint( checkpoint, false );
-					} }
-					onSave={ () => {
-						setSaving( true );
-						sendCommand( 'has_save_headlines_tab', {
-							nonce: window.hasHeadlinesAdmin?.saveNonce,
-							form_data: formValues,
-						} )
-							.then( ( ajaxResponse ) => {
-								const { data: ajaxData, success: ok } = ajaxResponse.data;
-								if ( ok ) {
-									const values = ajaxData?.values ?? ajaxData ?? {};
-									setCheckpoint( values, false );
-									setTimeout( () => {
-										setSnackbar( {
-											isVisible: true,
-											message: __(
-												'Settings saved successfully.',
-												'highlight-and-share'
-											),
-											title: __(
-												'Settings saved successfully.',
-												'highlight-and-share'
-											),
-											type: 'success',
-											isDismissable: true,
-											isPersistent: false,
-											isSuccess: true,
-											loadingMessage: null,
-											politeness: 'assertive',
-										} );
-									}, 350 );
-								}
-								setSaving( false );
+				<Fill name="hasHeadlinesFooter">
+					<Snackbar
+						politeness={ snackbar.politeness }
+						isVisible={ snackbar.isVisible }
+						message={ snackbar.message }
+						title={ snackbar.title }
+						type={ snackbar.type }
+						isDismissable={ snackbar.isDismissable }
+						isPersistent={ snackbar.isPersistent }
+						isSuccess={ snackbar.isSuccess }
+						loadingMessage={ snackbar.loadingMessage }
+						onClose={ () => setSnackbar( { ...snackbar, isVisible: false } ) }
+					>
+						{ snackbar.message }
+					</Snackbar>
+					<SaveBar
+						onDiscardChanges={ () => {
+							const checkpoint = getCheckpointData();
+							setCheckpoint( checkpoint, false );
+						} }
+						onSave={ () => {
+							setSaving( true );
+							sendCommand( 'has_save_headlines_tab', {
+								nonce: window.hasHeadlinesAdmin?.saveNonce,
+								form_data: formValues,
 							} )
-							.catch( () => {
-								setSaving( false );
-							} );
-					} }
-					onReset={ () => {
-						setResetting( true );
-						sendCommand( 'has_reset_headlines_tab', {
-							nonce: window.hasHeadlinesAdmin?.resetNonce,
-						} )
-							.then( ( ajaxResponse ) => {
-								const { data: ajaxData, success: ok } = ajaxResponse.data;
-								if ( ok ) {
-									const values = ajaxData?.values ?? ajaxData ?? {};
-									setCheckpoint( values, false );
-									setTimeout( () => {
-										setSnackbar( {
-											isVisible: true,
-											message: __(
-												'Settings reset to defaults successfully.',
-												'highlight-and-share'
-											),
-											title: __(
-												'Settings reset to defaults successfully.',
-												'highlight-and-share'
-											),
-											type: 'info',
-											isDismissable: true,
-											isPersistent: false,
-											isSuccess: false,
-											loadingMessage: null,
-											politeness: 'assertive',
-										} );
-									}, 350 );
-								}
-								setResetting( false );
+								.then( ( ajaxResponse ) => {
+									const { data: ajaxData, success: ok } = ajaxResponse.data;
+									if ( ok ) {
+										const values = ajaxData?.values ?? ajaxData ?? {};
+										setCheckpoint( values, false );
+										setTimeout( () => {
+											setSnackbar( {
+												isVisible: true,
+												message: __(
+													'Settings saved successfully.',
+													'highlight-and-share'
+												),
+												title: __(
+													'Settings saved successfully.',
+													'highlight-and-share'
+												),
+												type: 'success',
+												isDismissable: true,
+												isPersistent: false,
+												isSuccess: true,
+												loadingMessage: null,
+												politeness: 'assertive',
+											} );
+										}, 350 );
+									}
+									setSaving( false );
+								} )
+								.catch( () => {
+									setSaving( false );
+								} );
+						} }
+						onReset={ () => {
+							setResetting( true );
+							sendCommand( 'has_reset_headlines_tab', {
+								nonce: window.hasHeadlinesAdmin?.resetNonce,
 							} )
-							.catch( () => {
-								setResetting( false );
-							} );
-					} }
-					isSaving={ saving }
-					isResetting={ resetting }
-					isDirtyFields={ isDirty }
-					hasErrors={ hasErrors }
-				/>
-			</Fill>
+								.then( ( ajaxResponse ) => {
+									const { data: ajaxData, success: ok } = ajaxResponse.data;
+									if ( ok ) {
+										const values = ajaxData?.values ?? ajaxData ?? {};
+										setCheckpoint( values, false );
+										setTimeout( () => {
+											setSnackbar( {
+												isVisible: true,
+												message: __(
+													'Settings reset to defaults successfully.',
+													'highlight-and-share'
+												),
+												title: __(
+													'Settings reset to defaults successfully.',
+													'highlight-and-share'
+												),
+												type: 'info',
+												isDismissable: true,
+												isPersistent: false,
+												isSuccess: false,
+												loadingMessage: null,
+												politeness: 'assertive',
+											} );
+										}, 350 );
+									}
+									setResetting( false );
+								} )
+								.catch( () => {
+									setResetting( false );
+								} );
+						} }
+						isSaving={ saving }
+						isResetting={ resetting }
+						isDirtyFields={ isDirty }
+						hasErrors={ hasErrors }
+					/>
+				</Fill>
+			</FormProvider>
 		</>
 	);
 };

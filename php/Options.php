@@ -680,7 +680,15 @@ class Options {
 		$settings                  = array_replace_recursive( $defaults, $settings );
 		$settings['network_order'] = array_unique( (array) ( $settings['network_order'] ?? array() ) );
 
+		// Restore social_defaults from defaults if empty (e.g. corrupted/migrated data).
+		if ( empty( $settings['social_defaults'] ) || ! is_array( $settings['social_defaults'] ) ) {
+			$settings['social_defaults'] = $defaults['social_defaults'];
+			$settings['network_order']   = $defaults['network_order'];
+		}
+
 		self::$options_headlines = $settings;
+
+		$settings = Functions::to_camelcase_recursive( $settings );
 		return $settings;
 	}
 

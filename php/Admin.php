@@ -750,10 +750,11 @@ class Admin {
 					'has-headlines-admin-js',
 					'hasHeadlinesAdmin',
 					array(
-						'loadNonce'  => wp_create_nonce( 'has_load_headlines_tab' ),
-						'saveNonce'  => wp_create_nonce( 'has_save_headlines_tab' ),
-						'resetNonce' => wp_create_nonce( 'has_reset_headlines_tab' ),
-						'postTypes'  => $post_types,
+						'loadNonce'     => wp_create_nonce( 'has_load_headlines_tab' ),
+						'saveNonce'     => wp_create_nonce( 'has_save_headlines_tab' ),
+						'resetNonce'    => wp_create_nonce( 'has_reset_headlines_tab' ),
+						'userMetaNonce' => wp_create_nonce( 'has_admin_user_meta' ),
+						'postTypes'     => $post_types,
 					)
 				);
 			}

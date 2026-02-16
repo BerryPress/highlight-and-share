@@ -84,13 +84,43 @@ class Headlines {
 			wp_send_json_error( array( 'message' => __( 'Invalid form data', 'highlight-and-share' ) ) );
 		}
 
-		$form_data  = Functions::to_underlines_recursive( $form_data );
-		$form_data  = Functions::sanitize_array_recursive( $form_data );
-		$existing   = Options::get_headlines_options( true );
-		$settings   = array_replace_recursive( $existing, $form_data );
-		$option_key = self::OPTION_KEY;
+		$form_data = Functions::to_underlines_recursive( $form_data );
+		$form_data = Functions::sanitize_array_recursive( $form_data );
+		$existing  = Options::get_headlines_options( true );
+		$settings  = array_replace_recursive( $existing, $form_data );
 
-		update_option( $option_key, $settings );
+		// Enforce max 4 networks. Copy and Webshare (locked) count toward limit.
+		$social_defaults = isset( $settings['social_defaults'] ) ? $settings['social_defaults'] : array();
+		$enabled_count   = 0;
+		foreach ( $social_defaults as $slug => &$net ) {
+			if ( ! empty( $net['enabled'] ) ) {
+				$enabled_count++;
+			}
+		}
+		unset( $net );
+		$max = 4;
+		if ( $enabled_count > $max ) {
+			$to_disable = $enabled_count - $max;
+			// Disable non-locked networks from the end of the list.
+			$slugs = array_reverse( array_keys( $social_defaults ) );
+			foreach ( $slugs as $slug ) {
+				if ( $to_disable <= 0 ) {
+					break;
+				}
+				$net = &$social_defaults[ $slug ];
+				if ( ! empty( $net['locked'] ) ) {
+					continue;
+				}
+				if ( ! empty( $net['enabled'] ) ) {
+					$net['enabled'] = false;
+					$to_disable--;
+				}
+			}
+			unset( $net );
+			$settings['social_defaults'] = $social_defaults;
+		}
+
+		update_option( self::OPTION_KEY, $settings );
 
 		$fresh  = Options::get_headlines_options( true );
 		$values = $this->map_defaults_to_js( stripslashes_deep( $fresh ) );
