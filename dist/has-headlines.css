@@ -1,1 +1,102 @@
-[data-has-headline-share]{position:relative}[data-has-headline-share]::after{content:"";position:absolute;left:-20px;top:50%;transform:translate(-50%, -50%);width:24px;height:24px;padding-right:60px;box-sizing:border-box;background-color:currentColor;-webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27><path d=%27m225.493 323.087c-9.764 0-18.945-3.805-25.863-10.711-54.632-54.638-54.632-143.539 0-198.174l73.219-73.219c26.423-26.429 61.61-40.983 99.083-40.983s72.66 14.554 99.082 40.983c54.632 54.635 54.632 143.536 0 198.171l-48.809 48.812c-6.906 6.909-16.087 10.714-25.863 10.717-9.764 0-18.945-3.805-25.863-10.711-6.906-6.909-10.717-16.096-10.717-25.869 0-9.77 3.81-18.957 10.717-25.866l48.809-48.812c26.113-26.113 26.113-68.599 0-94.71-12.622-12.622-29.447-19.576-47.356-19.576s-34.734 6.954-47.356 19.576l-73.219 73.219c-26.113 26.11-26.113 68.596 0 94.707 14.265 14.262 14.265 37.47 0 51.732-6.919 6.91-16.1 10.714-25.864 10.714z%27/><path d=%27m140.068 512c-37.473 0-72.66-14.554-99.082-40.983-54.632-54.635-54.632-143.536 0-198.171l36.616-36.613c6.906-6.906 16.099-10.711 25.863-10.711 9.764 0 18.957 3.807 25.863 10.717 6.906 6.906 10.717 16.093 10.717 25.863 0 9.773-3.81 18.96-10.717 25.869l-36.616 36.61c-26.113 26.107-26.113 68.593 0 94.704 12.622 12.622 29.447 19.576 47.356 19.576s34.734-6.951 47.356-19.576l73.219-73.219c26.113-26.11 26.113-68.596 0-94.707-6.906-6.909-10.717-16.096-10.717-25.866s3.81-18.957 10.717-25.866c6.906-6.909 16.099-10.711 25.863-10.711s18.957 3.801 25.863 10.708c54.632 54.638 54.632 143.539 0 198.174l-73.219 73.219c-26.422 26.429-61.609 40.983-99.082 40.983z%27/></svg>") no-repeat center/contain;mask:url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27><path d=%27m225.493 323.087c-9.764 0-18.945-3.805-25.863-10.711-54.632-54.638-54.632-143.539 0-198.174l73.219-73.219c26.423-26.429 61.61-40.983 99.083-40.983s72.66 14.554 99.082 40.983c54.632 54.635 54.632 143.536 0 198.171l-48.809 48.812c-6.906 6.909-16.087 10.714-25.863 10.717-9.764 0-18.945-3.805-25.863-10.711-6.906-6.909-10.717-16.096-10.717-25.869 0-9.77 3.81-18.957 10.717-25.866l48.809-48.812c26.113-26.113 26.113-68.599 0-94.71-12.622-12.622-29.447-19.576-47.356-19.576s-34.734 6.954-47.356 19.576l-73.219 73.219c-26.113 26.11-26.113 68.596 0 94.707 14.265 14.262 14.265 37.47 0 51.732-6.919 6.91-16.1 10.714-25.864 10.714z%27/><path d=%27m140.068 512c-37.473 0-72.66-14.554-99.082-40.983-54.632-54.635-54.632-143.536 0-198.171l36.616-36.613c6.906-6.906 16.099-10.711 25.863-10.711 9.764 0 18.957 3.807 25.863 10.717 6.906 6.906 10.717 16.093 10.717 25.863 0 9.773-3.81 18.96-10.717 25.869l-36.616 36.61c-26.113 26.107-26.113 68.593 0 94.704 12.622 12.622 29.447 19.576 47.356 19.576s34.734-6.951 47.356-19.576l73.219-73.219c26.113-26.11 26.113-68.596 0-94.707-6.906-6.909-10.717-16.096-10.717-25.866s3.81-18.957 10.717-25.866c6.906-6.909 16.099-10.711 25.863-10.711s18.957 3.801 25.863 10.708c54.632 54.638 54.632 143.539 0 198.174l-73.219 73.219c-26.422 26.429-61.609 40.983-99.082 40.983z%27/></svg>") no-repeat center/contain;opacity:0;transition:opacity .15s ease}[data-has-headline-share]:hover::after,[data-has-headline-share]:focus-within::after{opacity:.7}.has-headline-link-icon-always-visible [data-has-headline-share]::after{opacity:.6}.has-headline-link-icon-always-visible [data-has-headline-share]:hover::after,.has-headline-link-icon-always-visible [data-has-headline-share]:focus-within::after{opacity:1}
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/resolve-url-loader/index.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[3]!./src/headlines.scss ***!
+  \****************************************************************************************************************************************************************************************************************/
+/**
+ * Headlines feature: link icon via ::after and CSS mask.
+ * Targets headings with data-has-headline-share.
+ */
+/* Link icon SVG (chain/link) for mask. */
+/* Headings with share affordance: position context for trigger button. */
+[data-has-headline-share] {
+  position: relative;
+}
+
+/* Share trigger button (real element so JS can bind click; works when headline is a link). */
+.has-headline-share-trigger {
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  padding-right: 60px;
+  box-sizing: border-box;
+  margin: 0;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27><path d=%27m225.493 323.087c-9.764 0-18.945-3.805-25.863-10.711-54.632-54.638-54.632-143.539 0-198.174l73.219-73.219c26.423-26.429 61.61-40.983 99.083-40.983s72.66 14.554 99.082 40.983c54.632 54.635 54.632 143.536 0 198.171l-48.809 48.812c-6.906 6.909-16.087 10.714-25.863 10.717-9.764 0-18.945-3.805-25.863-10.711-6.906-6.909-10.717-16.096-10.717-25.869 0-9.77 3.81-18.957 10.717-25.866l48.809-48.812c26.113-26.113 26.113-68.599 0-94.71-12.622-12.622-29.447-19.576-47.356-19.576s-34.734 6.954-47.356 19.576l-73.219 73.219c-26.113 26.11-26.113 68.596 0 94.707 14.265 14.262 14.265 37.47 0 51.732-6.919 6.91-16.1 10.714-25.864 10.714z%27/><path d=%27m140.068 512c-37.473 0-72.66-14.554-99.082-40.983-54.632-54.635-54.632-143.536 0-198.171l36.616-36.613c6.906-6.906 16.099-10.711 25.863-10.711 9.764 0 18.957 3.807 25.863 10.717 6.906 6.906 10.717 16.093 10.717 25.863 0 9.773-3.81 18.96-10.717 25.869l-36.616 36.61c-26.113 26.107-26.113 68.593 0 94.704 12.622 12.622 29.447 19.576 47.356 19.576s34.734-6.951 47.356-19.576l73.219-73.219c26.113-26.11 26.113-68.596 0-94.707-6.906-6.909-10.717-16.096-10.717-25.866s3.81-18.957 10.717-25.866c6.906-6.909 16.099-10.711 25.863-10.711s18.957 3.801 25.863 10.708c54.632 54.638 54.632 143.539 0 198.174l-73.219 73.219c-26.422 26.429-61.609 40.983-99.082 40.983z%27/></svg>") no-repeat center/contain;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27><path d=%27m225.493 323.087c-9.764 0-18.945-3.805-25.863-10.711-54.632-54.638-54.632-143.539 0-198.174l73.219-73.219c26.423-26.429 61.61-40.983 99.083-40.983s72.66 14.554 99.082 40.983c54.632 54.635 54.632 143.536 0 198.171l-48.809 48.812c-6.906 6.909-16.087 10.714-25.863 10.717-9.764 0-18.945-3.805-25.863-10.711-6.906-6.909-10.717-16.096-10.717-25.869 0-9.77 3.81-18.957 10.717-25.866l48.809-48.812c26.113-26.113 26.113-68.599 0-94.71-12.622-12.622-29.447-19.576-47.356-19.576s-34.734 6.954-47.356 19.576l-73.219 73.219c-26.113 26.11-26.113 68.596 0 94.707 14.265 14.262 14.265 37.47 0 51.732-6.919 6.91-16.1 10.714-25.864 10.714z%27/><path d=%27m140.068 512c-37.473 0-72.66-14.554-99.082-40.983-54.632-54.635-54.632-143.536 0-198.171l36.616-36.613c6.906-6.906 16.099-10.711 25.863-10.711 9.764 0 18.957 3.807 25.863 10.717 6.906 6.906 10.717 16.093 10.717 25.863 0 9.773-3.81 18.96-10.717 25.869l-36.616 36.61c-26.113 26.107-26.113 68.593 0 94.704 12.622 12.622 29.447 19.576 47.356 19.576s34.734-6.951 47.356-19.576l73.219-73.219c26.113-26.11 26.113-68.596 0-94.707-6.906-6.909-10.717-16.096-10.717-25.866s3.81-18.957 10.717-25.866c6.906-6.909 16.099-10.711 25.863-10.711s18.957 3.801 25.863 10.708c54.632 54.638 54.632 143.539 0 198.174l-73.219 73.219c-26.422 26.429-61.609 40.983-99.082 40.983z%27/></svg>") no-repeat center/contain;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.has-headline-share-trigger:hover,
+.has-headline-share-trigger:focus,
+[data-has-headline-share]:hover .has-headline-share-trigger,
+[data-has-headline-share]:focus-within .has-headline-share-trigger {
+  opacity: 0.7;
+}
+
+.has-headline-share-trigger:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* When "Link icon always visible" is on, show icon without hover/focus. */
+.has-headline-link-icon-always-visible .has-headline-share-trigger {
+  opacity: 0.6;
+}
+
+.has-headline-link-icon-always-visible .has-headline-share-trigger:hover,
+.has-headline-link-icon-always-visible .has-headline-share-trigger:focus,
+.has-headline-link-icon-always-visible [data-has-headline-share]:hover .has-headline-share-trigger,
+.has-headline-link-icon-always-visible [data-has-headline-share]:focus-within .has-headline-share-trigger {
+  opacity: 1;
+}
+
+/* Headline share panel (vertical list, up to 4 rows). */
+.has-headline-share-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 140px;
+  max-width: 220px;
+  padding: 6px 0;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.has-headline-share-panel__row {
+  display: block;
+}
+
+.has-headline-share-panel__action {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+  text-decoration: none;
+  color: #1e1e1e;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.has-headline-share-panel__action:hover,
+.has-headline-share-panel__action:focus {
+  background: rgba(0, 0, 0, 0.06);
+  outline: none;
+}
+
+.has-headline-share-panel__action:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+/*# sourceMappingURL=has-headlines.css.map*/

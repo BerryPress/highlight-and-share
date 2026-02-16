@@ -36,6 +36,7 @@ module.exports = ( env ) => {
 				'has-image-sharing': [ './src/frontendjs/has-image-sharing.js' ],
 				'has-cf-turnstile': [ './src/frontendjs/turnstile.js' ],
 				'has-headlines': [ './src/headlines.scss' ],
+				'has-headline-sharing': [ './src/frontendjs/headline-sharing.js' ],
 
 			},
 			mode: env.mode,

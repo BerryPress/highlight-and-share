@@ -188,7 +188,7 @@ class Headlines {
 	}
 
 	/**
-	 * Enqueue frontend headline link-icon styles when the feature is enabled and post type is supported.
+	 * Enqueue frontend headline link-icon styles and headline-sharing script when the feature is enabled.
 	 */
 	public function enqueue_headlines_styles() {
 		if ( ! $this->can_parse_headlines() ) {
@@ -201,6 +201,69 @@ class Headlines {
 			$plugin_url,
 			array(),
 			$version
+		);
+
+		wp_enqueue_script(
+			'has-headline-sharing',
+			Functions::get_plugin_url( 'dist/has-headline-sharing.js' ),
+			array(),
+			$version,
+			true
+		);
+		wp_localize_script( 'has-headline-sharing', 'hasHeadlineSharing', $this->get_headline_share_config() );
+	}
+
+	/**
+	 * Build config for headline-sharing.js: page URL/title, prefix/suffix, and enabled networks (slug, label, shareUrlTemplate, requiresPopup).
+	 *
+	 * @return array Config for hasHeadlineSharing.
+	 */
+	private function get_headline_share_config() {
+		global $post;
+		$page_url   = is_singular() && $post ? get_permalink( $post ) : '';
+		$page_title = is_singular() && $post ? get_the_title( $post ) : '';
+		$settings   = Options::get_plugin_options();
+		$prefix     = isset( $settings['sharing_prefix'] ) ? stripslashes( sanitize_text_field( $settings['sharing_prefix'] ) ) : '';
+		$suffix     = isset( $settings['sharing_suffix'] ) ? stripslashes( sanitize_text_field( $settings['sharing_suffix'] ) ) : '';
+		$twitter    = isset( $settings['twitter'] ) ? trim( sanitize_text_field( $settings['twitter'] ) ) : '';
+
+		$headline_options = Options::get_headlines_options();
+		$network_order    = isset( $headline_options['network_order'] ) && is_array( $headline_options['network_order'] )
+			? $headline_options['network_order']
+			: array();
+		$social_defaults  = isset( $headline_options['social_defaults'] ) && is_array( $headline_options['social_defaults'] )
+			? $headline_options['social_defaults']
+			: array();
+		$all_networks     = Options::get_social_network_defaults();
+		$networks         = array();
+		$max              = 4;
+		$count            = 0;
+		foreach ( $network_order as $slug ) {
+			if ( $count >= $max ) {
+				break;
+			}
+			if ( empty( $social_defaults[ $slug ]['enabled'] ) || empty( $all_networks[ $slug ] ) ) {
+				continue;
+			}
+			$label      = isset( $social_defaults[ $slug ]['label'] ) ? $social_defaults[ $slug ]['label'] : ( $all_networks[ $slug ]['label_text'] ?? $slug );
+			$template   = isset( $all_networks[ $slug ]['share_url_template'] ) ? $all_networks[ $slug ]['share_url_template'] : '#';
+			$template   = (string) apply_filters( 'has_headline_share_url_template', $template, $slug );
+			$networks[] = array(
+				'slug'             => $slug,
+				'label'            => $label,
+				'shareUrlTemplate' => $template,
+				'requiresPopup'    => ! empty( $all_networks[ $slug ]['requires_popup'] ),
+			);
+			++$count;
+		}
+
+		return array(
+			'pageUrl'         => $page_url,
+			'pageTitle'       => $page_title,
+			'prefix'          => $prefix,
+			'suffix'          => $suffix,
+			'twitterUsername' => $twitter,
+			'networks'        => $networks,
 		);
 	}
 

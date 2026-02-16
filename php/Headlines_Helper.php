@@ -124,6 +124,15 @@ class Headlines_Helper {
 				}
 			}
 			$heading->setAttribute( 'data-has-headline-share', '1' );
+			// Prepend a real element for the share icon so JS can attach click (headlines may be links).
+			$doc = $heading->ownerDocument;
+			$btn = $doc->createElement( 'button' );
+			$btn->setAttribute( 'type', 'button' );
+			$btn->setAttribute( 'class', 'has-headline-share-trigger' );
+			$btn->setAttribute( 'aria-label', __( 'Share this section', 'highlight-and-share' ) );
+			$btn->setAttribute( 'aria-haspopup', 'menu' );
+			$btn->setAttribute( 'aria-expanded', 'false' );
+			$heading->insertBefore( $btn, $heading->firstChild );
 		}
 
 		return self::get_wrapper_inner_html( $dom, $wrapper );
