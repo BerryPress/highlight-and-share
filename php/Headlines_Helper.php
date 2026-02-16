@@ -126,8 +126,9 @@ class Headlines_Helper {
 			$heading->setAttribute( 'data-has-headline-share', '1' );
 			// Prepend a real element for the share icon so JS can attach click (headlines may be links).
 			$doc = $heading->ownerDocument;
-			$btn = $doc->createElement( 'button' );
-			$btn->setAttribute( 'type', 'button' );
+			$btn = $doc->createElement( 'a' );
+			$btn->setAttribute( 'type', 'link' );
+			$btn->setAttribute( 'href', sprintf( esc_url_raw( '%s#%s' ), get_permalink(), $heading->getAttribute( 'id' ) ) );
 			$btn->setAttribute( 'class', 'has-headline-share-trigger' );
 			$btn->setAttribute( 'aria-label', __( 'Share this section', 'highlight-and-share' ) );
 			$btn->setAttribute( 'aria-haspopup', 'menu' );
