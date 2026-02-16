@@ -6,12 +6,14 @@ import { useState, Suspense, useEffect } from 'react';
 import { __ } from '@wordpress/i18n';
 import { useForm, FormProvider, useWatch, useFormState } from 'react-hook-form';
 import { useAsyncResource } from 'use-async-resource';
+import { dispatch } from '@wordpress/data';
 import { Fill } from '@wordpress/components';
 import ErrorBoundary from '../Components/ErrorBoundary';
 import Loader from '../Components/Loader';
 import sendCommand from '../Utils/SendCommand';
 import SaveBar from '../Components/SaveBar';
 import Snackbar from '../Components/Snackbar';
+import store from '../Sharing/Panels/SocialNetworksPanel/Store';
 import SocialNetworksPanel from './Panels/SocialNetworksPanel';
 import HeadlinesPanel from './Panels/HeadlinesPanel';
 import AppearancePanel from './Panels/AppearancePanel';
@@ -38,10 +40,9 @@ const getDefaultValues = ( values = {} ) => ( {
 	enableHeadlines: values.enableHeadlines ?? false,
 	enableH1Sharing: values.enableH1Sharing ?? false,
 	autoGenerateIds: values.autoGenerateIds ?? false,
+	linkIconAlwaysVisible: values.linkIconAlwaysVisible ?? false,
 	enabledHeadingLevels: values.enabledHeadingLevels ?? [ 'h2', 'h3', 'h4' ],
 	supportedPostTypes: values.supportedPostTypes ?? { post: true },
-	selectorMode: values.selectorMode ?? 'exclusion',
-	inclusionSelectors: values.inclusionSelectors ?? '',
 	exclusionSelectors: values.exclusionSelectors ?? '',
 	socialDefaults: values.socialDefaults ?? {},
 	networkOrder: values.networkOrder ?? [],
@@ -118,6 +119,40 @@ const HeadlinesInterface = ( { defaults } ) => {
 		}
 	}, [ success, data, reset ] );
 
+	// Hydrate panel open/close state from user meta (Headlines tab loads without Sharing bundle, so store is registered here).
+	useEffect( () => {
+		if ( window.hasHeadlinesAdmin?.panelStates ) {
+			const panelStates = window.hasHeadlinesAdmin.panelStates;
+			if ( typeof panelStates === 'object' ) {
+				Object.keys( panelStates ).forEach( ( id ) => {
+					dispatch( store ).setPanelState( id, !! panelStates[ id ] );
+				} );
+			}
+			return;
+		}
+		let isMounted = true;
+		sendCommand( 'has_get_admin_user_meta', {
+			nonce: window.hasHeadlinesAdmin?.userMetaNonce || '',
+		} )
+			.then( ( response ) => {
+				if ( ! isMounted ) {
+					return;
+				}
+				if ( response?.data?.success && response?.data?.data?.panel_states ) {
+					const panelStates = response.data.data.panel_states;
+					if ( typeof panelStates === 'object' ) {
+						Object.keys( panelStates ).forEach( ( id ) => {
+							dispatch( store ).setPanelState( id, !! panelStates[ id ] );
+						} );
+					}
+				}
+			} )
+			.catch( () => {} );
+		return () => {
+			isMounted = false;
+		};
+	}, [] );
+
 	if ( ! success ) {
 		return <p>{ __( 'Loading…', 'highlight-and-share' ) }</p>;
 	}
@@ -135,14 +170,14 @@ const HeadlinesInterface = ( { defaults } ) => {
 							</h1>
 							<p className="description">
 								{ __(
-									'Configure share buttons for section headings. Enable the feature, choose networks, and optionally auto-generate heading IDs for deep linking.',
+									'Configure share buttons for headings. When enabled, a link icon will appear next to each heading, which will display share buttons when clicked.',
 									'highlight-and-share'
 								) }
 							</p>
 						</div>
 						<div className="has-admin-content-body">
-							<SocialNetworksPanel />
 							<HeadlinesPanel />
+							<SocialNetworksPanel />
 							<AppearancePanel />
 						</div>
 					</div>

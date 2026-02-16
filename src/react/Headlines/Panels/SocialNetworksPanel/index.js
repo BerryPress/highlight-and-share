@@ -17,26 +17,21 @@ const LOCKED_SLUGS = [ 'copy', 'webshare' ];
 const SocialNetworksPanel = () => {
 	const { control } = useFormContext();
 	const socialDefaults = useWatch( { control, name: 'socialDefaults', defaultValue: {} } );
-	const networkOrder = useWatch( { control, name: 'networkOrder', defaultValue: [] } );
 
-	console.log( socialDefaults );
 	const networks = useMemo( () => {
 		const defaults = socialDefaults || {};
-		const order = Array.isArray( networkOrder ) ? networkOrder : Object.values( networkOrder || {} );
-		const slugs = order.length > 0
-			? order.filter( ( s ) => s && defaults[ s ] )
-			: Object.keys( defaults );
-		return slugs.map( ( slug ) => ( {
-			slug,
-			...defaults[ slug ],
-		} ) ).filter( ( n ) => n.slug );
-	}, [ socialDefaults, networkOrder ] );
+		return Object.keys( defaults )
+			.map( ( slug ) => ( { slug, ...defaults[ slug ] } ) )
+			.filter( ( n ) => n.slug );
+	}, [ socialDefaults ] );
 
 	const enabledCount = useMemo( () => {
 		return networks.filter( ( n ) => n.enabled ).length;
 	}, [ networks ] );
 
 	const canEnableMore = enabledCount < MAX_NETWORKS;
+
+	const networksRemaining = MAX_NETWORKS - enabledCount;
 
 	const handleToggleChange = ( slug, locked, value, formOnChange, newChecked ) => {
 		if ( locked ) {
@@ -48,7 +43,6 @@ const SocialNetworksPanel = () => {
 		formOnChange( { ...value, enabled: newChecked } );
 	};
 
-	console.log( networks );
 	return (
 		<ErrorBoundary
 			fallback={
@@ -57,32 +51,27 @@ const SocialNetworksPanel = () => {
 		>
 			<PanelBodyWithIndicator
 				panelId="headlinesSocialNetworks"
-				title={ __( 'Social Networks', 'highlight-and-share' ) }
+				title={ __( 'Social Networks - Enable Networks for Headlines (up to 4)', 'highlight-and-share' ) }
 				defaultOpen={ true }
+				scrollAfterOpen={ false }
 				className="has-headlines-panel"
-				watchFields={ [ 'socialDefaults', 'networkOrder' ] }
+				watchFields={ [ 'socialDefaults' ] }
 			>
 				<div className="has-admin-component-wrapper">
 					<div className="has-admin-component-row">
 						<p className="description">
-							{ sprintf(
+							{ networksRemaining > 0 ? (
+								sprintf(
+									/* translators: %d: Number of networks remaining */
+									__( 'Add %d more text-sharing networks. Copy and Web Share are always enabled.', 'highlight-and-share' ),
+									networksRemaining
+								)
+							) : (
 								/* translators: %d: Maximum number of networks (4) */
-								__( 'Select up to %d text-sharing networks. Copy and Web Share are always enabled.', 'highlight-and-share' ),
-								MAX_NETWORKS
+								sprintf( __( 'All %d text-sharing networks are enabled. Copy and Web Share are always enabled.', 'highlight-and-share' ), MAX_NETWORKS )
 							) }
 						</p>
 					</div>
-					{ ! canEnableMore && (
-						<div className="has-admin-component-row">
-							<p className="description has-text-warning">
-								{ sprintf(
-									/* translators: %d: Maximum number of networks (4) */
-									__( 'Maximum of %d networks reached. Disable one to add another.', 'highlight-and-share' ),
-									MAX_NETWORKS
-								) }
-							</p>
-						</div>
-					) }
 					<div className="has-headlines-network-list">
 						{ networks.map( ( network ) => {
 							const isLocked = LOCKED_SLUGS.includes( network.slug );
@@ -94,9 +83,11 @@ const SocialNetworksPanel = () => {
 									render={ ( { field: { value, onChange } } ) => {
 										const enabled = value?.enabled ?? network.enabled ?? false;
 										const label = value?.label ?? network.label ?? network.slug;
+										const isDisabledByMax = ! canEnableMore && ! enabled && ! isLocked;
+										const isToggleDisabled = isLocked || isDisabledByMax;
 										return (
 											<div
-												className="has-headlines-network-item"
+												className={ `has-headlines-network-item${ isDisabledByMax ? ' has-headlines-network-item--disabled' : '' }` }
 												key={ network.slug }
 											>
 												<div className="has-headlines-network-icon">
@@ -106,20 +97,19 @@ const SocialNetworksPanel = () => {
 													<ToggleControl
 														label={ label }
 														checked={ !! enabled }
-														disabled={ isLocked }
+														disabled={ isToggleDisabled }
 														onChange={ ( newChecked ) => {
 															handleToggleChange( network.slug, isLocked, value, onChange, newChecked );
 														} }
 														__nextHasNoMarginBottom
 													/>
-													{ ( isLocked || enabled ) && (
-														<TextControl
-															label={ __( 'Label', 'highlight-and-share' ) }
-															value={ label }
-															onChange={ ( v ) => onChange( { ...value, label: v } ) }
-															className="has-headlines-network-label"
-														/>
-													) }
+													<TextControl
+														label={ __( 'Label', 'highlight-and-share' ) }
+														value={ label }
+														onChange={ ( v ) => onChange( { ...value, label: v } ) }
+														className="has-headlines-network-label"
+														disabled={ isDisabledByMax }
+													/>
 												</div>
 											</div>
 										);

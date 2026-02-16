@@ -1040,13 +1040,16 @@ class Admin {
 		$defaults = array(
 			'first_installed' => $first_installed,
 			'panel_states'    => array(
-				'social_networks'     => true, // Default expanded.
-				'display_rules'       => false,
-				'appearance'          => false,
-				'preview'             => true, // Default expanded.
-				'block_editor'        => false,
-				'inline_highlighting' => false,
-				'advanced'            => false,
+				'social_networks'           => true, // Default expanded.
+				'display_rules'             => false,
+				'appearance'                => false,
+				'preview'                   => true, // Default expanded.
+				'block_editor'              => false,
+				'inline_highlighting'       => false,
+				'advanced'                  => false,
+				'headlines_settings'        => true,
+				'headlines_social_networks' => true,
+				'headlines_appearance'      => true,
 			),
 		);
 
@@ -1075,6 +1078,9 @@ class Admin {
 			'block_editor',
 			'inline_highlighting',
 			'advanced',
+			'headlines_settings',
+			'headlines_social_networks',
+			'headlines_appearance',
 		);
 
 		$defaults   = $this->get_admin_user_meta_defaults();
@@ -1135,6 +1141,9 @@ class Admin {
 				'block_editor',
 				'inline_highlighting',
 				'advanced',
+				'headlines_settings',
+				'headlines_social_networks',
+				'headlines_appearance',
 			);
 
 			$sanitized['panel_states'] = array();

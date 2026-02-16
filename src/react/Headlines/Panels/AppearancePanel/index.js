@@ -47,7 +47,8 @@ const AppearancePanel = () => {
 			<PanelBodyWithIndicator
 				panelId="headlinesAppearance"
 				title={ __( 'Appearance', 'highlight-and-share' ) }
-				defaultOpen={ false }
+				defaultOpen={ true }
+				scrollAfterOpen={ false }
 				className="has-headlines-panel"
 				watchFields={ [ 'networkOrder', 'socialDefaults' ] }
 			>

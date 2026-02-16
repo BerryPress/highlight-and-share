@@ -4,24 +4,21 @@
 
 import { __ } from '@wordpress/i18n';
 import { Controller, useFormContext } from 'react-hook-form';
-import {
-	ToggleControl,
-	CheckboxControl,
-	SelectControl,
-	TextareaControl,
-} from '@wordpress/components';
+import { ToggleControl, TextControl } from '@wordpress/components';
 import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndicator';
 import ErrorBoundary from '../../../Components/ErrorBoundary';
 import HeadingLevelsControl from './HeadingLevelsControl';
 import PostTypesControl from './PostTypesControl';
-
-const SELECTOR_MODE_OPTIONS = [
-	{ value: 'inclusion', label: __( 'Inclusion', 'highlight-and-share' ) },
-	{ value: 'exclusion', label: __( 'Exclusion', 'highlight-and-share' ) },
-];
+import Notice from '../../../Components/Notice';
+import CircularExclamationIcon from '../../../Components/Icons/CircularExplanation';
 
 const HeadlinesPanel = () => {
-	const { control } = useFormContext();
+	const {
+		control,
+		clearErrors,
+		formState: { errors },
+		trigger,
+	} = useFormContext();
 	const postTypes = window.hasHeadlinesAdmin?.postTypes ?? [];
 
 	return (
@@ -32,17 +29,20 @@ const HeadlinesPanel = () => {
 		>
 			<PanelBodyWithIndicator
 				panelId="headlinesSettings"
-				title={ __( 'Headlines', 'highlight-and-share' ) }
+				title={ __(
+					'Headlines - Enable and Configure Display Settings',
+					'highlight-and-share'
+				) }
 				defaultOpen={ true }
+				scrollAfterOpen={ false }
 				className="has-headlines-panel"
 				watchFields={ [
 					'enableHeadlines',
 					'enableH1Sharing',
 					'autoGenerateIds',
+					'linkIconAlwaysVisible',
 					'enabledHeadingLevels',
 					'supportedPostTypes',
-					'selectorMode',
-					'inclusionSelectors',
 					'exclusionSelectors',
 				] }
 			>
@@ -53,11 +53,11 @@ const HeadlinesPanel = () => {
 							control={ control }
 							render={ ( { field } ) => (
 								<ToggleControl
-									label={ __( 'Enable Headlines Sharing', 'highlight-and-share' ) }
+									label={ __( 'Enable Headline Sharing', 'highlight-and-share' ) }
 									checked={ !! field.value }
 									onChange={ field.onChange }
 									help={ __(
-										'Show share buttons on section headings. Headings must have IDs for deep linking.',
+										'Enable an unobtrusive link icon next to matching headings, which will display share buttons when clicked.',
 										'highlight-and-share'
 									) }
 								/>
@@ -74,7 +74,7 @@ const HeadlinesPanel = () => {
 									checked={ !! field.value }
 									onChange={ field.onChange }
 									help={ __(
-										'Add share option to the post title (H1).',
+										'Add an unobtrusive link icon next to the post title (H1), which will display share buttons when clicked.',
 										'highlight-and-share'
 									) }
 								/>
@@ -87,11 +87,31 @@ const HeadlinesPanel = () => {
 							control={ control }
 							render={ ( { field } ) => (
 								<ToggleControl
-									label={ __( 'Auto-Generate Heading IDs', 'highlight-and-share' ) }
+									label={ __(
+										'Generate Missing Heading IDs',
+										'highlight-and-share'
+									) }
 									checked={ !! field.value }
 									onChange={ field.onChange }
 									help={ __(
-										'Automatically add IDs to headings that lack them. Required for share links.',
+										'Automatically add IDs to headings that lack them. Required for share links to work.',
+										'highlight-and-share'
+									) }
+								/>
+							) }
+						/>
+					</div>
+					<div className="has-admin-component-row">
+						<Controller
+							name="linkIconAlwaysVisible"
+							control={ control }
+							render={ ( { field } ) => (
+								<ToggleControl
+									label={ __( 'Link icon always visible', 'highlight-and-share' ) }
+									checked={ !! field.value }
+									onChange={ field.onChange }
+									help={ __(
+										'Show the link icon next to headings at all times. When off, the icon appears on hover or focus.',
 										'highlight-and-share'
 									) }
 								/>
@@ -107,7 +127,10 @@ const HeadlinesPanel = () => {
 							name="enabledHeadingLevels"
 							control={ control }
 							render={ ( { field } ) => (
-								<HeadingLevelsControl value={ field.value } onChange={ field.onChange } />
+								<HeadingLevelsControl
+									value={ field.value }
+									onChange={ field.onChange }
+								/>
 							) }
 						/>
 					</div>
@@ -134,55 +157,42 @@ const HeadlinesPanel = () => {
 					</h3>
 					<div className="has-admin-component-row">
 						<Controller
-							name="selectorMode"
-							control={ control }
-							render={ ( { field } ) => (
-								<SelectControl
-									label={ __( 'Selector Mode', 'highlight-and-share' ) }
-									value={ field.value || 'exclusion' }
-									options={ SELECTOR_MODE_OPTIONS }
-									onChange={ field.onChange }
-									help={ __(
-										'Inclusion: only headings matching the selectors. Exclusion: all headings except those matching.',
-										'highlight-and-share'
-									) }
-								/>
-							) }
-						/>
-					</div>
-					<div className="has-admin-component-row">
-						<Controller
-							name="inclusionSelectors"
-							control={ control }
-							render={ ( { field } ) => (
-								<TextareaControl
-									label={ __( 'Inclusion Selectors', 'highlight-and-share' ) }
-									value={ field.value || '' }
-									onChange={ field.onChange }
-									help={ __(
-										'CSS selectors (comma-separated). Only headings inside matching elements. Used when mode is Inclusion.',
-										'highlight-and-share'
-									) }
-									rows={ 2 }
-								/>
-							) }
-						/>
-					</div>
-					<div className="has-admin-component-row">
-						<Controller
 							name="exclusionSelectors"
 							control={ control }
+							rules={ {
+								pattern:
+									/^(\.?[^0-9][-_A-Za-z0-9](,? ?\.?[^0-9][-_A-Za-z0-9])?)+$/i,
+							} }
 							render={ ( { field } ) => (
-								<TextareaControl
-									label={ __( 'Exclusion Selectors', 'highlight-and-share' ) }
-									value={ field.value || '' }
-									onChange={ field.onChange }
-									help={ __(
-										'CSS selectors (comma-separated). Headings inside matching elements are skipped. Used when mode is Exclusion.',
-										'highlight-and-share'
+								<>
+									<TextControl
+										label={ __( 'Exclusion Selectors', 'highlight-and-share' ) }
+										value={ field.value || '' }
+										onChange={ ( value ) => {
+											clearErrors( 'exclusionSelectors' );
+											field.onChange( value );
+										} }
+										onBlur={ () => {
+											trigger( 'exclusionSelectors' );
+										} }
+										placeholder=".css-class-to-exclude"
+										help={ __(
+											'CSS selectors (comma-separated). Selector must match a container around the headline, or be on the headline itself. You can also add class `has-headline-exclude` to the headline or its container to exclude it from sharing.',
+											'highlight-and-share'
+										) }
+									/>
+									{ 'pattern' === errors?.exclusionSelectors?.type && (
+										<Notice
+											message={ __(
+												'There are invalid characters.',
+												'highlight-and-share'
+											) }
+											status="error"
+											politeness="assertive"
+											icon={ CircularExclamationIcon }
+										/>
 									) }
-									rows={ 2 }
-								/>
+								</>
 							) }
 						/>
 					</div>

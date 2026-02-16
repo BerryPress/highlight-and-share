@@ -617,9 +617,15 @@ class Options {
 			if ( empty( $network['allows_text_sharing'] ) ) {
 				continue;
 			}
-			$enabled                  = in_array( $slug, array( 'copy', 'webshare', 'twitter' ), true );
-			$locked                   = in_array( $slug, array( 'copy', 'webshare' ), true );
-			$label                    = isset( $network['label_text'] ) ? $network['label_text'] : $network['label'];
+			$enabled = in_array( $slug, array( 'copy', 'webshare', 'twitter' ), true );
+			$locked  = in_array( $slug, array( 'copy', 'webshare' ), true );
+			$label   = isset( $network['label_text'] ) ? $network['label_text'] : $network['label'];
+			if ( 'copy' === $slug ) {
+				$label = __( 'Copy Link', 'highlight-and-share' );
+			}
+			if ( 'webshare' === $slug ) {
+				$label = __( 'Share This', 'highlight-and-share' );
+			}
 			$social_defaults[ $slug ] = array(
 				'enabled' => $enabled,
 				'locked'  => $locked,
@@ -646,11 +652,10 @@ class Options {
 			'auto_generate_ids'      => false,
 			'enabled_heading_levels' => array( 'h2', 'h3', 'h4' ),
 			'supported_post_types'   => array( 'post' => true ),
-			'selector_mode'          => 'exclusion',
-			'inclusion_selectors'    => '',
 			'exclusion_selectors'    => '',
 			'social_defaults'        => $social_defaults,
 			'network_order'          => $network_order,
+			'link_icon_always_visible' => false,
 		);
 
 		return $defaults;
@@ -686,9 +691,11 @@ class Options {
 			$settings['network_order']   = $defaults['network_order'];
 		}
 
+		// Sort social_defaults by slug.
+		ksort( $settings['social_defaults'] );
+
 		self::$options_headlines = $settings;
 
-		$settings = Functions::to_camelcase_recursive( $settings );
 		return $settings;
 	}
 

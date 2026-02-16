@@ -12,7 +12,7 @@ const PostTypesControl = ( { value, onChange, postTypes } ) => {
 		<BaseControl
 			id="supportedPostTypes"
 			label={ __( 'Enable on Post Types', 'highlight-and-share' ) }
-			help={ __( 'Select which post types should show headline sharing.', 'highlight-and-share' ) }
+			help={ __( 'Select which post types should show headline sharing. You can also enable headline sharing on specific pages via the Highlight and Share sidebar options.', 'highlight-and-share' ) }
 		>
 			<div className="has-headlines-post-types-row">
 				{ ( Array.isArray( postTypes ) ? postTypes : Object.values( postTypes || {} ) ).map( ( pt ) => (
@@ -23,6 +23,7 @@ const PostTypesControl = ( { value, onChange, postTypes } ) => {
 						onChange={ ( checked ) => {
 							onChange( { ...supported, [ pt.value ]: checked } );
 						} }
+						__nextHasNoMarginBottom
 					/>
 				) ) }
 			</div>

@@ -1693,9 +1693,18 @@ h3.has-icon-heading {
 /* Headlines tab panels */
 .has-headlines-panel {
 	.has-headlines-network-list {
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
 		gap: 16px;
+		@include respond-to(small) {
+			grid-template-columns: 1fr;
+		}
+		@include respond-to(medium) {
+			grid-template-columns: 1fr 1fr;
+		}
+		@include respond-to(large) {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
 	}
 
 	.has-headlines-network-item {
@@ -1706,6 +1715,11 @@ h3.has-icon-heading {
 		border: 1px solid #e5e5e5;
 		border-radius: 4px;
 		background: #fff;
+	}
+
+	.has-headlines-network-item--disabled {
+		opacity: 0.6;
+		background: #f6f7f7;
 	}
 
 	.has-headlines-network-icon {
@@ -1778,12 +1792,21 @@ h3.has-icon-heading {
 	}
 
 	.has-headlines-order-handle {
-		width: 16px;
-		height: 16px;
-		background: currentColor;
-		opacity: 0.4;
+		width: 18px;
+		height: 18px;
+		background: #646970;
 		mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M8 6h2v2H8V6zm6 0h2v2h-2V6zm-6 5h2v2H8v-2zm6 0h2v2h-2v-2zm-6 5h2v2H8v-2zm6 0h2v2h-2v-2z'/%3E%3C/svg%3E") no-repeat center;
-		mask-size: 16px 16px;
+		mask-size: 18px 18px;
+		flex-shrink: 0;
+		cursor: grab;
+
+		.has-headlines-order-item:hover & {
+			background: #1d2327;
+		}
+
+		.has-headlines-order-item.is-dragging & {
+			cursor: grabbing;
+		}
 	}
 
 	.has-headlines-order-icon {

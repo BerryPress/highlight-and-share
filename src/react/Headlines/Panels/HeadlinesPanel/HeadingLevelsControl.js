@@ -20,8 +20,8 @@ const HeadingLevelsControl = ( { value, onChange } ) => {
 	return (
 		<BaseControl
 			id="enabledHeadingLevels"
-			label={ __( 'Which heading levels get share buttons?', 'highlight-and-share' ) }
-			help={ __( 'Select the heading levels that should display share buttons.', 'highlight-and-share' ) }
+			label={ __( 'Enabled Heading Levels', 'highlight-and-share' ) }
+			help={ __( 'Include or exclude heading levels from sharing.', 'highlight-and-share' ) }
 		>
 			<div className="has-headlines-levels-row">
 				{ HEADING_LEVELS.map( ( item ) => (
@@ -35,6 +35,7 @@ const HeadingLevelsControl = ( { value, onChange } ) => {
 								: levels.filter( ( l ) => l !== item.value );
 							onChange( next );
 						} }
+						__nextHasNoMarginBottom
 					/>
 				) ) }
 			</div>
