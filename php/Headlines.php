@@ -38,6 +38,44 @@ class Headlines {
 
 		// Content filter for ID generation and data-attributes (when feature enabled).
 		add_filter( 'the_content', array( $this, 'process_headlines_content' ), 100 );
+
+		// Frontend: enqueue headline link-icon CSS and body class for link_icon_always_visible.
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_headlines_styles' ), 10 );
+		add_filter( 'body_class', array( $this, 'body_class_headlines' ), 10 );
+	}
+
+	/**
+	 * Whether headlines may run on this request (enabled, singular, supported post type).
+	 * Used for content processing, enqueue, and body class.
+	 *
+	 * @return bool True if headlines can run.
+	 */
+	private function can_parse_headlines() {
+		if ( is_feed() ) {
+			return false;
+		}
+		$options = Options::get_headlines_options();
+		if ( empty( $options['enable_headlines'] ) ) {
+			return false;
+		}
+		if ( ! is_singular() ) {
+			return false;
+		}
+		$supported      = isset( $options['supported_post_types'] ) && is_array( $options['supported_post_types'] )
+			? array_keys( array_filter( $options['supported_post_types'] ) )
+			: array( 'post' );
+		$global_enabled = in_array( get_post_type(), $supported, true );
+
+		/**
+		 * Filter: has_headlines_enabled_for_post
+		 *
+		 * Per-post override (sidebar / meta box): disabled, default, or enabled.
+		 *
+		 * @param bool $enabled Global headlines enabled state for this context.
+		 * @param int  $post_id Current post ID.
+		 * @return bool Whether headlines should run for this post.
+		 */
+		return (bool) apply_filters( 'has_headlines_enabled_for_post', $global_enabled, get_the_ID() );
 	}
 
 	/**
@@ -48,23 +86,10 @@ class Headlines {
 	 * @return string Filtered content.
 	 */
 	public function process_headlines_content( $content ) {
+		if ( ! $this->can_parse_headlines() ) {
+			return $content;
+		}
 		$options = Options::get_headlines_options();
-		if ( empty( $options['enable_headlines'] ) ) {
-			return $content;
-		}
-
-		$maybe_post = get_queried_object();
-		if ( ! $maybe_post instanceof \WP_Post || ! is_singular() ) {
-			return $content;
-		}
-
-		$supported = isset( $options['supported_post_types'] ) && is_array( $options['supported_post_types'] )
-			? array_keys( array_filter( $options['supported_post_types'] ) )
-			: array( 'post' );
-		if ( ! in_array( get_post_type(), $supported, true ) ) {
-			return $content;
-		}
-
 		if ( ! empty( $options['auto_generate_ids'] ) ) {
 			$content = Headlines_Helper::add_ids_to_headings( $content, $options );
 		}
@@ -160,6 +185,40 @@ class Headlines {
 		$values = $this->map_defaults_to_js( stripslashes_deep( $defaults ) );
 
 		wp_send_json_success( array( 'values' => $values ) );
+	}
+
+	/**
+	 * Enqueue frontend headline link-icon styles when the feature is enabled and post type is supported.
+	 */
+	public function enqueue_headlines_styles() {
+		if ( ! $this->can_parse_headlines() ) {
+			return;
+		}
+		$plugin_url = Functions::get_plugin_url( 'dist/has-headlines.css' );
+		$version    = defined( 'HIGHLIGHT_AND_SHARE_VERSION' ) ? HIGHLIGHT_AND_SHARE_VERSION : false;
+		wp_enqueue_style(
+			'has-headlines',
+			$plugin_url,
+			array(),
+			$version
+		);
+	}
+
+	/**
+	 * Add body class when "Link icon always visible" is enabled (for headline ::after CSS).
+	 *
+	 * @param array $classes Existing body classes.
+	 * @return array Modified body classes.
+	 */
+	public function body_class_headlines( $classes ) {
+		if ( ! $this->can_parse_headlines() ) {
+			return $classes;
+		}
+		$options = Options::get_headlines_options();
+		if ( ! empty( $options['link_icon_always_visible'] ) ) {
+			$classes[] = 'has-headline-link-icon-always-visible';
+		}
+		return $classes;
 	}
 
 	/**

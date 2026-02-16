@@ -35,6 +35,7 @@ module.exports = ( env ) => {
 				'highlight-and-share': [ './src/frontendjs/highlight-and-share.js' ],
 				'has-image-sharing': [ './src/frontendjs/has-image-sharing.js' ],
 				'has-cf-turnstile': [ './src/frontendjs/turnstile.js' ],
+				'has-headlines': [ './src/headlines.scss' ],
 
 			},
 			mode: env.mode,
