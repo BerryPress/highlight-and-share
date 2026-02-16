@@ -75,7 +75,9 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 }
 
 .has-headline-share-panel__action {
-	display: block;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 	width: 100%;
 	padding: 6px 12px;
 	font-size: 14px;
@@ -86,6 +88,18 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 	background: transparent;
 	border: none;
 	cursor: pointer;
+}
+
+.has-headline-share-panel__icon {
+	flex-shrink: 0;
+	width: 18px;
+	height: 18px;
+	fill: currentColor;
+}
+
+.has-headline-share-panel__label {
+	flex: 1;
+	min-width: 0;
 }
 
 .has-headline-share-panel__action:hover,

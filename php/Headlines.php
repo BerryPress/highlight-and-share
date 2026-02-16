@@ -211,6 +211,17 @@ class Headlines {
 			true
 		);
 		wp_localize_script( 'has-headline-sharing', 'hasHeadlineSharing', $this->get_headline_share_config() );
+		add_action( 'wp_footer', array( $this, 'output_headline_share_sprite' ), 5 );
+	}
+
+	/**
+	 * Output SVG sprite for headline share panel icons (when main HAS container may not be present).
+	 */
+	public function output_headline_share_sprite() {
+		$svg = apply_filters( 'has_footer_svg_sprite', '' );
+		if ( $svg !== '' ) {
+			echo $svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
 	}
 
 	/**
@@ -245,12 +256,14 @@ class Headlines {
 			if ( empty( $social_defaults[ $slug ]['enabled'] ) || empty( $all_networks[ $slug ] ) ) {
 				continue;
 			}
-			$label      = isset( $social_defaults[ $slug ]['label'] ) ? $social_defaults[ $slug ]['label'] : ( $all_networks[ $slug ]['label_text'] ?? $slug );
-			$template   = isset( $all_networks[ $slug ]['share_url_template'] ) ? $all_networks[ $slug ]['share_url_template'] : '#';
-			$template   = (string) apply_filters( 'has_headline_share_url_template', $template, $slug );
+			$label    = isset( $social_defaults[ $slug ]['label'] ) ? $social_defaults[ $slug ]['label'] : ( $all_networks[ $slug ]['label_text'] ?? $slug );
+			$template = isset( $all_networks[ $slug ]['share_url_template'] ) ? $all_networks[ $slug ]['share_url_template'] : '#';
+			$template = (string) apply_filters( 'has_headline_share_url_template', $template, $slug );
+			$icon_id  = isset( $all_networks[ $slug ]['icon_id'] ) ? $all_networks[ $slug ]['icon_id'] : '';
 			$networks[] = array(
 				'slug'             => $slug,
 				'label'            => $label,
+				'iconId'           => $icon_id,
 				'shareUrlTemplate' => $template,
 				'requiresPopup'    => ! empty( $all_networks[ $slug ]['requires_popup'] ),
 			);
