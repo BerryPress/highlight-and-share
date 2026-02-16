@@ -596,6 +596,40 @@ class Options {
 	}
 
 	/**
+	 * Get headlines defaults. social_defaults includes only networks with text sharing enabled.
+	 *
+	 * @return array Headlines defaults.
+	 */
+	public static function get_headlines_defaults() {
+		$social_defaults = array();
+		$networks        = self::get_social_network_defaults();
+
+		foreach ( $networks as $slug => $network ) {
+			if ( empty( $network['allows_text_sharing'] ) ) {
+				continue;
+			}
+			$social_defaults[ $slug ] = array(
+				'enabled' => 'twitter' === $slug,
+				'label'   => isset( $network['label_text'] ) ? $network['label_text'] : $network['label'],
+			);
+		}
+
+		$defaults = array(
+			'enable_headlines'       => false,
+			'enable_h1_sharing'      => false,
+			'auto_generate_ids'      => false,
+			'enabled_heading_levels' => array( 'h2', 'h3', 'h4' ),
+			'supported_post_types'   => array( 'post' ),
+			'selector_mode'          => 'exclusion',
+			'inclusion_selectors'    => '',
+			'exclusion_selectors'    => '',
+			'social_defaults'        => $social_defaults,
+		);
+
+		return $defaults;
+	}
+
+	/**
 	 * Get default options.
 	 */
 	public static function get_defaults() {
