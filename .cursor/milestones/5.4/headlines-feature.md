@@ -38,7 +38,7 @@ Implement headline sharing functionality, including H1/post title support, admin
 
 #### Content Processing
 
-- [ ] Implement `the_content` filter hook (late priority: 999)
+- [ ] Implement `the_content` filter hook (late priority: 100)
 - [ ] Scan headings (H2–H4) with IDs
 - [ ] Add `data-has-headline-share` attribute
 - [ ] Implement auto-ID generation (if enabled)
