@@ -41,19 +41,37 @@ class Headlines {
 	}
 
 	/**
-	 * Process content for headlines: add IDs to headings and data-has-headline-share.
-	 * Only runs when enable_headlines and auto_generate_ids are on.
+	 * Process content for headlines: add IDs to headings (when enabled) and data-has-headline-share.
+	 * Only runs when enable_headlines is on and post type is supported.
 	 *
 	 * @param string $content Post content.
 	 * @return string Filtered content.
 	 */
 	public function process_headlines_content( $content ) {
 		$options = Options::get_headlines_options();
-		if ( empty( $options['enable_headlines'] ) || empty( $options['auto_generate_ids'] ) ) {
+		if ( empty( $options['enable_headlines'] ) ) {
 			return $content;
 		}
 
-		// Stub: full ID generation and data-attribute injection will be implemented later.
+		$maybe_post = get_queried_object();
+		if ( ! $maybe_post instanceof \WP_Post || ! is_singular() ) {
+			return $content;
+		}
+
+		$supported = isset( $options['supported_post_types'] ) && is_array( $options['supported_post_types'] )
+			? array_keys( array_filter( $options['supported_post_types'] ) )
+			: array( 'post' );
+		if ( ! in_array( get_post_type(), $supported, true ) ) {
+			return $content;
+		}
+
+		if ( ! empty( $options['auto_generate_ids'] ) ) {
+			$content = Headlines_Helper::add_ids_to_headings( $content, $options );
+		}
+
+		$only_with_id = empty( $options['auto_generate_ids'] );
+		$content      = Headlines_Helper::add_data_attributes( $content, $options, $only_with_id );
+
 		return $content;
 	}
 
@@ -94,7 +112,7 @@ class Headlines {
 		$enabled_count   = 0;
 		foreach ( $social_defaults as $slug => &$net ) {
 			if ( ! empty( $net['enabled'] ) ) {
-				$enabled_count++;
+				++$enabled_count;
 			}
 		}
 		unset( $net );
@@ -113,7 +131,7 @@ class Headlines {
 				}
 				if ( ! empty( $net['enabled'] ) ) {
 					$net['enabled'] = false;
-					$to_disable--;
+					--$to_disable;
 				}
 			}
 			unset( $net );
