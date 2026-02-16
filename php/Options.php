@@ -54,6 +54,13 @@ class Options {
 	private static $options_image = false;
 
 	/**
+	 * Highlight and Share Headlines Options.
+	 *
+	 * @var array $options_headlines Highlight and Share Headlines options.
+	 */
+	private static $options_headlines = false;
+
+	/**
 	 * Highlight and Share Options
 	 *
 	 * @var array $instance Highlight and Share options.
@@ -597,21 +604,40 @@ class Options {
 
 	/**
 	 * Get headlines defaults. social_defaults includes only networks with text sharing enabled.
+	 * Copy, Webshare, and X (Twitter) enabled by default. Copy and Webshare are locked.
 	 *
 	 * @return array Headlines defaults.
 	 */
 	public static function get_headlines_defaults() {
 		$social_defaults = array();
 		$networks        = self::get_social_network_defaults();
+		$network_order   = array();
 
 		foreach ( $networks as $slug => $network ) {
 			if ( empty( $network['allows_text_sharing'] ) ) {
 				continue;
 			}
+			$enabled                  = in_array( $slug, array( 'copy', 'webshare', 'twitter' ), true );
+			$locked                   = in_array( $slug, array( 'copy', 'webshare' ), true );
+			$label                    = isset( $network['label_text'] ) ? $network['label_text'] : $network['label'];
 			$social_defaults[ $slug ] = array(
-				'enabled' => 'twitter' === $slug,
-				'label'   => isset( $network['label_text'] ) ? $network['label_text'] : $network['label'],
+				'enabled' => $enabled,
+				'locked'  => $locked,
+				'label'   => $label,
 			);
+			if ( $enabled ) {
+				$network_order[] = $slug;
+			}
+		}
+
+		// Append remaining text-sharing networks to network_order.
+		foreach ( $networks as $slug => $network ) {
+			if ( empty( $network['allows_text_sharing'] ) ) {
+				continue;
+			}
+			if ( ! in_array( $slug, $network_order, true ) ) {
+				$network_order[] = $slug;
+			}
 		}
 
 		$defaults = array(
@@ -619,14 +645,43 @@ class Options {
 			'enable_h1_sharing'      => false,
 			'auto_generate_ids'      => false,
 			'enabled_heading_levels' => array( 'h2', 'h3', 'h4' ),
-			'supported_post_types'   => array( 'post' ),
+			'supported_post_types'   => array( 'post' => true ),
 			'selector_mode'          => 'exclusion',
 			'inclusion_selectors'    => '',
 			'exclusion_selectors'    => '',
 			'social_defaults'        => $social_defaults,
+			'network_order'          => $network_order,
 		);
 
 		return $defaults;
+	}
+
+	/**
+	 * Get the headlines options.
+	 *
+	 * @param bool $force Force a refresh of the options.
+	 *
+	 * @return array Headlines options.
+	 */
+	public static function get_headlines_options( $force = false ) {
+		if ( false === self::$options_headlines || $force ) {
+			$settings = get_option( 'highlight-and-share-headline-options' );
+		} else {
+			$settings = self::$options_headlines;
+		}
+
+		$defaults = self::get_headlines_defaults();
+
+		if ( false === $settings || ! is_array( $settings ) ) {
+			update_option( 'highlight-and-share-headline-options', $defaults );
+			return $defaults;
+		}
+
+		$settings                  = array_replace_recursive( $defaults, $settings );
+		$settings['network_order'] = array_unique( (array) ( $settings['network_order'] ?? array() ) );
+
+		self::$options_headlines = $settings;
+		return $settings;
 	}
 
 	/**

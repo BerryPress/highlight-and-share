@@ -25,6 +25,7 @@ module.exports = ( env ) => {
 				'has-cts-style': './src/blocks/style.scss',
 				'has-admin-style': './src/admin.scss',
 				'has-admin-sharing': [ './src/react/Sharing/index.js' ],
+				'has-admin-headlines': [ './src/react/Headlines/index.js' ],
 				'has-admin-images': [ './src/react/Images/index.js' ],
 				'has-admin-emails': [ './src/react/Emails/index.js' ],
 				'has-admin-support': [ './src/react/Support/index.js' ],

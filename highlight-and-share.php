@@ -128,6 +128,9 @@ function highlightshare_instantiate() {
 	$admin_panel = new Admin();
 	$admin_panel->run();
 
+	// Headlines feature.
+	Headlines::run();
+
 	// Register hashtags taxonomy.
 	$hashtags = new Hashtags();
 	$hashtags->run();
