@@ -648,7 +648,6 @@ class Options {
 
 		$defaults = array(
 			'enable_headlines'         => false,
-			'enable_h1_sharing'        => false,
 			'auto_generate_ids'        => false,
 			'enabled_heading_levels'   => array( 'h2', 'h3', 'h4' ),
 			'supported_post_types'     => array( 'post' => true ),

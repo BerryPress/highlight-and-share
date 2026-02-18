@@ -24927,7 +24927,7 @@ var HeadlinesPanel = function HeadlinesPanel() {
     defaultOpen: true,
     scrollAfterOpen: false,
     className: "has-headlines-panel",
-    watchFields: ['enableHeadlines', 'enableH1Sharing', 'autoGenerateIds', 'linkIconAlwaysVisible', 'enabledHeadingLevels', 'supportedPostTypes', 'exclusionSelectors']
+    watchFields: ['enableHeadlines', 'autoGenerateIds', 'linkIconAlwaysVisible', 'enabledHeadingLevels', 'supportedPostTypes', 'exclusionSelectors']
   }, /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-wrapper"
   }, /*#__PURE__*/React.createElement("div", {
@@ -24947,24 +24947,10 @@ var HeadlinesPanel = function HeadlinesPanel() {
   })), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-component-row"
   }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_1__.Controller, {
-    name: "enableH1Sharing",
+    name: "autoGenerateIds",
     control: control,
     render: function render(_ref2) {
       var field = _ref2.field;
-      return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ToggleControl, {
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable H1 (Title) Sharing', 'highlight-and-share'),
-        checked: !!field.value,
-        onChange: field.onChange,
-        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add an unobtrusive link icon next to the post title (H1), which will display share buttons when clicked.', 'highlight-and-share')
-      });
-    }
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "has-admin-component-row"
-  }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_1__.Controller, {
-    name: "autoGenerateIds",
-    control: control,
-    render: function render(_ref3) {
-      var field = _ref3.field;
       return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Generate Missing Heading IDs', 'highlight-and-share'),
         checked: !!field.value,
@@ -24977,8 +24963,8 @@ var HeadlinesPanel = function HeadlinesPanel() {
   }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_1__.Controller, {
     name: "linkIconAlwaysVisible",
     control: control,
-    render: function render(_ref4) {
-      var field = _ref4.field;
+    render: function render(_ref3) {
+      var field = _ref3.field;
       return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ToggleControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Link icon always visible', 'highlight-and-share'),
         checked: !!field.value,
@@ -24993,8 +24979,8 @@ var HeadlinesPanel = function HeadlinesPanel() {
   }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_1__.Controller, {
     name: "enabledHeadingLevels",
     control: control,
-    render: function render(_ref5) {
-      var field = _ref5.field;
+    render: function render(_ref4) {
+      var field = _ref4.field;
       return /*#__PURE__*/React.createElement(_HeadingLevelsControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
         value: field.value,
         onChange: field.onChange
@@ -25007,8 +24993,8 @@ var HeadlinesPanel = function HeadlinesPanel() {
   }, /*#__PURE__*/React.createElement(react_hook_form__WEBPACK_IMPORTED_MODULE_1__.Controller, {
     name: "supportedPostTypes",
     control: control,
-    render: function render(_ref6) {
-      var field = _ref6.field;
+    render: function render(_ref5) {
+      var field = _ref5.field;
       return /*#__PURE__*/React.createElement(_PostTypesControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
         value: field.value,
         onChange: field.onChange,
@@ -25025,9 +25011,9 @@ var HeadlinesPanel = function HeadlinesPanel() {
     rules: {
       pattern: /^(\.?[^0-9][-_A-Za-z0-9](,? ?\.?[^0-9][-_A-Za-z0-9])?)+$/i
     },
-    render: function render(_ref7) {
+    render: function render(_ref6) {
       var _errors$exclusionSele;
-      var field = _ref7.field;
+      var field = _ref6.field;
       return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Exclusion Selectors', 'highlight-and-share'),
         value: field.value || '',
@@ -25231,6 +25217,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Panels/SocialNetworksPanel */ "./src/react/Headlines/Panels/SocialNetworksPanel/index.js");
 /* harmony import */ var _Panels_HeadlinesPanel__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Panels/HeadlinesPanel */ "./src/react/Headlines/Panels/HeadlinesPanel/index.js");
 /* harmony import */ var _Panels_AppearancePanel__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Panels/AppearancePanel */ "./src/react/Headlines/Panels/AppearancePanel/index.js");
+/* harmony import */ var _Components_Notice__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Components/Notice */ "./src/react/Components/Notice/index.js");
+/* harmony import */ var _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../Components/Icons/CircularExplanation */ "./src/react/Components/Icons/CircularExplanation.js");
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_17__);
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -25246,6 +25236,9 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 /**
  * Headlines tab component.
  */
+
+
+
 
 
 
@@ -25283,11 +25276,10 @@ var getCheckpointData = function getCheckpointData() {
  * @return {Object} Default form values.
  */
 var getDefaultValues = function getDefaultValues() {
-  var _values$enableHeadlin, _values$enableH1Shari, _values$autoGenerateI, _values$linkIconAlway, _values$enabledHeadin, _values$supportedPost, _values$exclusionSele, _values$socialDefault, _values$networkOrder;
+  var _values$enableHeadlin, _values$autoGenerateI, _values$linkIconAlway, _values$enabledHeadin, _values$supportedPost, _values$exclusionSele, _values$socialDefault, _values$networkOrder;
   var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   return {
     enableHeadlines: (_values$enableHeadlin = values.enableHeadlines) !== null && _values$enableHeadlin !== void 0 ? _values$enableHeadlin : false,
-    enableH1Sharing: (_values$enableH1Shari = values.enableH1Sharing) !== null && _values$enableH1Shari !== void 0 ? _values$enableH1Shari : false,
     autoGenerateIds: (_values$autoGenerateI = values.autoGenerateIds) !== null && _values$autoGenerateI !== void 0 ? _values$autoGenerateI : false,
     linkIconAlwaysVisible: (_values$linkIconAlway = values.linkIconAlwaysVisible) !== null && _values$linkIconAlway !== void 0 ? _values$linkIconAlway : false,
     enabledHeadingLevels: (_values$enabledHeadin = values.enabledHeadingLevels) !== null && _values$enabledHeadin !== void 0 ? _values$enabledHeadin : ['h2', 'h3', 'h4'],
@@ -25432,7 +25424,25 @@ var HeadlinesInterface = function HeadlinesInterface(_ref) {
     className: "has-admin-content-heading-text"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Headlines', 'highlight-and-share'))), /*#__PURE__*/React.createElement("p", {
     className: "description"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Configure share buttons for headings. When enabled, a link icon will appear next to each heading, which will display share buttons when clicked.', 'highlight-and-share'))), /*#__PURE__*/React.createElement("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Configure share buttons for headings. When enabled, a link icon will appear next to each heading, which will display share buttons when clicked.', 'highlight-and-share')), /*#__PURE__*/React.createElement("div", {
+    className: "has-admin-component-row"
+  }, /*#__PURE__*/React.createElement(_Components_Notice__WEBPACK_IMPORTED_MODULE_15__["default"], {
+    status: "warning",
+    icon: _Components_Icons_CircularExplanation__WEBPACK_IMPORTED_MODULE_16__["default"]
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "has-admin__notice-message-content"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Headline Sharing is currently experimental and may not work with all themes. Please ensure your site layout is not affected after enabling headline sharing.', 'highlight-and-share'), ' ', /*#__PURE__*/React.createElement("a", {
+    href: (0,_wordpress_url__WEBPACK_IMPORTED_MODULE_17__.addQueryArgs)('https://dlxplugins.com/support/', {
+      product: 'Highlight and Share',
+      firstname: hasHeadlinesAdmin.supportParams.firstName,
+      lastname: hasHeadlinesAdmin.supportParams.lastName,
+      email: hasHeadlinesAdmin.supportParams.email,
+      subject: "[Highlight and Share] Headline Sharing Issue With Theme: ".concat(hasHeadlinesAdmin.supportParams.theme),
+      site: hasHeadlinesAdmin.supportParams.siteUrl
+    }),
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Please Contact Support for Help.', 'highlight-and-share')))))), /*#__PURE__*/React.createElement("div", {
     className: "has-admin-content-body"
   }, /*#__PURE__*/React.createElement(_Panels_HeadlinesPanel__WEBPACK_IMPORTED_MODULE_13__["default"], null), /*#__PURE__*/React.createElement(_Panels_SocialNetworksPanel__WEBPACK_IMPORTED_MODULE_12__["default"], null), /*#__PURE__*/React.createElement(_Panels_AppearancePanel__WEBPACK_IMPORTED_MODULE_14__["default"], null)))), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Fill, {
     name: "hasHeadlinesFooter"
@@ -26180,6 +26190,17 @@ module.exports = window["wp"]["data"];
 
 "use strict";
 module.exports = window["wp"]["i18n"];
+
+/***/ }),
+
+/***/ "@wordpress/url":
+/*!*****************************!*\
+  !*** external ["wp","url"] ***!
+  \*****************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["url"];
 
 /***/ }),
 

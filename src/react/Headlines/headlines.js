@@ -17,6 +17,9 @@ import store from '../Sharing/Panels/SocialNetworksPanel/Store';
 import SocialNetworksPanel from './Panels/SocialNetworksPanel';
 import HeadlinesPanel from './Panels/HeadlinesPanel';
 import AppearancePanel from './Panels/AppearancePanel';
+import Notice from '../Components/Notice';
+import CircularExclamationIcon from '../Components/Icons/CircularExplanation';
+import { addQueryArgs } from '@wordpress/url';
 
 const retrieveDefaults = () => {
 	return sendCommand( 'has_load_headlines_tab', {
@@ -38,7 +41,6 @@ const getCheckpointData = () => checkpointData;
  */
 const getDefaultValues = ( values = {} ) => ( {
 	enableHeadlines: values.enableHeadlines ?? false,
-	enableH1Sharing: values.enableH1Sharing ?? false,
 	autoGenerateIds: values.autoGenerateIds ?? false,
 	linkIconAlwaysVisible: values.linkIconAlwaysVisible ?? false,
 	enabledHeadingLevels: values.enabledHeadingLevels ?? [ 'h2', 'h3', 'h4' ],
@@ -174,6 +176,33 @@ const HeadlinesInterface = ( { defaults } ) => {
 									'highlight-and-share'
 								) }
 							</p>
+							<div className="has-admin-component-row">
+								<Notice status="warning" icon={ CircularExclamationIcon }>
+									<p className="has-admin__notice-message-content">
+										{ __(
+											'Headline Sharing is currently experimental and may not work with all themes. Please ensure your site layout is not affected after enabling headline sharing.',
+											'highlight-and-share'
+										) }{ ' ' }
+										<a
+											href={ addQueryArgs( 'https://dlxplugins.com/support/', {
+												product: 'Highlight and Share',
+												firstname: hasHeadlinesAdmin.supportParams.firstName,
+												lastname: hasHeadlinesAdmin.supportParams.lastName,
+												email: hasHeadlinesAdmin.supportParams.email,
+												subject: `[Highlight and Share] Headline Sharing Issue With Theme: ${ hasHeadlinesAdmin.supportParams.theme }`,
+												site: hasHeadlinesAdmin.supportParams.siteUrl,
+											} ) }
+											target="_blank"
+											rel="noopener noreferrer"
+										>
+											{ __(
+												'Please Contact Support for Help.',
+												'highlight-and-share'
+											) }
+										</a>
+									</p>
+								</Notice>
+							</div>
 						</div>
 						<div className="has-admin-content-body">
 							<HeadlinesPanel />

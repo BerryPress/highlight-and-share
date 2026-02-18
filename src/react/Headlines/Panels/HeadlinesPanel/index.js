@@ -38,7 +38,6 @@ const HeadlinesPanel = () => {
 				className="has-headlines-panel"
 				watchFields={ [
 					'enableHeadlines',
-					'enableH1Sharing',
 					'autoGenerateIds',
 					'linkIconAlwaysVisible',
 					'enabledHeadingLevels',
@@ -58,23 +57,6 @@ const HeadlinesPanel = () => {
 									onChange={ field.onChange }
 									help={ __(
 										'Enable an unobtrusive link icon next to matching headings, which will display share buttons when clicked.',
-										'highlight-and-share'
-									) }
-								/>
-							) }
-						/>
-					</div>
-					<div className="has-admin-component-row">
-						<Controller
-							name="enableH1Sharing"
-							control={ control }
-							render={ ( { field } ) => (
-								<ToggleControl
-									label={ __( 'Enable H1 (Title) Sharing', 'highlight-and-share' ) }
-									checked={ !! field.value }
-									onChange={ field.onChange }
-									help={ __(
-										'Add an unobtrusive link icon next to the post title (H1), which will display share buttons when clicked.',
 										'highlight-and-share'
 									) }
 								/>
