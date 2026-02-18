@@ -74,7 +74,7 @@ export default function usePanelState( panelId, defaultOpen = false ) {
 				value: {
 					panel_states: updatedPanelStates,
 				},
-				nonce: window.hasSharingAdmin?.userMetaNonce || '',
+				nonce: window.hasSharingAdmin?.userMetaNonce || window.hasHeadlinesAdmin?.userMetaNonce || '',
 			} ).catch( () => {
 				// Silently fail if user meta update fails.
 			} );

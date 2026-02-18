@@ -17,6 +17,7 @@ import {
 const META_KEY = '_has_post_settings';
 const HIGHLIGHT_SHARING_KEY = 'highlight_sharing';
 const IMAGE_SHARING_KEY = 'image_sharing';
+const HEADLINE_SHARING_KEY = 'headline_sharing';
 
 function HASPostSettingsPanel() {
 	const { postType, postId } = useSelect( ( select ) => {
@@ -43,6 +44,7 @@ function HASPostSettingsPanel() {
 	const settings = meta?.[ META_KEY ] ?? {};
 	const highlightValue = settings?.[ HIGHLIGHT_SHARING_KEY ] ?? 'default';
 	const imageSharingValue = settings?.[ IMAGE_SHARING_KEY ] ?? 'default';
+	const headlineSharingValue = settings?.[ HEADLINE_SHARING_KEY ] ?? 'default';
 
 	const updateHighlightSharing = ( newVal ) => {
 		setMeta( {
@@ -60,6 +62,16 @@ function HASPostSettingsPanel() {
 			[ META_KEY ]: {
 				...( settings || {} ),
 				[ IMAGE_SHARING_KEY ]: newVal,
+			},
+		} );
+	};
+
+	const updateHeadlineSharing = ( newVal ) => {
+		setMeta( {
+			...( meta || {} ),
+			[ META_KEY ]: {
+				...( settings || {} ),
+				[ HEADLINE_SHARING_KEY ]: newVal,
 			},
 		} );
 	};
@@ -85,6 +97,16 @@ function HASPostSettingsPanel() {
 					label={ __( 'Image sharing', 'highlight-and-share' ) }
 					value={ imageSharingValue }
 					onChange={ updateImageSharing }
+					isBlock
+				>
+					<ToggleGroupControlOption value="disabled" label={ __( 'Disabled', 'highlight-and-share' ) } />
+					<ToggleGroupControlOption value="default" label={ __( 'Default', 'highlight-and-share' ) } />
+					<ToggleGroupControlOption value="enabled" label={ __( 'Enabled', 'highlight-and-share' ) } />
+				</ToggleGroupControl>
+				<ToggleGroupControl
+					label={ __( 'Headlines', 'highlight-and-share' ) }
+					value={ headlineSharingValue }
+					onChange={ updateHeadlineSharing }
 					isBlock
 				>
 					<ToggleGroupControlOption value="disabled" label={ __( 'Disabled', 'highlight-and-share' ) } />

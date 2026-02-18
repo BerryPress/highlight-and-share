@@ -50,6 +50,7 @@ class PostSettings {
 		add_action( 'save_post', array( PostSettings::class, 'save_classic_meta_box' ), 10, 2 );
 		add_filter( 'has_highlight_sharing_enabled_for_post', array( PostSettings::class, 'filter_highlight_sharing_for_post' ), 10, 2 );
 		add_filter( 'has_image_sharing_enabled_for_post', array( PostSettings::class, 'filter_image_sharing_for_post' ), 10, 2 );
+		add_filter( 'has_headlines_enabled_for_post', array( PostSettings::class, 'filter_headlines_for_post' ), 10, 2 );
 	}
 
 	/**
@@ -85,6 +86,27 @@ class PostSettings {
 	 */
 	public static function filter_image_sharing_for_post( $enabled, $post_id ) {
 		$value = self::get( $post_id, 'image_sharing', 'default' );
+		if ( 'disabled' === $value ) {
+			return false;
+		}
+		if ( 'enabled' === $value ) {
+			return true;
+		}
+		return (bool) $enabled;
+	}
+
+	/**
+	 * Filter headlines (headline sharing) per post: disabled / default / enabled.
+	 *
+	 * Use this filter when deciding whether to process headlines, enqueue headline CSS,
+	 * or add headline body class for a post. Pass the global enabled state as $enabled.
+	 *
+	 * @param bool $enabled  Whether headlines are enabled globally (e.g. enable_headlines + post type).
+	 * @param int  $post_id Post ID.
+	 * @return bool Effective enabled state for this post.
+	 */
+	public static function filter_headlines_for_post( $enabled, $post_id ) {
+		$value = self::get( $post_id, 'headline_sharing', 'default' );
 		if ( 'disabled' === $value ) {
 			return false;
 		}
@@ -307,6 +329,21 @@ class PostSettings {
 					?>
 					<label for="<?php echo esc_attr( $id ); ?>" style="display: block; margin-bottom: 4px;">
 						<input type="radio" name="has_post_settings[image_sharing]" id="<?php echo esc_attr( $id ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php checked( $current_image, $value ); ?> />
+						<?php echo esc_html( $label ); ?>
+					</label>
+					<?php
+				}
+				?>
+			</fieldset>
+			<p class="has-post-settings-label"><?php esc_html_e( 'Headlines', 'highlight-and-share' ); ?></p>
+			<fieldset class="has-post-settings-fieldset">
+				<?php
+				$current_headlines = isset( $settings['headline_sharing'] ) ? $settings['headline_sharing'] : 'default';
+				foreach ( $options as $value => $label ) {
+					$id = 'has_headline_sharing_' . $value;
+					?>
+					<label for="<?php echo esc_attr( $id ); ?>" style="display: block; margin-bottom: 4px;">
+						<input type="radio" name="has_post_settings[headline_sharing]" id="<?php echo esc_attr( $id ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php checked( $current_headlines, $value ); ?> />
 						<?php echo esc_html( $label ); ?>
 					</label>
 					<?php

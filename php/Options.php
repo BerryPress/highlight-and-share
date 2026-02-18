@@ -54,6 +54,13 @@ class Options {
 	private static $options_image = false;
 
 	/**
+	 * Highlight and Share Headlines Options.
+	 *
+	 * @var array $options_headlines Highlight and Share Headlines options.
+	 */
+	private static $options_headlines = false;
+
+	/**
 	 * Highlight and Share Options
 	 *
 	 * @var array $instance Highlight and Share options.
@@ -180,7 +187,7 @@ class Options {
 				'label_text'          => __( 'WhatsApp', 'highlight-and-share' ),
 				'tooltip_text'        => __( 'Share on WhatsApp', 'highlight-and-share' ),
 				'enabled_option_key'  => 'show_whats_app',
-				'share_url_template'  => '', // Handled dynamically based on endpoint settings.
+				'share_url_template'  => 'https://api.whatsapp.com/send?text=%prefix%%text%%suffix%: %url%',
 				'requires_popup'      => true,
 				'icon_colors'         => array(
 					'background'       => '#25d366',
@@ -592,6 +599,109 @@ class Options {
 		$settings = array_replace_recursive( $defaults, $settings );
 
 		self::$options_image = $settings;
+		return $settings;
+	}
+
+	/**
+	 * Get headlines defaults. social_defaults includes only networks with text sharing enabled.
+	 * Copy, Webshare, and X (Twitter) enabled by default. Copy and Webshare are locked.
+	 *
+	 * @return array Headlines defaults.
+	 */
+	public static function get_headlines_defaults() {
+		$social_defaults = array();
+		$networks        = self::get_social_network_defaults();
+		$network_order   = array();
+
+		foreach ( $networks as $slug => $network ) {
+			if ( empty( $network['allows_text_sharing'] ) ) {
+				continue;
+			}
+			$enabled = in_array( $slug, array( 'copy', 'webshare', 'twitter' ), true );
+			$locked  = in_array( $slug, array( 'copy' ), true );
+			$label   = isset( $network['label_text'] ) ? $network['label_text'] : $network['label'];
+			if ( 'copy' === $slug ) {
+				$label = __( 'Copy Link', 'highlight-and-share' );
+			}
+			if ( 'webshare' === $slug ) {
+				$label = __( 'Share This', 'highlight-and-share' );
+			}
+			$social_defaults[ $slug ] = array(
+				'enabled' => $enabled,
+				'locked'  => $locked,
+				'label'   => $label,
+			);
+			if ( $enabled ) {
+				$network_order[] = $slug;
+			}
+		}
+
+		// Append remaining text-sharing networks to network_order.
+		foreach ( $networks as $slug => $network ) {
+			if ( empty( $network['allows_text_sharing'] ) ) {
+				continue;
+			}
+			if ( ! in_array( $slug, $network_order, true ) ) {
+				$network_order[] = $slug;
+			}
+		}
+
+		// Make sure copy is first in the array.
+		if ( in_array( 'copy', $network_order, true ) ) {
+			$network_order = array_merge( array( 'copy' ), array_diff( $network_order, array( 'copy' ) ) );
+		}
+
+		$defaults = array(
+			'enable_headlines'         => false,
+			'auto_generate_ids'        => false,
+			'enabled_heading_levels'   => array( 'h2', 'h3', 'h4' ),
+			'supported_post_types'     => array( 'post' => true ),
+			'exclusion_selectors'      => '',
+			'social_defaults'          => $social_defaults,
+			'network_order'            => $network_order,
+			'link_icon_always_visible' => false,
+			'display_mode'             => 'rows', /* can be rows (default) or grid */
+			'theme'                    => 'light', /* can be light (default) or dark */
+		);
+
+		return $defaults;
+	}
+
+	/**
+	 * Get the headlines options.
+	 *
+	 * @param bool $force Force a refresh of the options.
+	 *
+	 * @return array Headlines options.
+	 */
+	public static function get_headlines_options( $force = false ) {
+		if ( false === self::$options_headlines || $force ) {
+			$settings = get_option( 'highlight-and-share-headline-options' );
+		} else {
+			$settings = self::$options_headlines;
+		}
+
+		$defaults = self::get_headlines_defaults();
+
+		if ( false === $settings || ! is_array( $settings ) ) {
+			update_option( 'highlight-and-share-headline-options', $defaults );
+			return $defaults;
+		}
+
+		$settings                  = array_replace_recursive( $defaults, $settings );
+		$settings['network_order'] = array_unique( (array) ( $settings['network_order'] ?? array() ) );
+
+		// Restore social_defaults from defaults if empty (e.g. corrupted/migrated data).
+		if ( empty( $settings['social_defaults'] ) || ! is_array( $settings['social_defaults'] ) ) {
+			$settings['social_defaults'] = $defaults['social_defaults'];
+			$settings['network_order']   = $defaults['network_order'];
+		}
+
+		// Sort social_defaults by slug.
+		ksort( $settings['social_defaults'] );
+
+		self::$options_headlines = $settings;
+
 		return $settings;
 	}
 

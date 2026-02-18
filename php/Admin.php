@@ -400,6 +400,10 @@ class Admin {
 			if ( 'emails' === $current_tab ) {
 				$emails_tab_class[] = 'nav-tab-active';
 			}
+			$headlines_tab_class = array( 'nav-tab' );
+			if ( 'headlines' === $current_tab ) {
+				$headlines_tab_class[] = 'nav-tab-active';
+			}
 			$support_tab_class = array( 'nav-tab' );
 			if ( 'support' === $current_tab ) {
 				$support_tab_class[] = 'nav-tab-active';
@@ -410,16 +414,26 @@ class Admin {
 			<div class="has-admin-container-body-wrapper">
 				<div class="has-admin-container-body">
 					<nav class="nav-tab-wrapper">
-						<a class="<?php echo esc_attr( implode( ' ', $sharing_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'sharing' ) ); ?>"><?php esc_html_e( 'Sharing', 'highlight-and-share' ); ?></a>
-						<a class="<?php echo esc_attr( implode( ' ', $image_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'images' ) ); ?>"><?php esc_html_e( 'Images', 'highlight-and-share' ); ?></a>
-						<a class="<?php echo esc_attr( implode( ' ', $emails_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'emails' ) ); ?>"><?php esc_html_e( 'Emails', 'highlight-and-share' ); ?></a>
-						<a class="<?php echo esc_attr( implode( ' ', $support_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'support' ) ); ?>"><?php esc_html_e( 'Support', 'highlight-and-share' ); ?></a>
+						<a class="<?php echo esc_attr( implode( ' ', $sharing_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'sharing' ) ); ?>"><?php esc_html_e( 'Content Sharing', 'highlight-and-share' ); ?></a>
+						<a class="<?php echo esc_attr( implode( ' ', $image_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'images' ) ); ?>"><?php esc_html_e( 'Image Sharing', 'highlight-and-share' ); ?></a>
+						<a class="<?php echo esc_attr( implode( ' ', $headlines_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'headlines' ) ); ?>"><?php esc_html_e( 'Headline Sharing', 'highlight-and-share' ); ?></a>
+						<a class="<?php echo esc_attr( implode( ' ', $emails_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'emails' ) ); ?>"><?php esc_html_e( 'Email Settings', 'highlight-and-share' ); ?></a>
+						<a class="<?php echo esc_attr( implode( ' ', $support_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'support' ) ); ?>"><?php esc_html_e( 'Help', 'highlight-and-share' ); ?></a>
 					</nav>
 					<?php
 					if ( null === $current_tab || 'sharing' === $current_tab ) {
 						?>
 						<div class="has-admin-container-body__content">
 							<div id="has-sharing-admin">
+								<?php echo wp_kses( $this->get_loading_svg(), Functions::get_kses_allowed_html() ); ?>
+							</div>
+						</div>
+						<?php
+					}
+					if ( 'headlines' === $current_tab ) {
+						?>
+						<div class="has-admin-container-body__content">
+							<div id="has-headlines-admin">
 								<?php echo wp_kses( $this->get_loading_svg(), Functions::get_kses_allowed_html() ); ?>
 							</div>
 						</div>
@@ -695,6 +709,59 @@ class Admin {
 						'retrieveNonce' => wp_create_nonce( 'has_retrieve_block_editor' ),
 						'resetNonce'    => wp_create_nonce( 'has_reset_block_editor' ),
 						'colors'        => Themes::get_default_theme_colors(),
+					)
+				);
+			}
+
+			// Determine if we're loading the headlines tab.
+			$enqueue_headlines = false;
+			$current_tab       = Functions::get_admin_tab();
+			if ( null !== $current_tab && 'headlines' === $current_tab ) {
+				$enqueue_headlines = true;
+			}
+			if ( $enqueue_headlines ) {
+				$deps = require Functions::get_plugin_dir( 'dist/has-admin-headlines.asset.php' );
+				if ( ! is_array( $deps ) ) {
+					$deps = array(
+						'dependencies' => array(),
+						'version'      => HIGHLIGHT_AND_SHARE_VERSION,
+					);
+				}
+				wp_enqueue_script(
+					'has-headlines-admin-js',
+					Functions::get_plugin_url( '/dist/has-admin-headlines.js' ),
+					$deps['dependencies'] ?? array(),
+					$deps['version'] ?? HIGHLIGHT_AND_SHARE_VERSION,
+					true
+				);
+
+				$post_types = Functions::get_post_types();
+				$post_types = array_map(
+					function ( $post_type ) {
+						return array(
+							'label' => $post_type->label,
+							'value' => $post_type->name,
+						);
+					},
+					$post_types
+				);
+
+				wp_localize_script(
+					'has-headlines-admin-js',
+					'hasHeadlinesAdmin',
+					array(
+						'loadNonce'     => wp_create_nonce( 'has_load_headlines_tab' ),
+						'saveNonce'     => wp_create_nonce( 'has_save_headlines_tab' ),
+						'resetNonce'    => wp_create_nonce( 'has_reset_headlines_tab' ),
+						'userMetaNonce' => wp_create_nonce( 'has_admin_user_meta' ),
+						'postTypes'     => $post_types,
+						'supportParams' => array(
+							'firstName' => get_user_meta( get_current_user_id(), 'first_name', true ),
+							'lastName'  => get_user_meta( get_current_user_id(), 'last_name', true ),
+							'email'     => wp_get_current_user()->user_email,
+							'theme'     => wp_get_theme()->get( 'Name' ),
+							'siteUrl'   => home_url(),
+						),
 					)
 				);
 			}
@@ -980,13 +1047,16 @@ class Admin {
 		$defaults = array(
 			'first_installed' => $first_installed,
 			'panel_states'    => array(
-				'social_networks'     => true, // Default expanded.
-				'display_rules'       => false,
-				'appearance'          => false,
-				'preview'             => true, // Default expanded.
-				'block_editor'        => false,
-				'inline_highlighting' => false,
-				'advanced'            => false,
+				'social_networks'           => true, // Default expanded.
+				'display_rules'             => false,
+				'appearance'                => false,
+				'preview'                   => true, // Default expanded.
+				'block_editor'              => false,
+				'inline_highlighting'       => false,
+				'advanced'                  => false,
+				'headlines_settings'        => true,
+				'headlines_social_networks' => true,
+				'headlines_appearance'      => true,
 			),
 		);
 
@@ -1015,6 +1085,9 @@ class Admin {
 			'block_editor',
 			'inline_highlighting',
 			'advanced',
+			'headlines_settings',
+			'headlines_social_networks',
+			'headlines_appearance',
 		);
 
 		$defaults   = $this->get_admin_user_meta_defaults();
@@ -1075,6 +1148,9 @@ class Admin {
 				'block_editor',
 				'inline_highlighting',
 				'advanced',
+				'headlines_settings',
+				'headlines_social_networks',
+				'headlines_appearance',
 			);
 
 			$sanitized['panel_states'] = array();

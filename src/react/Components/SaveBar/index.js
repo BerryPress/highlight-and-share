@@ -82,7 +82,7 @@ const SaveBar = ( props ) => {
 						icon={ isSaving ? Spinner : false }
 						iconSize="18"
 						iconPosition="right"
-						disabled={ isSaving || isResetting }
+						disabled={ isSaving || isResetting || hasErrors }
 						onClick={ ( e ) => {
 							e.preventDefault();
 							onSave();
@@ -94,7 +94,7 @@ const SaveBar = ( props ) => {
 						text={ __( 'Discard Changes', 'highlight-and-share' ) }
 						iconSize="18"
 						iconPosition="right"
-						disabled={ isSaving || isResetting }
+						disabled={ isSaving || isResetting || hasErrors }
 						onClick={ ( e ) => {
 							e.preventDefault();
 							setIsDiscardChangesModalOpen( true );
@@ -115,7 +115,7 @@ const SaveBar = ( props ) => {
 						icon={ isResetting ? Spinner : false }
 						iconSize="18"
 						iconPosition="right"
-						disabled={ isSaving || isResetting }
+						disabled={ isSaving || isResetting || hasErrors }
 						onClick={ ( e ) => {
 							e.preventDefault();
 							setIsResetChangesModalOpen( true );

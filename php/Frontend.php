@@ -13,10 +13,18 @@ namespace DLXPlugins\HAS;
 class Frontend {
 
 	/**
+	 * Whether footer SVG sprite has already been output (avoids duplicate when headline-sharing also requests it).
+	 *
+	 * @var bool
+	 */
+	private static $footer_svgs_rendered = false;
+
+	/**
 	 * Class runner.
 	 */
 	public function run() {
 		add_action( 'wp', array( $this, 'wp_loaded' ), 15 );
+		add_filter( 'has_footer_svg_sprite', array( $this, 'filter_footer_svg_sprite' ) );
 	}
 
 	/**
@@ -1958,9 +1966,25 @@ class Frontend {
 	}
 
 	/**
+	 * Provide SVG sprite markup for headline-sharing when main HAS container was not rendered.
+	 *
+	 * @param string $markup Default empty.
+	 * @return string SVG sprite HTML or empty if already output.
+	 */
+	public function filter_footer_svg_sprite( $markup ) {
+		if ( self::$footer_svgs_rendered ) {
+			return '';
+		}
+		ob_start();
+		$this->get_footer_svgs();
+		return ob_get_clean();
+	}
+
+	/**
 	 * Retrieve SVGs in the footer for reference.
 	 */
 	private function get_footer_svgs() {
+		self::$footer_svgs_rendered = true;
 		?>
 		<svg width="0" height="0" class="hidden" style="display: none;">
 			<symbol aria-hidden="true" data-prefix="fas" data-icon="twitter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="has-twitter-icon">

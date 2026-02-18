@@ -421,9 +421,8 @@ class Functions {
 			$old_key = $key;
 			if ( is_array( $value ) ) {
 				$value = self::to_camelcase_recursive( $value );
-			} else {
-				$key = self::to_camelcase( $key );
 			}
+			$key = self::to_camelcase( $key );
 			if ( $key !== $old_key ) {
 				unset( $fields[ $old_key ] );
 			}
