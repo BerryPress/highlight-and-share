@@ -89,13 +89,36 @@ class Headlines {
 		if ( ! $this->can_parse_headlines() ) {
 			return $content;
 		}
-		$options = Options::get_headlines_options();
-		if ( ! empty( $options['auto_generate_ids'] ) ) {
-			$content = Headlines_Helper::add_ids_to_headings( $content, $options );
+
+		// Avoid re-processing and infinite nesting when the_content is called multiple times.
+		if ( false !== strpos( $content, 'has-headline-share-trigger' ) ) {
+			return $content;
 		}
 
-		$only_with_id = empty( $options['auto_generate_ids'] );
-		$content      = Headlines_Helper::add_data_attributes( $content, $options, $only_with_id );
+		// Cheap bailout: no heading IDs in content (and we are not auto-generating).
+		$options = Options::get_headlines_options();
+		if ( empty( $options['auto_generate_ids'] ) && false === strpos( $content, ' id="' ) ) {
+			return $content;
+		}
+
+		$filter_name = current_filter();
+		remove_filter( $filter_name, array( $this, 'process_headlines_content' ), 100 );
+		$original = $content;
+
+		try {
+			if ( ! empty( $options['auto_generate_ids'] ) ) {
+				$content = Headlines_Helper::add_ids_to_headings( $content, $options );
+			}
+			$only_with_id = empty( $options['auto_generate_ids'] );
+			$content      = Headlines_Helper::add_data_attributes( $content, $options, $only_with_id );
+		} catch ( \Throwable $e ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'HAS Headlines: parsing failed - ' . $e->getMessage() );
+			}
+			$content = $original;
+		} finally {
+			add_filter( $filter_name, array( $this, 'process_headlines_content' ), 100 );
+		}
 
 		return $content;
 	}
@@ -226,7 +249,7 @@ class Headlines {
 	 */
 	public function output_headline_share_sprite() {
 		$svg = apply_filters( 'has_footer_svg_sprite', '' );
-		if ( $svg !== '' ) {
+		if ( '' !== $svg ) {
 			echo $svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}

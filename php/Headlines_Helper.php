@@ -45,40 +45,47 @@ class Headlines_Helper {
 			return $content;
 		}
 
-		$dom = self::create_dom_from_content( $content );
-		if ( ! $dom ) {
+		try {
+			$dom = self::create_dom_from_content( $content );
+			if ( ! $dom ) {
+				return $content;
+			}
+
+			$xpath   = new \DOMXPath( $dom );
+			$wrapper = $xpath->query( '//*[@id="' . self::WRAPPER_ID . '"]' )->item( 0 );
+			if ( ! $wrapper instanceof \DOMElement ) {
+				return $content;
+			}
+
+			$levels              = self::get_enabled_levels( $options );
+			$exclusion_selectors = self::parse_exclusion_selectors( $options['exclusion_selectors'] ?? '' );
+			$query               = self::build_headings_xpath( $levels );
+			$headings            = $xpath->query( $query, $wrapper );
+
+			foreach ( $headings as $heading ) {
+				if ( ! $heading instanceof \DOMElement ) {
+					continue;
+				}
+				if ( self::is_heading_excluded( $heading, $exclusion_selectors ) ) {
+					continue;
+				}
+				$id = $heading->getAttribute( 'id' );
+				if ( '' !== $id && preg_match( '/^[a-zA-Z][\w\-:.]*$/', $id ) ) {
+					self::add_headline( $id );
+					continue;
+				}
+				$text = self::get_heading_text( $heading );
+				$slug = self::get_headline_anchor( $text, true );
+				$heading->setAttribute( 'id', $slug );
+			}
+
+			return self::get_wrapper_inner_html( $dom, $wrapper );
+		} catch ( \Throwable $e ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'HAS Headlines: add_ids_to_headings failed - ' . $e->getMessage() );
+			}
 			return $content;
 		}
-
-		$xpath   = new \DOMXPath( $dom );
-		$wrapper = $xpath->query( '//*[@id="' . self::WRAPPER_ID . '"]' )->item( 0 );
-		if ( ! $wrapper instanceof \DOMElement ) {
-			return $content;
-		}
-
-		$levels              = self::get_enabled_levels( $options );
-		$exclusion_selectors = self::parse_exclusion_selectors( $options['exclusion_selectors'] ?? '' );
-		$query               = self::build_headings_xpath( $levels );
-		$headings            = $xpath->query( $query, $wrapper );
-
-		foreach ( $headings as $heading ) {
-			if ( ! $heading instanceof \DOMElement ) {
-				continue;
-			}
-			if ( self::is_heading_excluded( $heading, $exclusion_selectors ) ) {
-				continue;
-			}
-			$id = $heading->getAttribute( 'id' );
-			if ( '' !== $id && preg_match( '/^[a-zA-Z][\w\-:.]*$/', $id ) ) {
-				self::add_headline( $id );
-				continue;
-			}
-			$text = self::get_heading_text( $heading );
-			$slug = self::get_headline_anchor( $text, true );
-			$heading->setAttribute( 'id', $slug );
-		}
-
-		return self::get_wrapper_inner_html( $dom, $wrapper );
 	}
 
 	/**
@@ -94,65 +101,83 @@ class Headlines_Helper {
 			return $content;
 		}
 
-		$dom = self::create_dom_from_content( $content );
-		if ( ! $dom ) {
-			return $content;
-		}
-
-		$xpath   = new \DOMXPath( $dom );
-		$wrapper = $xpath->query( '//*[@id="' . self::WRAPPER_ID . '"]' )->item( 0 );
-		if ( ! $wrapper instanceof \DOMElement ) {
-			return $content;
-		}
-
-		$levels              = self::get_enabled_levels( $options );
-		$exclusion_selectors = self::parse_exclusion_selectors( $options['exclusion_selectors'] ?? '' );
-		$query               = self::build_headings_xpath( $levels );
-		$headings            = $xpath->query( $query, $wrapper );
-
-		foreach ( $headings as $heading ) {
-			if ( ! $heading instanceof \DOMElement ) {
-				continue;
+		try {
+			$dom = self::create_dom_from_content( $content );
+			if ( ! $dom ) {
+				return $content;
 			}
-			if ( self::is_heading_excluded( $heading, $exclusion_selectors ) ) {
-				continue;
+
+			$xpath   = new \DOMXPath( $dom );
+			$wrapper = $xpath->query( '//*[@id="' . self::WRAPPER_ID . '"]' )->item( 0 );
+			if ( ! $wrapper instanceof \DOMElement ) {
+				return $content;
 			}
-			if ( $only_with_id ) {
-				$id = $heading->getAttribute( 'id' );
-				if ( '' === $id || ! preg_match( '/^[a-zA-Z][\w\-:.]*$/', $id ) ) {
+
+			$levels              = self::get_enabled_levels( $options );
+			$exclusion_selectors = self::parse_exclusion_selectors( $options['exclusion_selectors'] ?? '' );
+			$query               = self::build_headings_xpath( $levels );
+			$headings            = $xpath->query( $query, $wrapper );
+
+			foreach ( $headings as $heading ) {
+				if ( ! $heading instanceof \DOMElement ) {
 					continue;
 				}
+				if ( self::is_heading_excluded( $heading, $exclusion_selectors ) ) {
+					continue;
+				}
+				if ( $only_with_id ) {
+					$id = $heading->getAttribute( 'id' );
+					if ( '' === $id || ! preg_match( '/^[a-zA-Z][\w\-:.]*$/', $id ) ) {
+						continue;
+					}
+				}
+				$heading->setAttribute( 'data-has-headline-share', '1' );
+				// Prepend a real element for the share icon so JS can attach click (headlines may be links).
+				$doc = $heading->ownerDocument;
+				$btn = $doc->createElement( 'a' );
+				$btn->setAttribute( 'type', 'link' );
+				$btn->setAttribute( 'href', sprintf( esc_url_raw( '%s#%s' ), get_permalink(), $heading->getAttribute( 'id' ) ) );
+				$btn->setAttribute( 'class', 'has-headline-share-trigger' );
+				$btn->setAttribute( 'aria-label', __( 'Share this section', 'highlight-and-share' ) );
+				$btn->setAttribute( 'aria-haspopup', 'menu' );
+				$btn->setAttribute( 'aria-expanded', 'false' );
+				$heading->insertBefore( $btn, $heading->firstChild );
 			}
-			$heading->setAttribute( 'data-has-headline-share', '1' );
-			// Prepend a real element for the share icon so JS can attach click (headlines may be links).
-			$doc = $heading->ownerDocument;
-			$btn = $doc->createElement( 'a' );
-			$btn->setAttribute( 'type', 'link' );
-			$btn->setAttribute( 'href', sprintf( esc_url_raw( '%s#%s' ), get_permalink(), $heading->getAttribute( 'id' ) ) );
-			$btn->setAttribute( 'class', 'has-headline-share-trigger' );
-			$btn->setAttribute( 'aria-label', __( 'Share this section', 'highlight-and-share' ) );
-			$btn->setAttribute( 'aria-haspopup', 'menu' );
-			$btn->setAttribute( 'aria-expanded', 'false' );
-			$heading->insertBefore( $btn, $heading->firstChild );
-		}
 
-		return self::get_wrapper_inner_html( $dom, $wrapper );
+			return self::get_wrapper_inner_html( $dom, $wrapper );
+		} catch ( \Throwable $e ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'HAS Headlines: add_data_attributes failed - ' . $e->getMessage() );
+			}
+			return $content;
+		}
 	}
 
 	/**
 	 * Build a DOMDocument from content wrapped in a single root for safe parsing.
+	 * Normalizes encoding to UTF-8 to avoid entity/encoding issues with DOMDocument.
 	 *
 	 * @param string $content HTML fragment.
 	 * @return \DOMDocument|null DOM or null on failure.
 	 */
 	private static function create_dom_from_content( $content ) {
+		if ( ! mb_check_encoding( $content, 'UTF-8' ) ) {
+			$content = mb_convert_encoding( $content, 'UTF-8', 'UTF-8' );
+		}
 		$wrap = '<div id="' . self::WRAPPER_ID . '">' . $content . '</div>';
 		$dom  = new \DOMDocument();
 		$prev = libxml_use_internal_errors( true );
-		$dom->loadHTML(
-			'<?xml encoding="UTF-8">' . $wrap,
-			LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
-		);
+		try {
+			@$dom->loadHTML( // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+				'<?xml encoding="UTF-8">' . $wrap,
+				LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
+			);
+		} catch ( \Throwable $e ) {
+			libxml_clear_errors();
+			libxml_use_internal_errors( $prev );
+			return null;
+		}
+		libxml_clear_errors();
 		libxml_use_internal_errors( $prev );
 		return $dom;
 	}
