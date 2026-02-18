@@ -63,7 +63,7 @@ const SocialNetworksPanel = () => {
 							{ networksRemaining > 0 ? (
 								sprintf(
 									/* translators: %d: Number of networks remaining */
-									__( 'Add %d more text-sharing networks. Copy and Web Share are always enabled.', 'highlight-and-share' ),
+									__( 'Add %d more text-sharing networks. Copy is always enabled.', 'highlight-and-share' ),
 									networksRemaining
 								)
 							) : (

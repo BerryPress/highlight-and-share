@@ -414,11 +414,11 @@ class Admin {
 			<div class="has-admin-container-body-wrapper">
 				<div class="has-admin-container-body">
 					<nav class="nav-tab-wrapper">
-						<a class="<?php echo esc_attr( implode( ' ', $sharing_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'sharing' ) ); ?>"><?php esc_html_e( 'Sharing', 'highlight-and-share' ); ?></a>
-						<a class="<?php echo esc_attr( implode( ' ', $image_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'images' ) ); ?>"><?php esc_html_e( 'Images', 'highlight-and-share' ); ?></a>
-						<a class="<?php echo esc_attr( implode( ' ', $headlines_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'headlines' ) ); ?>"><?php esc_html_e( 'Headlines', 'highlight-and-share' ); ?></a>
-						<a class="<?php echo esc_attr( implode( ' ', $emails_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'emails' ) ); ?>"><?php esc_html_e( 'Emails', 'highlight-and-share' ); ?></a>
-						<a class="<?php echo esc_attr( implode( ' ', $support_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'support' ) ); ?>"><?php esc_html_e( 'Support', 'highlight-and-share' ); ?></a>
+						<a class="<?php echo esc_attr( implode( ' ', $sharing_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'sharing' ) ); ?>"><?php esc_html_e( 'Content Sharing', 'highlight-and-share' ); ?></a>
+						<a class="<?php echo esc_attr( implode( ' ', $image_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'images' ) ); ?>"><?php esc_html_e( 'Image Sharing', 'highlight-and-share' ); ?></a>
+						<a class="<?php echo esc_attr( implode( ' ', $headlines_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'headlines' ) ); ?>"><?php esc_html_e( 'Headline Sharing', 'highlight-and-share' ); ?></a>
+						<a class="<?php echo esc_attr( implode( ' ', $emails_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'emails' ) ); ?>"><?php esc_html_e( 'Email Settings', 'highlight-and-share' ); ?></a>
+						<a class="<?php echo esc_attr( implode( ' ', $support_tab_class ) ); ?>" href="<?php echo esc_url( Functions::get_settings_url( 'support' ) ); ?>"><?php esc_html_e( 'Help', 'highlight-and-share' ); ?></a>
 					</nav>
 					<?php
 					if ( null === $current_tab || 'sharing' === $current_tab ) {

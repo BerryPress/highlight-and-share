@@ -25146,7 +25146,7 @@ var SocialNetworksPanel = function SocialNetworksPanel() {
   }, /*#__PURE__*/React.createElement("p", {
     className: "description"
   }, networksRemaining > 0 ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)(/* translators: %d: Number of networks remaining */
-  (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add %d more text-sharing networks. Copy and Web Share are always enabled.', 'highlight-and-share'), networksRemaining) : (/* translators: %d: Maximum number of networks (4) */
+  (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add %d more text-sharing networks. Copy is always enabled.', 'highlight-and-share'), networksRemaining) : (/* translators: %d: Maximum number of networks (4) */
   (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('All %d text-sharing networks are enabled. Copy and Web Share are always enabled.', 'highlight-and-share'), MAX_NETWORKS)))), /*#__PURE__*/React.createElement("div", {
     className: "has-headlines-network-list"
   }, networks.map(function (network) {

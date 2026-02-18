@@ -647,15 +647,17 @@ class Options {
 		}
 
 		$defaults = array(
-			'enable_headlines'       => false,
-			'enable_h1_sharing'      => false,
-			'auto_generate_ids'      => false,
-			'enabled_heading_levels' => array( 'h2', 'h3', 'h4' ),
-			'supported_post_types'   => array( 'post' => true ),
-			'exclusion_selectors'    => '',
-			'social_defaults'        => $social_defaults,
-			'network_order'          => $network_order,
+			'enable_headlines'         => false,
+			'enable_h1_sharing'        => false,
+			'auto_generate_ids'        => false,
+			'enabled_heading_levels'   => array( 'h2', 'h3', 'h4' ),
+			'supported_post_types'     => array( 'post' => true ),
+			'exclusion_selectors'      => '',
+			'social_defaults'          => $social_defaults,
+			'network_order'            => $network_order,
 			'link_icon_always_visible' => false,
+			'display_mode'             => 'rows', /* can be rows (default) or grid */
+			'theme'                    => 'light', /* can be light (default) or dark */
 		);
 
 		return $defaults;
