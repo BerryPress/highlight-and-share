@@ -138,7 +138,8 @@
 }
 
 .has-headline-share-panel a.has_bluesky:hover {
-  display: none;
+  background: var(--has-headline-item-row-background-hover);
+  color: #1285FE;
 }
 
 .has-headline-share-panel a.has_twitter:hover {
