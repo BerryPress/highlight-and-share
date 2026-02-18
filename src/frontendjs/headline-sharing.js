@@ -266,7 +266,7 @@ import { __ } from '@wordpress/i18n';
 		}
 
 		// 1) Left of icon (default).
-		let left = iconRect.left - GAP - iconWidth / 2 - pw / 2;
+		let left = iconRect.left - GAP - ( iconWidth / 2 ) - ( pw / 2 );
 		let top = iconRect.top + scrollY;
 		if ( inViewport( left, top ) ) {
 			panel.style.left = left + 'px';
@@ -274,27 +274,18 @@ import { __ } from '@wordpress/i18n';
 			return;
 		}
 
-		// 2) Right of icon (when viewport too small on the left).
-		left = iconRect.right + GAP + scrollX;
-		top = iconRect.top + scrollY + iconRect.height / 2 - ph / 2;
+		// 2) Above icon (Left aligned to icon).
+		left = iconRect.left + scrollX;
+		top = iconRect.top - GAP - ph + scrollY;
 		if ( inViewport( left, top ) ) {
 			panel.style.left = left + 'px';
 			panel.style.top = top + 'px';
 			return;
 		}
 
-		// 3) Below icon (centered under icon).
-		left = iconRect.left + scrollX + iconRect.width / 2 - pw / 2;
+		// 3) Beneath the icon and the headline.
+		left = iconRect.left + GAP + scrollX;
 		top = iconRect.bottom + GAP + scrollY;
-		if ( inViewport( left, top ) ) {
-			panel.style.left = left + 'px';
-			panel.style.top = top + 'px';
-			return;
-		}
-
-		// 4) Above icon (centered).
-		left = iconRect.left + scrollX + iconRect.width / 2 - pw / 2;
-		top = iconRect.top + scrollY - GAP - ph;
 		if ( inViewport( left, top ) ) {
 			panel.style.left = left + 'px';
 			panel.style.top = top + 'px';
@@ -309,7 +300,7 @@ import { __ } from '@wordpress/i18n';
 			left = Math.max( left, scrollX );
 		}
 		top = Math.min(
-			Math.max( iconRect.top + scrollY + iconRect.height / 2 - ph / 2, scrollY ),
+			Math.max( iconRect.top + scrollY + ( iconRect.height / 2 ) - ( ph / 2 ), scrollY ),
 			scrollY + vh - ph - 15
 		);
 		panel.style.left = left + 'px';

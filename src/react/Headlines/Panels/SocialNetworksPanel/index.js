@@ -12,7 +12,7 @@ import ErrorBoundary from '../../../Components/ErrorBoundary';
 import HeadlinesNetworkIcon from '../../../Components/HeadlinesNetworkIcon';
 
 const MAX_NETWORKS = 4;
-const LOCKED_SLUGS = [ 'copy', 'webshare' ];
+const LOCKED_SLUGS = [ 'copy' ];
 
 const SocialNetworksPanel = () => {
 	const { control } = useFormContext();

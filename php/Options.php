@@ -187,7 +187,7 @@ class Options {
 				'label_text'          => __( 'WhatsApp', 'highlight-and-share' ),
 				'tooltip_text'        => __( 'Share on WhatsApp', 'highlight-and-share' ),
 				'enabled_option_key'  => 'show_whats_app',
-				'share_url_template'  => '', // Handled dynamically based on endpoint settings.
+				'share_url_template'  => 'https://api.whatsapp.com/send?text=%prefix%%text%%suffix%: %url%',
 				'requires_popup'      => true,
 				'icon_colors'         => array(
 					'background'       => '#25d366',
@@ -618,7 +618,7 @@ class Options {
 				continue;
 			}
 			$enabled = in_array( $slug, array( 'copy', 'webshare', 'twitter' ), true );
-			$locked  = in_array( $slug, array( 'copy', 'webshare' ), true );
+			$locked  = in_array( $slug, array( 'copy' ), true );
 			$label   = isset( $network['label_text'] ) ? $network['label_text'] : $network['label'];
 			if ( 'copy' === $slug ) {
 				$label = __( 'Copy Link', 'highlight-and-share' );

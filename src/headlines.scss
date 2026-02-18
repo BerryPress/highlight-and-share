@@ -11,6 +11,12 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 	position: relative;
 }
 
+:root {
+	--has-headline-item-row-background: #FFF;
+	--has-headline-item-row-background-hover: #efefef;
+	--has-headline-item-row-text-color: #1e1e1e;
+}
+
 /* Share trigger button (real element so JS can bind click; works when headline is a link). */
 .has-headline-share-trigger {
 	position: absolute;
@@ -56,178 +62,168 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 	opacity: 1;
 }
 
-
+.has-headline-share-panel a .has-headline-share-panel__label {
+	font-family: 'Arial', Helvetica, sans-serif;
+	letter-spacing: 0.150em;
+	font-size: 14px;
+	letter-spacing: .2em;
+	color: var(--has-headline-item-row-text-color);
+}
+.has-headline-share-panel a,
+.has-headline-share-panel a:hover {
+	transition: background 0.35s ease-in-out;
+}
 .has-headline-share-panel a.has_twitter {
-	background: #000;
-	color: #FFF;
+	background: var(--has-headline-item-row-background);
+	color: #353333;
 }
 
 .has-headline-share-panel a.has_copy {
-	background: #222222;
-	color: #FFF;
+	background: var(--has-headline-item-row-background);
+	color: #222222;
 }
 
 .has-headline-share-panel a.has_email {
-	background: #0074a2;
+	background: var(--has-headline-item-row-background);
 	color: #FFF;
 }
 
 .has-headline-share-panel a.hax_xing {
-	background: #0074a2;
-	color: #FFF;
+	background: var(--has-headline-item-row-background);
+	color: #0074a2;
 }
 
 .has-headline-share-panel a.has_whatsapp {
-	background: #04e26a;
-	color: #333;
+	background: var(--has-headline-item-row-background);
+	color: #04e26a;
 }
 
 .has-headline-share-panel a.has_mastodon {
-	background: #5F56ED;
-	color: #FFF;
+	background: var(--has-headline-item-row-background);
+	color: #5F56ED;
 }
 
 .has-headline-share-panel a.has_tumblr {
-	background: #333;
-	color: #FFF;
+	background: var(--has-headline-item-row-background);
+	color: #333;
 }
 
 .has-headline-share-panel a.has_telegram {
-	background: #278fd6;
-	color: #FFF;
+	background: var(--has-headline-item-row-background);
+	color: #278fd6;
 }
 
 .has-headline-share-panel a.has_webshare {
-	background: #f58f2f;
-	color: #FFF;
+	background: var(--has-headline-item-row-background);
+	color: #f58f2f;
 }
 
 .has-headline-share-panel a.has_bluesky {
-	background: #F2F9FF;
+	background: var(--has-headline-item-row-background);
 	color: #1285FE;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_mastodon:hover {
-	background: #4e46c8;
+.has-headline-share-panel a.has_mastodon:hover {
+	background: var(--has-headline-item-row-background-hover);
+	color: #4e46c8;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors span.has-text {
+.has-headline-share-panel a.has_bluesky:hover {
 	display: none;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_twitter:hover {
-	background: #333;
-	fill: #FFF;
+.has-headline-share-panel a.has_twitter:hover {
+	background: var(--has-headline-item-row-background-hover);
+	color: #333;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_facebook:hover {
-	background: #1F3C83;
+.has-headline-share-panel a.has_copy:hover {
+	background: var(--has-headline-item-row-background-hover);
+	color: #333333;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_linkedin:hover {
-	background: #23a0c7;
+.has-headline-share-panel a.has_email:hover {
+	background: var(--has-headline-item-row-background-hover);
+	color: #1388b7;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_ok:hover {
-	background: #dc7909;
+.has-headline-share-panel a.has_xing:hover {
+	background: var(--has-headline-item-row-background-hover);
+	color: #1388b7;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_vk:hover {
-	background: #256be0;
+.has-headline-share-panel a.has_whatsapp:hover {
+	background: var(--has-headline-item-row-background-hover);
+	color: #02b857;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_pinterest:hover {
-	background: #d93238;
+.has-headline-share-panel a.has_tumblr:hover {
+	background: var(--has-headline-item-row-background-hover);
+	color: #000;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_copy:hover {
-	background: #333333;
+.has-headline-share-panel a.has_telegram:hover {
+	background: var(--has-headline-item-row-background-hover);
+	color: #2587ca;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_email:hover {
-	background: #1388b7;
+.has-headline-share-panel a.has_telegram:hover {
+	background: var(--has-headline-item-row-background-hover);
+	color: #366ee1;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_xing:hover {
-	background: #1388b7;
+.has-headline-share-panel a.has_webshare:hover {
+	background: var(--has-headline-item-row-background-hover);
+	color: #e17713;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_whatsapp:hover {
-	background: #02b857;
+.has-headline-share-panel a.has_threads {
+	background: var(--has-headline-item-row-background);
+	color: #000;
 }
 
-.highlight-and-share-wrapper.theme-brand-colors div.has_tumblr:hover {
-	background: #000;
-}
-
-.highlight-and-share-wrapper.theme-brand-colors div.has_reddit:hover {
-	background: #eb4407;
-}
-
-.highlight-and-share-wrapper.theme-brand-colors div.has_telegram:hover {
-	background: #2587ca;
-}
-
-.highlight-and-share-wrapper.theme-brand-colors div.has_telegram:hover {
-	background: #366ee1;
-}
-
-.highlight-and-share-wrapper.theme-brand-colors div.has_webshare:hover {
-	background: #4e46c8;
-}
-
-.highlight-and-share-wrapper.theme-brand-colors div.has_webshare {
-	background: #e17713;
-}
-
-.highlight-and-share-wrapper.theme-brand-colors div.has_threads {
-	background: #000;
-}
-
-.highlight-and-share-wrapper.theme-brand-colors div.has_threads:hover {
-	background: #333;
-	fill: #FFF;
+.has-headline-share-panel a.has_threads:hover {
+	background: var(--has-headline-item-row-background-hover);
+	color: #333;
 }
 
 /* Headline share panel (vertical list, up to 4 rows). */
 .has-headline-share-panel {
-	display: flex;
-	flex-direction: column;
-	gap: 2px;
+	display: grid;
+	grid-template-columns: 1fr;
 	min-width: 140px;
 	max-width: 220px;
-	padding: 6px 0;
-	background: #fff;
 	border: 1px solid rgba(0, 0, 0, 0.12);
-	border-radius: 6px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	border-radius: 4px;
+	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 }
 
 .has-headline-share-panel__header {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	padding: 4px 8px 2px;
+	position: absolute;
+	top: -14px;
+	left: -14px;
 }
 
 .has-headline-share-panel__close {
+	background: #FFF;
+	border: 1px solid #E0E0E0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 28px;
 	height: 28px;
-	padding: 0;
+	padding: 6px;
+	box-sizing: border-box;
 	margin: 0;
-	background: transparent;
-	border: none;
-	border-radius: 4px;
+	border-radius: 100%;
 	cursor: pointer;
 	color: #1e1e1e;
+	transition: background 0.1s ease;
 }
 
 .has-headline-share-panel__close:hover,
 .has-headline-share-panel__close:focus {
-	background: rgba(0, 0, 0, 0.06);
+	background: #F0F0F0;
 	outline: none;
 }
 
@@ -244,6 +240,10 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 
 .has-headline-share-panel__row {
 	display: block;
+	border-bottom: 1px solid #e0e0e0;
+	&:last-child {
+		border-bottom: none;
+	}
 }
 
 .has-headline-share-panel__action {
@@ -251,7 +251,7 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 	align-items: center;
 	gap: 8px;
 	width: 100%;
-	padding: 6px 12px;
+	padding: 10px 16px;
 	font-size: 14px;
 	line-height: 1.4;
 	text-align: left;
