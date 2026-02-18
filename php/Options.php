@@ -646,6 +646,11 @@ class Options {
 			}
 		}
 
+		// Make sure copy is first in the array.
+		if ( in_array( 'copy', $network_order, true ) ) {
+			$network_order = array_merge( array( 'copy' ), array_diff( $network_order, array( 'copy' ) ) );
+		}
+
 		$defaults = array(
 			'enable_headlines'         => false,
 			'auto_generate_ids'        => false,
