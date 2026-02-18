@@ -4,7 +4,7 @@
  */
 import { speak } from '@wordpress/a11y';
 import { dispatchStatsEvent } from './stats-dispatcher';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 
 ( function() {
 	'use strict';
@@ -316,6 +316,7 @@ import { __ } from '@wordpress/i18n';
 		}
 		if ( activePanel && activePanel.parentNode ) {
 			activePanel.removeEventListener( 'focusout', handlePanelFocusOut );
+			activePanel.removeEventListener( 'keydown', handlePanelKeyDown );
 			activePanel.parentNode.removeChild( activePanel );
 		}
 		activePanel = null;
@@ -339,6 +340,52 @@ import { __ } from '@wordpress/i18n';
 	function handleEscape( e ) {
 		if ( e.key === 'Escape' ) {
 			closePanel();
+		}
+	}
+
+	function handlePanelKeyDown( e ) {
+		if ( ! activePanel ) {
+			return;
+		}
+		const focusables = activePanel.querySelectorAll(
+			'[role="menuitem"], .has-headline-share-panel__close'
+		);
+		const current = activePanel.ownerDocument.activeElement;
+		const idx = Array.prototype.indexOf.call( focusables, current );
+		if ( idx === -1 ) {
+			return;
+		}
+
+		if ( e.key === 'ArrowDown' || e.key === 'ArrowRight' ) {
+			e.preventDefault();
+			const next = ( idx + 1 ) % focusables.length;
+			focusables[ next ].focus();
+		} else if ( e.key === 'ArrowUp' || e.key === 'ArrowLeft' ) {
+			e.preventDefault();
+			const prev = idx <= 0 ? focusables.length - 1 : idx - 1;
+			focusables[ prev ].focus();
+		} else if ( e.key === 'Home' ) {
+			e.preventDefault();
+			focusables[ 0 ].focus();
+		} else if ( e.key === 'End' ) {
+			e.preventDefault();
+			focusables[ focusables.length - 1 ].focus();
+		} else if ( e.key === 'Tab' ) {
+			e.preventDefault();
+			let next;
+			if ( e.shiftKey ) {
+				next = idx <= 0 ? focusables.length - 1 : idx - 1;
+			} else {
+				next = ( idx + 1 ) % focusables.length;
+			}
+			focusables[ next ].focus();
+		}
+	}
+
+	function handleTriggerKeyDown( e ) {
+		if ( e.key === ' ' || e.key === 'Enter' ) {
+			e.preventDefault();
+			e.currentTarget.click();
 		}
 	}
 
@@ -369,6 +416,7 @@ import { __ } from '@wordpress/i18n';
 
 		const panel = buildPanel( sectionUrl, headingText );
 		panel.id = 'has-headline-share-panel-' + id;
+		panel.setAttribute( 'aria-describedby', id );
 		panel.style.zIndex = '10000';
 		document.body.appendChild( panel );
 		positionPanel( panel, trigger );
@@ -384,6 +432,13 @@ import { __ } from '@wordpress/i18n';
 		document.addEventListener( 'click', handleOutsideClick );
 		document.addEventListener( 'keydown', handleEscape );
 		panel.addEventListener( 'focusout', handlePanelFocusOut );
+		panel.addEventListener( 'keydown', handlePanelKeyDown );
+
+		speak(
+			/* translators: %s: heading text of the section being shared */
+			sprintf( __( 'Share options for %s', 'highlight-and-share' ), headingText ),
+			'polite'
+		);
 
 		const firstAction = panel.querySelector(
 			'.has-headline-share-panel__action'
@@ -419,6 +474,7 @@ import { __ } from '@wordpress/i18n';
 		const triggers = document.querySelectorAll( '.has-headline-share-trigger' );
 		triggers.forEach( ( el ) => {
 			el.addEventListener( 'click', onTriggerClick );
+			el.addEventListener( 'keydown', handleTriggerKeyDown );
 		} );
 	}
 

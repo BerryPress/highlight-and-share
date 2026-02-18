@@ -35,7 +35,10 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 	border: none;
 	cursor: pointer;
 	opacity: 0;
-	transition: opacity 0.15s ease;
+
+	@media (prefers-reduced-motion: no-preference) {
+		transition: opacity 0.15s ease;
+	}
 }
 .has-headline-share-trigger.is-pressed,
 .has-headline-share-trigger:hover,
@@ -71,7 +74,9 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 }
 .has-headline-share-panel a,
 .has-headline-share-panel a:hover {
-	transition: background 0.35s ease-in-out;
+	@media (prefers-reduced-motion: no-preference) {
+		transition: background 0.35s ease-in-out;
+	}
 }
 .has-headline-share-panel a.has_twitter {
 	background: var(--has-headline-item-row-background);
@@ -218,7 +223,10 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 	border-radius: 100%;
 	cursor: pointer;
 	color: #1e1e1e;
-	transition: background 0.1s ease;
+
+	@media (prefers-reduced-motion: no-preference) {
+		transition: background 0.1s ease;
+	}
 }
 
 .has-headline-share-panel__close:hover,

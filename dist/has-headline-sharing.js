@@ -465,6 +465,7 @@ __webpack_require__.r(__webpack_exports__);
     }
     if (activePanel && activePanel.parentNode) {
       activePanel.removeEventListener('focusout', handlePanelFocusOut);
+      activePanel.removeEventListener('keydown', handlePanelKeyDown);
       activePanel.parentNode.removeChild(activePanel);
     }
     activePanel = null;
@@ -481,6 +482,47 @@ __webpack_require__.r(__webpack_exports__);
   function handleEscape(e) {
     if (e.key === 'Escape') {
       closePanel();
+    }
+  }
+  function handlePanelKeyDown(e) {
+    if (!activePanel) {
+      return;
+    }
+    var focusables = activePanel.querySelectorAll('[role="menuitem"], .has-headline-share-panel__close');
+    var current = activePanel.ownerDocument.activeElement;
+    var idx = Array.prototype.indexOf.call(focusables, current);
+    if (idx === -1) {
+      return;
+    }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      var next = (idx + 1) % focusables.length;
+      focusables[next].focus();
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      var prev = idx <= 0 ? focusables.length - 1 : idx - 1;
+      focusables[prev].focus();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      focusables[0].focus();
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      focusables[focusables.length - 1].focus();
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      var _next;
+      if (e.shiftKey) {
+        _next = idx <= 0 ? focusables.length - 1 : idx - 1;
+      } else {
+        _next = (idx + 1) % focusables.length;
+      }
+      focusables[_next].focus();
+    }
+  }
+  function handleTriggerKeyDown(e) {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      e.currentTarget.click();
     }
   }
   function handlePanelFocusOut(e) {
@@ -506,6 +548,7 @@ __webpack_require__.r(__webpack_exports__);
     var headingText = heading.textContent.trim();
     var panel = buildPanel(sectionUrl, headingText);
     panel.id = 'has-headline-share-panel-' + id;
+    panel.setAttribute('aria-describedby', id);
     panel.style.zIndex = '10000';
     document.body.appendChild(panel);
     positionPanel(panel, trigger);
@@ -519,6 +562,9 @@ __webpack_require__.r(__webpack_exports__);
     document.addEventListener('click', handleOutsideClick);
     document.addEventListener('keydown', handleEscape);
     panel.addEventListener('focusout', handlePanelFocusOut);
+    panel.addEventListener('keydown', handlePanelKeyDown);
+    (0,_wordpress_a11y__WEBPACK_IMPORTED_MODULE_0__.speak)(/* translators: %s: heading text of the section being shared */
+    (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.sprintf)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Share options for %s', 'highlight-and-share'), headingText), 'polite');
     var firstAction = panel.querySelector('.has-headline-share-panel__action');
     if (firstAction) {
       firstAction.focus();
@@ -549,6 +595,7 @@ __webpack_require__.r(__webpack_exports__);
     var triggers = document.querySelectorAll('.has-headline-share-trigger');
     triggers.forEach(function (el) {
       el.addEventListener('click', onTriggerClick);
+      el.addEventListener('keydown', handleTriggerKeyDown);
     });
   }
   if (document.readyState === 'loading') {
