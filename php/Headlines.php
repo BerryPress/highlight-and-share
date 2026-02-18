@@ -203,11 +203,18 @@ class Headlines {
 			$version
 		);
 
+		$asset_path    = Functions::get_plugin_dir( 'dist/has-headline-sharing.asset.php' );
+		$asset         = file_exists( $asset_path ) ? require $asset_path : array(
+			'dependencies' => array(),
+			'version'      => false,
+		);
+		$headline_deps = isset( $asset['dependencies'] ) ? $asset['dependencies'] : array();
+		$headline_ver  = isset( $asset['version'] ) ? $asset['version'] : $version;
 		wp_enqueue_script(
 			'has-headline-sharing',
 			Functions::get_plugin_url( 'dist/has-headline-sharing.js' ),
-			array(),
-			$version,
+			$headline_deps,
+			$headline_ver,
 			true
 		);
 		wp_localize_script( 'has-headline-sharing', 'hasHeadlineSharing', $this->get_headline_share_config() );
@@ -256,10 +263,10 @@ class Headlines {
 			if ( empty( $social_defaults[ $slug ]['enabled'] ) || empty( $all_networks[ $slug ] ) ) {
 				continue;
 			}
-			$label    = isset( $social_defaults[ $slug ]['label'] ) ? $social_defaults[ $slug ]['label'] : ( $all_networks[ $slug ]['label_text'] ?? $slug );
-			$template = isset( $all_networks[ $slug ]['share_url_template'] ) ? $all_networks[ $slug ]['share_url_template'] : '#';
-			$template = (string) apply_filters( 'has_headline_share_url_template', $template, $slug );
-			$icon_id  = isset( $all_networks[ $slug ]['icon_id'] ) ? $all_networks[ $slug ]['icon_id'] : '';
+			$label      = isset( $social_defaults[ $slug ]['label'] ) ? $social_defaults[ $slug ]['label'] : ( $all_networks[ $slug ]['label_text'] ?? $slug );
+			$template   = isset( $all_networks[ $slug ]['share_url_template'] ) ? $all_networks[ $slug ]['share_url_template'] : '#';
+			$template   = (string) apply_filters( 'has_headline_share_url_template', $template, $slug );
+			$icon_id    = isset( $all_networks[ $slug ]['icon_id'] ) ? $all_networks[ $slug ]['icon_id'] : '';
 			$networks[] = array(
 				'slug'             => $slug,
 				'label'            => $label,

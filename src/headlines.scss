@@ -31,7 +31,7 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 	opacity: 0;
 	transition: opacity 0.15s ease;
 }
-
+.has-headline-share-trigger.is-pressed,
 .has-headline-share-trigger:hover,
 .has-headline-share-trigger:focus,
 [data-has-headline-share]:hover .has-headline-share-trigger,
@@ -56,6 +56,139 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 	opacity: 1;
 }
 
+
+.has-headline-share-panel a.has_twitter {
+	background: #000;
+	color: #FFF;
+}
+
+.has-headline-share-panel a.has_copy {
+	background: #222222;
+	color: #FFF;
+}
+
+.has-headline-share-panel a.has_email {
+	background: #0074a2;
+	color: #FFF;
+}
+
+.has-headline-share-panel a.hax_xing {
+	background: #0074a2;
+	color: #FFF;
+}
+
+.has-headline-share-panel a.has_whatsapp {
+	background: #04e26a;
+	color: #333;
+}
+
+.has-headline-share-panel a.has_mastodon {
+	background: #5F56ED;
+	color: #FFF;
+}
+
+.has-headline-share-panel a.has_tumblr {
+	background: #333;
+	color: #FFF;
+}
+
+.has-headline-share-panel a.has_telegram {
+	background: #278fd6;
+	color: #FFF;
+}
+
+.has-headline-share-panel a.has_webshare {
+	background: #f58f2f;
+	color: #FFF;
+}
+
+.has-headline-share-panel a.has_bluesky {
+	background: #F2F9FF;
+	color: #1285FE;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_mastodon:hover {
+	background: #4e46c8;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors span.has-text {
+	display: none;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_twitter:hover {
+	background: #333;
+	fill: #FFF;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_facebook:hover {
+	background: #1F3C83;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_linkedin:hover {
+	background: #23a0c7;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_ok:hover {
+	background: #dc7909;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_vk:hover {
+	background: #256be0;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_pinterest:hover {
+	background: #d93238;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_copy:hover {
+	background: #333333;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_email:hover {
+	background: #1388b7;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_xing:hover {
+	background: #1388b7;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_whatsapp:hover {
+	background: #02b857;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_tumblr:hover {
+	background: #000;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_reddit:hover {
+	background: #eb4407;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_telegram:hover {
+	background: #2587ca;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_telegram:hover {
+	background: #366ee1;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_webshare:hover {
+	background: #4e46c8;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_webshare {
+	background: #e17713;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_threads {
+	background: #000;
+}
+
+.highlight-and-share-wrapper.theme-brand-colors div.has_threads:hover {
+	background: #333;
+	fill: #FFF;
+}
+
 /* Headline share panel (vertical list, up to 4 rows). */
 .has-headline-share-panel {
 	display: flex;
@@ -68,6 +201,45 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 	border: 1px solid rgba(0, 0, 0, 0.12);
 	border-radius: 6px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.has-headline-share-panel__header {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 4px 8px 2px;
+}
+
+.has-headline-share-panel__close {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	color: #1e1e1e;
+}
+
+.has-headline-share-panel__close:hover,
+.has-headline-share-panel__close:focus {
+	background: rgba(0, 0, 0, 0.06);
+	outline: none;
+}
+
+.has-headline-share-panel__close:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: -2px;
+}
+
+.has-headline-share-panel__close svg {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
 }
 
 .has-headline-share-panel__row {

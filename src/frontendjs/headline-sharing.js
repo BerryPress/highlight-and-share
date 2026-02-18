@@ -2,7 +2,9 @@
  * Headline sharing: open a small panel (up to 4 networks, vertical list) when clicking a heading with data-has-headline-share.
  * Panel is positioned so it never covers the link icon (left of heading); may cover headline text.
  */
+import { speak } from '@wordpress/a11y';
 import { dispatchStatsEvent } from './stats-dispatcher';
+import { __ } from '@wordpress/i18n';
 
 ( function() {
 	'use strict';
@@ -95,6 +97,31 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 		panel.setAttribute( 'role', 'menu' );
 		panel.setAttribute( 'aria-label', 'Share this section' );
 
+		const header = document.createElement( 'div' );
+		header.className = 'has-headline-share-panel__header';
+		const closeBtn = document.createElement( 'button' );
+		closeBtn.type = 'button';
+		closeBtn.className = 'has-headline-share-panel__close';
+		closeBtn.setAttribute( 'aria-label', 'Close' );
+		const closeSvg = document.createElementNS( 'http://www.w3.org/2000/svg', 'svg' );
+		closeSvg.setAttribute( 'viewBox', '0 0 16 16' );
+		closeSvg.setAttribute( 'width', '14' );
+		closeSvg.setAttribute( 'height', '14' );
+		closeSvg.setAttribute( 'aria-hidden', 'true' );
+		const closePath = document.createElementNS( 'http://www.w3.org/2000/svg', 'path' );
+		closePath.setAttribute( 'fill', 'none' );
+		closePath.setAttribute( 'stroke', 'currentColor' );
+		closePath.setAttribute( 'stroke-width', '2' );
+		closePath.setAttribute( 'stroke-linecap', 'round' );
+		closePath.setAttribute( 'd', 'M4 4l8 8M12 4l-8 8' );
+		closeSvg.appendChild( closePath );
+		closeBtn.appendChild( closeSvg );
+		closeBtn.addEventListener( 'click', ( e ) => {
+			e.stopPropagation();
+			closePanel();
+		} );
+		header.appendChild( closeBtn );
+
 		config.networks.forEach( ( net ) => {
 			const row = document.createElement( 'div' );
 			row.className = 'has-headline-share-panel__row';
@@ -109,10 +136,10 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 
 			if ( net.slug === 'copy' ) {
 				const copiedRef = {};
-				const button = document.createElement( 'button' );
-				button.type = 'button';
+				const button = document.createElement( 'a' );
+				button.href = '#';
 				button.className =
-					'has-headline-share-panel__action has-headline-share-panel__action--copy';
+					'has-headline-share-panel__action has-headline-share-panel__action--copy has_copy';
 				button.setAttribute( 'role', 'menuitem' );
 				appendActionContent( button, net, copiedRef );
 				button.addEventListener( 'mousedown', () => {
@@ -124,19 +151,24 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 						navigator.clipboard.writeText( sectionUrl ).then( () => {
 							if ( copiedRef.labelSpan ) {
 								copiedRef.labelSpan.textContent = 'Copied!';
+								speak( __( 'Copied!', 'highlight-and-share' ), 'polite' );
 								setTimeout( () => {
 									copiedRef.labelSpan.textContent = net.label;
 								}, 1500 );
+								setTimeout( () => {
+									activeTrigger.classList.remove( 'is-pressed' );
+									closePanel();
+								}, 2500 );
 							}
 						} );
 					}
 				} );
 				row.appendChild( button );
 			} else if ( net.slug === 'webshare' ) {
-				const button = document.createElement( 'button' );
-				button.type = 'button';
+				const button = document.createElement( 'a' );
+				button.href = '#';
 				button.className =
-					'has-headline-share-panel__action has-headline-share-panel__action--webshare';
+					'has-headline-share-panel__action has-headline-share-panel__action--webshare has_webshare';
 				button.setAttribute( 'role', 'menuitem' );
 				appendActionContent( button, net );
 				button.addEventListener( 'mousedown', () => {
@@ -163,11 +195,11 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 							sectionUrl,
 							headingText,
 							headingText
-						  )
+						)
 						: '#';
 				const link = document.createElement( 'a' );
 				link.href = url;
-				link.className = 'has-headline-share-panel__action';
+				link.className = `has-headline-share-panel__action has_${ net.slug }`;
 				link.setAttribute( 'role', 'menuitem' );
 				appendActionContent( link, net );
 				link.addEventListener( 'mousedown', () => {
@@ -189,6 +221,8 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 			}
 			panel.appendChild( row );
 		} );
+
+		panel.insertBefore( header, panel.firstChild );
 
 		return panel;
 	}
@@ -232,7 +266,7 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 		}
 
 		// 1) Left of icon (default).
-		let left = iconRect.left - GAP - ( iconWidth / 2 ) - ( pw / 2 );
+		let left = iconRect.left - GAP - iconWidth / 2 - pw / 2;
 		let top = iconRect.top + scrollY;
 		if ( inViewport( left, top ) ) {
 			panel.style.left = left + 'px';
@@ -242,7 +276,7 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 
 		// 2) Right of icon (when viewport too small on the left).
 		left = iconRect.right + GAP + scrollX;
-		top = iconRect.top + scrollY + ( iconRect.height / 2 ) - ( ph / 2 );
+		top = iconRect.top + scrollY + iconRect.height / 2 - ph / 2;
 		if ( inViewport( left, top ) ) {
 			panel.style.left = left + 'px';
 			panel.style.top = top + 'px';
@@ -250,7 +284,7 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 		}
 
 		// 3) Below icon (centered under icon).
-		left = iconRect.left + scrollX + ( iconRect.width / 2 ) - ( pw / 2 );
+		left = iconRect.left + scrollX + iconRect.width / 2 - pw / 2;
 		top = iconRect.bottom + GAP + scrollY;
 		if ( inViewport( left, top ) ) {
 			panel.style.left = left + 'px';
@@ -259,7 +293,7 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 		}
 
 		// 4) Above icon (centered).
-		left = iconRect.left + scrollX + ( iconRect.width / 2 ) - ( pw / 2 );
+		left = iconRect.left + scrollX + iconRect.width / 2 - pw / 2;
 		top = iconRect.top + scrollY - GAP - ph;
 		if ( inViewport( left, top ) ) {
 			panel.style.left = left + 'px';
@@ -275,10 +309,7 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 			left = Math.max( left, scrollX );
 		}
 		top = Math.min(
-			Math.max(
-				iconRect.top + scrollY + ( iconRect.height / 2 ) - ( ph / 2 ),
-				scrollY
-			),
+			Math.max( iconRect.top + scrollY + iconRect.height / 2 - ph / 2, scrollY ),
 			scrollY + vh - ph - 15
 		);
 		panel.style.left = left + 'px';
@@ -289,9 +320,11 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 		if ( activeTrigger ) {
 			activeTrigger.setAttribute( 'aria-expanded', 'false' );
 			activeTrigger.removeAttribute( 'aria-controls' );
+			activeTrigger.classList.remove( 'is-pressed' );
 			activeTrigger.focus();
 		}
 		if ( activePanel && activePanel.parentNode ) {
+			activePanel.removeEventListener( 'focusout', handlePanelFocusOut );
 			activePanel.parentNode.removeChild( activePanel );
 		}
 		activePanel = null;
@@ -316,6 +349,20 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 		if ( e.key === 'Escape' ) {
 			closePanel();
 		}
+	}
+
+	function handlePanelFocusOut( e ) {
+		if ( ! activePanel ) {
+			return;
+		}
+		if ( e.relatedTarget && activePanel.contains( e.relatedTarget ) ) {
+			return;
+		}
+		// Don't close when focus moves to the trigger—click handler will close.
+		if ( e.relatedTarget === activeTrigger ) {
+			return;
+		}
+		closePanel();
 	}
 
 	function openPanel( heading, trigger ) {
@@ -345,6 +392,7 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 
 		document.addEventListener( 'click', handleOutsideClick );
 		document.addEventListener( 'keydown', handleEscape );
+		panel.addEventListener( 'focusout', handlePanelFocusOut );
 
 		const firstAction = panel.querySelector(
 			'.has-headline-share-panel__action'
@@ -358,6 +406,18 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 		e.preventDefault();
 		e.stopPropagation();
 		const trigger = e.currentTarget;
+
+		// If the trigger is already pressed, close the panel.
+		if ( trigger.classList.contains( 'is-pressed' ) ) {
+			trigger.classList.remove( 'is-pressed' );
+			closePanel();
+			return;
+		}
+
+		// Add is-pressed class to trigger
+		trigger.classList.add( 'is-pressed' );
+
+		// Find the heading that the trigger is associated with.
 		const heading = trigger.closest( '[data-has-headline-share]' );
 		if ( heading ) {
 			openPanel( heading, trigger );
