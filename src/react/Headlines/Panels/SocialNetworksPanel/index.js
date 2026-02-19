@@ -68,7 +68,7 @@ const SocialNetworksPanel = () => {
 								)
 							) : (
 								/* translators: %d: Maximum number of networks (4) */
-								sprintf( __( 'All %d text-sharing networks are enabled. Copy and Web Share are always enabled.', 'highlight-and-share' ), MAX_NETWORKS )
+								sprintf( __( 'All %d text-sharing networks are enabled. Copy is always enabled.', 'highlight-and-share' ), MAX_NETWORKS )
 							) }
 						</p>
 					</div>
