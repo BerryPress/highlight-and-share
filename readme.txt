@@ -150,6 +150,9 @@ Please report security bugs found in the source code of the undefined plugin thr
 * New (Sharing Block): Quick shortcut to the parent block from child blocks for quicker access to block settings.
 * New (Sharing Block): Custom Fonts plugin support; Adobe fonts removed from plugin in favor of third-party plugins.
 * New (Sharing Block): Core/Group allowed inside share content so any block can be nested via Group.
+* New (Headline Sharing): Ability to enable headline sharing is now available. Show a link icon next to available headings and allow quick copying and sharing of headlines. This compliments content sharing and is compatible with TOC plugins.
+* New (Headline Sharing): Select up to three social networks to share to in addition to copying.
+* New (Headline Sharing): Customize per post type and per page how headlines are enabled.
 * Bug fix (Sharing Block): Text alignment on mobile (align right).
 * Bug fix (Image Sharing): Image sharing for Web Share would error out when sharing an image.
 * Bug fix (Image Sharing): Improved page builder support and added loop detection to prevent timeouts.
