@@ -1,9 +1,9 @@
 === Highlight and Share – Social Text and Image Sharing ===
 Contributors: ronalfy
 Tags: highlight, social media, share, social networks, highlight text
-Requires at least: 5.1
-Tested up to: 6.9
-Stable tag: 5.3.5
+Requires at least: 6.5
+Tested up to: 7.0
+Stable tag: 6.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -132,7 +132,7 @@ Please report security bugs found in the source code of the undefined plugin thr
 == Changelog ==
 
 = 6.0.0 =
-* Released 2025-x-x
+* Released 2026-x-x
 * New: Sharing tab reorganized, consolidating the sharing options into one tab, eliminating the Appearance and Block Editor tabs. Social Networks have been moved to a single panel, with advanced options tucked away for a cleaner appearance.
 * New: All tabs support a global save bar, making saving and discarding options much more intuitive.
 * New: Post sidebar for per-post disabling of Highlight and Share, including sharing, images, and headlines.
