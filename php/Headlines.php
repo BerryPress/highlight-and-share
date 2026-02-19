@@ -155,6 +155,11 @@ class Headlines {
 		$existing  = Options::get_headlines_options( true );
 		$settings  = array_replace_recursive( $existing, $form_data );
 
+		// Replace list fields in full so unchecked items are removed (array_replace_recursive merges by key and keeps extra keys from existing).
+		if ( isset( $form_data['enabled_heading_levels'] ) && is_array( $form_data['enabled_heading_levels'] ) ) {
+			$settings['enabled_heading_levels'] = array_values( $form_data['enabled_heading_levels'] );
+		}
+
 		// Enforce max 4 networks. Copy and Webshare (locked) count toward limit.
 		$social_defaults = isset( $settings['social_defaults'] ) ? $settings['social_defaults'] : array();
 		$enabled_count   = 0;

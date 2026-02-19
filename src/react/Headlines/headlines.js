@@ -99,7 +99,7 @@ const HeadlinesInterface = ( { defaults } ) => {
 		resetOptions: { keepDirtyValues: false, keepErrors: false },
 	} );
 
-	const { control, reset } = methods;
+	const { control, reset, getValues } = methods;
 	const formValues = useWatch( { control } );
 	const { errors, isDirty } = useFormState( { control } );
 	const hasErrors = Object.keys( errors ).length > 0;
@@ -233,9 +233,11 @@ const HeadlinesInterface = ( { defaults } ) => {
 						} }
 						onSave={ () => {
 							setSaving( true );
+							// Use getValues() at save time so we always send current form state (useWatch can be stale in Fill).
+							const payload = getValues();
 							sendCommand( 'has_save_headlines_tab', {
 								nonce: window.hasHeadlinesAdmin?.saveNonce,
-								form_data: formValues,
+								form_data: payload,
 							} )
 								.then( ( ajaxResponse ) => {
 									const { data: ajaxData, success: ok } = ajaxResponse.data;

@@ -688,8 +688,11 @@ class Options {
 			return $defaults;
 		}
 
-		$settings                  = array_replace_recursive( $defaults, $settings );
-		$settings['network_order'] = array_unique( (array) ( $settings['network_order'] ?? array() ) );
+		// Get settings, but replace excluded heading levels over defaults if set.
+		$exluded_heading_levels             = isset( $settings['enabled_heading_levels'] ) ? $settings['enabled_heading_levels'] : array();
+		$settings                           = array_replace_recursive( $defaults, $settings );
+		$settings['enabled_heading_levels'] = $exluded_heading_levels;
+		$settings['network_order']          = array_unique( (array) ( $settings['network_order'] ?? array() ) );
 
 		// Restore social_defaults from defaults if empty (e.g. corrupted/migrated data).
 		if ( empty( $settings['social_defaults'] ) || ! is_array( $settings['social_defaults'] ) ) {
