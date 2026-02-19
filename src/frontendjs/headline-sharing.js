@@ -177,6 +177,7 @@ import { __, sprintf } from '@wordpress/i18n';
 				button.addEventListener( 'click', ( e ) => {
 					e.preventDefault();
 					if ( navigator.share ) {
+						closePanel();
 						navigator
 							.share( {
 								title: headingText,
@@ -210,6 +211,7 @@ import { __, sprintf } from '@wordpress/i18n';
 					link.rel = 'noopener noreferrer';
 					link.addEventListener( 'click', ( e ) => {
 						e.preventDefault();
+						closePanel();
 						window.open(
 							url,
 							'Highlight and Share',
@@ -398,6 +400,11 @@ import { __, sprintf } from '@wordpress/i18n';
 		}
 		// Don't close when focus moves to the trigger—click handler will close.
 		if ( e.relatedTarget === activeTrigger ) {
+			return;
+		}
+		// Safari often fires focusout with relatedTarget null when clicking inside the panel.
+		// Defer and check activeElement so we don't close before the click is processed.
+		if ( e.relatedTarget === null ) {
 			return;
 		}
 		closePanel();
