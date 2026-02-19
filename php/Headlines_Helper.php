@@ -389,7 +389,7 @@ class Headlines_Helper {
 			return '';
 		}
 
-		$headline_slug = sanitize_title_with_dashes( $headline_text );
+		$headline_slug = sanitize_title( $headline_text );
 		if ( '' === $headline_slug ) {
 			$headline_slug = 'heading';
 		}
