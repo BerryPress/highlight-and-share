@@ -29,7 +29,7 @@ import HASColorPicker from '../../../Components/ColorPicker';
  */
 const Interface = ( { watchFields } ) => {
 	// Get form methods from FormProvider context.
-	const { control, formState: { errors } } = useFormContext();
+	const { control, formState: { errors }, clearErrors, trigger } = useFormContext();
 
 	// Watch enableInlineHighlighting to conditionally show settings.
 	const enableInlineHighlighting = useWatch( {
@@ -41,6 +41,11 @@ const Interface = ( { watchFields } ) => {
 	const inlineHighlightShowTooltips = useWatch( {
 		control,
 		name: 'inlineHighlightShowTooltips',
+	} );
+
+	const enableCustomHighlightColors = useWatch( {
+		control,
+		name: 'enableCustomHighlightColors',
 	} );
 
 	// Watch form values for preview.
@@ -248,10 +253,13 @@ const Interface = ( { watchFields } ) => {
 					rules={ {
 						required: inlineHighlightShowTooltips,
 					} }
-					render={ ( { field } ) => (
+					render={ ( { field: { onChange, value } } ) => (
 						<>
 							<TextControl
-								{ ...field }
+								value={ value }
+								onChange={ ( newValue ) => {
+									onChange( newValue );
+								} }
 								type="text"
 								label={ __( 'Tooltip Text', 'highlight-and-share' ) }
 								className={ classNames( 'has-admin__text-control', {
@@ -279,6 +287,120 @@ const Interface = ( { watchFields } ) => {
 		);
 	};
 
+	/**
+	 * Get custom highlight colors options.
+	 *
+	 * @return {JSX.Element|null} Custom highlight colors options or null.
+	 */
+	const getCustomHighlightColorOptions = () => {
+		return (
+			<>
+				<div className="has-admin-component-row">
+					<Controller
+						name="enableCustomHighlightColors"
+						control={ control }
+						render={ ( { field: { onChange, value } } ) => (
+							<ToggleControl
+								label={ __( 'Enable Custom Highlight Colors', 'highlight-and-share' ) }
+								className="has-admin__toggle-control"
+								checked={ value ?? false }
+								onChange={ ( boolValue ) => {
+									onChange( boolValue );
+								} }
+								help={ __(
+									'Enable a custom highlight color when selecting text.',
+									'highlight-and-share'
+								) }
+							/>
+						) }
+					/>
+				</div>
+				{
+					enableCustomHighlightColors && (
+						<>
+							<div className="has-admin-component-row">
+								<Controller
+									name="customHighlightColorBackground"
+									control={ control }
+									render={ ( { field: { onChange, value } } ) => (
+										<HASColorPicker
+											value={ value }
+											onChange={ ( slug, newValue ) => {
+												onChange( newValue );
+											} }
+											label={ __( 'Highlight Background Color', 'highlight-and-share' ) }
+											defaultColors={ inlineHighlightColors }
+											defaultColor={ '' }
+											slug={ 'custom_highlight_color_background' }
+										/>
+									) }
+								/>
+							</div>
+							<div className="has-admin-component-row">
+								<Controller
+									name="customHighlightColorText"
+									control={ control }
+									render={ ( { field: { onChange, value } } ) => (
+										<HASColorPicker
+											value={ value }
+											onChange={ ( slug, newValue ) => {
+												onChange( newValue );
+											} }
+											label={ __( 'Highlight Text Color', 'highlight-and-share' ) }
+											defaultColors={ inlineHighlightColors }
+											defaultColor={ '' }
+											slug={ 'custom_highlight_color_text' }
+										/>
+									) }
+								/>
+							</div>
+							<div className="has-admin-component-row">
+								<Controller
+									name="customHighlightSelectors"
+									control={ control }
+									rules={ {
+										pattern: /^(\.?[^0-9][-_A-Za-z0-9](,? ?\.?[^0-9][-_A-Za-z0-9])?)+$/i,
+									} }
+									render={ ( { field: { onChange, value } } ) => (
+										<>
+											<TextControl
+												type="text"
+												label={ __( 'Custom Highlight Selectors', 'highlight-and-share' ) }
+												className={ classNames( 'has-admin__text-control', {
+													'is-required': false,
+													'has-error': 'pattern' === errors.customHighlightSelectors?.type,
+												} ) }
+												value={ value }
+												onChange={ ( newValue ) => {
+													clearErrors( 'customHighlightSelectors' );
+													onChange( newValue );
+												} }
+												onBlur={ () => {
+													trigger( 'customHighlightSelectors' );
+												} }
+												help={ __(
+													'Enter comma-separated CSS selectors (e.g., .entry-content, .page) to apply only to specific elements on the page. Leave blank to apply to all elements.',
+													'highlight-and-share'
+												) }
+											/>
+											{ 'pattern' === errors.customHighlightSelectors?.type && (
+												<Notice
+													message={ __( 'There are invalid characters.', 'highlight-and-share' ) }
+													status="error"
+													politeness="assertive"
+													icon={ CircularExclamationIcon }
+												/>
+											) }
+										</>
+									) }
+								/>
+							</div>
+						</>
+					)
+				}
+			</>
+		);
+	};
 	return (
 		<PanelBodyWithIndicator
 			title={ __( 'Inline Highlighting - Colors and Tooltips', 'highlight-and-share' ) }
@@ -350,6 +472,7 @@ const Interface = ( { watchFields } ) => {
 
 				{ getInlineHighlightingTooltipsText() }
 				{ getInlineHighlightingTooltipColorOptions() }
+				{ getCustomHighlightColorOptions() }
 			</div>
 		</PanelBodyWithIndicator>
 	);

@@ -129,6 +129,10 @@ const inlineHighlightingPanelWatchValues = [
 	'inlineHighlightShowTooltips',
 	'inlineHighlightTooltipsBackgroundColor',
 	'inlineHighlightTooltipsTextColor',
+	'enableCustomHighlightColors',
+	'customHighlightColorBackground',
+	'customHighlightColorText',
+	'customHighlightSelectors',
 ];
 
 const advancedPanelWatchValues = [
@@ -236,6 +240,10 @@ export const getDefaultValues = ( values = {} ) => {
 			values?.inlineHighlightTooltipsBackgroundColor || '#000000',
 		inlineHighlightTooltipsTextColor:
 			values?.inlineHighlightTooltipsTextColor || '#FFFFFF',
+		enableCustomHighlightColors: values?.enableCustomHighlightColors ?? false,
+		customHighlightColorBackground: values?.customHighlightColorBackground || '#333333',
+		customHighlightColorText: values?.customHighlightColorText || '#FFFFFF',
+		customHighlightSelectors: values?.customHighlightSelectors || '',
 
 		// Appearance options.
 		theme: values.theme ?? 'default',
