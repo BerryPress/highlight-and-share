@@ -30,7 +30,7 @@ const Snackbar = ( props ) => {
 	const [ isModalVisible, setIsModalVisible ] = useState( false );
 
 	useEffect( () => {
-		if ( props.isVisible ) {
+		if ( props.isVisible && ! props.isPersistent ) {
 			setTimeout( () => {
 				props.onClose();
 			}, 5000 );
@@ -83,7 +83,8 @@ const Snackbar = ( props ) => {
 					setIsModalVisible( false );
 					props.onClose();
 				} }
-				explicitDismiss={ props.isDismissable }
+				isPersistent={ props.isPersistent }
+				explicitDismiss={ props.isDismissable || props.isPersistent }
 			>
 				{ isBusy ? loadingMessage : props.message }
 			</WPSnackBar>

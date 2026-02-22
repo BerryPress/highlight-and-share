@@ -689,6 +689,7 @@ h2.has-admin-content-subheading {
 	.components-snackbar__content {
 		display: flex;
 		align-items: center;
+		margin-left: 0;
 	}
 	.components-snackbar__icon {
 		position: absolute;
@@ -714,15 +715,18 @@ h2.has-admin-content-subheading {
 	&.dlx-pw-snackbar-success {
 		background: #14720D;
 		color: #FFF;
+		padding-left: 12px;
 	}
 	&.dlx-pw-snackbar-error,
 	&.dlx-pw-snackbar-critical {
 		background: #820000;
 		color: #FFF;
+		padding-left: 12px;
 	}
 	&.dlx-pw-snackbar-warning {
 		background: #FFC107;
 		color: #000;
+		padding-left: 12px;
 	}
  }
 .has-modal-buttons-group {

@@ -545,10 +545,10 @@ const SharingInterface = ( { defaults } ) => {
 													'Settings reset to defaults successfully.',
 													'highlight-and-share'
 												),
-												type: 'info',
+												type: 'success',
 												isDismissable: true,
 												isPersistent: false,
-												isSuccess: false,
+												isSuccess: true,
 												loadingMessage: null,
 												politeness: 'assertive',
 											} );

@@ -1018,7 +1018,7 @@ const Interface = ( props ) => {
 												type: 'success',
 												isDismissable: true,
 												isPersistent: false,
-												isSuccess: false,
+												isSuccess: true,
 												loadingMessage: null,
 												politeness: 'assertive',
 											} );
