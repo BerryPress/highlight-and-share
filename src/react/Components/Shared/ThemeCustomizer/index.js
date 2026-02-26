@@ -20,73 +20,17 @@ import SocialNetworkColorsTabs from '../SocialNetworkColorsTabs';
 const defaultColors = hasSharingAdmin.colors;
 
 const ThemeCustomizer = () => {
-	const { control, getValues } = useFormContext();
+	const { control, getValues, setValue } = useFormContext();
 	const {
 		theme,
-		themeData,
-		socialNetworkColors,
 	} = useSelect( ( select ) => {
 		return {
 			theme: select( store ).getTheme(),
-			themeData: select( store ).getThemeData(),
-			socialNetworkColors: select( store ).getSocialNetworkColors(),
 		};
 	}, [] );
 	const {
 		setTheme,
-		setThemeData,
-		setSocialNetworkColors,
 	} = useDispatch( store );
-
-	const [ saving, setSaving ] = useState( false );
-	const [ isSaved, setIsSaved ] = useState( false );
-	const [ resetting, setResetting ] = useState( false );
-	const [ isReset, setIsReset ] = useState( false );
-
-	// const onSubmit = ( formData ) => {
-	// 	const iconColors = { icon_colors: socialNetworkColors };
-	// 	setSaving( true );
-	// 	sendCommand( 'has_save_appearance_settings', {
-	// 		formData: { ...formData, ...iconColors },
-	// 		nonce: hasSettingsAdmin.saveNonce,
-	// 	} ).then( ( response ) => {
-	// 		const { data, success } = response.data;
-	// 		if ( success ) {
-	// 			setAppearanceThemeData( data );
-	// 			setIsSaved( true );
-	// 			setTimeout( () => {
-	// 				setIsSaved( false );
-	// 			}, 3000 );
-	// 		}
-	// 	} )
-	// 		.catch( ( error ) => {
-	// 		} ).then( ( ) => {
-	// 			setSaving( false );
-	// 		} );
-	// };
-
-	// const handleReset = ( e ) => {
-	// 	setResetting( true );
-	// 	sendCommand( 'has_reset_appearance_settings', {
-	// 		nonce: hasSettingsAdmin.resetNonce,
-	// 	} ).then( ( response ) => {
-	// 		const { data, success } = response.data;
-	// 		if ( success ) {
-	// 			setAppearanceThemeData( data );
-	// 			setTheme( data.theme );
-	// 			setSocialNetworkColors( data.icon_colors );
-	// 			reset( data, { keepDirtyValues: false, keepDirty: false, keepDefaultValues: false } );
-	// 			setIsReset( true );
-	// 			setTimeout( () => {
-	// 				setIsReset( false );
-	// 			}, 3000 );
-	// 		}
-	// 	} )
-	// 		.catch( ( error ) => {
-	// 		} ).then( ( ) => {
-	// 			setResetting( false );
-	// 		} );
-	// };
 
 	const getThemes = () => {
 		const themes = hasSharingAdmin.themes;
@@ -143,8 +87,9 @@ const ThemeCustomizer = () => {
 									value={ parseInt( value ) }
 									max={ 64 }
 									min={ 14 }
-									currentInput={ 16 }
-									initialPosition={ 16 }
+									currentInput={ 25 }
+									initialPosition={ 25 }
+									resetFallbackValue={ 25 }
 									allowReset={ true }
 									className="has-admin__range-control"
 									onChange={ ( iconSizeValue ) => {
@@ -171,15 +116,15 @@ const ThemeCustomizer = () => {
 										'highlight-and-share'
 									) }
 									step={ 1 }
-									value={ value }
+									value={ Number( value ) }
 									max={ 64 }
 									min={ 14 }
-									currentInput={ 14 }
 									initialPosition={ 14 }
+									resetFallbackValue={ 14 }
 									allowReset={ true }
 									className="has-admin__range-control"
 									onChange={ ( fontSizeValue ) => {
-										onChange( fontSizeValue );
+										onChange( Number( fontSizeValue ) );
 									} }
 									trackColor="#4F4F4F"
 									railColor="#CECECE"
@@ -411,9 +356,10 @@ const ThemeCustomizer = () => {
 										value={ parseInt( value ) }
 										max={ 64 }
 										min={ 14 }
-										currentInput={ 16 }
-										initialPosition={ 16 }
+										currentInput={ 25 }
+										initialPosition={ 25 }
 										allowReset={ true }
+										resetFallbackValue={ 25 }
 										className="has-admin__range-control"
 										onChange={ ( iconSizeValue ) => {
 											onChange( iconSizeValue );
@@ -445,6 +391,7 @@ const ThemeCustomizer = () => {
 												currentInput={ 14 }
 												initialPosition={ 14 }
 												allowReset={ true }
+												resetFallbackValue={ 14 }
 												className="has-admin__range-control"
 												onChange={ ( fontSizeValue ) => {
 													onChange( fontSizeValue );
@@ -475,9 +422,10 @@ const ThemeCustomizer = () => {
 												value={ value }
 												max={ 48 }
 												min={ 0 }
-												currentInput={ 15 }
-												initialPosition={ 15 }
+												currentInput={ 14 }
+												initialPosition={ 14 }
 												allowReset={ true }
+												resetFallbackValue={ 14 }
 												className="has-admin__range-control"
 												onChange={ ( iconGapValue ) => {
 													onChange( iconGapValue );
