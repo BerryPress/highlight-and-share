@@ -1861,6 +1861,35 @@ class Frontend {
 			$custom_styles = preg_replace( '/;}/', '}', $custom_styles );
 		}
 
+		// Non-custom themes: icon size (all) and font size (default theme only). Use higher-specificity selectors so !important is not needed.
+		$non_custom_sizing_styles = false;
+		if ( 'custom' !== $settings['theme'] ) {
+			ob_start();
+			?>
+			<style>
+				body.has-body .highlight-and-share-wrapper div a .has-icon,
+				body.has-body .highlight-and-share-wrapper div a:hover .has-icon,
+				body.has-body .highlight-and-share-wrapper div a:visited .has-icon {
+					width: <?php echo esc_attr( $settings['icon_size'] ); ?>px;
+					height: <?php echo esc_attr( $settings['icon_size'] ); ?>px;
+				}
+				<?php if ( 'default' === $settings['theme'] ) : ?>
+				body.has-body .highlight-and-share-wrapper.theme-default div a,
+				body.has-body .highlight-and-share-wrapper.theme-default div a:hover,
+				body.has-body .highlight-and-share-wrapper.theme-default div a:visited {
+					font-size: <?php echo esc_attr( $settings['font_size'] ); ?>px;
+				}
+				body.has-body .highlight-and-share-wrapper.theme-default div a .has-icon-label,
+				body.has-body .highlight-and-share-wrapper.theme-default div a:hover .has-icon-label,
+				body.has-body .highlight-and-share-wrapper.theme-default div a:visited .has-icon-label {
+					margin-left: 0.36em;
+				}
+				<?php endif; ?>
+			</style>
+			<?php
+			$non_custom_sizing_styles = trim( preg_replace( '/\s{2,}/', ' ', ob_get_clean() ) );
+		}
+
 		// Get wrapper opening HTML.
 		$html = sprintf(
 			'<div id="has-highlight-and-share"><div class="%s">',
@@ -1869,6 +1898,9 @@ class Frontend {
 
 		if ( $custom_styles ) {
 			$html .= $custom_styles;
+		}
+		if ( $non_custom_sizing_styles ) {
+			$html .= $non_custom_sizing_styles;
 		}
 		if ( $tooltip_styles ) {
 			$html .= $tooltip_styles;
@@ -2360,9 +2392,9 @@ class Frontend {
 		 */
 		$json_arr['webshare_text'] = apply_filters( 'has_webshare_text', _x( 'Share', 'Webshare share text', 'highlight-and-share' ) );
 
-		// Load prefix and suffix (before/after text).
-		$json_arr['prefix'] = isset( $settings['sharing_prefix'] ) ? stripslashes_deep( sanitize_text_field( $settings['sharing_prefix'] ) ) : '';
-		$json_arr['suffix'] = isset( $settings['sharing_suffix'] ) ? stripslashes_deep( sanitize_text_field( $settings['sharing_suffix'] ) ) : '';
+		// Load prefix and suffix (before/after text). Do not use sanitize_text_field so literal < and > are preserved.
+		$json_arr['prefix'] = isset( $settings['sharing_prefix'] ) ? stripslashes( (string) $settings['sharing_prefix'] ) : '';
+		$json_arr['suffix'] = isset( $settings['sharing_suffix'] ) ? stripslashes( (string) $settings['sharing_suffix'] ) : '';
 
 		$options = Options::get_plugin_options();
 

@@ -137,6 +137,34 @@ const PreviewSocialIconList = () => {
 		`;
 	}
 
+	// Non-custom themes: icon size in all link states (higher-specificity selectors, no !important).
+	if ( ! appearanceEmpty && 'custom' !== formValues.theme ) {
+		themeStyles += `
+			body.has-body .has-admin-theme-preview-list.highlight-and-share-wrapper div a .has-icon,
+			body.has-body .has-admin-theme-preview-list.highlight-and-share-wrapper div a:hover .has-icon,
+			body.has-body .has-admin-theme-preview-list.highlight-and-share-wrapper div a:visited .has-icon {
+				width: ${ formValues.iconSize }px;
+				height: ${ formValues.iconSize }px;
+			}
+		`;
+	}
+
+	// Default theme: font size and icon-label margin in all link states (no !important).
+	if ( ! appearanceEmpty && 'default' === formValues.theme ) {
+		themeStyles += `
+			body.has-body .has-admin-theme-preview-list.highlight-and-share-wrapper.theme-default div a,
+			body.has-body .has-admin-theme-preview-list.highlight-and-share-wrapper.theme-default div a:hover,
+			body.has-body .has-admin-theme-preview-list.highlight-and-share-wrapper.theme-default div a:visited {
+				font-size: ${ formValues.fontSize }px;
+			}
+			body.has-body .has-admin-theme-preview-list.highlight-and-share-wrapper.theme-default div a .has-icon-label,
+			body.has-body .has-admin-theme-preview-list.highlight-and-share-wrapper.theme-default div a:hover .has-icon-label,
+			body.has-body .has-admin-theme-preview-list.highlight-and-share-wrapper.theme-default div a:visited .has-icon-label {
+				margin-left: 0.36em;
+			}
+		`;
+	}
+
 	// Set the icon gap.
 	if ( ! appearanceEmpty ) {
 		if ( ! formValues.groupIcons ) {

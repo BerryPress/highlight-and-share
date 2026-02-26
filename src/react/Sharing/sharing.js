@@ -206,8 +206,8 @@ export const getDefaultValues = ( values = {} ) => {
 		enableContent: values.enableContent ?? true,
 		enableExcerpt: values.enableExcerpt ?? true,
 		enableComments: values.enableComments ?? false,
-		sharingPrefix: escapeEditableHTML( values.sharingPrefix || '' ),
-		sharingSuffix: escapeEditableHTML( values.sharingSuffix || '' ),
+		sharingPrefix: values.sharingPrefix || '',
+		sharingSuffix: values.sharingSuffix || '',
 
 		// Advanced options.
 		jsContent: escapeEditableHTML( values.jsContent || '' ),
@@ -263,7 +263,7 @@ export const getDefaultValues = ( values = {} ) => {
 			attrBottom: 0,
 			attrLeft: 0,
 		},
-		fontSize: values.fontSize ?? 14,
+		fontSize: Number( values.fontSize ) || 14,
 		iconPadding: values.iconPadding ?? {
 			attrTop: 12,
 			attrRight: 20,
@@ -272,7 +272,7 @@ export const getDefaultValues = ( values = {} ) => {
 			attrUnit: 'px',
 			attrSyncUnits: false,
 		},
-		iconSize: values.iconSize ?? 25,
+		iconSize: Number( values.iconSize ) || 25,
 		iconGap: values.iconGap ?? 0,
 
 		// Post Types Exclusion.
@@ -404,7 +404,6 @@ const SharingInterface = ( { defaults } ) => {
 		};
 	}, [] );
 
-
 	const formValues = useWatch( {
 		control: methods.control,
 	} );
@@ -482,11 +481,11 @@ const SharingInterface = ( { defaults } ) => {
 							setCheckpointData( checkpoint, false );
 						} }
 						onSave={ () => {
-							// Save the form data.
+							// Save the form data (getValues() ensures current state at click time, including conditionally visible fields like fontSize).
 							setSaving( true );
 							sendCommand( 'has_save_settings_tab', {
 								nonce: window.hasSharingAdmin?.saveNonce,
-								form_data: formValues,
+								form_data: methods.getValues(),
 							} )
 								.then( ( ajaxResponse ) => {
 									const { data: ajaxData, success } = ajaxResponse.data;

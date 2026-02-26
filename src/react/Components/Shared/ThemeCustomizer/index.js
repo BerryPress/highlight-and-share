@@ -127,6 +127,68 @@ const ThemeCustomizer = () => {
 					) }
 				/>
 			</div>
+			{ 'custom' !== theme && (
+				<div className="has-admin-component-row">
+					<Controller
+						name="iconSize"
+						control={ control }
+						render={ ( { field: { onChange, value } } ) => (
+							<>
+								<RangeControl
+									label={ __(
+										'Set the Icon Size',
+										'highlight-and-share'
+									) }
+									step={ 1 }
+									value={ parseInt( value ) }
+									max={ 64 }
+									min={ 14 }
+									currentInput={ 16 }
+									initialPosition={ 16 }
+									allowReset={ true }
+									className="has-admin__range-control"
+									onChange={ ( iconSizeValue ) => {
+										onChange( iconSizeValue );
+									} }
+									trackColor="#4F4F4F"
+									railColor="#CECECE"
+								/>
+							</>
+						) }
+					/>
+				</div>
+			) }
+			{ 'default' === theme && (
+				<div className="has-admin-component-row">
+					<Controller
+						name="fontSize"
+						control={ control }
+						render={ ( { field: { onChange, value } } ) => (
+							<>
+								<RangeControl
+									label={ __(
+										'Set the Font Size',
+										'highlight-and-share'
+									) }
+									step={ 1 }
+									value={ value }
+									max={ 64 }
+									min={ 14 }
+									currentInput={ 14 }
+									initialPosition={ 14 }
+									allowReset={ true }
+									className="has-admin__range-control"
+									onChange={ ( fontSizeValue ) => {
+										onChange( fontSizeValue );
+									} }
+									trackColor="#4F4F4F"
+									railColor="#CECECE"
+								/>
+							</>
+						) }
+					/>
+				</div>
+			) }
 			{ 'custom' === theme && (
 				<>
 					<div className="has-admin-component-row">
@@ -380,8 +442,8 @@ const ThemeCustomizer = () => {
 												value={ value }
 												max={ 64 }
 												min={ 14 }
-												currentInput={ 16 }
-												initialPosition={ 16 }
+												currentInput={ 14 }
+												initialPosition={ 14 }
 												allowReset={ true }
 												className="has-admin__range-control"
 												onChange={ ( fontSizeValue ) => {

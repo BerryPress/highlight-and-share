@@ -269,9 +269,10 @@ class Headlines {
 		$page_url   = is_singular() && $post ? get_permalink( $post ) : '';
 		$page_title = is_singular() && $post ? get_the_title( $post ) : '';
 		$settings   = Options::get_plugin_options();
-		$prefix     = isset( $settings['sharing_prefix'] ) ? stripslashes( sanitize_text_field( $settings['sharing_prefix'] ) ) : '';
-		$suffix     = isset( $settings['sharing_suffix'] ) ? stripslashes( sanitize_text_field( $settings['sharing_suffix'] ) ) : '';
-		$twitter    = isset( $settings['twitter'] ) ? trim( sanitize_text_field( $settings['twitter'] ) ) : '';
+		// Preserve literal < and >; value was sanitized on save (trim + utf8 only).
+		$prefix  = isset( $settings['sharing_prefix'] ) ? stripslashes( (string) $settings['sharing_prefix'] ) : '';
+		$suffix  = isset( $settings['sharing_suffix'] ) ? stripslashes( (string) $settings['sharing_suffix'] ) : '';
+		$twitter = isset( $settings['twitter'] ) ? trim( sanitize_text_field( $settings['twitter'] ) ) : '';
 
 		$headline_options = Options::get_headlines_options();
 		$network_order    = isset( $headline_options['network_order'] ) && is_array( $headline_options['network_order'] )

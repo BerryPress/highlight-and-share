@@ -250,7 +250,12 @@ class Functions {
 				continue;
 			}
 			if ( is_string( $value ) ) {
-				$sanitized_data[ $key ] = sanitize_text_field( $value );
+				// Preserve literal < and > for prefix/suffix (sanitize_text_field converts < to entity).
+				if ( in_array( $key, array( 'sharing_prefix', 'sharing_suffix' ), true ) ) {
+					$sanitized_data[ $key ] = trim( wp_check_invalid_utf8( $value ) );
+				} else {
+					$sanitized_data[ $key ] = sanitize_text_field( $value );
+				}
 				continue;
 			}
 		}
