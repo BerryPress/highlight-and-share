@@ -60,7 +60,7 @@ class Admin {
 	public function add_settings_link( $links ) {
 		$settings_link   = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'options-general.php?page=highlight-and-share' ) ), _x( 'Settings', 'Plugin settings link on the plugins page', 'highlight-and-share' ) );
 		$appearance_link = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'options-general.php?page=highlight-and-share&tab=appearance' ) ), _x( 'Configure Theme', 'Plugin settings link on the plugins page', 'highlight-and-share' ) );
-		$docs_link       = sprintf( '<a href="%s">%s</a>', esc_url( 'https://has.dlxplugins.com' ), _x( 'Documentation', 'Plugin settings link on the plugins page', 'highlight-and-share' ) );
+		$docs_link       = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url( 'https://docs.dlxplugins.com/highlight-and-share/' ), _x( 'Documentation', 'Plugin settings link on the plugins page', 'highlight-and-share' ) );
 
 		array_unshift( $links, $docs_link );
 		array_unshift( $links, $settings_link );
@@ -351,7 +351,7 @@ class Admin {
 						width="450" height="113" src="<?php echo esc_url( Functions::get_plugin_url( '/img/plugin-logo-horizontal.png' ) ); ?>" alt="Higlight and Share" /></h2>
 					</div>
 					<div class="header__btn-wrap">
-						<a class=" has__btn-primary" href="https://has.dlxplugins.com"><i class="dashicons dashicons-media-document"></i> <?php esc_html_e( 'Documentation', 'highlight-and-share' ); ?></a>
+						<a class=" has__btn-primary" href="https://docs.dlxplugins.com/highlight-and-share/" target="_blank" rel="noopener noreferrer"><i class="dashicons dashicons-media-document"></i> <?php esc_html_e( 'Documentation', 'highlight-and-share' ); ?></a>
 						<a class=" has__btn-primary" href="
 						<?php
 						$user = get_user_by( 'id', get_current_user_id() );
