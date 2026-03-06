@@ -61,9 +61,7 @@ class Admin {
 		$settings_link   = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'options-general.php?page=highlight-and-share' ) ), _x( 'Settings', 'Plugin settings link on the plugins page', 'highlight-and-share' ) );
 		$appearance_link = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'options-general.php?page=highlight-and-share&tab=appearance' ) ), _x( 'Configure Theme', 'Plugin settings link on the plugins page', 'highlight-and-share' ) );
 		$docs_link       = sprintf( '<a href="%s">%s</a>', esc_url( 'https://has.dlxplugins.com' ), _x( 'Documentation', 'Plugin settings link on the plugins page', 'highlight-and-share' ) );
-		$has_landing     = sprintf( '<a href="%s" style="color: #f60098;">%s</a>', esc_url( 'https://dlxplugins.com/plugins/highlight-and-share/' ), _x( 'Visit Site', 'Plugin settings link on the plugins page', 'highlight-and-share' ) );
 
-		array_unshift( $links, $has_landing );
 		array_unshift( $links, $docs_link );
 		array_unshift( $links, $settings_link );
 		return $links;

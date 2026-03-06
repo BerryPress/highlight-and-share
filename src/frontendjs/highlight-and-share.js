@@ -969,7 +969,7 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 
 					// Calculate tooltip position based on element position, window size, and scroll position.
 					const tooltipLeft = event.clientX - tooltipWidth / 2 + scrollX;
-					const tooltipTop = elementTop - tooltipHeight + scrollY - 10;
+					const tooltipTop = elementTop - tooltipHeight + scrollY - 20;
 
 					// Create div element to hold tooltip.
 					const tooltip = document.createElement( 'div' );

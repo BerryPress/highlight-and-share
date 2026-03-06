@@ -1,6 +1,6 @@
-=== Highlight and Share – Social Text and Image Sharing ===
+=== Highlight and Share – Unobtrusive and Lightweight Content Sharing ===
 Contributors: ronalfy
-Tags: highlight, social media, share, social networks, highlight text
+Tags: social share buttons, social share, web-share, social networks, highlight text
 Requires at least: 6.5
 Tested up to: 7.0
 Stable tag: 6.0.0
@@ -12,48 +12,50 @@ A lightweight and unobtrusive social media plugin for displaying social networks
 
 == Description ==
 
-Show relevant social networks when users highlight text, click an inline highlight, interact with an image, or click on a Click to Share box. <a href="https://wordpress.org/plugins/highlight-and-share/?preview=1">Check out the live demo</a>.
+Highlight and Share is a lightweight and unobtrusive social network WordPress plugin. It works great for content sharing, social highlights, image sharing, headline sharing, and for those wanting a comprehensive Click to Share block/shortcode with inline highlighting supported.
 
-https://www.youtube.com/watch?v=ZZWiLZtfqcI
+=== Quick Links ===
 
-Highlight and Share has the following major features (links are to docs):
+<a href="https://docs.dlxplugins.com/highlight-and-share/">Comprehensive Documentation</a> | <a href="https://github.com/sponsors/DLXPlugins">Sponsor Us</a> | <a href="https://dlxplugins.com/support/?product=Highlight%20and%20Share">Support</a> | <a href="https://dlxplugins.com/plugins/highlight-and-share/">Homepage</a>
 
-1. Show <a href="https://docs.dlxplugins.com/v/highlight-and-share/getting-started/enabling-the-social-networks">enabled social networks</a> when users select text.
-2. Add <a href="https://docs.dlxplugins.com/v/highlight-and-share/inline-highlighting/what-is-inline-highlighting">inline highlighting</a> to split out longform text.
-3. Create a Click to Share box via the <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-block/the-click-to-share-block">block editor</a> or <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-shortcode/shortcode-parameters">shortcode</a>.
-4. Add Pinterest and the Web Share API to images <a href="https://docs.dlxplugins.com/v/highlight-and-share/image-sharing/what-is-image-sharing">for image sharing</a>.
+* **Show social media networks upon text selection (a text highlighter)**. This provides an unobtrusive way to allow content highlighting without getting in a user's way. With shortcuts like Copy and Email, Highlight and Share can become part of an essential timesaving workflow for a user who needs quick shortcuts to common items like Web Share and other content highlighter shortcuts.
+* **Show Pinterest and Webshare on images**. With image sharing enabled, Highlight and Share will seamlessly integrate Pinterest and Webshare on any found images. With features like skipping the leading image, you'll find that Image Sharing is intuitive and useful for your users.
+* **Show sharing options with headline sharing**. Headline sharing allows users to bookmark certain headlines and revisit them later. Additional networks like Webshare or X can provide additional context such as sharing the headline itself.
+* **A Click to Share Block/Shortcode is included**. An easy-to-use Click to Share block is included, with setup available in seconds. The Content Sharing networks display above the share box when clicked, providing an easy way to share the quote.
+* **Set up email sharing with easy spam protection integration**. Set up emails with spam protection from Akismet, Cloudflare Turnstile, and Google reCAPTCHA Enterprise.
 
-> Not sure where to start? Please check out <a href="https://youtube.com/playlist?list=PLw2fSxxzure64RVDMsBd1DzU87YY0pRTb&si=1JpVYegYj5jskn27">our video series</a> (YouTube) and our <a href="https://docs.dlxplugins.com/v/highlight-and-share">comprehensive documentation</a> ❤️️
 
-If you have a feature request, <a href="https://dlxplugins.com/support/">please leave a support request.</a>.
+If you have a feature request, <a href="https://dlxplugins.com/support/?product=Highlight%20and%20Share">please leave a support request.</a>.
 
-<h3>Features</h3>
+> ❤️ A TON of work has gone into making this plugin great. Please share your appreciation by leaving a rating/review and by telling others about the plugin.
+
+<h3>Available Features</h3>
+
+Highlight and Share at its core is a content highlighter, but it has many other sharing features, most of which are opt-in.
 
 <ul>
-<li>Show social networks on text selection.</li>
-<li>Inline highlighting.</li>
-<li>A comprehensive Click to Share block.</li>
-<li>A comprehensive Click to Share shortcode.</li>
-<li>Image sharing via Pinterest and the Web Share API.</li>
-<li>Customize the appearance of the social networks.</li>
-<li>Customize the appearance of the inline highlighting.</li>
+<li>Show social networks on text highlight (content highlight).</li>
+<li>Add an inline highlight to text and show social networks on click. An optional tooltip shows on hover explaining the highlight.</li>
+<li>An easy to use Click to Share block is included, and can be disabled if needed.</li>
+<li>A comprehensive <a href="https://docs.dlxplugins.com/highlight-and-share/click-to-share-shortcode/shortcode-parameters">Click to Share shortcode</a> is included.</li>
+<li>Image sharing via Pinterest and the Web Share API is included. You can select which post types it's enabled for, and also enable it on a per post basis via a post's sidebar settings.</li>
+<li>Enable or disable individual networks for content sharing. Reorder the networks, change the theme, or even choose a custom theme for matching your site's design.</li>
+<li>Use advanced selectors to choose how content highlighting works, which makes Highlight and Share a powerful tool when combined with your favorite page builder.
+<li>Customize the appearance of inline highlighting, including the background and text colors.</li>
 <li>Enable social networks in the comments section when highlighting text.</li>
-<li>Enable or disable on main content and excerpts.</li>
-<li>Enable or disable each social network.</li>
+<li>Enable or disable on main content and excerpts. Selectively disable on a per post type basis, or enable in a post's sidebar settings.</li>
 <li>Translate the labels and tooltips into your language, or just change up the text.</li>
-<li>Customize the Twitter username used.</li>
+<li>Customize the Twitter/X username used.</li>
 <li>Enable hashtags on posts/pages</li>
-<li>Pre-selected and locally sourced Google Fonts and Adobe Fonts.
-<li>Email protection via Akismet and reCAPTCHA 3</li>
-<li>Customize how inline highlighting looks</li>
-<li>Works with Page Builders using advanced selectors</li>
+<li>Email protection via Akismet, Cloudflare Turnstile, and reCAPTCHA Enterprise</li>
 </ul>
 
 ### integrations
 
 * Block Editor: Native support for Adobe Fonts with free <a href="https://wordpress.org/plugins/custom-typekit-fonts/">Custom Adobe Fonts</a> plugin.
 * Block Editor: Native support for Local Google Fonts via free <a href="https://wordpress.org/plugins/custom-fonts/">Custom Fonts</a> plugin.
-* Block Editor: Compatible with Blocksy Companion Pro Local Google Fonts and Adobe Fonts extensions. 
+* Block Editor: Compatible with Blocksy Companion Pro Local Google Fonts and Adobe Fonts extensions.
+* Block Editor: Compatible With <a href="https://wordpress.org/plugins/simpletoc/">SimpleTOC</a>.
 
 == Installation ==
 
@@ -63,6 +65,80 @@ If you have a feature request, <a href="https://dlxplugins.com/support/">please 
 > <a href="https://docs.dlxplugins.com/v/highlight-and-share">In-depth Documentation</a> - Please check out our thorough documentation ❤️️
 
 == Frequently Asked Questions ==
+
+= What is a text highlighter for WordPress? =
+
+Highlight and Share works as a text highlighter plugin for WordPress. When a visitor selects text on your site, a small sharing interface appears allowing them to share the selected text to social networks, copy it, or send it via email.
+
+This makes it easy for readers to highlight important quotes, statistics, or passages and share them instantly.
+
+Additional sharing features such as image sharing, headline sharing, and a Click to Share block/shortcode allow for more sharing options.
+
+= Can visitors share highlighted text from my articles? =
+
+Yes. Highlight and Share allows users to select and highlight text directly within your content. Once text is selected, social sharing options appear automatically.
+
+Visitors can then:
+
+* Share the highlighted text to supported social networks
+* Copy the text to their clipboard
+* Send the text via email
+* Use the Web Share API on supported devices
+
+This makes it easy to enable content highlighter functionality in WordPress.
+
+= What is headline sharing? =
+
+Headline sharing allows visitors to share individual headings within your content.
+
+When enabled, a small link icon appears next to headings such as H2 or H3. Clicking the icon allows users to copy a link directly to that section or share the headline to social networks.
+
+This feature works especially well for long articles, tutorials, and documentation where users may want to reference a specific section.
+
+= Does this plugin support image sharing? =
+
+Yes. Highlight and Share includes image sharing support for Pinterest and the Web Share API.
+
+When enabled, sharing icons appear when users interact with images, allowing them to quickly share images from your content.
+
+You can control where image sharing appears, including:
+
+* Post content
+* Featured images
+* Archive excerpts
+
+= What is the Click to Share block? =
+
+The Click to Share block allows you to add a shareable quote or message directly inside your content.
+
+When readers click the share box, they can instantly share the text to social networks or copy it to their clipboard. This is useful for quotes, key takeaways, statistics, or other shareable snippets.
+
+A shortcode version is also available if you prefer not to use the block editor.
+
+= Can I control where text highlighting works? =
+
+Yes. Highlight and Share includes advanced selectors and post type settings that allow you to control exactly where highlighting appears.
+
+You can:
+
+* Enable highlighting only within post content
+* Enable highlighting in comments
+* Disable highlighting on specific post types
+* Use custom selectors for page builders
+
+This flexibility makes Highlight and Share compatible with most themes and page builders.
+
+= Does Highlight and Share track user data? =
+
+Highlight and Share does not collect personal information or set tracking cookies.
+
+The plugin <a href="https://docs.dlxplugins.com/highlight-and-share/developers/enabling-tracking-stats">does allow for advanced stats tracking</a>, which is opt-in and is designed for developers. Stats are compatible with GA4, GTM, and synthetic JS events.
+
+= Is this a Click to Tweet plugin? =
+
+Highlight and Share includes a Click to Share block that works similarly to traditional Click to Tweet plugins, but with additional flexibility, showing more than just one network.
+
+Instead of limiting sharing to a single network, users can choose from multiple social networks, copy the text, or share using the Web Share API.
 
 = What social networks does this plugin work with? =
 
@@ -85,25 +161,39 @@ Highlight and Share <a href="https://docs.dlxplugins.com/v/highlight-and-share/d
 
 = How does Highlight and Share work? =
 
-Highlight and Share shows social networks <a href="https://docs.dlxplugins.com/v/highlight-and-share/getting-started/how-highlight-and-share-works">as users interact with your site's text</a>. This can be via text selection, <a href="https://docs.dlxplugins.com/v/highlight-and-share/inline-highlighting/what-is-inline-highlighting">inline highlighting</a>, or using the <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-block/the-click-to-share-block">Click to Share block</a>.
+Highlight and Share is designed to be unobtrusive and lightweight, with only advanced sharing features being opt-in such as image and headline sharing.
+
+Highlight and Share shows social networks as users interact with content on your site. This can be in the form of content highlighting, text selection, image sharing, headline sharing, or using the inline highlighting mechanism or Click to Share block/shortcode.
+
+Since Highlight and Share can provide some useful shortcuts, the plugin can provide your users with some useful shortcuts to enhance their reading and editing workflows.
 
 = How can I customize the look of Highlight and Share? =
 
-Several ways. There are several built-in themes, and you have the oppotunity to <a href="https://docs.dlxplugins.com/v/highlight-and-share/getting-started/changing-themes-and-appearance/configuring-a-custom-theme">completely customize a custom theme</a>.
+Higlight and Share is extremely customizable through a theming system and <a href="https://docs.dlxplugins.com/highlight-and-share/developers/styling-highlight-and-share">through custom CSS</a>.
+
+In general, you can:
+
+* Customize all the social networks as far as order, colors, size, and orientation.
+* Customize all the image sharing features, such as Pinterest and Web Share. You can change how the icons appear, what colors they appear as, and for which images.
+* Completely customize a Click to Share block/shortcode and use the customized icons to show the social networks to the user.
 
 = Will you be adding more sharing services? =
 
-If the social network has an endpoint, it can be added. Please see <a href="https://docs.dlxplugins.com/v/highlight-and-share/developers/available-social-networks">the available social networks</a> and their specifications.
+If the social network has an endpoint, it can be added. Please see <a href="https://docs.dlxplugins.com/v/highlight-and-share/developers/available-social-networks">the available social networks</a> and their specifications. Please request a new network via support.
 
 = I want to include my own CSS.  How can I do that? =
 
 You can turn off the theme and include CSS in your own theme.
+
+See <a href="https://docs.dlxplugins.com/highlight-and-share/developers/styling-highlight-and-share">Customizing Highlight and Share through custom CSS</a>
 
 = Does this plugin work on mobile devices? =
 
 Yes, Highlight and Share works well for mobile devices and also supports the Web Share API, which is one of the options of social sharing networks.
 
 Most mobile devices already have their own sharing features on text selection, but Highlight and Share works especially well for <a href="https://docs.dlxplugins.com/v/highlight-and-share/inline-highlighting/what-is-inline-highlighting">inline highlighting</a> and the <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-block/the-click-to-share-block">Click to Share block</a>.
+
+Image Sharing and Headline sharing also make the plugin useful for mobile devices.
 
 = What Browsers Have You Tested This In? =
 
