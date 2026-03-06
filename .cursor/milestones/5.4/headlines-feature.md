@@ -22,7 +22,7 @@ Implement headline sharing functionality, including H1/post title support, admin
 
 #### Options & Defaults
 
-- [ ] Create `Options::get_headline_defaults()` method
+- [x] Create `Options::get_headline_defaults()` method
 - [ ] Create `Options::get_headline_options()` method
 - [ ] Add all headline options to defaults:
   - `enable_headline_sharing`
@@ -38,7 +38,7 @@ Implement headline sharing functionality, including H1/post title support, admin
 
 #### Content Processing
 
-- [ ] Implement `the_content` filter hook (late priority: 999)
+- [ ] Implement `the_content` filter hook (late priority: 100)
 - [ ] Scan headings (H2–H4) with IDs
 - [ ] Add `data-has-headline-share` attribute
 - [ ] Implement auto-ID generation (if enabled)

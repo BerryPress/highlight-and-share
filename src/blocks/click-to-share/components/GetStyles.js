@@ -1,4 +1,3 @@
-import React from 'react';
 const { escapeEditableHTML } = wp.escapeHtml;
 import useDeviceType from '../../../react/Hooks/useDeviceType';
 import { buildDimensionsCSS } from '../../../react/Utils/DimensionsHelper';
@@ -37,10 +36,11 @@ const GetStyles = ( props ) => {
 		typographyQuote,
 		typographyShareText,
 		iconSizeResponsive,
-		showClickToShareText,
+		theme,
+		themeOverrides = {},
 	} = attributes;
 	const screenSize = deviceType.toLowerCase();
-	const styles = `
+	let styles = `
 		#${ uniqueId }.has-click-to-share {
 			margin: ${ buildDimensionsCSS( marginSize, deviceType ) };
 			border-radius: ${ buildDimensionsCSS( borderRadiusSize, deviceType ) };
@@ -245,8 +245,133 @@ const GetStyles = ( props ) => {
 		}
 		`;
 	}
+	if ( 'custom' !== theme ) {
+		// Non-custom themes: max-width comes from --has-cta-maximum-width only.
+		// Base value from theme (maximumWidth); override from themeOverrides.maximumWidth.
+		let nonCustomStyles = '';
+
+		// Theme override styles (colors, iconSize, showClickToShareText, showShareIcon).
+		const overrides = themeOverrides || {};
+		const colorMapping = {
+			backgroundColor: '--has-cta-background-color',
+			backgroundColorHover: '--has-cta-background-color-hover',
+			textColor: '--has-cta-quote-text-color',
+			textColorHover: '--has-cta-quote-text-color-hover',
+			shareTextColor: '--has-cta-cta-text-color',
+			shareTextColorHover: '--has-cta-cta-text-color-hover',
+			iconColor: '--has-cta-icon-color',
+			iconColorHover: '--has-cta-icon-color-hover',
+			borderColor: '--has-cta-border-color',
+			borderColorHover: '--has-cta-border-color-hover',
+		};
+		const customPropRules = [];
+		for ( const [ key, cssVar ] of Object.entries( colorMapping ) ) {
+			if ( overrides[ key ] !== undefined && overrides[ key ] !== null && overrides[ key ] !== '' ) {
+				customPropRules.push( `${ cssVar }: ${ overrides[ key ] };` );
+			}
+		}
+		const extraRules = [];
+		const iconSizeVal = overrides.iconSize !== undefined && overrides.iconSize !== null && overrides.iconSize !== '' && ! isNaN( Number( overrides.iconSize ) )
+			? Number( overrides.iconSize )
+			: null;
+		if ( iconSizeVal !== null && iconSizeVal > 0 ) {
+			extraRules.push(
+				`#${ uniqueId }.has-click-to-share .has-click-to-share-cta svg { width: ${ iconSizeVal }px; height: auto; }`
+			);
+		}
+		if ( Object.prototype.hasOwnProperty.call( overrides, 'showClickToShareText' ) ) {
+			const display = overrides.showClickToShareText ? 'inline' : 'none';
+			extraRules.push(
+				`#${ uniqueId }.has-click-to-share .has-click-to-share-cta-text { display: ${ display }; }`
+			);
+		}
+		if ( Object.prototype.hasOwnProperty.call( overrides, 'showShareIcon' ) ) {
+			const display = overrides.showShareIcon ? 'inline-flex' : 'none';
+			extraRules.push(
+				`#${ uniqueId }.has-click-to-share .has-click-to-share-cta-svg { display: ${ display }; }`
+			);
+		}
+
+		// Typography overrides (quote and shareText).
+		const typeMapping = [
+			{ key: 'quoteFontFamily', var: '--has-cta-quote-font-family', format: ( v ) => ( v ? `"${ v }"` : null ) },
+			{ key: 'quoteFontSize', var: '--has-cta-quote-font-size', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.quoteFontSizeUnit || 'px' ) : null ) },
+			{ key: 'quoteFontWeight', var: '--has-cta-quote-font-weight' },
+			{ key: 'quoteLineHeight', var: '--has-cta-quote-line-height', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.quoteLineHeightUnit || 'em' ) : null ) },
+			{ key: 'quoteLetterSpacing', var: '--has-cta-quote-letter-spacing', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.quoteLetterSpacingUnit || 'px' ) : null ) },
+			{ key: 'quoteTextTransform', var: '--has-cta-quote-text-transform' },
+			{ key: 'shareTextFontFamily', var: '--has-cta-cta-font-family', format: ( v ) => ( v ? `"${ v }"` : null ) },
+			{ key: 'shareTextFontSize', var: '--has-cta-cta-font-size', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.shareTextFontSizeUnit || 'px' ) : null ) },
+			{ key: 'shareTextFontWeight', var: '--has-cta-cta-font-weight' },
+			{ key: 'shareTextLineHeight', var: '--has-cta-cta-line-height', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.shareTextLineHeightUnit || 'em' ) : null ) },
+			{ key: 'shareTextLetterSpacing', var: '--has-cta-cta-letter-spacing', format: ( v, o ) => ( v !== undefined && v !== '' ? v + ( o.shareTextLetterSpacingUnit || 'px' ) : null ) },
+			{ key: 'shareTextTextTransform', var: '--has-cta-cta-text-transform' },
+		];
+		typeMapping.forEach( ( { key, var: cssVar, format } ) => {
+			const val = overrides[ key ];
+			const formatted = format ? format( val, overrides ) : val;
+			if ( formatted !== undefined && formatted !== null && formatted !== '' ) {
+				customPropRules.push( `${ cssVar }: ${ formatted };` );
+			}
+		} );
+
+		// Maximum width: only output when override is set; when cleared, let stylesheet theme default apply.
+		const maxWOverride = overrides.maximumWidth;
+		const maxWFromOverride =
+			maxWOverride && typeof maxWOverride === 'object' && maxWOverride.width !== undefined && maxWOverride.width !== ''
+				? maxWOverride
+				: null;
+		if ( maxWFromOverride ) {
+			const maxWidthVal = `${ maxWFromOverride.width }${ maxWFromOverride.unit || 'px' }`;
+			customPropRules.push( `--has-cta-maximum-width: ${ maxWidthVal };` );
+		}
+		const innerPad = overrides.innerPadding;
+		if ( innerPad && typeof innerPad === 'object' && 'top' in innerPad ) {
+			const dims = { desktop: innerPad };
+			const css = buildDimensionsCSS( dims, 'Desktop' );
+			if ( css ) {
+				customPropRules.push( `--has-cta-inner-padding: ${ css };` );
+			}
+		}
+		const outerMarg = overrides.outerMargin;
+		if ( outerMarg && typeof outerMarg === 'object' && 'top' in outerMarg ) {
+			const dims = { desktop: outerMarg };
+			const css = buildDimensionsCSS( dims, 'Desktop' );
+			if ( css ) {
+				customPropRules.push( `--has-cta-outer-margin: ${ css };` );
+			}
+		}
+		const borderW = overrides.borderWidth;
+		if ( borderW && typeof borderW === 'object' && 'top' in borderW ) {
+			const dims = { desktop: borderW };
+			const css = buildDimensionsCSS( dims, 'Desktop' );
+			if ( css ) {
+				customPropRules.push( `--has-cta-border-width: ${ css };` );
+			}
+		}
+		const borderR = overrides.borderRadius;
+		if ( borderR && typeof borderR === 'object' && 'top' in borderR ) {
+			const dims = { desktop: borderR };
+			const css = buildDimensionsCSS( dims, 'Desktop' );
+			if ( css ) {
+				customPropRules.push( `--has-cta-border-radius: ${ css };` );
+			}
+		}
+
+		if ( customPropRules.length > 0 ) {
+			nonCustomStyles += `
+		#${ uniqueId }.has-click-to-share {
+			${ customPropRules.join( '\n\t\t\t' ) }
+		}
+		`;
+		}
+		if ( extraRules.length > 0 ) {
+			nonCustomStyles += extraRules.join( '\n\t\t' );
+		}
+		styles = nonCustomStyles;
+	}
 	let previewStyles = '';
-	if ( isPreview) {
+	if ( isPreview ) {
 		previewStyles = `
 			#${ uniqueId }.has-click-to-share p {
 				font-size: 12px;

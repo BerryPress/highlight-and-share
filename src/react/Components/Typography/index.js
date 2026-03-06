@@ -117,14 +117,15 @@ const Typography = ( props ) => {
 
 	// Retrieve the list all available fonts.
 	const getFonts = () => {
-		const adobeFonts = has_gutenberg.adobeFonts;
-		const fonts = [];
+		const customFonts = has_gutenberg.customFonts;
+		let fonts = [];
 		const families = Object.values( fontFamilies );
-		const mergedFamilies = [];
+		let mergedFamilies = [];
 		families.forEach( ( fontFamily ) => {
 			fonts.push( { label: fontFamily.name, value: fontFamily.slug } );
 			mergedFamilies.push( { family: fontFamily.family, slug: fontFamily.slug, fallback: fontFamily.fallback, type: fontFamily.type } );
 		} );
+
 		if ( blockLevelFontFamilies ) {
 			const { theme } = blockLevelFontFamilies;
 
@@ -135,13 +136,21 @@ const Typography = ( props ) => {
 				} );
 			}
 		}
-		// Push adobe fonts to the front.
-		adobeFonts.forEach( ( font ) => {
-			fonts.unshift( { label: font.name, value: font.slug } );
-			mergedFamilies.push( { family: font.family, slug: font.slug, fallback: font.fallback, type: 'adobe' } );
+		// Push custom fonts to the front.
+		customFonts.forEach( ( font ) => {
+			fonts.unshift( { label: font.label, value: font.value } );
+			mergedFamilies.push( { family: font.label, slug: font.value, fallback: 'serif', type: 'custom' } );
 		} );
 		// Add placeholder.
 		fonts.unshift( { label: __( 'Select a Font', 'highlight-and-share' ), value: '' } );
+
+		// Eliminate duplicate fonts.
+		fonts = fonts.filter( ( font, index, self ) =>
+			index === self.findIndex( ( t ) => t.value === font.value )
+		);
+		mergedFamilies = mergedFamilies.filter( ( font, index, self ) =>
+			index === self.findIndex( ( t ) => t.slug === font.slug )
+		);
 
 		// Don't show font family on non-desktop sizes.
 		if ( 'desktop' !== screenSize ) {
@@ -155,7 +164,7 @@ const Typography = ( props ) => {
 					render={ ( { field: { onChange, value } } ) => (
 						<SelectControl
 							label={ __( 'Font Family', 'highlight-and-share' ) }
-							value={ geHierarchicalPlaceholderValue( props.values, screenSize, getValues( screenSize ).fontFamilySlug, 'fontFamilySlug' ) }
+							value={ geHierarchicalPlaceholderValue( props.values, screenSize, getValues( screenSize ).fontFamilySlug, 'fontFamilySlug' ) || 'Arial' }
 							options={ fonts }
 							onChange={ ( newValue ) => {
 								onChange( newValue );

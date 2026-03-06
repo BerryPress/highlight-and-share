@@ -3,11 +3,11 @@
 	"version": "1.0.0",
 	"description": "Highlight and share text.",
 	"main": "index.js",
-	"sideEffects": false,
+	"sideEffects": ["./src/blocks/click-to-share/block-filters.js"],
 	"scripts": {
-		"start": "wp-scripts start has-inline-highlighting=./src/inline-highlighting.js has-click-to-share=./src/blocks/click-to-share/block.js --env mode=development",
+		"start": "wp-scripts start has-inline-highlighting=./src/inline-highlighting.js has-click-to-share=./src/blocks/click-to-share/block.js has-post-sidebar=./src/post-sidebar/index.js --env mode=development",
 		"dev": "wp-scripts start has-click-to-share=./src/blocks/click-to-share/block.js --env mode=development",
-		"build": "wp-scripts build has-inline-highlighting=./src/inline-highlighting.js has-click-to-share=./src/blocks/click-to-share/block.js --env mode=production"
+		"build": "wp-scripts build has-inline-highlighting=./src/inline-highlighting.js has-click-to-share=./src/blocks/click-to-share/block.js has-post-sidebar=./src/post-sidebar/index.js --env mode=production"
 	},
 	"repository": {
 		"type": "git",

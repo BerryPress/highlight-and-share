@@ -42,6 +42,48 @@ class Functions {
 	}
 
 	/**
+	 * Whether stats (dataLayer, gtag, synthetic events) are enabled for the frontend.
+	 * Respects the HAS_STATS_ENABLED constant and the has_stats_enabled filter (filter overrides constant).
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return bool True if stats are enabled, false otherwise.
+	 */
+	public static function is_stats_enabled() {
+		$enabled = defined( 'HAS_STATS_ENABLED' ) ? (bool) constant( 'HAS_STATS_ENABLED' ) : true;
+		/**
+		 * Filter: has_stats_enabled
+		 *
+		 * Whether stats are enabled for the frontend.
+		 *
+		 * @param bool $enabled True if stats are enabled, false otherwise.
+		 * @since 6.0.0
+		 */
+		return (bool) apply_filters( 'has_stats_enabled', $enabled );
+	}
+
+	/**
+	 * Whether enhanced stats (URL, share text, title) are sent to dataLayer/gtag/CustomEvent.
+	 * Default false for privacy; set HAS_STATS_ENHANCED or use has_stats_enhanced filter to enable.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return bool True if enhanced fields may be sent, false otherwise.
+	 */
+	public static function is_stats_enhanced() {
+		$enhanced = defined( 'HAS_STATS_ENHANCED' ) ? (bool) constant( 'HAS_STATS_ENHANCED' ) : false;
+		/**
+		 * Filter: has_stats_enhanced
+		 *
+		 * Whether to send URL, share text, and title in stats (default false for privacy).
+		 *
+		 * @param bool $enhanced True to send enhanced fields, false to omit them.
+		 * @since 7.0.0
+		 */
+		return (bool) apply_filters( 'has_stats_enhanced', $enhanced );
+	}
+
+	/**
 	 * Sanitize an attribute based on type.
 	 *
 	 * @param array  $attributes Array of attributes.
@@ -208,7 +250,12 @@ class Functions {
 				continue;
 			}
 			if ( is_string( $value ) ) {
-				$sanitized_data[ $key ] = sanitize_text_field( $value );
+				// Preserve literal < and > for prefix/suffix (sanitize_text_field converts < to entity).
+				if ( in_array( $key, array( 'sharing_prefix', 'sharing_suffix' ), true ) ) {
+					$sanitized_data[ $key ] = trim( wp_check_invalid_utf8( $value ) );
+				} else {
+					$sanitized_data[ $key ] = sanitize_text_field( $value );
+				}
 				continue;
 			}
 		}
@@ -216,9 +263,81 @@ class Functions {
 	}
 
 	/**
+	 * Get available fonts for the block editor.
+	 *
+	 * @return array Array of fonts.
+	 */
+	public static function get_typography_fonts() {
+		// Get the adobe fonts.
+		$fonts_group = array();
+		// Get Adobe fonts from https://wordpress.org/plugins/custom-typekit-fonts/.
+		if ( defined( 'CUSTOM_TYPEKIT_FONTS_FILE' ) ) {
+			$adobe_fonts = get_option( 'custom-typekit-fonts', array() );
+			if ( isset( $adobe_fonts['custom-typekit-font-details'] ) ) {
+				foreach ( $adobe_fonts['custom-typekit-font-details'] as $font_name => $font_details ) {
+					$fonts_group[] = array(
+						'value' => $font_name,
+						'label' => $font_name,
+					);
+				}
+			}
+		}
+
+		// Get blocksy adobe fonts.
+		$options       = get_option( 'blocksy_ext_adobe_typekit_settings', array() );
+		$font_families = $options['fonts'] ?? array();
+		$project_id    = $options['project_id'] ?? '';
+		if ( ! empty( $project_id ) ) {
+			if ( function_exists( 'blc_get_ext' ) ) {
+				$typekit = blc_get_ext( 'adobe-typekit' );
+				// Add fonts to list.
+				if ( $typekit ) {
+					if ( ! empty( $font_families ) ) {
+						foreach ( $font_families as $font_family ) {
+							$fonts_group[] = array(
+								'value' => $font_family['slug'],
+								'label' => $font_family['name'],
+							);
+						}
+					}
+				}
+			}
+		}
+
+		// Get blocksy google fonts.
+		$google_fonts = get_option( 'blocksy_ext_local_google_fonts_settings', array() );
+		if ( $google_fonts && isset( $google_fonts['fonts'] ) ) {
+			if ( function_exists( 'blc_get_ext' ) && blc_get_ext( 'local-google-fonts' ) ) {
+				foreach ( $google_fonts['fonts'] as $font_family ) {
+					$fonts_group[] = array(
+						'value' => $font_family['name'],
+						'label' => $font_family['name'],
+					);
+				}
+			}
+		}
+
+		// Get Custom Fonts (Local Google Fonts) plugin fonts. https://wordpress.org/plugins/custom-fonts/.
+		if ( class_exists( 'BCF_Custom_Font_Families' ) ) {
+			$local_google_fonts = \BCF_Custom_Font_Families::get_existing_google_fonts();
+			if ( ! empty( $local_google_fonts ) ) {
+				foreach ( $local_google_fonts as $font_name ) {
+					$fonts_group[] = array(
+						'value' => $font_name,
+						'label' => $font_name,
+					);
+				}
+			}
+		}
+
+		return $fonts_group;
+	}
+
+	/**
 	 * Get all fonts used for the blocks.
 	 *
 	 * @param array $blocks Array of blocks/innerblocks.
+	 * @param array $fonts  Array of fonts.
 	 */
 	public static function get_block_fonts( $blocks, $fonts = array() ) {
 		$devices = array(
@@ -264,10 +383,10 @@ class Functions {
 	 * @return bool True if enabled, false if not.
 	 */
 	public static function is_adobe_fonts_enabled() {
-		$block_editor_options = Options::get_block_editor_options( true );
-		$adobe_project_id     = $block_editor_options['adobe_project_id'] ?? '';
-		$adobe_fonts          = $block_editor_options['adobe_fonts'] ?? false;
-		$adobe_fonts_enabled  = $block_editor_options['enable_adobe_fonts'] ?? false;
+		$options             = Options::get_plugin_options( true );
+		$adobe_project_id    = $options['adobe_project_id'] ?? '';
+		$adobe_fonts         = $options['adobe_fonts'] ?? false;
+		$adobe_fonts_enabled = $options['enable_adobe_fonts'] ?? false;
 
 		if ( $adobe_fonts_enabled && ! empty( $adobe_fonts ) && ! empty( $adobe_project_id ) ) {
 			return true;
@@ -294,6 +413,32 @@ class Functions {
 	/**
 	 * Take a _ separated field and convert to camelcase.
 	 *
+	 * @param array $fields Array of fields to convert to camelcase.
+	 *
+	 * @return string camelCased field.
+	 */
+	public static function to_camelcase_recursive( array $fields ) {
+		foreach ( $fields as $key => $value ) {
+			if ( is_numeric( $key ) || is_bool( $key ) ) {
+				continue;
+			}
+			// Store old key.
+			$old_key = $key;
+			if ( is_array( $value ) ) {
+				$value = self::to_camelcase_recursive( $value );
+			}
+			$key = self::to_camelcase( $key );
+			if ( $key !== $old_key ) {
+				unset( $fields[ $old_key ] );
+			}
+			$fields[ $key ] = $value;
+		}
+		return $fields;
+	}
+
+	/**
+	 * Take a _ separated field and convert to camelcase.
+	 *
 	 * @param string $field Field to convert to camelcase.
 	 *
 	 * @return string camelCased field.
@@ -310,8 +455,64 @@ class Functions {
 	 * @return string $field Field name in camelCase..
 	 */
 	public static function to_underlines( string $field ) {
-		$field = strtolower( preg_replace( '/([a-z])([A-Z])/', '$1_$2', $field ) );
+		$regex = '/([a-z])([A-Z])/';
+		if ( preg_match( $regex, $field ) ) {
+			$field = strtolower( preg_replace( $regex, '$1_$2', $field ) );
+		}
 		return $field;
+	}
+
+	/**
+	 * Take a camelcase key and converts it to underline case.
+	 *
+	 * @param array $fields Array of fields to convert to underline case.
+	 *
+	 * @return array $fields Array of fields in underline case.
+	 */
+	public static function to_underlines_recursive( array $fields ) {
+		foreach ( $fields as $key => $value ) {
+			if ( is_numeric( $key ) || is_bool( $key ) ) {
+				continue;
+			}
+			// Store old key.
+			$old_key = $key;
+
+			// Convert key to underline case.
+			$key            = self::to_underlines( $key );
+			$fields[ $key ] = $value;
+
+			// Unset old key if it has changed.
+			if ( $key !== $old_key ) {
+				unset( $fields[ $old_key ] );
+			}
+
+			// Recursively convert array values to underline case.
+			if ( is_array( $value ) ) {
+				$fields[ $key ] = self::to_underlines_recursive( $value );
+			}
+		}
+		return $fields;
+	}
+
+	/**
+	 * Get all public post types.
+	 *
+	 * @return array Array of post type objects.
+	 */
+	public static function get_post_types() {
+		$post_types          = get_post_types(
+			array(
+				'public' => true,
+			),
+			'objects'
+		);
+		$excluded_post_types = array( 'attachment', 'revision', 'nav_menu_item', 'ct_content_block' );
+		return array_filter(
+			$post_types,
+			function ( $post_type ) use ( $excluded_post_types ) {
+				return ! in_array( $post_type->name, $excluded_post_types, true );
+			}
+		);
 	}
 
 	/**
@@ -700,4 +901,3 @@ class Functions {
 		return $highest_priority;
 	}
 }
-

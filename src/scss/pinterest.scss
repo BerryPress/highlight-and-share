@@ -16,6 +16,8 @@
 .has-pin-image-wrapper {
 	position: relative;
 	display: inline-block;
+	width: 100%;
+	height: 100%;
 
 	&.has-pin-top-left .has-pin-sharing-icons {
 		top: 16px;
@@ -45,7 +47,8 @@
 	opacity: 0;
 	transition: all 0.5s ease-in-out;
 }
-.has-pin-show-on-hover:hover .has-pin-sharing-icons {
+.has-pin-show-on-hover:hover .has-pin-sharing-icons,
+.has-pin-show-on-hover:focus-within .has-pin-sharing-icons {
 	opacity: 1;
 }
 .has-pin-sharing-icons {
