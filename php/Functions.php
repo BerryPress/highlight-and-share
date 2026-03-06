@@ -7,6 +7,10 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class Functions
  */
@@ -399,15 +403,18 @@ class Functions {
 	 */
 	public static function get_user_ip() {
 		if ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) && ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			if ( strpos( $_SERVER['HTTP_X_FORWARDED_FOR'], ',' ) > 0 ) {
-				$addr = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
+			if ( strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ), ',' ) > 0 ) {
+				$addr = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
 				return trim( $addr[0] );
 			} else {
-				return $_SERVER['HTTP_X_FORWARDED_FOR'];
+				return sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
 			}
 		} else {
-			return $_SERVER['REMOTE_ADDR'];
+			if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) && ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+				return trim( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) );
+			}
 		}
+		return '';
 	}
 
 	/**

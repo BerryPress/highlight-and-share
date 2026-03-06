@@ -7,6 +7,10 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class Headlines_Helper
  */
@@ -81,9 +85,6 @@ class Headlines_Helper {
 
 			return self::get_wrapper_inner_html( $dom, $wrapper );
 		} catch ( \Throwable $e ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'HAS Headlines: add_ids_to_headings failed - ' . $e->getMessage() );
-			}
 			return $content;
 		}
 	}
@@ -146,9 +147,6 @@ class Headlines_Helper {
 
 			return self::get_wrapper_inner_html( $dom, $wrapper );
 		} catch ( \Throwable $e ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'HAS Headlines: add_data_attributes failed - ' . $e->getMessage() );
-			}
 			return $content;
 		}
 	}

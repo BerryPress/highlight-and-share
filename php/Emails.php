@@ -7,6 +7,10 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class Emails
  */
@@ -351,6 +355,7 @@ class Emails {
 
 		// Now check Akismet.
 		if ( class_exists( 'Akismet' ) && (bool) $options['akismet_enabled'] ) {
+			$referrer                               = isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
 			$akismet_fields                         = array();
 			$akismet_fields['comment_type']         = 'highlight-and-share';
 			$akismet_fields['comment_author']       = $email_name;
@@ -362,7 +367,7 @@ class Emails {
 			$akismet_fields['permalink']            = esc_url( urldecode( $permalink ) );
 			$akismet_fields['user_ip']              = preg_replace( '/[^0-9., ]/', '', Functions::get_user_ip() );
 			$akismet_fields['user_agent']           = '';
-			$akismet_fields['referrer']             = sanitize_text_field( $_SERVER['HTTP_REFERER'] );
+			$akismet_fields['referrer']             = $referrer;
 			$akismet_fields['blog']                 = get_option( 'home' );
 
 			// Get all the fields and consolidate.

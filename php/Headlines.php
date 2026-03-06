@@ -7,6 +7,10 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class Headlines
  */
@@ -112,9 +116,6 @@ class Headlines {
 			$only_with_id = empty( $options['auto_generate_ids'] );
 			$content      = Headlines_Helper::add_data_attributes( $content, $options, $only_with_id );
 		} catch ( \Throwable $e ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'HAS Headlines: parsing failed - ' . $e->getMessage() );
-			}
 			$content = $original;
 		} finally {
 			add_filter( $filter_name, array( $this, 'process_headlines_content' ), 100 );

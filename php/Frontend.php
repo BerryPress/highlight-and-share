@@ -7,6 +7,10 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class Frontend
  */
@@ -899,7 +903,6 @@ class Frontend {
 			libxml_use_internal_errors( true );
 			@ $dom->loadHTML( '<?xml encoding="utf-8" ?>' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD ); // phpcs:ignore 
 			libxml_clear_errors();
-			error_log( $dom->saveHTML() );
 
 		} catch ( \Exception $e ) {
 			add_filter( $filter_name, array( $this, 'add_image_sharing_html' ), 15 );

@@ -7,6 +7,10 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class Themes
  */
@@ -150,7 +154,7 @@ class Themes {
 	 */
 	public static function get_main_themes() {
 		$default_themes = array(
-			'off'                    => esc_html__( 'Off', 'highligh-and-share' ),
+			'off'                    => esc_html__( 'Off', 'highlight-and-share' ),
 			'default'                => esc_html__( 'Default', 'highlight-and-share' ),
 			'brand-colors'           => esc_html__( 'Brand Colors (Icons Only)', 'highlight-and-share' ),
 			'colorful-circles'       => esc_html__( 'Colorful Circles (Icons Only)', 'highlight-and-share' ),

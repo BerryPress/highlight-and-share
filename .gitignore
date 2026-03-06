@@ -14,6 +14,7 @@ wp-content/wp-cache-config.php
 /deploy.sh
 node_modules
 \.DS_Store
+.DS_Store
 
 highlight-and-share.zip
 

@@ -7,6 +7,9 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * Class Admin
  */
@@ -245,7 +248,7 @@ class Admin {
 			wp_send_json_error( array() );
 		}
 
-		$form_data = $_POST['form_data']; // expect array.
+		$form_data = filter_input( INPUT_POST, 'form_data', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 		$form_data = Functions::to_underlines_recursive( $form_data );
 		$form_data = Functions::sanitize_array_recursive( $form_data );
 

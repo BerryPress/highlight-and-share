@@ -7,6 +7,10 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Helper class for registering blocks.
  */
@@ -219,7 +223,7 @@ class Blocks {
 				border-style: solid;
 				border-color: <?php echo esc_attr( $attributes['borderColor'] ); ?>;
 				transition: all 0.3s ease-in-out;
-				max-width: <?php echo $this->get_hierarchical_value( $attributes['maximumWidth'], 'mobile', '', 'width' ); ?><?php echo $this->get_hierarchical_value( $attributes['maximumWidth'], 'mobile', '', 'unit' ); ?>;
+				max-width: <?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'mobile', '', 'width' ) ); ?><?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'mobile', '', 'unit' ) ); ?>;
 				overflow: hidden;
 				border-width: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderWidth'], 'mobile' ) ); ?>;
 				border-radius: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderRadiusSize'], 'mobile' ) ); ?>;
@@ -228,7 +232,7 @@ class Blocks {
 			}
 			@media screen and (min-width: 728px) {
 				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> {
-					max-width: <?php echo $this->get_hierarchical_value( $attributes['maximumWidth'], 'tablet', '', 'width' ); ?><?php echo $this->get_hierarchical_value( $attributes['maximumWidth'], 'tablet', '', 'unit' ); ?>;
+					max-width: <?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'tablet', '', 'width' ) ); ?><?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'tablet', '', 'unit' ) ); ?>;
 					border-width: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderWidth'], 'tablet' ) ); ?>;
 					border-radius: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderRadiusSize'], 'tablet' ) ); ?>;
 					margin: <?php echo esc_attr( $this->build_dimensions_css( $attributes['marginSize'], 'tablet', true ) ); ?>;
@@ -236,7 +240,7 @@ class Blocks {
 			}
 			@media screen and (min-width: 1024px) {
 				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> {
-					max-width: <?php echo $this->get_hierarchical_value( $attributes['maximumWidth'], 'desktop', '', 'width' ); ?><?php echo $this->get_hierarchical_value( $attributes['maximumWidth'], 'desktop', '', 'unit' ); ?>;
+					max-width: <?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'desktop', '', 'width' ) ); ?><?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'desktop', '', 'unit' ) ); ?>;
 					border-width: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderWidth'], 'desktop' ) ); ?>;
 					border-radius: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderRadiusSize'], 'desktop' ) ); ?>;
 					margin: <?php echo esc_attr( $this->build_dimensions_css( $attributes['marginSize'], 'desktop', true ) ); ?>;
