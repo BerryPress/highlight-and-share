@@ -85,12 +85,16 @@
 /* Item tooltips */
 .highlight-and-share-wrapper>div:not(.has-tooltip):hover:after,
 .has-inline-text:not([data-has-tooltip="true"]):hover:after {
-	display: none;
+	opacity: 0;
+	pointer-events: none;
 }
 
 .highlight-and-share-wrapper>div.has-tooltip {
 	position: relative;
 
+	&:after {
+		top: -40px;
+	}
 	&:hover:after {
 		z-index: 1000;
 		animation-duration: 0.75s;
@@ -132,7 +136,7 @@
 }
 
 .has-inline-text-tooltip.has-fade-out {
-	animation-duration: 0.75s;
+	animation-duration: 0;
 	animation-name: hasFadeOut;
 	opacity: 0;
 }
