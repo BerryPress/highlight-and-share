@@ -8,19 +8,19 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
 
-A lightweight and unobtrusive social media plugin for displaying social networks.
+A lightweight social sharing plugin for showing social networks when users highlight text, share images, headlines, or use Click to Share.
 
 == Description ==
 
-Highlight and Share is a lightweight and unobtrusive social network WordPress plugin. It works great for content sharing, social highlights, image sharing, headline sharing, and for those wanting a comprehensive Click to Share block/shortcode with inline highlighting supported.
+Highlight and Share is a lightweight and unobtrusive social network WordPress plugin designed to help readers share meaningful parts of your content. Instead of placing large social sharing buttons throughout your website, Highlight and Share appears only when users interact with your content. This keeps pages clean while still encouraging natural social sharing.
+
+Visitors can highlight text, share images, copy quotes, or link directly to headlines. Sharing options appear exactly when they are needed, allowing readers to share interesting passages, statistics, or insights without interrupting the reading experience.
+
+Highlight and Share works great for content sharing, social highlights, image sharing, headline sharing, and for those wanting a comprehensive Click to Share block/shortcode with inline highlighting supported.
+
+The plugin is built with flexibility and performance in mind. Most features are optional and can be enabled or disabled depending on your needs. This makes Highlight and Share a great solution for blogs, news sites, documentation sites, and long-form content where readers may want to reference specific sections or quickly copy and share passages.
 
 https://www.youtube.com/watch?v=EN7rmCiYHBE
-
-> <a href="https://app.instawp.io/launch?s=highlight-and-share-demo&d=v2">Launch a free, fully-featured demo</a> via InstaWP.
-
-=== Quick Links ===
-
-<a href="https://docs.dlxplugins.com/highlight-and-share/">Comprehensive Documentation</a> | <a href="https://github.com/sponsors/DLXPlugins">Sponsor Us</a> | <a href="https://dlxplugins.com/support/?product=Highlight%20and%20Share">Support</a> | <a href="https://dlxplugins.com/plugins/highlight-and-share/">Homepage</a>
 
 * **Show social media networks upon text selection (a text highlighter)**. This provides an unobtrusive way to allow content highlighting without getting in a user's way. With shortcuts like Copy and Email, Highlight and Share can become part of an essential timesaving workflow for a user who needs quick shortcuts to common items like Web Share and other content highlighter shortcuts.
 * **Show Pinterest and Webshare on images**. With image sharing enabled, Highlight and Share will seamlessly integrate Pinterest and Webshare on any found images. With features like skipping the leading image, you'll find that Image Sharing is intuitive and useful for your users.
@@ -28,10 +28,13 @@ https://www.youtube.com/watch?v=EN7rmCiYHBE
 * **A Click to Share Block/Shortcode is included**. An easy-to-use Click to Share block is included, with setup available in seconds. The Content Sharing networks display above the share box when clicked, providing an easy way to share the quote.
 * **Set up email sharing with easy spam protection integration**. Set up emails with spam protection from Akismet, Cloudflare Turnstile, and Google reCAPTCHA Enterprise.
 
+> <a href="https://app.instawp.io/launch?s=highlight-and-share-demo&d=v2">Launch a free, fully-featured demo</a> via InstaWP.
+
+=== Quick Links ===
+
+<a href="https://docs.dlxplugins.com/highlight-and-share/">Comprehensive Documentation</a> | <a href="https://github.com/sponsors/DLXPlugins">Sponsor Us</a> | <a href="https://dlxplugins.com/support/?product=Highlight%20and%20Share">Support</a> | <a href="https://dlxplugins.com/plugins/highlight-and-share/">Homepage</a>
 
 If you have a feature request, <a href="https://dlxplugins.com/support/?product=Highlight%20and%20Share">please leave a support request.</a>.
-
-> ❤️ A TON of work has gone into making this plugin great. Please share your appreciation by leaving a rating/review and by telling others about the plugin.
 
 <h3>Available Features</h3>
 
@@ -62,6 +65,8 @@ Highlight and Share at its core is a content highlighter, but it has many other 
 * Block Editor: Compatible With <a href="https://wordpress.org/plugins/simpletoc/">SimpleTOC</a>.
 
 > <a href="https://app.instawp.io/launch?s=highlight-and-share-demo&d=v2">Launch a free, fully-featured demo</a> via InstaWP.
+
+> ❤️ A TON of work has gone into making this plugin great. Please share your appreciation by leaving a rating/review and by telling others about the plugin.
 
 == Installation ==
 
