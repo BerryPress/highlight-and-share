@@ -14,6 +14,10 @@ A lightweight and unobtrusive social media plugin for displaying social networks
 
 Highlight and Share is a lightweight and unobtrusive social network WordPress plugin. It works great for content sharing, social highlights, image sharing, headline sharing, and for those wanting a comprehensive Click to Share block/shortcode with inline highlighting supported.
 
+https://www.youtube.com/watch?v=EN7rmCiYHBE
+
+> <a href="https://app.instawp.io/launch?s=highlight-and-share-demo&d=v2">Launch a free, fully-featured demo</a> via InstaWP.
+
 === Quick Links ===
 
 <a href="https://docs.dlxplugins.com/highlight-and-share/">Comprehensive Documentation</a> | <a href="https://github.com/sponsors/DLXPlugins">Sponsor Us</a> | <a href="https://dlxplugins.com/support/?product=Highlight%20and%20Share">Support</a> | <a href="https://dlxplugins.com/plugins/highlight-and-share/">Homepage</a>
@@ -56,6 +60,8 @@ Highlight and Share at its core is a content highlighter, but it has many other 
 * Block Editor: Native support for Local Google Fonts via free <a href="https://wordpress.org/plugins/custom-fonts/">Custom Fonts</a> plugin.
 * Block Editor: Compatible with Blocksy Companion Pro Local Google Fonts and Adobe Fonts extensions.
 * Block Editor: Compatible With <a href="https://wordpress.org/plugins/simpletoc/">SimpleTOC</a>.
+
+> <a href="https://app.instawp.io/launch?s=highlight-and-share-demo&d=v2">Launch a free, fully-featured demo</a> via InstaWP.
 
 == Installation ==
 
