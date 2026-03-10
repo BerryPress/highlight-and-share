@@ -140,7 +140,7 @@ class Themes {
 	public static function get_inline_highlight_css() {
 		$block_editor_options = Options::get_plugin_options();
 		$inline_styles        = sprintf(
-			'.has-inline-text { background-color: %1$s; color: %2$s; }.has-inline-text:hover { background-color: %3$s; color: %4$s; }',
+			'body .has-inline-text { background-color: %1$s; color: %2$s; } body .has-inline-text:hover { background-color: %3$s; color: %4$s; }',
 			$block_editor_options['inline_highlight_background_color'] ?? '#ffefb1',
 			$block_editor_options['inline_highlight_text_color'] ?? '#000000',
 			$block_editor_options['inline_highlight_background_color_hover'] ?? '#fcd63c',
