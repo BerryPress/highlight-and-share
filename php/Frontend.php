@@ -540,6 +540,8 @@ class Frontend {
 
 		$options   = Options::get_image_options();
 		$global_on = (bool) $options['enable_image_sharing'];
+
+		// Check if image sharing is enabled for the current post type. via a sidebar option.
 		if ( ! $global_on ) {
 			// When global is off, still load script on singular if this post has sidebar "Enabled".
 			if ( $on_singular ) {
