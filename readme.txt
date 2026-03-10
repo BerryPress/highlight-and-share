@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: social share buttons, social share, web share, social networks, highlight text
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 6.0.0
+Stable tag: 6.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -231,6 +231,16 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 
 == Changelog ==
+
+= 6.0.1 =
+* Released 2026-03-09
+* New: Align headlines to the right. You can select inline positioning (link icon next to the last word) or absolute positioning (right of the headline).
+* New: Auto-truncate headline anchors (off by default). This will prevent super long headline anchors.
+* New: The sidebar options now reflect their state, even if a sharing option is disbabled, the post sidebar options win.
+* Fix: The social network settings cogs could lose their state if clicking around too fast.
+* Fix: Inline highlighting CSS wasn't specific enough, preventing overrides.
+* Fix: Tooltips for social networks were overlapping.
+* Fix: Image sharing positioning (top right, bottom right) now respect the image's dimensions.
 
 = 6.0.0 =
 * Released 2026-03-06
@@ -744,5 +754,5 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 == Upgrade Notice ==
 
-= 6.0.0 =
-Admin reorganization. New Headline sharing options. Numerous bug fixes to image sharing, the Click to Share block. New post type exclusions for content sharing, as well as improved stats for developers.
+= 6.0.1 =
+You can now align headlines to the right and truncate the anchors generated. Sidebar options (per post settings) will override admin settings. Fixed image sharing and alignment. Fixed inlne highlight override colors. Fixed tooltip positioning.

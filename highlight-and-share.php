@@ -5,7 +5,7 @@
  * Plugin URI: https://dlxplugins.com/plugins/highlight-and-share/
  * Description: Select text, inline highlight, or use a Click to Share block and show social networks.
  * Author: DLX Plugins
- * Version: 6.0.0
+ * Version: 6.0.1
  * Requires at least: 6.5
  * Requires PHP: 7.2
  * Author URI: https://dlxplugins.com/plugins/highlight-and-share/
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HIGHLIGHT_AND_SHARE_VERSION', '6.0.0' );
+define( 'HIGHLIGHT_AND_SHARE_VERSION', '6.0.1' );
 define( 'HIGHLIGHT_AND_SHARE_OPTIONS_VERSION', '1.0.2' );
 define( 'HIGHLIGHT_AND_SHARE_FILE', __FILE__ );
 
