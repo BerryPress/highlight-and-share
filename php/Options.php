@@ -658,6 +658,7 @@ class Options {
 		$defaults = array(
 			'enable_headlines'         => false,
 			'auto_generate_ids'        => false,
+			'truncate_anchor_chars'    => false,
 			'enabled_heading_levels'   => array( 'h2', 'h3', 'h4' ),
 			'supported_post_types'     => array( 'post' => true ),
 			'exclusion_selectors'      => '',

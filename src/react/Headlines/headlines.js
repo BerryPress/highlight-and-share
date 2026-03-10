@@ -42,6 +42,7 @@ const getCheckpointData = () => checkpointData;
 const getDefaultValues = ( values = {} ) => ( {
 	enableHeadlines: values.enableHeadlines ?? false,
 	autoGenerateIds: values.autoGenerateIds ?? false,
+	truncateAnchorChars: values.truncateAnchorChars ?? false,
 	linkIconAlwaysVisible: values.linkIconAlwaysVisible ?? false,
 	enabledHeadingLevels: values.enabledHeadingLevels ?? [ 'h2', 'h3', 'h4' ],
 	supportedPostTypes: values.supportedPostTypes ?? { post: true },

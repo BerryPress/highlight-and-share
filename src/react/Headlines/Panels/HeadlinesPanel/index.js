@@ -18,6 +18,7 @@ const HeadlinesPanel = () => {
 		clearErrors,
 		formState: { errors },
 		trigger,
+		getValues,
 	} = useFormContext();
 	const postTypes = window.hasHeadlinesAdmin?.postTypes ?? [];
 
@@ -39,6 +40,7 @@ const HeadlinesPanel = () => {
 				watchFields={ [
 					'enableHeadlines',
 					'autoGenerateIds',
+					'truncateAnchorChars',
 					'linkIconAlwaysVisible',
 					'enabledHeadingLevels',
 					'supportedPostTypes',
@@ -83,6 +85,28 @@ const HeadlinesPanel = () => {
 							) }
 						/>
 					</div>
+					{ getValues( 'autoGenerateIds' ) && (
+						<div className="has-admin-component-row">
+							<Controller
+								name="truncateAnchorChars"
+								control={ control }
+								render={ ( { field } ) => (
+									<ToggleControl
+										label={ __(
+											'Truncate anchor length',
+											'highlight-and-share'
+										) }
+										checked={ !! field.value }
+										onChange={ field.onChange }
+										help={ __(
+											'Auto-truncate anchor length to a reasonable length. Enablng this may truncate existing IDs, so be aware of any internal links that may break.',
+											'highlight-and-share'
+										) }
+									/>
+								) }
+							/>
+						</div>
+					) }
 					<div className="has-admin-component-row">
 						<Controller
 							name="linkIconAlwaysVisible"

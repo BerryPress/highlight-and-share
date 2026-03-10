@@ -79,7 +79,7 @@ class Headlines_Helper {
 					continue;
 				}
 				$text = self::get_heading_text( $heading );
-				$slug = self::get_headline_anchor( $text, true );
+				$slug = self::get_headline_anchor( $text, true, $options );
 				$heading->setAttribute( 'id', $slug );
 			}
 
@@ -103,7 +103,7 @@ class Headlines_Helper {
 		}
 
 		$headline_placement = $options['headline_placement'] ?? 'before';
-		$headline_position = $options['headline_position'] ?? 'absolute';
+		$headline_position  = $options['headline_position'] ?? 'absolute';
 
 		try {
 			$dom = self::create_dom_from_content( $content );
@@ -391,13 +391,45 @@ class Headlines_Helper {
 	}
 
 	/**
+	 * Truncate a slug to a max length without leaving a trailing dash.
+	 *
+	 * @param string $slug       Sanitized slug (e.g. from sanitize_title).
+	 * @param int    $max_length Maximum character length. Filterable via has_headline_anchor_max_length (default 45).
+	 * @return string Truncated slug, or original if within limit.
+	 */
+	public static function truncate_anchor_slug( $slug, $max_length ) {
+		if ( '' === $slug || $max_length <= 0 ) {
+			return $slug;
+		}
+		if ( strlen( $slug ) <= $max_length ) {
+			return $slug;
+		}
+		$truncated = substr( $slug, 0, $max_length );
+		$truncated = rtrim( $truncated, '-' );
+
+		/**
+		 * Filter the truncated slug.
+		 *
+		 * @param string $truncated The truncated slug.
+		 * @param string $slug      The original slug.
+		 * @param int    $max_length The maximum length.
+		 * @return string The truncated slug.
+		 *
+		 * @since 6.0.1
+		 */
+		$truncated = apply_filters( 'has_headline_anchor_truncated', $truncated, $slug, $max_length );
+		return '' !== $truncated ? $truncated : 'heading';
+	}
+
+	/**
 	 * Get the anchor (slug) for a headline. Optionally register it in the ID tracker.
 	 *
 	 * @param string $headline_text Raw heading text.
 	 * @param bool   $add_headline  Whether to add the headline to the tracker (use true when assigning an id).
+	 * @param array  $options      Headlines options (truncate_anchor_chars). Optional.
 	 * @return string The anchor slug for the headline.
 	 */
-	public static function get_headline_anchor( $headline_text, $add_headline = false ) {
+	public static function get_headline_anchor( $headline_text, $add_headline = false, $options = array() ) {
 		if ( '' === $headline_text ) {
 			return '';
 		}
@@ -405,6 +437,24 @@ class Headlines_Helper {
 		$headline_slug = sanitize_title( $headline_text );
 		if ( '' === $headline_slug ) {
 			$headline_slug = 'heading';
+		}
+
+		if ( ! empty( $options['truncate_anchor_chars'] ) ) {
+			/**
+			 * Filter the maximum length of the headline anchor.
+			 *
+			 * @param int $max_length The maximum length.
+			 * @return int The maximum length.
+			 *
+			 * @since 6.0.1
+			 */
+			$max_length = (int) apply_filters( 'has_headline_anchor_max_length', 45 );
+			if ( $max_length > 0 ) {
+				$headline_slug = self::truncate_anchor_slug( $headline_slug, $max_length );
+				if ( '' === $headline_slug ) {
+					$headline_slug = 'heading';
+				}
+			}
 		}
 
 		if ( $add_headline ) {
