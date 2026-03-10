@@ -756,6 +756,16 @@ class Frontend {
 		}
 
 		$exclusions = array_merge( $core_exclusions, array_map( 'trim', explode( ',', sanitize_text_field( $options['exclusions'] ) ) ) );
+		// Remove any dots (.) as needed to the exclusions.
+		$exclusions = array_map(
+			function ( $exclusion ) {
+				if ( preg_match( '/^\./', $exclusion ) ) {
+					return preg_replace( '/^\./', '', $exclusion );
+				}
+				return $exclusion;
+			},
+			$exclusions
+		);
 		$exclusions = array_unique( array_filter( $exclusions ) );
 
 		$found_exclusion = false;
