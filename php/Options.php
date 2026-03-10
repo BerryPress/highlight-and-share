@@ -666,6 +666,8 @@ class Options {
 			'link_icon_always_visible' => false,
 			'display_mode'             => 'rows', /* can be rows (default) or grid */
 			'theme'                    => 'light', /* can be light (default) or dark */
+			'headline_placement'       => 'before', /* can be before (default) or after */
+			'headline_position'        => 'inline', /* can be absolute or inline */
 		);
 
 		return $defaults;

@@ -4,7 +4,8 @@
 
 import { useCallback, useMemo } from 'react';
 import { __ } from '@wordpress/i18n';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
+import { SelectControl } from '@wordpress/components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import PanelBodyWithIndicator from '../../../Components/Shared/PanelBodyWithIndicator';
@@ -70,6 +71,61 @@ const AppearancePanel = () => {
 							moveNetwork={ moveNetwork }
 						/>
 					</DndProvider>
+				</div>
+				<div className="has-admin-component-wrapper">
+					<h3 className="has-admin-content-subheading">
+						{ __( 'Headlines Appearance', 'highlight-and-share' ) }
+					</h3>
+					<div className="has-admin-component-row">
+						<p className="description">
+							{ __(
+								'Configure the appearance of the headline feature.',
+								'highlight-and-share'
+							) }
+						</p>
+					</div>
+					<div className="has-admin-component-row">
+						<Controller
+							name="headlinePlacement"
+							control={ control }
+							render={ ( { field } ) => (
+								<SelectControl
+									label={ __( 'Headline Placement', 'highlight-and-share' ) }
+									value={ field.value }
+									onChange={ field.onChange }
+									options={ [
+										{ value: 'before', label: __( 'Before', 'highlight-and-share' ) },
+										{ value: 'after', label: __( 'After', 'highlight-and-share' ) },
+									] }
+								/>
+							) }
+						/>
+					</div>
+					{
+						'after' === getValues( 'headlinePlacement' ) && (
+							<div className="has-admin-component-row">
+								<Controller
+									name="headlinePosition"
+									control={ control }
+									render={ ( { field } ) => (
+										<SelectControl
+											label={ __( 'Headline Position', 'highlight-and-share' ) }
+											value={ field.value }
+											onChange={ field.onChange }
+											options={ [
+												{ value: 'absolute', label: __( 'Absolute', 'highlight-and-share' ) },
+												{ value: 'inline', label: __( 'Inline', 'highlight-and-share' ) },
+											] }
+											help={ __(
+												'Placing the share icon after the headline will either show the icon inline, next to last word of the headline, or absolute, far right of the headline.',
+												'highlight-and-share'
+											) }
+										/>
+									) }
+								/>
+							</div>
+						)
+					}
 				</div>
 			</PanelBodyWithIndicator>
 		</ErrorBoundary>

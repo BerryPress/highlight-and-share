@@ -102,6 +102,9 @@ class Headlines_Helper {
 			return $content;
 		}
 
+		$headline_placement = $options['headline_placement'] ?? 'before';
+		$headline_position = $options['headline_position'] ?? 'absolute';
+
 		try {
 			$dom = self::create_dom_from_content( $content );
 			if ( ! $dom ) {
@@ -138,11 +141,23 @@ class Headlines_Helper {
 				$btn = $doc->createElement( 'a' );
 				$btn->setAttribute( 'type', 'link' );
 				$btn->setAttribute( 'href', sprintf( esc_url_raw( '%s#%s' ), get_permalink(), $heading->getAttribute( 'id' ) ) );
-				$btn->setAttribute( 'class', 'has-headline-share-trigger' );
 				$btn->setAttribute( 'aria-label', __( 'Share this section', 'highlight-and-share' ) );
 				$btn->setAttribute( 'aria-haspopup', 'menu' );
 				$btn->setAttribute( 'aria-expanded', 'false' );
-				$heading->insertBefore( $btn, $heading->firstChild );
+
+				$button_class = 'has-headline-share-trigger';
+				if ( 'before' === $headline_placement ) {
+					$button_class .= ' has-headline-share-trigger-before';
+					$btn->setAttribute( 'class', $button_class );
+					$heading->insertBefore( $btn, $heading->firstChild );
+				} else {
+					if ( 'absolute' === $headline_position ) {
+						$button_class .= ' has-headline-share-trigger-absolute';
+					}
+					$button_class .= ' has-headline-share-trigger-after';
+					$btn->setAttribute( 'class', $button_class );
+					$heading->appendChild( $btn );
+				}
 			}
 
 			return self::get_wrapper_inner_html( $dom, $wrapper );

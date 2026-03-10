@@ -48,6 +48,8 @@ const getDefaultValues = ( values = {} ) => ( {
 	exclusionSelectors: values.exclusionSelectors ?? '',
 	socialDefaults: values.socialDefaults ?? {},
 	networkOrder: values.networkOrder ?? [],
+	headlinePlacement: values.headlinePlacement ?? 'before',
+	headlinePosition: values.headlinePosition ?? 'inline',
 } );
 
 const Headlines = () => {

@@ -267,24 +267,52 @@ import { __, sprintf } from '@wordpress/i18n';
 			);
 		}
 
+		// Get the headline position.
+		const headlinePosition = trigger.classList.contains( 'has-headline-share-trigger-before' ) ? 'before' : 'after';
+
 		// 1) Left of icon (default).
 		let left = iconRect.left - GAP - ( iconWidth / 2 ) - ( pw / 2 );
 		let top = iconRect.top + scrollY;
+		let leftInViewport = false;
 		if ( inViewport( left, top ) ) {
+			leftInViewport = true;
 			panel.style.left = left + 'px';
 			panel.style.top = top + 'px';
+		}
+		if ( headlinePosition === 'after' ) {
+			left = iconRect.left - GAP - ( iconWidth * 2 ) - ( pw / 2 );
+			top = iconRect.top + scrollY;
+			if ( inViewport( left, top ) ) {
+				leftInViewport = true;
+				panel.style.left = left + 'px';
+				panel.style.top = top + 'px';
+			}
+		}
+		if ( leftInViewport ) {
 			return;
 		}
 
 		// 2) Above icon (Left aligned to icon).
 		left = iconRect.left + scrollX;
 		top = iconRect.top - GAP - ph + scrollY;
+		let topInViewport = false;
 		if ( inViewport( left, top ) ) {
 			panel.style.left = left + 'px';
 			panel.style.top = top + 'px';
+			topInViewport = true;
+		}
+		if ( headlinePosition === 'after' ) {
+			left = iconRect.left - GAP - ( iconWidth * 2 ) - ( pw / 2 );
+			top = iconRect.top + scrollY;
+			if ( inViewport( left, top ) ) {
+				topInViewport = true;
+				panel.style.left = left + 'px';
+				panel.style.top = top + 'px';
+			}
+		}
+		if ( ! topInViewport ) {
 			return;
 		}
-
 		// 3) Beneath the icon and the headline.
 		left = iconRect.left + GAP + scrollX;
 		top = iconRect.bottom + GAP + scrollY;

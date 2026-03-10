@@ -18,7 +18,7 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 }
 
 /* Share trigger button (real element so JS can bind click; works when headline is a link). */
-.has-headline-share-trigger {
+.has-headline-share-trigger.has-headline-share-trigger-before {
 	position: absolute;
 	left: -16px;
 	top: 50%;
@@ -40,12 +40,45 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 		transition: opacity 0.15s ease;
 	}
 }
+
+.has-headline-share-trigger.has-headline-share-trigger-after {
+	position: relative;
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	margin-left: 8px;
+	box-sizing: border-box;
+	background-color: currentColor;
+	-webkit-mask: $has-headline-link-icon-svg no-repeat center / contain;
+	mask: $has-headline-link-icon-svg no-repeat center / contain;
+	border: none;
+	cursor: pointer;
+	opacity: 0;
+	visibility: hidden;
+	display: none;
+
+	@media (prefers-reduced-motion: no-preference) {
+		transition: opacity 0.15s ease;
+	}
+}
+
+.has-headline-share-trigger.has-headline-share-trigger-after.has-headline-share-trigger-absolute {
+	position: absolute;
+	right: -24px;
+	top: 50%;
+	transform: translate(0, -50%);
+	margin-left: 8px;
+}
+
 .has-headline-share-trigger.is-pressed,
 .has-headline-share-trigger:hover,
 .has-headline-share-trigger:focus,
 [data-has-headline-share]:hover .has-headline-share-trigger,
 [data-has-headline-share]:focus-within .has-headline-share-trigger {
 	opacity: 0.7;
+	visibility: visible;
+	display: inline-block;
 }
 
 .has-headline-share-trigger:focus {
@@ -56,6 +89,8 @@ $has-headline-link-icon-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www
 /* When "Link icon always visible" is on, show icon without hover/focus. */
 .has-headline-link-icon-always-visible .has-headline-share-trigger {
 	opacity: 0.6;
+	visibility: visible;
+	display: inline-block;
 }
 
 .has-headline-link-icon-always-visible .has-headline-share-trigger:hover,
