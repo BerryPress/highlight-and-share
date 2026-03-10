@@ -58,17 +58,14 @@ class Headlines {
 		if ( is_feed() ) {
 			return false;
 		}
-		$options = Options::get_headlines_options();
-		if ( empty( $options['enable_headlines'] ) ) {
-			return false;
-		}
 		if ( ! is_singular() ) {
 			return false;
 		}
+		$options        = Options::get_headlines_options();
 		$supported      = isset( $options['supported_post_types'] ) && is_array( $options['supported_post_types'] )
 			? array_keys( array_filter( $options['supported_post_types'] ) )
 			: array( 'post' );
-		$global_enabled = in_array( get_post_type(), $supported, true );
+		$global_enabled = ! empty( $options['enable_headlines'] ) && in_array( get_post_type(), $supported, true );
 
 		/**
 		 * Filter: has_headlines_enabled_for_post

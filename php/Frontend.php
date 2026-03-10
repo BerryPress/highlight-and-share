@@ -538,8 +538,26 @@ class Frontend {
 			return false;
 		}
 
-		$options = Options::get_image_options();
-		if ( ! (bool) $options['enable_image_sharing'] ) {
+		$options   = Options::get_image_options();
+		$global_on = (bool) $options['enable_image_sharing'];
+		if ( ! $global_on ) {
+			// When global is off, still load script on singular if this post has sidebar "Enabled".
+			if ( $on_singular ) {
+				$maybe_post = get_queried_object();
+				if ( $maybe_post && is_a( $maybe_post, 'WP_Post' ) && 'enabled' === PostSettings::get( $maybe_post->ID, 'image_sharing', 'default' ) ) {
+					$post_types      = $options['supported_post_types'];
+					$supported_slugs = array();
+					foreach ( $post_types as $post_type => $enabled ) {
+						if ( $enabled ) {
+							$supported_slugs[] = $post_type;
+						}
+					}
+					$supported_slugs = apply_filters( 'has_pin_supported_post_types', $supported_slugs );
+					if ( in_array( get_post_type( $maybe_post->ID ), $supported_slugs, true ) ) {
+						return true;
+					}
+				}
+			}
 			return false;
 		}
 
@@ -848,11 +866,18 @@ class Frontend {
 			return $content;
 		}
 
-		$options = Options::get_image_options();
+		$options   = Options::get_image_options();
+		$global_on = (bool) $options['enable_image_sharing'];
 
-		// If image sharing is not enabled, exit early.
-		if ( ! (bool) $options['enable_image_sharing'] ) {
-			return $content;
+		// If image sharing is not enabled globally, continue only when this post has sidebar "Enabled".
+		if ( ! $global_on ) {
+			$maybe_post = get_queried_object();
+			if ( ! $maybe_post || ! is_a( $maybe_post, 'WP_Post' ) ) {
+				return $content;
+			}
+			if ( 'enabled' !== PostSettings::get( $maybe_post->ID, 'image_sharing', 'default' ) ) {
+				return $content;
+			}
 		}
 
 		// When processing excerpts, require the excerpt option and allow filter to disable.
