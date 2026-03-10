@@ -2,7 +2,7 @@
  * SocialNetworksPanel component.
  */
 
-import { useState, Suspense, useMemo, useEffect } from 'react';
+import { useState, Suspense, useMemo } from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 import { PanelBody, Notice } from '@wordpress/components';
 import { useFormContext, useWatch } from 'react-hook-form';
@@ -88,6 +88,7 @@ const Interface = ( { data } ) => {
 
 	/**
 	 * Handle settings button mouse down.
+	 * If another cog's popover is open, close it first, then open the new one next tick.
 	 *
 	 * @param {MouseEvent} e           Mouse down event.
 	 * @param {string}     networkSlug Network slug.
@@ -95,9 +96,29 @@ const Interface = ( { data } ) => {
 	const handleSettingsMouseDown = ( e, networkSlug ) => {
 		e.stopPropagation();
 
-		// Enable popover.
+		const anchor = e.currentTarget;
+
+		// Same cog: close (toggle).
+		if ( popoverNetwork === networkSlug ) {
+			setPopoverNetwork( null );
+			setPopoverAnchor( null );
+			return;
+		}
+
+		// Another cog is open: close it, then open this one on the next tick.
+		if ( popoverNetwork !== null ) {
+			setPopoverNetwork( null );
+			setPopoverAnchor( null );
+			setTimeout( () => {
+				setPopoverNetwork( networkSlug );
+				setPopoverAnchor( anchor );
+			}, 0 );
+			return;
+		}
+
+		// No popover open: open this one.
 		setPopoverNetwork( networkSlug );
-		setPopoverAnchor( e.currentTarget );
+		setPopoverAnchor( anchor );
 	};
 
 	/**
