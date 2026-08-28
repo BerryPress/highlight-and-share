@@ -6,7 +6,6 @@
 
 import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
-import hexToRgba from 'hex-to-rgba';
 import { __ } from '@wordpress/i18n';
 
 import {
@@ -18,6 +17,27 @@ import {
 	ColorPalette,
 	Button,
 } from '@wordpress/components';
+
+/**
+ * Convert a hex color (3, 4, 6, or 8 digits, with or without '#') to an rgb()/rgba() CSS value.
+ *
+ * @param {string} hex     Hex color string.
+ * @param {number} [alpha] Optional 0-1 alpha override.
+ * @return {string} An rgb() or rgba() CSS color value.
+ */
+const hexToRgba = ( hex, alpha ) => {
+	const value = hex.replace( '#', '' );
+	const isShort = 3 === value.length || 4 === value.length;
+	const expand = ( part ) => ( isShort ? part + part : part );
+	const r = parseInt( expand( value.slice( 0, isShort ? 1 : 2 ) ), 16 );
+	const g = parseInt( expand( value.slice( isShort ? 1 : 2, isShort ? 2 : 4 ) ), 16 );
+	const b = parseInt( expand( value.slice( isShort ? 2 : 4, isShort ? 3 : 6 ) ), 16 );
+	const hexAlpha = value.slice( isShort ? 3 : 6, isShort ? 4 : 8 );
+	const a = 'number' === typeof alpha
+		? alpha
+		: ( hexAlpha ? Number( ( parseInt( expand( hexAlpha ), 16 ) / 255 ).toFixed( 2 ) ) : 1 );
+	return `rgba(${ r }, ${ g }, ${ b }, ${ a })`;
+};
 
 const HASColorPicker = ( props ) => {
 	const [ colorKey, setColorKey ] = useState( props.slug );

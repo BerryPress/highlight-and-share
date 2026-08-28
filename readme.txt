@@ -229,6 +229,9 @@ Please report security bugs found in the source code of the undefined plugin thr
 9. Use reCAPTCHA 3 for spam protection if emails are enabled.
 10. Customize each icon's colors if a custom theme is selected.
 
+== Third Party Code ==
+
+Highlight and Share's admin interface is built with React and compiles several third-party JavaScript packages into its dist/*.js and dist/*.css files (axios, qs, classnames, react-hook-form, DOMPurify, use-async-resource, react-spinners, lucide-react, object-hash, react-dnd and related packages, Font Awesome Free, and small helper packages they depend on). These are all permissively licensed (MIT, ISC, BSD-3-Clause, MPL-2.0/Apache-2.0, or CC BY 4.0 for the Font Awesome icon set), which is compatible with this plugin's GPLv2-or-later license. Full license text for each package is included in THIRD-PARTY-NOTICES.txt in the plugin's root directory.
 
 == Changelog ==
 

@@ -132,7 +132,7 @@ const View = () => {
 				// Close the modal after showing success message.
 				setTimeout(
 					() => {
-						window.parent.window.highlightShareFancy.close(); // See frontendjs/highlight-and-share.js for this variable.
+						window.parent.window.hasShareModal.close(); // See src/utils/modal.js for this variable.
 					},
 					3000
 				);
@@ -358,7 +358,7 @@ const View = () => {
 						}
 						disabled={ isSending }
 						onClick={ () => {
-							window.parent.window.highlightShareFancy.close(); // See frontendjs/highlight-and-share.js for this variable.
+							window.parent.window.hasShareModal.close(); // See src/utils/modal.js for this variable.
 						} }
 					/>
 				</div>

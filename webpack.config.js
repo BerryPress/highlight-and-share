@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
 const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 const path = require( 'path' );
+const sass = require( 'sass' );
 module.exports = ( env ) => {
 	return [
 		{
@@ -96,6 +97,7 @@ module.exports = ( env ) => {
 								loader: 'sass-loader',
 								options: {
 									sourceMap: true,
+									implementation: sass,
 								},
 							},
 						],
@@ -118,7 +120,12 @@ module.exports = ( env ) => {
 									sourceMap: true,
 								},
 							},
-							'sass-loader',
+							{
+								loader: 'sass-loader',
+								options: {
+									implementation: sass,
+								},
+							},
 						],
 					},
 					{
