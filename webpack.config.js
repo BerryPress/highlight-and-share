@@ -2,8 +2,27 @@ const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
 const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
+const { BannerPlugin, Compilation } = require( 'webpack' );
 const path = require( 'path' );
 const sass = require( 'sass' );
+
+/**
+ * Prepend a short license banner to every emitted .js/.css file.
+ *
+ * Runs at the very last processAssets stage so it lands after TerserPlugin's
+ * minification/comment-extraction step, keeping the extracted *.LICENSE.txt
+ * files and their "see .LICENSE.txt" pointer comments intact as a backup.
+ *
+ * @return {BannerPlugin} Configured plugin instance.
+ */
+const createLicenseBannerPlugin = () => new BannerPlugin( {
+	banner: '/*! Highlight and Share - see ../license.txt for license and copyright information */',
+	raw: true,
+	entryOnly: false,
+	test: /\.(js|css)$/,
+	stage: Compilation.PROCESS_ASSETS_STAGE_REPORT,
+} );
+
 module.exports = ( env ) => {
 	return [
 		{
@@ -19,6 +38,7 @@ module.exports = ( env ) => {
 				'has-click-to-share': './src/blocks/click-to-share/block.js',
 				'has-post-sidebar': [ './src/post-sidebar/index.js', './src/post-sidebar/style.scss' ],
 			},
+			plugins: [ ...defaultConfig.plugins, createLicenseBannerPlugin() ],
 		},
 		{
 			entry: {
@@ -136,7 +156,7 @@ module.exports = ( env ) => {
 					},
 				],
 			},
-			plugins: [ new RemoveEmptyScriptsPlugin(), new MiniCssExtractPlugin(), new DependencyExtractionWebpackPlugin() ],
+			plugins: [ new RemoveEmptyScriptsPlugin(), new MiniCssExtractPlugin(), new DependencyExtractionWebpackPlugin(), createLicenseBannerPlugin() ],
 		},
 	];
 };
