@@ -22,7 +22,7 @@ export function openModal( {
 	type = 'iframe',
 	src = '',
 	className = '',
-	title = '',
+	title,
 	closeOnOverlayClick = true,
 	onOpen,
 } = {} ) {

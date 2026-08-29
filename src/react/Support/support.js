@@ -65,6 +65,7 @@ const Interface = ( props ) => {
 			openModal( {
 				type: 'iframe',
 				src: trigger.getAttribute( 'href' ),
+				title: __('Help and Support', 'highlight-and-share' ),
 				className: 'has-modal-video',
 			} );
 		};

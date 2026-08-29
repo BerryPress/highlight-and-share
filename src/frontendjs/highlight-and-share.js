@@ -1,6 +1,7 @@
 import { constrainRange } from './selection';
 import { dispatchStatsEvent } from './stats-dispatcher';
 import { openModal } from '../utils/modal';
+import { __ } from '@wordpress/i18n';
 ( function() {
 	'use strict';
 
@@ -313,6 +314,7 @@ import { openModal } from '../utils/modal';
 						window.hasShareModal = openModal( {
 							type: 'iframe',
 							src: url,
+							title: __('Share by Email', 'highlight-and-share' ),
 							className: 'has-modal-email',
 						} );
 					} );
@@ -335,6 +337,7 @@ import { openModal } from '../utils/modal';
 						window.hasShareModal = openModal( {
 							type: 'inline',
 							src: '#has-mastodon-prompt',
+							title: __('Share on Mastodon', 'highlight-and-share' ),
 							className: 'has-modal-mastodon',
 							onOpen: ( modal ) => {
 								const mastodonForm = modal.content.querySelector(
