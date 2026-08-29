@@ -5,6 +5,9 @@
 
 let activeModal = null;
 
+// Elements considered focusable when picking the initial/fallback focus target.
+const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])';
+
 /**
  * Open a modal.
  *
@@ -30,6 +33,9 @@ export function openModal( {
 	if ( null !== activeModal ) {
 		activeModal.close();
 	}
+
+	// Remember what had focus so it can be restored on close, if it still exists then.
+	const previouslyFocusedElement = document.activeElement;
 
 	const overlay = document.createElement( 'div' );
 	overlay.className = 'has-modal-overlay';
@@ -115,6 +121,12 @@ export function openModal( {
 		if ( activeModal === instance ) {
 			activeModal = null;
 		}
+
+		// Only restore focus to the trigger if it's still in the document
+		// (e.g. the share popup that contained it may have been removed).
+		if ( previouslyFocusedElement && previouslyFocusedElement.isConnected ) {
+			previouslyFocusedElement.focus();
+		}
 	}
 
 	closeButton.addEventListener( 'click', close );
@@ -128,6 +140,12 @@ export function openModal( {
 
 	const instance = { close, dialog, content };
 	activeModal = instance;
+
+	// Move focus into the dialog now that it's inserted. This normally lands
+	// on the close button (the first focusable element in the dialog), but
+	// falls back to searching the whole dialog in case that ever changes.
+	// onOpen can redirect focus afterward (e.g. to a specific form field).
+	( dialog.querySelector( FOCUSABLE_SELECTOR ) || closeButton ).focus();
 
 	if ( 'function' === typeof onOpen ) {
 		onOpen( instance );
