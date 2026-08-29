@@ -19,7 +19,6 @@ import Notice from '../Components/Notice';
 import CircularExclamationIcon from '../Components/Icons/CircularExplanation';
 import sendCommand from '../Utils/SendCommand';
 import Loader from '../Components/Loader';
-import ValidateEmail from '../Validation/ValidateEmail';
 import EmailTemplateTags from '../Components/EmailTemplateTags';
 import TextAreaControl from '../Components/TextAreaControl';
 
@@ -257,19 +256,13 @@ const Interface = ( props ) => {
 										<Controller
 											name="fromEmail"
 											control={ control }
-											rules={ { required: true } }
+											shouldUseNativeValidation={true}
 											render={ ( { field: { onChange, value } } ) => (
 												<TextControl
 													label={ __( 'From Email', 'highlight-and-share' ) }
 													value={ value }
-													onChange={ ( newValue ) => {
-														if ( ! ValidateEmail( newValue ) ) {
-															setError( 'fromEmail', { shouldFocus: true } );
-														} else {
-															clearErrors( 'fromEmail' );
-														}
-														onChange( newValue );
-													} }
+													required={true}
+													onChange={ onChange }
 													className={ classNames( 'has-admin__text-control', {
 														'has-error': 'required' === errors.fromEmail?.type,
 														'is-required': true,

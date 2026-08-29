@@ -151,16 +151,6 @@ const View = () => {
 		return Object.keys( errors ).length > 0;
 	};
 
-	const validateEmail = ( email ) => {
-		// From: https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
-		const regex =
-			/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-		if ( regex.test( email ) ) {
-			return true;
-		}
-		return false;
-	};
-
 	// If the email is sent, show a success message.
 	if ( isSent ) {
 		return (
@@ -184,15 +174,7 @@ const View = () => {
 					<Controller
 						name="toEmail"
 						control={ control }
-						rules={ {
-							validate: ( value ) => {
-								if ( validateEmail( value ) ) {
-									return true;
-								}
-								return false;
-							},
-							required: true,
-						} }
+						shouldUseNativeValidation={true}
 						render={ ( { field } ) => (
 							<TextControl
 								{ ...field }
@@ -202,6 +184,8 @@ const View = () => {
 									'is-required': true,
 								} ) }
 								register="toEmail"
+								type="email"
+								required={true}
 								placeholder="yourcolleague@friends.com"
 								help={ __(
 									'Please select who you would like to email.',
