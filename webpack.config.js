@@ -23,6 +23,13 @@ const createLicenseBannerPlugin = () => new BannerPlugin( {
 	stage: Compilation.PROCESS_ASSETS_STAGE_REPORT,
 } );
 
+// wp-scripts' default Terser config only preserves `translators:` comments and
+// never extracts anything to a *.LICENSE.txt file. Turn extraction on (without
+// touching its `output.comments` test) so the build/ output gets the same
+// *.LICENSE.txt sidecars and pointer comments that the dist/ config already
+// produces, while translator comments keep working as before.
+defaultConfig.optimization.minimizer[ 0 ].options.extractComments = true;
+
 module.exports = ( env ) => {
 	return [
 		{
