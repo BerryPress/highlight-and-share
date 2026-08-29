@@ -8,7 +8,7 @@ module.exports = function (grunt) {
 			  files: [
 				{src: ['highlight-and-share.php'], dest: '/', filter: 'isFile'}, // includes files in path
 				{src: ['readme.txt'], dest: '/', filter: 'isFile'}, // includes files in path
-				{src: ['THIRD-PARTY-NOTICES.txt'], dest: '/', filter: 'isFile'}, // includes files in path
+				{src: ['license.txt'], dest: '/', filter: 'isFile'}, // includes files in path
 				{src: ['uninstall.php'], dest: '/', filter: 'isFile'}, // includes files in path
 				{src: ['build/**'], dest: '/'}, // includes files in path and its subdirs
 				{src: ['dist/**'], dest: '/'}, // includes files in path and its subdirs
