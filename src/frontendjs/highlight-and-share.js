@@ -367,7 +367,7 @@ import { __ } from '@wordpress/i18n';
 									window.open(
 										mastodonUrl,
 										'Highlight and Share',
-										'width=575,height=430,toolbar=false,menubar=false,location=false,status=false'
+										'width=575,height=430,toolbar=false,menubar=false,location=false,status=false,noopener'
 									);
 								}, { once: true } );
 
