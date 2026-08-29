@@ -13,6 +13,7 @@ import Notice from '../Components/Notice';
 import CircularExclamationIcon from '../Components/Icons/CircularExplanation';
 import Loader from '../Components/Loader';
 import sendCommand from '../Utils/SendCommand';
+import { EMAIL_PATTERN } from '../Utils/EmailValidation';
 
 // Get URL Query Parameter: type
 const emailShareType = hasEmailModal.email_share_type;
@@ -24,6 +25,7 @@ const View = () => {
 	const [ errorMessage, setErrorMessage ] = useState( false );
 	const [ firstNameFieldFocus, setFirstNameFieldFocus ] = useState( false );
 	const firstNameField = useRef( null );
+	const formRef = useRef( null );
 
 	/**
 	 * Get a title for the email modal.
@@ -169,18 +171,21 @@ const View = () => {
 	return (
 		<section className="has-email--content-wrap">
 			<h2>{ getModalTitle() }</h2>
-			<form id="has-email-quote-form" onSubmit={ handleSubmit( onSubmit ) }>
+			<form id="has-email-quote-form" ref={ formRef } noValidate onSubmit={ handleSubmit( onSubmit ) }>
 				<div className="has-email-control-row">
 					<Controller
 						name="toEmail"
 						control={ control }
-						shouldUseNativeValidation={true}
+						rules={ {
+							required: true,
+							pattern: EMAIL_PATTERN,
+						} }
 						render={ ( { field } ) => (
 							<TextControl
 								{ ...field }
 								label={ __( 'To (email):', 'highlight-and-share' ) }
 								className={ classNames( 'search-has-admin has-admin__text-control', {
-									'has-error': 'required' === errors.toEmail?.type,
+									'has-error': !! errors.toEmail,
 									'is-required': true,
 								} ) }
 								register="toEmail"
@@ -194,7 +199,7 @@ const View = () => {
 							/>
 						) }
 					/>
-					{ 'validate' === errors.toEmail?.type && (
+					{ 'pattern' === errors.toEmail?.type && (
 						<Notice
 							message={ __( 'The Email is Invalid.' ) }
 							status="error"
@@ -306,7 +311,7 @@ const View = () => {
 						iconSize="18"
 						iconPosition="right"
 						disabled={ isSending || isSent }
-						onClick={ ( e ) => {
+						onClick={ () => {
 							// eslint-disable-next-line no-undef
 							if (
 								hasEmailModal.recaptcha_enabled &&
@@ -319,16 +324,13 @@ const View = () => {
 										} )
 										.then( function( token ) {
 											setValue( 'recaptchaToken', token );
-											e.target.form.dispatchEvent(
-												new Event( 'submit', { cancelable: true, bubbles: true } )
-											);
+											// requestSubmit() (rather than a synthetic 'submit' event)
+											// runs the real submit path so validation actually executes.
+											formRef.current.requestSubmit();
 										} );
 								} );
 							} else {
-								// This force submits the form.
-								e.target.form.dispatchEvent(
-									new Event( 'submit', { cancelable: true, bubbles: true } )
-								);
+								formRef.current.requestSubmit();
 							}
 						} }
 					/>

@@ -1,7 +1,7 @@
 import React, { useState, Suspense, useRef, useEffect } from 'react';
 import { __, _x } from '@wordpress/i18n';
 import { escapeAttribute } from '@wordpress/escape-html';
-import { useForm, Controller, useWatch, useFormState } from 'react-hook-form';
+import { useForm, Controller, useFormState } from 'react-hook-form';
 import classNames from 'classnames';
 import { useAsyncResource } from 'use-async-resource';
 import {
@@ -21,6 +21,7 @@ import sendCommand from '../Utils/SendCommand';
 import Loader from '../Components/Loader';
 import EmailTemplateTags from '../Components/EmailTemplateTags';
 import TextAreaControl from '../Components/TextAreaControl';
+import { EMAIL_PATTERN } from '../Utils/EmailValidation';
 
 const ADDITIONAL_TEMPLATE_TAGS = [
 	{ name: __( 'From Name', 'highlight-and-share' ), tag: '{{from_name}}' },
@@ -106,6 +107,7 @@ const Interface = ( props ) => {
 	const emailSubjectInputRef = useRef( null );
 	const emailBodyInputRef = useRef( null );
 	const emailModalTitleInputRef = useRef( null );
+	const formRef = useRef( null );
 
 	const getDefaultValues = () => {
 		return {
@@ -132,12 +134,46 @@ const Interface = ( props ) => {
 	const { control, handleSubmit, getValues, reset, setError, clearErrors, setValue } = useForm( {
 		defaultValues: getDefaultValues(),
 	} );
-	const formValues = useWatch( { control } );
 	const { errors, isDirty } = useFormState( {
 		control,
 	} );
 
-	const onSubmit = () => {};
+	const onSubmit = ( formData ) => {
+		setSaving( true );
+		setAjaxError( null );
+		sendCommand( 'has_save_emails_tab', {
+			nonce: hasEmailsAdmin.saveNonce,
+			form_data: formData,
+		} )
+			.then( ( ajaxResponse ) => {
+				const ajaxData = ajaxResponse.data.data;
+				const ajaxSuccess = ajaxResponse.data.success;
+				if ( ajaxSuccess ) {
+					setCheckpointData( ajaxData );
+					reset( ajaxData, { keepDirty: false, keepTouched: false } );
+					setTimeout( () => {
+						setSnackbar( {
+							isVisible: true,
+							message: __( 'Settings saved successfully.', 'highlight-and-share' ),
+							title: __( 'Settings saved successfully.', 'highlight-and-share' ),
+							type: 'success',
+							isDismissable: true,
+							isPersistent: false,
+							isSuccess: true,
+							loadingMessage: null,
+							politeness: 'assertive',
+						} );
+					}, 350 );
+				} else {
+					const { message } = ajaxData;
+					setAjaxError( message );
+				}
+				setSaving( false );
+			} )
+			.catch( () => {
+				setSaving( false );
+			} );
+	};
 
 	const hasErrors = Object.keys( errors ).length > 0;
 
@@ -150,7 +186,7 @@ const Interface = ( props ) => {
 
 	return (
 		<>
-			<form onSubmit={ handleSubmit( onSubmit ) }>
+			<form ref={ formRef } noValidate onSubmit={ handleSubmit( onSubmit ) }>
 				<div className="has-admin-container-body__content">
 					<div className="has-admin-content-wrapper">
 						<div className="has-admin-content-panel">
@@ -256,21 +292,34 @@ const Interface = ( props ) => {
 										<Controller
 											name="fromEmail"
 											control={ control }
-											shouldUseNativeValidation={true}
+											rules={ {
+												required: true,
+												pattern: EMAIL_PATTERN,
+											} }
 											render={ ( { field: { onChange, value } } ) => (
 												<TextControl
 													label={ __( 'From Email', 'highlight-and-share' ) }
 													value={ value }
+													type="email"
 													required={true}
 													onChange={ onChange }
 													className={ classNames( 'has-admin__text-control', {
-														'has-error': 'required' === errors.fromEmail?.type,
+														'has-error': !! errors.fromEmail,
 														'is-required': true,
 													} ) }
 												/>
 											) }
 										/>
-										{ errors.fromEmail && (
+										{ 'required' === errors.fromEmail?.type && (
+											<Notice
+												message={ __( 'This field is required.' ) }
+												status="error"
+												politeness="assertive"
+												inline={ false }
+												icon={ CircularExclamationIcon }
+											/>
+										) }
+										{ 'pattern' === errors.fromEmail?.type && (
 											<Notice
 												message={ __( 'This does not appear to be a valid email address.' ) }
 												status="error"
@@ -881,40 +930,9 @@ const Interface = ( props ) => {
 							reset( checkpoint, { keepDirty: false, keepTouched: false } );
 						} }
 						onSave={ () => {
-							setSaving( true );
-							setAjaxError( null );
-							sendCommand( 'has_save_emails_tab', {
-								nonce: hasEmailsAdmin.saveNonce,
-								form_data: formValues,
-							} )
-								.then( ( ajaxResponse ) => {
-									const ajaxData = ajaxResponse.data.data;
-									const ajaxSuccess = ajaxResponse.data.success;
-									if ( ajaxSuccess ) {
-										setCheckpointData( ajaxData );
-										reset( ajaxData, { keepDirty: false, keepTouched: false } );
-										setTimeout( () => {
-											setSnackbar( {
-												isVisible: true,
-												message: __( 'Settings saved successfully.', 'highlight-and-share' ),
-												title: __( 'Settings saved successfully.', 'highlight-and-share' ),
-												type: 'success',
-												isDismissable: true,
-												isPersistent: false,
-												isSuccess: true,
-												loadingMessage: null,
-												politeness: 'assertive',
-											} );
-										}, 350 );
-									} else {
-										const { message } = ajaxData;
-										setAjaxError( message );
-									}
-									setSaving( false );
-								} )
-								.catch( () => {
-									setSaving( false );
-								} );
+							// Run the form's real submission path so validation (including
+							// fromEmail's format check) actually executes before saving.
+							formRef.current.requestSubmit();
 						} }
 						onReset={ () => {
 							setAjaxError( null );
