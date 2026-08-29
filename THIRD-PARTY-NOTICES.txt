@@ -778,7 +778,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ================================================================================
-@react-dnd/asap 5.0.2
+@react-dnd/asap 5.0.2, @react-dnd/invariant 4.0.2, @react-dnd/shallowequal 4.0.2
 License: MIT
 Source: https://github.com/react-dnd/react-dnd
 ================================================================================
@@ -802,15 +802,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE.
-
-
-================================================================================
-@react-dnd/invariant 4.0.2, @react-dnd/shallowequal 4.0.2
-License: MIT
-Source: https://github.com/react-dnd/react-dnd
-================================================================================
-
-(No LICENSE file bundled with this package. Declared license: MIT.)
 
 
 ================================================================================
