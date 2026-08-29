@@ -2,7 +2,7 @@
     "name": "dlxplugins/highlight-and-share",
     "description": "An easy-to-use content highlighter.",
     "type": "project",
-    "license": "GPL",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Ronald Huereca",
