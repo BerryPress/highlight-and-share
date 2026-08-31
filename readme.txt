@@ -4,8 +4,8 @@ Tags: social share buttons, social share, web share, social networks, highlight 
 Requires at least: 6.5
 Tested up to: 7.0
 Stable tag: 6.0.1
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License: GPLv3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
 
 A lightweight social sharing plugin for showing social networks when users highlight text, share images, headlines, or use Click to Share.
@@ -228,7 +228,6 @@ Please report security bugs found in the source code of the undefined plugin thr
 8. Configure a custom theme.
 9. Use reCAPTCHA 3 for spam protection if emails are enabled.
 10. Customize each icon's colors if a custom theme is selected.
-
 
 == Changelog ==
 

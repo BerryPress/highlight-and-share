@@ -18,6 +18,7 @@ import CircularExclamationIcon from '../Components/Icons/CircularExplanation';
 import Spinner from '../Components/Icons/Spinner';
 import sendCommand from '../Utils/SendCommand';
 import Loader from '../Components/Loader';
+import { openModal } from '../../utils/modal';
 
 const Support = ( props ) => {
 	return (
@@ -55,20 +56,27 @@ const Support = ( props ) => {
 
 const Interface = ( props ) => {
 	useEffect( () => {
-		if ( typeof Fancybox !== 'undefined' ) {
-			Fancybox.defaults = {
-				...Fancybox.defaults,
-				defaultType: 'iframe',
-			};
-			Fancybox.bind("[data-fancybox]", {
-				toolbar: false,
-				smallBtn: true,
-				iframe: {
-					preload: false
-				},
-				compact: true,
-			});
-		}
+		let activeModal = null;
+		const handleVideoLinkClick = ( event ) => {
+			const trigger = event.target.closest( '[data-video-modal]' );
+			if ( null === trigger ) {
+				return;
+			}
+			event.preventDefault();
+			activeModal = openModal( {
+				type: 'iframe',
+				src: trigger.getAttribute( 'href' ),
+				title: __('Help and Support', 'highlight-and-share' ),
+				className: 'has-modal-video',
+			} );
+		};
+		document.addEventListener( 'click', handleVideoLinkClick );
+		return () => {
+			document.removeEventListener( 'click', handleVideoLinkClick );
+			if ( activeModal ) {
+				activeModal.close();
+			}
+		};
 	}, [] );
 	return (
 		<>
@@ -100,7 +108,7 @@ const Interface = ( props ) => {
 							</p>
 							<div className="has-admin-component-row">
 								<a
-									data-fancybox
+									data-video-modal
 									href="https://www.youtube.com/embed/videoseries?list=PLw2fSxxzure64RVDMsBd1DzU87YY0pRTb"
 								>
 									<img

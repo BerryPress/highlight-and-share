@@ -2,7 +2,34 @@ const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
 const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
+const { BannerPlugin, Compilation } = require( 'webpack' );
 const path = require( 'path' );
+const sass = require( 'sass' );
+
+/**
+ * Prepend a short license banner to every emitted .js/.css file.
+ *
+ * Runs at the very last processAssets stage so it lands after TerserPlugin's
+ * minification/comment-extraction step, keeping the extracted *.LICENSE.txt
+ * files and their "see .LICENSE.txt" pointer comments intact as a backup.
+ *
+ * @return {BannerPlugin} Configured plugin instance.
+ */
+const createLicenseBannerPlugin = () => new BannerPlugin( {
+	banner: '/*! Highlight and Share - see ../license.txt for license and copyright information */',
+	raw: true,
+	entryOnly: false,
+	test: /\.(js|css)$/,
+	stage: Compilation.PROCESS_ASSETS_STAGE_REPORT,
+} );
+
+// wp-scripts' default Terser config only preserves `translators:` comments and
+// never extracts anything to a *.LICENSE.txt file. Turn extraction on (without
+// touching its `output.comments` test) so the build/ output gets the same
+// *.LICENSE.txt sidecars and pointer comments that the dist/ config already
+// produces, while translator comments keep working as before.
+defaultConfig.optimization.minimizer[ 0 ].options.extractComments = true;
+
 module.exports = ( env ) => {
 	return [
 		{
@@ -18,6 +45,7 @@ module.exports = ( env ) => {
 				'has-click-to-share': './src/blocks/click-to-share/block.js',
 				'has-post-sidebar': [ './src/post-sidebar/index.js', './src/post-sidebar/style.scss' ],
 			},
+			plugins: [ ...defaultConfig.plugins, createLicenseBannerPlugin() ],
 		},
 		{
 			entry: {
@@ -96,6 +124,7 @@ module.exports = ( env ) => {
 								loader: 'sass-loader',
 								options: {
 									sourceMap: true,
+									implementation: sass,
 								},
 							},
 						],
@@ -118,7 +147,12 @@ module.exports = ( env ) => {
 									sourceMap: true,
 								},
 							},
-							'sass-loader',
+							{
+								loader: 'sass-loader',
+								options: {
+									implementation: sass,
+								},
+							},
 						],
 					},
 					{
@@ -129,7 +163,7 @@ module.exports = ( env ) => {
 					},
 				],
 			},
-			plugins: [ new RemoveEmptyScriptsPlugin(), new MiniCssExtractPlugin(), new DependencyExtractionWebpackPlugin() ],
+			plugins: [ new RemoveEmptyScriptsPlugin(), new MiniCssExtractPlugin(), new DependencyExtractionWebpackPlugin(), createLicenseBannerPlugin() ],
 		},
 	];
 };

@@ -13,6 +13,7 @@ import Notice from '../Components/Notice';
 import CircularExclamationIcon from '../Components/Icons/CircularExplanation';
 import Loader from '../Components/Loader';
 import sendCommand from '../Utils/SendCommand';
+import { EMAIL_PATTERN } from '../Utils/EmailValidation';
 
 // Get URL Query Parameter: type
 const emailShareType = hasEmailModal.email_share_type;
@@ -24,6 +25,7 @@ const View = () => {
 	const [ errorMessage, setErrorMessage ] = useState( false );
 	const [ firstNameFieldFocus, setFirstNameFieldFocus ] = useState( false );
 	const firstNameField = useRef( null );
+	const formRef = useRef( null );
 
 	/**
 	 * Get a title for the email modal.
@@ -132,7 +134,7 @@ const View = () => {
 				// Close the modal after showing success message.
 				setTimeout(
 					() => {
-						window.parent.window.highlightShareFancy.close(); // See frontendjs/highlight-and-share.js for this variable.
+						window.parent.window.hasShareModal.close(); // See src/utils/modal.js for this variable.
 					},
 					3000
 				);
@@ -149,16 +151,6 @@ const View = () => {
 
 	const hasErrors = () => {
 		return Object.keys( errors ).length > 0;
-	};
-
-	const validateEmail = ( email ) => {
-		// From: https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
-		const regex =
-			/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-		if ( regex.test( email ) ) {
-			return true;
-		}
-		return false;
 	};
 
 	// If the email is sent, show a success message.
@@ -179,29 +171,26 @@ const View = () => {
 	return (
 		<section className="has-email--content-wrap">
 			<h2>{ getModalTitle() }</h2>
-			<form id="has-email-quote-form" onSubmit={ handleSubmit( onSubmit ) }>
+			<form id="has-email-quote-form" ref={ formRef } noValidate onSubmit={ handleSubmit( onSubmit ) }>
 				<div className="has-email-control-row">
 					<Controller
 						name="toEmail"
 						control={ control }
 						rules={ {
-							validate: ( value ) => {
-								if ( validateEmail( value ) ) {
-									return true;
-								}
-								return false;
-							},
 							required: true,
+							pattern: EMAIL_PATTERN,
 						} }
 						render={ ( { field } ) => (
 							<TextControl
 								{ ...field }
 								label={ __( 'To (email):', 'highlight-and-share' ) }
 								className={ classNames( 'search-has-admin has-admin__text-control', {
-									'has-error': 'required' === errors.toEmail?.type,
+									'has-error': !! errors.toEmail,
 									'is-required': true,
 								} ) }
 								register="toEmail"
+								type="email"
+								required={true}
 								placeholder="yourcolleague@friends.com"
 								help={ __(
 									'Please select who you would like to email.',
@@ -210,7 +199,7 @@ const View = () => {
 							/>
 						) }
 					/>
-					{ 'validate' === errors.toEmail?.type && (
+					{ 'pattern' === errors.toEmail?.type && (
 						<Notice
 							message={ __( 'The Email is Invalid.' ) }
 							status="error"
@@ -322,7 +311,7 @@ const View = () => {
 						iconSize="18"
 						iconPosition="right"
 						disabled={ isSending || isSent }
-						onClick={ ( e ) => {
+						onClick={ () => {
 							// eslint-disable-next-line no-undef
 							if (
 								hasEmailModal.recaptcha_enabled &&
@@ -335,16 +324,13 @@ const View = () => {
 										} )
 										.then( function( token ) {
 											setValue( 'recaptchaToken', token );
-											e.target.form.dispatchEvent(
-												new Event( 'submit', { cancelable: true, bubbles: true } )
-											);
+											// requestSubmit() (rather than a synthetic 'submit' event)
+											// runs the real submit path so validation actually executes.
+											formRef.current.requestSubmit();
 										} );
 								} );
 							} else {
-								// This force submits the form.
-								e.target.form.dispatchEvent(
-									new Event( 'submit', { cancelable: true, bubbles: true } )
-								);
+								formRef.current.requestSubmit();
 							}
 						} }
 					/>
@@ -358,7 +344,7 @@ const View = () => {
 						}
 						disabled={ isSending }
 						onClick={ () => {
-							window.parent.window.highlightShareFancy.close(); // See frontendjs/highlight-and-share.js for this variable.
+							window.parent.window.hasShareModal.close(); // See src/utils/modal.js for this variable.
 						} }
 					/>
 				</div>

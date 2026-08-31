@@ -608,21 +608,6 @@ class Admin {
 						'videoPlayImgHeight' => 243,
 					)
 				);
-				wp_enqueue_script(
-					'has-fancybox-js',
-					Functions::get_plugin_url( '/js/fancybox.umd.js' ),
-					array(),
-					Functions::get_plugin_version(),
-					true
-				);
-
-				wp_enqueue_style(
-					'has-fancybox-css',
-					Functions::get_plugin_url( '/js/fancybox.css' ),
-					array(),
-					Functions::get_plugin_version(),
-					'all'
-				);
 			}
 
 			// Determine if we're loading the appearance tab.

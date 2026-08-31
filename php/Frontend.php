@@ -1543,11 +1543,6 @@ class Frontend {
 
 		$html .= '</div>';
 
-		// Enqueue the modal script if needed.
-		if ( 'form' === $email_options['email_send_type'] ) {
-			$this->maybe_enqueue_fancybox();
-		}
-
 		return $html;
 	}
 
@@ -1566,29 +1561,6 @@ class Frontend {
 
 		// WhatsApp uses the same rendering as other networks, but with special URL handling.
 		return $this->render_network_html( $network_def, $settings );
-	}
-
-	/**
-	 * Maybe enqueue fancybox scripts and styles.
-	 */
-	private function maybe_enqueue_fancybox() {
-		if ( ! wp_script_is( 'fancybox', 'enqueued' ) ) {
-			wp_register_script(
-				'has-fancybox-js',
-				Functions::get_plugin_url( '/js/fancybox.umd.js' ),
-				array(),
-				Functions::get_plugin_version(),
-				true
-			);
-
-			wp_register_style(
-				'has-fancybox-css',
-				Functions::get_plugin_url( '/js/fancybox.css' ),
-				array(),
-				Functions::get_plugin_version(),
-				'all'
-			);
-		}
 	}
 
 	/**
@@ -1958,9 +1930,6 @@ class Frontend {
 				$html .= $this->render_email_network( $network_def, $settings, $email_options );
 			} elseif ( 'whatsapp' === $network_slug ) {
 				$html .= $this->render_whatsapp_network( $network_def, $settings );
-			} elseif ( 'mastodon' === $network_slug ) {
-				$html .= $this->render_network_html( $network_def, $settings );
-				$this->maybe_enqueue_fancybox();
 			} else {
 				$html .= $this->render_network_html( $network_def, $settings );
 			}
@@ -1971,12 +1940,6 @@ class Frontend {
 		wp_cache_set( 'has_frontend_html', $html, 'highlight-and-share', HOUR_IN_SECONDS );
 		echo $html;
 		$this->get_footer_svgs();
-
-		// Enqueue / print fancybox styles.
-		if ( wp_script_is( 'has-fancybox-js', 'registered' ) && ! wp_script_is( 'has-fancybox-js', 'done' ) ) {
-			wp_print_scripts( 'has-fancybox-js' );
-			wp_print_styles( 'has-fancybox-css' );
-		}
 	}
 
 	/**

@@ -1,5 +1,7 @@
 import { constrainRange } from './selection';
 import { dispatchStatsEvent } from './stats-dispatcher';
+import { openModal } from '../utils/modal';
+import { __ } from '@wordpress/i18n';
 ( function() {
 	'use strict';
 
@@ -308,27 +310,13 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 					el.addEventListener( 'click', ( event ) => {
 						event.preventDefault();
 						const url = event.target.closest( 'a' ).getAttribute( 'href' );
-						if ( 'undefined' !== typeof Fancybox ) {
-							// eslint-disable-next-line no-undef
-							hasRemoveVisibleElements();
-							// eslint-disable-next-line no-undef
-							window.highlightShareFancy = new Fancybox(
-								[
-									{
-										src: url,
-										type: 'iframe',
-										preload: true,
-										compact: true,
-										autoFocus: true,
-									},
-								],
-								{
-									Toolbar: {
-										autoEnable: false,
-									},
-								}
-							);
-						}
+						hasRemoveVisibleElements();
+						window.hasShareModal = openModal( {
+							type: 'iframe',
+							src: url,
+							title: __('Share by Email', 'highlight-and-share' ),
+							className: 'has-modal-email',
+						} );
 					} );
 				}
 			} );
@@ -345,68 +333,53 @@ import { dispatchStatsEvent } from './stats-dispatcher';
 						event.preventDefault();
 						const url = event.target.closest( 'a' ).getAttribute( 'href' );
 
-						//
-						if ( 'undefined' !== typeof Fancybox ) {
-							// eslint-disable-next-line no-undef
-							hasRemoveVisibleElements();
-							// eslint-disable-next-line no-undef
-							window.highlightShareFancy = new Fancybox(
-								[
-									{
-										type: 'inline',
-										compact: true,
-										src: '#has-mastodon-prompt',
-									},
-								],
-								{
-									Toolbar: {
-										autoEnable: false,
-									},
-									on: {
-										done: () => {
-											const fancyboxForm = document.querySelector(
-												'.has-mastodon-form'
-											);
-											const fancyboxInput = fancyboxForm.querySelector(
-												'input'
-											);
-											if ( null !== fancyboxInput ) {
-												fancyboxInput.focus();
-											}
-											fancyboxForm.addEventListener( 'submit', ( event ) => {
-												event.preventDefault();
-												const fancyboxInputValue = fancyboxInput.value;
-
-												// Save the value to local storage.
-												localStorage.setItem(
-													'highlight-and-share-mastodon',
-													fancyboxInputValue
-												);
-												let fancyUrl = url;
-												if ( '' !== fancyboxInputValue ) {
-													fancyUrl = fancyUrl.replace( /mastodon\.social/i, fancyboxInputValue );
-												}
-
-												// Now go to URL.
-												window.open(
-													fancyUrl,
-													'Highlight and Share',
-													'width=575,height=430,toolbar=false,menubar=false,location=false,status=false'
-												);
-											} );
-
-											// Get local storage and populate input if available.
-											const localStorageValue = localStorage.getItem(
-												'highlight-and-share-mastodon'
-											);
-											if ( null !== localStorageValue ) {
-												fancyboxInput.value = localStorageValue;
-											}
-										},
-									},
+						hasRemoveVisibleElements();
+						window.hasShareModal = openModal( {
+							type: 'inline',
+							src: '#has-mastodon-prompt',
+							title: __('Share on Mastodon', 'highlight-and-share' ),
+							className: 'has-modal-mastodon',
+							onOpen: ( modal ) => {
+								const mastodonForm = modal.content.querySelector(
+									'.has-mastodon-form'
+								);
+								const mastodonInput = mastodonForm.querySelector(
+									'input'
+								);
+								if ( null !== mastodonInput ) {
+									mastodonInput.focus();
 								}
-							);
-						}
+								mastodonForm.addEventListener( 'submit', ( event ) => {
+									event.preventDefault();
+									const mastodonInputValue = mastodonInput.value;
+
+									// Save the value to local storage.
+									localStorage.setItem(
+										'highlight-and-share-mastodon',
+										mastodonInputValue
+									);
+									let mastodonUrl = url;
+									if ( '' !== mastodonInputValue ) {
+										mastodonUrl = mastodonUrl.replace( /mastodon\.social/i, mastodonInputValue );
+									}
+
+									// Now go to URL.
+									window.open(
+										mastodonUrl,
+										'Highlight and Share',
+										'width=575,height=430,toolbar=false,menubar=false,location=false,status=false,noopener'
+									);
+								}, { once: true } );
+
+								// Get local storage and populate input if available.
+								const localStorageValue = localStorage.getItem(
+									'highlight-and-share-mastodon'
+								);
+								if ( null !== localStorageValue ) {
+									mastodonInput.value = localStorageValue;
+								}
+							},
+						} );
 					} );
 				}
 			} );

@@ -1986,3 +1986,100 @@ body.has-body .highlight-and-share-wrapper.theme-orbs a:visited {
 	padding: 12px;
 	text-decoration: none;
 }
+
+/**
+ * Custom modal (email form, Mastodon prompt, admin video overview).
+ * Replaces the third-party fancybox lightbox library.
+ */
+.has-modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.75);
+	z-index: 100000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.has-modal-dialog {
+	position: relative;
+	background: #FFF;
+	border-radius: 4px;
+	width: 100%;
+	max-width: 600px;
+	max-height: 90vh;
+	overflow: auto;
+	box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+}
+
+.has-modal-close {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 32px;
+	height: 32px;
+	line-height: 30px;
+	padding: 0;
+	text-align: center;
+	background: rgba(0, 0, 0, 0.05);
+	border: none;
+	border-radius: 50%;
+	font-size: 20px;
+	cursor: pointer;
+	z-index: 1;
+	color: #333;
+}
+
+.has-modal-close:hover {
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.has-modal-content {
+	padding: 20px;
+}
+
+.has-modal-iframe {
+	display: block;
+	width: 100%;
+	border: none;
+}
+
+/* Email form and video modals: iframe fills the dialog edge-to-edge. */
+.has-modal-email,
+.has-modal-video {
+	.has-modal-content {
+		padding: 0;
+		font-size: 0;
+	}
+}
+
+.has-modal-email {
+	max-width: 500px;
+
+	.has-modal-iframe {
+		height: 70vh;
+		min-height: 400px;
+	}
+}
+
+.has-modal-video {
+	max-width: 800px;
+
+	.has-modal-iframe {
+		aspect-ratio: 16 / 9;
+		height: auto;
+	}
+}
+
+.has-modal-mastodon {
+	max-width: 450px;
+}
+
+body.has-modal-open {
+	overflow: hidden;
+}
