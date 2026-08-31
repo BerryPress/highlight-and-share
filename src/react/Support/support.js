@@ -56,13 +56,14 @@ const Support = ( props ) => {
 
 const Interface = ( props ) => {
 	useEffect( () => {
+		let activeModal = null;
 		const handleVideoLinkClick = ( event ) => {
 			const trigger = event.target.closest( '[data-video-modal]' );
 			if ( null === trigger ) {
 				return;
 			}
 			event.preventDefault();
-			openModal( {
+			activeModal = openModal( {
 				type: 'iframe',
 				src: trigger.getAttribute( 'href' ),
 				title: __('Help and Support', 'highlight-and-share' ),
@@ -72,6 +73,9 @@ const Interface = ( props ) => {
 		document.addEventListener( 'click', handleVideoLinkClick );
 		return () => {
 			document.removeEventListener( 'click', handleVideoLinkClick );
+			if ( activeModal ) {
+				activeModal.close();
+			}
 		};
 	}, [] );
 	return (
