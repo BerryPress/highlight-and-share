@@ -8,17 +8,20 @@
 
 ## Quick Links
 
-For an in-depth overview of Highlight and Share, <a href="https://has.dlxplugins.com/">please check out the documentation</a>.
+For an in-depth overview of Highlight and Share, <a href="https://berrypress.com/docs/highlight-and-share/">please check out the documentation</a>.
 
-* <a href="https://github.com/DLXPlugins/highlight-and-share/issues/new">Create an Issue or Feature Request</a>.
-* <a href="https://dlxplugins.com/support/">Leave a Support Request</a>.
+* <a href="https://wordpress.org/support/plugin/highlight-and-share/">Get Support or Request a Feature</a>.
 * <a href="https://wordpress.org/plugins/highlight-and-share/">Visit the Plugin on WordPress.org</a>.
-* <a href="https://dlxplugins.com/plugins/highlight-and-share/">Visit the Plugin on DLX Plugins</a>.
+* <a href="https://berrypress.com/docs/highlight-and-share/">Visit the Plugin Documentation</a>.
+
+## Authorship
+
+Highlight and Share was created by Ronald Huereca and published by DLX Plugins. In July 2026, the plugin was taken over by [BerryPress](https://berrypress.com/), which now maintains and develops it. 
 
 ## Developers
 
 1. Clone the `development` branch locally.
-2. Run `npm install` to install the development scripts.
+2. Run `npm install --legacy-peer-deps` to install the development scripts (the flag is required because of a peer dependency conflict between React and `@wordpress/components`). A `package-lock.json` is included so builds use the same dependency versions as documented in `license.txt`.
 3. Run `npm run start` to start the build scripts.
 4. Run `npm run build` to do a production build.
 5. Run `grunt` to create a plugin ZIP file.

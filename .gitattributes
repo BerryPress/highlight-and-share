@@ -1,0 +1,16 @@
+# Excluded from `git archive` (GitHub "Source code" zips on tags/releases).
+# Release CI also honors .distignore via rsync --exclude-from.
+
+.distignore export-ignore
+.gitattributes export-ignore
+.git export-ignore
+.gitignore export-ignore
+.github export-ignore
+.idea export-ignore
+.DS_Store export-ignore
+*.code-workspace export-ignore
+.wordpress-org export-ignore
+AGENTS.md export-ignore
+.coderabbit.yaml export-ignore
+.coderabbit.yml export-ignore
+debug-*.txt export-ignore

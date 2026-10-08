@@ -1,67 +1,63 @@
 {
-    "$schema": "https://playground.wordpress.net/blueprint-schema.json",
-    "preferredVersions": {
-        "php": "8.0",
-        "wp": "latest"
-    },
-    "features": {
-        "networking": true
-    },
-    "phpExtensionBundles": [
-        "kitchen-sink"
-    ],
-    "landingPage": "/",
-    "steps": [
-        {
-            "step": "login",
-            "username": "admin",
-            "password": "password"
-        },
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"preferredVersions": {
+		"php": "8.0",
+		"wp": "latest"
+	},
+	"features": {
+		"networking": true
+	},
+	"landingPage": "/",
+	"steps": [
 		{
-            "step": "installTheme",
-            "themeZipFile": {
-                "resource": "wordpress.org/themes",
-                "slug": "blocksy"
-            },
-            "options": {
-                "activate": true
-            }
-        },
+			"step": "login",
+			"username": "admin",
+			"password": "password"
+		},
 		{
-            "step": "installPlugin",
-            "pluginZipFile": {
-                "resource": "wordpress.org/plugins",
-                "slug": "highlight-and-share"
-            },
-            "options": {
-                "activate": true
-            }
-        },
-		{
-            "step": "importWxr",
-            "file": {
-                "resource": "url",
-                "url": "https://raw.githubusercontent.com/DLXPlugins/highlight-and-share/development/blueprint.xml"
-            }
-        },
-		{
-            "step": "setSiteOptions",
-            "options": {
-                "permalink_structure": "/%postname%/"
+			"step": "installTheme",
+			"themeZipFile": {
+				"resource": "wordpress.org/themes",
+				"slug": "blocksy"
+			},
+			"options": {
+				"activate": true
 			}
 		},
 		{
-            "step": "setSiteOptions",
-            "options": {
+			"step": "installPlugin",
+			"pluginZipFile": {
+				"resource": "wordpress.org/plugins",
+				"slug": "highlight-and-share"
+			},
+			"options": {
+				"activate": true
+			}
+		},
+		{
+			"step": "importWxr",
+			"file": {
+				"resource": "url",
+				"url": "https://raw.githubusercontent.com/BerryPress/highlight-and-share/development/blueprint.xml"
+			}
+		},
+		{
+			"step": "setSiteOptions",
+			"options": {
+				"permalink_structure": "/%postname%/"
+			}
+		},
+		{
+			"step": "setSiteOptions",
+			"options": {
 				"blogname": "Highlight and Share Demo",
-                "show_on_front": "page",
+				"show_on_front": "page",
 				"dismissed-blocksy_plugin_notice": "1"
-            }
-        },
+			}
+		},
 		{
 			"step": "runPHP",
 			"code": "<?php require_once 'wordpress/wp-load.php'; $path = get_page_by_path( 'home' ); update_option( 'page_on_front', absint( $path->ID ) );"
-			
 		},
 		{
 			"step": "runPHP",
@@ -81,11 +77,15 @@
 		},
 		{
 			"step": "runPHP",
-			"code": "<?php require_once 'wordpress/wp-load.php'; update_option( 'highlight-and-share-email-settings', maybe_unserialize( 'a:12:{s:21:\"enable_logged_in_only\";b:0;s:15:\"akismet_enabled\";b:1;s:17:\"recaptcha_enabled\";b:0;s:18:\"recaptcha_site_key\";s:0:\"\";s:20:\"recaptcha_secret_key\";s:0:\"\";s:25:\"recaptcha_score_threshold\";d:0.5;s:9:\"from_name\";s:13:\"My Great Blog\";s:10:\"from_email\";s:19:\"ronald@mediaron.com\";s:15:\"email_send_type\";s:4:\"form\";s:13:\"email_subject\";s:48:\"Check out this {{share_type}} from {{site_name}}\";s:10:\"email_body\";s:110:\"{{from_name}} ({{from_email}}) wants to share a link with you\r\n\n{{share_text}}\r\n\r\n{{post_title}}\r\n{{post_url}}\";s:17:\"email_modal_title\";s:25:\"Share this {{share_type}}\";}' ) ); ?>"
+			"code": "<?php require_once 'wordpress/wp-load.php'; update_option( 'highlight-and-share-email-settings', maybe_unserialize( 'a:12:{s:21:\"enable_logged_in_only\";b:0;s:15:\"akismet_enabled\";b:1;s:17:\"recaptcha_enabled\";b:0;s:18:\"recaptcha_site_key\";s:0:\"\";s:20:\"recaptcha_secret_key\";s:0:\"\";s:25:\"recaptcha_score_threshold\";d:0.5;s:9:\"from_name\";s:13:\"My Great Blog\";s:10:\"from_email\";s:16:\"demo@example.com\";s:15:\"email_send_type\";s:4:\"form\";s:13:\"email_subject\";s:48:\"Check out this {{share_type}} from {{site_name}}\";s:10:\"email_body\";s:110:\"{{from_name}} ({{from_email}}) wants to share a link with you\r\n\n{{share_text}}\r\n\r\n{{post_title}}\r\n{{post_url}}\";s:17:\"email_modal_title\";s:25:\"Share this {{share_type}}\";}' ) ); ?>"
 		},
 		{
 			"step": "runPHP",
-			"code": "<?php require_once 'wordpress/wp-load.php'; update_option( 'highlight-and-share', maybe_unserialize( 'a:59:{s:13:\"enable_mobile\";b:1;s:14:\"enable_content\";b:1;s:14:\"enable_excerpt\";b:1;s:15:\"enable_comments\";b:0;s:14:\"sharing_prefix\";s:2:\"\\\"\";s:14:\"sharing_suffix\";s:2:\"\\\"\";s:12:\"show_twitter\";b:1;s:7:\"twitter\";s:11:\"mediaronllc\";s:15:\"enable_hashtags\";b:1;s:13:\"show_facebook\";b:0;s:14:\"show_whats_app\";b:0;s:21:\"whatsapp_api_endpoint\";s:3:\"app\";s:22:\"whatsapp_can_share_url\";b:1;s:11:\"show_reddit\";b:1;s:13:\"show_telegram\";b:0;s:13:\"show_linkedin\";b:0;s:9:\"show_xing\";b:0;s:9:\"show_copy\";b:1;s:13:\"show_mastodon\";b:1;s:14:\"mastodon_label\";s:8:\"Mastodon\";s:16:\"mastodon_tooltip\";s:17:\"Share on Mastodon\";s:13:\"enable_emails\";b:0;s:10:\"shortlinks\";b:0;s:10:\"js_content\";s:0:\"\";s:15:\"element_content\";s:0:\"\";s:10:\"id_content\";s:0:\"\";s:15:\"wrapper_classes\";s:0:\"\";s:13:\"twitter_label\";s:10:\"Share This\";s:15:\"twitter_tooltip\";s:10:\"Share on X\";s:14:\"facebook_label\";s:8:\"Facebook\";s:16:\"facebook_tooltip\";s:17:\"Share on Facebook\";s:14:\"whatsapp_label\";s:8:\"WhatsApp\";s:16:\"whatsapp_tooltip\";s:17:\"Share on WhatsApp\";s:12:\"reddit_label\";s:6:\"Reddit\";s:14:\"reddit_tooltip\";s:15:\"Share on Reddit\";s:14:\"telegram_label\";s:8:\"Telegram\";s:16:\"telegram_tooltip\";s:17:\"Share on Telegram\";s:14:\"linkedin_label\";s:8:\"LinkedIn\";s:16:\"linkedin_tooltip\";s:17:\"Share on LinkedIn\";s:10:\"xing_label\";s:4:\"Xing\";s:12:\"xing_tooltip\";s:13:\"Share on Xing\";s:10:\"copy_label\";s:4:\"Copy\";s:12:\"copy_tooltip\";s:14:\"Copy Selection\";s:11:\"email_label\";s:5:\"Email\";s:13:\"email_tooltip\";s:15:\"Share via email\";s:11:\"show_tumblr\";b:0;s:12:\"tumblr_label\";s:6:\"Tumblr\";s:14:\"tumblr_tooltip\";s:15:\"Share on Tumblr\";s:13:\"show_webshare\";b:0;s:14:\"webshare_label\";s:5:\"Share\";s:16:\"webshare_tooltip\";s:10:\"Share This\";s:32:\"enable_webshare_inline_highlight\";b:0;s:30:\"enable_webshare_click_to_share\";b:0;s:12:\"show_threads\";b:1;s:15:\"threads_tooltip\";s:16:\"Share on Threads\";s:13:\"threads_label\";s:7:\"Threads\";s:12:\"show_bluesky\";b:1;s:15:\"bluesky_tooltip\";s:16:\"Share on BlueSky\";s:13:\"bluesky_label\";s:7:\"BlueSky\";}' ) ); ?>"
+			"code": "<?php require_once 'wordpress/wp-load.php'; update_option( 'highlight-and-share', maybe_unserialize( 'a:59:{s:13:\"enable_mobile\";b:1;s:14:\"enable_content\";b:1;s:14:\"enable_excerpt\";b:1;s:15:\"enable_comments\";b:0;s:14:\"sharing_prefix\";s:2:\"\\\"\";s:14:\"sharing_suffix\";s:2:\"\\\"\";s:12:\"show_twitter\";b:1;s:7:\"twitter\";s:0:\"\";s:15:\"enable_hashtags\";b:1;s:13:\"show_facebook\";b:0;s:14:\"show_whats_app\";b:0;s:21:\"whatsapp_api_endpoint\";s:3:\"app\";s:22:\"whatsapp_can_share_url\";b:1;s:11:\"show_reddit\";b:1;s:13:\"show_telegram\";b:0;s:13:\"show_linkedin\";b:0;s:9:\"show_xing\";b:0;s:9:\"show_copy\";b:1;s:13:\"show_mastodon\";b:1;s:14:\"mastodon_label\";s:8:\"Mastodon\";s:16:\"mastodon_tooltip\";s:17:\"Share on Mastodon\";s:13:\"enable_emails\";b:0;s:10:\"shortlinks\";b:0;s:10:\"js_content\";s:0:\"\";s:15:\"element_content\";s:0:\"\";s:10:\"id_content\";s:0:\"\";s:15:\"wrapper_classes\";s:0:\"\";s:13:\"twitter_label\";s:10:\"Share This\";s:15:\"twitter_tooltip\";s:10:\"Share on X\";s:14:\"facebook_label\";s:8:\"Facebook\";s:16:\"facebook_tooltip\";s:17:\"Share on Facebook\";s:14:\"whatsapp_label\";s:8:\"WhatsApp\";s:16:\"whatsapp_tooltip\";s:17:\"Share on WhatsApp\";s:12:\"reddit_label\";s:6:\"Reddit\";s:14:\"reddit_tooltip\";s:15:\"Share on Reddit\";s:14:\"telegram_label\";s:8:\"Telegram\";s:16:\"telegram_tooltip\";s:17:\"Share on Telegram\";s:14:\"linkedin_label\";s:8:\"LinkedIn\";s:16:\"linkedin_tooltip\";s:17:\"Share on LinkedIn\";s:10:\"xing_label\";s:4:\"Xing\";s:12:\"xing_tooltip\";s:13:\"Share on Xing\";s:10:\"copy_label\";s:4:\"Copy\";s:12:\"copy_tooltip\";s:14:\"Copy Selection\";s:11:\"email_label\";s:5:\"Email\";s:13:\"email_tooltip\";s:15:\"Share via email\";s:11:\"show_tumblr\";b:0;s:12:\"tumblr_label\";s:6:\"Tumblr\";s:14:\"tumblr_tooltip\";s:15:\"Share on Tumblr\";s:13:\"show_webshare\";b:0;s:14:\"webshare_label\";s:5:\"Share\";s:16:\"webshare_tooltip\";s:10:\"Share This\";s:32:\"enable_webshare_inline_highlight\";b:0;s:30:\"enable_webshare_click_to_share\";b:0;s:12:\"show_threads\";b:1;s:15:\"threads_tooltip\";s:16:\"Share on Threads\";s:13:\"threads_label\";s:7:\"Threads\";s:12:\"show_bluesky\";b:1;s:15:\"bluesky_tooltip\";s:16:\"Share on BlueSky\";s:13:\"bluesky_label\";s:7:\"BlueSky\";}' ) ); ?>"
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php require_once 'wordpress/wp-load.php'; update_option( 'highlight-and-share-headline-options', array( 'enable_headlines' => true, 'auto_generate_ids' => true, 'enabled_heading_levels' => array( 'h2', 'h3', 'h4' ), 'supported_post_types' => array( 'post' => true, 'page' => true ) ) );"
 		},
 		{
 			"step": "runPHP",
@@ -95,5 +95,5 @@
 			"step": "runPHP",
 			"code": "<?php require_once 'wordpress/wp-load.php'; update_option( 'theme_mods_blocksy', maybe_unserialize( 'a:8:{i:0;b:0;s:38:\"blocksy_woocommerce_thumbnail_cropping\";s:10:\"predefined\";s:23:\"woocommerce_filter_type\";s:6:\"type-1\";s:32:\"single_blog_post_share_box_title\";s:0:\"\";s:27:\"single_page_share_box_title\";s:0:\"\";s:18:\"nav_menu_locations\";a:1:{s:6:\"menu_1\";i:4;}s:18:\"custom_css_post_id\";i:-1;s:15:\"site_background\";a:3:{s:7:\"desktop\";a:10:{s:15:\"background_type\";s:5:\"color\";s:18:\"background_pattern\";s:6:\"type-1\";s:16:\"background_image\";a:3:{s:13:\"attachment_id\";N;s:1:\"x\";i:0;s:1:\"y\";i:0;}s:8:\"gradient\";s:65:\"linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)\";s:17:\"background_repeat\";s:6:\"repeat\";s:15:\"background_size\";s:4:\"auto\";s:21:\"background_attachment\";s:6:\"scroll\";s:12:\"patternColor\";a:1:{s:7:\"default\";a:1:{s:5:\"color\";s:7:\"#e5e7ea\";}}s:12:\"overlayColor\";a:1:{s:7:\"default\";a:1:{s:5:\"color\";s:16:\"CT_CSS_SKIP_RULE\";}}s:15:\"backgroundColor\";a:1:{s:7:\"default\";a:1:{s:5:\"color\";s:28:\"var(--theme-palette-color-8)\";}}}s:6:\"tablet\";a:10:{s:15:\"background_type\";s:5:\"color\";s:18:\"background_pattern\";s:6:\"type-1\";s:16:\"background_image\";a:3:{s:13:\"attachment_id\";N;s:1:\"x\";i:0;s:1:\"y\";i:0;}s:8:\"gradient\";s:65:\"linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)\";s:17:\"background_repeat\";s:6:\"repeat\";s:15:\"background_size\";s:4:\"auto\";s:21:\"background_attachment\";s:6:\"scroll\";s:12:\"patternColor\";a:1:{s:7:\"default\";a:1:{s:5:\"color\";s:7:\"#e5e7ea\";}}s:12:\"overlayColor\";a:1:{s:7:\"default\";a:1:{s:5:\"color\";s:16:\"CT_CSS_SKIP_RULE\";}}s:15:\"backgroundColor\";a:1:{s:7:\"default\";a:1:{s:5:\"color\";s:28:\"var(--theme-palette-color-8)\";}}}s:6:\"mobile\";a:10:{s:15:\"background_type\";s:5:\"color\";s:18:\"background_pattern\";s:6:\"type-1\";s:16:\"background_image\";a:3:{s:13:\"attachment_id\";N;s:1:\"x\";i:0;s:1:\"y\";i:0;}s:8:\"gradient\";s:65:\"linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)\";s:17:\"background_repeat\";s:6:\"repeat\";s:15:\"background_size\";s:4:\"auto\";s:21:\"background_attachment\";s:6:\"scroll\";s:12:\"patternColor\";a:1:{s:7:\"default\";a:1:{s:5:\"color\";s:7:\"#e5e7ea\";}}s:12:\"overlayColor\";a:1:{s:7:\"default\";a:1:{s:5:\"color\";s:16:\"CT_CSS_SKIP_RULE\";}}s:15:\"backgroundColor\";a:1:{s:7:\"default\";a:1:{s:5:\"color\";s:28:\"var(--theme-palette-color-8)\";}}}}}' ) ); ?>"
 		}
-    ]
+	]
 }

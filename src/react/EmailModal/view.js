@@ -297,10 +297,10 @@ const View = () => {
 					<Button
 						id="has-recaptcha-submit"
 						className={ classNames(
-							'qdlx__btn qdlx__btn-primary qdlx__btn--icon-right g-recaptcha cf-turnstile',
+							'qdlx__btn qdlx__btn-primary qdlx__btn--icon-right g-recaptcha',
 							{ 'has-error': hasErrors() },
 							{ 'has-icon': isSending },
-							{ 'is-saving': { isSending } }
+							{ 'is-saving': isSending }
 						) }
 						type="button"
 						text={

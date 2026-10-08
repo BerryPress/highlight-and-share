@@ -291,11 +291,17 @@ import { __ } from '@wordpress/i18n';
 							try {
 								const copyBlob = new Blob( [ text ], { type: 'text/plain' } );
 								const data = [ new ClipboardItem( { [ copyBlob.type ]: copyBlob } ) ];
-								navigator.clipboard.write( data );
+								navigator.clipboard
+									.write( data )
+									.then( () => {
+										el.setAttribute( 'data-tooltip', __( 'Copied!', 'highlight-and-share' ) );
+									} )
+									.catch( () => {
+										// Copying was refused: do not claim success.
+									} );
 							} catch ( e ) {
-								// Copying is not supported on Mozilla (firefox).
+								// Clipboard API unavailable (e.g. insecure context): do not claim success.
 							}
-							el.setAttribute( 'data-tooltip', 'Copied!' );
 						} );
 					}
 				}
@@ -334,13 +340,38 @@ import { __ } from '@wordpress/i18n';
 						const url = event.target.closest( 'a' ).getAttribute( 'href' );
 
 						hasRemoveVisibleElements();
+
+						// The prompt form is reused between openings, so the submit
+						// listener must be removed again on close (see onClose).
+						let mastodonForm = null;
+						const handleMastodonSubmit = ( submitEvent ) => {
+							submitEvent.preventDefault();
+							const mastodonInputValue = mastodonForm.querySelector( 'input' ).value;
+
+							// Save the value to local storage.
+							localStorage.setItem(
+								'highlight-and-share-mastodon',
+								mastodonInputValue
+							);
+							let mastodonUrl = url;
+							if ( '' !== mastodonInputValue ) {
+								mastodonUrl = mastodonUrl.replace( /mastodon\.social/i, mastodonInputValue );
+							}
+
+							// Now go to URL.
+							window.open(
+								mastodonUrl,
+								'Highlight and Share',
+								'width=575,height=430,toolbar=false,menubar=false,location=false,status=false,noopener'
+							);
+						};
 						window.hasShareModal = openModal( {
 							type: 'inline',
 							src: '#has-mastodon-prompt',
 							title: __('Share on Mastodon', 'highlight-and-share' ),
 							className: 'has-modal-mastodon',
 							onOpen: ( modal ) => {
-								const mastodonForm = modal.content.querySelector(
+								mastodonForm = modal.content.querySelector(
 									'.has-mastodon-form'
 								);
 								const mastodonInput = mastodonForm.querySelector(
@@ -349,27 +380,7 @@ import { __ } from '@wordpress/i18n';
 								if ( null !== mastodonInput ) {
 									mastodonInput.focus();
 								}
-								mastodonForm.addEventListener( 'submit', ( event ) => {
-									event.preventDefault();
-									const mastodonInputValue = mastodonInput.value;
-
-									// Save the value to local storage.
-									localStorage.setItem(
-										'highlight-and-share-mastodon',
-										mastodonInputValue
-									);
-									let mastodonUrl = url;
-									if ( '' !== mastodonInputValue ) {
-										mastodonUrl = mastodonUrl.replace( /mastodon\.social/i, mastodonInputValue );
-									}
-
-									// Now go to URL.
-									window.open(
-										mastodonUrl,
-										'Highlight and Share',
-										'width=575,height=430,toolbar=false,menubar=false,location=false,status=false,noopener'
-									);
-								}, { once: true } );
+								mastodonForm.addEventListener( 'submit', handleMastodonSubmit );
 
 								// Get local storage and populate input if available.
 								const localStorageValue = localStorage.getItem(
@@ -378,6 +389,9 @@ import { __ } from '@wordpress/i18n';
 								if ( null !== localStorageValue ) {
 									mastodonInput.value = localStorageValue;
 								}
+							},
+							onClose: () => {
+								mastodonForm.removeEventListener( 'submit', handleMastodonSubmit );
 							},
 						} );
 					} );
