@@ -1,7 +1,7 @@
 <?php // phpcs:ignore
 
 /*
- * Plugin Name: Highlight and Share
+ * Plugin Name: Highlight and Share – Unobtrusive and Lightweight Content Sharing
  * Plugin URI: https://berrypress.com/docs/highlight-and-share/
  * Description: Select text, inline highlight, or use a Click to Share block and show social networks.
  * Author: BerryPress (originally by DLX Plugins)
