@@ -2,7 +2,7 @@
 Contributors: berrypress
 Tags: social share buttons, social share, web share, social networks, highlight text
 Requires at least: 6.5
-Tested up to: 7.0
+Tested up to: 7.1
 Stable tag: 6.0.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -220,6 +220,30 @@ Please report security bugs found in the source code of the Highlight and Share 
 
 The JavaScript and CSS files in the `build` and `dist` folders are compiled from the source code, which is publicly available at https://github.com/BerryPress/highlight-and-share (see the `src` folder). The repository includes the build instructions: install the dependencies with `npm install --legacy-peer-deps` and run `npm run build`.
 
+== External services ==
+
+Highlight and Share does not send any data to an external service unless one of the optional features below is enabled or used.
+
+= Cloudflare Turnstile (optional, email sharing) =
+
+When Turnstile is enabled in the Email Settings tab, the email form loads the Turnstile script from `https://challenges.cloudflare.com/turnstile/v0/api.js` and shows the Turnstile widget. Cloudflare receives the visitor's IP address and browser details when the widget loads. When the form is submitted, your site sends the Turnstile secret key and the visitor's Turnstile token to `https://challenges.cloudflare.com/turnstile/v0/siteverify` to confirm the check. See Cloudflare's [terms](https://www.cloudflare.com/website-terms/) and [privacy policy](https://www.cloudflare.com/privacypolicy/).
+
+= Google reCAPTCHA Enterprise (optional, email sharing) =
+
+When reCAPTCHA Enterprise is enabled in the Email Settings tab, the email form loads `https://www.google.com/recaptcha/enterprise.js` with your site key, and Google receives the visitor's IP address and browser details. When the form is submitted, your site sends the reCAPTCHA token and your site key, using your API key, to `https://recaptchaenterprise.googleapis.com/v1/projects/YOUR_PROJECT_ID/assessments` to get a risk score. See Google's [terms](https://policies.google.com/terms) and [privacy policy](https://policies.google.com/privacy).
+
+= Akismet (optional, email sharing) =
+
+When Akismet spam protection is enabled and the Akismet plugin is active, the sender's name and email address are passed to the Akismet plugin to check the email for spam. Highlight and Share itself does not contact Akismet. The Akismet plugin sends the check to the Akismet service (Automattic) and adds the visitor's IP address and user agent. See Akismet's [terms](https://akismet.com/tos/) and Automattic's [privacy policy](https://automattic.com/privacy/).
+
+= YouTube (admin only) =
+
+The Help tab in the settings contains a video overview. The video is only loaded from `https://www.youtube.com/embed/videoseries` when an administrator clicks the video preview. See YouTube's [terms](https://www.youtube.com/t/terms) and Google's [privacy policy](https://policies.google.com/privacy).
+
+= Social networks (when a visitor clicks a share button) =
+
+Share buttons open the sharing page of the chosen social network (for example X, Facebook, LinkedIn, Reddit, Telegram, WhatsApp, Mastodon, Threads, Bluesky, Pinterest, Tumblr, and Xing) in a new window. The shared text and the page URL are passed to that network only after a visitor clicks the button. For Mastodon, the visitor can enter their own instance address. Please see each network's terms and privacy policy.
+
 == Screenshots ==
 
 1. Social Networks are shown when selecting text.
@@ -252,6 +276,10 @@ The JavaScript and CSS files in the `build` and `dist` folders are compiled from
 * Fix: The image sharing preview in the admin overlapped the next settings field.
 * Fix: Console error "Invalid or missing type for parameter sitekey" from Cloudflare Turnstile in the email modal, and the "Unknown parameter ver" warning.
 * Fix: The email modal's send button always had the "is-saving" class.
+* Fix: A fatal TypeError ("count(): Argument #1 must be of type Countable|array, null given") could occur on PHP 8 when scripts were enqueued outside of the main loop, for example while running Plugin Check.
+* Fix: PHP 8.2 deprecation notice for a dynamically created property.
+* Change: The Help tab shows a single Support Forum button.
+* Change: Documented the external services used by the optional email features (Cloudflare Turnstile, Google reCAPTCHA Enterprise, Akismet) and updated "Tested up to" to WordPress 7.1.
 
 = 6.0.1 =
 * Released 2026-03-09
