@@ -222,7 +222,7 @@ The JavaScript and CSS files in the `build` and `dist` folders are compiled from
 
 == External services ==
 
-Highlight and Share does not send any data to an external service unless one of the optional features below is enabled or used.
+Highlight and Share does not send any data to an external service unless one of the optional email features below is enabled.
 
 = Cloudflare Turnstile (optional, email sharing) =
 
@@ -235,14 +235,6 @@ When reCAPTCHA Enterprise is enabled in the Email Settings tab, the email form l
 = Akismet (optional, email sharing) =
 
 When Akismet spam protection is enabled and the Akismet plugin is active, the sender's name and email address are passed to the Akismet plugin to check the email for spam. Highlight and Share itself does not contact Akismet. The Akismet plugin sends the check to the Akismet service (Automattic) and adds the visitor's IP address and user agent. See Akismet's [terms](https://akismet.com/tos/) and Automattic's [privacy policy](https://automattic.com/privacy/).
-
-= YouTube (admin only) =
-
-The Help tab in the settings contains a video overview. The video is only loaded from `https://www.youtube.com/embed/videoseries` when an administrator clicks the video preview. See YouTube's [terms](https://www.youtube.com/t/terms) and Google's [privacy policy](https://policies.google.com/privacy).
-
-= Social networks (when a visitor clicks a share button) =
-
-Share buttons open the sharing page of the chosen social network (for example X, Facebook, LinkedIn, Reddit, Telegram, WhatsApp, Mastodon, Threads, Bluesky, Pinterest, Tumblr, and Xing) in a new window. The shared text and the page URL are passed to that network only after a visitor clicks the button. For Mastodon, the visitor can enter their own instance address. Please see each network's terms and privacy policy.
 
 == Screenshots ==
 
