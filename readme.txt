@@ -1,9 +1,9 @@
 === Highlight and Share – Unobtrusive and Lightweight Content Sharing ===
-Contributors: ronalfy
+Contributors: berrypress
 Tags: social share buttons, social share, web share, social networks, highlight text
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 6.0.1
+Stable tag: 6.0.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -214,7 +214,11 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 = Where do I report security bugs found in this plugin? =
 
-Please report security bugs found in the source code of the undefined plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/61823bd9-318f-4aa3-850f-07177f548b4e). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+Please report security bugs found in the source code of the Highlight and Share plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/61823bd9-318f-4aa3-850f-07177f548b4e). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+
+= Where is the source code for the compiled JavaScript and CSS? =
+
+The JavaScript and CSS files in the `build` and `dist` folders are compiled from the source code, which is publicly available at https://github.com/BerryPress/highlight-and-share (see the `src` folder). The repository includes the build instructions: install the dependencies with `npm install --legacy-peer-deps` and run `npm run build`.
 
 == Screenshots ==
 
@@ -230,6 +234,24 @@ Please report security bugs found in the source code of the undefined plugin thr
 10. Customize each icon's colors if a custom theme is selected.
 
 == Changelog ==
+
+= 6.0.2 =
+* Released 2026-10-08
+* Change: Highlight and Share is now maintained by BerryPress (originally by DLX Plugins). Licensed under GPL v3 or later; third-party license notices are included in license.txt.
+* Change: The third-party Fancybox lightbox was replaced with a small built-in modal (email form, Mastodon prompt, and Help video). Unused dependencies were removed and the JS/CSS bundles were rebuilt.
+* Change: Documentation links now point to https://berrypress.com/docs/highlight-and-share/, and support links point to the plugin support forum on WordPress.org. Support links no longer pass your name and email address in the URL.
+* Fix: The Mastodon prompt could open several share windows after being opened and closed more than once.
+* Fix: Pressing Escape now closes the email modal even when the form has focus.
+* Fix: Email addresses without a dot in the domain (such as "user@localhost") are now rejected in the email form and in the From Email setting, matching the server-side check.
+* Fix: Saving the Emails tab now validates the From Email field before saving.
+* Fix: The {{share_type}} email tag was empty because the share type was sent under a different name than the server expected (this also caused a PHP warning).
+* Fix: Headline sharing popup could appear at the bottom of the page when there was no room next to the link icon.
+* Fix: Headline sharing "Copy Link" could throw an error or close the wrong popup if the popup was dismissed within a few seconds, and "Copied!" was shown even when copying failed.
+* Fix: The SVG sprite and Mastodon prompt were printed twice when headline sharing was enabled, producing duplicate IDs.
+* Fix: The labels on the image sharing buttons ("Pin it", "Share") did not receive their CSS class.
+* Fix: The image sharing preview in the admin overlapped the next settings field.
+* Fix: Console error "Invalid or missing type for parameter sitekey" from Cloudflare Turnstile in the email modal, and the "Unknown parameter ver" warning.
+* Fix: The email modal's send button always had the "is-saving" class.
 
 = 6.0.1 =
 * Released 2026-03-09
@@ -752,6 +774,9 @@ Please report security bugs found in the source code of the undefined plugin thr
 * Initial release on WordPress.org
 
 == Upgrade Notice ==
+
+= 6.0.2 =
+The Fancybox lightbox was replaced with a built-in modal, the plugin is now GPL v3 or later, and several email modal, Mastodon, and headline sharing bugs were fixed.
 
 = 6.0.1 =
 You can now align headlines to the right and truncate the anchors generated. Sidebar options (per post settings) will override admin settings. Fixed image sharing and alignment. Fixed inlne highlight override colors. Fixed tooltip positioning.

@@ -14,6 +14,10 @@ For an in-depth overview of Highlight and Share, <a href="https://berrypress.com
 * <a href="https://wordpress.org/plugins/highlight-and-share/">Visit the Plugin on WordPress.org</a>.
 * <a href="https://berrypress.com/docs/highlight-and-share/">Visit the Plugin Documentation</a>.
 
+## Authorship
+
+Highlight and Share was created by Ronald Huereca and published by DLX Plugins. In July 2026, the plugin was taken over by [BerryPress](https://berrypress.com/), which now maintains and develops it. 
+
 ## Developers
 
 1. Clone the `development` branch locally.
