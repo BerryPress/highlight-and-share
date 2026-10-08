@@ -8,12 +8,11 @@
 
 ## Quick Links
 
-For an in-depth overview of Highlight and Share, <a href="https://has.dlxplugins.com/">please check out the documentation</a>.
+For an in-depth overview of Highlight and Share, <a href="https://berrypress.com/docs/highlight-and-share/">please check out the documentation</a>.
 
-* <a href="https://github.com/DLXPlugins/highlight-and-share/issues/new">Create an Issue or Feature Request</a>.
-* <a href="https://dlxplugins.com/support/">Leave a Support Request</a>.
+* <a href="https://wordpress.org/support/plugin/highlight-and-share/">Get Support or Request a Feature</a>.
 * <a href="https://wordpress.org/plugins/highlight-and-share/">Visit the Plugin on WordPress.org</a>.
-* <a href="https://dlxplugins.com/plugins/highlight-and-share/">Visit the Plugin on DLX Plugins</a>.
+* <a href="https://berrypress.com/docs/highlight-and-share/">Visit the Plugin Documentation</a>.
 
 ## Developers
 

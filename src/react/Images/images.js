@@ -3,7 +3,6 @@ import { __ } from '@wordpress/i18n';
 import { useForm, Controller, useWatch, useFormState } from 'react-hook-form';
 import classNames from 'classnames';
 import { useAsyncResource } from 'use-async-resource';
-import { addQueryArgs } from '@wordpress/url';
 
 import {
 	TextControl,
@@ -54,11 +53,11 @@ const Images = ( props ) => {
 					{ __( 'Could not load Image Sharing options.', 'highlight-and-share' ) }
 					<br />
 					<a
-						href="https://dlxplugins.com/support/"
+						href="https://wordpress.org/support/plugin/highlight-and-share/"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						DLX Plugins Support
+						BerryPress Support
 					</a>
 				</p>
 			}
@@ -267,14 +266,7 @@ const Interface = ( props ) => {
 												'highlight-and-share'
 											) }{ ' ' }
 											<a
-												href={ addQueryArgs( 'https://dlxplugins.com/support/', {
-													product: 'Highlight and Share',
-													firstname: hasImagesAdmin.supportParams.firstName,
-													lastname: hasImagesAdmin.supportParams.lastName,
-													email: hasImagesAdmin.supportParams.email,
-													subject: `[Highlight and Share] Image Sharing Issue With Theme: ${ hasImagesAdmin.supportParams.theme }`,
-													site: hasImagesAdmin.supportParams.siteUrl,
-												} ) }
+												href="https://wordpress.org/support/plugin/highlight-and-share/"
 												target="_blank"
 												rel="noopener noreferrer"
 											>

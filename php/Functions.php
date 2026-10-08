@@ -579,7 +579,7 @@ class Functions {
 		 *
 		 * @param string Plugin Author URI.
 		 */
-		$plugin_author = apply_filters( 'has_dlx_plugin_author_uri', 'https://mediaron.com' );
+		$plugin_author = apply_filters( 'has_dlx_plugin_author_uri', 'https://berrypress.com' );
 		return $plugin_author;
 	}
 
@@ -632,7 +632,7 @@ class Functions {
 		 *
 		 * @param string Plugin URI.
 		 */
-		return apply_filters( 'has_dlx_plugin_uri', 'https://dlxplugins.com/plugins/highlight-and-share' );
+		return apply_filters( 'has_dlx_plugin_uri', 'https://berrypress.com/docs/highlight-and-share/' );
 	}
 
 	/**
@@ -648,7 +648,7 @@ class Functions {
 		 *
 		 * @param string Plugin Support URI.
 		 */
-		return apply_filters( 'has_dlx_plugin_support_uri', 'https://dlxplugins.com/support/' );
+		return apply_filters( 'has_dlx_plugin_support_uri', 'https://wordpress.org/support/plugin/highlight-and-share/' );
 	}
 
 	/**
@@ -664,7 +664,7 @@ class Functions {
 		 *
 		 * @param string Plugin Docs URI.
 		 */
-		return apply_filters( 'has_dlx_plugin_docs_uri', 'https://has.dlxplugins.com/' );
+		return apply_filters( 'has_dlx_plugin_docs_uri', 'https://berrypress.com/docs/highlight-and-share/' );
 	}
 
 	/**
@@ -680,7 +680,7 @@ class Functions {
 		 *
 		 * @param string Plugin ratings URI.
 		 */
-		return apply_filters( 'has_dlx_plugin_docs_uri', 'https://dlxplugins.com/support/' );
+		return apply_filters( 'has_dlx_plugin_ratings_uri', 'https://wordpress.org/support/plugin/highlight-and-share/reviews/#new-post' );
 	}
 
 	/**

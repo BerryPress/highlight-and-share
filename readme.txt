@@ -28,13 +28,13 @@ https://www.youtube.com/watch?v=EN7rmCiYHBE
 * **A Click to Share Block/Shortcode is included**. An easy-to-use Click to Share block is included, with setup available in seconds. The Content Sharing networks display above the share box when clicked, providing an easy way to share the quote.
 * **Set up email sharing with easy spam protection integration**. Set up emails with spam protection from Akismet, Cloudflare Turnstile, and Google reCAPTCHA Enterprise.
 
-> <a href="https://app.instawp.io/launch?s=highlight-and-share-demo&d=v2">Launch a free, fully-featured demo</a> via InstaWP.
+> <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/BerryPress/highlight-and-share/development/.wordpress-org/blueprints/blueprint.json">Launch a free, fully-featured demo</a> in WordPress Playground.
 
 === Quick Links ===
 
-<a href="https://docs.dlxplugins.com/highlight-and-share/">Comprehensive Documentation</a> | <a href="https://github.com/sponsors/DLXPlugins">Sponsor Us</a> | <a href="https://dlxplugins.com/support/?product=Highlight%20and%20Share">Support</a> | <a href="https://dlxplugins.com/plugins/highlight-and-share/">Homepage</a>
+<a href="https://berrypress.com/docs/highlight-and-share/">Comprehensive Documentation</a> | <a href="https://github.com/sponsors/DLXPlugins">Sponsor Us</a> | <a href="https://wordpress.org/support/plugin/highlight-and-share/">Support</a> | <a href="https://berrypress.com/docs/highlight-and-share/">Homepage</a>
 
-If you have a feature request, <a href="https://dlxplugins.com/support/?product=Highlight%20and%20Share">please leave a support request.</a>.
+If you have a feature request, <a href="https://wordpress.org/support/plugin/highlight-and-share/">please post in the support forum</a>.
 
 <h3>Available Features</h3>
 
@@ -44,7 +44,7 @@ Highlight and Share at its core is a content highlighter, but it has many other 
 <li>Show social networks on text highlight (content highlight).</li>
 <li>Add an inline highlight to text and show social networks on click. An optional tooltip shows on hover explaining the highlight.</li>
 <li>An easy to use Click to Share block is included, and can be disabled if needed.</li>
-<li>A comprehensive <a href="https://docs.dlxplugins.com/highlight-and-share/click-to-share-shortcode/shortcode-parameters">Click to Share shortcode</a> is included.</li>
+<li>A comprehensive <a href="https://berrypress.com/docs/highlight-and-share/click-to-share-shortcode/shortcode-parameters">Click to Share shortcode</a> is included.</li>
 <li>Image sharing via Pinterest and the Web Share API is included. You can select which post types it's enabled for, and also enable it on a per post basis via a post's sidebar settings.</li>
 <li>Enable or disable individual networks for content sharing. Reorder the networks, change the theme, or even choose a custom theme for matching your site's design.</li>
 <li>Use advanced selectors to choose how content highlighting works, which makes Highlight and Share a powerful tool when combined with your favorite page builder.
@@ -64,7 +64,7 @@ Highlight and Share at its core is a content highlighter, but it has many other 
 * Block Editor: Compatible with Blocksy Companion Pro Local Google Fonts and Adobe Fonts extensions.
 * Block Editor: Compatible With <a href="https://wordpress.org/plugins/simpletoc/">SimpleTOC</a>.
 
-> <a href="https://app.instawp.io/launch?s=highlight-and-share-demo&d=v2">Launch a free, fully-featured demo</a> via InstaWP.
+> <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/BerryPress/highlight-and-share/development/.wordpress-org/blueprints/blueprint.json">Launch a free, fully-featured demo</a> in WordPress Playground.
 
 > ❤️ A TON of work has gone into making this plugin great. Please share your appreciation by leaving a rating/review and by telling others about the plugin.
 
@@ -73,7 +73,7 @@ Highlight and Share at its core is a content highlighter, but it has many other 
 1. Search Highlight and Share in the plugin's screen.
 2. Install and activate.
 
-> <a href="https://docs.dlxplugins.com/v/highlight-and-share">In-depth Documentation</a> - Please check out our thorough documentation ❤️️
+> <a href="https://berrypress.com/docs/highlight-and-share/">In-depth Documentation</a> - Please check out our thorough documentation ❤️️
 
 == Frequently Asked Questions ==
 
@@ -143,7 +143,7 @@ This flexibility makes Highlight and Share compatible with most themes and page 
 
 Highlight and Share does not collect personal information or set tracking cookies.
 
-The plugin <a href="https://docs.dlxplugins.com/highlight-and-share/developers/enabling-tracking-stats">does allow for advanced stats tracking</a>, which is opt-in and is designed for developers. Stats are compatible with GA4, GTM, and synthetic JS events.
+The plugin <a href="https://berrypress.com/docs/highlight-and-share/developers/enabling-tracking-stats">does allow for advanced stats tracking</a>, which is opt-in and is designed for developers. Stats are compatible with GA4, GTM, and synthetic JS events.
 
 = Is this a Click to Tweet plugin? =
 
@@ -153,7 +153,7 @@ Instead of limiting sharing to a single network, users can choose from multiple 
 
 = What social networks does this plugin work with? =
 
-Highlight and Share <a href="https://docs.dlxplugins.com/v/highlight-and-share/developers/available-social-networks">works with the following networks</a>:
+Highlight and Share <a href="https://berrypress.com/docs/highlight-and-share/developers/available-social-networks">works with the following networks</a>:
 
 * X (formerly Twitter) (allows text sharing)
 * Facebook
@@ -180,7 +180,7 @@ Since Highlight and Share can provide some useful shortcuts, the plugin can prov
 
 = How can I customize the look of Highlight and Share? =
 
-Higlight and Share is extremely customizable through a theming system and <a href="https://docs.dlxplugins.com/highlight-and-share/developers/styling-highlight-and-share">through custom CSS</a>.
+Higlight and Share is extremely customizable through a theming system and <a href="https://berrypress.com/docs/highlight-and-share/developers/styling-highlight-and-share">through custom CSS</a>.
 
 In general, you can:
 
@@ -190,19 +190,19 @@ In general, you can:
 
 = Will you be adding more sharing services? =
 
-If the social network has an endpoint, it can be added. Please see <a href="https://docs.dlxplugins.com/v/highlight-and-share/developers/available-social-networks">the available social networks</a> and their specifications. Please request a new network via support.
+If the social network has an endpoint, it can be added. Please see <a href="https://berrypress.com/docs/highlight-and-share/developers/available-social-networks">the available social networks</a> and their specifications. Please request a new network via support.
 
 = I want to include my own CSS.  How can I do that? =
 
 You can turn off the theme and include CSS in your own theme.
 
-See <a href="https://docs.dlxplugins.com/highlight-and-share/developers/styling-highlight-and-share">Customizing Highlight and Share through custom CSS</a>
+See <a href="https://berrypress.com/docs/highlight-and-share/developers/styling-highlight-and-share">Customizing Highlight and Share through custom CSS</a>
 
 = Does this plugin work on mobile devices? =
 
 Yes, Highlight and Share works well for mobile devices and also supports the Web Share API, which is one of the options of social sharing networks.
 
-Most mobile devices already have their own sharing features on text selection, but Highlight and Share works especially well for <a href="https://docs.dlxplugins.com/v/highlight-and-share/inline-highlighting/what-is-inline-highlighting">inline highlighting</a> and the <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-block/the-click-to-share-block">Click to Share block</a>.
+Most mobile devices already have their own sharing features on text selection, but Highlight and Share works especially well for <a href="https://berrypress.com/docs/highlight-and-share/inline-highlighting/what-is-inline-highlighting">inline highlighting</a> and the <a href="https://berrypress.com/docs/highlight-and-share/click-to-share-block/the-click-to-share-block">Click to Share block</a>.
 
 Image Sharing and Headline sharing also make the plugin useful for mobile devices.
 

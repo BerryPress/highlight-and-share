@@ -26,11 +26,11 @@ const SocialNetworksPanel = ( data ) => {
 					{ __( 'Could not load Social Networks panel.', 'highlight-and-share' ) }
 					<br />
 					<a
-						href="https://dlxplugins.com/support/"
+						href="https://wordpress.org/support/plugin/highlight-and-share/"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						DLX Plugins Support
+						BerryPress Support
 					</a>
 				</p>
 			}
