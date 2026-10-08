@@ -13,10 +13,10 @@ import Notice from '../Components/Notice';
 import CircularExclamationIcon from '../Components/Icons/CircularExplanation';
 import Loader from '../Components/Loader';
 import sendCommand from '../Utils/SendCommand';
+import { EMAIL_PATTERN } from '../Utils/EmailValidation';
 
 // Get URL Query Parameter: type
-const urlParams = new URLSearchParams( window.location.search );
-const emailShareType = urlParams.get( 'type' ); // can be highlight, quote, selection.
+const emailShareType = hasEmailModal.email_share_type;
 
 const View = () => {
 	const [ isSent, setIsSent ] = useState( false );
@@ -25,6 +25,7 @@ const View = () => {
 	const [ errorMessage, setErrorMessage ] = useState( false );
 	const [ firstNameFieldFocus, setFirstNameFieldFocus ] = useState( false );
 	const firstNameField = useRef( null );
+	const formRef = useRef( null );
 
 	/**
 	 * Get a title for the email modal.
@@ -32,16 +33,20 @@ const View = () => {
 	 * @return {string} The title of the modal.
 	 */
 	const getModalTitle = () => {
-		switch ( emailShareType ) {
-			case 'highlight':
-				return __( 'Email this Highlight', 'highlight-and-share' );
-			case 'quote':
-				return __( 'Email this Quote', 'highlight-and-share' );
-			case 'selection':
-				return __( 'Email this Selection', 'highlight-and-share' );
-			default:
-				return __( 'Email this Page', 'highlight-and-share' );
+		const modalTitle = hasEmailModal.email_modal_title;
+		if ( ! modalTitle ) {
+			switch ( emailShareType ) {
+				case 'highlight':
+					return __( 'Email this Highlight', 'highlight-and-share' );
+				case 'quote':
+					return __( 'Email this Quote', 'highlight-and-share' );
+				case 'selection':
+					return __( 'Email this Selection', 'highlight-and-share' );
+				default:
+					return __( 'Email this Page', 'highlight-and-share' );
+			}
 		}
+		return modalTitle;
 	};
 
 	/**
@@ -59,21 +64,25 @@ const View = () => {
 	}, [] );
 
 	/**
-	 * Get a title for the email modal.
+	 * Get a subject for the email modal.
 	 *
-	 * @return {string} The title of the modal.
+	 * @return {string} The subject of the email.
 	 */
 	const getEmailSubject = () => {
-		switch ( emailShareType ) {
-			case 'highlight':
-				return __( 'Check out this Highlight from {sitename}', 'highlight-and-share' );
-			case 'quote':
-				return __( 'Check out this Quote from {sitename}', 'highlight-and-share' );
-			case 'selection':
-				return __( 'Check out this Text Selection from {sitename}', 'highlight-and-share' );
-			default:
-				return __( 'Check out this page I found from {sitename}', 'highlight-and-share' );
+		const emailSubject = hasEmailModal.email_modal_subject;
+		if ( ! emailSubject ) {
+			switch ( emailShareType ) {
+				case 'highlight':
+					return __( 'Check out this Highlight from {{site_name}}', 'highlight-and-share' );
+				case 'quote':
+					return __( 'Check out this Quote from {{site_name}}', 'highlight-and-share' );
+				case 'selection':
+					return __( 'Check out this Text Selection from {{site_name}}', 'highlight-and-share' );
+				default:
+					return __( 'Check out this page I found from {{site_name}}', 'highlight-and-share' );
+			}
 		}
+		return emailSubject;
 	};
 
 	const getDefaultValues = () => {
@@ -85,6 +94,7 @@ const View = () => {
 			permalink: hasEmailModal.permalink,
 			shareText: hasEmailModal.share_text,
 			postId: hasEmailModal.post_id,
+			emailShareType: hasEmailModal.email_share_type,
 		};
 	};
 	const { control, handleSubmit, setValue } =
@@ -101,6 +111,15 @@ const View = () => {
 		setFormErrors( false );
 		setErrorMessage( '' );
 
+		// GEt token from Cloudflare if enabled.
+		if ( typeof hasCfTurnstileLocal !== 'undefined' ) {
+			if ( hasCfTurnstileLocal.turnstile_enabled ) {
+				const cfResponse = document.querySelector( 'input[name="cf-turnstile-response"]' );
+				if ( null !== cfResponse ) {
+					formData.turnstileToken = cfResponse.value;
+				}
+			}
+		}
 		// Save stuff here.
 		sendCommand( 'has_email_form_submission', {
 			formData,
@@ -110,9 +129,12 @@ const View = () => {
 
 			if ( ajaxSuccess ) {
 				setIsSent( true );
+				// Add slight delay to ensure DOM has updated.
+
+				// Close the modal after showing success message.
 				setTimeout(
 					() => {
-						window.parent.window.highlightShareFancy.close(); // See frontendjs/highlight-and-share.js for this variable.
+						window.parent.window.hasShareModal.close(); // See src/utils/modal.js for this variable.
 					},
 					3000
 				);
@@ -131,20 +153,10 @@ const View = () => {
 		return Object.keys( errors ).length > 0;
 	};
 
-	const validateEmail = ( email ) => {
-		// From: https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
-		const regex =
-			/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-		if ( regex.test( email ) ) {
-			return true;
-		}
-		return false;
-	};
-
 	// If the email is sent, show a success message.
 	if ( isSent ) {
 		return (
-			<section className="has-email--content-wrap">
+			<section className="has-email--notice-wrap">
 				<div className="has-email-control-row">
 					<Notice
 						message={ __( 'The email has been sent.' ) }
@@ -159,29 +171,26 @@ const View = () => {
 	return (
 		<section className="has-email--content-wrap">
 			<h2>{ getModalTitle() }</h2>
-			<form id="has-email-quote-form" onSubmit={ handleSubmit( onSubmit ) }>
+			<form id="has-email-quote-form" ref={ formRef } noValidate onSubmit={ handleSubmit( onSubmit ) }>
 				<div className="has-email-control-row">
 					<Controller
 						name="toEmail"
 						control={ control }
 						rules={ {
-							validate: ( value ) => {
-								if ( validateEmail( value ) ) {
-									return true;
-								}
-								return false;
-							},
 							required: true,
+							pattern: EMAIL_PATTERN,
 						} }
 						render={ ( { field } ) => (
 							<TextControl
 								{ ...field }
 								label={ __( 'To (email):', 'highlight-and-share' ) }
 								className={ classNames( 'search-has-admin has-admin__text-control', {
-									'has-error': 'required' === errors.toEmail?.type,
+									'has-error': !! errors.toEmail,
 									'is-required': true,
 								} ) }
 								register="toEmail"
+								type="email"
+								required={true}
 								placeholder="yourcolleague@friends.com"
 								help={ __(
 									'Please select who you would like to email.',
@@ -190,7 +199,7 @@ const View = () => {
 							/>
 						) }
 					/>
-					{ 'validate' === errors.toEmail?.type && (
+					{ 'pattern' === errors.toEmail?.type && (
 						<Notice
 							message={ __( 'The Email is Invalid.' ) }
 							status="error"
@@ -276,6 +285,13 @@ const View = () => {
 							<TextControl { ...field } type="hidden" register="shareText" />
 						) }
 					/>
+					<Controller
+						name="shareType"
+						control={ control }
+						render={ ( { field } ) => (
+							<TextControl { ...field } type="hidden" register="shareType" />
+						) }
+					/>
 				</div>
 				<div className="has-admin__tabs--content-actions">
 					<Button
@@ -284,7 +300,7 @@ const View = () => {
 							'qdlx__btn qdlx__btn-primary qdlx__btn--icon-right g-recaptcha',
 							{ 'has-error': hasErrors() },
 							{ 'has-icon': isSending },
-							{ 'is-saving': { isSending } }
+							{ 'is-saving': isSending }
 						) }
 						type="button"
 						text={
@@ -295,29 +311,26 @@ const View = () => {
 						iconSize="18"
 						iconPosition="right"
 						disabled={ isSending || isSent }
-						onClick={ ( e ) => {
+						onClick={ () => {
 							// eslint-disable-next-line no-undef
 							if (
 								hasEmailModal.recaptcha_enabled &&
 								typeof grecaptcha !== 'undefined'
 							) {
-								grecaptcha.ready( function() {
+								grecaptcha.enterprise.ready( function() {
 									grecaptcha
-										.execute( hasEmailModal.recaptcha_site_key, {
+										.enterprise.execute( hasEmailModal.recaptcha_site_key, {
 											action: 'submit',
 										} )
 										.then( function( token ) {
 											setValue( 'recaptchaToken', token );
-											e.target.form.dispatchEvent(
-												new Event( 'submit', { cancelable: true, bubbles: true } )
-											);
+											// requestSubmit() (rather than a synthetic 'submit' event)
+											// runs the real submit path so validation actually executes.
+											formRef.current.requestSubmit();
 										} );
 								} );
 							} else {
-								// This force submits the form.
-								e.target.form.dispatchEvent(
-									new Event( 'submit', { cancelable: true, bubbles: true } )
-								);
+								formRef.current.requestSubmit();
 							}
 						} }
 					/>
@@ -331,7 +344,7 @@ const View = () => {
 						}
 						disabled={ isSending }
 						onClick={ () => {
-							window.parent.window.highlightShareFancy.close(); // See frontendjs/highlight-and-share.js for this variable.
+							window.parent.window.hasShareModal.close(); // See src/utils/modal.js for this variable.
 						} }
 					/>
 				</div>

@@ -11,6 +11,9 @@ import shorthandCSS from './ShorthandCSS';
  */
 export function buildDimensionsCSS( props, screenSize ) {
 	screenSize = screenSize.toLowerCase();
+	if ( 'undefined' === typeof props ) {
+		return '';
+	}
 	const dimensions = props[ screenSize ];
 
 	if ( 'desktop' === screenSize ) {

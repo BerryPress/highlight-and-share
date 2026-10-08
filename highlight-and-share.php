@@ -2,22 +2,28 @@
 
 /*
  * Plugin Name: Highlight and Share
- * Plugin URI: https://has.dlxplugins.com
+ * Plugin URI: https://berrypress.com/docs/highlight-and-share/
  * Description: Select text, inline highlight, or use a Click to Share block and show social networks.
- * Author: DLX Plugins
- * Version: 4.1.0
- * Requires at least: 5.1
+ * Author: BerryPress (originally by DLX Plugins)
+ * Version: 6.0.2
+ * Requires at least: 6.5
  * Requires PHP: 7.2
- * Author URI: https://dlxplugins.com
- * License: GPL v2 or later
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Author URI: https://berrypress.com/
+ * License: GPL v3 or later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: highlight-and-share
- * Contributors: ronalfy
+ * Contributors: berrypress
+ * GitHub Plugin URI: BerryPress/highlight-and-share
  */
 
 namespace DLXPlugins\HAS;
 
-define( 'HIGHLIGHT_AND_SHARE_VERSION', '4.1.0' );
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+define( 'HIGHLIGHT_AND_SHARE_VERSION', '6.0.2' );
+define( 'HIGHLIGHT_AND_SHARE_OPTIONS_VERSION', '1.0.2' );
 define( 'HIGHLIGHT_AND_SHARE_FILE', __FILE__ );
 
 // Support for site-level autoloading.
@@ -62,8 +68,6 @@ class Highlight_And_Share {
 	 * @access private
 	 */
 	private function __construct() {
-		// i18n initialization.
-		load_plugin_textdomain( 'highlight-and-share', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 		// For the icons on older version of HAS.
 		$this->maybe_migrate_icons();
@@ -98,13 +102,23 @@ add_action( 'plugins_loaded', 'DLXPlugins\HAS\highlightshare_instantiate' );
 function highlightshare_instantiate() {
 	Highlight_And_Share::get_instance();
 
+	// Options.
+	$options = new Options();
+	$options->run();
+
 	// Gutenberg block.
 	$blocks = new Blocks();
 	$blocks->run();
 
+	// Per-post settings (sidebar / meta box).
+	PostSettings::run();
+
 	// Init admin panel settings.
 	$admin_panel = new Admin();
 	$admin_panel->run();
+
+	// Headlines feature.
+	Headlines::run();
 
 	// Register hashtags taxonomy.
 	$hashtags = new Hashtags();
@@ -121,8 +135,4 @@ function highlightshare_instantiate() {
 	// Emails.
 	$emails = new Emails();
 	$emails->run();
-
-	// Adobe fonts.
-	$adobe_fonts = new Adobe_Fonts();
-	$adobe_fonts->run();
 }

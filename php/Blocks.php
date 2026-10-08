@@ -7,6 +7,10 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Helper class for registering blocks.
  */
@@ -20,23 +24,55 @@ class Blocks {
 	public static function run() {
 		$self = new self();
 
-		// Get block editor options.
-		$options = Options::get_block_editor_options();
+		add_action(
+			'init',
+			function () use ( $self ) {
+				add_filter( 'block_categories_all', array( $self, 'register_block_category' ), 10, 10 );
 
-		// Enqueue inline highlighting script if enabled.
-		if ( (bool) $options['enable_inline_highlighting'] ) {
-			add_action( 'enqueue_block_editor_assets', array( $self, 'enqueue_inline_highlighting_script' ) );
-		}
+				// Get block editor options.
+				$options = Options::get_plugin_options();
 
-		// Register the block if enabled.
-		if ( (bool) $options['enable_blocks'] ) {
-			add_action( 'init', array( $self, 'register_block' ) );
-			add_action( 'enqueue_block_editor_assets', array( $self, 'register_block_assets' ) );
-			add_action( 'enqueue_block_assets', array( $self, 'enqueue_frontend_assets' ) );
-			add_action( 'wp_enqueue_scripts', array( $self, 'register_font_scripts' ) );
-			add_action( 'admin_enqueue_scripts', array( $self, 'register_font_scripts' ) );
-		}
+				// Enqueue inline highlighting script if enabled.
+				if ( (bool) $options['enable_inline_highlighting'] ) {
+					add_action( 'enqueue_block_editor_assets', array( $self, 'enqueue_inline_highlighting_script' ) );
+				}
+
+				// Per-post sidebar panel (Document settings).
+				add_action( 'enqueue_block_editor_assets', array( $self, 'enqueue_post_sidebar_script' ) );
+
+				// Register the block if enabled.
+				if ( (bool) $options['enable_blocks'] ) {
+					$self->register_block();
+					add_action( 'enqueue_block_editor_assets', array( $self, 'register_block_assets' ) );
+					add_action( 'enqueue_block_assets', array( $self, 'enqueue_frontend_assets' ) );
+				}
+			}
+		);
+
 		return $self;
+	}
+
+	/**
+	 * Registers the Highlight and Share block category with orange share icon.
+	 *
+	 * @param array[] $block_categories     Array of block categories.
+	 * @return array[] Modified block categories.
+	 */
+	public function register_block_category( $block_categories ) {
+		$has_svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true"><path fill="#F68105" d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"/></svg>';
+
+		$new_category = array(
+			'slug'  => 'highlight-and-share',
+			'title' => __( 'Highlight and Share', 'highlight-and-share' ),
+			'icon'  => $has_svg,
+		);
+
+		$existing_slugs = is_array( $block_categories ) ? array_column( $block_categories, 'slug' ) : array();
+		if ( is_array( $existing_slugs ) && in_array( 'highlight-and-share', $existing_slugs, true ) ) {
+			return $block_categories;
+		}
+
+		return array_merge( $block_categories, array( $new_category ) );
 	}
 
 	/**
@@ -68,14 +104,53 @@ class Blocks {
 	}
 
 	/**
+	 * Enqueue per-post sidebar script in the block editor (Document panel).
+	 */
+	public function enqueue_post_sidebar_script() {
+		$screen = get_current_screen();
+		if ( ! $screen || ! in_array( $screen->post_type, PostSettings::get_supported_post_types(), true ) ) {
+			return;
+		}
+		$asset_file = Functions::get_plugin_dir( 'build/has-post-sidebar.asset.php' );
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+		$deps = require $asset_file;
+		wp_enqueue_script(
+			'has-post-sidebar',
+			Functions::get_plugin_url( 'build/has-post-sidebar.js' ),
+			$deps['dependencies'],
+			$deps['version'],
+			true
+		);
+		wp_localize_script(
+			'has-post-sidebar',
+			'hasPostSidebar',
+			array(
+				'supportedPostTypes' => PostSettings::get_supported_post_types(),
+				'defaults'           => PostSettings::get_defaults(),
+			)
+		);
+		wp_enqueue_style(
+			'has-post-sidebar-style',
+			Functions::get_plugin_url( 'build/style-has-post-sidebar.css' ),
+			array(),
+			$deps['dependencies'],
+			'all'
+		);
+		wp_set_script_translations( 'has-post-sidebar', 'highlight-and-share' );
+	}
+
+	/**
 	 * Enqueue inline highlighting script in the block editor.
 	 */
 	public function enqueue_inline_highlighting_script() {
+		$deps = require_once Functions::get_plugin_dir( 'build/has-inline-highlighting.asset.php' );
 		wp_enqueue_script(
 			'has-inline-highlighting-js',
 			Functions::get_plugin_url( 'build/has-inline-highlighting.js' ),
-			array(),
-			HIGHLIGHT_AND_SHARE_VERSION,
+			$deps['dependencies'],
+			$deps['version'],
 			true
 		);
 	}
@@ -95,11 +170,12 @@ class Blocks {
 			'has-style-admin-css',
 			Themes::get_inline_highlight_css()
 		);
+		$deps = require_once Functions::get_plugin_dir( 'build/has-click-to-share.asset.php' );
 		wp_register_script(
 			'has-click-to-share',
 			Functions::get_plugin_url( 'build/has-click-to-share.js' ),
-			array( 'wp-blocks', 'wp-element', 'wp-i18n' ),
-			HIGHLIGHT_AND_SHARE_VERSION,
+			$deps['dependencies'],
+			$deps['version'],
 			true
 		);
 		$color_palette = array();
@@ -108,19 +184,19 @@ class Blocks {
 			$color_palette = $settings['color']['palette']['theme'];
 		}
 
-		// Get adobe fonts.
-		$block_editor_options = Options::get_block_editor_options( true );
-		$adobe_fonts          = $block_editor_options['adobe_fonts'] ?? array();
+		// Get current user ID.
+		$current_user_id = get_current_user_id();
 		wp_localize_script(
 			'has-click-to-share',
 			'has_gutenberg',
 			array(
-				'svg'            => Functions::get_plugin_url( 'img/share.svg' ),
-				'colorPalette'   => Themes::get_default_theme_colors(),
-				'adobeFonts'     => $adobe_fonts,
-				'adobeFontsUrl'  => Adobe_Fonts::$typekit_css_url,
-				'adobeProjectId' => $block_editor_options['adobe_project_id'] ?? '',
-				'cssFolder'      => esc_url( functions::get_plugin_url( '/dist/' ) ),
+				'svg'                               => Functions::get_plugin_url( 'img/share.svg' ),
+				'colorPalette'                      => Themes::get_default_theme_colors(),
+				'customFonts'                       => Functions::get_typography_fonts(),
+				'cssFolder'                         => esc_url( functions::get_plugin_url( '/dist/' ) ),
+				'canEditOthersPosts'                => current_user_can( 'edit_others_posts' ),
+				'hasHiddenColorSyncNotice'          => (bool) get_user_meta( get_current_user_id(), 'has_hidden_color_sync_notice', true ),
+				'hasHiddenColorSyncNoticeSaveNonce' => wp_create_nonce( 'has_hidden_color_sync_notice_save_' . $current_user_id ),
 			)
 		);
 		wp_set_script_translations( 'has-click-to-share', 'highlight-and-share' );
@@ -128,80 +204,26 @@ class Blocks {
 	}
 
 	/**
-	 * Register font scripts.
-	 *
-	 * @param string $hook Hook name.
-	 */
-	public function register_font_scripts( $hook ) {
-		global $post;
-
-		$can_enqueue = false;
-
-		// Check to see if we're in the admin and in the post editor.
-		if ( is_admin() && ( isset( $post->post_content ) ) ) {
-			$can_enqueue = true;
-		}
-
-		if ( ! ( is_singular() || is_page() ) && ! $can_enqueue ) {
-			return;
-		}
-
-		// Get array of all fonts used in blocks.
-		$blocks      = parse_blocks( $post->post_content );
-		$block_fonts = Functions::get_block_fonts( $blocks );
-
-		// Enqueue fonts.
-		foreach ( $block_fonts as $block_font ) {
-			if ( 'web' === $block_font['fontType'] ) {
-				continue;
-			}
-			if ( 'adobe' === $block_font['fontType'] ) {
-				$block_editor_options = Options::get_block_editor_options( true );
-				$adobe_project_id     = $block_editor_options['adobe_project_id'] ?? '';
-				if ( ! empty( $adobe_project_id ) ) {
-					$adobe_fonts_url = esc_url( Adobe_Fonts::$typekit_css_url . '/' . $adobe_project_id . '.css' );
-					wp_enqueue_style(
-						'has-adobe-fonts',
-						$adobe_fonts_url,
-						array(),
-						HIGHLIGHT_AND_SHARE_VERSION,
-						'all'
-					);
-					continue;
-				}
-			}
-			if ( 'google' === $block_font['fontType'] ) {
-				$font_slug = $block_font['fontFamilySlug'];
-				wp_enqueue_style(
-					'has-google-font-' . $font_slug,
-					esc_url( Functions::get_plugin_url( 'dist/has-gfont-' . $font_slug . '.css' ) ),
-					array(),
-					HIGHLIGHT_AND_SHARE_VERSION,
-					'all'
-				);
-				continue;
-			}
-		}
-	}
-
-	/**
 	 * Output Click to Share Gutenberg block on the front-end.
 	 *
-	 * @param array $attributes Array of attributes for the Gutenberg block.
+	 * @param array  $attributes Array of attributes for the Gutenberg block.
+	 * @param string $content Content of the innerblocks.
 	 */
-	public function frontend( $attributes ) {
+	public function frontend( $attributes, $content ) {
 		global $post;
 		if ( '' === $attributes['uniqueId'] ) {
 			return $this->get_legacy_frontend( $attributes );
 		}
 		ob_start();
-		?>
+		$theme = sanitize_key( $attributes['theme'] );
+		if ( 'custom' === $theme ) :
+			?>
 		<style>
 			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> {
 				border-style: solid;
 				border-color: <?php echo esc_attr( $attributes['borderColor'] ); ?>;
 				transition: all 0.3s ease-in-out;
-				max-width: <?php echo esc_attr( $attributes['maxWidth'] ); ?><?php echo esc_attr( $attributes['maxWidthUnit'] ); ?>;
+				max-width: <?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'mobile', '', 'width' ) ); ?><?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'mobile', '', 'unit' ) ); ?>;
 				overflow: hidden;
 				border-width: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderWidth'], 'mobile' ) ); ?>;
 				border-radius: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderRadiusSize'], 'mobile' ) ); ?>;
@@ -210,6 +232,7 @@ class Blocks {
 			}
 			@media screen and (min-width: 728px) {
 				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> {
+					max-width: <?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'tablet', '', 'width' ) ); ?><?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'tablet', '', 'unit' ) ); ?>;
 					border-width: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderWidth'], 'tablet' ) ); ?>;
 					border-radius: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderRadiusSize'], 'tablet' ) ); ?>;
 					margin: <?php echo esc_attr( $this->build_dimensions_css( $attributes['marginSize'], 'tablet', true ) ); ?>;
@@ -217,6 +240,7 @@ class Blocks {
 			}
 			@media screen and (min-width: 1024px) {
 				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> {
+					max-width: <?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'desktop', '', 'width' ) ); ?><?php echo esc_attr( $this->get_hierarchical_value( $attributes['maximumWidth'], 'desktop', '', 'unit' ) ); ?>;
 					border-width: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderWidth'], 'desktop' ) ); ?>;
 					border-radius: <?php echo esc_attr( $this->build_dimensions_css( $attributes['borderRadiusSize'], 'desktop' ) ); ?>;
 					margin: <?php echo esc_attr( $this->build_dimensions_css( $attributes['marginSize'], 'desktop', true ) ); ?>;
@@ -268,21 +292,27 @@ class Blocks {
 			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?>:hover .has-click-to-share-cta {
 				color: <?php echo esc_attr( $attributes['shareTextColorHover'] ); ?>;
 			}
-			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-text {
+			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-text,
+			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-text p {
 				color: <?php echo esc_attr( $attributes['textColor'] ); ?>;
 			}
-			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?>:hover .has-click-to-share-text {
+			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?>:hover .has-click-to-share-text,
+			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?>:hover .has-click-to-share-text p {
 				color: <?php echo esc_attr( $attributes['textColorHover'] ); ?>;
 			}
 			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta svg {
 				color: <?php echo esc_attr( $attributes['iconColor'] ); ?>;
+				fill: <?php echo esc_attr( $attributes['iconColor'] ); ?>;
+				width: <?php echo esc_attr( $attributes['iconSizeResponsive']['mobile'] ); ?>px;
+				height: auto;
 			}
 			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?>:hover .has-click-to-share-cta svg {
 				color: <?php echo esc_attr( $attributes['iconColorHover'] ); ?>;
+				fill: <?php echo esc_attr( $attributes['iconColorHover'] ); ?>;
 			}
 			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta,
 			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta p {
-				font-family: "<?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'mobile', 'fontFamily' ) ); ?>";
+				font-family: "<?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'desktop', 'fontFamily' ) ); ?>";
 				font-size: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'mobile', 'fontSize' ) ); ?><?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'mobile', 'fontSizeUnit' ) ); ?>;
 				font-weight: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'mobile', 'fontWeight' ) ); ?>;
 				line-height: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'mobile', 'lineHeight' ) ); ?><?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'mobile', 'lineHeightUnit' ) ); ?>;
@@ -293,12 +323,15 @@ class Blocks {
 			@media screen and (min-width: 728px) {
 				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta,
 				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta p {
-					font-family: "<?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'tablet', 'fontFamily' ) ); ?>";
+					font-family: "<?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'desktop', 'fontFamily' ) ); ?>";
 					font-size: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'tablet', 'fontSize' ) ); ?><?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'mobile', 'fontSizeUnit' ) ); ?>;
 					font-weight: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'tablet', 'fontWeight' ) ); ?>;
 					line-height: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'tablet', 'lineHeight' ) ); ?><?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'mobile', 'lineHeightUnit' ) ); ?>;
 					letter-spacing: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'tablet', 'letterSpacing' ) ); ?><?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'mobile', 'letterSpacingUnit' ) ); ?>;
 					text-transform: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'tablet', 'textTransform' ) ); ?>;
+				}
+				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta svg {
+					width: <?php echo esc_attr( $attributes['iconSizeResponsive']['tablet'] ); ?>px;
 				}
 			}
 			@media screen and (min-width: 1024px) {
@@ -311,10 +344,19 @@ class Blocks {
 					letter-spacing: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'desktop', 'letterSpacing' ) ); ?><?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'mobile', 'letterSpacingUnit' ) ); ?>;
 					text-transform: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyShareText'], 'desktop', 'textTransform' ) ); ?>;
 				}
+				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta svg {
+					width: <?php echo esc_attr( $attributes['iconSizeResponsive']['desktop'] ); ?>px;
+				}
+			}
+			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta-text {
+				display: <?php echo esc_attr( $attributes['showClickToShareText']['mobile'] ? 'inline' : 'none' ); ?>;
+			}
+			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta-svg {
+				display: <?php echo esc_attr( $attributes['showClickToShareIcon']['mobile'] ? 'inline-flex' : 'none' ); ?>;
 			}
 			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-text,
 			.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-text p {
-				font-family: "<?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'mobile', 'fontFamily' ) ); ?>";
+				font-family: "<?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'desktop', 'fontFamily' ) ); ?>";
 				font-size: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'mobile', 'fontSize' ) ); ?><?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'mobile', 'fontSizeUnit' ) ); ?>;
 				font-weight: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'mobile', 'fontWeight' ) ); ?>;
 				line-height: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'mobile', 'lineHeight' ) ); ?><?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'mobile', 'lineHeightUnit' ) ); ?>;
@@ -323,9 +365,15 @@ class Blocks {
 
 			}
 			@media screen and (min-width: 728px) {
+				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta-svg {
+				display: <?php echo esc_attr( $attributes['showClickToShareIcon']['tablet'] ? 'inline-flex' : 'none' ); ?>;
+			}
+				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta-text {
+					display: <?php echo esc_attr( $attributes['showClickToShareText']['tablet'] ? 'inline' : 'none' ); ?>;
+				}
 				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-text,
 				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-text p {
-					font-family: "<?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'tablet', 'fontFamily' ) ); ?>";
+					font-family: "<?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'desktop', 'fontFamily' ) ); ?>";
 					font-size: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'tablet', 'fontSize' ) ); ?><?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'mobile', 'fontSizeUnit' ) ); ?>;
 					font-weight: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'tablet', 'fontWeight' ) ); ?>;
 					line-height: <?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'tablet', 'lineHeight' ) ); ?><?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'mobile', 'lineHeightUnit' ) ); ?>;
@@ -334,6 +382,12 @@ class Blocks {
 				}
 			}
 			@media screen and (min-width: 1024px) {
+				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta-svg {
+					display: <?php echo esc_attr( $attributes['showClickToShareIcon']['desktop'] ? 'inline-flex' : 'none' ); ?>;
+				}
+				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-cta-text {
+					display: <?php echo esc_attr( $attributes['showClickToShareText']['desktop'] ? 'inline' : 'none' ); ?>;
+				}
 				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-text,
 				.has-click-to-share#<?php echo esc_attr( $attributes['uniqueId'] ); ?> .has-click-to-share-text p {
 					font-family: "<?php echo esc_attr( $this->get_hierarchical_typography( $attributes['typographyQuote'], 'desktop', 'fontFamily' ) ); ?>";
@@ -373,10 +427,46 @@ class Blocks {
 			?>
 			/* resume here */
 		</style>
+			<?php
+		endif;
+
+		if ( ! wp_style_is( 'has-style-frontend-css', 'registered' ) ) {
+			wp_register_style(
+				'has-style-frontend-css',
+				Functions::get_plugin_url( 'dist/has-cts-style.css' ),
+				array(),
+				HIGHLIGHT_AND_SHARE_VERSION,
+				'all'
+			);
+		}
+
+		// Output theme override styles for non-custom themes (only when values exist).
+		$styles_to_print = array();
+		if ( ! wp_style_is( 'has-style-frontend-css', 'done' ) ) {
+			$styles_to_print[] = 'has-style-frontend-css';
+		}
+		if ( 'custom' !== $theme ) {
+			$override_styles = $this->build_theme_override_styles(
+				$attributes,
+				'.has-click-to-share#' . esc_attr( $attributes['uniqueId'] )
+			);
+			if ( '' !== $override_styles ) {
+				$override_handle = 'has-cts-theme-overrides-' . sanitize_key( $attributes['uniqueId'] );
+				if ( ! wp_style_is( $override_handle, 'done' ) ) {
+					wp_register_style( $override_handle, false );
+					wp_add_inline_style( $override_handle, $override_styles );
+					$styles_to_print[] = $override_handle;
+				}
+			}
+		}
+
+		wp_print_styles( $styles_to_print );
+		?>
 		<?php
 		$container_classes = array(
 			'has-click-to-share',
 			'align' . $attributes['align'],
+			'has-theme-' . $theme,
 		);
 		if ( 'image' === $attributes['backgroundType'] ) {
 			$container_classes[] = 'has-background-image';
@@ -387,24 +477,61 @@ class Blocks {
 		if ( 'gradient' === $attributes['backgroundType'] ) {
 			$container_classes[] = 'has-background-gradient';
 		}
+
+		// Get the share text for data attribute and JS sharing.
+		$share_content         = ! empty( $content ) ? $content : $attributes['shareText'];
+		$share_content         = wp_strip_all_tags( $share_content );
+		$share_content_trimmed = preg_replace( '/\n+/', "\n\n", trim( $share_content ) ); // Replace newline chars with single newline.
+
+		// Get the custom share text if available.
+		$custom_share_text = ! empty( $attributes['customShareText'] ) ? $attributes['customShareText'] : '';
+		if ( ! empty( $custom_share_text ) ) {
+			$custom_share_text = wp_strip_all_tags( $custom_share_text );
+			$custom_share_text = preg_replace( '/\n+/', "\n\n", trim( $custom_share_text ) ); // Replace newline chars with single newline.
+
+			// Override trimmed share content.
+			$share_content_trimmed = $custom_share_text;
+		}
 		?>
 		<div class='<?php echo esc_attr( implode( ' ', $container_classes ) ); ?>' id="<?php echo esc_attr( $attributes['uniqueId'] ); ?>">
 			<div class="has-click-to-share-wrapper">
-				<div class="has-click-to-share-text" data-text-full="<?php echo esc_attr( esc_html( wp_strip_all_tags( $attributes['shareText'] ) ) ); ?>">
-					<?php echo wp_kses_post( $attributes['shareText'] ); ?>
+				<div class="has-click-to-share-text" data-text-full="<?php echo esc_attr( $share_content_trimmed ); ?>">
+					<?php
+					// Make sure shareText isn't empty. If it is, use InnerBlocks content instead.
+					if ( empty( $content ) && ! empty( $attributes['shareText'] ) ) {
+						echo wp_kses_post( $attributes['shareText'] );
+					} elseif ( ! empty( $content ) ) {
+						echo wp_kses_post( $content );
+					}
+					?>
 				</div>
 				<div class='has-click-to-share-cta'>
 					<?php
-					if ( (bool) $attributes['showClickToShare'] ) {
-						echo wp_kses_post( $attributes['clickText'] );
-					}
-					if ( (bool) $attributes['showClickToShare'] && (bool) $attributes['showIcon'] ) {
-						echo '&nbsp;';
-					}
-					if ( (bool) $attributes['showIcon'] ) {
+					$cta_values = $this->get_cta_values( $attributes );
+
+					if ( 'custom' === $theme ) {
+						// Legacy: preserve current behavior.
+						echo '<span class="has-click-to-share-cta-text">';
+						echo wp_kses_post( $cta_values['clickText'] );
+						echo '</span>';
+						if ( $cta_values['showText'] && $cta_values['showIcon'] ) {
+							echo '&nbsp;';
+						}
+						if ( $cta_values['showIcon'] && '' !== $cta_values['icon'] ) {
+							?>
+							<span class="has-click-to-share-cta-svg"><?php echo wp_kses( $cta_values['icon'], Functions::get_kses_allowed_html( true ) ); ?></span>
+							<?php
+						}
+					} else {
+						// New theme: always output both spans, display controlled by override styles.
 						?>
-						<svg width="<?php echo esc_attr( $attributes['clickShareFontSize'] ); ?>px" height="<?php echo esc_attr( $attributes['clickShareFontSize'] ); ?>px" class="has-cts-block-icon"><use xlink:href="#has-share-icon"></use></svg>
+						<span class="has-click-to-share-cta-text"><?php echo wp_kses_post( $cta_values['clickText'] ); ?></span>
 						<?php
+						if ( '' !== $cta_values['icon'] ) {
+							?>
+							<span class="has-click-to-share-cta-svg"><?php echo wp_kses( $cta_values['icon'], Functions::get_kses_allowed_html( true ) ); ?></span>
+							<?php
+						}
 					}
 					?>
 				</div>
@@ -418,6 +545,246 @@ class Blocks {
 	}
 
 	/**
+	 * Resolve CTA values (clickText, showText, showIcon, icon, iconSize) based on theme.
+	 * For custom theme: use legacy attributes. For new themes: use themeOverrides with fallbacks.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return array Associative array with keys: clickText, showText, showIcon, icon, iconSize.
+	 */
+	protected function get_cta_values( $attributes ) {
+		$theme = isset( $attributes['theme'] ) ? sanitize_key( $attributes['theme'] ) : 'custom';
+
+		if ( 'custom' === $theme ) {
+			$show_click_to_share = isset( $attributes['showClickToShare'] ) ? (bool) $attributes['showClickToShare'] : true;
+			$show_icon           = isset( $attributes['showIcon'] ) ? (bool) $attributes['showIcon'] : true;
+			return array(
+				'clickText' => isset( $attributes['clickText'] ) ? $attributes['clickText'] : __( 'Click to share', 'highlight-and-share' ),
+				'showText'  => $show_click_to_share,
+				'showIcon'  => $show_icon,
+				'icon'      => isset( $attributes['icon'] ) ? $attributes['icon'] : '',
+				'iconSize'  => null,
+			);
+		}
+
+		$overrides = isset( $attributes['themeOverrides'] ) && is_array( $attributes['themeOverrides'] )
+			? $attributes['themeOverrides']
+			: array();
+
+		$show_text = isset( $overrides['showClickToShareText'] ) ? (bool) $overrides['showClickToShareText'] : true;
+		$show_icon = isset( $overrides['showShareIcon'] ) ? (bool) $overrides['showShareIcon'] : true;
+
+		return array(
+			'clickText' => isset( $overrides['clickText'] ) && '' !== $overrides['clickText']
+				? $overrides['clickText']
+				: __( 'Click to share', 'highlight-and-share' ),
+			'showText'  => $show_text,
+			'showIcon'  => $show_icon,
+			'icon'      => isset( $overrides['icon'] ) && '' !== $overrides['icon']
+				? $overrides['icon']
+				: ( isset( $attributes['icon'] ) ? $attributes['icon'] : '' ),
+			'iconSize'  => isset( $overrides['iconSize'] ) && '' !== $overrides['iconSize'] && is_numeric( $overrides['iconSize'] )
+				? (int) $overrides['iconSize']
+				: null,
+		);
+	}
+
+	/**
+	 * Build theme override styles (CSS custom properties) for non-custom themes.
+	 * Only outputs rules for keys that exist and have non-empty values.
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $selector   CSS selector (e.g. #uniqueId.has-click-to-share).
+	 * @return string CSS rules or empty string.
+	 */
+	protected function build_theme_override_styles( $attributes, $selector ) {
+		$overrides = isset( $attributes['themeOverrides'] ) && is_array( $attributes['themeOverrides'] )
+			? $attributes['themeOverrides']
+			: array();
+
+		$color_mapping = array(
+			'backgroundColor'      => '--has-cta-background-color',
+			'backgroundColorHover' => '--has-cta-background-color-hover',
+			'textColor'            => '--has-cta-quote-text-color',
+			'textColorHover'       => '--has-cta-quote-text-color-hover',
+			'shareTextColor'       => '--has-cta-cta-text-color',
+			'shareTextColorHover'  => '--has-cta-cta-text-color-hover',
+			'iconColor'            => '--has-cta-icon-color',
+			'iconColorHover'       => '--has-cta-icon-color-hover',
+			'borderColor'          => '--has-cta-border-color',
+			'borderColorHover'     => '--has-cta-border-color-hover',
+		);
+
+		$custom_prop_rules = array();
+		foreach ( $color_mapping as $key => $var ) {
+			if ( isset( $overrides[ $key ] ) && '' !== $overrides[ $key ] ) {
+				$custom_prop_rules[] = sprintf( '%s: %s;', $var, esc_attr( $overrides[ $key ] ) );
+			}
+		}
+
+		// Typography overrides (quote and shareText).
+		$type_pairs = array(
+			array(
+				'quoteFontFamily',
+				'--has-cta-quote-font-family',
+				function ( $override_value ) {
+						return $override_value ? sprintf( '"%s"', esc_attr( $override_value ) ) : null;
+				},
+			),
+			array(
+				'quoteFontSize',
+				'--has-cta-quote-font-size',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['quoteFontSizeUnit'] ) && '' !== $overrides['quoteFontSizeUnit'] ? $overrides['quoteFontSizeUnit'] : 'px' ) : null;
+				},
+			),
+			array( 'quoteFontWeight', '--has-cta-quote-font-weight', null ),
+			array(
+				'quoteLineHeight',
+				'--has-cta-quote-line-height',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['quoteLineHeightUnit'] ) && '' !== $overrides['quoteLineHeightUnit'] ? $overrides['quoteLineHeightUnit'] : 'em' ) : null;
+				},
+			),
+			array(
+				'quoteLetterSpacing',
+				'--has-cta-quote-letter-spacing',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['quoteLetterSpacingUnit'] ) && '' !== $overrides['quoteLetterSpacingUnit'] ? $overrides['quoteLetterSpacingUnit'] : 'px' ) : null;
+				},
+			),
+			array( 'quoteTextTransform', '--has-cta-quote-text-transform', null ),
+			array(
+				'shareTextFontFamily',
+				'--has-cta-cta-font-family',
+				function ( $override_value ) {
+						return $override_value ? sprintf( '"%s"', esc_attr( $override_value ) ) : null;
+				},
+			),
+			array(
+				'shareTextFontSize',
+				'--has-cta-cta-font-size',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['shareTextFontSizeUnit'] ) && '' !== $overrides['shareTextFontSizeUnit'] ? $overrides['shareTextFontSizeUnit'] : 'px' ) : null;
+				},
+			),
+			array( 'shareTextFontWeight', '--has-cta-cta-font-weight', null ),
+			array(
+				'shareTextLineHeight',
+				'--has-cta-cta-line-height',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['shareTextLineHeightUnit'] ) && '' !== $overrides['shareTextLineHeightUnit'] ? $overrides['shareTextLineHeightUnit'] : 'em' ) : null;
+				},
+			),
+			array(
+				'shareTextLetterSpacing',
+				'--has-cta-cta-letter-spacing',
+				function ( $override_value, $overrides ) {
+						return ( isset( $override_value ) && '' !== $override_value ) ? esc_attr( $override_value ) . ( isset( $overrides['shareTextLetterSpacingUnit'] ) && '' !== $overrides['shareTextLetterSpacingUnit'] ? $overrides['shareTextLetterSpacingUnit'] : 'px' ) : null;
+				},
+			),
+			array( 'shareTextTextTransform', '--has-cta-cta-text-transform', null ),
+		);
+		foreach ( $type_pairs as $pair ) {
+			$key    = $pair[0];
+			$var    = $pair[1];
+			$format = $pair[2];
+			$val    = isset( $overrides[ $key ] ) ? $overrides[ $key ] : null;
+			$out    = $format ? call_user_func( $format, $val, $overrides ) : ( ( null !== $val && '' !== $val ) ? esc_attr( $val ) : null );
+			if ( null !== $out && '' !== $out ) {
+				$custom_prop_rules[] = sprintf( '%s: %s;', $var, $out );
+			}
+		}
+
+		// Spacing overrides (flat structure, no breakpoints).
+		$max_w = isset( $overrides['maximumWidth'] ) && is_array( $overrides['maximumWidth'] ) ? $overrides['maximumWidth'] : null;
+		if ( $max_w && isset( $max_w['width'] ) && '' !== $max_w['width'] ) {
+			$unit                = isset( $max_w['unit'] ) && '' !== $max_w['unit'] ? $max_w['unit'] : 'px';
+			$custom_prop_rules[] = sprintf( '--has-cta-maximum-width: %s;', esc_attr( $max_w['width'] ) . esc_attr( $unit ) );
+		}
+		$inner = isset( $overrides['innerPadding'] ) && is_array( $overrides['innerPadding'] ) ? $overrides['innerPadding'] : null;
+		if ( $inner && isset( $inner['top'] ) ) {
+			$dims    = array(
+				'desktop' => $inner,
+				'tablet'  => $inner,
+				'mobile'  => $inner,
+			);
+			$css_val = $this->build_dimensions_css( $dims, 'desktop', false );
+			// Skip when empty (user cleared override) so theme default applies.
+			if ( null !== $css_val && '' !== $css_val ) {
+				$custom_prop_rules[] = sprintf( '--has-cta-inner-padding: %s;', esc_attr( $css_val ) );
+			}
+		}
+		$outer = isset( $overrides['outerMargin'] ) && is_array( $overrides['outerMargin'] ) ? $overrides['outerMargin'] : null;
+		if ( $outer && isset( $outer['top'] ) ) {
+			$dims    = array(
+				'desktop' => $outer,
+				'tablet'  => $outer,
+				'mobile'  => $outer,
+			);
+			$css_val = $this->build_dimensions_css( $dims, 'desktop', true );
+			// Skip when empty (user cleared override) so theme default applies.
+			if ( null !== $css_val && '' !== $css_val ) {
+				$custom_prop_rules[] = sprintf( '--has-cta-outer-margin: %s;', esc_attr( $css_val ) );
+			}
+		}
+		$bw = isset( $overrides['borderWidth'] ) && is_array( $overrides['borderWidth'] ) ? $overrides['borderWidth'] : null;
+		if ( $bw && isset( $bw['top'] ) ) {
+			$dims    = array(
+				'desktop' => $bw,
+				'tablet'  => $bw,
+				'mobile'  => $bw,
+			);
+			$css_val = $this->build_dimensions_css( $dims, 'desktop', false );
+			// Skip when empty (user cleared override) so theme default applies.
+			if ( null !== $css_val && '' !== $css_val ) {
+				$custom_prop_rules[] = sprintf( '--has-cta-border-width: %s;', esc_attr( $css_val ) );
+			}
+		}
+		$br = isset( $overrides['borderRadius'] ) && is_array( $overrides['borderRadius'] ) ? $overrides['borderRadius'] : null;
+		if ( $br && isset( $br['top'] ) ) {
+			$dims    = array(
+				'desktop' => $br,
+				'tablet'  => $br,
+				'mobile'  => $br,
+			);
+			$css_val = $this->build_dimensions_css( $dims, 'desktop', false );
+			// Skip when empty (user cleared override) so theme default applies.
+			if ( null !== $css_val && '' !== $css_val ) {
+				$custom_prop_rules[] = sprintf( '--has-cta-border-radius: %s;', esc_attr( $css_val ) );
+			}
+		}
+
+		$cta_values  = $this->get_cta_values( $attributes );
+		$extra_rules = array();
+
+		if ( null !== $cta_values['iconSize'] && $cta_values['iconSize'] > 0 ) {
+			$extra_rules[] = sprintf( '%s .has-click-to-share-cta svg { width: %dpx; height: auto; }', $selector, (int) $cta_values['iconSize'] );
+		}
+		if ( array_key_exists( 'showClickToShareText', $overrides ) ) {
+			$display       = $overrides['showClickToShareText'] ? 'inline' : 'none';
+			$extra_rules[] = sprintf( '%s .has-click-to-share-cta-text { display: %s; }', $selector, $display );
+		}
+		if ( array_key_exists( 'showShareIcon', $overrides ) ) {
+			$display       = $overrides['showShareIcon'] ? 'inline-flex' : 'none';
+			$extra_rules[] = sprintf( '%s .has-click-to-share-cta-svg { display: %s; }', $selector, $display );
+		}
+
+		if ( empty( $custom_prop_rules ) && empty( $extra_rules ) ) {
+			return '';
+		}
+
+		$css = '';
+		if ( ! empty( $custom_prop_rules ) ) {
+			$css .= sprintf( "%s {\n\t\t%s\n\t}\n", $selector, implode( "\n\t\t", $custom_prop_rules ) );
+		}
+		if ( ! empty( $extra_rules ) ) {
+			$css .= implode( "\n", $extra_rules );
+		}
+
+		return $css;
+	}
+
+	/**
 	 * Output Click to Share Gutenberg block on the front-end (legacy markup).
 	 *
 	 * @param array $attributes Array of attributes for the Gutenberg block.
@@ -425,16 +792,18 @@ class Blocks {
 	public function get_legacy_frontend( $attributes ) {
 		ob_start();
 		global $post;
+		$share_content         = wp_strip_all_tags( $attributes['shareText'] );
+		$share_content_trimmed = preg_replace( '/\n+/', "\n\n", trim( $share_content ) ); // Replace newline chars with single newline.
 		?>
 		<div class='has-click-to-share' style="padding: <?php echo esc_attr( $attributes['padding'] ); ?>px; border: <?php echo esc_attr( $attributes['border'] . 'px solid ' . $attributes['borderColor'] ); ?>; border-radius: <?php echo esc_attr( $attributes['borderRadius'] ); ?>px; background-color: <?php echo esc_attr( $attributes['backgroundColor'] ); ?>; color: <?php echo esc_attr( $attributes['textColor'] ); ?>; max-width: <?php echo esc_attr( $attributes['maxWidth'] ); ?>%; margin-left: <?php echo esc_attr( $attributes['marginLeft'] ); ?>px; margin-right: <?php echo esc_attr( $attributes['marginRight'] ); ?>px; margin-bottom: <?php echo esc_attr( $attributes['marginBottom'] ); ?>px; margin-Top: <?php echo esc_attr( $attributes['marginTop'] ); ?>px; <?php echo 'center' === $attributes['alignment'] ? 'margin: ' . esc_attr( $attributes['marginTop'] ) . 'px auto ' . esc_attr( $attributes['marginBottom'] ) . 'px auto;' : ''; ?><?php echo 'left' === $attributes['alignment'] ? 'float: left;' : ''; ?><?php echo 'right' === $attributes['alignment'] ? 'float: right;' : ''; ?>">
 			<div class="has-click-to-share-wrapper">
-				<div class="has-click-to-share-text" style="color: <?php echo esc_attr( $attributes['textColor'] ); ?>; font-size: <?php echo esc_attr( $attributes['fontSize'] ); ?>px; font-weight: <?php echo esc_attr( $attributes['fontWeight'] ); ?>">
+				<div class="has-click-to-share-text" style="color: <?php echo esc_attr( $attributes['textColor'] ); ?>; font-size: <?php echo esc_attr( $attributes['fontSize'] ); ?>px; font-weight: <?php echo esc_attr( $attributes['fontWeight'] ); ?>" data-text-full="<?php echo esc_attr( $share_content_trimmed ); ?>">
 					<?php echo wp_kses_post( $attributes['shareText'] ); ?>
 				</div>
 				<div class='has-click-to-share-cta' style="font-size: <?php echo esc_attr( $attributes['clickShareFontSize'] ); ?>px; color: <?php echo esc_attr( $attributes['textColor'] ); ?>">
 				<?php echo wp_kses_post( $attributes['clickText'] ); ?> <svg width="<?php echo esc_attr( $attributes['clickShareFontSize'] ); ?>px" height="<?php echo esc_attr( $attributes['clickShareFontSize'] ); ?>px" class="has-cts-block-icon"><use xlink:href="#has-share-icon"></use></svg>
 				</div>
-				<a class="has-click-prompt" href="#" data-title="<?php echo esc_attr( $post->post_title ); ?>" data-url="<?php echo esc_url( get_permalink( $post->ID ) ); ?>">
+				<a class="has-click-prompt" href="#" data-title="<?php echo esc_attr( $post->post_title ); ?>" data-url="<?php echo esc_url( get_permalink( $post->ID ) ); ?>" data-text-full="<?php echo esc_attr( $share_content_trimmed ); ?>">
 				</a>
 			</div>
 		</div>
@@ -473,7 +842,7 @@ class Blocks {
 			);
 			return $css;
 		}
-		if ( 'tablet' === $screen_size || 'mobile' == $screen_size ) {
+		if ( 'tablet' === $screen_size || 'mobile' === $screen_size ) {
 			$css = $this->get_dimensions_shorthand(
 				$this->get_hierarchical_value( $sizes, $screen_size, $dimensions['top'], 'top' ),
 				$this->get_hierarchical_value( $sizes, $screen_size, $dimensions['right'], 'right' ),
@@ -556,6 +925,12 @@ class Blocks {
 		if ( 'tablet' === $screen_size && '' === $value ) {
 			if ( '' !== $sizes['desktop'][ $type ] ) {
 				// Check desktop.
+				return $sizes['desktop'][ $type ];
+			}
+		}
+
+		if ( 'desktop' === $screen_size && '' === $value ) {
+			if ( isset( $sizes['desktop'][ $type ] ) ) {
 				return $sizes['desktop'][ $type ];
 			}
 		}
@@ -644,7 +1019,6 @@ class Blocks {
 			$left = '';
 
 			if ( $top === $bottom ) {
-				$bottom = '';
 
 				if ( $top === $right ) {
 					$right = '';
@@ -656,7 +1030,6 @@ class Blocks {
 			$right = ' auto ';
 			$left  = ' auto ';
 		}
-		
 
 		$output = $top . $right . $bottom . $left;
 		return trim( $output );

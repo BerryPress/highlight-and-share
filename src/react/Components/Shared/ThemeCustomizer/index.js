@@ -1,0 +1,536 @@
+import React, { useEffect, useState } from 'react';
+import {
+	SelectControl,
+	ToggleControl,
+	RadioControl,
+	RangeControl,
+	Button,
+} from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { useForm, Controller, useWatch, useFormContext } from 'react-hook-form';
+import store from '../../../Sharing/Panels/SocialNetworksPanel/Store';
+import classNames from 'classnames';
+import Notice from '../../Notice';
+import CircularInfoIcon from '../../Icons/CircularInfo';
+import HASColorPicker from '../../ColorPicker';
+import DimensionsControl from '../../Dimensions';
+import SocialNetworkColorsTabs from '../SocialNetworkColorsTabs';
+
+const defaultColors = hasSharingAdmin.colors;
+
+const ThemeCustomizer = () => {
+	const { control, getValues, setValue } = useFormContext();
+	const {
+		theme,
+	} = useSelect( ( select ) => {
+		return {
+			theme: select( store ).getTheme(),
+		};
+	}, [] );
+	const {
+		setTheme,
+	} = useDispatch( store );
+
+	const getThemes = () => {
+		const themes = hasSharingAdmin.themes;
+
+		// Loop through themes and populate label value relationship.
+		const themeOptions = [];
+		for ( const themeKey in themes ) {
+			themeOptions.push( {
+				label: themes[ themeKey ],
+				value: themeKey,
+			} );
+		}
+		// Add custom option.
+		themeOptions.push( {
+			label: __( 'Custom', 'highlight-and-share' ),
+			value: 'custom',
+		} );
+		return themeOptions;
+	};
+
+	return (
+		<div className="has-admin-theme-customizer">
+			<div className="has-admin-component-row">
+				<Controller
+					name="theme"
+					control={ control }
+					render={ ( { field: { onChange, value } } ) => (
+						<SelectControl
+							className="has-admin__theme-select"
+							label={ __( 'Select a Theme', 'highlight-and-share' ) }
+							value={ value }
+							onChange={ ( newTheme ) => {
+								setTheme( newTheme );
+								onChange( newTheme );
+							} }
+							options={ getThemes() }
+						/>
+					) }
+				/>
+			</div>
+			{ 'custom' !== theme && (
+				<div className="has-admin-component-row">
+					<Controller
+						name="iconSize"
+						control={ control }
+						render={ ( { field: { onChange, value } } ) => (
+							<>
+								<RangeControl
+									label={ __(
+										'Set the Icon Size',
+										'highlight-and-share'
+									) }
+									step={ 1 }
+									value={ parseInt( value ) }
+									max={ 64 }
+									min={ 14 }
+									currentInput={ 25 }
+									initialPosition={ 25 }
+									resetFallbackValue={ 25 }
+									allowReset={ true }
+									className="has-admin__range-control"
+									onChange={ ( iconSizeValue ) => {
+										onChange( iconSizeValue );
+									} }
+									trackColor="#4F4F4F"
+									railColor="#CECECE"
+								/>
+							</>
+						) }
+					/>
+				</div>
+			) }
+			{ 'default' === theme && (
+				<div className="has-admin-component-row">
+					<Controller
+						name="fontSize"
+						control={ control }
+						render={ ( { field: { onChange, value } } ) => (
+							<>
+								<RangeControl
+									label={ __(
+										'Set the Font Size',
+										'highlight-and-share'
+									) }
+									step={ 1 }
+									value={ Number( value ) }
+									max={ 64 }
+									min={ 14 }
+									initialPosition={ 14 }
+									resetFallbackValue={ 14 }
+									allowReset={ true }
+									className="has-admin__range-control"
+									onChange={ ( fontSizeValue ) => {
+										onChange( Number( fontSizeValue ) );
+									} }
+									trackColor="#4F4F4F"
+									railColor="#CECECE"
+								/>
+							</>
+						) }
+					/>
+				</div>
+			) }
+			{ 'custom' === theme && (
+				<>
+					<div className="has-admin-component-row">
+						<Controller
+							name="iconsOnly"
+							control={ control }
+							render={ ( { field: { onChange, value } } ) => (
+								<ToggleControl
+									label={ __( 'Hide Labels (Icons Only)', 'highlight-and-share' ) }
+									className="has-admin__toggle-control"
+									checked={ value }
+									onChange={ ( boolValue ) => {
+										onChange( boolValue );
+									} }
+									help={ __(
+										'Display only the icons without text.',
+										'highlight-and-share'
+									) }
+								/>
+							) }
+						/>
+					</div>
+
+					<div className="has-admin-component-row">
+						<Controller
+							name="groupIcons"
+							control={ control }
+							render={ ( { field: { onChange, value } } ) => (
+								<ToggleControl
+									label={ __(
+										'Group Icons Together',
+										'highlight-and-share'
+									) }
+									className="has-admin__toggle-control"
+									checked={ value }
+									onChange={ ( boolValue ) => {
+										onChange( boolValue );
+									} }
+									help={ __(
+										'Modify all icons at once as one group or have them ungrouped with individual colors and backgrounds for each network.',
+										'highlight-and-share'
+									) }
+								/>
+							) }
+						/>
+					</div>
+					{ getValues( 'groupIcons' ) && (
+						<>
+							<div className="has-admin-component-row">
+								<Controller
+									name="backgroundColor"
+									control={ control }
+									render={ ( { field: { onChange, value } } ) => (
+										<HASColorPicker
+											value={ value }
+											onChange={ ( slug, newValue ) => {
+												onChange( newValue );
+											} }
+											label={ __( 'Background Color', 'highlight-and-share' ) }
+											defaultColors={ defaultColors }
+											defaultColor={ '#000000' }
+											slug={ 'backgroundColor' }
+										/>
+									) }
+								/>
+							</div>
+							<div className="has-admin-component-row">
+								<Controller
+									name="backgroundColorHover"
+									control={ control }
+									render={ ( { field: { onChange, value } } ) => (
+										<HASColorPicker
+											value={ value }
+											onChange={ ( slug, newValue ) => {
+												onChange( newValue );
+											} }
+											label={ __( 'Background Color Hover', 'highlight-and-share' ) }
+											defaultColors={ defaultColors }
+											defaultColor={ '#333333' }
+											slug={ 'backgroundColorHover' }
+										/>
+									) }
+								/>
+							</div>
+							<div className="has-admin-component-row">
+								<Controller
+									name="iconColorsGroup"
+									control={ control }
+									render={ ( { field: { onChange, value } } ) => (
+										<HASColorPicker
+											value={ value }
+											onChange={ ( slug, newValue ) => {
+												onChange( newValue );
+											} }
+											label={ __( 'Icon Color', 'highlight-and-share' ) }
+											defaultColors={ defaultColors }
+											defaultColor={ '#FFFFFF' }
+											slug={ 'iconColorsGroup' }
+										/>
+									) }
+								/>
+							</div>
+							<div className="has-admin-component-row">
+								<Controller
+									name="iconColorsGroupHover"
+									control={ control }
+									render={ ( { field: { onChange, value } } ) => (
+										<HASColorPicker
+											value={ value }
+											onChange={ ( slug, newValue ) => {
+												onChange( newValue );
+											} }
+											label={ __( 'Icon Color Hover', 'highlight-and-share' ) }
+											defaultColors={ defaultColors }
+											defaultColor={ '#FFFFFF' }
+											slug={ 'iconColorsGroupHover' }
+										/>
+									) }
+								/>
+							</div>
+							<div className="has-admin-component-row">
+								<Controller
+									name="borderRadiusGroup"
+									control={ control }
+									render={ ( { field: { onChange, value } } ) => (
+										<DimensionsControl
+											label={ __( 'Border Radius', 'highlight-and-share' ) }
+											allowNegatives={ false }
+											attrTop={ value.attrTop }
+											attrRight={ value.attrRight }
+											attrBottom={ value.attrBottom }
+											attrLeft={ value.attrLeft }
+											attrUnit={ value.attrUnit }
+											attrSyncUnits={ value.attrSyncUnits }
+											labelTop={ __( 'Top Left', 'highlight-and-share' ) }
+											labelRight={ __( 'Top Right', 'highlight-and-share' ) }
+											labelBottom={ __( 'Bottom Right', 'highlight-and-share' ) }
+											labelLeft={ __( 'Bottom Left', 'highlight-and-share' ) }
+											units={ [ 'px', 'em', 'rem', '%' ] }
+											onValuesChange={ ( newValues ) => {
+												onChange( newValues );
+											} }
+										/>
+									) }
+								/>
+							</div>
+						</>
+					) }
+					{ ! getValues( 'groupIcons' ) && (
+						<>
+							<div className="has-admin-component-row">
+								<SocialNetworkColorsTabs />
+							</div>
+							<div className="has-admin-component-row">
+								<Controller
+									name="iconBorderRadius"
+									control={ control }
+									render={ ( { field: { onChange, value } } ) => (
+										<DimensionsControl
+											label={ __( 'Icons Border Radius', 'highlight-and-share' ) }
+											allowNegatives={ false }
+											attrTop={ value.attrTop }
+											attrRight={ value.attrRight }
+											attrBottom={ value.attrBottom }
+											attrLeft={ value.attrLeft }
+											attrUnit={ value.attrUnit }
+											attrSyncUnits={ value.attrSyncUnits }
+											labelTop={ __( 'Top Left', 'highlight-and-share' ) }
+											labelRight={ __( 'Top Right', 'highlight-and-share' ) }
+											labelBottom={ __( 'Bottom Right', 'highlight-and-share' ) }
+											labelLeft={ __( 'Bottom Left', 'highlight-and-share' ) }
+											units={ [ 'px', 'em', 'rem', '%' ] }
+											onValuesChange={ ( newValues ) => {
+												onChange( newValues );
+											} }
+										/>
+									) }
+								/>
+							</div>
+						</>
+					) }
+					<div className="has-admin-component-row">
+						<Controller
+							name="iconPadding"
+							control={ control }
+							render={ ( { field: { onChange, value } } ) => (
+								<DimensionsControl
+									label={ __( 'Icons Padding', 'highlight-and-share' ) }
+									allowNegatives={ false }
+									attrTop={ value.attrTop }
+									attrRight={ value.attrRight }
+									attrBottom={ value.attrBottom }
+									attrLeft={ value.attrLeft }
+									attrUnit={ value.attrUnit }
+									attrSyncUnits={ value.attrSyncUnits }
+									labelTop={ __( 'Padding Left', 'highlight-and-share' ) }
+									labelRight={ __( 'Padding Right', 'highlight-and-share' ) }
+									labelBottom={ __( 'Padding Bottom', 'highlight-and-share' ) }
+									labelLeft={ __( 'Padding Left', 'highlight-and-share' ) }
+									units={ [ 'px', 'em', 'rem' ] }
+									onValuesChange={ ( newValues ) => {
+										onChange( newValues );
+									} }
+								/>
+							) }
+						/>
+					</div>
+					<div className="has-admin-component-row">
+						<Controller
+							name="iconSize"
+							control={ control }
+							render={ ( { field: { onChange, value } } ) => (
+								<>
+									<RangeControl
+										label={ __(
+											'Set the Icon Size',
+											'highlight-and-share'
+										) }
+										step={ 1 }
+										value={ parseInt( value ) }
+										max={ 64 }
+										min={ 14 }
+										currentInput={ 25 }
+										initialPosition={ 25 }
+										allowReset={ true }
+										resetFallbackValue={ 25 }
+										className="has-admin__range-control"
+										onChange={ ( iconSizeValue ) => {
+											onChange( iconSizeValue );
+										} }
+										trackColor="#4F4F4F"
+										railColor="#CECECE"
+									/>
+								</>
+							) }
+						/>
+					</div>
+					{ ! getValues( 'iconsOnly' ) && (
+						<>
+							<div className="has-admin-component-row">
+								<Controller
+									name="fontSize"
+									control={ control }
+									render={ ( { field: { onChange, value } } ) => (
+										<>
+											<RangeControl
+												label={ __(
+													'Set the Font Size',
+													'highlight-and-share'
+												) }
+												step={ 1 }
+												value={ value }
+												max={ 64 }
+												min={ 14 }
+												currentInput={ 14 }
+												initialPosition={ 14 }
+												allowReset={ true }
+												resetFallbackValue={ 14 }
+												className="has-admin__range-control"
+												onChange={ ( fontSizeValue ) => {
+													onChange( fontSizeValue );
+												} }
+												trackColor="#4F4F4F"
+												railColor="#CECECE"
+											/>
+										</>
+									) }
+								/>
+							</div>
+						</>
+					) }
+					{ ! getValues( 'groupIcons' ) && (
+						<>
+							<div className="has-admin-component-row">
+								<Controller
+									name="iconGap"
+									control={ control }
+									render={ ( { field: { onChange, value } } ) => (
+										<>
+											<RangeControl
+												label={ __(
+													'Gap Between Items',
+													'highlight-and-share'
+												) }
+												step={ 1 }
+												value={ value }
+												max={ 48 }
+												min={ 0 }
+												currentInput={ 14 }
+												initialPosition={ 14 }
+												allowReset={ true }
+												resetFallbackValue={ 14 }
+												className="has-admin__range-control"
+												onChange={ ( iconGapValue ) => {
+													onChange( iconGapValue );
+												} }
+												trackColor="#4F4F4F"
+												railColor="#CECECE"
+											/>
+										</>
+									) }
+								/>
+							</div>
+						</>
+					) }
+				</>
+			) }
+			<div className="has-admin-component-row">
+				<Controller
+					name="showTooltips"
+					control={ control }
+					render={ ( { field: { onChange, value } } ) => (
+						<ToggleControl
+							label={ __( 'Show Tooltips', 'highlight-and-share' ) }
+							className="has-admin__toggle-control"
+							checked={ value }
+							onChange={ ( boolValue ) => {
+								onChange( boolValue );
+							} }
+							help={ __(
+								'Tooltips will be displayed when hovering over each sharing network if enabled.',
+								'highlight-and-share'
+							) }
+						/>
+					) }
+				/>
+			</div>
+			{ getValues( 'showTooltips' ) && (
+				<>
+					<div className="has-admin-component-row">
+						<Controller
+							name="tooltipsBackgroundColor"
+							control={ control }
+							render={ ( { field: { onChange, value } } ) => (
+								<HASColorPicker
+									value={ value }
+									onChange={ ( slug, newValue ) => {
+										onChange( newValue );
+									} }
+									label={ __( 'Tooltips Background Color', 'highlight-and-share' ) }
+									defaultColors={ defaultColors }
+									defaultColor={ '#000000' }
+									slug={ 'tooltipsBackgroundColor' }
+								/>
+							) }
+						/>
+					</div>
+					<div className="has-admin-component-row">
+						<Controller
+							name="tooltipsTextColor"
+							control={ control }
+							render={ ( { field: { onChange, value } } ) => (
+								<HASColorPicker
+									value={ value }
+									onChange={ ( slug, newValue ) => {
+										onChange( newValue );
+									} }
+									label={ __( 'Tooltips Text Color', 'highlight-and-share' ) }
+									defaultColors={ defaultColors }
+									defaultColor={ '#FFFFFF' }
+									slug={ 'tooltipsTextColor' }
+								/>
+							) }
+						/>
+					</div>
+
+				</>
+			) }
+			<div className="has-admin-component-row">
+				<Controller
+					name="orientation"
+					control={ control }
+					render={ ( { field: { onChange, value } } ) => (
+						<RadioControl
+							label="Orientation Type for the Sharing Networks"
+							help={ __(
+								'Select the orientation of the icons (can be horizontal or vertical) and how they are presented when displayed.',
+								'highlight-and-share'
+							) }
+							selected={ value }
+							options={ [
+								{
+									label: __( 'Horizontal (Left to Right)', 'highlight-and-share' ),
+									value: 'horizontal',
+								},
+								{
+									label: __( 'Vertical (Top to Bottom)', 'highlight-and-share' ),
+									value: 'vertical',
+								},
+							] }
+							onChange={ ( radioValue ) => onChange( radioValue ) }
+						/>
+					) }
+				/>
+			</div>
+		</div>
+	);
+};
+
+export default ThemeCustomizer;

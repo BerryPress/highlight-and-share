@@ -7,6 +7,10 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class Emails
  */
@@ -29,20 +33,26 @@ class Emails {
 	 * Display the HTML for the email modal.
 	 */
 	public function ajax_display_has_email_social_modal() {
-		$permalink = urldecode( filter_input( INPUT_GET, 'permalink', FILTER_DEFAULT ) );
-		if ( ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce', FILTER_DEFAULT ), 'has_share_' . $permalink ) ) {
+		$post_id   = absint( filter_input( INPUT_GET, 'post_id', FILTER_VALIDATE_INT ) );
+		$permalink = get_permalink( $post_id );
+		if ( ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce', FILTER_SANITIZE_SPECIAL_CHARS ), 'has_share_email' . $post_id ) ) {
 			wp_die( 'Invalid request.' );
 		}
 
-		$options            = Options::get_email_options();
-		$recaptcha_site_key = $options['recaptcha_site_key'];
-		$recaptcha_enabled  = (bool) $options['recaptcha_enabled'];
+		$options             = Options::get_email_options();
+		$post_id             = absint( filter_input( INPUT_GET, 'post_id', FILTER_VALIDATE_INT ) );
+		$share_type          = filter_input( INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS );
+		$recaptcha_site_key  = $options['recaptcha_site_key'];
+		$recaptcha_enabled   = (bool) $options['recaptcha_enabled'];
+		$email_modal_title   = self::replace_template_tags( $options['email_modal_title'], $post_id, false, false, false, $share_type, false );
+		$email_modal_subject = self::replace_template_tags( $options['email_subject'], $post_id, false, false, false, $share_type, false );
 
+		$deps = require_once Functions::get_plugin_dir( 'dist/has-email-modal.asset.php' );
 		wp_register_script(
 			'has_email_view',
 			Functions::get_plugin_url( 'dist/has-email-modal.js' ),
-			array( 'wp-i18n' ),
-			Functions::get_plugin_version(),
+			$deps['dependencies'],
+			$deps['version'],
 			false
 		);
 		if ( $recaptcha_enabled && ! empty( $recaptcha_site_key ) ) {
@@ -50,19 +60,22 @@ class Emails {
 				'has_email_view',
 				'hasEmailModal',
 				array(
-					'recaptcha_enabled'  => true,
-					'recaptcha_site_key' => $recaptcha_site_key,
-					'nonce'              => sanitize_text_field( filter_input( INPUT_GET, 'nonce', FILTER_DEFAULT ) ),
-					'ajaxurl'            => admin_url( 'admin-ajax.php' ),
-					'permalink'          => urlencode( $permalink ),
-					'share_text'         => urlencode( filter_input( INPUT_GET, 'text', FILTER_DEFAULT ) ),
-					'post_id'            => absint( filter_input( INPUT_GET, 'post_id', FILTER_DEFAULT ) ),
+					'recaptcha_enabled'   => true,
+					'recaptcha_site_key'  => $recaptcha_site_key,
+					'nonce'               => sanitize_text_field( filter_input( INPUT_GET, 'nonce', FILTER_DEFAULT ) ),
+					'ajaxurl'             => admin_url( 'admin-ajax.php' ),
+					'permalink'           => urlencode( $permalink ),
+					'share_text'          => urlencode( filter_input( INPUT_GET, 'text', FILTER_DEFAULT ) ),
+					'post_id'             => $post_id,
+					'email_modal_title'   => $email_modal_title,
+					'email_modal_subject' => $email_modal_subject,
+					'email_share_type'    => $share_type,
 
 				)
 			);
 			wp_register_script(
 				'has-recaptcha',
-				esc_url_raw( 'https://www.google.com/recaptcha/api.js?render=' . sanitize_text_field( $recaptcha_site_key ) ),
+				esc_url_raw( 'https://www.google.com/recaptcha/enterprise.js?render=' . sanitize_text_field( $recaptcha_site_key ) ),
 				array(),
 				Functions::get_plugin_version(),
 				true
@@ -72,13 +85,16 @@ class Emails {
 				'has_email_view',
 				'hasEmailModal',
 				array(
-					'recaptcha_enabled'  => false,
-					'recaptcha_site_key' => '',
-					'nonce'              => sanitize_text_field( filter_input( INPUT_GET, 'nonce', FILTER_DEFAULT ) ),
-					'ajaxurl'            => admin_url( 'admin-ajax.php' ),
-					'permalink'          => urlencode( $permalink ),
-					'share_text'         => urlencode( filter_input( INPUT_GET, 'text', FILTER_DEFAULT ) ),
-					'post_id'            => absint( filter_input( INPUT_GET, 'post_id', FILTER_DEFAULT ) ),
+					'recaptcha_enabled'   => false,
+					'recaptcha_site_key'  => '',
+					'nonce'               => sanitize_text_field( filter_input( INPUT_GET, 'nonce', FILTER_DEFAULT ) ),
+					'ajaxurl'             => admin_url( 'admin-ajax.php' ),
+					'permalink'           => urlencode( $permalink ),
+					'share_text'          => urlencode( filter_input( INPUT_GET, 'text', FILTER_DEFAULT ) ),
+					'post_id'             => absint( filter_input( INPUT_GET, 'post_id', FILTER_DEFAULT ) ),
+					'email_modal_title'   => $email_modal_title,
+					'email_modal_subject' => $email_modal_subject,
+					'email_share_type'    => $share_type,
 				)
 			);
 		}
@@ -89,6 +105,50 @@ class Emails {
 			Functions::get_plugin_version(),
 			false
 		);
+		if ( (bool) $options['turnstile_enabled'] ) {
+			// Load Turnstile local JS.
+			wp_register_script(
+				'has-cf-turnstile-local',
+				Functions::get_plugin_url( '/dist/has-cf-turnstile.js' ),
+				array(),
+				Functions::get_plugin_version(),
+				true
+			);
+			wp_register_script(
+				'has-cf-turnstile',
+				esc_url_raw( 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=hasInitTurnstile' ),
+				array( 'has-cf-turnstile-local' ),
+				null, // No version: Cloudflare's api.js warns about unknown parameters such as "ver".
+				true
+			);
+
+			// Add localized vars.
+			wp_localize_script(
+				'has-cf-turnstile-local',
+				'hasCfTurnstileLocal',
+				array(
+					'turnstile_enabled' => (bool) $options['turnstile_enabled'],
+					'sitekey'           => sanitize_text_field( $options['turnstile_sitekey'] ),
+					'theme'             => sanitize_text_field( $options['turnstile_theme'] ),
+					'language'          => sanitize_text_field( $options['turnstile_language'] ),
+					'size'              => sanitize_text_field( $options['turnstile_widget_size'] ),
+				)
+			);
+		}
+
+		$classes          = array(
+			'showing-recaptcha' => $recaptcha_enabled && ! empty( $recaptcha_site_key ),
+			'showing-turnstile' => (bool) $options['turnstile_enabled'] && ! empty( $options['turnstile_sitekey'] ),
+		);
+		$scripts_to_print = array(
+			'has_email_view',
+		);
+		if ( $recaptcha_enabled && ! empty( $recaptcha_site_key ) ) {
+			$scripts_to_print[] = 'has-recaptcha';
+		}
+		if ( (bool) $options['turnstile_enabled'] && ! empty( $options['turnstile_sitekey'] ) ) {
+			$scripts_to_print[] = 'has-cf-turnstile';
+		}
 		?>
 		<!DOCTYPE html>
 		<html lang="en">
@@ -99,21 +159,18 @@ class Emails {
 				);
 				?>
 			</head>
-			<body class="<?php echo ( $recaptcha_enabled && ! empty( $recaptcha_site_key ) ) ? 'showing-recaptcha' : ''; ?>">
+			<body class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 				<div id="has-email-interface"></div>
+				<div id="has-turnstile"></div>
 				<?php
 				wp_print_scripts(
-					array(
-						'has_email_view',
-						'has-recaptcha',
-					),
+					$scripts_to_print,
 				);
 				?>
 			</body>
 		</html>
 		<?php
 		exit;
-
 	}
 
 	/**
@@ -135,24 +192,59 @@ class Emails {
 		);
 
 		$permalink = urldecode( $ajax_data['permalink'] );
+		$post_id   = absint( $ajax_data['postId'] );
 
 		// Check the nonce.
-		if ( ! wp_verify_nonce( $ajax_data['nonce'], 'has_share_' . $permalink ) ) {
+		if ( ! wp_verify_nonce( $ajax_data['nonce'], 'has_share_email' . $post_id ) ) {
 			$return['errors']  = true;
 			$return['message'] = __( 'Nonce could not be verified.', 'highlight-and-share' );
 			wp_send_json( $return );
 		}
+
+		// Basic anti-spam: rate limit 30 sec per IP.
+		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : null;
+		if ( null === $ip ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No IP address found.', 'highlight-and-share' ),
+				)
+			);
+		}
+		$rate_limit_key = sanitize_key( 'has_rate_' . md5( $ip ) );
+		if ( get_transient( $rate_limit_key ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'Emails cannot be sent too quickly.', 'highlight-and-share' ),
+				)
+			);
+		}
+		set_transient( $rate_limit_key, true, 1 * MINUTE_IN_SECONDS );
+
 		// Get email options.
 		$options = Options::get_email_options();
 
+		// Get captcha enabled status.
+		$recaptcha_enabled = (bool) $options['recaptcha_enabled'];
+		$turnstile_enabled = (bool) $options['turnstile_enabled'];
+
+		// Require a captcha or turnstile to be enabled in order to send an email.
+		if ( ! $recaptcha_enabled && ! $turnstile_enabled ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No captcha enabled.', 'highlight-and-share' ),
+				)
+			);
+		}
+
 		// Get recaptcha keys.
-		$recaptcha_site_key   = $options['recaptcha_site_key'] ?? '';
-		$recaptcha_secret_key = $options['recaptcha_secret_key'] ?? '';
+		$recaptcha_site_key   = sanitize_text_field( $options['recaptcha_site_key'] ?? '' );
 		$recaptcha_enabled    = (bool) ( $options['recaptcha_enabled'] ?? false );
+		$recaptcha_project_id = sanitize_title( $options['recaptcha_project_id'] ?? '' );
+		$recaptcha_api_key    = sanitize_text_field( $options['recaptcha_api_key'] ?? '' );
 		$score_threshold      = (float) ( $options['recaptcha_score_threshold'] ?? 0 );
 
 		if ( $recaptcha_enabled ) {
-			if ( empty( $recaptcha_site_key ) || empty( $recaptcha_secret_key ) ) {
+			if ( empty( $recaptcha_site_key ) ) {
 				wp_send_json_error(
 					array(
 						'message' => __( 'The site owner has not set reCAPTCHA 3 site keys.', 'highlight-and-share' ),
@@ -169,17 +261,23 @@ class Emails {
 			}
 
 			// Now get token back from reCAPTCHA.
-			$url      = 'https://www.google.com/recaptcha/api/siteverify';
+			$url      = 'https://recaptchaenterprise.googleapis.com/v1/projects/' . $recaptcha_project_id . '/assessments?key=' . $recaptcha_api_key;
 			$data     = array(
-				'secret'   => $recaptcha_secret_key,
-				'response' => $token,
+				'event' => array(
+					'token'          => $token,
+					'expectedAction' => 'USER_ACTION',
+					'siteKey'        => $recaptcha_site_key,
+				),
 			);
 			$args     = array(
-				'body'      => $data,
+				'body'      => wp_json_encode( $data ),
 				'method'    => 'POST',
 				'sslverify' => true,
+				'headers'   => array(
+					'Content-Type' => 'application/json',
+				),
 			);
-			$response = wp_remote_post( esc_url( $url ), $args );
+			$response = wp_remote_post( esc_url_raw( $url ), $args );
 			if ( is_wp_error( $response ) ) {
 				wp_send_json_error(
 					array(
@@ -188,7 +286,7 @@ class Emails {
 				);
 			}
 			$body = json_decode( wp_remote_retrieve_body( $response ), true );
-			if ( ! $body['success'] ) {
+			if ( isset( $body['tokenProperties']['valid'] ) && ! (bool) $body['tokenProperties']['valid'] ) {
 				wp_send_json_error(
 					array(
 						'message' => __( 'reCAPTCHA 3 security challenge has failed.', 'highlight-and-share' ),
@@ -197,7 +295,7 @@ class Emails {
 			}
 
 			// Now check the score with threshold.
-			$recaptcha_score = (float) $body['score'];
+			$recaptcha_score = isset( $body['riskAnalysis']['score'] ) ? (float) $body['riskAnalysis']['score'] : 0;
 			if ( $recaptcha_score < $score_threshold ) {
 				wp_send_json_error(
 					array(
@@ -207,6 +305,44 @@ class Emails {
 			}
 		}
 
+		if ( (bool) $options['turnstile_enabled'] ) {
+			$turnstile_token = sanitize_text_field( $ajax_data['turnstileToken'] );
+			if ( empty( $turnstile_token ) ) {
+				wp_send_json_error(
+					array(
+						'message' => __( 'Turnstile token is required.', 'highlight-and-share' ),
+					)
+				);
+			}
+
+			$secret_key = $options['turnstile_secret'];
+			$url        = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+			$data       = array(
+				'secret'   => $secret_key,
+				'response' => $turnstile_token,
+			);
+			$args       = array(
+				'body'      => $data,
+				'method'    => 'POST',
+				'sslverify' => true,
+			);
+			$response   = wp_remote_post( esc_url( $url ), $args );
+			if ( is_wp_error( $response ) ) {
+				wp_send_json_error(
+					array(
+						'message' => __( 'Error validating Turnstile token.', 'highlight-and-share' ),
+					)
+				);
+			}
+			$body = json_decode( wp_remote_retrieve_body( $response ), true );
+			if ( ! $body['success'] ) {
+				wp_send_json_error(
+					array(
+						'message' => __( 'Turnstile security challenge has failed.', 'highlight-and-share' ),
+					)
+				);
+			}
+		}
 		// Get email name and address from options.
 		$email_name = trim( sanitize_text_field( $options['from_name'] ) );
 		$email_from = trim( sanitize_text_field( $options['from_email'] ) );
@@ -215,9 +351,11 @@ class Emails {
 		$email_to            = trim( sanitize_text_field( $ajax_data['toEmail'] ) );
 		$email_subject       = trim( urldecode( $ajax_data['subject'] ) );
 		$email_selected_text = trim( urldecode( $ajax_data['shareText'] ) );
+		$email_share_type    = trim( urldecode( $ajax_data['emailShareType'] ?? $ajax_data['shareType'] ?? '' ) );
 
 		// Now check Akismet.
 		if ( class_exists( 'Akismet' ) && (bool) $options['akismet_enabled'] ) {
+			$referrer                               = isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
 			$akismet_fields                         = array();
 			$akismet_fields['comment_type']         = 'highlight-and-share';
 			$akismet_fields['comment_author']       = $email_name;
@@ -229,7 +367,7 @@ class Emails {
 			$akismet_fields['permalink']            = esc_url( urldecode( $permalink ) );
 			$akismet_fields['user_ip']              = preg_replace( '/[^0-9., ]/', '', Functions::get_user_ip() );
 			$akismet_fields['user_agent']           = '';
-			$akismet_fields['referrer']             = sanitize_text_field( $_SERVER['HTTP_REFERER'] );
+			$akismet_fields['referrer']             = $referrer;
 			$akismet_fields['blog']                 = get_option( 'home' );
 
 			// Get all the fields and consolidate.
@@ -252,6 +390,9 @@ class Emails {
 		// Set title and url variables.
 		$title = get_the_title( $ajax_data['postId'] );
 		$url   = $permalink;
+
+		// Make sure title has entities decoded.
+		$title = html_entity_decode( $title );
 
 		// Check emails to destination.
 		if ( ! is_email( $email_to ) ) {
@@ -280,6 +421,12 @@ class Emails {
 		$message .= sprintf( '%s', esc_html( $title ) ) . "\r\n";
 		$message .= sprintf( '%s', esc_url( $url ) ) . "\r\n\r\n";
 
+		// Retrieve message from options.
+		$saved_email_body = trim( $options['email_body'] );
+		if ( ! empty( $saved_email_body ) ) {
+			$message = self::replace_template_tags( $saved_email_body, $ajax_data['postId'], $email_name, $email_from, $email_to, $email_share_type, $email_selected_text );
+		}
+
 		$headers   = array();
 		$headers[] = sprintf( 'From: %s <%s>', $email_name, $email_from );
 
@@ -292,5 +439,62 @@ class Emails {
 		$return['message_source_email'] = $email_from;
 
 		wp_send_json_success( $return );
+	}
+
+	/**
+	 * Replace template tags with actual values.
+	 *
+	 * @param string $content Content to replace tags in.
+	 * @param string $post_id Post ID.
+	 * @param string $from_name From name.
+	 * @param string $from_email From email.
+	 * @param string $to_email To email.
+	 * @param string $share_type Share type.
+	 * @param string $share_text Share text.
+	 *
+	 * @return string Content with tags replaced.
+	 */
+	public static function replace_template_tags( $content, $post_id, $from_name = false, $from_email = false, $to_email = false, $share_type = false, $share_text = false ) {
+		$site_name    = get_bloginfo( 'name' );
+		$site_url     = get_bloginfo( 'url' );
+		$post_title   = html_entity_decode( get_the_title( $post_id ) );
+		$post_excerpt = get_the_excerpt( $post_id );
+		$post_url     = get_permalink( $post_id );
+		$from_name    = $from_name ? $from_name : '';
+		$from_email   = $from_email ? $from_email : '';
+		$to_email     = $to_email ? $to_email : '';
+		$share_type   = $share_type ? ucfirst( $share_type ) : '';
+		$share_text   = $share_text ? $share_text : '';
+		$date         = date_i18n( get_option( 'date_format' ) );
+
+		$search  = array(
+			'{{site_name}}',
+			'{{site_url}}',
+			'{{post_title}}',
+			'{{post_excerpt}}',
+			'{{post_url}}',
+			'{{from_name}}',
+			'{{from_email}}',
+			'{{to_email}}',
+			'{{share_type}}',
+			'{{share_text}}',
+			'{{date}}',
+		);
+		$replace = array(
+			$site_name,
+			$site_url,
+			$post_title,
+			$post_excerpt,
+			$post_url,
+			$from_name,
+			$from_email,
+			$to_email,
+			$share_type,
+			$share_text,
+			$date,
+		);
+
+		$content = str_replace( $search, $replace, $content );
+		return $content;
 	}
 }

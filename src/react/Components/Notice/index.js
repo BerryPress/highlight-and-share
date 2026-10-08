@@ -1,12 +1,36 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types'; // ES6
 import { speak } from '@wordpress/a11y';
 import { Notice as WPNotice } from '@wordpress/components';
 import classNames from 'classnames';
 
+/**
+ * Notice component.
+ *
+ * @param {Object}          props               - The props object.
+ * @param {string}          props.message       - The message to display.
+ * @param {string}          props.status        - The status of the notice.
+ * @param {string}          props.politeness    - The politeness of the notice.
+ * @param {string}          props.icon          - The icon to display.
+ * @param {string}          props.className     - The class name to add to the notice.
+ * @param {boolean}         props.inline        - Whether to display the notice inline.
+ * @param {React.ReactNode} props.children      - The children to display in the notice.
+ * @param {boolean}         props.animate       - Whether to animate the notice.
+ * @param {string}          props.animationType - The type of animation to use.
+ * @return {React.ReactNode} The Notice component.
+ */
 const Notice = ( props ) => {
-	const { message, status, politeness, icon, className, inline, children, animate, animationType } = props;
+	const {
+		message = '',
+		status = 'info',
+		politeness = 'polite',
+		icon = null,
+		className = '',
+		inline = false,
+		children,
+		animate = false,
+		animationType = 'fadein',
+	} = props;
 
 	useEffect( () => {
 		speak( message, politeness );
@@ -26,40 +50,26 @@ const Notice = ( props ) => {
 		[ `has-admin__notice-appearance--block` ]: ! inline,
 		[ `has-admin__notice-animate` ]: animate,
 		[ `has-admin__notice-animate--${ animationType }` ]: animate,
-
 	} );
 	return (
 		<div className={ containerClasses }>
-			<WPNotice isDismissible={ false } spokenMessage={ message } actions={ [] } { ...props }>
-				{ hasIcon() &&
+			<WPNotice
+				isDismissible={ false }
+				spokenMessage={ message }
+				actions={ [] }
+				{ ...props }
+			>
+				{ hasIcon() && (
 					<div className="has-admin__notice-icon">{ getIcon( icon ) }</div>
-				}
-				<div className="has-admin__notice-message"><>{ message } { children } </></div>
+				) }
+				<div className="has-admin__notice-message">
+					<>
+						{ message } { children }{ ' ' }
+					</>
+				</div>
 			</WPNotice>
 		</div>
 	);
-};
-
-Notice.defaultProps = {
-	message: '',
-	status: 'info',
-	politeness: 'polite',
-	icon: null,
-	className: '',
-	inline: false,
-	animate: false,
-	animationType: 'fadein',
-};
-
-Notice.propTypes = {
-	message: PropTypes.string.isRequired,
-	status: PropTypes.oneOf( [ 'info', 'warning', 'success', 'error' ] ),
-	politeness: PropTypes.oneOf( [ 'assertive', 'polite' ] ),
-	icon: PropTypes.func,
-	className: PropTypes.string,
-	inline: PropTypes.bool,
-	animate: PropTypes.bool,
-	animatitionType: PropTypes.oneOf( [ 'fadein', 'fadeout' ] ),
 };
 
 export default Notice;

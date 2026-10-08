@@ -1,26 +1,38 @@
-import { useDispatch, useSelect, dispatch } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
+import { useDispatch, useSelect } from '@wordpress/data';
 
 /* Credits: Forked from GenerateBlocks */
 
+/**
+ * Use the current editor device type (Desktop, Tablet, Mobile).
+ * Uses core/editor store (WP 6.5+); falls back to core/edit-post for older versions.
+ *
+ * @return {Array} [ deviceType, setDeviceType ]
+ */
 export default () => {
-	const {
-		__experimentalSetPreviewDeviceType: setPreviewDeviceType = () => {},
-	} = useDispatch( 'core/edit-post' );
+	const editorDispatch = useDispatch( 'core/editor' );
+	const editPostDispatch = useDispatch( 'core/edit-post' );
 
 	const deviceType = useSelect( ( select ) => {
-		const {
-			__experimentalGetPreviewDeviceType: experimentalGetPreviewDeviceType = () => false,
-		} = select( 'core/edit-post' );
-
-		return experimentalGetPreviewDeviceType();
+		const editorStore = select( 'core/editor' );
+		if ( typeof editorStore?.getDeviceType === 'function' ) {
+			return editorStore.getDeviceType() ?? 'Desktop';
+		}
+		const editPostStore = select( 'core/edit-post' );
+		const legacyGet =
+			editPostStore?.__experimentalGetPreviewDeviceType ||
+			( () => 'Desktop' );
+		return legacyGet() || 'Desktop';
 	}, [] );
 
-	useEffect( () => {
-	}, [ deviceType ] );
-
 	const setDeviceType = ( type ) => {
-		setPreviewDeviceType( type );
+		if ( typeof editorDispatch?.setDeviceType === 'function' ) {
+			editorDispatch.setDeviceType( type );
+			return;
+		}
+		const legacySet = editPostDispatch?.__experimentalSetPreviewDeviceType;
+		if ( typeof legacySet === 'function' ) {
+			legacySet( type );
+		}
 	};
 
 	return [ deviceType, setDeviceType ];

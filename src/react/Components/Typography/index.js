@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import fontFamilies from '../../../fonts/fonts';
 import { __ } from '@wordpress/i18n';
+import { useSettings } from '@wordpress/block-editor';
 import { ButtonGroup, Button, Tooltip, SelectControl, BaseControl, TextControl, Popover } from '@wordpress/components';
-import { useForm, Controller, useWatch } from 'react-hook-form';
+import { useForm, Controller, useWatch, useFormState } from 'react-hook-form';
 import { geHierarchicalPlaceholderValue } from '../../Utils/TypographyHelper';
 
 const Typography = ( props ) => {
@@ -18,7 +19,7 @@ const Typography = ( props ) => {
 	const [ isVisible, setIsVisible ] = useState( false ); // for the main typography settings popup.
 	const [ isToggled, setIsToggled ] = useState( false ); // for the main typography settings popup.
 
-	const getDefaultValues = () => {
+	const getDefaultValues = ( newProps) => {
 		return {
 			mobile: {
 				fontFamily: props.values.mobile.fontFamily,
@@ -69,21 +70,38 @@ const Typography = ( props ) => {
 		control,
 		setValue,
 		getValues,
+		reset,
 	} = useForm( {
-		defaultValues: getDefaultValues(),
+		defaultValues: getDefaultValues( props ),
 	} );
 
+	const [ blockLevelFontFamilies ] = useSettings( 'typography.fontFamilies' );
+
 	const formValues = useWatch( { control } );
+
+	const { isDirty } = useFormState( { control } );
 
 	const { label } = props;
 
 	useEffect( () => {
-		props.onValuesChange( formValues );
+		if ( isDirty ) {
+			props.onValuesChange( formValues );
+			reset( formValues, {
+				keepDirty: false,
+			} );
+		}
 	}, [ formValues ] );
 
 	useEffect( () => {
 		setScreenSize( props.screenSize.toLowerCase() );
-		setValue( props.screenSize.toLowerCase(), getValues( props.screenSize.toLowerCase() ) );
+		const newDefaultValues = getDefaultValues( props );
+		setValue(
+			props.screenSize.toLowerCase(),
+			newDefaultValues[ props.screenSize.toLowerCase() ],
+			{
+				keepDirty: false,
+			}
+		);
 	}, [ props.screenSize ] );
 
 	/**
@@ -99,21 +117,45 @@ const Typography = ( props ) => {
 
 	// Retrieve the list all available fonts.
 	const getFonts = () => {
-		const adobeFonts = has_gutenberg.adobeFonts;
-		const fonts = [];
+		const customFonts = has_gutenberg.customFonts;
+		let fonts = [];
 		const families = Object.values( fontFamilies );
-		const mergedFamilies = [];
+		let mergedFamilies = [];
 		families.forEach( ( fontFamily ) => {
 			fonts.push( { label: fontFamily.name, value: fontFamily.slug } );
-			mergedFamilies.push( { family: fontFamily.family, slug: fontFamily.slug, fallback: fontFamily.fallback, type: fontFamily.type  } );
+			mergedFamilies.push( { family: fontFamily.family, slug: fontFamily.slug, fallback: fontFamily.fallback, type: fontFamily.type } );
 		} );
-		// Push adobe fonts to the front.
-		adobeFonts.forEach( ( font ) => {
-			fonts.unshift( { label: font.name, value: font.slug } );
-			mergedFamilies.push( { family: font.family, slug: font.slug, fallback: font.fallback, type: 'adobe' } );
+
+		if ( blockLevelFontFamilies ) {
+			const { theme } = blockLevelFontFamilies;
+
+			if ( theme ) {
+				theme.forEach( ( fontFamily ) => {
+					fonts.push( { label: fontFamily.name, value: fontFamily.slug } );
+					mergedFamilies.push( { family: fontFamily.name, slug: fontFamily.slug, fallback: fontFamily.fallback, type: 'web' } );
+				} );
+			}
+		}
+		// Push custom fonts to the front.
+		customFonts.forEach( ( font ) => {
+			fonts.unshift( { label: font.label, value: font.value } );
+			mergedFamilies.push( { family: font.label, slug: font.value, fallback: 'serif', type: 'custom' } );
 		} );
 		// Add placeholder.
 		fonts.unshift( { label: __( 'Select a Font', 'highlight-and-share' ), value: '' } );
+
+		// Eliminate duplicate fonts.
+		fonts = fonts.filter( ( font, index, self ) =>
+			index === self.findIndex( ( t ) => t.value === font.value )
+		);
+		mergedFamilies = mergedFamilies.filter( ( font, index, self ) =>
+			index === self.findIndex( ( t ) => t.slug === font.slug )
+		);
+
+		// Don't show font family on non-desktop sizes.
+		if ( 'desktop' !== screenSize ) {
+			return null;
+		}
 		return (
 			<>
 				<Controller
@@ -122,7 +164,7 @@ const Typography = ( props ) => {
 					render={ ( { field: { onChange, value } } ) => (
 						<SelectControl
 							label={ __( 'Font Family', 'highlight-and-share' ) }
-							value={ geHierarchicalPlaceholderValue( props.values, screenSize, getValues( screenSize ).fontFamilySlug, 'fontFamilySlug' ) }
+							value={ geHierarchicalPlaceholderValue( props.values, screenSize, getValues( screenSize ).fontFamilySlug, 'fontFamilySlug' ) || 'Arial' }
 							options={ fonts }
 							onChange={ ( newValue ) => {
 								onChange( newValue );

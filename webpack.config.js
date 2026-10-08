@@ -1,7 +1,35 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
+const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
+const { BannerPlugin, Compilation } = require( 'webpack' );
 const path = require( 'path' );
+const sass = require( 'sass' );
+
+/**
+ * Prepend a short license banner to every emitted .js/.css file.
+ *
+ * Runs at the very last processAssets stage so it lands after TerserPlugin's
+ * minification/comment-extraction step, keeping the extracted *.LICENSE.txt
+ * files and their "see .LICENSE.txt" pointer comments intact as a backup.
+ *
+ * @return {BannerPlugin} Configured plugin instance.
+ */
+const createLicenseBannerPlugin = () => new BannerPlugin( {
+	banner: '/*! Highlight and Share - see ../license.txt for license and copyright information */',
+	raw: true,
+	entryOnly: false,
+	test: /\.(js|css)$/,
+	stage: Compilation.PROCESS_ASSETS_STAGE_REPORT,
+} );
+
+// wp-scripts' default Terser config only preserves `translators:` comments and
+// never extracts anything to a *.LICENSE.txt file. Turn extraction on (without
+// touching its `output.comments` test) so the build/ output gets the same
+// *.LICENSE.txt sidecars and pointer comments that the dist/ config already
+// produces, while translator comments keep working as before.
+defaultConfig.optimization.minimizer[ 0 ].options.extractComments = true;
+
 module.exports = ( env ) => {
 	return [
 		{
@@ -11,30 +39,33 @@ module.exports = ( env ) => {
 				rules: [ ...defaultConfig.module.rules ],
 			},
 			mode: env.mode,
-			devtool: 'source-map',
+			devtool: 'production' === env.mode ? false : 'source-map',
+			entry: {
+				'has-inline-highlighting': './src/inline-highlighting.js',
+				'has-click-to-share': './src/blocks/click-to-share/block.js',
+				'has-post-sidebar': [ './src/post-sidebar/index.js', './src/post-sidebar/style.scss' ],
+			},
+			plugins: [ ...defaultConfig.plugins, createLicenseBannerPlugin() ],
 		},
 		{
 			entry: {
 				'has-cts-editor': './src/blocks/editor.scss',
 				'has-cts-style': './src/blocks/style.scss',
 				'has-admin-style': './src/admin.scss',
-				'has-admin': [ './src/admin.js' ],
-				'has-admin-settings': [ './src/react/Settings/index.js' ],
-				'has-admin-appearance': [ './src/react/Appearance/index.js' ],
-				'has-admin-block-editor': [ './src/react/BlockEditor/index.js' ],
+				'has-admin-sharing': [ './src/react/Sharing/index.js' ],
+				'has-admin-headlines': [ './src/react/Headlines/index.js' ],
+				'has-admin-images': [ './src/react/Images/index.js' ],
 				'has-admin-emails': [ './src/react/Emails/index.js' ],
+				'has-admin-support': [ './src/react/Support/index.js' ],
 				'has-email-modal': [ './src/react/EmailModal/index.js', './src/react/EmailModal/style.scss' ],
 				'has-themes': [ './src/themes.scss' ],
-				'has-gfont-josefin-sans': { import: './src/scss/fonts/josefin-sans.scss' },
-				'has-gfont-karla': { import: './src/scss/fonts/karla.scss' },
-				'has-gfont-lato': { import: './src/scss/fonts/lato.scss' },
-				'has-gfont-montserrat': { import: './src/scss/fonts/montserrat.scss' },
-				'has-gfont-open-sans': { import: './src/scss/fonts/open-sans.scss' },
-				'has-gfont-playfair-display': { import: './src/scss/fonts/playfair-display.scss' },
-				'has-gfont-raleway': { import: './src/scss/fonts/raleway.scss' },
-				'has-gfont-roboto': { import: './src/scss/fonts/roboto.scss' },
-				'has-gfont-source-sans-pro': { import: './src/scss/fonts/source-sans-pro.scss' },
+				'has-shortcode-themes': { import: './src/shortcode-themes.scss' },
 				'highlight-and-share': [ './src/frontendjs/highlight-and-share.js' ],
+				'has-image-sharing': [ './src/frontendjs/has-image-sharing.js' ],
+				'has-cf-turnstile': [ './src/frontendjs/turnstile.js' ],
+				'has-headlines': [ './src/headlines.scss' ],
+				'has-headline-sharing': [ './src/frontendjs/headline-sharing.js' ],
+
 			},
 			mode: env.mode,
 			devtool: 'production' === env.mode ? false : 'source-map',
@@ -47,6 +78,7 @@ module.exports = ( env ) => {
 			resolve: {
 				alias: {
 					react: path.resolve( 'node_modules/react' ),
+					React: path.resolve( 'node_modules/react' ),
 					'react-dom': path.resolve( 'node_modules/react-dom' ),
 					lodash: path.resolve( 'node_modules/lodash' ),
 					'@wordpress/i18n': path.resolve( 'node_modules/@wordpress/i18n' ),
@@ -92,6 +124,7 @@ module.exports = ( env ) => {
 								loader: 'sass-loader',
 								options: {
 									sourceMap: true,
+									implementation: sass,
 								},
 							},
 						],
@@ -99,11 +132,6 @@ module.exports = ( env ) => {
 					{
 						test: /\.css$/,
 						include: [
-							path.resolve(
-								__dirname,
-								'node_modules/photoswipe/dist/photoswipe.css'
-							),
-							path.resolve( __dirname, './src/photoswipe-caption.css' ),
 							path.resolve(
 								__dirname,
 								'node_modules/@wordpress/components/build-style/style.css'
@@ -119,7 +147,12 @@ module.exports = ( env ) => {
 									sourceMap: true,
 								},
 							},
-							'sass-loader',
+							{
+								loader: 'sass-loader',
+								options: {
+									implementation: sass,
+								},
+							},
 						],
 					},
 					{
@@ -130,7 +163,7 @@ module.exports = ( env ) => {
 					},
 				],
 			},
-			plugins: [ new RemoveEmptyScriptsPlugin(), new MiniCssExtractPlugin() ],
+			plugins: [ new RemoveEmptyScriptsPlugin(), new MiniCssExtractPlugin(), new DependencyExtractionWebpackPlugin(), createLicenseBannerPlugin() ],
 		},
 	];
 };

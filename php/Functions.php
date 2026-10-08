@@ -7,6 +7,10 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class Functions
  */
@@ -39,6 +43,48 @@ class Functions {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Whether stats (dataLayer, gtag, synthetic events) are enabled for the frontend.
+	 * Respects the HAS_STATS_ENABLED constant and the has_stats_enabled filter (filter overrides constant).
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return bool True if stats are enabled, false otherwise.
+	 */
+	public static function is_stats_enabled() {
+		$enabled = defined( 'HAS_STATS_ENABLED' ) ? (bool) constant( 'HAS_STATS_ENABLED' ) : true;
+		/**
+		 * Filter: has_stats_enabled
+		 *
+		 * Whether stats are enabled for the frontend.
+		 *
+		 * @param bool $enabled True if stats are enabled, false otherwise.
+		 * @since 6.0.0
+		 */
+		return (bool) apply_filters( 'has_stats_enabled', $enabled );
+	}
+
+	/**
+	 * Whether enhanced stats (URL, share text, title) are sent to dataLayer/gtag/CustomEvent.
+	 * Default false for privacy; set HAS_STATS_ENHANCED or use has_stats_enhanced filter to enable.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return bool True if enhanced fields may be sent, false otherwise.
+	 */
+	public static function is_stats_enhanced() {
+		$enhanced = defined( 'HAS_STATS_ENHANCED' ) ? (bool) constant( 'HAS_STATS_ENHANCED' ) : false;
+		/**
+		 * Filter: has_stats_enhanced
+		 *
+		 * Whether to send URL, share text, and title in stats (default false for privacy).
+		 *
+		 * @param bool $enhanced True to send enhanced fields, false to omit them.
+		 * @since 7.0.0
+		 */
+		return (bool) apply_filters( 'has_stats_enhanced', $enhanced );
 	}
 
 	/**
@@ -139,7 +185,10 @@ class Functions {
 		$enable_shortlinks = isset( $settings['shortlinks'] ) ? (bool) $settings['shortlinks'] : false;
 		$url               = get_permalink( $post_id );
 		if ( $enable_shortlinks ) {
-			$url = wp_get_shortlink( $post_id );
+			$maybe_url = wp_get_shortlink( $post_id );
+			if ( ! empty( $maybe_url ) ) {
+				$url = $maybe_url;
+			}
 		}
 
 		/**
@@ -205,7 +254,12 @@ class Functions {
 				continue;
 			}
 			if ( is_string( $value ) ) {
-				$sanitized_data[ $key ] = sanitize_text_field( $value );
+				// Preserve literal < and > for prefix/suffix (sanitize_text_field converts < to entity).
+				if ( in_array( $key, array( 'sharing_prefix', 'sharing_suffix' ), true ) ) {
+					$sanitized_data[ $key ] = trim( wp_check_invalid_utf8( $value ) );
+				} else {
+					$sanitized_data[ $key ] = sanitize_text_field( $value );
+				}
 				continue;
 			}
 		}
@@ -213,9 +267,81 @@ class Functions {
 	}
 
 	/**
+	 * Get available fonts for the block editor.
+	 *
+	 * @return array Array of fonts.
+	 */
+	public static function get_typography_fonts() {
+		// Get the adobe fonts.
+		$fonts_group = array();
+		// Get Adobe fonts from https://wordpress.org/plugins/custom-typekit-fonts/.
+		if ( defined( 'CUSTOM_TYPEKIT_FONTS_FILE' ) ) {
+			$adobe_fonts = get_option( 'custom-typekit-fonts', array() );
+			if ( isset( $adobe_fonts['custom-typekit-font-details'] ) ) {
+				foreach ( $adobe_fonts['custom-typekit-font-details'] as $font_name => $font_details ) {
+					$fonts_group[] = array(
+						'value' => $font_name,
+						'label' => $font_name,
+					);
+				}
+			}
+		}
+
+		// Get blocksy adobe fonts.
+		$options       = get_option( 'blocksy_ext_adobe_typekit_settings', array() );
+		$font_families = $options['fonts'] ?? array();
+		$project_id    = $options['project_id'] ?? '';
+		if ( ! empty( $project_id ) ) {
+			if ( function_exists( 'blc_get_ext' ) ) {
+				$typekit = blc_get_ext( 'adobe-typekit' );
+				// Add fonts to list.
+				if ( $typekit ) {
+					if ( ! empty( $font_families ) ) {
+						foreach ( $font_families as $font_family ) {
+							$fonts_group[] = array(
+								'value' => $font_family['slug'],
+								'label' => $font_family['name'],
+							);
+						}
+					}
+				}
+			}
+		}
+
+		// Get blocksy google fonts.
+		$google_fonts = get_option( 'blocksy_ext_local_google_fonts_settings', array() );
+		if ( $google_fonts && isset( $google_fonts['fonts'] ) ) {
+			if ( function_exists( 'blc_get_ext' ) && blc_get_ext( 'local-google-fonts' ) ) {
+				foreach ( $google_fonts['fonts'] as $font_family ) {
+					$fonts_group[] = array(
+						'value' => $font_family['name'],
+						'label' => $font_family['name'],
+					);
+				}
+			}
+		}
+
+		// Get Custom Fonts (Local Google Fonts) plugin fonts. https://wordpress.org/plugins/custom-fonts/.
+		if ( class_exists( 'BCF_Custom_Font_Families' ) ) {
+			$local_google_fonts = \BCF_Custom_Font_Families::get_existing_google_fonts();
+			if ( ! empty( $local_google_fonts ) ) {
+				foreach ( $local_google_fonts as $font_name ) {
+					$fonts_group[] = array(
+						'value' => $font_name,
+						'label' => $font_name,
+					);
+				}
+			}
+		}
+
+		return $fonts_group;
+	}
+
+	/**
 	 * Get all fonts used for the blocks.
 	 *
 	 * @param array $blocks Array of blocks/innerblocks.
+	 * @param array $fonts  Array of fonts.
 	 */
 	public static function get_block_fonts( $blocks, $fonts = array() ) {
 		$devices = array(
@@ -261,10 +387,10 @@ class Functions {
 	 * @return bool True if enabled, false if not.
 	 */
 	public static function is_adobe_fonts_enabled() {
-		$block_editor_options = Options::get_block_editor_options( true );
-		$adobe_project_id     = $block_editor_options['adobe_project_id'] ?? '';
-		$adobe_fonts          = $block_editor_options['adobe_fonts'] ?? false;
-		$adobe_fonts_enabled  = $block_editor_options['enable_adobe_fonts'] ?? false;
+		$options             = Options::get_plugin_options( true );
+		$adobe_project_id    = $options['adobe_project_id'] ?? '';
+		$adobe_fonts         = $options['adobe_fonts'] ?? false;
+		$adobe_fonts_enabled = $options['enable_adobe_fonts'] ?? false;
 
 		if ( $adobe_fonts_enabled && ! empty( $adobe_fonts ) && ! empty( $adobe_project_id ) ) {
 			return true;
@@ -277,15 +403,44 @@ class Functions {
 	 */
 	public static function get_user_ip() {
 		if ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) && ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			if ( strpos( $_SERVER['HTTP_X_FORWARDED_FOR'], ',' ) > 0 ) {
-				$addr = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
+			if ( strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ), ',' ) > 0 ) {
+				$addr = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
 				return trim( $addr[0] );
 			} else {
-				return $_SERVER['HTTP_X_FORWARDED_FOR'];
+				return sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
 			}
 		} else {
-			return $_SERVER['REMOTE_ADDR'];
+			if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) && ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+				return trim( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) );
+			}
 		}
+		return '';
+	}
+
+	/**
+	 * Take a _ separated field and convert to camelcase.
+	 *
+	 * @param array $fields Array of fields to convert to camelcase.
+	 *
+	 * @return string camelCased field.
+	 */
+	public static function to_camelcase_recursive( array $fields ) {
+		foreach ( $fields as $key => $value ) {
+			if ( is_numeric( $key ) || is_bool( $key ) ) {
+				continue;
+			}
+			// Store old key.
+			$old_key = $key;
+			if ( is_array( $value ) ) {
+				$value = self::to_camelcase_recursive( $value );
+			}
+			$key = self::to_camelcase( $key );
+			if ( $key !== $old_key ) {
+				unset( $fields[ $old_key ] );
+			}
+			$fields[ $key ] = $value;
+		}
+		return $fields;
 	}
 
 	/**
@@ -307,8 +462,64 @@ class Functions {
 	 * @return string $field Field name in camelCase..
 	 */
 	public static function to_underlines( string $field ) {
-		$field = strtolower( preg_replace( '/([a-z])([A-Z])/', '$1_$2', $field ) );
+		$regex = '/([a-z])([A-Z])/';
+		if ( preg_match( $regex, $field ) ) {
+			$field = strtolower( preg_replace( $regex, '$1_$2', $field ) );
+		}
 		return $field;
+	}
+
+	/**
+	 * Take a camelcase key and converts it to underline case.
+	 *
+	 * @param array $fields Array of fields to convert to underline case.
+	 *
+	 * @return array $fields Array of fields in underline case.
+	 */
+	public static function to_underlines_recursive( array $fields ) {
+		foreach ( $fields as $key => $value ) {
+			if ( is_numeric( $key ) || is_bool( $key ) ) {
+				continue;
+			}
+			// Store old key.
+			$old_key = $key;
+
+			// Convert key to underline case.
+			$key            = self::to_underlines( $key );
+			$fields[ $key ] = $value;
+
+			// Unset old key if it has changed.
+			if ( $key !== $old_key ) {
+				unset( $fields[ $old_key ] );
+			}
+
+			// Recursively convert array values to underline case.
+			if ( is_array( $value ) ) {
+				$fields[ $key ] = self::to_underlines_recursive( $value );
+			}
+		}
+		return $fields;
+	}
+
+	/**
+	 * Get all public post types.
+	 *
+	 * @return array Array of post type objects.
+	 */
+	public static function get_post_types() {
+		$post_types          = get_post_types(
+			array(
+				'public' => true,
+			),
+			'objects'
+		);
+		$excluded_post_types = array( 'attachment', 'revision', 'nav_menu_item', 'ct_content_block' );
+		return array_filter(
+			$post_types,
+			function ( $post_type ) use ( $excluded_post_types ) {
+				return ! in_array( $post_type->name, $excluded_post_types, true );
+			}
+		);
 	}
 
 	/**
@@ -368,7 +579,7 @@ class Functions {
 		 *
 		 * @param string Plugin Author URI.
 		 */
-		$plugin_author = apply_filters( 'has_dlx_plugin_author_uri', 'https://mediaron.com' );
+		$plugin_author = apply_filters( 'has_dlx_plugin_author_uri', 'https://berrypress.com' );
 		return $plugin_author;
 	}
 
@@ -421,7 +632,7 @@ class Functions {
 		 *
 		 * @param string Plugin URI.
 		 */
-		return apply_filters( 'has_dlx_plugin_uri', 'https://dlxplugins.com/plugins/highlight-and-share' );
+		return apply_filters( 'has_dlx_plugin_uri', 'https://berrypress.com/docs/highlight-and-share/' );
 	}
 
 	/**
@@ -437,7 +648,7 @@ class Functions {
 		 *
 		 * @param string Plugin Support URI.
 		 */
-		return apply_filters( 'has_dlx_plugin_support_uri', 'https://dlxplugins.com/support/' );
+		return apply_filters( 'has_dlx_plugin_support_uri', 'https://wordpress.org/support/plugin/highlight-and-share/' );
 	}
 
 	/**
@@ -453,7 +664,7 @@ class Functions {
 		 *
 		 * @param string Plugin Docs URI.
 		 */
-		return apply_filters( 'has_dlx_plugin_docs_uri', 'https://has.dlxplugins.com/' );
+		return apply_filters( 'has_dlx_plugin_docs_uri', 'https://berrypress.com/docs/highlight-and-share/' );
 	}
 
 	/**
@@ -469,7 +680,7 @@ class Functions {
 		 *
 		 * @param string Plugin ratings URI.
 		 */
-		return apply_filters( 'has_dlx_plugin_docs_uri', 'https://dlxplugins.com/support/' );
+		return apply_filters( 'has_dlx_plugin_ratings_uri', 'https://wordpress.org/support/plugin/highlight-and-share/reviews/#new-post' );
 	}
 
 	/**
@@ -491,9 +702,10 @@ class Functions {
 	/**
 	 * Returns appropriate html for KSES.
 	 *
-	 * @param bool $svg Whether to add SVG data to KSES.
+	 * @param bool $svg         Whether to add SVG data to KSES.
+	 * @param bool $with_tables Whether to add tables to KSES.
 	 */
-	public static function get_kses_allowed_html( $svg = true ) {
+	public static function get_kses_allowed_html( $svg = true, $with_tables = false ) {
 		$allowed_tags = wp_kses_allowed_html( 'post' );
 
 		$allowed_tags['nav']        = array(
@@ -501,47 +713,149 @@ class Functions {
 		);
 		$allowed_tags['a']['class'] = array();
 
-		if ( ! $svg ) {
+		// Add form input fields.
+		$allowed_tags['input'] = array(
+			'type'        => array(),
+			'class'       => array(),
+			'id'          => array(),
+			'name'        => array(),
+			'value'       => array(),
+			'placeholder' => array(),
+			'required'    => array(),
+			'checked'     => array(),
+		);
+
+		// Add button fields.
+		$allowed_tags['button'] = array(
+			'type'      => array(),
+			'class'     => array(),
+			'id'        => array(),
+			'name'      => array(),
+			'data-type' => array(),
+		);
+
+		// Add select field.
+		$allowed_tags['select'] = array(
+			'class' => array(),
+			'id'    => array(),
+			'name'  => array(),
+		);
+
+		// Add options field.
+		$allowed_tags['option'] = array(
+			'value'    => array(),
+			'selected' => array(),
+		);
+
+		if ( ! $svg && ! $with_tables ) {
 			return $allowed_tags;
 		}
-		$allowed_tags['svg'] = array(
-			'xmlns'       => array(),
-			'fill'        => array(),
-			'viewbox'     => array(),
-			'role'        => array(),
-			'aria-hidden' => array(),
-			'focusable'   => array(),
-			'class'       => array(),
-			'width'       => array(),
-			'height'      => array(),
-		);
+		if ( $svg ) {
+			$allowed_tags['svg'] = array(
+				'xmlns'       => array(),
+				'fill'        => array(),
+				'viewbox'     => array(),
+				'role'        => array(),
+				'aria-hidden' => array(),
+				'focusable'   => array(),
+				'class'       => array(),
+				'width'       => array(),
+				'height'      => array(),
+			);
 
-		$allowed_tags['path'] = array(
-			'd'       => array(),
-			'fill'    => array(),
-			'opacity' => array(),
-		);
+			$allowed_tags['path'] = array(
+				'd'       => array(),
+				'fill'    => array(),
+				'opacity' => array(),
+			);
 
-		$allowed_tags['g'] = array();
+			$allowed_tags['g'] = array();
 
-		$allowed_tags['circle'] = array(
-			'cx'     => array(),
-			'cy'     => array(),
-			'r'      => array(),
-			'fill'   => array(),
-			'stroke' => array(),
-		);
+			$allowed_tags['circle'] = array(
+				'cx'     => array(),
+				'cy'     => array(),
+				'r'      => array(),
+				'fill'   => array(),
+				'stroke' => array(),
+			);
 
-		$allowed_tags['use'] = array(
-			'xlink:href' => array(),
-		);
+			$allowed_tags['use'] = array(
+				'xlink:href' => array(),
+			);
 
-		$allowed_tags['symbol'] = array(
-			'aria-hidden' => array(),
-			'viewBox'     => array(),
-			'id'          => array(),
-			'xmls'        => array(),
-		);
+			$allowed_tags['symbol'] = array(
+				'aria-hidden' => array(),
+				'viewBox'     => array(),
+				'id'          => array(),
+				'xmls'        => array(),
+			);
+		}
+
+		// Add HTML table markup.
+		if ( $with_tables ) {
+			$allowed_tags['html']  = array(
+				'lang' => array(),
+			);
+			$allowed_tags['head']  = array();
+			$allowed_tags['title'] = array();
+			$allowed_tags['meta']  = array(
+				'http-equiv' => array(),
+				'content'    => array(),
+				'name'       => array(),
+			);
+			$allowed_tags['body']  = array(
+				'style' => array(),
+			);
+			$allowed_tags['style'] = array();
+			$allowed_tags['table'] = array(
+				'class'        => array(),
+				'width'        => array(),
+				'border'       => array(),
+				'cellpadding'  => array(),
+				'cellspacing'  => array(),
+				'role'         => array(),
+				'presentation' => array(),
+				'align'        => array(),
+				'bgcolor'      => array(),
+			);
+			$allowed_tags['tbody'] = array();
+			$allowed_tags['thead'] = array();
+			$allowed_tags['tr']    = array(
+				'bgcolor' => array(),
+				'align'   => array(),
+				'style'   => array(),
+			);
+			$allowed_tags['th']    = array();
+			$allowed_tags['td']    = array(
+				'class' => array(),
+				'width' => array(),
+				'style' => array(),
+			);
+			if ( ! isset( $allowed_tags['div'] ) ) {
+				$allowed_tags['div'] = array(
+					'style' => array(),
+					'align' => array(),
+					'class' => array(),
+				);
+			} else {
+				$allowed_tags['div']['style'] = array();
+				$allowed_tags['div']['align'] = array();
+				$allowed_tags['div']['class'] = array();
+			}
+			if ( ! isset( $allowed_tags['p'] ) ) {
+				$allowed_tags['p'] = array(
+					'style' => array(),
+				);
+			} else {
+				$allowed_tags['p']['style'] = array();
+			}
+			$allowed_tags['h1'] = array(
+				'style' => array(),
+			);
+			$allowed_tags['h2'] = array(
+				'style' => array(),
+			);
+		}
 
 		return $allowed_tags;
 	}
@@ -594,4 +908,3 @@ class Functions {
 		return $highest_priority;
 	}
 }
-

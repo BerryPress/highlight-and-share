@@ -1,3 +1,7 @@
+import { constrainRange } from './selection';
+import { dispatchStatsEvent } from './stats-dispatcher';
+import { openModal } from '../utils/modal';
+import { __ } from '@wordpress/i18n';
 ( function() {
 	'use strict';
 
@@ -8,6 +12,8 @@
 	const prefix = HAS.prefix;
 	const suffix = HAS.suffix;
 
+	const isLegacyContentMode = HAS.content_legacy_mode;
+
 	let currentElement = null;
 
 	// Main HAS container in the footer. If ".highlight-and-share-wrapper" doesn't have this parent, it is a clone.
@@ -16,8 +22,8 @@
 		return;
 	}
 
-	const socialNetworks =
-		'.has_whatsapp, .has_facebook, .has_twitter, .has_copy, .has_reddit, .has_telegram, .has_linkedin, .has_xing, .has_signal, .has_vk, .has_tumblr, .has_email_mailto, .has_email_form';
+	const socialNetworks = HAS.social_network_classes ||
+		'.has_whatsapp, .has_facebook, .has_twitter, .has_copy, .has_reddit, .has_telegram, .has_linkedin, .has_xing, .has_signal, .has_vk, .has_tumblr, .has_mastodon, .has_email_mailto, .has_email_form, .has_threads, .has_bluesky, .has_webshare';
 
 	// Get highlight and share container dimensions.
 	const hasSharingIconsContainer = hasContainer.querySelector(
@@ -107,7 +113,12 @@
 				'%hashtags%',
 				encodeURIComponent( hashtags )
 			);
-			elementUrl = elementUrl.replace( '%type%', encodeURIComponent( triggerType ) );
+			elementUrl = elementUrl.replace(
+				'%type%',
+				encodeURIComponent( triggerType )
+			);
+			elementUrl = elementUrl.replace( '%threadstext%', '%prefix%' + encodeURIComponent( text ) + '%suffix%' + encodeURIComponent( '\n\n' + url ) );
+			elementUrl = elementUrl.replace( '%blueskytext%', '%prefix%' + encodeURIComponent( text ) + '%suffix%' + encodeURIComponent( '\n\n' + url ) );
 			elementUrl = elementUrl.replace( '%prefix%', encodeURIComponent( prefix ) );
 			elementUrl = elementUrl.replace( '%suffix%', encodeURIComponent( suffix ) );
 			elementAnchor.setAttribute( 'href', elementUrl );
@@ -154,7 +165,9 @@
 			false === highlight_and_share.show_ok &&
 			false === highlight_and_share.show_vk &&
 			false === highlight_and_share.show_pinterest &&
-			false === highlight_and_share.show_email
+			false === highlight_and_share.show_email &&
+			false === highlight_and_share.show_webshare &&
+			false === highlight_and_share.show_mastodon
 		) {
 			return;
 		}
@@ -180,12 +193,29 @@
 
 		hasVariableReplace( hasClone, href, title, text, hashtags, type ); // Replaced by reference.
 
+		// So the browser does not overtake the event chain for "open in new tab"; our handlers stay in control. Preserve intent for links that had target="_blank".
+		hasClone.querySelectorAll( 'a' ).forEach( ( a ) => {
+			if ( a.getAttribute( 'target' ) === '_blank' ) {
+				a.setAttribute( 'data-open-in-new-tab', '1' );
+			}
+			a.removeAttribute( 'target' );
+		} );
+
+		// Check for webshare. Enable if available.
+		if ( 'undefined' !== typeof navigator.share ) {
+			const webshare = hasClone.querySelector( '.has_webshare' );
+			if ( null !== webshare ) {
+				webshare.style.display = 'inline-block';
+			}
+		}
+
 		// Add to the end of the body element.
 		document.body.appendChild( hasClone );
 		switch ( type ) {
 			case 'selection':
+			case 'comments':
 				// Position the interface.
-				setHasContainerPositionSelection( hasClone );
+				setHasContainerPositionSelection( hasClone, triggerElement );
 				break;
 			case 'inline':
 				// Position the interface.
@@ -197,103 +227,191 @@
 				break;
 		}
 
-		// Setup event handlers for links (for desktop).
-		const queryElements = document
-			.querySelector( 'body' )
-			.querySelectorAll(
-				'.has_whatsapp, .has_facebook, .has_twitter, .has_telegram, .has_linkedin, .has_xing, .has_reddit, .has_tumblr'
+		// One place: mousedown (stats) for every social network element. Click handling stays in the blocks below.
+		const allNetworkElements = hasClone.querySelectorAll( socialNetworks );
+		allNetworkElements.forEach( ( el ) => {
+			if ( ! isVisible( el ) ) {
+				return;
+			}
+			el.addEventListener(
+				'mousedown',
+				() => {
+					dispatchStatsEvent( {
+						hasShareText: text,
+						hasSharePostUrl: href,
+						hasSharePostTitle: title,
+						hasShareType: type,
+						hasSocialNetwork: el.getAttribute( 'data-type' ),
+					} );
+				},
+				true
 			);
+		} );
+
+		// Setup event handlers for links (for desktop). Scope to the popup clone so the visible buttons get the handlers (avoids missing events when body has both original and clone).
+		const queryElements = hasClone.querySelectorAll(
+			'.has_whatsapp, .has_facebook, .has_twitter, .has_telegram, .has_linkedin, .has_xing, .has_reddit, .has_tumblr, .has_threads, .has_bluesky'
+		);
 		if ( null !== queryElements ) {
-			// Add click listeners to visible elements.
 			queryElements.forEach( ( el ) => {
 				if ( isVisible( el ) ) {
-					el.querySelector( 'a' ).addEventListener( 'click', ( event ) => {
+					const link = el.querySelector( 'a' );
+
+					link.addEventListener( 'click', ( event ) => {
 						event.preventDefault();
-
-						// Get the URL.
-						const url = el.querySelector( 'a' ).getAttribute( 'href' );
-
-						// Set dataLayer event for GTM.
-						if ( 'undefined' !== typeof dataLayer ) {
-							// eslint-disable-next-line no-undef
-							dataLayer.push( {
-								event: 'highlight-and-share',
-								hasShareText: text,
-								hasSharePostUrl: href,
-								hasSharePostTitle: title,
-								hasShareType: type /* selection|cta|inline */,
-								hasSocialNetwork: el.getAttribute( 'data-type' ),
-							} );
+						const url = link.getAttribute( 'href' );
+						if ( link.getAttribute( 'data-open-in-new-tab' ) === '1' ) {
+							window.open( url, '_blank', 'noopener,noreferrer' );
+						} else if ( link.getAttribute( 'data-requires-popup' ) === '1' ) {
+							window.open(
+								url,
+								'Highlight and Share',
+								'width=575,height=430,toolbar=false,menubar=false,location=false,status=false'
+							);
+						} else {
+							window.location.href = url;
 						}
-
-						window.open(
-							url,
-							'Highlight and Share',
-							'width=575,height=430,toolbar=false,menubar=false,location=false,status=false'
-						);
 					} );
 				}
 			} );
 		}
 
-		// Set up copy event.
-		const copyButtons = document.querySelectorAll( '.has_copy' );
+		// Set up copy event (scope to popup clone).
+		const copyButtons = hasClone.querySelectorAll( '.has_copy' );
 		if ( null !== copyButtons ) {
 			copyButtons.forEach( ( el ) => {
 				if ( isVisible( el ) ) {
-					el.addEventListener( 'click', ( event ) => {
-						event.preventDefault();
-						const copyBlob = new Blob( [ text ], { type: 'text/plain' } );
-						const data = [ new ClipboardItem( { [ copyBlob.type ]: copyBlob } ) ];
-						navigator.clipboard.write( data );
-
-						// Change tooltip data attribute.
-						el.setAttribute( 'data-tooltip', 'Copied!' );
-
-						// Set dataLayer event for GTM.
-						if ( 'undefined' !== typeof dataLayer ) {
-							// eslint-disable-next-line no-undef
-							dataLayer.push( {
-								event: 'highlight-and-share',
-								hasShareText: text,
-								hasSharePostUrl: href,
-								hasSharePostTitle: title,
-								hasShareType: type /* selection|cta|inline */,
-								hasSocialNetwork: 'copy',
-							} );
-						}
-					} );
+					// Remove copy element if ClipboardItem is undefined.
+					if ( 'undefined' === typeof ClipboardItem ) {
+						el.remove();
+					} else {
+						el.addEventListener( 'click', ( event ) => {
+							event.preventDefault();
+							// Make sure ClipboardItem is supported.
+							try {
+								const copyBlob = new Blob( [ text ], { type: 'text/plain' } );
+								const data = [ new ClipboardItem( { [ copyBlob.type ]: copyBlob } ) ];
+								navigator.clipboard
+									.write( data )
+									.then( () => {
+										el.setAttribute( 'data-tooltip', __( 'Copied!', 'highlight-and-share' ) );
+									} )
+									.catch( () => {
+										// Copying was refused: do not claim success.
+									} );
+							} catch ( e ) {
+								// Clipboard API unavailable (e.g. insecure context): do not claim success.
+							}
+						} );
+					}
 				}
 			} );
 		}
 
-		// Set up email event.
-		const emailButtons = document.querySelectorAll( '.has_email_form' );
+		// Set up email event (scope to popup clone).
+		const emailButtons = hasClone.querySelectorAll( '.has_email_form' );
 		if ( null !== emailButtons ) {
 			emailButtons.forEach( ( el ) => {
 				if ( isVisible( el ) ) {
 					el.addEventListener( 'click', ( event ) => {
 						event.preventDefault();
 						const url = event.target.closest( 'a' ).getAttribute( 'href' );
-						if ( 'undefined' !== typeof Fancybox ) {
-							// eslint-disable-next-line no-undef
-							hasRemoveVisibleElements();
-							// eslint-disable-next-line no-undef
-							window.highlightShareFancy = new Fancybox(
-								[
-									{
-										src: url,
-										type: 'iframe',
-										preload: true,
-									},
-								],
-								{
-									Toolbar: {
-										autoEnable: false,
-									},
-								}
+						hasRemoveVisibleElements();
+						window.hasShareModal = openModal( {
+							type: 'iframe',
+							src: url,
+							title: __('Share by Email', 'highlight-and-share' ),
+							className: 'has-modal-email',
+						} );
+					} );
+				}
+			} );
+		}
+
+		/**
+		 * Set up Mastodon Prompt (scope to popup clone).
+		 */
+		const mastodonButtons = hasClone.querySelectorAll( '.has_mastodon' );
+		if ( null !== mastodonButtons ) {
+			mastodonButtons.forEach( ( el ) => {
+				if ( isVisible( el ) ) {
+					el.addEventListener( 'click', ( event ) => {
+						event.preventDefault();
+						const url = event.target.closest( 'a' ).getAttribute( 'href' );
+
+						hasRemoveVisibleElements();
+
+						// The prompt form is reused between openings, so the submit
+						// listener must be removed again on close (see onClose).
+						let mastodonForm = null;
+						const handleMastodonSubmit = ( submitEvent ) => {
+							submitEvent.preventDefault();
+							const mastodonInputValue = mastodonForm.querySelector( 'input' ).value;
+
+							// Save the value to local storage.
+							localStorage.setItem(
+								'highlight-and-share-mastodon',
+								mastodonInputValue
 							);
-						}
+							let mastodonUrl = url;
+							if ( '' !== mastodonInputValue ) {
+								mastodonUrl = mastodonUrl.replace( /mastodon\.social/i, mastodonInputValue );
+							}
+
+							// Now go to URL.
+							window.open(
+								mastodonUrl,
+								'Highlight and Share',
+								'width=575,height=430,toolbar=false,menubar=false,location=false,status=false,noopener'
+							);
+						};
+						window.hasShareModal = openModal( {
+							type: 'inline',
+							src: '#has-mastodon-prompt',
+							title: __('Share on Mastodon', 'highlight-and-share' ),
+							className: 'has-modal-mastodon',
+							onOpen: ( modal ) => {
+								mastodonForm = modal.content.querySelector(
+									'.has-mastodon-form'
+								);
+								const mastodonInput = mastodonForm.querySelector(
+									'input'
+								);
+								if ( null !== mastodonInput ) {
+									mastodonInput.focus();
+								}
+								mastodonForm.addEventListener( 'submit', handleMastodonSubmit );
+
+								// Get local storage and populate input if available.
+								const localStorageValue = localStorage.getItem(
+									'highlight-and-share-mastodon'
+								);
+								if ( null !== localStorageValue ) {
+									mastodonInput.value = localStorageValue;
+								}
+							},
+							onClose: () => {
+								mastodonForm.removeEventListener( 'submit', handleMastodonSubmit );
+							},
+						} );
+					} );
+				}
+			} );
+		}
+
+		// Set up webshare event (scope to popup clone).
+		const webshareButtons = hasClone.querySelectorAll( '.has_webshare' );
+		if ( null !== webshareButtons ) {
+			webshareButtons.forEach( ( el ) => {
+				if ( isVisible( el ) ) {
+					el.addEventListener( 'click', ( event ) => {
+						event.preventDefault();
+						const url = event.target.closest( 'a' ).getAttribute( 'href' );
+						navigator.share( {
+							title,
+							text,
+							url,
+						} );
 					} );
 				}
 			} );
@@ -303,18 +421,16 @@
 	/**
 	 * Set the Social Sharer container position for the current selection. This needs to run after cloned element has been appended to the dom.
 	 *
-	 * @param {element} element The cloned social sharer element.
+	 * @param {element} element        The cloned social sharer element.
+	 * @param {element} triggerElement The event initiator (null if no trigger element).
 	 */
-	const setHasContainerPositionSelection = ( element ) => {
+	const setHasContainerPositionSelection = ( element, triggerElement ) => {
 		// Get the dimensions of the window.
 		const windowWidth = window.innerWidth;
 		const windowHeight = window.innerHeight;
 
 		// Get the dimensions and location of the selection.
-		const selectionRect = window
-			.getSelection()
-			.getRangeAt( 0 )
-			.getBoundingClientRect();
+		const selectionRect = getConstrainedRange( triggerElement ).getBoundingClientRect();
 		const selectionTop = selectionRect.top; // top position relative to view port.
 		const selectionLeft = selectionRect.left; // left position relative to view port.
 		const selectionWidth = selectionRect.width;
@@ -342,11 +458,11 @@
 			const hasSharerY =
 				selectionTop +
 				window.scrollY -
-				( hasCloneHeight / 2 ) +
-				( selectionHeight / 2 );
+				hasCloneHeight / 2 +
+				selectionHeight / 2;
 			element.classList.add( 'has-no-margin-bottom' );
 			// If clone is outside of viewport, set width.
-			if ( selectionTop + window.scrollY - ( hasCloneHeight / 2 ) < 0 ) {
+			if ( selectionTop + window.scrollY - hasCloneHeight / 2 < 0 ) {
 				element.style.display = 'grid';
 				element.style.gridTemplateColumns = '1fr 1fr';
 
@@ -357,17 +473,14 @@
 				element.style.top =
 					selectionTop +
 					window.scrollY -
-					( newCloneRect.height / 2 ) +
-					( selectionHeight / 2 ) +
+					newCloneRect.height / 2 +
+					selectionHeight / 2 +
 					'px';
 				element.style.left =
 					selectionLeft + window.scrollX - newCloneRect.width - 15 + 'px';
 
 				// Calculate top position.
-			} else if (
-				selectionTop + hasCloneHeight >
-				windowHeight
-			) {
+			} else if ( selectionTop + hasCloneHeight > windowHeight ) {
 				element.style.display = 'grid';
 				element.style.gridTemplateColumns = '1fr 1fr';
 
@@ -450,10 +563,10 @@
 			const hasSharerX = inlineLeft + window.scrollX - ( hasCloneWidth + 15 );
 			// Get the Y position of where the HAS Sharer inteface should be displayed.
 			const hasSharerY =
-				inlineTop + window.scrollY - ( hasCloneHeight / 2 ) + ( inlineHeight / 2 );
+				inlineTop + window.scrollY - hasCloneHeight / 2 + inlineHeight / 2;
 			element.classList.add( 'has-no-margin-bottom' );
 			// If clone is outside of viewport, set width.
-			if ( inlineTop + window.scrollY - ( hasCloneHeight / 2 ) < 0 ) {
+			if ( inlineTop + window.scrollY - hasCloneHeight / 2 < 0 ) {
 				element.style.display = 'grid';
 				element.style.gridTemplateColumns = '1fr 1fr';
 
@@ -476,10 +589,7 @@
 				}
 
 				// Calculate top position.
-			} else if (
-				inlineTop + hasCloneHeight >
-				windowHeight
-			) {
+			} else if ( inlineTop + hasCloneHeight > windowHeight ) {
 				element.style.display = 'grid';
 				element.style.gridTemplateColumns = '1fr 1fr';
 
@@ -532,6 +642,30 @@
 	};
 
 	/**
+	 * Get the constrained range.
+	 *
+	 * @param {Element} element The element to constrain the range to.
+	 * @return {Range} The constrained range.
+	 * @see https://github.com/MaxArt2501/share-this/tree/master
+	 */
+	const getConstrainedRange = ( element ) => {
+		const _window = document.defaultView;
+		const selection = _window.getSelection();
+		const range = selection.rangeCount && selection.getRangeAt( 0 );
+		if ( ! range ) {
+			return;
+		}
+
+		const constrainedRange = constrainRange( range, element );
+		if ( constrainedRange.collapsed || ! constrainedRange.getClientRects().length ) {
+			return;
+		}
+
+		// eslint-disable-next-line consistent-return
+		return constrainedRange;
+	};
+
+	/**
 	 * Set the Social Sharer container position for the inline highlighter. This needs to run after cloned element has been appended to the dom.
 	 *
 	 * @param {element} element        The cloned social sharer element.
@@ -569,10 +703,10 @@
 			const hasSharerX = ctaLeft + window.scrollX - ( hasCloneWidth + 15 );
 			// Get the Y position of where the HAS Sharer inteface should be displayed.
 			const hasSharerY =
-				ctaTop + window.scrollY - ( hasCloneHeight / 2 ) + ( ctaHeight / 2 );
+				ctaTop + window.scrollY - hasCloneHeight / 2 + ctaHeight / 2;
 			element.classList.add( 'has-no-margin-bottom' );
 			// If clone is outside of viewport, set width.
-			if ( ctaTop + window.scrollY - ( hasCloneHeight / 2 ) < 0 ) {
+			if ( ctaTop + window.scrollY - hasCloneHeight / 2 < 0 ) {
 				element.style.display = 'grid';
 				element.style.gridTemplateColumns = '1fr 1fr';
 
@@ -616,7 +750,8 @@
 				}
 			} else {
 				const newCloneRect = element.getBoundingClientRect();
-				element.style.left = ( ctaLeft + window.scrollX - newCloneRect.width - 15 ) + 'px';
+				element.style.left =
+					ctaLeft + window.scrollX - newCloneRect.width - 15 + 'px';
 				element.style.top = hasSharerY + 'px';
 				element.classList.remove( 'has-no-margin-bottom' );
 			}
@@ -646,6 +781,31 @@
 		}
 	};
 
+	/**
+	 * Get the page parameters.
+	 *
+	 * @param {Element} newElement Element to retrieve data functions for.
+	 *
+	 * @return {Object} Object containing the page parameters.
+	 */
+	const getPageParams = ( newElement ) => {
+		const href =
+			null !== newElement
+				? newElement.dataset.url
+				: window.location.href;
+		const title =
+			null !== newElement ? newElement.dataset.title : document.title;
+		const hashtags =
+			null !== newElement ? newElement.dataset.hashtags : '';
+		const params = {};
+
+		params.href = href;
+		params.title = title;
+		params.hashtags = hashtags;
+
+		return params;
+	};
+
 	// Begin setting up events.
 
 	// Get JS Content and return if not set.
@@ -660,9 +820,10 @@
 		/**
 		 * Handle touch/click events for select (mouseup) events.
 		 *
-		 * @param {event} event The original event.
+		 * @param {event}   event         The original event.
+		 * @param {element} parentElement The element to retrieve data functions for.
 		 */
-		const hasHandleSelectEvents = ( event ) => {
+		const hasHandleSelectEvents = ( event, parentElement ) => {
 			// Remove any visible elements.
 			hasRemoveVisibleElements();
 
@@ -676,21 +837,10 @@
 				return;
 			}
 
-			// Exit early if the element selection is the same and the sharing interface is visible (works like a toggle).
-			// Commented out as this causes jumps in state, unlike with regular toggles.
-			// if ( selection === currentElement ) {
-			// 	currentElement = null;
-			// 	return;
-			// }
-			// currentElement = selection;
+			const element = parentElement.querySelector( '.has-social-placeholder' );
 
-			// Get closest parent container.
-			const elementParent = event.target.closest( '.has-content-area' );
-
-			// Get data attributes.
-			const href = null !== elementParent ? elementParent.dataset.url : window.location.href;
-			const title = null !== elementParent ? elementParent.dataset.title : document.title;
-			const hashtags = null !== elementParent ? elementParent.dataset.hashtags : '';
+			// Get the highlight and share params.
+			const { href, title, hashtags } = getPageParams( element );
 
 			// Display Highlight and Share.
 			hasDisplay( selectedText, title, href, hashtags, 'selection' );
@@ -700,8 +850,21 @@
 			// element.addEventListener( 'touchcancel', ( event ) => {  // This partially works on Android, but only for the first word. Selections do not work. Android is currently not supported. iOS still works.
 			// 	hasHandleSelectEvents( event );
 			// } );
+
+			// Check if element has class `has-content-area` and if so, it's flush with the content. Select its parent, and add the event to that.
+			if ( element.classList.contains( 'has-content-area' ) && ! isLegacyContentMode ) {
+				const eventTypes = [ 'selectionchange', 'mouseup', 'touchend', 'touchcancel' ];
+				eventTypes.forEach( ( eventType ) => {
+					element.parentElement.addEventListener( eventType, ( event ) => {
+						hasHandleSelectEvents( event, element.parentElement );
+					} );
+				} );
+				return;
+			}
+
+			// Add the rest of the elements.
 			element.addEventListener( 'mouseup', ( event ) => {
-				hasHandleSelectEvents( event );
+				hasHandleSelectEvents( event, element );
 			} );
 		} );
 	}
@@ -733,21 +896,106 @@
 				return;
 			}
 
-			// Get closest parent container.
-			const elementParent = event.target.closest( '.has-content-area' );
+			const elementParent = event.target.closest( '.has-social-placeholder' );
+			const { href, title, hashtags } = getPageParams( elementParent );
 
-			// Get data attributes.
-			const href = null !== elementParent ? elementParent.dataset.url : window.location.href;
-			const title = null !== elementParent ? elementParent.dataset.title : document.title;
-			const hashtags = null !== elementParent ? elementParent.dataset.hashtags : '';
+			/**
+			 * See if we can launch the web share API by default on inline highlight click.
+			 */
+			const webshareDefaultInlineHighlight = HAS.enable_webshare_inline_highlight;
+			if ( webshareDefaultInlineHighlight ) {
+				// Check if navigator.share is available.
+				if ( typeof navigator.share === 'function' ) {
+					navigator.share( {
+						title,
+						url: href,
+						text: selectedText,
+					} );
+					return;
+				}
+			}
 
 			// Display Highlight and Share.
 			hasDisplay( selectedText, title, href, hashtags, 'inline', element );
 		};
 		inlineElements.forEach( ( element ) => {
+			// Add tooltips to inline highlight as a data attribute.
+			if (
+				highlight_and_share.inline_highlight_tooltips_enabled &&
+				'' !== highlight_and_share.inline_highlight_tooltips_text
+			) {
+				element.setAttribute(
+					'data-tooltip',
+					highlight_and_share.inline_highlight_tooltips_text
+				);
+			}
 			// For mouse and trackpad.
 			element.addEventListener( 'click', ( event ) => {
 				hasHandleInlineEvents( event, element );
+				const tooltip = document.querySelectorAll( '.has-inline-text-tooltip' );
+				if ( null !== tooltip ) {
+					tooltip.forEach( ( tooltipElement ) => {
+						tooltipElement.remove();
+					} );
+				}
+			} );
+
+			// For hover effect on desktop devices.
+			element.addEventListener( 'mouseover', ( event ) => {
+				// Check if element has data-tooltip attribute.
+				if ( element.hasAttribute( 'data-tooltip' ) ) {
+					// Get position and dimensions of highlighted element.
+					const elementRect = event.target.getBoundingClientRect();
+
+					// Set tooltip position.
+					const elementTop = elementRect.top;
+					const tooltipWidth = 120; // Adjust to desired width of tooltip
+					const tooltipHeight = 30; // Adjust to desired height of tooltip
+					const scrollX = window.scrollX;
+					const scrollY = window.scrollY;
+
+					// Calculate tooltip position based on element position, window size, and scroll position.
+					const tooltipLeft = event.clientX - tooltipWidth / 2 + scrollX;
+					const tooltipTop = elementTop - tooltipHeight + scrollY - 20;
+
+					// Create div element to hold tooltip.
+					const tooltip = document.createElement( 'div' );
+					tooltip.classList.add( 'has-inline-text-tooltip' );
+					tooltip.style.position = 'absolute';
+					tooltip.style.left = tooltipLeft + 'px';
+					tooltip.style.top = tooltipTop + 'px';
+					tooltip.innerText = element.getAttribute( 'data-tooltip' );
+
+					// Add tooltip to DOM.
+					document.body.appendChild( tooltip );
+
+					// Position tooltip if off screen.
+					const tooltipRect = tooltip.getBoundingClientRect();
+					if ( tooltipRect.right > window.innerWidth ) {
+						tooltip.style.left =
+							tooltipLeft - ( tooltipRect.right - window.innerWidth ) + 'px';
+					} else if ( tooltipRect.left < 0 ) {
+						tooltip.style.left = tooltipLeft - tooltipRect.left + 'px';
+					}
+					if ( tooltipRect.bottom > window.innerHeight ) {
+						tooltip.style.top =
+							tooltipTop - ( tooltipRect.bottom - window.innerHeight ) + 'px';
+					} else if ( tooltipRect.top < 0 ) {
+						tooltip.style.top = tooltipTop - tooltipRect.top + 'px';
+					}
+				}
+			} );
+			element.addEventListener( 'mouseout', () => {
+				// Hide the tooltip.
+				const tooltip = document.querySelectorAll( '.has-inline-text-tooltip' );
+				if ( null !== tooltip ) {
+					tooltip.forEach( ( element ) => {
+						element.classList.add( 'has-fade-out' );
+						setTimeout( () => {
+							element.remove();
+						}, 900 );
+					} );
+				}
 			} );
 		} );
 	}
@@ -777,13 +1025,24 @@
 				// Get text.
 				const selectedText = ctsTextElement.getAttribute( 'data-text-full' );
 
-				// Get closest parent container.
-				const elementParent = element.closest( '.has-content-area' );
+				const parentElement = element.closest( '.has-social-placeholder' );
+				const { href, title, hashtags } = getPageParams( parentElement );
 
-				// Get data attributes.
-				const href = null !== elementParent ? elementParent.dataset.url : window.location.href;
-				const title = null !== elementParent ? elementParent.dataset.title : document.title;
-				const hashtags = null !== elementParent ? elementParent.dataset.hashtags : '';
+				/**
+				 * See if we can launch the web share API by default on inline highlight click.
+				 */
+				const webshareDefaultClickToShare = HAS.enable_webshare_click_to_share;
+				if ( webshareDefaultClickToShare ) {
+					// Check if navigator.share is available.
+					if ( typeof navigator.share === 'function' ) {
+						navigator.share( {
+							title,
+							url: href,
+							text: selectedText,
+						} );
+						return;
+					}
+				}
 
 				// Display Highlight and Share.
 				hasDisplay(
@@ -797,4 +1056,63 @@
 			} );
 		} );
 	}
+
+	/**
+	 * Set up comment elements.
+	 */
+	const initCommentElements = () => {
+		// Get click to share comment elements.
+		const commentElements = document.querySelectorAll( '.has-comment-placeholder' );
+		if ( null !== commentElements ) {
+			/**
+			 * Handle touch/click events for select (mouseup) events.
+			 *
+			 * @param {event}   event         The original event.
+			 * @param {element} parentElement The element to retrieve data functions for.
+			 */
+			const hasHandleCommentSelectEvents = ( event, parentElement ) => {
+				// Remove any visible elements.
+				hasRemoveVisibleElements();
+
+				// Get selection.
+				const selection = document.defaultView.getSelection();
+
+				// Get the selected text.
+				const selectedText = selection.toString().trim();
+
+				if ( '' === selectedText ) {
+					return;
+				}
+
+				const element = parentElement.querySelector( '.has-comment-placeholder' );
+
+				const href = element.getAttribute( 'data-comment-url' );
+				const title = element.getAttribute( 'data-title' );
+
+				// Display Highlight and Share.
+				hasDisplay( selectedText, title, href, '', 'comments' );
+			};
+			// Loop through elements and set up mouseup event.
+			commentElements.forEach( ( element ) => {
+				// Check if element has class `has-content-area` and if so, it's flush with the content. Select its parent, and add the event to that.
+				const eventTypes = [ 'selectionchange', 'mouseup', 'touchend', 'touchcancel' ];
+				eventTypes.forEach( ( eventType ) => {
+					element.parentElement.addEventListener( eventType, ( event ) => {
+						hasHandleCommentSelectEvents( event, element.parentElement );
+					} );
+				} );
+			} );
+		}
+	};
+
+	// Initialize comment elements.
+	document.addEventListener( 'wpacAfterUpdateComments', initCommentElements );
+	initCommentElements();
+
+	// Listen for the escape key to remove visible elements.
+	document.addEventListener( 'keydown', ( event ) => {
+		if ( event.key === 'Escape' ) {
+			hasRemoveVisibleElements();
+		}
+	} );
 }() );

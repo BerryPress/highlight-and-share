@@ -1,0 +1,6 @@
+Files in this directory are from the WordPress Plugin Check repository.
+ Source: https://github.com/WordPress/plugin-check/blob/trunk/
+ Copyright (C) WordPress Performance Team and Plugin Review Team
+ Licensed under the GPL-2.0 license.
+
+ Modifications by BerryPress

@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'e19ee7697db895cd75bd9c2f260df51c75eb7c48',
+    'reference' => '255c37f1d4271d6c12215f6a032466b3506183e6',
     'name' => 'dlxplugins/highlight-and-share',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'e19ee7697db895cd75bd9c2f260df51c75eb7c48',
+      'reference' => '255c37f1d4271d6c12215f6a032466b3506183e6',
     ),
   ),
 );

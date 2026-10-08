@@ -7,6 +7,10 @@
 
 namespace DLXPlugins\HAS;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class Themes
  */
@@ -49,6 +53,18 @@ class Themes {
 				'slug'  => 'linkedin',
 				'color' => '#0077b5',
 				'label' => __( 'LinkedIn', 'highlight-and-share' ),
+			),
+			/* Pinterest */
+			array(
+				'slug'  => 'pinterest',
+				'color' => '#E7011D',
+				'label' => __( 'Pinterest', 'highlight-and-share' ),
+			),
+			/* Webshare */
+			array(
+				'slug'  => 'webshare',
+				'color' => '#f58f2f',
+				'label' => __( 'Webshare', 'highlight-and-share' ),
 			),
 			/* WhatsApp */
 			array(
@@ -122,9 +138,9 @@ class Themes {
 	 * Return CSS rule for inline highlighting.
 	 */
 	public static function get_inline_highlight_css() {
-		$block_editor_options = Options::get_block_editor_options();
-		$inline_styles = sprintf(
-			'.has-inline-text { background-color: %1$s; color: %2$s; }.has-inline-text:hover { background-color: %3$s; color: %4$s; }',
+		$block_editor_options = Options::get_plugin_options();
+		$inline_styles        = sprintf(
+			'body .has-inline-text { background-color: %1$s; color: %2$s; } body .has-inline-text:hover { background-color: %3$s; color: %4$s; }',
 			$block_editor_options['inline_highlight_background_color'] ?? '#ffefb1',
 			$block_editor_options['inline_highlight_text_color'] ?? '#000000',
 			$block_editor_options['inline_highlight_background_color_hover'] ?? '#fcd63c',
@@ -138,11 +154,12 @@ class Themes {
 	 */
 	public static function get_main_themes() {
 		$default_themes = array(
-			'off'                    => esc_html__( 'Off', 'highligh-and-share' ),
+			'off'                    => esc_html__( 'Off', 'highlight-and-share' ),
 			'default'                => esc_html__( 'Default', 'highlight-and-share' ),
 			'brand-colors'           => esc_html__( 'Brand Colors (Icons Only)', 'highlight-and-share' ),
 			'colorful-circles'       => esc_html__( 'Colorful Circles (Icons Only)', 'highlight-and-share' ),
 			'colorful-glass-circles' => esc_html__( 'Colorful Glass Circles (Icons Only)', 'highlight-and-share' ),
+			'orbs'                   => esc_html__( 'Orbs (Icons Only)', 'highlight-and-share' ),
 			'black'                  => esc_html__( 'Black (Icons Only)', 'highlight-and-share' ),
 			'purple'                 => esc_html__( 'Purple (Icons Only)', 'highlight-and-share' ),
 			'white'                  => esc_html__( 'White (Icons Only)', 'highlight-and-share' ),

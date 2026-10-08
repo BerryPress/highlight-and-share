@@ -1,0 +1,67 @@
+.has--icon-popover .components-popover__content > div {
+	min-width: 350px;
+}
+.has--icon-picker {
+	padding: 16px;
+	text-align: center;
+
+	h2 {
+		margin: 0;
+		padding: 0;
+	}
+}
+.has--icon-list {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: 10px;
+	justify-content: center;
+	max-height: 350px;
+	overflow: auto;
+	padding-top: 15px;
+
+	li {
+		text-align: center;
+	}
+	svg {
+		width: 24px;
+		height: 24px;
+	}
+}
+.has--custom-icon-input {
+	button {
+		&:first-child {
+			margin-right: 15px;
+		}
+		&:last-child {
+			margin-left: 15px;
+		}
+	}
+}
+.components-base-control.has--icon-wrapper {
+	font-size: 1em;
+}
+.has--icon-preview {
+	display: flex;
+	justify-content: center;
+	font-size: 1em;
+	svg {
+		width: 1.2em;
+		height: 1.2em;
+		margin-top: 0.175em;
+	}
+}
+.has--custom-icon-preview {
+	svg {
+		max-width: 48px;
+		max-height: 48px;
+	}
+}
+button.components-button.has--icon-preview-button {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 0;
+	margin: 0;
+	font-size: inherit;
+	line-height: 0;
+}

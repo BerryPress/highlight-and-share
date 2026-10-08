@@ -4,60 +4,82 @@
 
 import classnames from 'classnames';
 import { useEffect } from 'react';
-import ColorPicker from '../../react/Components/ColorPicker';
+import ColorPickerHover from './components/ColorPickerHover/index';
 import GradientPicker from '../../react/Components/GradientPicker';
 import GradientSync from '../../react/Components/GradientSync';
 import GradientGenerator from '../../react/Components/GradientGenerator';
 import DimensionsControlBlock from '../../react/Components/DimensionsBlock';
 import useDeviceType from '../../react/Hooks/useDeviceType';
-import { buildDimensionsCSS } from '../../react/Utils/DimensionsHelper';
-import UnitChooser from '../../react/Components/unit-picker';
 import Typography from '../../react/Components/Typography';
 import BackgroundSelector from '../../react/Components/BackgroundSelector';
-import {
-	geHierarchicalPlaceholderValue,
-	getHierarchicalValueUnit,
-} from '../../react/Utils/TypographyHelper';
+/* Preset Imports */
+import ThemeButton from './components/ThemeButton';
+import { themes } from './themes';
+import BlockContent from './components/BlockContent';
+import MaxWidth from './components/MaxWidth';
+import IconPicker from './components/IconPicker';
+import iconSvgsLegacy from './components/Icons/shareSvgsLegacy';
+import iconSvgs from './components/Icons/shareSvgs';
+import ThemeColors from './components/ThemeColors';
+import TypographyOverrides from '../../react/Components/TypographyOverrides';
+import MaxWidthOverrides from './components/MaxWidthOverrides';
+import DimensionsBlockOverrides from '../../react/Components/DimensionsBlockOverrides';
+import { useThemeOverrides } from './hooks/useThemeOverrides';
 
 const { __ } = wp.i18n;
 
 const {
 	PanelBody,
-	PanelRow,
 	RangeControl,
-	SelectControl,
 	TextControl,
+	TextareaControl,
 	ButtonGroup,
 	Button,
 	ToggleControl,
+	ToolbarGroup,
+	ToolbarButton,
+	Popover,
 } = wp.components;
 
-const { escapeAttribute, escapeEditableHTML } = wp.escapeHtml;
-
-const { InspectorControls, RichText, useBlockProps } = wp.blockEditor;
+const { useState } = wp.element;
+const { InspectorControls, useBlockProps, BlockControls } = wp.blockEditor;
 
 const { useInstanceId } = wp.compose;
 
-const { create, toHTMLString } = wp.richText;
-
 const HAS_Click_To_Share = ( props ) => {
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
-	const generatedUniqueId = useInstanceId( HAS_Click_To_Share, 'has-cts' );
+	const deviceSize = deviceType.toLowerCase();
 
-	const { attributes, setAttributes } = props;
+	const generatedUniqueId = useInstanceId( HAS_Click_To_Share, 'has-cts' );
+	const blockProps = useBlockProps( {
+		className: classnames( `highlight-and-share`, `align${ align }` ),
+	} );
+	const [ quoteToolbarPopoverAnchor, setQuoteToolbarPopoverAnchor ] =
+		useState( null );
+	const [ isQuoteToolbarPopoverOpen, setIsQuoteToolbarPopoverOpen ] =
+		useState( false );
+	const quoteToolbarTogglePopover = () =>
+		setIsQuoteToolbarPopoverOpen( ! isQuoteToolbarPopoverOpen );
+
+	const { attributes, setAttributes, clientId } = props;
+
 	const {
+		customShareText,
 		shareText,
 		backgroundType,
 		backgroundColor,
 		backgroundColorHover,
+		backgroundColorSync,
 		backgroundGradient,
 		backgroundGradientHover,
 		backgroundGradientSync,
 		backgroundImage,
 		textColor,
 		textColorHover,
+		textColorSync,
 		shareTextColor,
 		shareTextColorHover,
+		shareTextColorSync,
 		showClickToShare,
 		showIcon,
 		fontSize,
@@ -69,10 +91,13 @@ const HAS_Click_To_Share = ( props ) => {
 		borderColor,
 		iconColor,
 		iconColorHover,
+		iconColorSync,
 		borderColorHover,
+		borderColorSync,
 		clickShareFontSize,
 		maxWidth,
 		maxWidthUnit,
+		maximumWidth,
 		alignment,
 		align,
 		marginTop,
@@ -86,9 +111,37 @@ const HAS_Click_To_Share = ( props ) => {
 		uniqueId,
 		typographyQuote,
 		typographyShareText,
+		showClickToShareText,
+		showClickToShareIcon,
+		iconSizeResponsive,
+		icon,
+		theme,
 	} = attributes;
 
+	const { getThemeOverride, setThemeOverride } = useThemeOverrides( attributes, setAttributes );
+
 	useEffect( () => {
+		// If this is the first time inserting the block.
+		if ( '' === uniqueId ) {
+			if ( backgroundColor === backgroundColorHover ) {
+				setAttributes( { backgroundColorSync: 'sync' } );
+			}
+			if ( textColor === textColorHover ) {
+				setAttributes( { textColorSync: 'sync' } );
+			}
+			if ( shareTextColor === shareTextColorHover ) {
+				setAttributes( { shareTextColorSync: 'sync' } );
+			}
+			if ( iconColor === iconColorHover ) {
+				setAttributes( { iconColorSync: 'sync' } );
+			}
+			if ( borderColor === borderColorHover ) {
+				setAttributes( { borderColorSync: 'sync' } );
+			}
+			if ( theme === 'custom' ) {
+				setAttributes( { theme: 'default' } );
+			}
+		}
 		// Set unique ID for block (for styling).
 		setAttributes( { uniqueId: generatedUniqueId } );
 
@@ -103,15 +156,7 @@ const HAS_Click_To_Share = ( props ) => {
 				unit: 'px',
 				unitSync: true,
 			};
-			// Convert text over.
-			const portText = toHTMLString( {
-				// Stolen from: https://github.com/WordPress/gutenberg/pull/23562/files
-				value: create( {
-					html: shareText,
-					preserveWhiteSpace: true,
-				} ),
-				multilineTag: 'p',
-			} );
+
 			setAttributes( {
 				paddingSize: portPadding,
 				padding: -1,
@@ -122,7 +167,6 @@ const HAS_Click_To_Share = ( props ) => {
 				borderColorHover: borderColor,
 				iconColorHover: textColor,
 				iconColor: textColor,
-				shareText: portText,
 			} );
 		}
 		// Port margin to new dimensions object.
@@ -174,6 +218,10 @@ const HAS_Click_To_Share = ( props ) => {
 			} );
 		}
 
+		if ( maxWidth !== '-1' ) {
+			setAttributes( { maxWidth: '-1', maxWidthUnit: '-1' } );
+		}
+
 		// Port alignment over to align variable.
 		if ( alignment !== 'none' ) {
 			setAttributes( { align: alignment, alignment: 'none' } );
@@ -183,249 +231,58 @@ const HAS_Click_To_Share = ( props ) => {
 		if ( -1 === iconSize ) {
 			setAttributes( { iconSize: clickShareFontSize } );
 		}
+
+		// Port over show click to share text.
+		if ( -1 !== showClickToShare ) {
+			const newClickToShareText = {
+				mobile: showClickToShare,
+				tablet: showClickToShare,
+				desktop: showClickToShare,
+			};
+			setAttributes( {
+				showClickToShare: -1,
+				showClickToShareText: newClickToShareText,
+			} );
+		}
+
+		// Port over click to share icon.
+		if ( -1 !== showIcon ) {
+			const newClickToShareIcon = {
+				mobile: showIcon,
+				tablet: showIcon,
+				desktop: showIcon,
+			};
+			setAttributes( {
+				showIcon: -1,
+				showClickToShareIcon: newClickToShareIcon,
+			} );
+		}
+
+		// If responsive icons is -1, overwrite with iconSize.
+		if ( -1 === iconSizeResponsive.desktop ) {
+			let newIconSize = 20;
+			if ( iconSize !== -1 ) {
+				newIconSize = iconSize;
+			}
+			const newIconResponsive = {
+				mobile: newIconSize,
+				tablet: newIconSize,
+				desktop: newIconSize,
+			};
+			setAttributes( { iconSizeResponsive: newIconResponsive } );
+		}
 	}, [] );
 
-	const getFontStyles = ( fontObject ) => {
-		const fontType = fontObject[ deviceType.toLowerCase() ].fontType;
-		const fontSlug = fontObject[ deviceType.toLowerCase() ].fontFamilySlug;
-		if ( 'google' === fontType ) {
-			return (
-				<>
-					<link
-						rel="stylesheet"
-						href={ `${ has_gutenberg.cssFolder }/has-gfont-${ fontSlug }.css` }
-					/>
-				</>
-			);
-		}
-		if ( 'adobe' === fontType ) {
-			return (
-				<>
-					<link
-						rel="stylesheet"
-						href={ `${ has_gutenberg.adobeFontsUrl }/${ has_gutenberg.adobeProjectId }.css` }
-					/>
-				</>
-			);
+	const getDeviceIcon = () => {
+		if ( deviceType === 'Desktop' ) {
+			return 'laptop';
+		} else if ( deviceType === 'Tablet' ) {
+			return 'tablet';
+		} else if ( deviceType === 'Mobile' ) {
+			return 'smartphone';
 		}
 		return null;
 	};
-
-	const screenSize = deviceType.toLowerCase();
-	const styles = `
-		#${ uniqueId }.has-click-to-share {
-			margin: ${ buildDimensionsCSS( marginSize, deviceType ) };
-			border-radius: ${ buildDimensionsCSS( borderRadiusSize, deviceType ) };
-			border-style: solid;
-			border-width: ${ buildDimensionsCSS( borderWidth, deviceType ) };
-			max-width: ${ maxWidth }${ maxWidthUnit };
-			overflow: hidden;
-		}
-		#${ uniqueId }.has-click-to-share .has-click-to-share-cta,
-		#${ uniqueId }.has-click-to-share .has-click-to-share-text {
-			position: relative;
-			z-index: 2;
-		}
-		#${ uniqueId }.has-click-to-share .has-click-to-share-wrapper {
-			position: relative;
-			padding: ${ buildDimensionsCSS( paddingSize, deviceType ) };
-			font-size: ${ clickShareFontSize }px;
-		}
-		#${ uniqueId }.has-click-to-share.has-background-color {
-			background-color: ${ backgroundColor };
-		}
-		#${ uniqueId }.has-click-to-share.has-background-color:hover {
-			background-color: ${ backgroundColorHover };
-		}
-		#${ uniqueId }.has-click-to-share.has-background-gradient {
-			background-image: ${ backgroundGradient };
-		}
-		#${ uniqueId }.has-click-to-share.has-background-gradient:hover {
-			background-image: ${ backgroundGradientHover };
-		}
-		#${ uniqueId }.has-click-to-share {
-			border-color: ${ borderColor };
-		}
-		#${ uniqueId }.has-click-to-share:hover {
-			border-color: ${ borderColorHover };
-		}
-		
-		#${ uniqueId } .has-click-to-share-cta {
-			color: ${ shareTextColor }
-		}
-		#${ uniqueId }:hover .has-click-to-share-cta {
-			color: ${ shareTextColorHover }
-		}
-		#${ uniqueId } .has-click-to-share-text {
-			color: ${ textColor };
-		}
-		#${ uniqueId }:hover .has-click-to-share-text {
-			color: ${ textColorHover };
-		}
-		#${ uniqueId } .has-click-to-share-cta svg {
-			color: ${ iconColor };
-		}
-		#${ uniqueId }:hover .has-click-to-share-cta svg {
-			color: ${ iconColorHover };
-		}
-		#${ uniqueId } .has-click-to-share-text,
-		#${ uniqueId } .has-click-to-share-text p {
-			font-family: "${ geHierarchicalPlaceholderValue(
-		typographyQuote,
-		screenSize,
-		typographyQuote[ screenSize ].fontFamily,
-		'fontFamily'
-	) }";
-			font-weight: ${ geHierarchicalPlaceholderValue(
-		typographyQuote,
-		screenSize,
-		typographyQuote[ screenSize ].fontWeight,
-		'fontWeight'
-	) };
-			font-size: ${
-	geHierarchicalPlaceholderValue(
-		typographyQuote,
-		screenSize,
-		typographyQuote[ screenSize ].fontSize,
-		'fontSize'
-	) +
-				getHierarchicalValueUnit(
-					typographyQuote,
-					screenSize,
-					typographyQuote[ screenSize ].fontSizeUnit,
-					'fontSizeUnit'
-				)
-};
-			line-height: ${
-	geHierarchicalPlaceholderValue(
-		typographyQuote,
-		screenSize,
-		typographyQuote[ screenSize ].lineHeight,
-		'lineHeight'
-	) +
-				getHierarchicalValueUnit(
-					typographyQuote,
-					screenSize,
-					typographyQuote[ screenSize ].lineHeightUnit,
-					'lineHeightUnit'
-				)
-};
-			letter-spacing: ${
-	geHierarchicalPlaceholderValue(
-		typographyQuote,
-		screenSize,
-		typographyQuote[ screenSize ].letterSpacing,
-		'letterSpacing'
-	) +
-				getHierarchicalValueUnit(
-					typographyQuote,
-					screenSize,
-					typographyQuote[ screenSize ].letterSpacingUnit,
-					'letterSpacingUnit'
-				)
-};
-			text-transform: ${ geHierarchicalPlaceholderValue(
-		typographyQuote,
-		screenSize,
-		typographyQuote[ screenSize ].textTransform,
-		'textTransform'
-	) };
-		}
-		#${ uniqueId } .has-click-to-share-cta,
-		#${ uniqueId } .has-click-to-share-cta p {
-			font-family: "${ geHierarchicalPlaceholderValue(
-		typographyShareText,
-		screenSize,
-		typographyShareText[ screenSize ].fontFamily,
-		'fontFamily'
-	) }";
-			font-weight: ${ geHierarchicalPlaceholderValue(
-		typographyShareText,
-		screenSize,
-		typographyShareText[ screenSize ].fontWeight,
-		'fontWeight'
-	) };
-			font-size: ${
-	geHierarchicalPlaceholderValue(
-		typographyShareText,
-		screenSize,
-		typographyShareText[ screenSize ].fontSize,
-		'fontSize'
-	) +
-				getHierarchicalValueUnit(
-					typographyShareText,
-					screenSize,
-					typographyShareText[ screenSize ].fontSizeUnit,
-					'fontSizeUnit'
-				)
-};
-			line-height: ${
-	geHierarchicalPlaceholderValue(
-		typographyShareText,
-		screenSize,
-		typographyShareText[ screenSize ].lineHeight,
-		'lineHeight'
-	) +
-				getHierarchicalValueUnit(
-					typographyShareText,
-					screenSize,
-					typographyShareText[ screenSize ].lineHeightUnit,
-					'lineHeightUnit'
-				)
-};
-			letter-spacing: ${
-	geHierarchicalPlaceholderValue(
-		typographyShareText,
-		screenSize,
-		typographyShareText[ screenSize ].letterSpacing,
-		'letterSpacing'
-	) +
-				getHierarchicalValueUnit(
-					typographyShareText,
-					screenSize,
-					typographyShareText[ screenSize ].letterSpacingUnit,
-					'letterSpacingUnit'
-				)
-};
-			text-transform: ${ geHierarchicalPlaceholderValue(
-		typographyShareText,
-		screenSize,
-		typographyShareText[ screenSize ].textTransform,
-		'textTransform'
-	) };
-		}
-	`;
-
-	let backgroundImageStyles = '';
-	if ( 'image' === backgroundType ) {
-		backgroundImageStyles = `
-		#${ uniqueId }.has-click-to-share.has-background-image {
-			background-color: ${ backgroundImage.backgroundColor };
-		}
-		#${ uniqueId }.has-click-to-share.has-background-image .has-click-to-share-wrapper:after{
-			display: block;
-			content: '';
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 1;
-			background-image: url('${ decodeURIComponent(
-		encodeURIComponent( backgroundImage.url )
-	) } ');
-			background-position: ${ escapeEditableHTML(
-		backgroundImage.backgroundPosition
-	) };
-			background-repeat: ${ escapeEditableHTML( backgroundImage.backgroundRepeat ) };
-			background-size: ${ escapeEditableHTML( backgroundImage.backgroundSize ) };
-			opacity: ${ parseFloat( backgroundImage.backgroundOpacity ) };
-		}
-		#${ uniqueId }.has-click-to-share.has-background-image .has-click-to-share-wrapper:hover:after {
-			opacity: ${ parseFloat( backgroundImage.backgroundOpacityHover ) };
-		}
-		`;
-	}
 
 	/* For sticky responsive: forked from GenerateBlocks */
 	const panelHeader = document.querySelector(
@@ -433,59 +290,256 @@ const HAS_Click_To_Share = ( props ) => {
 	);
 	const panelHeaderHeight = panelHeader ? panelHeader.offsetHeight : 0;
 
-	const inspectorControls = (
-		<InspectorControls>
-			<div
-				id="has-screensize-group"
-				className="has-screensize-variants"
-				style={ { top: panelHeaderHeight + 'px' } }
-			>
-				<ButtonGroup>
-					<Button
-						variant={ deviceType === 'Desktop' ? 'primary' : 'secondary' }
-						onClick={ ( e ) => {
-							setDeviceType( 'Desktop' );
-						} }
-						icon="laptop"
-						iconSize="14"
-						label={ __( 'Desktop', 'highlight-and-share' ) }
-					/>
-					<Button
-						variant={ deviceType === 'Tablet' ? 'primary' : 'secondary' }
-						onClick={ ( e ) => {
-							setDeviceType( 'Tablet' );
-						} }
-						icon="tablet"
-						label={ __( 'Tablet', 'highlight-and-share' ) }
-					/>
-					<Button
-						variant={ deviceType === 'Mobile' ? 'primary' : 'secondary' }
-						onClick={ ( e ) => {
-							setDeviceType( 'Mobile' );
-						} }
-						icon="smartphone"
-						label={ __( 'Mobile', 'highlight-and-share' ) }
-					/>
-				</ButtonGroup>
-			</div>
-			{ deviceType === 'Desktop' && (
+	const shareTextToolbar = (
+		<BlockControls>
+			<ToolbarGroup>
+				<ToolbarButton
+					icon="editor-quote"
+					label={ __( 'Customize the Share Quote', 'highlight-and-share' ) }
+					onClick={ quoteToolbarTogglePopover }
+					ref={ setQuoteToolbarPopoverAnchor }
+				/>
+				{ isQuoteToolbarPopoverOpen && (
+					<Popover
+						placement="right-end"
+						anchor={ quoteToolbarPopoverAnchor }
+						noArrow={ false }
+						className="has-custom-share-text-popover"
+					>
+						<TextareaControl
+							className="has-custom-share-textarea"
+							label={ __( 'Custom Share Quote', 'highlight-and-share' ) }
+							help={ __(
+								'Enter a custom quote to share. This will override what is in the share block.',
+								'highlight-and-share'
+							) }
+							value={ customShareText }
+							onChange={ ( value ) => setAttributes( { customShareText: value } ) }
+						/>
+					</Popover>
+				) }
+			</ToolbarGroup>
+		</BlockControls>
+	);
+
+	const getThemeOverridesSidebar = () => {
+		return (
+			<>
 				<PanelBody
 					title={ __( 'Share Settings', 'highlight-and-share' ) }
 					initialOpen={ true }
 				>
-					<PanelRow>
+					<div className="has-panel-row">
+						<ToggleControl
+							label={ __( 'Show Click to Share Text', 'highlight-and-share' ) }
+							checked={ getThemeOverride( 'showClickToShareText', true ) }
+							onChange={ ( value ) => setThemeOverride( 'showClickToShareText', value ) }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<TextControl
+							label={ __( 'Click to Share Text', 'highlight-and-share' ) }
+							value={ getThemeOverride( 'clickText', __( 'Click to share', 'highlight-and-share' ) ) }
+							onChange={ ( value ) => setThemeOverride( 'clickText', value ) }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<ToggleControl
+							label={ __( 'Show Share Icon', 'highlight-and-share' ) }
+							checked={ getThemeOverride( 'showShareIcon', true ) }
+							onChange={ ( value ) => setThemeOverride( 'showShareIcon', value ) }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<RangeControl
+							label={ __( 'Icon Size', 'highlight-and-share' ) }
+							value={ getThemeOverride( 'iconSize', 20 ) }
+							onChange={ ( value ) => setThemeOverride( 'iconSize', value ) }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<IconPicker
+							defaultSvg={ icon }
+							setAttributes={ setAttributes }
+							icons={ iconSvgs }
+						/>
+					</div>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Colors', 'highlight-and-share' ) }
+					initialOpen={ false }
+				>
+					<div className="has-panel-row">
+						<ThemeColors
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</div>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Typography', 'highlight-and-share' ) }
+					initialOpen={ false }
+				>
+					<div className="has-panel-row has-typography-panel-row">
+						<TypographyOverrides
+							variant="quote"
+							label={ __( 'Quote Typography', 'highlight-and-share' ) }
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</div>
+					<div className="has-panel-row has-typography-panel-row">
+						<TypographyOverrides
+							variant="shareText"
+							label={ __( 'Share Text Typography', 'highlight-and-share' ) }
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</div>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Spacing and Border', 'highlight-and-share' ) }
+					initialOpen={ false }
+				>
+					<div className="has-panel-row has-unit-picker">
+						<MaxWidthOverrides
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsBlockOverrides
+							label={ __( 'Inner Padding', 'highlight-and-share' ) }
+							valueKey="innerPadding"
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsBlockOverrides
+							label={ __( 'Outer Margin', 'highlight-and-share' ) }
+							valueKey="outerMargin"
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsBlockOverrides
+							label={ __( 'Border Width', 'highlight-and-share' ) }
+							valueKey="borderWidth"
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsBlockOverrides
+							label={ __( 'Border Radius', 'highlight-and-share' ) }
+							valueKey="borderRadius"
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							labelTop={ __( 'Top Left', 'highlight-and-share' ) }
+							labelRight={ __( 'Top Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom Right', 'highlight-and-share' ) }
+							labelLeft={ __( 'Bottom Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem', '%' ] }
+						/>
+					</div>
+				</PanelBody>
+			</>
+		);
+	};
+	const inspectorControls = (
+		<InspectorControls>
+			<PanelBody
+				title={ __( 'Theme', 'highlight-and-share' ) }
+				initialOpen={ true }
+				className="has-presets-panel"
+				icon="admin-customizer"
+			>
+				<div className="has-panel-row">
+					<div className="has-presets">
+						<h3>{ __( 'Select a Theme', 'highlight-and-share' ) }</h3>
+						<ButtonGroup>
+							{ themes.map( ( themeItem ) => (
+								<ThemeButton
+									key={ themeItem.id }
+									slug={ themeItem.id }
+									label={ themeItem.label }
+									setAttributes={ setAttributes }
+									attributes={ attributes }
+									uniqueId={ uniqueId }
+								/>
+							) ) }
+						</ButtonGroup>
+						{
+							'custom' === theme && (
+								<div className="has-panel-row">
+									<p className="description">{ __( 'The Legacy Theme is no longer recommended due to its complexity, bugs, scalability, and maintenance. The new themes are more configurable and have overrides.', 'highlight-and-share' ) }</p>
+								</div>
+							)
+						}
+						{
+							'custom' !== theme && (
+								<div className="has-panel-row">
+									<p className="description">{ __( 'You can override the theme settings below (optional).', 'highlight-and-share' ) }</p>
+								</div>
+							)
+						}
+					</div>
+				</div>
+				{
+					( 'custom' !== theme && Object.keys( attributes.themeOverrides ).length > 0 ) && (
+						<div className="has-panel-row">
+							<Button
+								variant="tertiary"
+								isDestructive={ true }
+								label={ __( 'Clear Theme Overrides', 'highlight-and-share' ) }
+								onClick={ () => setAttributes( { themeOverrides: {} } ) }
+							>
+								{ __( 'Clear Theme Overrides', 'highlight-and-share' ) }
+							</Button>
+						</div>
+					)
+				}
+			</PanelBody>
+			{ 'custom' !== theme && getThemeOverridesSidebar() }
+			{ 'custom' === theme && (
+				<PanelBody
+					title={ __( 'Share Settings', 'highlight-and-share' ) }
+					initialOpen={ true }
+					icon={ getDeviceIcon() }
+				>
+					<div className="has-panel-row">
 						<ToggleControl
 							label={ __( 'Show Click to Share Text', 'alerts-dlx' ) }
-							checked={ showClickToShare }
+							checked={ showClickToShareText[ deviceType.toLowerCase() ] }
 							onChange={ ( value ) => {
+								const newShowClickToShare = { ...showClickToShareText };
+								newShowClickToShare[ deviceType.toLowerCase() ] = value;
 								setAttributes( {
-									showClickToShare: value,
+									showClickToShareText: newShowClickToShare,
 								} );
 							} }
 						/>
-					</PanelRow>
-					{ showClickToShare && (
-						<PanelRow>
+					</div>
+					{ showClickToShareText[ deviceType.toLowerCase() ] &&
+						deviceType === 'Desktop' && (
+						<div className="has-panel-row">
 							<TextControl
 								label={ __( 'Click to Share Text', 'highlight-and-share' ) }
 								value={ clickText }
@@ -493,37 +547,57 @@ const HAS_Click_To_Share = ( props ) => {
 									setAttributes( { clickText: value } );
 								} }
 							/>
-						</PanelRow>
+						</div>
 					) }
-					<PanelRow>
+					<div className="has-panel-row">
 						<ToggleControl
 							label={ __( 'Show Share Icon', 'alerts-dlx' ) }
-							checked={ showIcon }
+							checked={ showClickToShareIcon[ deviceType.toLowerCase() ] }
 							onChange={ ( value ) => {
+								const newShowClickToShare = { ...showClickToShareIcon };
+								newShowClickToShare[ deviceType.toLowerCase() ] = value;
 								setAttributes( {
-									showIcon: value,
+									showClickToShareIcon: newShowClickToShare,
 								} );
 							} }
 						/>
-					</PanelRow>
-					<PanelRow className="has-range-control">
-						<RangeControl
-							label={ __( 'Icon Size', 'highlight-and-share' ) }
-							value={ iconSize }
-							onChange={ ( value ) => setAttributes( { iconSize: value } ) }
-							min={ 10 }
-							max={ 150 }
-							step={ 1 }
-						/>
-					</PanelRow>
+					</div>
+					{ showClickToShareIcon[ deviceType.toLowerCase() ] && (
+						<>
+							{ 'Desktop' === deviceType && (
+								<div className="has-panel-row">
+									<IconPicker
+										defaultSvg={ icon }
+										setAttributes={ setAttributes }
+										icons={ iconSvgsLegacy }
+									/>
+								</div>
+							) }
+							<div className="has-panel-row has-range-control">
+								<RangeControl
+									label={ __( 'Icon Size', 'highlight-and-share' ) }
+									value={ iconSizeResponsive[ deviceType.toLowerCase() ] }
+									onChange={ ( value ) => {
+										const newIconSize = { ...iconSizeResponsive };
+										newIconSize[ deviceType.toLowerCase() ] = value;
+										setAttributes( { iconSizeResponsive: newIconSize } );
+									} }
+									min={ 10 }
+									max={ 150 }
+									step={ 1 }
+								/>
+							</div>
+						</>
+					) }
 				</PanelBody>
 			) }
-			{ deviceType === 'Desktop' && (
+			{ deviceType === 'Desktop' && 'custom' === theme && (
 				<PanelBody
 					title={ __( 'Background Settings', 'highlight-and-share' ) }
 					initialOpen={ true }
+					icon="admin-appearance"
 				>
-					<PanelRow className="has-background-type">
+					<div className="has-panel-row has-background-type">
 						<h3>{ __( 'Background Type', 'highlight-and-share' ) }</h3>
 						<ButtonGroup>
 							<Button
@@ -556,47 +630,40 @@ const HAS_Click_To_Share = ( props ) => {
 								{ __( 'Image', 'highlight-and-share' ) }
 							</Button>
 						</ButtonGroup>
-					</PanelRow>
+					</div>
 					{ backgroundType === 'solid' && (
 						<>
-							<PanelRow>
-								<ColorPicker
-									value={ backgroundColor }
-									key={ 'background-color' }
-									onChange={ ( slug, newValue ) => {
-										setAttributes( { backgroundColor: newValue } );
+							<div className="has-panel-row has-color-picker">
+								<ColorPickerHover
+									syncTitle={ __(
+										'Sync Background Colors',
+										'highlight-and-share'
+									) }
+									normalColor={ backgroundColor }
+									hoverColor={ backgroundColorHover }
+									isSync={ backgroundColorSync }
+									onChange={ ( color, hoverColor, sync ) => {
+										setAttributes( { backgroundColor: color } );
+										setAttributes( { backgroundColorHover: hoverColor } );
+										setAttributes( { backgroundColorSync: sync } );
 									} }
 									label={ __( 'Background Color', 'highlight-and-share' ) }
-									defaultColors={ has_gutenberg.colorPalette }
-									defaultColor={ backgroundColor }
-									slug={ 'background-color' }
+									key={ 'background-color-solid' }
+									slug={ 'background-color-solid' }
 								/>
-							</PanelRow>
-							<PanelRow>
-								<ColorPicker
-									value={ backgroundColorHover }
-									key={ 'background-color-hover' }
-									onChange={ ( slug, newValue ) => {
-										setAttributes( { backgroundColorHover: newValue } );
-									} }
-									label={ __( 'Background Color Hover', 'highlight-and-share' ) }
-									defaultColors={ has_gutenberg.colorPalette }
-									defaultColor={ backgroundColorHover }
-									slug={ 'background-color-hover' }
-								/>
-							</PanelRow>
+							</div>
 						</>
 					) }
 					{ backgroundType === 'gradient' && (
 						<>
-							<PanelRow className="has-background-gradient-sync">
+							<div className="has-panel-row has-background-gradient-sync">
 								<GradientSync
 									attributes={ attributes }
 									setAttributes={ setAttributes }
 									label={ __( 'Sync Gradients', 'highlight-and-share' ) }
 								/>
-							</PanelRow>
-							<PanelRow className="has-background-gradient">
+							</div>
+							<div className="has-panel-row has-background-gradient">
 								<GradientPicker
 									value={ backgroundGradient }
 									onChange={ ( newValue ) => {
@@ -605,8 +672,8 @@ const HAS_Click_To_Share = ( props ) => {
 									label={ __( 'Gradient Background', 'highlight-and-share' ) }
 									clearable={ false }
 								/>
-							</PanelRow>
-							<PanelRow className="has-background-gradient">
+							</div>
+							<div className="has-panel-row has-background-gradient">
 								<GradientPicker
 									value={ backgroundGradientHover }
 									onChange={ ( newValue ) => {
@@ -615,18 +682,18 @@ const HAS_Click_To_Share = ( props ) => {
 									label={ __( 'Gradient Background Hover', 'highlight-and-share' ) }
 									clearable={ false }
 								/>
-							</PanelRow>
-							<PanelRow className="has-background-gradient-generator">
+							</div>
+							<div className="has-panel-row has-background-gradient-generator">
 								<GradientGenerator
 									setAttributes={ setAttributes }
 									label={ __( 'Generate Random Gradient', 'highlight-and-share' ) }
 								/>
-							</PanelRow>
+							</div>
 						</>
 					) }
 					{ backgroundType === 'image' && (
 						<>
-							<PanelRow>
+							<div className="has-panel-row">
 								<BackgroundSelector
 									label={ __( 'Background Image', 'highlight-and-share' ) }
 									values={ backgroundImage }
@@ -634,381 +701,240 @@ const HAS_Click_To_Share = ( props ) => {
 										setAttributes( { backgroundImage: newValue } );
 									} }
 								/>
-							</PanelRow>
+							</div>
 						</>
 					) }
 				</PanelBody>
 			) }
-			{ deviceType === 'Desktop' && (
+			{ deviceType === 'Desktop' && 'custom' === theme && (
 				<PanelBody
 					title={ __( 'Colors', 'highlight-and-share' ) }
 					initialOpen={ false }
+					icon="art"
 				>
-					<PanelRow>
-						<ColorPicker
-							value={ backgroundColor }
-							key={ 'background-color' }
-							onChange={ ( slug, newValue ) => {
-								setAttributes( { backgroundColor: newValue } );
-							} }
-							label={ __( 'Background Color', 'highlight-and-share' ) }
-							defaultColors={ has_gutenberg.colorPalette }
-							defaultColor={ backgroundColor }
-							slug={ 'background-color' }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<ColorPicker
-							value={ backgroundColorHover }
-							key={ 'background-color-hover' }
-							onChange={ ( slug, newValue ) => {
-								setAttributes( { backgroundColorHover: newValue } );
-							} }
-							label={ __( 'Background Color Hover', 'highlight-and-share' ) }
-							defaultColors={ has_gutenberg.colorPalette }
-							defaultColor={ backgroundColorHover }
-							slug={ 'background-color-hover' }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<ColorPicker
-							value={ textColor }
-							key={ 'text-color' }
-							onChange={ ( slug, newValue ) => {
-								setAttributes( { textColor: newValue } );
+					<div className="has-panel-row has-color-picker">
+						<ColorPickerHover
+							syncTitle={ __( 'Sync Text Colors', 'highlight-and-share' ) }
+							normalColor={ textColor }
+							hoverColor={ textColorHover }
+							isSync={ textColorSync }
+							onChange={ ( color, hoverColor, sync ) => {
+								setAttributes( { textColor: color } );
+								setAttributes( { textColorHover: hoverColor } );
+								setAttributes( { textColorSync: sync } );
 							} }
 							label={ __( 'Text Color', 'highlight-and-share' ) }
-							defaultColors={ has_gutenberg.colorPalette }
-							defaultColor={ textColor }
+							key={ 'text-color' }
 							slug={ 'text-color' }
-						/>{ ' ' }
-					</PanelRow>
-					<PanelRow>
-						<ColorPicker
-							value={ textColorHover }
-							key={ 'text-color-hover' }
-							onChange={ ( slug, newValue ) => {
-								setAttributes( { textColorHover: newValue } );
-							} }
-							label={ __( 'Text Color Hover', 'highlight-and-share' ) }
-							defaultColors={ has_gutenberg.colorPalette }
-							defaultColor={ textColorHover }
-							slug={ 'text-color-hover' }
 						/>
-					</PanelRow>
-					<PanelRow>
-						<ColorPicker
-							value={ shareTextColor }
-							key={ 'share-text-color' }
-							onChange={ ( slug, newValue ) => {
-								setAttributes( { shareTextColor: newValue } );
+					</div>
+					<div className="has-panel-row has-color-picker">
+						<ColorPickerHover
+							syncTitle={ __( 'Sync Share Text Colors', 'highlight-and-share' ) }
+							normalColor={ shareTextColor }
+							hoverColor={ shareTextColorHover }
+							isSync={ shareTextColorSync }
+							onChange={ ( color, hoverColor, sync ) => {
+								setAttributes( { shareTextColor: color } );
+								setAttributes( { shareTextColorHover: hoverColor } );
+								setAttributes( { shareTextColorSync: sync } );
 							} }
 							label={ __( 'Share Text Color', 'highlight-and-share' ) }
-							defaultColors={ has_gutenberg.colorPalette }
-							defaultColor={ shareTextColor }
+							key={ 'share-text-color' }
 							slug={ 'share-text-color' }
-						/>{ ' ' }
-					</PanelRow>
-					<PanelRow>
-						<ColorPicker
-							value={ shareTextColorHover }
-							key={ 'share-text-color-hover' }
-							onChange={ ( slug, newValue ) => {
-								setAttributes( { shareTextColorHover: newValue } );
-							} }
-							label={ __( 'Share Text Color Hover', 'highlight-and-share' ) }
-							defaultColors={ has_gutenberg.colorPalette }
-							defaultColor={ shareTextColorHover }
-							slug={ 'share-text-color-hover' }
 						/>
-					</PanelRow>
-					<PanelRow>
-						<ColorPicker
-							value={ borderColor }
-							key={ 'border-color' }
-							onChange={ ( slug, newValue ) => {
-								setAttributes( { borderColor: newValue } );
-							} }
-							label={ __( 'Border Color', 'highlight-and-share' ) }
-							defaultColors={ has_gutenberg.colorPalette }
-							defaultColor={ borderColor }
-							slug={ 'border-color' }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<ColorPicker
-							value={ borderColorHover }
-							key={ 'border-color-hover' }
-							onChange={ ( slug, newValue ) => {
-								setAttributes( { borderColorHover: newValue } );
-							} }
-							label={ __( 'Border Color Hover', 'highlight-and-share' ) }
-							defaultColors={ has_gutenberg.colorPalette }
-							defaultColor={ borderColorHover }
-							slug={ 'border-color-hover' }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<ColorPicker
-							value={ iconColor }
-							key={ 'icon-color' }
-							onChange={ ( slug, newValue ) => {
-								setAttributes( { iconColor: newValue } );
+					</div>
+					<div className="has-panel-row has-color-picker">
+						<ColorPickerHover
+							syncTitle={ __( 'Sync Icon Colors', 'highlight-and-share' ) }
+							normalColor={ iconColor }
+							hoverColor={ iconColorHover }
+							isSync={ iconColorSync }
+							onChange={ ( color, hoverColor, sync ) => {
+								setAttributes( { iconColor: color } );
+								setAttributes( { iconColorHover: hoverColor } );
+								setAttributes( { iconColorSync: sync } );
 							} }
 							label={ __( 'Icon Color', 'highlight-and-share' ) }
-							defaultColors={ has_gutenberg.colorPalette }
-							defaultColor={ iconColor }
+							key={ 'icon-color' }
 							slug={ 'icon-color' }
 						/>
-					</PanelRow>
-					<PanelRow>
-						<ColorPicker
-							value={ iconColorHover }
-							key={ 'icon-color-hover' }
-							onChange={ ( slug, newValue ) => {
-								setAttributes( { iconColorHover: newValue } );
+					</div>
+					<div className="has-panel-row has-color-picker">
+						<ColorPickerHover
+							syncTitle={ __( 'Sync Border Colors', 'highlight-and-share' ) }
+							normalColor={ borderColor }
+							hoverColor={ borderColorHover }
+							isSync={ borderColorSync }
+							onChange={ ( color, hoverColor, sync ) => {
+								setAttributes( { borderColor: color } );
+								setAttributes( { borderColorHover: hoverColor } );
+								setAttributes( { borderColorSync: sync } );
 							} }
-							label={ __( 'Icon Color Hover', 'highlight-and-share' ) }
-							defaultColors={ has_gutenberg.colorPalette }
-							defaultColor={ iconColorHover }
-							slug={ 'icon-color-hover' }
+							label={ __( 'Border Color', 'highlight-and-share' ) }
+							key={ 'border-color' }
+							slug={ 'border-color' }
 						/>
-					</PanelRow>
+					</div>
 				</PanelBody>
 			) }
-			<PanelBody
-				title={ __( 'Fonts and Typography', 'highlight-and-share' ) }
-				initialOpen={ true }
-			>
-				<PanelRow className="has-typography-panel-row">
-					<Typography
-						values={ typographyQuote }
-						screenSize={ deviceType }
-						onValuesChange={ ( formValues ) => {
-							setAttributes( {
-								typographyQuote: formValues,
-							} );
-						} }
-						label={ __( 'Quote Typography', 'highlight-and-share' ) }
-					/>
-				</PanelRow>
-				<PanelRow className="has-typography-panel-row">
-					<Typography
-						values={ typographyShareText }
-						screenSize={ deviceType }
-						onValuesChange={ ( formValues ) => {
-							setAttributes( {
-								typographyShareText: formValues,
-							} );
-						} }
-						label={ __( 'Share Text Typography', 'highlight-and-share' ) }
-					/>
-				</PanelRow>
-			</PanelBody>
-			<PanelBody
-				title={ __( 'Spacing and Border', 'highlight-and-share' ) }
-				initialOpen={ true }
-			>
-				{ deviceType === 'Desktop' && (
-					<PanelRow className="has-unit-picker">
-						<UnitChooser
-							label={ __( 'Maximum Width', 'quotes-dlx' ) }
-							value={ maxWidthUnit }
-							units={ [ 'px', '%', 'vw' ] }
-							onClick={ ( value ) => {
+			{ 'custom' === theme && (
+				<PanelBody
+					title={ __( 'Fonts and Typography', 'highlight-and-share' ) }
+					initialOpen={ true }
+					icon={ getDeviceIcon() }
+				>
+					<div className="has-panel-row has-typography-panel-row">
+						<Typography
+							values={ typographyQuote }
+							screenSize={ deviceType }
+							onValuesChange={ ( formValues ) => {
+								const newTypographyQuote = { ...typographyQuote };
+								newTypographyQuote[ deviceType.toLowerCase() ] =
+									formValues[ deviceType.toLowerCase() ];
 								setAttributes( {
-									maxWidthUnit: value,
+									typographyQuote: newTypographyQuote,
+								} );
+							} }
+							label={ __( 'Quote Typography', 'highlight-and-share' ) }
+						/>
+					</div>
+					<div className="has-panel-row has-typography-panel-row">
+						<Typography
+							values={ typographyShareText }
+							screenSize={ deviceType }
+							onValuesChange={ ( formValues ) => {
+								setAttributes( {
+									typographyShareText: formValues,
+								} );
+							} }
+							label={ __( 'Share Text Typography', 'highlight-and-share' ) }
+						/>
+					</div>
+				</PanelBody>
+			) }
+			{ 'custom' === theme && (
+				<PanelBody
+					title={ __( 'Spacing and Border', 'highlight-and-share' ) }
+					initialOpen={ true }
+					icon={ getDeviceIcon() }
+				>
+					<div className="has-panel-row has-unit-picker">
+						<>
+							<MaxWidth
+								values={ maximumWidth }
+								screenSize={ deviceType }
+								onValuesChange={ ( newValues ) => {
+									const maxValues = { ...maximumWidth };
+									const newValue = newValues[ deviceType.toLowerCase() ];
+									if ( newValue ) {
+										maxValues[ deviceType.toLowerCase() ] = newValue;
+									}
+									setAttributes( {
+										maximumWidth: maxValues,
+									} );
+								} }
+							/>
+						</>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsControlBlock
+							label={ __( 'Inner Padding', 'highlight-and-share' ) }
+							allowNegatives={ false }
+							values={ paddingSize }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
+							screenSize={ deviceType }
+							onValuesChange={ ( newValues ) => {
+								const newPadding = { ...paddingSize };
+								newPadding[ deviceSize ] = newValues[ deviceSize ];
+								setAttributes( {
+									paddingSize: newPadding,
 								} );
 							} }
 						/>
-
-						<TextControl
-							type={ 'number' }
-							value={ maxWidth }
-							onChange={ ( value ) => {
+					</div>
+					<div className="has-panel-row">
+						<DimensionsControlBlock
+							label={ __( 'Outer Margin', 'highlight-and-share' ) }
+							allowNegatives={ false }
+							values={ marginSize }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
+							screenSize={ deviceType }
+							onValuesChange={ ( newValues ) => {
+								const newMargin = { ...marginSize };
+								newMargin[ deviceSize ] = newValues[ deviceSize ];
 								setAttributes( {
-									maxWidth: value,
+									marginSize: newMargin,
 								} );
 							} }
 						/>
-					</PanelRow>
-				) }
-				<PanelRow>
-					<DimensionsControlBlock
-						label={ __( 'Inner Padding', 'highlight-and-share' ) }
-						allowNegatives={ false }
-						values={ paddingSize }
-						labelTop={ __( 'Top', 'highlight-and-share' ) }
-						labelRight={ __( 'Right', 'highlight-and-share' ) }
-						labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
-						labelLeft={ __( 'Left', 'highlight-and-share' ) }
-						units={ [ 'px', 'em', 'rem' ] }
-						screenSize={ deviceType }
-						onValuesChange={ ( newValues ) => {
-							setAttributes( {
-								paddingSize: newValues,
-							} );
-						} }
-					/>
-				</PanelRow>
-				<PanelRow>
-					<DimensionsControlBlock
-						label={ __( 'Outer Margin', 'highlight-and-share' ) }
-						allowNegatives={ false }
-						values={ marginSize }
-						labelTop={ __( 'Top', 'highlight-and-share' ) }
-						labelRight={ __( 'Right', 'highlight-and-share' ) }
-						labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
-						labelLeft={ __( 'Left', 'highlight-and-share' ) }
-						units={ [ 'px', 'em', 'rem' ] }
-						screenSize={ deviceType }
-						onValuesChange={ ( newValues ) => {
-							setAttributes( {
-								marginSize: newValues,
-							} );
-						} }
-					/>
-				</PanelRow>
-				<PanelRow>
-					<DimensionsControlBlock
-						label={ __( 'Border Width', 'highlight-and-share' ) }
-						allowNegatives={ false }
-						values={ borderWidth }
-						labelTop={ __( 'Top', 'highlight-and-share' ) }
-						labelRight={ __( 'Right', 'highlight-and-share' ) }
-						labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
-						labelLeft={ __( 'Left', 'highlight-and-share' ) }
-						units={ [ 'px', 'em', 'rem' ] }
-						screenSize={ deviceType }
-						onValuesChange={ ( newValues ) => {
-							setAttributes( {
-								borderWidth: newValues,
-							} );
-						} }
-					/>
-				</PanelRow>
-				<PanelRow>
-					<DimensionsControlBlock
-						label={ __( 'Border Radius', 'highlight-and-share' ) }
-						allowNegatives={ false }
-						values={ borderRadiusSize }
-						labelTop={ __( 'Top Left', 'highlight-and-share' ) }
-						labelRight={ __( 'Top Right', 'highlight-and-share' ) }
-						labelBottom={ __( 'Bottom Right', 'highlight-and-share' ) }
-						labelLeft={ __( 'Bottom Left', 'highlight-and-share' ) }
-						units={ [ 'px', 'em', 'rem', '%' ] }
-						screenSize={ deviceType }
-						onValuesChange={ ( newValues ) => {
-							setAttributes( {
-								borderRadiusSize: newValues,
-							} );
-						} }
-					/>
-				</PanelRow>
-				{ deviceType === 'Desktop' && (
-					<>
-						<PanelRow>
-							<ColorPicker
-								value={ borderColor }
-								key={ 'border-color' }
-								onChange={ ( slug, newValue ) => {
-									setAttributes( { borderColor: newValue } );
-								} }
-								label={ __( 'Border Color', 'highlight-and-share' ) }
-								defaultColors={ has_gutenberg.colorPalette }
-								defaultColor={ borderColor }
-								slug={ 'border-color' }
-							/>
-						</PanelRow>
-						<PanelRow>
-							<ColorPicker
-								value={ borderColorHover }
-								key={ 'border-color-hover' }
-								onChange={ ( slug, newValue ) => {
-									setAttributes( { borderColorHover: newValue } );
-								} }
-								label={ __( 'Border Color Hover', 'highlight-and-share' ) }
-								defaultColors={ has_gutenberg.colorPalette }
-								defaultColor={ borderColorHover }
-								slug={ 'border-color-hover' }
-							/>
-						</PanelRow>
-					</>
-				) }
-			</PanelBody>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsControlBlock
+							label={ __( 'Border Width', 'highlight-and-share' ) }
+							allowNegatives={ false }
+							values={ borderWidth }
+							labelTop={ __( 'Top', 'highlight-and-share' ) }
+							labelRight={ __( 'Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom', 'highlight-and-share' ) }
+							labelLeft={ __( 'Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem' ] }
+							screenSize={ deviceType }
+							onValuesChange={ ( newValues ) => {
+								const newBorderWidth = { ...borderWidth };
+								newBorderWidth[ deviceSize ] = newValues[ deviceSize ];
+								setAttributes( {
+									borderWidth: newBorderWidth,
+								} );
+							} }
+						/>
+					</div>
+					<div className="has-panel-row">
+						<DimensionsControlBlock
+							label={ __( 'Border Radius', 'highlight-and-share' ) }
+							allowNegatives={ false }
+							values={ borderRadiusSize }
+							labelTop={ __( 'Top Left', 'highlight-and-share' ) }
+							labelRight={ __( 'Top Right', 'highlight-and-share' ) }
+							labelBottom={ __( 'Bottom Right', 'highlight-and-share' ) }
+							labelLeft={ __( 'Bottom Left', 'highlight-and-share' ) }
+							units={ [ 'px', 'em', 'rem', '%' ] }
+							screenSize={ deviceType }
+							onValuesChange={ ( newValues ) => {
+								const newBorderRadius = { ...borderRadiusSize };
+								newBorderRadius[ deviceSize ] = newValues[ deviceSize ];
+								setAttributes( {
+									borderRadiusSize: newBorderRadius,
+								} );
+							} }
+						/>
+					</div>
+				</PanelBody>
+			) }
 		</InspectorControls>
 	);
 
 	const block = (
 		<>
+			{ shareTextToolbar }
 			{ inspectorControls }
-			{ getFontStyles( typographyQuote ) }
-			{ getFontStyles( typographyShareText ) }
-			<style>{ styles }</style>
-			{ 'image' === backgroundType && ( 
-				<style>
-					{ backgroundImageStyles }
-				</style>
-			) }
-			<div
-				className={ classnames( 'has-click-to-share', {
-					'has-background-color': 'solid' === backgroundType,
-					'has-background-gradient': 'gradient' === backgroundType,
-					'has-background-image': 'image' === backgroundType,
-				} ) }
-				id={ uniqueId }
-			>
-				<div className="has-click-to-share-wrapper">
-					<RichText
-						tagName="div"
-						multiline="p"
-						placeholder={ __( 'Add share text', 'highlight-and-share' ) }
-						value={ shareText }
-						className="has-click-to-share-text"
-						allowedFormats={ [
-							'core/bold',
-							'core/italic',
-							'core/text-color',
-							'core/subscript',
-							'core/superscript',
-							'core/strikethrough',
-						] }
-						onChange={ ( value ) => {
-							setAttributes( { shareText: value } );
-						} }
-					/>
-					<div className="has-click-to-share-cta">
-						{ showClickToShare && <>{ clickText } </> }
-						{ showIcon && (
-							<svg
-								style={ {
-									width: iconSize,
-									height: iconSize,
-								} }
-								aria-hidden="true"
-								focusable="false"
-								data-prefix="fas"
-								data-icon="share-alt"
-								className="svg-inline--fa fa-share-alt fa-w-14"
-								role="img"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 448 512"
-							>
-								<path
-									fill="currentColor"
-									d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"
-								></path>
-							</svg>
-						) }
-					</div>
-				</div>
-			</div>
+			{
+				<BlockContent
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					clientId={ clientId }
+				/>
+			}
 		</>
 	);
-
-	const blockProps = useBlockProps( {
-		className: classnames( `highlight-and-share`, `align${ align }` ),
-	} );
 
 	return (
 		<>

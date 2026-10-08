@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { useSelect } from '@wordpress/data';
 // Return fontawesome icons for the social networks.
-import { faTwitter as TwitterIcon } from '@fortawesome/free-brands-svg-icons/faTwitter';
 import { faFacebook as FacebookIcon } from '@fortawesome/free-brands-svg-icons/faFacebook';
 import { faWhatsapp as WhatsappIcon } from '@fortawesome/free-brands-svg-icons/faWhatsapp';
 import { faLinkedinIn as LinkedinIcon } from '@fortawesome/free-brands-svg-icons/faLinkedinIn';
@@ -13,21 +11,21 @@ import { faCopy as CopyIcon } from '@fortawesome/free-solid-svg-icons/faCopy';
 import { faAt as EmailIcon } from '@fortawesome/free-solid-svg-icons/faAt';
 import { faTelegram as TelegramIcon } from '@fortawesome/free-brands-svg-icons/faTelegram';
 import { faTumblr as TumblrIcon } from '@fortawesome/free-brands-svg-icons/faTumblr';
-import SocialNetworksContext from '../../Contexts/SocialNetworksContext';
-const SocialIcons = ( socialNetworksData = {} ) => {
-	let socialNetworks = {};
-	const socialNetworksContext = useContext( SocialNetworksContext );
-	if ( undefined !== socialNetworksContext ) {
-		socialNetworks = socialNetworksContext.socialNetworks;
-	} else {
-		socialNetworks = socialNetworksData;
-	}
+import { faShare as ShareIcon } from '@fortawesome/free-solid-svg-icons/faShare';
+import { faMastodon as MastodonIcon } from '@fortawesome/free-brands-svg-icons/faMastodon';
+import { faThreads as ThreadsIcon } from '@fortawesome/free-brands-svg-icons/faThreads';
+import { faBluesky as BlueskyIcon } from '@fortawesome/free-brands-svg-icons/faBluesky';
+
+import store from '../../Sharing/Panels/SocialNetworksPanel/Store';
+import Twitter from '../Icons/twitter';
+const SocialIcons = () => {
+	const socialNetworks = useSelect( ( select ) => select( store ).getNetworks() );
 	const getSocialIcon = ( socialNetwork ) => {
 		switch ( socialNetwork ) {
 			case 'twitter':
 				return (
 					<>
-						<FontAwesomeIcon icon={ TwitterIcon } style={ { color: '#1da1f2' } } />
+						<Twitter fill="#000000" />
 					</>
 				);
 			case 'facebook':
@@ -84,6 +82,30 @@ const SocialIcons = ( socialNetworksData = {} ) => {
 						<FontAwesomeIcon icon={ TumblrIcon } style={ { color: '#000000' } } />
 					</>
 				);
+			case 'webshare':
+				return (
+					<>
+						<FontAwesomeIcon icon={ ShareIcon } style={ { color: '#e17713' } } />
+					</>
+				);
+			case 'mastodon':
+				return (
+					<>
+						<FontAwesomeIcon icon={ MastodonIcon } style={ { color: '#615EF8' } } />
+					</>
+				);
+			case 'threads':
+				return (
+					<>
+						<FontAwesomeIcon icon={ ThreadsIcon } style={ { color: '#000000' } } />
+					</>
+				);
+			case 'bluesky':
+				return (
+					<>
+						<FontAwesomeIcon icon={ BlueskyIcon } style={ { color: '#1285FE' } } />
+					</>
+				);
 			default:
 				return ( <></> );
 		}
@@ -91,7 +113,7 @@ const SocialIcons = ( socialNetworksData = {} ) => {
 	const getSocialIcons = () => {
 		const socialIcons = [];
 		let socialIconCount = 0;
-		for ( const [ key, value ] of Object.entries( socialNetworks ) ) {
+		for ( const value of Object.values( socialNetworks ) ) {
 			const classes = classNames( ( value.slug ?? value.key ), {
 				'is-disabled': ! value.enabled,
 				'is-custom': value.custom,
@@ -114,7 +136,7 @@ const SocialIcons = ( socialNetworksData = {} ) => {
 			const keyValue = value.slug ?? value.key;
 			switch ( keyValue ) {
 				case 'twitter':
-					icon = TwitterIcon;
+					icon = null;
 					break;
 				case 'facebook':
 					icon = FacebookIcon;
@@ -143,10 +165,27 @@ const SocialIcons = ( socialNetworksData = {} ) => {
 				case 'email':
 					icon = EmailIcon;
 					break;
+				case 'webshare':
+					icon = ShareIcon;
+					break;
+				case 'mastodon':
+					icon = MastodonIcon;
+					break;
+				case 'threads':
+					icon = ThreadsIcon;
+					break;
+				case 'bluesky':
+					icon = BlueskyIcon;
+					break;
 				default:
 					icon = <></>;
 			}
-			fontAwesomeIcon = <FontAwesomeIcon size={ '1x' } icon={ icon } className={ `has-icon` } />;
+			if ( null !== icon ) {
+				fontAwesomeIcon = <FontAwesomeIcon size={ '1x' } icon={ icon } className={ `has-icon` } />;
+			}
+			if ( 'twitter' === keyValue ) {
+				fontAwesomeIcon = <Twitter fill="#000000" />;
+			}
 			socialIcons.push( {
 				key: ( value.slug ?? value.key ),
 				listItemKey: ( value.slug ?? value.key ),

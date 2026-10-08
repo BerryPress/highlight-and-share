@@ -1,0 +1,52 @@
+name: Github Plugin Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.2.3)'
+        required: true
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get repo slug (folder name)
+        id: repo
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
+
+      - name: Prepare ZIP
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          ZIP_NAME="${REPO_NAME}-v${VERSION}.zip"
+          
+          # Create a temporary directory with the correct plugin folder name
+          mkdir -p temp/"${REPO_NAME}"
+          
+          # Copy files to temp directory, excluding dev-only paths (.distignore)
+          rsync -av \
+            --exclude-from=.distignore \
+            ./ temp/"${REPO_NAME}/"
+          
+          # Create ZIP from temp directory
+          cd temp
+          zip -r "../$ZIP_NAME" "${REPO_NAME}"
+          cd ..
+          
+          # Clean up temp directory
+          rm -rf temp
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: v${{ github.event.inputs.version }}
+          tag_name: v${{ github.event.inputs.version }}
+          files: "${{ env.REPO_NAME }}-v${{ github.event.inputs.version }}.zip"
