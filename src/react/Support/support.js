@@ -28,11 +28,11 @@ const Support = ( props ) => {
 					{ __( 'Could not load Support Tab.', 'highlight-and-share' ) }
 					<br />
 					<a
-						href="https://dlxplugins.com/support/"
+						href="https://wordpress.org/support/plugin/highlight-and-share/"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						DLX Plugins Support
+						BerryPress Support
 					</a>
 				</p>
 			}
@@ -148,7 +148,7 @@ const Interface = ( props ) => {
 							<div className="has-admin-component-row has-admin-component-row-button">
 								<Button
 									className="has-button has-button-edit"
-									href="https://docs.dlxplugins.com/v/highlight-and-share/"
+									href="https://berrypress.com/docs/highlight-and-share/"
 									target="_blank"
 									rel="noopener noreferrer"
 									icon={ <Bookmark /> }
@@ -179,7 +179,7 @@ const Interface = ( props ) => {
 								</Button>
 								<Button
 									className="has-button has-button-edit"
-									href="https://dlxplugins.com/support/"
+									href="https://wordpress.org/support/plugin/highlight-and-share/"
 									target="_blank"
 									rel="noopener noreferrer"
 									icon={ <Mail /> }
@@ -190,18 +190,18 @@ const Interface = ( props ) => {
 						</div>
 						<div className="has-admin-content-body">
 							<h2 className="has-admin-content-subheading">
-								{ __( 'More from DLX Plugins', 'highlight-and-share' ) }
+								{ __( 'More from BerryPress', 'highlight-and-share' ) }
 							</h2>
 							<p className="description">
 								{ __(
-									'Check out more plugins and and plugin tutorials from DLX Plugins.',
+									'Check out more plugins and and plugin tutorials from BerryPress.',
 									'highlight-and-share'
 								) }
 							</p>
 							<div className="has-admin-component-row has-admin-component-row-button">
 								<Button
 									className="has-button has-button-edit"
-									href="https://dlxplugins.com/plugins/"
+									href="https://berrypress.com/shop/"
 									target="_blank"
 									rel="noopener noreferrer"
 									icon={ <PlugZap /> }
@@ -210,7 +210,7 @@ const Interface = ( props ) => {
 								</Button>
 								<Button
 									className="has-button has-button-edit"
-									href="https://dlxplugins.com/tutorials/"
+									href="https://berrypress.com/tutorials/"
 									target="_blank"
 									rel="noopener noreferrer"
 									icon={ <GraduationCap style={ { color: '#000', stroke: '#000' } } /> }

@@ -18,6 +18,7 @@ const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled
  * @param {string}        [options.title]              Accessible label for the dialog.
  * @param {boolean}       [options.closeOnOverlayClick] Whether clicking the overlay closes the modal.
  * @param {Function}      [options.onOpen]             Callback invoked with the modal instance once it is in the DOM.
+ * @param {Function}      [options.onClose]            Callback invoked with the modal instance after it has been removed (use to undo listeners added in onOpen).
  *
  * @return {{close: Function, dialog: Element, content: Element}} The modal instance.
  */
@@ -28,6 +29,7 @@ export function openModal( {
 	title,
 	closeOnOverlayClick = true,
 	onOpen,
+	onClose,
 } = {} ) {
 	// Only one modal should be visible at a time.
 	if ( null !== activeModal ) {
@@ -44,7 +46,7 @@ export function openModal( {
 	dialog.className = ( 'has-modal-dialog ' + className ).trim();
 	dialog.setAttribute( 'role', 'dialog' );
 	dialog.setAttribute( 'aria-modal', 'true' );
-	if ( '' !== title ) {
+	if ( title ) {
 		dialog.setAttribute( 'aria-label', title );
 	}
 
@@ -67,6 +69,17 @@ export function openModal( {
 		iframe.className = 'has-modal-iframe';
 		iframe.setAttribute( 'src', src );
 		iframe.setAttribute( 'frameborder', '0' );
+
+		// Key presses inside the iframe never reach the parent document, so
+		// forward Escape from same-origin iframes (the email form). Cross-origin
+		// iframes (e.g. YouTube) throw on access and are skipped.
+		iframe.addEventListener( 'load', () => {
+			try {
+				iframe.contentDocument.addEventListener( 'keydown', handleKeydown );
+			} catch ( e ) {
+				// Cross-origin: nothing to attach to.
+			}
+		} );
 		content.appendChild( iframe );
 	} else if ( 'inline' === type ) {
 		const sourceEl = 'string' === typeof src ? document.querySelector( src ) : src;
@@ -126,6 +139,10 @@ export function openModal( {
 		// (e.g. the share popup that contained it may have been removed).
 		if ( previouslyFocusedElement && previouslyFocusedElement.isConnected ) {
 			previouslyFocusedElement.focus();
+		}
+
+		if ( 'function' === typeof onClose ) {
+			onClose( instance );
 		}
 	}
 

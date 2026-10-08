@@ -11,13 +11,13 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/mediaron/highlight-and-share"
+		"url": "git+https://github.com/BerryPress/highlight-and-share"
 	},
 	"author": "BerryPress",
 	"bugs": {
-		"url": "https://github.com/mediaron/highlight-and-shre"
+		"url": "https://wordpress.org/support/plugin/highlight-and-share/"
 	},
-	"homepage": "https://mediaron.com/highlight-and-share/",
+	"homepage": "https://berrypress.com/docs/highlight-and-share/",
 	"devDependencies": {
 		"@babel/eslint-parser": "^7.18.2",
 		"@babel/plugin-proposal-class-properties": "^7.17.12",
@@ -34,6 +34,7 @@
 		"@wordpress/eslint-plugin": "^10.0.1",
 		"@wordpress/i18n": "^4.11.0",
 		"@wordpress/scripts": "^30.15.0",
+		"ajv": "^8.17.1",
 		"axios": "^1.8.4",
 		"babel-loader": "^8.2.5",
 		"babel-plugin-lodash": "^3.3.4",

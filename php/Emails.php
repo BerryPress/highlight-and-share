@@ -118,7 +118,7 @@ class Emails {
 				'has-cf-turnstile',
 				esc_url_raw( 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=hasInitTurnstile' ),
 				array( 'has-cf-turnstile-local' ),
-				Functions::get_plugin_version(),
+				null, // No version: Cloudflare's api.js warns about unknown parameters such as "ver".
 				true
 			);
 
@@ -351,7 +351,7 @@ class Emails {
 		$email_to            = trim( sanitize_text_field( $ajax_data['toEmail'] ) );
 		$email_subject       = trim( urldecode( $ajax_data['subject'] ) );
 		$email_selected_text = trim( urldecode( $ajax_data['shareText'] ) );
-		$email_share_type    = trim( urldecode( $ajax_data['shareType'] ) );
+		$email_share_type    = trim( urldecode( $ajax_data['emailShareType'] ?? $ajax_data['shareType'] ?? '' ) );
 
 		// Now check Akismet.
 		if ( class_exists( 'Akismet' ) && (bool) $options['akismet_enabled'] ) {

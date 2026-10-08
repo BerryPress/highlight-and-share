@@ -19,7 +19,6 @@ import HeadlinesPanel from './Panels/HeadlinesPanel';
 import AppearancePanel from './Panels/AppearancePanel';
 import Notice from '../Components/Notice';
 import CircularExclamationIcon from '../Components/Icons/CircularExplanation';
-import { addQueryArgs } from '@wordpress/url';
 
 const retrieveDefaults = () => {
 	return sendCommand( 'has_load_headlines_tab', {
@@ -187,14 +186,7 @@ const HeadlinesInterface = ( { defaults } ) => {
 											'highlight-and-share'
 										) }{ ' ' }
 										<a
-											href={ addQueryArgs( 'https://dlxplugins.com/support/', {
-												product: 'Highlight and Share',
-												firstname: hasHeadlinesAdmin.supportParams.firstName,
-												lastname: hasHeadlinesAdmin.supportParams.lastName,
-												email: hasHeadlinesAdmin.supportParams.email,
-												subject: `[Highlight and Share] Headline Sharing Issue With Theme: ${ hasHeadlinesAdmin.supportParams.theme }`,
-												site: hasHeadlinesAdmin.supportParams.siteUrl,
-											} ) }
+											href="https://wordpress.org/support/plugin/highlight-and-share/"
 											target="_blank"
 											rel="noopener noreferrer"
 										>

@@ -1,0 +1,63 @@
+name: PHPCS Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Copy custom sniffs
+        run: |
+          mkdir -p ~/.composer/vendor/custom-sniffs/
+          cp -r .github/workflows/phpcs-sniffs ~/.composer/vendor/custom-sniffs/
+          echo "Contents of custom sniffs directory:"
+          ls -R ~/.composer/vendor/custom-sniffs/
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 'latest'
+          ini-values: 'memory_limit=1G'
+          tools: composer
+
+      - name: Configure Composer
+        run: |
+          composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+
+      - name: Install PHPCS and Standards
+        run: |
+          composer global require \
+            dealerdirect/phpcodesniffer-composer-installer \
+            squizlabs/php_codesniffer \
+            wp-coding-standards/wpcs \
+            phpcsstandards/phpcsutils \
+            phpcsstandards/phpcsextra \
+            phpcompatibility/php-compatibility
+
+      - name: Configure PHPCS with custom sniffs
+        run: |
+          ~/.composer/vendor/bin/phpcs --config-set installed_paths "/home/runner/.composer/vendor/wp-coding-standards/wpcs,/home/runner/.composer/vendor/phpcompatibility/php-compatibility,/home/runner/.composer/vendor/phpcsstandards/phpcsutils,/home/runner/.composer/vendor/phpcsstandards/phpcsextra,/home/runner/.composer/vendor/custom-sniffs/phpcs-sniffs/PluginCheck"
+
+      - name: Verify PHPCS Installed Paths
+        run: |
+          ~/.composer/vendor/bin/phpcs --config-show | grep installed_paths
+
+      - name: Verify PHPCS Setup
+        run: |
+          ~/.composer/vendor/bin/phpcs --config-show
+          ~/.composer/vendor/bin/phpcs -i
+
+      - name: List Available Sniffs
+        run: |
+          ~/.composer/vendor/bin/phpcs -e
+
+      - name: Run PHPCS
+        run: |
+          ~/.composer/vendor/bin/phpcs --standard=.github/ruleset.xml --report=full --warning-severity=1 --error-severity=1 --colors -v .

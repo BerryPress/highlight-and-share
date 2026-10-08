@@ -1,9 +1,9 @@
 === Highlight and Share – Unobtrusive and Lightweight Content Sharing ===
-Contributors: ronalfy
+Contributors: berrypress
 Tags: social share buttons, social share, web share, social networks, highlight text
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 6.0.1
+Stable tag: 6.0.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -28,13 +28,13 @@ https://www.youtube.com/watch?v=EN7rmCiYHBE
 * **A Click to Share Block/Shortcode is included**. An easy-to-use Click to Share block is included, with setup available in seconds. The Content Sharing networks display above the share box when clicked, providing an easy way to share the quote.
 * **Set up email sharing with easy spam protection integration**. Set up emails with spam protection from Akismet, Cloudflare Turnstile, and Google reCAPTCHA Enterprise.
 
-> <a href="https://app.instawp.io/launch?s=highlight-and-share-demo&d=v2">Launch a free, fully-featured demo</a> via InstaWP.
+> <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/BerryPress/highlight-and-share/development/.wordpress-org/blueprints/blueprint.json">Launch a free, fully-featured demo</a> in WordPress Playground.
 
 === Quick Links ===
 
-<a href="https://docs.dlxplugins.com/highlight-and-share/">Comprehensive Documentation</a> | <a href="https://github.com/sponsors/DLXPlugins">Sponsor Us</a> | <a href="https://dlxplugins.com/support/?product=Highlight%20and%20Share">Support</a> | <a href="https://dlxplugins.com/plugins/highlight-and-share/">Homepage</a>
+<a href="https://berrypress.com/docs/highlight-and-share/">Comprehensive Documentation</a> | <a href="https://github.com/sponsors/DLXPlugins">Sponsor Us</a> | <a href="https://wordpress.org/support/plugin/highlight-and-share/">Support</a> | <a href="https://berrypress.com/docs/highlight-and-share/">Homepage</a>
 
-If you have a feature request, <a href="https://dlxplugins.com/support/?product=Highlight%20and%20Share">please leave a support request.</a>.
+If you have a feature request, <a href="https://wordpress.org/support/plugin/highlight-and-share/">please post in the support forum</a>.
 
 <h3>Available Features</h3>
 
@@ -44,7 +44,7 @@ Highlight and Share at its core is a content highlighter, but it has many other 
 <li>Show social networks on text highlight (content highlight).</li>
 <li>Add an inline highlight to text and show social networks on click. An optional tooltip shows on hover explaining the highlight.</li>
 <li>An easy to use Click to Share block is included, and can be disabled if needed.</li>
-<li>A comprehensive <a href="https://docs.dlxplugins.com/highlight-and-share/click-to-share-shortcode/shortcode-parameters">Click to Share shortcode</a> is included.</li>
+<li>A comprehensive <a href="https://berrypress.com/docs/highlight-and-share/click-to-share-shortcode/shortcode-parameters">Click to Share shortcode</a> is included.</li>
 <li>Image sharing via Pinterest and the Web Share API is included. You can select which post types it's enabled for, and also enable it on a per post basis via a post's sidebar settings.</li>
 <li>Enable or disable individual networks for content sharing. Reorder the networks, change the theme, or even choose a custom theme for matching your site's design.</li>
 <li>Use advanced selectors to choose how content highlighting works, which makes Highlight and Share a powerful tool when combined with your favorite page builder.
@@ -64,7 +64,7 @@ Highlight and Share at its core is a content highlighter, but it has many other 
 * Block Editor: Compatible with Blocksy Companion Pro Local Google Fonts and Adobe Fonts extensions.
 * Block Editor: Compatible With <a href="https://wordpress.org/plugins/simpletoc/">SimpleTOC</a>.
 
-> <a href="https://app.instawp.io/launch?s=highlight-and-share-demo&d=v2">Launch a free, fully-featured demo</a> via InstaWP.
+> <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/BerryPress/highlight-and-share/development/.wordpress-org/blueprints/blueprint.json">Launch a free, fully-featured demo</a> in WordPress Playground.
 
 > ❤️ A TON of work has gone into making this plugin great. Please share your appreciation by leaving a rating/review and by telling others about the plugin.
 
@@ -73,7 +73,7 @@ Highlight and Share at its core is a content highlighter, but it has many other 
 1. Search Highlight and Share in the plugin's screen.
 2. Install and activate.
 
-> <a href="https://docs.dlxplugins.com/v/highlight-and-share">In-depth Documentation</a> - Please check out our thorough documentation ❤️️
+> <a href="https://berrypress.com/docs/highlight-and-share/">In-depth Documentation</a> - Please check out our thorough documentation ❤️️
 
 == Frequently Asked Questions ==
 
@@ -143,7 +143,7 @@ This flexibility makes Highlight and Share compatible with most themes and page 
 
 Highlight and Share does not collect personal information or set tracking cookies.
 
-The plugin <a href="https://docs.dlxplugins.com/highlight-and-share/developers/enabling-tracking-stats">does allow for advanced stats tracking</a>, which is opt-in and is designed for developers. Stats are compatible with GA4, GTM, and synthetic JS events.
+The plugin <a href="https://berrypress.com/docs/highlight-and-share/developers/enabling-tracking-stats">does allow for advanced stats tracking</a>, which is opt-in and is designed for developers. Stats are compatible with GA4, GTM, and synthetic JS events.
 
 = Is this a Click to Tweet plugin? =
 
@@ -153,7 +153,7 @@ Instead of limiting sharing to a single network, users can choose from multiple 
 
 = What social networks does this plugin work with? =
 
-Highlight and Share <a href="https://docs.dlxplugins.com/v/highlight-and-share/developers/available-social-networks">works with the following networks</a>:
+Highlight and Share <a href="https://berrypress.com/docs/highlight-and-share/developers/available-social-networks">works with the following networks</a>:
 
 * X (formerly Twitter) (allows text sharing)
 * Facebook
@@ -180,7 +180,7 @@ Since Highlight and Share can provide some useful shortcuts, the plugin can prov
 
 = How can I customize the look of Highlight and Share? =
 
-Higlight and Share is extremely customizable through a theming system and <a href="https://docs.dlxplugins.com/highlight-and-share/developers/styling-highlight-and-share">through custom CSS</a>.
+Higlight and Share is extremely customizable through a theming system and <a href="https://berrypress.com/docs/highlight-and-share/developers/styling-highlight-and-share">through custom CSS</a>.
 
 In general, you can:
 
@@ -190,19 +190,19 @@ In general, you can:
 
 = Will you be adding more sharing services? =
 
-If the social network has an endpoint, it can be added. Please see <a href="https://docs.dlxplugins.com/v/highlight-and-share/developers/available-social-networks">the available social networks</a> and their specifications. Please request a new network via support.
+If the social network has an endpoint, it can be added. Please see <a href="https://berrypress.com/docs/highlight-and-share/developers/available-social-networks">the available social networks</a> and their specifications. Please request a new network via support.
 
 = I want to include my own CSS.  How can I do that? =
 
 You can turn off the theme and include CSS in your own theme.
 
-See <a href="https://docs.dlxplugins.com/highlight-and-share/developers/styling-highlight-and-share">Customizing Highlight and Share through custom CSS</a>
+See <a href="https://berrypress.com/docs/highlight-and-share/developers/styling-highlight-and-share">Customizing Highlight and Share through custom CSS</a>
 
 = Does this plugin work on mobile devices? =
 
 Yes, Highlight and Share works well for mobile devices and also supports the Web Share API, which is one of the options of social sharing networks.
 
-Most mobile devices already have their own sharing features on text selection, but Highlight and Share works especially well for <a href="https://docs.dlxplugins.com/v/highlight-and-share/inline-highlighting/what-is-inline-highlighting">inline highlighting</a> and the <a href="https://docs.dlxplugins.com/v/highlight-and-share/click-to-share-block/the-click-to-share-block">Click to Share block</a>.
+Most mobile devices already have their own sharing features on text selection, but Highlight and Share works especially well for <a href="https://berrypress.com/docs/highlight-and-share/inline-highlighting/what-is-inline-highlighting">inline highlighting</a> and the <a href="https://berrypress.com/docs/highlight-and-share/click-to-share-block/the-click-to-share-block">Click to Share block</a>.
 
 Image Sharing and Headline sharing also make the plugin useful for mobile devices.
 
@@ -214,7 +214,11 @@ iOS Safari and Chrome work well, but the text selection is a bit different than 
 
 = Where do I report security bugs found in this plugin? =
 
-Please report security bugs found in the source code of the undefined plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/61823bd9-318f-4aa3-850f-07177f548b4e). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+Please report security bugs found in the source code of the Highlight and Share plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/61823bd9-318f-4aa3-850f-07177f548b4e). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+
+= Where is the source code for the compiled JavaScript and CSS? =
+
+The JavaScript and CSS files in the `build` and `dist` folders are compiled from the source code, which is publicly available at https://github.com/BerryPress/highlight-and-share (see the `src` folder). The repository includes the build instructions: install the dependencies with `npm install --legacy-peer-deps` and run `npm run build`.
 
 == Screenshots ==
 
@@ -230,6 +234,24 @@ Please report security bugs found in the source code of the undefined plugin thr
 10. Customize each icon's colors if a custom theme is selected.
 
 == Changelog ==
+
+= 6.0.2 =
+* Released 2026-10-08
+* Change: Highlight and Share is now maintained by BerryPress (originally by DLX Plugins). Licensed under GPL v3 or later; third-party license notices are included in license.txt.
+* Change: The third-party Fancybox lightbox was replaced with a small built-in modal (email form, Mastodon prompt, and Help video). Unused dependencies were removed and the JS/CSS bundles were rebuilt.
+* Change: Documentation links now point to https://berrypress.com/docs/highlight-and-share/, and support links point to the plugin support forum on WordPress.org. Support links no longer pass your name and email address in the URL.
+* Fix: The Mastodon prompt could open several share windows after being opened and closed more than once.
+* Fix: Pressing Escape now closes the email modal even when the form has focus.
+* Fix: Email addresses without a dot in the domain (such as "user@localhost") are now rejected in the email form and in the From Email setting, matching the server-side check.
+* Fix: Saving the Emails tab now validates the From Email field before saving.
+* Fix: The {{share_type}} email tag was empty because the share type was sent under a different name than the server expected (this also caused a PHP warning).
+* Fix: Headline sharing popup could appear at the bottom of the page when there was no room next to the link icon.
+* Fix: Headline sharing "Copy Link" could throw an error or close the wrong popup if the popup was dismissed within a few seconds, and "Copied!" was shown even when copying failed.
+* Fix: The SVG sprite and Mastodon prompt were printed twice when headline sharing was enabled, producing duplicate IDs.
+* Fix: The labels on the image sharing buttons ("Pin it", "Share") did not receive their CSS class.
+* Fix: The image sharing preview in the admin overlapped the next settings field.
+* Fix: Console error "Invalid or missing type for parameter sitekey" from Cloudflare Turnstile in the email modal, and the "Unknown parameter ver" warning.
+* Fix: The email modal's send button always had the "is-saving" class.
 
 = 6.0.1 =
 * Released 2026-03-09
@@ -752,6 +774,9 @@ Please report security bugs found in the source code of the undefined plugin thr
 * Initial release on WordPress.org
 
 == Upgrade Notice ==
+
+= 6.0.2 =
+The Fancybox lightbox was replaced with a built-in modal, the plugin is now GPL v3 or later, and several email modal, Mastodon, and headline sharing bugs were fixed.
 
 = 6.0.1 =
 You can now align headlines to the right and truncate the anchors generated. Sidebar options (per post settings) will override admin settings. Fixed image sharing and alignment. Fixed inlne highlight override colors. Fixed tooltip positioning.
