@@ -1,0 +1,47 @@
+name: 'WordPress Plugin Check'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Cache WordPress Plugin Check
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.wp-cli
+            /tmp/wordpress
+          key: ${{ runner.os }}-wp-plugin-check-${{ hashFiles('.github/workflows/plugin_check.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-wp-plugin-check-
+
+      - name: Build plugin
+        run: |
+          mkdir -p "${RUNNER_TEMP}/highlight-and-share"
+          # Honor .distignore so dev-only files (AGENTS.md, .coderabbit.yaml,
+          # editor configs, etc.) are NOT shipped to plugin-check.
+          rsync -a --exclude-from=.distignore ./ "${RUNNER_TEMP}/highlight-and-share/"
+
+      - name: Run plugin check
+        uses: wordpress/plugin-check-action@v1
+        with:
+          build-dir: ${{ runner.temp }}/highlight-and-share
