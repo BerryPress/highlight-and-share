@@ -2160,8 +2160,10 @@ class Frontend {
 			'all'
 		);
 
-		// Enqueue style if shortcode is present.
-		if ( has_shortcode( get_the_content(), 'has_click_to_share' ) ) {
+		// Enqueue style if shortcode is present. Read the post content directly instead of
+		// get_the_content(), which needs the loop globals and throws a TypeError outside of the loop.
+		$current_post = get_post();
+		if ( $current_post instanceof \WP_Post && has_shortcode( $current_post->post_content, 'has_click_to_share' ) ) {
 			wp_enqueue_style( 'has-shortcode-themes' );
 		}
 

@@ -43,6 +43,15 @@ class Highlight_And_Share {
 	private static $instance = null;
 
 	/**
+	 * Plugin options, set when the icons option is migrated.
+	 *
+	 * Declared explicitly because creating dynamic properties is deprecated as of PHP 8.2.
+	 *
+	 * @var array|null $options Plugin options.
+	 */
+	private $options = null;
+
+	/**
 	 * Return an instance of the class
 	 *
 	 * Return an instance of the Highlight and Share Class.
