@@ -807,7 +807,7 @@ class Frontend {
 				$svg_use_wrapper->appendChild( $svg_use );
 				$svg_inner_tag->appendChild( $svg_use_wrapper );
 				$svg_span = $dom->createElement( 'span' );
-				$svg_span->setAttribute( 'className', 'has-icon-label' );
+				$svg_span->setAttribute( 'class', 'has-icon-label' );
 				$svg_span->nodeValue = esc_html( $pin_label );
 				$svg_inner_tag->appendChild( $svg_span );
 				$svg->appendChild( $svg_inner_tag );
@@ -839,7 +839,7 @@ class Frontend {
 				$svg_use_wrapper->appendChild( $svg_use );
 				$svg_inner_tag->appendChild( $svg_use_wrapper );
 				$svg_span = $dom->createElement( 'span' );
-				$svg_span->setAttribute( 'className', 'has-icon-label' );
+				$svg_span->setAttribute( 'class', 'has-icon-label' );
 				$svg_span->nodeValue = esc_html( $webshare_label );
 				$svg_inner_tag->appendChild( $svg_span );
 				$svg->appendChild( $svg_inner_tag );
@@ -2019,6 +2019,10 @@ class Frontend {
 	 * Retrieve SVGs in the footer for reference.
 	 */
 	private function get_footer_svgs() {
+		// Print the sprite and Mastodon prompt only once per request (duplicate IDs otherwise).
+		if ( self::$footer_svgs_rendered ) {
+			return;
+		}
 		self::$footer_svgs_rendered = true;
 		?>
 		<svg width="0" height="0" class="hidden" style="display: none;">

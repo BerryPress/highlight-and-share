@@ -147,21 +147,32 @@ import { __, sprintf } from '@wordpress/i18n';
 				} );
 				button.addEventListener( 'click', ( e ) => {
 					e.preventDefault();
-					if ( navigator.clipboard && navigator.clipboard.writeText ) {
-						navigator.clipboard.writeText( sectionUrl ).then( () => {
-							if ( copiedRef.labelSpan ) {
-								copiedRef.labelSpan.textContent = 'Copied!';
-								speak( __( 'Copied!', 'highlight-and-share' ), 'polite' );
-								setTimeout( () => {
-									copiedRef.labelSpan.textContent = net.label;
-								}, 1500 );
-								setTimeout( () => {
-									activeTrigger.classList.remove( 'is-pressed' );
-									closePanel();
-								}, 2500 );
-							}
-						} );
+					if ( ! ( navigator.clipboard && navigator.clipboard.writeText ) ) {
+						// The Clipboard API needs a secure context (https or localhost).
+						return;
 					}
+					const panelAtClick = activePanel;
+					navigator.clipboard
+						.writeText( sectionUrl )
+						.then( () => {
+							if ( ! copiedRef.labelSpan ) {
+								return;
+							}
+							copiedRef.labelSpan.textContent = __( 'Copied!', 'highlight-and-share' );
+							speak( __( 'Copied!', 'highlight-and-share' ), 'polite' );
+							setTimeout( () => {
+								copiedRef.labelSpan.textContent = net.label;
+							}, 1500 );
+							setTimeout( () => {
+								// The panel may have been closed (or another one opened) in the meantime.
+								if ( activePanel === panelAtClick ) {
+									closePanel();
+								}
+							}, 2500 );
+						} )
+						.catch( () => {
+							// Copying was refused (permissions or unfocused document): leave the label unchanged.
+						} );
 				} );
 				row.appendChild( button );
 			} else if ( net.slug === 'webshare' ) {
@@ -310,7 +321,7 @@ import { __, sprintf } from '@wordpress/i18n';
 				panel.style.top = top + 'px';
 			}
 		}
-		if ( ! topInViewport ) {
+		if ( topInViewport ) {
 			return;
 		}
 		// 3) Beneath the icon and the headline.

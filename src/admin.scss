@@ -483,6 +483,7 @@ h2.has-admin-content-subheading {
 .has-admin__text-control {
 
 	input[type='text'],
+	input[type='email'],
 	input[type='password'] {
 		max-width: 350px;
 		width: 100%;
@@ -1245,6 +1246,8 @@ h3.has-icon-heading {
 /* Pinterest preview on images tab */
 .has-admin-pinterest-preview {
 	position: relative;
+	display: block;
+	box-sizing: border-box;
 	width: 325px;
 	height: 175px;
 	background: #333333;
@@ -1252,7 +1255,8 @@ h3.has-icon-heading {
 }
 .has-admin-pinterest-preview-inner {
 	width: 325px;
-	height: 150px;
+	height: 175px; /* Must match the preview height, otherwise it overlaps the next field. */
+	margin-bottom: 16px;
 }
 
 .has-admin-content-heading p.description {
