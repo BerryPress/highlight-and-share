@@ -3,6 +3,9 @@ name: PHPCS Check
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   phpcs:
     runs-on: ubuntu-latest
@@ -12,6 +15,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Copy custom sniffs
         run: |
