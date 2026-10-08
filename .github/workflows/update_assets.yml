@@ -10,6 +10,8 @@ jobs:
   trunk:
     name: Push to trunk
     runs-on: ubuntu-latest
+    # Holds the SVN credentials; requires approval and only runs from main.
+    environment: wordpress-org
     steps:
       - uses: actions/checkout@v4
         with:

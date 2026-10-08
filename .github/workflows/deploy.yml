@@ -14,6 +14,8 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Holds the SVN credentials; requires approval and only runs from main.
+    environment: wordpress-org
     steps:
       - name: Validate version
         env:
