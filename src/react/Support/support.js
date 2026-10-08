@@ -194,7 +194,7 @@ const Interface = ( props ) => {
 							</h2>
 							<p className="description">
 								{ __(
-									'Check out more plugins and and plugin tutorials from BerryPress.',
+									'Check out more plugins and plugin tutorials from BerryPress.',
 									'highlight-and-share'
 								) }
 							</p>
