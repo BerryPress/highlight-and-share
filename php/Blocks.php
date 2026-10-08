@@ -453,7 +453,7 @@ class Blocks {
 			if ( '' !== $override_styles ) {
 				$override_handle = 'has-cts-theme-overrides-' . sanitize_key( $attributes['uniqueId'] );
 				if ( ! wp_style_is( $override_handle, 'done' ) ) {
-					wp_register_style( $override_handle, false );
+					wp_register_style( $override_handle, false, array(), HIGHLIGHT_AND_SHARE_VERSION );
 					wp_add_inline_style( $override_handle, $override_styles );
 					$styles_to_print[] = $override_handle;
 				}

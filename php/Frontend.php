@@ -655,7 +655,7 @@ class Frontend {
 			'--has-webshare-text-color-hover: ' . esc_html( $image_options['webshare_text_color_hover'] ) . ';' .
 			'}'
 		);
-		wp_register_style( 'has-image-sharing', false );
+		wp_register_style( 'has-image-sharing', false, array(), HIGHLIGHT_AND_SHARE_VERSION );
 		wp_add_inline_style( 'has-image-sharing', $image_sharing_css );
 		add_action(
 			'wp_footer',
@@ -1571,7 +1571,7 @@ class Frontend {
 		// Get cached HTML.
 		$maybe_cached_html = wp_cache_get( 'has_frontend_html', 'highlight-and-share' );
 		if ( $maybe_cached_html ) {
-			echo $maybe_cached_html;
+			echo $maybe_cached_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The markup is escaped when it is built below, before it is cached.
 			$this->get_footer_svgs();
 			return;
 		}
@@ -1938,7 +1938,7 @@ class Frontend {
 
 		// Cache HTML.
 		wp_cache_set( 'has_frontend_html', $html, 'highlight-and-share', HOUR_IN_SECONDS );
-		echo $html;
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Every value in this markup is escaped (esc_attr, esc_url, esc_html) where it is built above.
 		$this->get_footer_svgs();
 	}
 
@@ -2461,7 +2461,7 @@ class Frontend {
 			// Let's see if inline highlight tooltips are enabled.
 			if ( (bool) $options['inline_highlight_show_tooltips'] ) {
 				// Load dummy stylesheet.
-				wp_register_style( 'has-inline-highlight-tooltips', false );
+				wp_register_style( 'has-inline-highlight-tooltips', false, array(), HIGHLIGHT_AND_SHARE_VERSION );
 				$inline_highlight_styles = ':root { --has-inline-highlight-tooltips-color: ' . esc_html( $options['inline_highlight_tooltips_text_color'] ) . '; --has-inline-highlight-tooltips-background-color: ' . esc_html( $options['inline_highlight_tooltips_background_color'] ) . '; }';
 				// Add inline styles.
 				wp_add_inline_style(
@@ -2474,7 +2474,7 @@ class Frontend {
 			// Output remaining inline styles.
 			if ( true !== $this->is_legacy_content_loop_markup() ) { // Remove inline styles if legacy markup is enabled so we don't hide the wrong div.
 				// Hide the placeholder div.
-				wp_register_style( 'has-inline-styles', false );
+				wp_register_style( 'has-inline-styles', false, array(), HIGHLIGHT_AND_SHARE_VERSION );
 				$inline_styles = '.has-social-placeholder {display: none;height: 0;width: 0;overflow: hidden;}' . Themes::get_inline_highlight_css();
 				// Add inline styles.
 				wp_add_inline_style(

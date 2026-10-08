@@ -114,13 +114,17 @@ class Emails {
 				Functions::get_plugin_version(),
 				true
 			);
+			// Cloudflare Turnstile is an optional external service that is loaded from Cloudflare by design
+			// (see "External services" in readme.txt). No version is set because api.js warns about unknown parameters such as "ver".
+			// phpcs:disable WordPress.WP.EnqueuedResourceParameters.MissingVersion, PluginCheck.CodeAnalysis.EnqueuedResourceOffloading.OffloadedContent
 			wp_register_script(
 				'has-cf-turnstile',
 				esc_url_raw( 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=hasInitTurnstile' ),
 				array( 'has-cf-turnstile-local' ),
-				null, // No version: Cloudflare's api.js warns about unknown parameters such as "ver".
+				null,
 				true
 			);
+			// phpcs:enable WordPress.WP.EnqueuedResourceParameters.MissingVersion, PluginCheck.CodeAnalysis.EnqueuedResourceOffloading.OffloadedContent
 
 			// Add localized vars.
 			wp_localize_script(
@@ -316,6 +320,8 @@ class Emails {
 			}
 
 			$secret_key = $options['turnstile_secret'];
+			// Server-side Turnstile verification request, documented under "External services" in readme.txt.
+			// phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent
 			$url        = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 			$data       = array(
 				'secret'   => $secret_key,
