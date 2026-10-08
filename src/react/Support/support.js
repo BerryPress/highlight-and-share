@@ -11,7 +11,7 @@ import {
 	ToggleControl,
 	RadioControl,
 } from '@wordpress/components';
-import { Youtube, Bookmark, Users2, Mail, PlugZap, GraduationCap } from 'lucide-react';
+import { Youtube, Bookmark, Users2, PlugZap, GraduationCap } from 'lucide-react';
 import ErrorBoundary from '../Components/ErrorBoundary';
 import Notice from '../Components/Notice';
 import CircularExclamationIcon from '../Components/Icons/CircularExplanation';
@@ -175,16 +175,7 @@ const Interface = ( props ) => {
 									rel="noopener noreferrer"
 									icon={ <Users2 /> }
 								>
-									{ __( 'Visit the Support Forums', 'highlight-and-share' ) }
-								</Button>
-								<Button
-									className="has-button has-button-edit"
-									href="https://wordpress.org/support/plugin/highlight-and-share/"
-									target="_blank"
-									rel="noopener noreferrer"
-									icon={ <Mail /> }
-								>
-									{ __( 'Use the Support Form', 'highlight-and-share' ) }
+									{ __( 'Support Forum', 'highlight-and-share' ) }
 								</Button>
 							</div>
 						</div>
