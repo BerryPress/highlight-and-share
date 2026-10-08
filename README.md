@@ -17,7 +17,7 @@ For an in-depth overview of Highlight and Share, <a href="https://berrypress.com
 ## Developers
 
 1. Clone the `development` branch locally.
-2. Run `npm install` to install the development scripts.
+2. Run `npm install --legacy-peer-deps` to install the development scripts (the flag is required because of a peer dependency conflict between React and `@wordpress/components`). A `package-lock.json` is included so builds use the same dependency versions as documented in `license.txt`.
 3. Run `npm run start` to start the build scripts.
 4. Run `npm run build` to do a production build.
 5. Run `grunt` to create a plugin ZIP file.
