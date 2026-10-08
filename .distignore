@@ -1,0 +1,60 @@
+# Files and folders excluded from the plugin release (WordPress.org trunk and GitHub release zip).
+# Used by 10up/action-wordpress-plugin-deploy (rsync --exclude-from).
+# See https://github.com/10up/action-wordpress-plugin-deploy
+#
+# What ships: highlight-and-share.php, readme.txt, license.txt, uninstall.php,
+# php/, build/, dist/, img/ and lib/ (the same set the SVN trunk has always contained).
+
+# VCS / dotfiles
+.git
+.gitignore
+.gitattributes
+.github
+.idea
+.cursor
+.DS_Store
+.distignore
+.editorconfig
+.npmrc
+.eslintignore
+.eslintrc
+.eslintrc.json
+
+# WordPress.org repo assets (banners, icons, screenshots, blueprints) are deployed to SVN assets/, not trunk
+.wordpress-org
+
+# Editor / workspace
+*.code-workspace
+
+# AI / review tooling
+AGENTS.md
+.coderabbit.yaml
+.coderabbit.yml
+
+# Source and build tooling (compiled output lives in build/ and dist/; source is on GitHub)
+src
+node_modules
+package.json
+package-lock.json
+webpack.config.js
+babel.config.js
+babel-plugin-macros.config.js
+Gruntfile.js
+composer.json
+composer.lock
+phpcs.xml.dist
+
+# Repository docs and demo content (Playground demo is loaded from GitHub)
+README.md
+blueprint.jpg
+blueprint.xml
+
+# Translations template: WordPress.org generates language packs itself
+languages
+
+# Local debug / scratch files
+debug-*.txt
+temp
+*.log
+*.map
+*.zip
