@@ -3,7 +3,7 @@ Contributors: berrypress
 Tags: social share buttons, social share, web share, social networks, highlight text
 Requires at least: 6.5
 Tested up to: 7.1
-Stable tag: 6.0.2
+Stable tag: 6.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -36,26 +36,24 @@ https://www.youtube.com/watch?v=EN7rmCiYHBE
 
 If you have a feature request, <a href="https://wordpress.org/support/plugin/highlight-and-share/">please post in the support forum</a>.
 
-<h3>Available Features</h3>
+### Available Features
 
 Highlight and Share at its core is a content highlighter, but it has many other sharing features, most of which are opt-in.
 
-<ul>
-<li>Show social networks on text highlight (content highlight).</li>
-<li>Add an inline highlight to text and show social networks on click. An optional tooltip shows on hover explaining the highlight.</li>
-<li>An easy to use Click to Share block is included, and can be disabled if needed.</li>
-<li>A comprehensive <a href="https://berrypress.com/docs/highlight-and-share/click-to-share-shortcode/shortcode-parameters">Click to Share shortcode</a> is included.</li>
-<li>Image sharing via Pinterest and the Web Share API is included. You can select which post types it's enabled for, and also enable it on a per post basis via a post's sidebar settings.</li>
-<li>Enable or disable individual networks for content sharing. Reorder the networks, change the theme, or even choose a custom theme for matching your site's design.</li>
-<li>Use advanced selectors to choose how content highlighting works, which makes Highlight and Share a powerful tool when combined with your favorite page builder.
-<li>Customize the appearance of inline highlighting, including the background and text colors.</li>
-<li>Enable social networks in the comments section when highlighting text.</li>
-<li>Enable or disable on main content and excerpts. Selectively disable on a per post type basis, or enable in a post's sidebar settings.</li>
-<li>Translate the labels and tooltips into your language, or just change up the text.</li>
-<li>Customize the Twitter/X username used.</li>
-<li>Enable hashtags on posts/pages</li>
-<li>Email protection via Akismet, Cloudflare Turnstile, and reCAPTCHA Enterprise</li>
-</ul>
+* Show social networks on text highlight (content highlight).
+* Add an inline highlight to text and show social networks on click. An optional tooltip shows on hover explaining the highlight.
+* An easy to use Click to Share block is included, and can be disabled if needed.
+* A comprehensive [Click to Share shortcode](https://berrypress.com/docs/highlight-and-share/click-to-share-shortcode/shortcode-parameters) is included.
+* Image sharing via Pinterest and the Web Share API is included. You can select which post types it's enabled for, and also enable it on a per post basis via a post's sidebar settings.
+* Enable or disable individual networks for content sharing. Reorder the networks, change the theme, or even choose a custom theme for matching your site's design.
+* Use advanced selectors to choose how content highlighting works, which makes Highlight and Share a powerful tool when combined with your favorite page builder.
+* Customize the appearance of inline highlighting, including the background and text colors.
+* Enable social networks in the comments section when highlighting text.
+* Enable or disable on main content and excerpts. Selectively disable on a per post type basis, or enable in a post's sidebar settings.
+* Translate the labels and tooltips into your language, or just change up the text.
+* Customize the Twitter/X username used.
+* Enable hashtags on posts/pages
+* Email protection via Akismet, Cloudflare Turnstile, and reCAPTCHA Enterprise
 
 ### integrations
 
@@ -251,8 +249,8 @@ When Akismet spam protection is enabled and the Akismet plugin is active, the se
 
 == Changelog ==
 
-= 6.0.2 =
-* Released 2026-10-08
+= 6.1.0 =
+* Released 2026-10-09
 * Change: Highlight and Share is now maintained by BerryPress (originally by DLX Plugins). Licensed under GPL v3 or later; third-party license notices are included in license.txt.
 * Change: The third-party Fancybox lightbox was replaced with a small built-in modal (email form, Mastodon prompt, and Help video). Unused dependencies were removed and the JS/CSS bundles were rebuilt.
 * Change: Documentation links now point to https://berrypress.com/docs/highlight-and-share/, and support links point to the plugin support forum on WordPress.org. Support links no longer pass your name and email address in the URL.
