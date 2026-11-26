@@ -2,8 +2,8 @@
 Contributors: berrypress
 Tags: social share buttons, social share, web share, social networks, highlight text
 Requires at least: 6.5
-Tested up to: 7.1
-Stable tag: 6.1.0
+Tested up to: 7.2
+Stable tag: 6.1.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -248,6 +248,13 @@ When Akismet spam protection is enabled and the Akismet plugin is active, the se
 10. Customize each icon's colors if a custom theme is selected.
 
 == Changelog ==
+
+= 6.1.1 =
+* Released 2026-11-XX
+* Fix: The tooltip in the Inline Highlighting preview (Settings > Highlight and Share > Sharing) did not appear on hover. It now shows your tooltip text and tooltip colors.
+* Change: The WordPress Playground demo content (sample posts and image) now ships with the plugin in the demo/ folder, so the Live Preview on WordPress.org no longer depends on files hosted on GitHub. The demo image was compressed from 1.2 MB to about 130 KB.
+* Change: The demo links in the readme now open the Live Preview on WordPress.org.
+* Change: Tested up to WordPress 7.2.
 
 = 6.1.0 =
 * Released 2026-10-09
@@ -792,6 +799,9 @@ When Akismet spam protection is enabled and the Akismet plugin is active, the se
 * Initial release on WordPress.org
 
 == Upgrade Notice ==
+
+= 6.1.1 =
+Fixes the tooltip preview in the Inline Highlighting settings, is tested with WordPress 7.2, and bundles the Live Preview demo content with the plugin.
 
 = 6.0.2 =
 The Fancybox lightbox was replaced with a built-in modal, the plugin is now GPL v3 or later, and several email modal, Mastodon, and headline sharing bugs were fixed.
