@@ -38,7 +38,7 @@
 			"step": "importWxr",
 			"file": {
 				"resource": "url",
-				"url": "https://raw.githubusercontent.com/BerryPress/highlight-and-share/development/blueprint.xml"
+				"url": "https://raw.githubusercontent.com/BerryPress/highlight-and-share/main/blueprint.xml"
 			}
 		},
 		{

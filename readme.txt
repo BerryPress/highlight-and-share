@@ -28,7 +28,7 @@ https://www.youtube.com/watch?v=EN7rmCiYHBE
 * **A Click to Share Block/Shortcode is included**. An easy-to-use Click to Share block is included, with setup available in seconds. The Content Sharing networks display above the share box when clicked, providing an easy way to share the quote.
 * **Set up email sharing with easy spam protection integration**. Set up emails with spam protection from Akismet, Cloudflare Turnstile, and Google reCAPTCHA Enterprise.
 
-> <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/BerryPress/highlight-and-share/development/.wordpress-org/blueprints/blueprint.json">Launch a free, fully-featured demo</a> in WordPress Playground.
+> <a href="https://wordpress.org/plugins/highlight-and-share/?preview=1">Launch a free, fully-featured demo</a> in WordPress Playground.
 
 === Quick Links ===
 
@@ -62,7 +62,7 @@ Highlight and Share at its core is a content highlighter, but it has many other 
 * Block Editor: Compatible with Blocksy Companion Pro Local Google Fonts and Adobe Fonts extensions.
 * Block Editor: Compatible With <a href="https://wordpress.org/plugins/simpletoc/">SimpleTOC</a>.
 
-> <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/BerryPress/highlight-and-share/development/.wordpress-org/blueprints/blueprint.json">Launch a free, fully-featured demo</a> in WordPress Playground.
+> <a href="https://wordpress.org/plugins/highlight-and-share/?preview=1">Launch a free, fully-featured demo</a> in WordPress Playground.
 
 > ❤️ A TON of work has gone into making this plugin great. Please share your appreciation by leaving a rating/review and by telling others about the plugin.
 
