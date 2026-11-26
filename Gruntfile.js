@@ -16,6 +16,7 @@ module.exports = function (grunt) {
 				{src: ['js/**'], dest: '/'}, // includes files in path and its subdirs
 				{src: ['lib/**'], dest: '/'}, // includes files in path and its subdirs
 				{src: ['php/**'], dest: '/'}, // includes files in path and its subdirs
+				{src: ['demo/**'], dest: '/'}, // Playground demo content (WXR + image)
 			  ]
 			}
 		  }

@@ -91,6 +91,26 @@ const Interface = ( { watchFields } ) => {
 			.has-inline-text:hover {
 				color: ${ formValues.inlineHighlightTextColorHover } !important;
 				background-color: ${ formValues.inlineHighlightBackgroundColorHover } !important;
+			}
+			.has-inline-text-preview {
+				position: relative;
+			}
+			.has-inline-text-preview[data-has-tooltip="true"]:hover::after {
+				content: attr(data-tooltip);
+				position: absolute;
+				left: 50%;
+				bottom: calc(100% + 8px);
+				transform: translateX(-50%);
+				z-index: 1000;
+				padding: 8px 12px;
+				border-radius: 3px;
+				white-space: nowrap;
+				font-size: 13px;
+				line-height: 1.2;
+				pointer-events: none;
+				opacity: 1;
+				color: ${ formValues.inlineHighlightTooltipsTextColor };
+				background-color: ${ formValues.inlineHighlightTooltipsBackgroundColor };
 			}`;
 
 		return (
@@ -171,7 +191,7 @@ const Interface = ( { watchFields } ) => {
 				<div className="has-admin-component-row">
 					<h4>{ __( 'Inline Highlighting Preview:', 'highlight-and-share' ) }</h4>
 					<p>
-						Lorem ipsum dolor sit amet, <span className="has-inline-text" style={ styles } data-tooltip={ formValues.inlineHighlightTooltipsText ?? __( 'This is an example tooltip.', 'highlight-and-share' ) }>consectetur adipiscing elit. Morbi ut lacinia augue</span>. Nam convallis lacus at ex fringilla, a venenatis mi facilisis. Sed lobortis pharetra massa, sit amet dictum erat egestas in.
+						Lorem ipsum dolor sit amet, <span className="has-inline-text has-inline-text-preview" style={ styles } data-has-tooltip={ inlineHighlightShowTooltips ? 'true' : 'false' } data-tooltip={ formValues.inlineHighlightTooltipsText ?? __( 'This is an example tooltip.', 'highlight-and-share' ) }>consectetur adipiscing elit. Morbi ut lacinia augue</span>. Nam convallis lacus at ex fringilla, a venenatis mi facilisis. Sed lobortis pharetra massa, sit amet dictum erat egestas in.
 					</p>
 				</div>
 			</>

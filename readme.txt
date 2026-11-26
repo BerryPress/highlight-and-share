@@ -2,8 +2,8 @@
 Contributors: berrypress
 Tags: social share buttons, social share, web share, social networks, highlight text
 Requires at least: 6.5
-Tested up to: 7.1
-Stable tag: 6.1.0
+Tested up to: 7.2
+Stable tag: 6.1.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate link: https://github.com/sponsors/DLXPlugins
@@ -28,7 +28,7 @@ https://www.youtube.com/watch?v=EN7rmCiYHBE
 * **A Click to Share Block/Shortcode is included**. An easy-to-use Click to Share block is included, with setup available in seconds. The Content Sharing networks display above the share box when clicked, providing an easy way to share the quote.
 * **Set up email sharing with easy spam protection integration**. Set up emails with spam protection from Akismet, Cloudflare Turnstile, and Google reCAPTCHA Enterprise.
 
-> <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/BerryPress/highlight-and-share/development/.wordpress-org/blueprints/blueprint.json">Launch a free, fully-featured demo</a> in WordPress Playground.
+> <a href="https://wordpress.org/plugins/highlight-and-share/?preview=1">Launch a free, fully-featured demo</a> in WordPress Playground.
 
 === Quick Links ===
 
@@ -62,7 +62,7 @@ Highlight and Share at its core is a content highlighter, but it has many other 
 * Block Editor: Compatible with Blocksy Companion Pro Local Google Fonts and Adobe Fonts extensions.
 * Block Editor: Compatible With <a href="https://wordpress.org/plugins/simpletoc/">SimpleTOC</a>.
 
-> <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/BerryPress/highlight-and-share/development/.wordpress-org/blueprints/blueprint.json">Launch a free, fully-featured demo</a> in WordPress Playground.
+> <a href="https://wordpress.org/plugins/highlight-and-share/?preview=1">Launch a free, fully-featured demo</a> in WordPress Playground.
 
 > ❤️ A TON of work has gone into making this plugin great. Please share your appreciation by leaving a rating/review and by telling others about the plugin.
 
@@ -248,6 +248,13 @@ When Akismet spam protection is enabled and the Akismet plugin is active, the se
 10. Customize each icon's colors if a custom theme is selected.
 
 == Changelog ==
+
+= 6.1.1 =
+* Released 2026-11-XX
+* Fix: The tooltip in the Inline Highlighting preview (Settings > Highlight and Share > Sharing) did not appear on hover. It now shows your tooltip text and tooltip colors.
+* Change: The WordPress Playground demo content (sample posts and image) now ships with the plugin in the demo/ folder, so the Live Preview on WordPress.org no longer depends on files hosted on GitHub. The demo image was compressed from 1.2 MB to about 130 KB.
+* Change: The demo links in the readme now open the Live Preview on WordPress.org.
+* Change: Tested up to WordPress 7.2.
 
 = 6.1.0 =
 * Released 2026-10-09
@@ -792,6 +799,9 @@ When Akismet spam protection is enabled and the Akismet plugin is active, the se
 * Initial release on WordPress.org
 
 == Upgrade Notice ==
+
+= 6.1.1 =
+Fixes the tooltip preview in the Inline Highlighting settings, is tested with WordPress 7.2, and bundles the Live Preview demo content with the plugin.
 
 = 6.0.2 =
 The Fancybox lightbox was replaced with a built-in modal, the plugin is now GPL v3 or later, and several email modal, Mastodon, and headline sharing bugs were fixed.

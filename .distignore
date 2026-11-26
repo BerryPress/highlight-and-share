@@ -3,7 +3,8 @@
 # See https://github.com/10up/action-wordpress-plugin-deploy
 #
 # What ships: highlight-and-share.php, readme.txt, license.txt, uninstall.php,
-# php/, build/, dist/, img/ and lib/ (the same set the SVN trunk has always contained).
+# php/, build/, dist/, img/, lib/ and demo/ (demo/ holds the Playground demo content,
+# read by .wordpress-org/blueprints/blueprint.json from the installed plugin).
 
 # VCS / dotfiles
 .git
@@ -44,10 +45,10 @@ composer.json
 composer.lock
 phpcs.xml.dist
 
-# Repository docs and demo content (Playground demo is loaded from GitHub)
+# Repository docs and the old root copies of the demo content (the shipped copies live in demo/)
 README.md
-blueprint.jpg
-blueprint.xml
+/blueprint.jpg
+/blueprint.xml
 
 # Translations template: WordPress.org generates language packs itself
 languages
